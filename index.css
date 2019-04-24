@@ -48,12 +48,22 @@ text-decoration:underline;
 }
 
 #content p{
+  margin: 0 0;
+  font-size:17px;
+}
+
+#content h3{
+  margin: 8px 0;
+  font-size:20px;
+}
+
+.fs{
   margin: 30px 0;
-  font-size:19px;
 }
 
 #doc_link {
-  font-size:15px;
+  margin: 40px 0;
+  font-size:14px;
 }
 
 
