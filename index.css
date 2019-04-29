@@ -28,6 +28,23 @@ body{
   padding: 10px 0;
 }
 
+#title h3{
+  font-size:25px;
+  padding: 10px 0;
+}
+
+#btn {
+  float:right;
+  font-size: 18px;
+}
+
+.round {
+border:1px solid;
+border-radius:25px;
+-moz-border-radius:25px; /* Old Firefox */
+padding: 10px;
+}
+
 #header a:link, 
 #header a:visited { 
 color:#fff; 
