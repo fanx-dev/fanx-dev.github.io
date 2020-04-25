@@ -5,6 +5,38 @@
 <head>
   <title>Fanx</title>
   <link rel="stylesheet" type="text/css" href="index.css"/>
+
+  <script type="text/javascript">
+    window.onload=function(){
+      var isZh = false;
+      var lang = (navigator.appName=='Netscape'?navigator.language:navigator.userLanguage).toLowerCase();
+      switch(lang){
+          case 'zh-cn':
+              isZh = true;
+              break;
+          case 'zh-tw':
+              isZh = true;
+              break;
+          case 'zh-hk':
+              isZh = true;
+              break;
+          default:
+              isZh = false;
+      }
+      var contentEn = document.getElementById("content-en");
+      var contentZh = document.getElementById("content-zh");
+
+      if (isZh) {
+        contentEn.style.display="none";
+        contentZh.style.display="block";
+      }
+      else {
+        contentEn.style.display="block";
+        contentZh.style.display="none";
+      }
+    }
+  </script>
+
 </head>
 <body>
   <div id="header">
@@ -20,28 +52,66 @@
   </div>
 
   <div id="content">
-    <div class="fs">
-      <h3>Portability</h3>
-      <p>Multi target to Java VM, .NET CLR, JavaScript and C</p>
+    <div id="content-en">
+      <div class="fs">
+        <h3>Portability</h3>
+        <p>Multi target to Java VM, JavaScript and C</p>
+      </div>
+
+      <div class="fs">
+        <h3>Modern Syntax</h3>
+        <p>Concise Syntax, generics, lambda/closures, non-nullable, async/await ...</p>
+      </div>
+      
+      <div class="fs">
+        <h3>Safe Concurrency</h3>
+        <p>Built-in immutability and actor model, Safe in compile time</p>
+      </div>
+
+      <div class="fs">
+        <h3>IDE Support</h3>
+        <p>Debugging, Completion, Go to declaration ...</p>
+      </div>
+
+      <div class="fs">
+        <h3>Application Framework</h3>
+        <p>Good for Android, iOS, Server-side, Web HTML5, Data Analysis</p>
+      </div>
+
     </div>
-    <div class="fs">
-      <h3>Elegant APIs</h3>
-      <p>Elegant and complete cross-platform library</p>
-    </div>
-    <div class="fs">
-      <h3>Concise Syntax</h3>
-      <p>Java and C# programmers will feel at home</p>
-    </div>
-    
-    <div class="fs">
-      <h3>Concurrency</h3>
-      <p>Built-in immutability and actor model</p>
+
+    <div id="content-zh">
+      <div class="fs">
+        <h3>跨平台编译</h3>
+        <p>同时编译到JVM、Javascript、C等</p>
+      </div>
+
+      <div class="fs">
+        <h3>现代的语法</h3>
+        <p>优雅的语法，支持泛型、闭包、可空类型、async/await等现代要素</p>
+      </div>
+      
+      <div class="fs">
+        <h3>安全的并发</h3>
+        <p>内建支持不可变性和Actor并发模型，编译时保证并发安全。</p>
+      </div>
+
+      <div class="fs">
+        <h3>友好的开发工具</h3>
+        <p>IDE支持调试、自动完成、调转到定义等功能</p>
+      </div>
+
+      <div class="fs">
+        <h3>应用开发框架</h3>
+        <p>可用于开发Android/iOS App、Web前端、服务器端、数据分析等</p>
+      </div>
+      
     </div>
 
     <div id="doc_link">
-      <a href="https://github.com/chunquedong/fanx/blob/master/doc/Index.md">Learn About Fanx</a>
-      &nbsp;
-      <a href="https://zhuanlan.zhihu.com/p/63336794">中文文档</a>
+        <a href="https://github.com/chunquedong/fanx/blob/master/doc/Index.md">Learn About Fanx</a>
+        &nbsp;
+        <a href="https://zhuanlan.zhihu.com/p/63336794">中文文档</a>
     </div>
   </div>
 </body>
