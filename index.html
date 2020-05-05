@@ -4,6 +4,7 @@
 <html xmlns='http://www.w3.org/1999/xhtml'>
 <head>
   <title>Fanx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="index.css"/>
 
   <script type="text/javascript">
@@ -23,16 +24,11 @@
           default:
               isZh = false;
       }
-      var contentEn = document.getElementById("content-en");
-      var contentZh = document.getElementById("content-zh");
+      //var contentEn = document.getElementById("content-en");
+      //var contentZh = document.getElementById("content-zh");
 
       if (isZh) {
-        contentEn.style.display="none";
-        contentZh.style.display="block";
-      }
-      else {
-        contentEn.style.display="block";
-        contentZh.style.display="none";
+        window.location.href = 'index_cn.html';
       }
     }
   </script>
@@ -40,19 +36,49 @@
 </head>
 <body>
   <div id="header">
+    <div class="sitebar">
+      <ul>
+        <li>
+          <a href='/'>Index<index></a>
+        </li>
+
+        <li>
+          <a href='https://github.com/fanx-dev/fanx/releases'>Download</a>
+        </li>
+
+        <li>
+          <a href='https://github.com/chunquedong/fanx/blob/master/doc/Index.md'>Learn</a>
+        </li>
+
+        <li>
+          <a href='https://github.com/fanx-dev/fanx/blob/master/doc/Build.md#api-docs'>ApiDoc</a>
+        </li>
+
+        <li>
+          <a href='https://fantom-lang.org/community'>Community</a>
+        </li>
+
+        <li>
+          <a href='https://github.com/fanx-dev/fanx'>GitHub</a>
+        </li>
+     </ul>
+    </div>
+
     <div id="title">
-      <p id="btn" class="round">
-        <a href="https://github.com/fanx-dev/fanx">Follow me on Github</a>
-      </p>
+      
 
       <h1>Fanx</h1>
       <h3>A portable language with elegant libraries</h3>
+
+      <p id="btn" class="round">
+        <a href="https://github.com/fanx-dev/fanx/blob/master/doc/QuickStart.md">Get Started</a>
+      </p>
       
     </div>
   </div>
 
   <div id="content">
-    <div id="content-en">
+    <div id="features">
       <div class="fs">
         <h3>Portability</h3>
         <p>Multi target to Java VM, JavaScript and C</p>
@@ -80,39 +106,7 @@
 
     </div>
 
-    <div id="content-zh">
-      <div class="fs">
-        <h3>跨平台编译</h3>
-        <p>同时编译到JVM、Javascript、C等</p>
-      </div>
 
-      <div class="fs">
-        <h3>现代的语法</h3>
-        <p>优雅的语法，支持泛型、闭包、可空类型、async/await等现代要素</p>
-      </div>
-      
-      <div class="fs">
-        <h3>安全的并发</h3>
-        <p>内建支持不可变性和Actor并发模型，编译时保证并发安全。</p>
-      </div>
-
-      <div class="fs">
-        <h3>友好的开发工具</h3>
-        <p>IDE支持调试、自动完成、调转到定义等功能</p>
-      </div>
-
-      <div class="fs">
-        <h3>应用开发框架</h3>
-        <p>可用于开发Android/iOS App、Web前端、服务器端、数据分析等</p>
-      </div>
-      
-    </div>
-
-    <div id="doc_link">
-        <a href="https://github.com/chunquedong/fanx/blob/master/doc/Index.md">Learn About Fanx</a>
-        &nbsp;
-        <a href="https://zhuanlan.zhihu.com/p/63336794">中文文档</a>
-    </div>
   </div>
 </body>
 </html>

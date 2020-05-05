@@ -20,7 +20,8 @@ body{
 #title{
   width: 80%;
   margin: 0 auto;
-  padding: 50px 50px;
+  
+  padding: 10px 0 20px 0;
 }
 
 #title h1{
@@ -36,6 +37,8 @@ body{
 #btn {
   float:right;
   font-size: 18px;
+  position:relative;
+  top:-120px; 
 }
 
 .round {
@@ -53,7 +56,7 @@ text-decoration:none;
 #header a:hover, 
 #header a:active { 
 color:#fff; 
-text-decoration:underline; 
+text-decoration:none; 
 }
 
 
@@ -84,3 +87,27 @@ text-decoration:underline;
 }
 
 
+ul li{
+  list-style:none;
+}
+
+/*bar*/
+.sitebar {
+  width:100%;
+  /*background:#364B66;*/
+  height:80px;
+}
+
+.sitebar ul{
+  float:right;
+  font-size:80%;
+  padding:20px 40px;
+}
+.sitebar li{
+  float:left;
+  padding:10px;
+}
+.sitebar li a{
+  color: #aaa;
+  text-decoration:none;
+}
