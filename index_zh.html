@@ -11,6 +11,32 @@
     font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu
   }
   </style>
+
+  <script type="text/javascript">
+    window.onload=function(){
+      var isZh = false;
+      var lang = (navigator.appName=='Netscape'?navigator.language:navigator.userLanguage).toLowerCase();
+      switch(lang){
+          case 'zh-cn':
+              isZh = true;
+              break;
+          case 'zh-tw':
+              isZh = true;
+              break;
+          case 'zh-hk':
+              isZh = true;
+              break;
+          default:
+              isZh = false;
+      }
+      //var contentEn = document.getElementById("content-en");
+      //var contentZh = document.getElementById("content-zh");
+
+      if (!isZh) {
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
 </head>
 <body>
   <div id="header">
@@ -29,11 +55,11 @@
         </li>
 
         <li>
-          <a href='https://github.com/fanx-dev/fanx/blob/master/doc/Build.md#api-docs'>接口文档</a>
+          <a href='https://github.com/fanx-dev/fanx/blob/master/doc/QuickStart.md#api-docs'>接口文档</a>
         </li>
 
         <li>
-          <a href='community_cn.html'>交流社区</a>
+          <a href='community_zh.html'>交流社区</a>
         </li>
 
         <li>
@@ -49,7 +75,7 @@
       <h3>编程语言和开发平台</h3>
 
       <p id="btn" class="round">
-        <a href="https://github.com/fanx-dev/fanx/blob/master/doc/QuickStart.md">快速开始</a>
+        <a href="https://zhuanlan.zhihu.com/p/62786295">快速开始</a>
       </p>
       
     </div>
