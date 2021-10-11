@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::FileWeblet</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='FileWeblet.html'>FileWeblet</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> web::FileWeblet</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  web::FileWeblet : <a href='Weblet.html'>web::Weblet</a></pre>
+<p class='src'>
+<a href='src-FileWeblet.fan.html'>Source</a></p>
+
+<p>FileWeblet is used to service an HTTP request on a <a href='sys::File'>sys::File</a>. It handles all the dirty details for cache control, compression, modification time, ETags, etc.</p>
+
+<p>Default implementation uses gzip encoding if gzip is supported by the client and the file's MIME type has a "text" media type.</p>
+
+<p>Current implementation supports ETags and Modification time for cache validation.  It does not specify any cache control directives.</p>
+<dl>
+<dt id='checkNotModified'>
+checkNotModified</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Bool.html'>Bool</a> checkNotModified()</code></p>
+<p class='src'>
+<a href='src-FileWeblet.fan.html#line159'>Source</a></p>
+
+<p>Check if the request passed headers indicating it has cached version of the file.  If the file has not been modified, then service the request as 304 and return true.  This method supports ETag "If-None-Match" and "If-Modified-Since" modification time.</p>
+</dd>
+<dt id='checkUnderDir'>
+checkUnderDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> checkUnderDir(<a href='../std/File.html'>File</a> dir)</code></p>
+<p class='src'>
+<a href='src-FileWeblet.fan.html#line68'>Source</a></p>
+
+<p>Checks if the file being served is under the given directory. If it is not, a 404 response is immediately sent, short-circuiting any further attempts to serve the file.</p>
+
+<pre>FileWeblet(file).checkUnderDir(dir).onService</pre>
+</dd>
+<dt id='etag'>
+etag</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> etag()</code></p>
+<p class='src'>
+<a href='src-FileWeblet.fan.html#line56'>Source</a></p>
+
+<p>Compute the ETag for the file being serviced which uniquely identifies the file version.  The default implementation is a hash of the modified time and the file size.  The result of this method must conform to the ETag syntax and be wrapped in quotes.</p>
+</dd>
+<dt id='extraResHeaders'>
+extraResHeaders</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> extraResHeaders</code></p>
+<p class='src'>
+<a href='src-FileWeblet.fan.html#line82'>Source</a></p>
+
+<p>Extra response headers to add for all 3xx and 2xx responses</p>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/File.html'>File</a> file</code></p>
+<p class='src'>
+<a href='src-FileWeblet.fan.html#line42'>Source</a></p>
+
+<p>The file being serviced by this FileWeblet.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/File.html'>File</a> file)</code></p>
+<p class='src'>
+<a href='src-FileWeblet.fan.html#line29'>Source</a></p>
+
+<p>Constructor with file to service.</p>
+</dd>
+<dt id='modified'>
+modified</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/DateTime.html'>DateTime</a> modified()</code></p>
+<p class='src'>
+<a href='src-FileWeblet.fan.html#line47'>Source</a></p>
+
+<p>Get the modified time of the file floored to 1 second which is the most precise that HTTP can deal with.</p>
+</dd>
+<dt id='onGet'>
+onGet</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onGet()</code></p>
+<p class='src'>
+<a href='src-FileWeblet.fan.html#line97'>Source</a></p>
+
+<p>Handle GET request for the file.</p>
+</dd>
+<dt id='onService'>
+onService</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onService()</code></p>
+<p class='src'>
+<a href='src-FileWeblet.fan.html#line90'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-FileWeblet.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#checkNotModified'>checkNotModified</a></li><li><a href='#checkUnderDir'>checkUnderDir</a></li><li><a href='#etag'>etag</a></li><li><a href='#extraResHeaders'>extraResHeaders</a></li><li><a href='#file'>file</a></li><li><a href='#modified'>modified</a></li><li><a href='#onGet'>onGet</a></li><li><a href='#onService'>onService</a></li></ul>
+</div>
+</div>
+</body>
+</html>

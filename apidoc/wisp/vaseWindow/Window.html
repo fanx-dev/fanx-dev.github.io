@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseWindow::Window</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseWindow</a></li><li><a href='Window.html'>Window</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> vaseWindow::Window</h1>
+<pre>vaseWindow::Window</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>native host view</p>
+<dl>
+<dt id='fileDialog'>
+fileDialog</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> fileDialog(<a href='../sys/Str.html'>Str</a> accept, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;?</a>&gt;</a> f, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+</dd>
+<dt id='focus'>
+focus</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> focus()</code></p>
+
+<p>request focus</p>
+</dd>
+<dt id='hasFocus'>
+hasFocus</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> hasFocus()</code></p>
+
+<p>return true if has focus</p>
+</dd>
+<dt id='pos'>
+pos</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../vaseGraphics/Point.html'>Point</a> pos()</code></p>
+
+<p>get current position</p>
+</dd>
+<dt id='repaint'>
+repaint</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> repaint(<a href='../vaseGraphics/Rect.html'>Rect?</a> dirty := null)</code></p>
+
+<p>request repaint</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../vaseGraphics/Size.html'>Size</a> size()</code></p>
+
+<p>get window size</p>
+</dd>
+<dt id='textInput'>
+textInput</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> textInput(<a href='TextInput.html'>TextInput</a> edit)</code></p>
+
+<p>show text edit view</p>
+</dd>
+<dt id='view'>
+view</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='View.html'>View</a> view()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#fileDialog'>fileDialog</a></li><li><a href='#focus'>focus</a></li><li><a href='#hasFocus'>hasFocus</a></li><li><a href='#pos'>pos</a></li><li><a href='#repaint'>repaint</a></li><li><a href='#size'>size</a></li><li><a href='#textInput'>textInput</a></li><li><a href='#view'>view</a></li></ul>
+</div>
+</div>
+</body>
+</html>

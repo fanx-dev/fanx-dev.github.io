@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WebSession.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebSession.html'>WebSession</a></li><li><a href='src-WebSession.fan.html'>WebSession.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Mar 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** WebSession provides a name/value map associated with a specific</span>
+<span id='line11'>** browser "connection" to the web server.  Any values stored in a</span>
+<span id='line12'>** WebSession must be both immutable and serializable.  Get the</span>
+<span id='line13'>** current WebSession via `WebReq.session`.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See <b>[</b>pod doc<b>]</b>`pod-doc#sessions`.</span>
+<span id='line16'>**</span>
+<span id='line17'>abstract class WebSession</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'>  **</span>
+<span id='line20'>  ** Get the unique id used to identify this session.</span>
+<span id='line21'>  **</span>
+<span id='line22'>  abstract Str id<b>(</b><b>)</b></span>
+<span id='line23'></span>
+<span id='line24'>  **</span>
+<span id='line25'>  ** Return `id`.</span>
+<span id='line26'>  **</span>
+<span id='line27'>  override Str toStr<b>(</b><b>)</b> <b>{</b> id <b>}</b></span>
+<span id='line28'></span>
+<span id='line29'>  **</span>
+<span id='line30'>  ** Iterate the key/value pairs</span>
+<span id='line31'>  **</span>
+<span id='line32'>  abstract Void each<b>(</b>|Obj?,Str| f<b>)</b></span>
+<span id='line33'></span>
+<span id='line34'>  **</span>
+<span id='line35'>  ** Get session value or return def if not defined.</span>
+<span id='line36'>  **</span>
+<span id='line37'>  @Operator abstract Obj? get<b>(</b>Str name, Obj? def := null<b>)</b></span>
+<span id='line38'></span>
+<span id='line39'>  **</span>
+<span id='line40'>  ** Set a session value which must be immutable and serializable.</span>
+<span id='line41'>  **</span>
+<span id='line42'>  @Operator abstract Void set<b>(</b>Str name, Obj? val<b>)</b></span>
+<span id='line43'></span>
+<span id='line44'>  **</span>
+<span id='line45'>  ** Remove a session key</span>
+<span id='line46'>  **</span>
+<span id='line47'>  abstract Void remove<b>(</b>Str name<b>)</b></span>
+<span id='line48'></span>
+<span id='line49'>  **</span>
+<span id='line50'>  ** Application name/value pairs which are persisted</span>
+<span id='line51'>  ** between HTTP requests.  The values stored in this</span>
+<span id='line52'>  ** map must be serializable.</span>
+<span id='line53'>  **</span>
+<span id='line54'>  @Deprecated <b>{</b> msg = "Use get, set, remove, each" <b>}</b></span>
+<span id='line55'>  abstract Str:Obj? map<b>(</b><b>)</b> // TODO</span>
+<span id='line56'></span>
+<span id='line57'>  **</span>
+<span id='line58'>  ** Delete this web session which clears both the user</span>
+<span id='line59'>  ** agent cookie and the server side session instance.</span>
+<span id='line60'>  ** This method must be called before the WebRes is</span>
+<span id='line61'>  ** committed otherwise the server side instance is cleared,</span>
+<span id='line62'>  ** but the user agent cookie will remain uncleared.</span>
+<span id='line63'>  **</span>
+<span id='line64'>  abstract Void delete<b>(</b><b>)</b></span>
+<span id='line65'></span>
+<span id='line66'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocChapter</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocChapter.html'>DocChapter</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerDoc::DocChapter</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Doc.html'>compilerDoc::Doc</a>
+    compilerDoc::DocChapter</pre>
+<p class='src'>
+<a href='src-DocChapter.fan.html'>Source</a></p>
+
+<p>DocChapter models a fandoc "chapter" in a manual like docLang</p>
+<dl>
+<dt id='breadcrumb'>
+breadcrumb</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> breadcrumb()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line117'>Source</a></p>
+
+<p>Use title for breadcrumb</p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocFandoc.html'>DocFandoc</a> doc</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line135'>Source</a></p>
+
+<p>Chapter contents as Fandoc string</p>
+</dd>
+<dt id='docName'>
+docName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> docName()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line108'>Source</a></p>
+
+<p>Document name under space is same as <code><a href='DocChapter.html#name'>name</a></code></p>
+</dd>
+<dt id='heading'>
+heading</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='DocHeading.html'>DocHeading?</a> heading(<a href='../sys/Str.html'>Str</a> id, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line157'>Source</a></p>
+
+<p>Get a chapter heading by its anchor id or raise NameErr/return null.</p>
+</dd>
+<dt id='headings'>
+headings</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocHeading.html'>DocHeading</a>&gt;</a> headings</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line138'>Source</a></p>
+
+<p>Top-level chapter headings</p>
+</dd>
+<dt id='isPodDoc'>
+isPodDoc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPodDoc()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line123'>Source</a></p>
+
+<p>Return if this chapter is the special "pod-doc" file</p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocLoc.html'>DocLoc</a> loc</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line129'>Source</a></p>
+
+<p>Location for chapter file</p>
+</dd>
+<dt id='meta'>
+meta</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> meta</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line132'>Source</a></p>
+
+<p>Fandoc heating metadata</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line105'>Source</a></p>
+
+<p>Simple name of the chapter such as "Overview" or "pod-doc"</p>
+</dd>
+<dt id='next'>
+next</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocChapter.html'>DocChapter?</a> next()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line153'>Source</a></p>
+
+<p>Next chapter in TOC order or null if last</p>
+</dd>
+<dt id='num'>
+num</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> num()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line141'>Source</a></p>
+
+<p>Chapter number (one-based)</p>
+</dd>
+<dt id='onCrawl'>
+onCrawl</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onCrawl(<a href='DocCrawler.html'>DocCrawler</a> crawler)</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line170'>Source</a></p>
+
+<p>Index the chapter name and body</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocPod.html'>DocPod</a> pod</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line102'>Source</a></p>
+
+<p>Pod which defines this chapter such as "docLang"</p>
+</dd>
+<dt id='prev'>
+prev</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocChapter.html'>DocChapter?</a> prev()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line149'>Source</a></p>
+
+<p>Previous chapter in TOC order or null if first</p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> qname</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line126'>Source</a></p>
+
+<p>Qualified name as "pod::name"</p>
+</dd>
+<dt id='renderer'>
+renderer</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/Type.html'>Type</a> renderer()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line120'>Source</a></p>
+
+<p>Default renderer is <code><a href='DocChapterRenderer.html'>DocChapterRenderer</a></code></p>
+</dd>
+<dt id='space'>
+space</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='DocSpace.html'>DocSpace</a> space()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line111'>Source</a></p>
+
+<p>The space for this doc is <code><a href='DocChapter.html#pod'>pod</a></code></p>
+</dd>
+<dt id='summary'>
+summary</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> summary()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line145'>Source</a></p>
+
+<p>Summary for TOC</p>
+</dd>
+<dt id='title'>
+title</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> title()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line114'>Source</a></p>
+
+<p>Title is <code>meta.title</code>, or qualified name if not specified.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-DocChapter.fan.html#line165'>Source</a></p>
+
+<p>Return qname</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocChapter.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#breadcrumb'>breadcrumb</a></li><li><a href='#doc'>doc</a></li><li><a href='#docName'>docName</a></li><li><a href='#heading'>heading</a></li><li><a href='#headings'>headings</a></li><li><a href='#isPodDoc'>isPodDoc</a></li><li><a href='#loc'>loc</a></li><li><a href='#meta'>meta</a></li><li><a href='#name'>name</a></li><li><a href='#next'>next</a></li><li><a href='#num'>num</a></li><li><a href='#onCrawl'>onCrawl</a></li><li><a href='#pod'>pod</a></li><li><a href='#prev'>prev</a></li><li><a href='#qname'>qname</a></li><li><a href='#renderer'>renderer</a></li><li><a href='#space'>space</a></li><li><a href='#summary'>summary</a></li><li><a href='#title'>title</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

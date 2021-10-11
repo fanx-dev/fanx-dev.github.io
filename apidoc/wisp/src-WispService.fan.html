@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WispService.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>wisp</a></li><li><a href='WispService.html'>WispService</a></li><li><a href='src-WispService.fan.html'>WispService.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   21 Dec 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using web</span>
+<span id='line11'>using inet</span>
+<span id='line12'>using util</span>
+<span id='line13'></span>
+<span id='line14'>**</span>
+<span id='line15'>** Simple web server services HTTP/HTTPS requests to a top-level root WebMod.</span>
+<span id='line16'>** A given instance of WispService can be only be used through one</span>
+<span id='line17'>** start/stop lifecycle.</span>
+<span id='line18'>**</span>
+<span id='line19'>** Example:</span>
+<span id='line20'>**   WispService <b>{</b> httpPort = 8080; root = MyWebMod<b>(</b><b>)</b> <b>}</b>.start</span>
+<span id='line21'>**</span>
+<span id='line22'>const class WispService : Service</span>
+<span id='line23'><b>{</b></span>
+<span id='line24'></span>
+<span id='line25'>  **</span>
+<span id='line26'>  ** Standard log for web service</span>
+<span id='line27'>  **</span>
+<span id='line28'>  internal static const Log log := Log.get<b>(</b>"web"<b>)</b></span>
+<span id='line29'></span>
+<span id='line30'>  **</span>
+<span id='line31'>  ** Which IpAddr to bind to or null for the default.</span>
+<span id='line32'>  **</span>
+<span id='line33'>  const IpAddr? addr := null</span>
+<span id='line34'></span>
+<span id='line35'>  **</span>
+<span id='line36'>  ** Well known TCP port for HTTP traffic. The port is enabled if non-null</span>
+<span id='line37'>  ** and disabled if null.</span>
+<span id='line38'>  **</span>
+<span id='line39'>  const Int? httpPort := null</span>
+<span id='line40'></span>
+<span id='line41'>  **</span>
+<span id='line42'>  ** Well known TCP port for HTTPS traffic. The port is enabled if non-null</span>
+<span id='line43'>  ** and disabled if null. If the http and https ports are both non-null</span>
+<span id='line44'>  ** then all http traffic will be redirected to the https port.</span>
+<span id='line45'>  **</span>
+<span id='line46'>  const Int? httpsPort := null</span>
+<span id='line47'></span>
+<span id='line48'>  **</span>
+<span id='line49'>  ** Root WebMod used to service requests.</span>
+<span id='line50'>  **</span>
+<span id='line51'>  const WebMod root := WispDefaultRootMod<b>(</b><b>)</b></span>
+<span id='line52'></span>
+<span id='line53'>  **</span>
+<span id='line54'>  ** Pluggable interface for managing web session state.</span>
+<span id='line55'>  ** Default implementation stores sessions in main memory.</span>
+<span id='line56'>  **</span>
+<span id='line57'>  const WispSessionStore sessionStore := MemWispSessionStore<b>(</b>this<b>)</b></span>
+<span id='line58'></span>
+<span id='line59'>  **</span>
+<span id='line60'>  ** Max number of threads which are used for concurrent</span>
+<span id='line61'>  ** web request processing.</span>
+<span id='line62'>  **</span>
+<span id='line63'>  const Int maxThreads := 500</span>
+<span id='line64'></span>
+<span id='line65'>  **</span>
+<span id='line66'>  ** WebMod which is called on internal server error to return an 500</span>
+<span id='line67'>  ** error response.  The exception raised is available in 'req.stash<b>[</b>"err"<b>]</b>'.</span>
+<span id='line68'>  ** The 'onService' method is called after clearing all headers and setting</span>
+<span id='line69'>  ** the response code to 500.  The default error mod may be configured</span>
+<span id='line70'>  ** via 'errMod' property in etc/web/config.props.</span>
+<span id='line71'>  **</span>
+<span id='line72'>  const WebMod errMod := initErrMod</span>
+<span id='line73'></span>
+<span id='line74'>  ** The `inet::SocketConfig` to use for creating sockets</span>
+<span id='line75'>  const SocketConfig socketConfig := SocketConfig.cur</span>
+<span id='line76'></span>
+<span id='line77'>  ** Return 'true' if service is successfully listening on registered port.</span>
+<span id='line78'>  @NoDoc Bool isListening<b>(</b><b>)</b> <b>{</b> isListeningRef.val <b>}</b></span>
+<span id='line79'>  private const AtomicBool isListeningRef := AtomicBool<b>(</b>false<b>)</b></span>
+<span id='line80'></span>
+<span id='line81'>  private static WebMod initErrMod<b>(</b><b>)</b></span>
+<span id='line82'>  <b>{</b></span>
+<span id='line83'>    try</span>
+<span id='line84'>      return <b>(</b>WebMod<b>)</b>Type.find<b>(</b>Pod.find<b>(</b>"web"<b>)</b>.config<b>(</b>"errMod", "wisp::WispDefaultErrMod"<b>)</b><b>)</b>.make</span>
+<span id='line85'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line86'>      log.err<b>(</b>"Cannot init errMod", e<b>)</b></span>
+<span id='line87'>    return WispDefaultErrMod<b>(</b><b>)</b></span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>  **</span>
+<span id='line91'>  ** Map of HTTP headers to include in every response.  These are</span>
+<span id='line92'>  ** initialized from etc/web/config.props with the key "extraResHeaders"</span>
+<span id='line93'>  ** as a set of "key:value" pairs separated by semicolons.</span>
+<span id='line94'>  **</span>
+<span id='line95'>  const <b>[</b>Str:Str<b>]</b> extraResHeaders := initExtraResHeaders</span>
+<span id='line96'></span>
+<span id='line97'>  private static Str:Str initExtraResHeaders<b>(</b><b>)</b></span>
+<span id='line98'>  <b>{</b></span>
+<span id='line99'>    acc := CaseInsensitiveMap&lt;Str,Str><b>(</b><b>)</b>//<b>[</b>:<b>]</b> <b>{</b> caseInsensitive = true <b>}</b></span>
+<span id='line100'>    try</span>
+<span id='line101'>      parseExtraHeaders<b>(</b>acc, Pod.find<b>(</b>"web"<b>)</b>.config<b>(</b>"extraResHeaders", ""<b>)</b><b>)</b></span>
+<span id='line102'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line103'>      log.err<b>(</b>"Cannot init resHeaders", e<b>)</b></span>
+<span id='line104'>    return acc.toImmutable</span>
+<span id='line105'>  <b>}</b></span>
+<span id='line106'></span>
+<span id='line107'>  ** Parse extra headers taking quoted values into account</span>
+<span id='line108'>  internal static Void parseExtraHeaders<b>(</b><b>[</b>Str:Str<b>]</b> acc, Str str<b>)</b></span>
+<span id='line109'>  <b>{</b></span>
+<span id='line110'>    // trim and remove trailing semicolon</span>
+<span id='line111'>    str = str.trim</span>
+<span id='line112'>    if <b>(</b>str.endsWith<b>(</b>";"<b>)</b><b>)</b> str = str<b>[</b>0..-2<b>]</b></span>
+<span id='line113'>    if <b>(</b>str.isEmpty<b>)</b> return</span>
+<span id='line114'></span>
+<span id='line115'>    // split by semicolons taking into account quotes</span>
+<span id='line116'>    pairs := Str<b>[</b>,<b>]</b></span>
+<span id='line117'>    s := 0</span>
+<span id='line118'>    inStr := false</span>
+<span id='line119'>    for <b>(</b>i := 0; i&lt;str.size; ++i<b>)</b></span>
+<span id='line120'>    <b>{</b></span>
+<span id='line121'>      ch := str<b>[</b>i<b>]</b></span>
+<span id='line122'>      if <b>(</b>ch == '"'<b>)</b> inStr = !inStr</span>
+<span id='line123'>      if <b>(</b>ch == ';' &amp;&amp; !inStr<b>)</b> <b>{</b> pairs.add<b>(</b>str<b>[</b>s..&lt;i<b>]</b>.trim<b>)</b>; s = i+1 <b>}</b></span>
+<span id='line124'>    <b>}</b></span>
+<span id='line125'>    if <b>(</b>s &lt; str.size<b>)</b> pairs.add<b>(</b>str<b>[</b>s..-1<b>]</b>.trim<b>)</b></span>
+<span id='line126'></span>
+<span id='line127'>    // add to accumulator</span>
+<span id='line128'>    pairs.each |pair|</span>
+<span id='line129'>    <b>{</b></span>
+<span id='line130'>      colon := pair.index<b>(</b>":"<b>)</b> ?: throw Err<b>(</b>"Missing colon: $pair"<b>)</b></span>
+<span id='line131'>      key := pair<b>[</b>0..&lt;colon<b>]</b>.trim</span>
+<span id='line132'>      val := pair<b>[</b>colon+1..-1<b>]</b>.trim</span>
+<span id='line133'>      if <b>(</b>val.startsWith<b>(</b>"\""<b>)</b> &amp;&amp; val.endsWith<b>(</b>"\""<b>)</b><b>)</b> val = val<b>[</b>1..-2<b>]</b></span>
+<span id='line134'>      if <b>(</b>key.isEmpty || val.isEmpty<b>)</b> throw Err<b>(</b>"Invalid header: $pair"<b>)</b></span>
+<span id='line135'>      acc<b>[</b>key<b>]</b> = val</span>
+<span id='line136'>    <b>}</b></span>
+<span id='line137'>  <b>}</b></span>
+<span id='line138'></span>
+<span id='line139'>  **</span>
+<span id='line140'>  ** Cookie name to use for built-in session management.</span>
+<span id='line141'>  ** Initialized from etc/web/config.props with the key "sessionCookieName"</span>
+<span id='line142'>  ** otherwise defaults to "fanws"</span>
+<span id='line143'>  **</span>
+<span id='line144'>  const Str sessionCookieName := Pod.find<b>(</b>"web"<b>)</b>.config<b>(</b>"sessionCookieName", "fanws"<b>)</b></span>
+<span id='line145'></span>
+<span id='line146'>  **</span>
+<span id='line147'>  ** Constructor with it-block</span>
+<span id='line148'>  **</span>
+<span id='line149'>  new make<b>(</b>|This|? f := null<b>)</b></span>
+<span id='line150'>  <b>{</b></span>
+<span id='line151'>    if <b>(</b>f != null<b>)</b> f<b>(</b>this<b>)</b></span>
+<span id='line152'></span>
+<span id='line153'>    if <b>(</b>httpPort == null &amp;&amp; httpsPort == null<b>)</b> throw ArgErr<b>(</b>"httpPort and httpsPort are both null. At least one port must be configured."<b>)</b></span>
+<span id='line154'>    if <b>(</b>httpPort == httpsPort<b>)</b> throw ArgErr<b>(</b>"httpPort '$<b>{</b>httpPort<b>}</b>' cannot be the same as httpsPort '$<b>{</b>httpsPort<b>}</b>'"<b>)</b></span>
+<span id='line155'>    if <b>(</b>httpPort != null &amp;&amp; httpsPort != null<b>)</b> root = WispHttpsRedirectMod<b>(</b>this, root<b>)</b></span>
+<span id='line156'></span>
+<span id='line157'>    listenerPool     = ActorPool <b>{</b> it.name = "WispServiceListener" <b>}</b></span>
+<span id='line158'>    httpListenerRef  = AtomicRef<b>(</b><b>)</b></span>
+<span id='line159'>    httpsListenerRef = AtomicRef<b>(</b><b>)</b></span>
+<span id='line160'>    processorPool    = ActorPool <b>{</b> it.name = "WispService"; it.maxThreads = this.maxThreads <b>}</b></span>
+<span id='line161'>  <b>}</b></span>
+<span id='line162'></span>
+<span id='line163'>  override Void onStart<b>(</b><b>)</b></span>
+<span id='line164'>  <b>{</b></span>
+<span id='line165'>    if <b>(</b>listenerPool.isStopped<b>)</b> throw Err<b>(</b>"WispService is already stopped, use to new instance to restart"<b>)</b></span>
+<span id='line166'>    if <b>(</b>httpPort != null<b>)</b></span>
+<span id='line167'>      Actor<b>(</b>listenerPool, |->| <b>{</b> listen<b>(</b>makeListener<b>(</b>httpListenerRef<b>)</b>, httpPort<b>)</b> <b>}</b><b>)</b>.send<b>(</b>null<b>)</b></span>
+<span id='line168'>    if <b>(</b>httpsPort != null<b>)</b></span>
+<span id='line169'>      Actor<b>(</b>listenerPool, |->| <b>{</b> listen<b>(</b>makeListener<b>(</b>httpsListenerRef<b>)</b>, httpsPort<b>)</b> <b>}</b><b>)</b>.send<b>(</b>null<b>)</b></span>
+<span id='line170'>    sessionStore.onStart</span>
+<span id='line171'>    root.onStart</span>
+<span id='line172'>  <b>}</b></span>
+<span id='line173'></span>
+<span id='line174'>  override Void onStop<b>(</b><b>)</b></span>
+<span id='line175'>  <b>{</b></span>
+<span id='line176'>    try root.onStop;         catch <b>(</b>Err e<b>)</b> log.err<b>(</b>"WispService stop root WebMod", e<b>)</b></span>
+<span id='line177'>    try listenerPool.stop;   catch <b>(</b>Err e<b>)</b> log.err<b>(</b>"WispService stop listener pool", e<b>)</b></span>
+<span id='line178'>    try closeListener<b>(</b>httpListenerRef<b>)</b>;  catch <b>(</b>Err e<b>)</b> log.err<b>(</b>"WispService stop http listener socket", e<b>)</b></span>
+<span id='line179'>    try closeListener<b>(</b>httpsListenerRef<b>)</b>; catch <b>(</b>Err e<b>)</b> log.err<b>(</b>"WispService stop https listener socket", e<b>)</b></span>
+<span id='line180'>    try processorPool.stop;  catch <b>(</b>Err e<b>)</b> log.err<b>(</b>"WispService stop processor pool", e<b>)</b></span>
+<span id='line181'>    try sessionStore.onStop; catch <b>(</b>Err e<b>)</b> log.err<b>(</b>"WispService stop session store", e<b>)</b></span>
+<span id='line182'>  <b>}</b></span>
+<span id='line183'></span>
+<span id='line184'>  private Void closeListener<b>(</b>AtomicRef listenerRef<b>)</b></span>
+<span id='line185'>  <b>{</b></span>
+<span id='line186'>    listenerRef.val?->val?->close</span>
+<span id='line187'>  <b>}</b></span>
+<span id='line188'></span>
+<span id='line189'>  internal Void listen<b>(</b>TcpListener listener, Int port<b>)</b></span>
+<span id='line190'>  <b>{</b></span>
+<span id='line191'>    portType := port == httpPort ? "http" : "https"</span>
+<span id='line192'>    // loop until we successfully bind to port</span>
+<span id='line193'>    while <b>(</b>true<b>)</b></span>
+<span id='line194'>    <b>{</b></span>
+<span id='line195'>      try</span>
+<span id='line196'>      <b>{</b></span>
+<span id='line197'>        listener.bind<b>(</b>addr, port<b>)</b></span>
+<span id='line198'>        break</span>
+<span id='line199'>      <b>}</b></span>
+<span id='line200'>      catch <b>(</b>Err e<b>)</b></span>
+<span id='line201'>      <b>{</b></span>
+<span id='line202'>        log.err<b>(</b>"WispService cannot bind to $<b>{</b>portType<b>}</b> port $<b>{</b>port<b>}</b>", e<b>)</b></span>
+<span id='line203'>        Actor.sleep<b>(</b>10sec<b>)</b></span>
+<span id='line204'>      <b>}</b></span>
+<span id='line205'>    <b>}</b></span>
+<span id='line206'></span>
+<span id='line207'>    log.info<b>(</b>"$<b>{</b>portType<b>}</b> started on port $<b>{</b>port<b>}</b>"<b>)</b></span>
+<span id='line208'>    isListeningRef.val = true</span>
+<span id='line209'></span>
+<span id='line210'>    // loop until stopped accepting incoming TCP connections</span>
+<span id='line211'>    while <b>(</b>!listenerPool.isStopped &amp;&amp; !listener.isClosed<b>)</b></span>
+<span id='line212'>    <b>{</b></span>
+<span id='line213'>      try</span>
+<span id='line214'>      <b>{</b></span>
+<span id='line215'>        socket := listener.accept</span>
+<span id='line216'>        WispActor<b>(</b>this<b>)</b>.send<b>(</b>Unsafe<b>(</b>socket<b>)</b><b>)</b></span>
+<span id='line217'>      <b>}</b></span>
+<span id='line218'>      catch <b>(</b>Err e<b>)</b></span>
+<span id='line219'>      <b>{</b></span>
+<span id='line220'>        if <b>(</b>!listenerPool.isStopped &amp;&amp; !listener.isClosed<b>)</b></span>
+<span id='line221'>        <b>{</b></span>
+<span id='line222'>          log.err<b>(</b>"WispService accept on $<b>{</b>portType<b>}</b> port $<b>{</b>port<b>}</b>", e<b>)</b></span>
+<span id='line223'>          Actor.sleep<b>(</b>5sec<b>)</b></span>
+<span id='line224'>        <b>}</b></span>
+<span id='line225'>      <b>}</b></span>
+<span id='line226'>    <b>}</b></span>
+<span id='line227'></span>
+<span id='line228'>    // socket should be closed by onStop, but do it again to be really sure</span>
+<span id='line229'>    isListeningRef.val = false</span>
+<span id='line230'>    try <b>{</b> listener.close <b>}</b> catch <b>{</b><b>}</b></span>
+<span id='line231'>    log.info<b>(</b>"$<b>{</b>portType<b>}</b> stopped on port $<b>{</b>port<b>}</b>"<b>)</b></span>
+<span id='line232'>  <b>}</b></span>
+<span id='line233'></span>
+<span id='line234'>  private TcpListener makeListener<b>(</b>AtomicRef storage<b>)</b></span>
+<span id='line235'>  <b>{</b></span>
+<span id='line236'>    try</span>
+<span id='line237'>    <b>{</b></span>
+<span id='line238'>      // force reuseAddr</span>
+<span id='line239'>      cfg := this.socketConfig</span>
+<span id='line240'>      if <b>(</b>!cfg.reuseAddr<b>)</b> cfg = SocketConfig.makeCopy<b>(</b>cfg<b>)</b> <b>{</b> it.reuseAddr = true <b>}</b></span>
+<span id='line241'></span>
+<span id='line242'>      TcpListener listener := TcpListener<b>(</b>cfg<b>)</b></span>
+<span id='line243'>      storage.val = Unsafe<b>(</b>listener<b>)</b></span>
+<span id='line244'>      return listener</span>
+<span id='line245'>    <b>}</b></span>
+<span id='line246'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line247'>    <b>{</b></span>
+<span id='line248'>      log.err<b>(</b>"Could not make listener", e<b>)</b></span>
+<span id='line249'>      throw e</span>
+<span id='line250'>    <b>}</b></span>
+<span id='line251'>  <b>}</b></span>
+<span id='line252'></span>
+<span id='line253'>  internal const ActorPool listenerPool</span>
+<span id='line254'>  internal const AtomicRef httpListenerRef</span>
+<span id='line255'>  internal const AtomicRef httpsListenerRef</span>
+<span id='line256'>  internal const ActorPool processorPool</span>
+<span id='line257'></span>
+<span id='line258'>  @NoDoc static Void main<b>(</b><b>)</b></span>
+<span id='line259'>  <b>{</b></span>
+<span id='line260'>    WispService <b>{</b> httpPort = 8080 <b>}</b>.start</span>
+<span id='line261'>    Actor.sleep<b>(</b>Duration.maxVal<b>)</b></span>
+<span id='line262'>  <b>}</b></span>
+<span id='line263'></span>
+<span id='line264'>  ** Create instance for Test.setup easy to use via reflection <b>(</b>service is not started automatically<b>)</b></span>
+<span id='line265'>  @NoDoc static WispService testSetup<b>(</b>WebMod root<b>)</b></span>
+<span id='line266'>  <b>{</b></span>
+<span id='line267'>    log.level = LogLevel.err</span>
+<span id='line268'>    return WispService</span>
+<span id='line269'>    <b>{</b></span>
+<span id='line270'>      it.root = root</span>
+<span id='line271'>      it.httpPort = <b>(</b>10_000..60_000<b>)</b>.random</span>
+<span id='line272'>    <b>}</b></span>
+<span id='line273'>  <b>}</b></span>
+<span id='line274'></span>
+<span id='line275'>  ** Teardown instance from tesetSetup</span>
+<span id='line276'>  @NoDoc static Void testTeardown<b>(</b>WispService service<b>)</b></span>
+<span id='line277'>  <b>{</b></span>
+<span id='line278'>    service.stop</span>
+<span id='line279'>  <b>}</b></span>
+<span id='line280'><b>}</b></span>
+<span id='line281'></span>
+<span id='line282'>**************************************************************************</span>
+<span id='line283'>** WispDefaultRootMod</span>
+<span id='line284'>**************************************************************************</span>
+<span id='line285'></span>
+<span id='line286'>internal const class WispDefaultRootMod : WebMod</span>
+<span id='line287'><b>{</b></span>
+<span id='line288'>  override Void onGet<b>(</b><b>)</b></span>
+<span id='line289'>  <b>{</b></span>
+<span id='line290'>    res.headers<b>[</b>"Content-Type"<b>]</b> = "text/html; charset=utf-8"</span>
+<span id='line291'>    out := res.out</span>
+<span id='line292'>    out.html</span>
+<span id='line293'>      .head</span>
+<span id='line294'>        .title.w<b>(</b>"Wisp"<b>)</b>.titleEnd</span>
+<span id='line295'>      .headEnd</span>
+<span id='line296'>      .body</span>
+<span id='line297'>        .h1.w<b>(</b>"Wisp"<b>)</b>.h1End</span>
+<span id='line298'>        .p.w<b>(</b>"Wisp is running!"<b>)</b>.pEnd</span>
+<span id='line299'>        .p.w<b>(</b>"Currently there is no WebMod installed on this server."<b>)</b>.pEnd</span>
+<span id='line300'>        .p.w<b>(</b>"See &lt;a href='https://fantom.org/doc/wisp/pod-doc.html'>wisp::pod-doc&lt;/a></span>
+<span id='line301'>              to configure a WebMod for the server."<b>)</b>.pEnd</span>
+<span id='line302'>      .bodyEnd</span>
+<span id='line303'>    .htmlEnd</span>
+<span id='line304'>  <b>}</b></span>
+<span id='line305'><b>}</b></span>
+<span id='line306'></span>
+<span id='line307'>**************************************************************************</span>
+<span id='line308'>** WispHttpsRedirectMod</span>
+<span id='line309'>**************************************************************************</span>
+<span id='line310'></span>
+<span id='line311'>**</span>
+<span id='line312'>** Redirects all http traffic to https</span>
+<span id='line313'>**</span>
+<span id='line314'>internal const class WispHttpsRedirectMod : WebMod</span>
+<span id='line315'><b>{</b></span>
+<span id='line316'>  new make<b>(</b>WispService service, WebMod root<b>)</b></span>
+<span id='line317'>  <b>{</b></span>
+<span id='line318'>    this.service = service</span>
+<span id='line319'>    this.root = root</span>
+<span id='line320'>  <b>}</b></span>
+<span id='line321'></span>
+<span id='line322'>  override Void onService<b>(</b><b>)</b></span>
+<span id='line323'>  <b>{</b></span>
+<span id='line324'>    if <b>(</b>req.socket.localPort == service.httpPort<b>)</b></span>
+<span id='line325'>    <b>{</b></span>
+<span id='line326'>      redirectUri := `https://$<b>{</b>req.absUri.host<b>}</b>:$<b>{</b>service.httpsPort<b>}</b>$<b>{</b>req.uri<b>}</b>`</span>
+<span id='line327'>      res.redirect<b>(</b>redirectUri<b>)</b></span>
+<span id='line328'>    <b>}</b></span>
+<span id='line329'>    else</span>
+<span id='line330'>    <b>{</b></span>
+<span id='line331'>      root.onService</span>
+<span id='line332'>    <b>}</b></span>
+<span id='line333'>  <b>}</b></span>
+<span id='line334'></span>
+<span id='line335'>  const WispService service</span>
+<span id='line336'>  const WebMod root</span>
+<span id='line337'><b>}</b></span>
+<span id='line338'></span>
+<span id='line339'>**************************************************************************</span>
+<span id='line340'>** WispDefaultErrMod</span>
+<span id='line341'>**************************************************************************</span>
+<span id='line342'></span>
+<span id='line343'>const class WispDefaultErrMod : WebMod</span>
+<span id='line344'><b>{</b></span>
+<span id='line345'>  override Void onService<b>(</b><b>)</b></span>
+<span id='line346'>  <b>{</b></span>
+<span id='line347'>    err := <b>(</b>Err<b>)</b>req.stash<b>[</b>"err"<b>]</b></span>
+<span id='line348'>    res.headers<b>[</b>"Content-Type"<b>]</b> = "text/plain"</span>
+<span id='line349'>    str := "$res.statusCode INTERNAL SERVER ERROR\n\n$req.uri\n$err.traceToStr".replace<b>(</b>"&lt;", "&amp;gt;"<b>)</b></span>
+<span id='line350'>    res.out.print<b>(</b>str<b>)</b></span>
+<span id='line351'>  <b>}</b></span>
+<span id='line352'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Field</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Field.html'>Field</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>rtconst virtual class</span> std::Field</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Slot.html'>std::Slot</a>
+    std::Field</pre>
+
+<p>Field is a slot which models the ability to get and set a value.</p>
+<dl>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Obj.html'>Obj?</a> get(<a href='../sys/Obj.html'>Obj?</a> instance := null)</code></p>
+
+<p>Get the field for the specified instance.  If the field is static, then the instance parameter is ignored.  If the getter is non-null, then it is used to get the field.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> set(<a href='../sys/Obj.html'>Obj?</a> instance, <a href='../sys/Obj.html'>Obj?</a> value)</code></p>
+
+<p>Set the field for the specified instance.  If the field is static, then the instance parameter is ignored.  If the setter is non-null, then it is used to set the field.</p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> signature()</code></p>
+</dd>
+<dt id='trap'>
+trap</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj?</a> trap(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> args := null)</code></p>
+</dd>
+<dt id='type'>
+type</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Type.html'>Type</a> type()</code></p>
+
+<p>Type stored by the field.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#get'>get</a></li><li><a href='#set'>set</a></li><li><a href='#signature'>signature</a></li><li><a href='#trap'>trap</a></li><li><a href='#type'>type</a></li></ul>
+</div>
+</div>
+</body>
+</html>

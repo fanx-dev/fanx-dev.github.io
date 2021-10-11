@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::ScrollPane</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='ScrollPane.html'>ScrollPane</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::ScrollPane</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Widget.html'>vaseGui::Widget</a>
+    <a href='WidgetGroup.html'>vaseGui::WidgetGroup</a>
+      <a href='Pane.html'>vaseGui::Pane</a>
+        <a href='ContentPane.html'>vaseGui::ContentPane</a>
+          vaseGui::ScrollPane</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<dl>
+<dt id='adjustContent'>
+adjustContent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> adjustContent()</code></p>
+</dd>
+<dt id='autoScrollContent'>
+autoScrollContent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> autoScrollContent := true</code></p>
+</dd>
+<dt id='barSize'>
+barSize</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Int.html'>Int</a> barSize := 50</code></p>
+</dd>
+<dt id='contentMaxHeight'>
+contentMaxHeight</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Float.html'>Float</a> contentMaxHeight()</code></p>
+</dd>
+<dt id='contentMaxWidth'>
+contentMaxWidth</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Float.html'>Float</a> contentMaxWidth()</code></p>
+</dd>
+<dt id='dragable'>
+dragable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> dragable := true</code></p>
+</dd>
+<dt id='gestureEvent'>
+gestureEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> gestureEvent(<a href='GestureEvent.html'>GestureEvent</a> e)</code></p>
+</dd>
+<dt id='hbar'>
+hbar</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='ScrollBar.html'>ScrollBar</a> hbar</code></p>
+</dd>
+<dt id='layoutChildren'>
+layoutChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> layoutChildren(<a href='../sys/Bool.html'>Bool</a> force)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+</dd>
+<dt id='motionEvent'>
+motionEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> motionEvent(<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+</dd>
+<dt id='offsetX'>
+offsetX</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />virtual <a href='../sys/Int.html'>Int</a> offsetX := 0</code></p>
+</dd>
+<dt id='offsetY'>
+offsetY</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />virtual <a href='../sys/Int.html'>Int</a> offsetY := 0</code></p>
+</dd>
+<dt id='onLoadMore'>
+onLoadMore</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Widget.html'>Widget</a>&gt;?</a> onLoadMore</code></p>
+</dd>
+<dt id='onRefresh'>
+onRefresh</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Widget.html'>Widget</a>&gt;?</a> onRefresh</code></p>
+</dd>
+<dt id='onViewportChanged'>
+onViewportChanged</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> onViewportChanged()</code></p>
+</dd>
+<dt id='refreshTip'>
+refreshTip</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Widget.html'>Widget?</a> refreshTip</code></p>
+</dd>
+<dt id='vbar'>
+vbar</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='ScrollBar.html'>ScrollBar</a> vbar</code></p>
+</dd>
+<dt id='viewportHeight'>
+viewportHeight</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Float.html'>Float</a> viewportHeight()</code></p>
+</dd>
+<dt id='viewportWidth'>
+viewportWidth</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Float.html'>Float</a> viewportWidth()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#adjustContent'>adjustContent</a></li><li><a href='#autoScrollContent'>autoScrollContent</a></li><li><a href='#barSize'>barSize</a></li><li><a href='#contentMaxHeight'>contentMaxHeight</a></li><li><a href='#contentMaxWidth'>contentMaxWidth</a></li><li><a href='#dragable'>dragable</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#hbar'>hbar</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#offsetX'>offsetX</a></li><li><a href='#offsetY'>offsetY</a></li><li><a href='#onLoadMore'>onLoadMore</a></li><li><a href='#onRefresh'>onRefresh</a></li><li><a href='#onViewportChanged'>onViewportChanged</a></li><li><a href='#refreshTip'>refreshTip</a></li><li><a href='#vbar'>vbar</a></li><li><a href='#viewportHeight'>viewportHeight</a></li><li><a href='#viewportWidth'>viewportWidth</a></li></ul>
+</div>
+</div>
+</body>
+</html>

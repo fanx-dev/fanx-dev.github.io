@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::TimePoint</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='TimePoint.html'>TimePoint</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>struct const class</span> std::TimePoint</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::TimePoint</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /><code class='sig'>@<a href='../sys/NoPeer.html'>NoPeer</a></code><br /></p>
+
+<p>TimePoint represents an absolute instance in time. It's more light-weight than DateTime and independent of a timezone. TimePoint provides millisecond precision in current implemention.</p>
+<dl>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> compare(<a href='../sys/Obj.html'>Obj</a> that)</code></p>
+
+<p>Compare based on nanosecond ticks.</p>
+</dd>
+<dt id='epoch'>
+epoch</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='TimePoint.html'>TimePoint</a> epoch := ...</code></p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Two times are equal if have identical nanosecond ticks.</p>
+</dd>
+<dt id='floor'>
+floor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TimePoint.html'>TimePoint</a> floor(<a href='Duration.html'>Duration</a> accuracy)</code></p>
+
+<p>Return a new TimePoint with this time's nanosecond ticks truncated according to the specified accuracy.  For example <code>floor(1min)</code> will truncate this time to the minute such that seconds are 0.0.  This method is strictly based on absolute ticks, it does not take into account wall-time rollovers.</p>
+</dd>
+<dt id='fromMillis'>
+fromMillis</dt>
+<dd>
+<p class='sig'>
+<code>static new fromMillis(<a href='../sys/Int.html'>Int</a> m)</code></p>
+
+<p>make from millisecond since 1970</p>
+</dd>
+<dt id='fromSec'>
+fromSec</dt>
+<dd>
+<p class='sig'>
+<code>static new fromSec(<a href='../sys/Int.html'>Int</a> sec)</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> s)</code></p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return nanosecond ticks for the hashcode.</p>
+</dd>
+<dt id='minus'>
+minus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='TimePoint.html'>TimePoint</a> minus(<a href='Duration.html'>Duration</a> duration)</code></p>
+
+<p>Subtract a duration to compute a new time.</p>
+</dd>
+<dt id='minusDateTime'>
+minusDateTime</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Duration.html'>Duration</a> minusDateTime(<a href='TimePoint.html'>TimePoint</a> time)</code></p>
+
+<p>Return the delta between this and the given time.</p>
+</dd>
+<dt id='nanoTicks'>
+nanoTicks</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> nanoTicks()</code></p>
+
+<p>Get the current value of the system timer.  This method returns a relative time unrelated to system or wall-clock time.  Typically it is the number of nanosecond ticks which have elapsed since system startup.</p>
+</dd>
+<dt id='now'>
+now</dt>
+<dd>
+<p class='sig'>
+<code>static new now()</code></p>
+
+<p>Return the current time</p>
+</dd>
+<dt id='nowMillis'>
+nowMillis</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> nowMillis()</code></p>
+
+<p>Return the current time as millisecond ticks since 1 Jan 1970 UTC.</p>
+</dd>
+<dt id='nowUnique'>
+nowUnique</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> nowUnique()</code></p>
+
+<p>Return the current time as nanosecond ticks since 1 Jan 1970 UTC</p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='TimePoint.html'>TimePoint</a> plus(<a href='Duration.html'>Duration</a> duration)</code></p>
+
+<p>Add a duration to compute a new time.</p>
+</dd>
+<dt id='toMillis'>
+toMillis</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> toMillis()</code></p>
+
+<p>millisecond since 1970</p>
+</dd>
+<dt id='toSec'>
+toSec</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> toSec()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#epoch'>epoch</a></li><li><a href='#fromMillis'>fromMillis</a></li><li><a href='#fromSec'>fromSec</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#nanoTicks'>nanoTicks</a></li><li><a href='#now'>now</a></li><li><a href='#nowMillis'>nowMillis</a></li><li><a href='#nowUnique'>nowUnique</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#compare'>compare</a></li><li><a href='#equals'>equals</a></li><li><a href='#floor'>floor</a></li><li><a href='#hash'>hash</a></li><li><a href='#minus'>minus</a></li><li><a href='#minusDateTime'>minusDateTime</a></li><li><a href='#plus'>plus</a></li><li><a href='#toMillis'>toMillis</a></li><li><a href='#toSec'>toSec</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

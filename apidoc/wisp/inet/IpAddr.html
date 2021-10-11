@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inet::IpAddr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='IpAddr.html'>IpAddr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> inet::IpAddr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  inet::IpAddr</pre>
+<p class='src'>
+<a href='src-IpAddr.fan.html'>Source</a></p>
+
+<p>IpAddr models both IPv4 and IPv6 numeric addresses as well as provide DNS hostname resolution.</p>
+<dl>
+<dt id='bytes'>
+bytes</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> bytes()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line109'>Source</a></p>
+
+<p>Get the raw bytes of this address as a Buf of 4 or 16 bytes for IPv4 or IPv6 respectively.  The buf position is zero.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line75'>Source</a></p>
+
+<p>Equality is based on equivalent address bytes.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line70'>Source</a></p>
+
+<p>Hash code is based the address bytes.</p>
+</dd>
+<dt id='hostname'>
+hostname</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> hostname()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line122'>Source</a></p>
+
+<p>Return the hostname of this address.  If a hostname was specified in make, then that string is used.  Otherwise this method will perform a reverse DNS lookup potentially blocking the calling thread.  If the address cannot be mapped to a hostname, then return the address in its numeric format.</p>
+</dd>
+<dt id='isIPv4'>
+isIPv4</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isIPv4()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line89'>Source</a></p>
+
+<p>Is this a 32 bit (four byte) IP version 4 address.</p>
+</dd>
+<dt id='isIPv6'>
+isIPv6</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isIPv6()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line94'>Source</a></p>
+
+<p>Is this a 128 bit (sixteen byte) IP version 6 address.</p>
+</dd>
+<dt id='isLoopback'>
+isLoopback</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isLoopback()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line99'>Source</a></p>
+
+<p>Is this a loopback address.</p>
+</dd>
+<dt id='isSiteLocal'>
+isSiteLocal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSiteLocal()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line104'>Source</a></p>
+
+<p>Is this a site local address.</p>
+</dd>
+<dt id='local'>
+local</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IpAddr.html'>IpAddr</a> local()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line56'>Source</a></p>
+
+<p>Return the IpAddr for the local machine.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static new make(<a href='../sys/Str.html'>Str</a> s)</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line21'>Source</a></p>
+
+<p>Parse an IP address formated as an IPv4 numeric address, IPv6 numeric address, or a DNS hostname.  If a hostname if provided, then it is resolved to an IP address potentially blocking the calling thread.  If the address is invalid or a hostname cannot be resolved then UnknownHostErr is thrown.</p>
+
+<p>Examples:</p>
+
+<pre>IpAddr("169.200.3.103")
+IpAddr("1080:0:0:0:8:800:200C:417A")
+IpAddr("1080::8:800:200C:417A")
+IpAddr("::ffff:129.144.52.38")
+IpAddr("somehost")
+IpAddr("www.acme.com")</pre>
+</dd>
+<dt id='makeAll'>
+makeAll</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='IpAddr.html'>IpAddr</a>&gt;</a> makeAll(<a href='../sys/Str.html'>Str</a> s)</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line39'>Source</a></p>
+
+<p>Resolve a hostname to all of its configured IP addresses. If a numeric IPv4 or IPv6 address is specified then a list of one IpAddr is returned.  If a hostname if provided, then it is resolved to all its configured IP addresses potentially blocking the calling thread.  If the address is invalid or a hostname cannot be resolved then UnknownHostErr is thrown.</p>
+</dd>
+<dt id='makeBytes'>
+makeBytes</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IpAddr.html'>IpAddr</a> makeBytes(<a href='../std/Buf.html'>Buf</a> bytes)</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line49'>Source</a></p>
+
+<p>Make an IpAddr for the specified raw bytes.  The size of the byte buffer must be 4 for IPv4 or 16 for IPv6, otherwise ArgErr is thrown.  The bytes must be a memory backed buffer.</p>
+</dd>
+<dt id='numeric'>
+numeric</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> numeric()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line115'>Source</a></p>
+
+<p>Get this address as a Str in its numeric notation.  For IPv4 this is four decimal digits separated by dots.  For IPv6 this is eight hexadecimal digits separated by colons.</p>
+</dd>
+<dt id='toNative'>
+toNative</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj</a> toNative()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line131'>Source</a></p>
+
+<p>To the native platform representation:</p>
+
+<ul>
+<li>Java: returns <code>java.net.InetAddress</code></li>
+
+<li>.NET: returns <code>System.Net.IPAddress</code></li>
+</ul>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-IpAddr.fan.html#line80'>Source</a></p>
+
+<p>Return the exact string passed to the constructor.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-IpAddr.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#local'>local</a></li><li><a href='#make'>make</a></li><li><a href='#makeAll'>makeAll</a></li><li><a href='#makeBytes'>makeBytes</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bytes'>bytes</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#hostname'>hostname</a></li><li><a href='#isIPv4'>isIPv4</a></li><li><a href='#isIPv6'>isIPv6</a></li><li><a href='#isLoopback'>isLoopback</a></li><li><a href='#isSiteLocal'>isSiteLocal</a></li><li><a href='#numeric'>numeric</a></li><li><a href='#toNative'>toNative</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

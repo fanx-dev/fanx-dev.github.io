@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocTypeRef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocTypeRef.html'>DocTypeRef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> compilerDoc::DocTypeRef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::DocTypeRef</pre>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html'>Source</a></p>
+
+<p>DocTypeRef models a type reference in a type or slot signature.</p>
+<dl>
+<dt id='dis'>
+dis</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> dis()</code></p>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html#line46'>Source</a></p>
+
+<p>Get nice display name for type which excludes pod name even in parameterized types.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DocTypeRef.html'>DocTypeRef?</a> fromStr(<a href='../sys/Str.html'>Str</a> sig, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html'>Source</a></p>
+
+<p>Constructor from signature string</p>
+</dd>
+<dt id='isNullable'>
+isNullable</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isNullable()</code></p>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html#line50'>Source</a></p>
+
+<p>Is this a nullable type such as <code>Str?</code></p>
+</dd>
+<dt id='isParameterized'>
+isParameterized</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isParameterized()</code></p>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html#line56'>Source</a></p>
+
+<p>Is this a parameterized generic type such as <code>Str[]</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> name()</code></p>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html#line34'>Source</a></p>
+
+<p>Simple name of the type such as "Str".  For parameterized types this is always name of generic class itself.</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> pod()</code></p>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html#line30'>Source</a></p>
+
+<p>Pod name of the type.  For parameterized types this is always pod name of generic class itself.</p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> qname()</code></p>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html#line38'>Source</a></p>
+
+<p>Qualified name formatted as "pod::name".  For parameterized types this is always the type of the generic class itself.</p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> signature()</code></p>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html#line42'>Source</a></p>
+
+<p>Return the formal signature of this type.  In the case of non-parameterized types the signature is the same as qname.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-DocTypeRef.fan.html#line71'>Source</a></p>
+
+<p>Return <code><a href='DocTypeRef.html#signature'>signature</a></code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocTypeRef.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dis'>dis</a></li><li><a href='#isNullable'>isNullable</a></li><li><a href='#isParameterized'>isParameterized</a></li><li><a href='#name'>name</a></li><li><a href='#pod'>pod</a></li><li><a href='#qname'>qname</a></li><li><a href='#signature'>signature</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

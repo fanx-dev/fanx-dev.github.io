@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>slanRecord::Mapping</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>slanRecord</a></li><li><a href='Mapping.html'>Mapping</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> slanRecord::Mapping</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  slanRecord::Mapping</pre>
+<dl>
+<dt id='dropAllTable'>
+dropAllTable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> dropAllTable(<a href='Context.html'>Context</a> context)</code></p>
+
+<p>drop all table with in appliction</p>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> each(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='TableDef.html'>TableDef</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='TableDef.html'>TableDef</a> get(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='getDbSchema'>
+getDbSchema</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='TableDef.html'>TableDef</a>&gt;</a> getDbSchema(<a href='../isql/SqlConn.html'>SqlConn</a> conn, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> tableFilter := null)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../isql/SqlConn.html'>SqlConn</a> conn, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> tableFilter := null)</code></p>
+</dd>
+<dt id='tryCreateAllTable'>
+tryCreateAllTable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> tryCreateAllTable(<a href='Context.html'>Context</a> context)</code></p>
+
+<p>try create the table,if noMatchDatabase throw a MappingErr</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#getDbSchema'>getDbSchema</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dropAllTable'>dropAllTable</a></li><li><a href='#each'>each</a></li><li><a href='#get'>get</a></li><li><a href='#tryCreateAllTable'>tryCreateAllTable</a></li></ul>
+</div>
+</div>
+</body>
+</html>

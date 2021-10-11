@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>isql::ResultSet</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>isql</a></li><li><a href='ResultSet.html'>ResultSet</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> isql::ResultSet</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  isql::ResultSet</pre>
+
+<p>ResultSet is a query result Cursor. See <a href='pod-doc#row'>pod-doc</a>.</p>
+<dl>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> close()</code></p>
+
+<p>Release resource</p>
+</dd>
+<dt id='col'>
+col</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Col.html'>Col?</a> col(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Get a column by name.  If not found and checked is true then throw ArgErr, otherwise return null.</p>
+</dd>
+<dt id='cols'>
+cols</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Col.html'>Col</a>&gt;</a> cols()</code></p>
+
+<p>Get a read-only list of the columns.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> get(<a href='../sys/Int.html'>Int</a> i)</code></p>
+
+<p>Get column value. See <a href='pod-doc#typeMapping'>type mapping</a>.</p>
+</dd>
+<dt id='moveTo'>
+moveTo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> moveTo(<a href='../sys/Int.html'>Int</a> pos)</code></p>
+
+<p>Move the cursor to an absolute position..</p>
+</dd>
+<dt id='next'>
+next</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> next()</code></p>
+
+<p>Move the cursor to the next row.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#close'>close</a></li><li><a href='#col'>col</a></li><li><a href='#cols'>cols</a></li><li><a href='#get'>get</a></li><li><a href='#moveTo'>moveTo</a></li><li><a href='#next'>next</a></li></ul>
+</div>
+</div>
+</body>
+</html>

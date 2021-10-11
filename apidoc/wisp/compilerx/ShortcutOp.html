@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::ShortcutOp</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='ShortcutOp.html'>ShortcutOp</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> compilerx::ShortcutOp</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    compilerx::ShortcutOp</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>ShortcutOp is a sub-id for ExprId.shortcut which identifies the an shortuct operation and it's method call</p>
+<ul>
+<li><a href='#plus'>plus</a></li><li><a href='#minus'>minus</a></li><li><a href='#mult'>mult</a></li><li><a href='#div'>div</a></li><li><a href='#mod'>mod</a></li><li><a href='#negate'>negate</a></li><li><a href='#increment'>increment</a></li><li><a href='#decrement'>decrement</a></li><li><a href='#eq'>eq</a></li><li><a href='#cmp'>cmp</a></li><li><a href='#get'>get</a></li><li><a href='#set'>set</a></li><li><a href='#add'>add</a></li></ul>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> add := ...</code></p>
+</dd>
+<dt id='cmp'>
+cmp</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> cmp := ...</code></p>
+</dd>
+<dt id='decrement'>
+decrement</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> decrement := ...</code></p>
+</dd>
+<dt id='degree'>
+degree</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> degree</code></p>
+</dd>
+<dt id='div'>
+div</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> div := ...</code></p>
+</dd>
+<dt id='eq'>
+eq</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> eq := ...</code></p>
+</dd>
+<dt id='formatErr'>
+formatErr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> formatErr(<a href='CType.html'>CType</a> lhs, <a href='CType.html'>CType</a> rhs)</code></p>
+</dd>
+<dt id='fromPrefix'>
+fromPrefix</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ShortcutOp.html'>ShortcutOp?</a> fromPrefix(<a href='../sys/Str.html'>Str</a> prefix)</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the ShortcutOp instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> get := ...</code></p>
+</dd>
+<dt id='increment'>
+increment</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> increment := ...</code></p>
+</dd>
+<dt id='isOperator'>
+isOperator</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> isOperator</code></p>
+</dd>
+<dt id='methodName'>
+methodName</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> methodName</code></p>
+</dd>
+<dt id='minus'>
+minus</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> minus := ...</code></p>
+</dd>
+<dt id='mod'>
+mod</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> mod := ...</code></p>
+</dd>
+<dt id='mult'>
+mult</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> mult := ...</code></p>
+</dd>
+<dt id='negate'>
+negate</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> negate := ...</code></p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> plus := ...</code></p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ShortcutOp.html'>ShortcutOp</a> set := ...</code></p>
+</dd>
+<dt id='symbol'>
+symbol</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> symbol</code></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='ShortcutOp.html'>ShortcutOp</a>&gt;</a> vals := ...</code></p>
+
+<p>List of ShortcutOp values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#cmp'>cmp</a></li><li><a href='#decrement'>decrement</a></li><li><a href='#div'>div</a></li><li><a href='#eq'>eq</a></li><li><a href='#fromPrefix'>fromPrefix</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#get'>get</a></li><li><a href='#increment'>increment</a></li><li><a href='#minus'>minus</a></li><li><a href='#mod'>mod</a></li><li><a href='#mult'>mult</a></li><li><a href='#negate'>negate</a></li><li><a href='#plus'>plus</a></li><li><a href='#set'>set</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#degree'>degree</a></li><li><a href='#formatErr'>formatErr</a></li><li><a href='#isOperator'>isOperator</a></li><li><a href='#methodName'>methodName</a></li><li><a href='#symbol'>symbol</a></li></ul>
+</div>
+</div>
+</body>
+</html>

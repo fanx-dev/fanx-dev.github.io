@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::Bool</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='Bool.html'>Bool</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>struct const class</span> sys::Bool</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  sys::Bool</pre>
+<p class='facets'>
+<code class='sig'>@<a href='Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Bool represents a boolean condition of true or false.</p>
+<dl>
+<dt id='and'>
+and</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> and(<a href='Bool.html'>Bool</a> b)</code></p>
+
+<p>Bitwise "and" of this and b.  Note this method does not short circuit like logical <code>&amp;&amp;</code> operator.</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Bool.html'>Bool</a> defVal := false</code></p>
+
+<p>Default value is false.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Bool.html'>Bool</a> equals(<a href='Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return if same boolean value.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='Str.html'>Str</a> s, <a href='Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a Str into a Bool.  Valid formats are "true" or "false". If invalid format and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> hash()</code></p>
+
+<p>Return 1231 for true and 1237 for false.</p>
+</dd>
+<dt id='not'>
+not</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> not()</code></p>
+
+<p>Return the logical not: if true return false; if false return true.</p>
+</dd>
+<dt id='or'>
+or</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> or(<a href='Bool.html'>Bool</a> b)</code></p>
+
+<p>Bitwise "or" of this and b.  Note this method does not short circuit like logical <code>||</code> operator.</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toCode()</code></p>
+
+<p>Get this Bool as a Fantom code literal - returns <code><a href='Bool.html#toStr'>toStr</a></code>.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Str.html'>Str</a> toStr()</code></p>
+
+<p>Return "true" or "false".</p>
+</dd>
+<dt id='xor'>
+xor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> xor(<a href='Bool.html'>Bool</a> b)</code></p>
+
+<p>Bitwise "exclusive-or" of this and b.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromStr'>fromStr</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#and'>and</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#not'>not</a></li><li><a href='#or'>or</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#xor'>xor</a></li></ul>
+</div>
+</div>
+</body>
+</html>

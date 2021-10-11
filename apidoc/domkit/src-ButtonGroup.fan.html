@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>ButtonGroup.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='ButtonGroup.html'>ButtonGroup</a></li><li><a href='src-ButtonGroup.fan.html'>ButtonGroup.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   17 Aug 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** ButtonGroup groups a set of toggle or radio buttons and handles</span>
+<span id='line13'>** making sure only one button in group is selected at a time.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#buttonGroup`,</span>
+<span id='line16'>** `ToggleButton`, `RadioButton`</span>
+<span id='line17'>**</span>
+<span id='line18'>@Js class ButtonGroup</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'>  ** Buttons in this group.</span>
+<span id='line21'>  Elem<b>[</b><b>]</b> buttons := <b>[</b>,<b>]</b></span>
+<span id='line22'>  <b>{</b></span>
+<span id='line23'>    set <b>{</b> &amp;buttons=it; update <b>}</b></span>
+<span id='line24'>  <b>}</b></span>
+<span id='line25'></span>
+<span id='line26'>  ** Convenience to add a button to `buttons`.</span>
+<span id='line27'>  This add<b>(</b>Elem button<b>)</b></span>
+<span id='line28'>  <b>{</b></span>
+<span id='line29'>    if <b>(</b>inheritEnabled<b>)</b> button.enabled = this.enabled</span>
+<span id='line30'>    this.buttons = buttons.add<b>(</b>button<b>)</b></span>
+<span id='line31'>    return this</span>
+<span id='line32'>  <b>}</b></span>
+<span id='line33'></span>
+<span id='line34'>  ** If 'true', child buttons will inherit the `enabled` state</span>
+<span id='line35'>  ** of this 'ButtonGroup'.  If 'false' buttons can be enabled</span>
+<span id='line36'>  ** or disabled independent of group.</span>
+<span id='line37'>  Bool inheritEnabled := true</span>
+<span id='line38'></span>
+<span id='line39'>  ** Set enabled state for this button group.</span>
+<span id='line40'>  Bool enabled := true</span>
+<span id='line41'>  <b>{</b></span>
+<span id='line42'>    set <b>{</b></span>
+<span id='line43'>      &amp;enabled = it</span>
+<span id='line44'>      if <b>(</b>inheritEnabled<b>)</b></span>
+<span id='line45'>        buttons.each |b| <b>{</b> b.enabled =  &amp;enabled <b>}</b></span>
+<span id='line46'>    <b>}</b></span>
+<span id='line47'>  <b>}</b></span>
+<span id='line48'></span>
+<span id='line49'>  ** Index of selected button, or 'null' if none selected.</span>
+<span id='line50'>  Int? selIndex := null</span>
+<span id='line51'>  <b>{</b></span>
+<span id='line52'>    set</span>
+<span id='line53'>    <b>{</b></span>
+<span id='line54'>      old := &amp;selIndex</span>
+<span id='line55'>      mod := cbBeforeSelect?.call<b>(</b>this, it<b>)</b> ?: true</span>
+<span id='line56'>      if <b>(</b>mod<b>)</b> &amp;selIndex = it</span>
+<span id='line57'>      update</span>
+<span id='line58'>      if <b>(</b>it != old<b>)</b> cbSelect?.call<b>(</b>this<b>)</b></span>
+<span id='line59'>    <b>}</b></span>
+<span id='line60'>  <b>}</b></span>
+<span id='line61'></span>
+<span id='line62'>  ** Callback before a selection changes.  Return 'true' to</span>
+<span id='line63'>  ** select the new button <b>(</b>default<b>)</b>, or 'false' to keep the</span>
+<span id='line64'>  ** currently selected button.</span>
+<span id='line65'>  Void onBeforeSelect<b>(</b>|ButtonGroup g, Int newIndex->Bool| f<b>)</b></span>
+<span id='line66'>  <b>{</b></span>
+<span id='line67'>    this.cbBeforeSelect = f</span>
+<span id='line68'>  <b>}</b></span>
+<span id='line69'></span>
+<span id='line70'>  ** Callback when selection in group has changed.</span>
+<span id='line71'>  Void onSelect<b>(</b>|This| f<b>)</b> <b>{</b> this.cbSelect = f <b>}</b></span>
+<span id='line72'></span>
+<span id='line73'>  ** Mark given button as selected.</span>
+<span id='line74'>  internal Void select<b>(</b>Elem button<b>)</b></span>
+<span id='line75'>  <b>{</b></span>
+<span id='line76'>    this.selIndex = buttons.findIndex |b| <b>{</b> b === button <b>}</b></span>
+<span id='line77'>  <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>  ** Update group state and make sure buttons are bound to this group.</span>
+<span id='line80'>  internal Void update<b>(</b><b>)</b></span>
+<span id='line81'>  <b>{</b></span>
+<span id='line82'>    buttons.each |b,i|</span>
+<span id='line83'>    <b>{</b></span>
+<span id='line84'>      if <b>(</b>b is ToggleButton<b>)</b></span>
+<span id='line85'>      <b>{</b></span>
+<span id='line86'>        t := <b>(</b>ToggleButton<b>)</b>b</span>
+<span id='line87'>        t.group = this</span>
+<span id='line88'>        t.selected = i == selIndex</span>
+<span id='line89'>        return</span>
+<span id='line90'>      <b>}</b></span>
+<span id='line91'></span>
+<span id='line92'>      if <b>(</b>b is RadioButton<b>)</b></span>
+<span id='line93'>      <b>{</b></span>
+<span id='line94'>        r := <b>(</b>RadioButton<b>)</b>b</span>
+<span id='line95'>        r.group = this</span>
+<span id='line96'>        r.checked = i == selIndex</span>
+<span id='line97'>        return</span>
+<span id='line98'>      <b>}</b></span>
+<span id='line99'></span>
+<span id='line100'>      throw ArgErr<b>(</b>"Invalid button for group '$b.typeof'"<b>)</b></span>
+<span id='line101'>    <b>}</b></span>
+<span id='line102'>  <b>}</b></span>
+<span id='line103'></span>
+<span id='line104'>  // TODO: not sure how this works yet</span>
+<span id='line105'>  @NoDoc Event? _event</span>
+<span id='line106'></span>
+<span id='line107'>  private Func? cbBeforeSelect</span>
+<span id='line108'>  private Func? cbSelect</span>
+<span id='line109'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

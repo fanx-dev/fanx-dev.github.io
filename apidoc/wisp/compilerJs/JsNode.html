@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJs::JsNode</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJs</a></li><li><a href='JsNode.html'>JsNode</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> compilerJs::JsNode</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerJs::JsNode</pre>
+
+<p>JsNode translates a compiler::Node into the equivalent JavaScript source code.</p>
+<dl>
+<dt id='isPrimitive'>
+isPrimitive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPrimitive(<a href='../compiler/CType.html'>CType</a> ctype)</code></p>
+
+<p>Return true if the type is a primitive type:</p>
+
+<ul>
+<li>Bool</li>
+
+<li>Decimal</li>
+
+<li>Float</li>
+
+<li>Int</li>
+
+<li>Num</li>
+
+<li>Str</li>
+</ul>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/Loc.html'>Loc?</a> loc</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='JsCompilerSupport.html'>JsCompilerSupport</a> support, <a href='../compiler/Node.html'>Node?</a> node := null)</code></p>
+</dd>
+<dt id='node'>
+node</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../compiler/Node.html'>Node?</a> node()</code></p>
+</dd>
+<dt id='pmap'>
+pmap</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Bool.html'>Bool</a>&gt;</a> pmap := ...</code></p>
+</dd>
+<dt id='qnameToJs'>
+qnameToJs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> qnameToJs(<a href='../compiler/CType.html'>CType</a> ctype)</code></p>
+
+<p>Return the JavaScript qname for this CType.</p>
+</dd>
+<dt id='support'>
+support</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsCompilerSupport.html'>JsCompilerSupport</a> support</code></p>
+</dd>
+<dt id='vnameToJs'>
+vnameToJs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> vnameToJs(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return the JavaScript variable name for the given Fan variable name.</p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> write(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+
+<p>Write the JavaScript source code for this node.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#isPrimitive'>isPrimitive</a></li><li><a href='#loc'>loc</a></li><li><a href='#node'>node</a></li><li><a href='#pmap'>pmap</a></li><li><a href='#qnameToJs'>qnameToJs</a></li><li><a href='#support'>support</a></li><li><a href='#vnameToJs'>vnameToJs</a></li><li><a href='#write'>write</a></li></ul>
+</div>
+</div>
+</body>
+</html>

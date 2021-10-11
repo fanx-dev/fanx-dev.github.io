@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::Event</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Event.html'>Event</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> dom::Event</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::Event</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Event.fan.html'>Source</a></p>
+
+<p>Event models the DOM event object.</p>
+
+<p>Common event types:</p>
+
+<pre>"mousedown"   Fired when a mouse button is pressed on an element.
+
+"mouseup"     Fired when a mouse button is released over an element.
+
+"click"       Fired when a mouse button is pressed and released on a
+              single element.
+
+"mousedown"   Fired when a mouse button is pressed on an element.
+
+"mouseup"     Fired when a mouse button is released over an element.
+
+"click"       Fired when a mouse button is pressed and released on a
+              single element.
+
+"dblclick"    Fired when a mouse button is clicked twice on a single element.
+
+"mousemove"   Fired when a mouse is moved while over an element.
+
+"mouseover"   Fired when mouse is moved onto the element that has the
+              listener attached or onto one of its children.
+
+"mouseout"    Fired when mouse is moved off the element that has the
+              listener attached or off one of its children.
+
+"mouseenter"  Fired when mouse is moved over the element that has the
+              listener attached. Similar to '"mouseover"', it differs in
+              that it doesn't bubble and that it isn't sent when the mouse
+              is moved from one of its descendants' physical space to its
+              own physical space.
+
+              With deep hierarchies, the amount of mouseenter events sent
+              can be quite huge and cause significant performance problems.
+              In such cases, it is better to listen for "mouseover" events.
+
+"mouseleave"  Fired when mouse is moved off the element that has the
+              listener attached. Similar to "mouseout", it differs in that
+              it doesn't bubble and that it isn't sent until the pointer
+              has moved from its physical space and the one of all its
+              descendants.
+
+              With deep hierarchies, the amount of mouseleave events sent
+              can be quite huge and cause significant performance problems.
+              In such cases, it is better to listen for "mouseout" events.
+
+"contextmenu" Fired when the right button of the mouse is clicked (before
+              the context menu is displayed), or when the context menu key
+              is pressed (in which case the context menu is displayed at the
+              bottom left of the focused element, unless the element is a
+              tree, in which case the context menu is displayed at the
+              bottom left of the current row).
+
+
+"focus"       The focus event is fired when an element has received focus
+
+"blur"        The blur event is fired when an element has lost focus.
+
+"keydown"     Fired when a key is pressed down.
+
+"keyup"       Fired when a key is released.
+
+"keypress"    Fired when a key is pressed down and that key normally
+              produces a character value (use "input" instead).
+
+"input"       Fired synchronously when the value of an &lt;input> or
+              &lt;textarea> element is changed.
+
+"dragstart"   Fired on an element when a drag is started. The user is
+              requesting to drag the element where the dragstart event is
+              fired. During this event, a listener would set information
+              such as the drag data and image to be associated with the drag.
+              This event is not fired when dragging a file into the browser
+              from the OS.
+
+"dragenter"   Fired when the mouse enters an element while a drag is
+              occurring. A listener for this event should indicate whether
+              a drop is allowed over this location. If there are no listeners,
+              or the listeners perform no operations, then a drop is not
+              allowed by default. This is also the event to listen for in
+              order to provide feedback that a drop is allowed, such as
+              displaying a highlight or insertion marker.
+
+"dragover"    This event is fired as the mouse is moving over an element
+              when a drag is occurring. Much of the time, the operation that
+              occurs during a listener will be the same as the "dragenter"
+              event.
+
+"dragleave"   This event is fired when the mouse leaves an element while a
+              drag is occurring. Listeners should remove any highlighting
+              or insertion markers used for drop feedback.
+
+"drag"        This event is fired at the source of the drag and is the element
+              where "dragstart" was fired during the drag operation.
+
+"drop"        The drop event is fired on the element where the drop
+              occurred at the end of the drag operation. A listener would
+              be responsible for retrieving the data being dragged and
+              inserting it at the drop location. This event will only fire
+              if a drop is desired. It will not fire if the user cancelled
+              the drag operation, for example by pressing the Escape key,
+              or if the mouse button was released while the mouse was not
+              over a valid drop target.
+
+"dragend"     The source of the drag will receive a "dragend" event when the
+              drag operation is complete, whether it was successful or not.
+              This event is not fired when dragging a file into the browser
+              from the OS.</pre>
+<dl>
+<dt id='alt'>
+alt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> alt()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line155'>Source</a></p>
+
+<p>Return true if the ALT key was pressed during the event.</p>
+</dd>
+<dt id='button'>
+button</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> button()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line168'>Source</a></p>
+
+<p>Mouse button number pressed.</p>
+</dd>
+<dt id='ctrl'>
+ctrl</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> ctrl()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line158'>Source</a></p>
+
+<p>Return true if the CTRL key was pressed during the event.</p>
+</dd>
+<dt id='dataTransfer'>
+dataTransfer</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DataTransfer.html'>DataTransfer</a> dataTransfer()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line198'>Source</a></p>
+
+<p>The DataTransfer object for this event.</p>
+</dd>
+<dt id='delta'>
+delta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../graphics/Point.html'>Point?</a> delta()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line171'>Source</a></p>
+
+<p>Scroll amount for wheel events.</p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Err.html'>Err?</a> err()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line177'>Source</a></p>
+
+<p>Err instance if available for <code>window.onerror</code>.</p>
+</dd>
+<dt id='fromNative'>
+fromNative</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Event.html'>Event</a> fromNative(<a href='../sys/Obj.html'>Obj</a> event)</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line139'>Source</a></p>
+
+<p>Create an <code><a href='Event.html'>Event</a></code> instance from a native JavaScript Event object.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/Obj.html'>Obj?</a> get(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Obj.html'>Obj?</a> def := null)</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line183'>Source</a></p>
+
+<p>Get an attribute by name.  If not found return the specified default value.</p>
+</dd>
+<dt id='key'>
+key</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Key.html'>Key?</a> key()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line174'>Source</a></p>
+
+<p>Key instance for key pressed.</p>
+</dd>
+<dt id='meta'>
+meta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> meta()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line164'>Source</a></p>
+
+<p>Return true if the Meta key was pressed during the event.  On Macs this maps to "command" key.  On Windows this maps to "Windows" key.</p>
+</dd>
+<dt id='pagePos'>
+pagePos</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../graphics/Point.html'>Point</a> pagePos()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line152'>Source</a></p>
+
+<p>The mouse position of this event relative to page.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/Void.html'>Void</a> set(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Obj.html'>Obj?</a> val)</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line187'>Source</a></p>
+
+<p>Set an attribute to the given value.</p>
+</dd>
+<dt id='shift'>
+shift</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> shift()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line161'>Source</a></p>
+
+<p>Return true if the SHIFT key was pressed during the event.</p>
+</dd>
+<dt id='stash'>
+stash</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> stash := Map&lt;Str,Obj?>[:]</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line201'>Source</a></p>
+
+<p>Meta-data for this event instance.</p>
+</dd>
+<dt id='stop'>
+stop</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> stop()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line180'>Source</a></p>
+
+<p>Stop further propagation of this event.</p>
+</dd>
+<dt id='target'>
+target</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Elem.html'>Elem</a> target()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line149'>Source</a></p>
+
+<p>The target to which the event was dispatched.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line204'>Source</a></p>
+</dd>
+<dt id='trap'>
+trap</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj?</a> trap(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> args := null)</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line190'>Source</a></p>
+
+<p>Get or set an attribute.</p>
+</dd>
+<dt id='type'>
+type</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> type()</code></p>
+<p class='src'>
+<a href='src-Event.fan.html#line146'>Source</a></p>
+
+<p>The type of this event.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Event.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromNative'>fromNative</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#alt'>alt</a></li><li><a href='#button'>button</a></li><li><a href='#ctrl'>ctrl</a></li><li><a href='#dataTransfer'>dataTransfer</a></li><li><a href='#delta'>delta</a></li><li><a href='#err'>err</a></li><li><a href='#get'>get</a></li><li><a href='#key'>key</a></li><li><a href='#meta'>meta</a></li><li><a href='#pagePos'>pagePos</a></li><li><a href='#set'>set</a></li><li><a href='#shift'>shift</a></li><li><a href='#stash'>stash</a></li><li><a href='#stop'>stop</a></li><li><a href='#target'>target</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#trap'>trap</a></li><li><a href='#type'>type</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::FilePicker</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='FilePicker.html'>FilePicker</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::FilePicker</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    domkit::FilePicker</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-FilePicker.fan.html'>Source</a></p>
+
+<p>FilePicker allows selection of files.</p>
+
+<p>See also: <a href='docDomkit::Controls#filePicker'>docDomkit</a></p>
+<dl>
+<dt id='accept'>
+accept</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> accept</code></p>
+<p class='src'>
+<a href='src-FilePicker.fan.html#line29'>Source</a></p>
+
+<p>Indicate the types of files that the server accepts. The value must be a comma-separated list of unique content type specifiers:</p>
+
+<ul>
+<li>A file extension starting with a <code>.</code>: (e.g. .jpg, .png, .doc)</li>
+
+<li>A valid MIME type with no extensions</li>
+
+<li><code>audio/*</code> representing sound files</li>
+
+<li><code>video/*</code> representing video files</li>
+
+<li><code>image/*</code> representing image files</li>
+</ul>
+</dd>
+<dt id='files'>
+files</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../dom/DomFile.html'>DomFile</a>&gt;</a> files()</code></p>
+<p class='src'>
+<a href='src-FilePicker.fan.html#line54'>Source</a></p>
+
+<p>Get the list of currently selected files.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-FilePicker.fan.html'>Source</a></p>
+</dd>
+<dt id='multi'>
+multi</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> multi</code></p>
+<p class='src'>
+<a href='src-FilePicker.fan.html#line44'>Source</a></p>
+
+<p>Does this picker allow selecting multiple files?</p>
+</dd>
+<dt id='onSelect'>
+onSelect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onSelect(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='FilePicker.html'>FilePicker</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-FilePicker.fan.html#line57'>Source</a></p>
+
+<p>Callback when a file has been selected by this picker.</p>
+</dd>
+<dt id='open'>
+open</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> open()</code></p>
+<p class='src'>
+<a href='src-FilePicker.fan.html#line51'>Source</a></p>
+
+<p>Programmtically open the client file chooser interface.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-FilePicker.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#accept'>accept</a></li><li><a href='#files'>files</a></li><li><a href='#multi'>multi</a></li><li><a href='#onSelect'>onSelect</a></li><li><a href='#open'>open</a></li></ul>
+</div>
+</div>
+</body>
+</html>

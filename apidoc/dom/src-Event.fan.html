@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Event.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Event.html'>Event</a></li><li><a href='src-Event.fan.html'>Event.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2009, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   25 Feb 2009  Andy Frank  Creation</span>
+<span id='line7'>//    8 Jul 2009  Andy Frank  Split webappClient into sys/dom</span>
+<span id='line8'>//    2 Jun 2011  Andy Frank  Rename to DomEvent</span>
+<span id='line9'>//   26 Aug 2015  Andy Frank  Rename back to Event</span>
+<span id='line10'>//</span>
+<span id='line11'></span>
+<span id='line12'>using graphics</span>
+<span id='line13'></span>
+<span id='line14'>**</span>
+<span id='line15'>** Event models the DOM event object.</span>
+<span id='line16'>**</span>
+<span id='line17'>** Common event types:</span>
+<span id='line18'>**</span>
+<span id='line19'>**   "mousedown"   Fired when a mouse button is pressed on an element.</span>
+<span id='line20'>**</span>
+<span id='line21'>**   "mouseup"     Fired when a mouse button is released over an element.</span>
+<span id='line22'>**</span>
+<span id='line23'>**   "click"       Fired when a mouse button is pressed and released on a</span>
+<span id='line24'>**                 single element.</span>
+<span id='line25'>**</span>
+<span id='line26'>**   "mousedown"   Fired when a mouse button is pressed on an element.</span>
+<span id='line27'>**</span>
+<span id='line28'>**   "mouseup"     Fired when a mouse button is released over an element.</span>
+<span id='line29'>**</span>
+<span id='line30'>**   "click"       Fired when a mouse button is pressed and released on a</span>
+<span id='line31'>**                 single element.</span>
+<span id='line32'>**</span>
+<span id='line33'>**   "dblclick"    Fired when a mouse button is clicked twice on a single element.</span>
+<span id='line34'>**</span>
+<span id='line35'>**   "mousemove"   Fired when a mouse is moved while over an element.</span>
+<span id='line36'>**</span>
+<span id='line37'>**   "mouseover"   Fired when mouse is moved onto the element that has the</span>
+<span id='line38'>**                 listener attached or onto one of its children.</span>
+<span id='line39'>**</span>
+<span id='line40'>**   "mouseout"    Fired when mouse is moved off the element that has the</span>
+<span id='line41'>**                 listener attached or off one of its children.</span>
+<span id='line42'>**</span>
+<span id='line43'>**   "mouseenter"  Fired when mouse is moved over the element that has the</span>
+<span id='line44'>**                 listener attached. Similar to '"mouseover"', it differs in</span>
+<span id='line45'>**                 that it doesn't bubble and that it isn't sent when the mouse</span>
+<span id='line46'>**                 is moved from one of its descendants' physical space to its</span>
+<span id='line47'>**                 own physical space.</span>
+<span id='line48'>**</span>
+<span id='line49'>**                 With deep hierarchies, the amount of mouseenter events sent</span>
+<span id='line50'>**                 can be quite huge and cause significant performance problems.</span>
+<span id='line51'>**                 In such cases, it is better to listen for "mouseover" events.</span>
+<span id='line52'>**</span>
+<span id='line53'>**   "mouseleave"  Fired when mouse is moved off the element that has the</span>
+<span id='line54'>**                 listener attached. Similar to "mouseout", it differs in that</span>
+<span id='line55'>**                 it doesn't bubble and that it isn't sent until the pointer</span>
+<span id='line56'>**                 has moved from its physical space and the one of all its</span>
+<span id='line57'>**                 descendants.</span>
+<span id='line58'>**</span>
+<span id='line59'>**                 With deep hierarchies, the amount of mouseleave events sent</span>
+<span id='line60'>**                 can be quite huge and cause significant performance problems.</span>
+<span id='line61'>**                 In such cases, it is better to listen for "mouseout" events.</span>
+<span id='line62'>**</span>
+<span id='line63'>**   "contextmenu" Fired when the right button of the mouse is clicked <b>(</b>before</span>
+<span id='line64'>**                 the context menu is displayed<b>)</b>, or when the context menu key</span>
+<span id='line65'>**                 is pressed <b>(</b>in which case the context menu is displayed at the</span>
+<span id='line66'>**                 bottom left of the focused element, unless the element is a</span>
+<span id='line67'>**                 tree, in which case the context menu is displayed at the</span>
+<span id='line68'>**                 bottom left of the current row<b>)</b>.</span>
+<span id='line69'>**</span>
+<span id='line70'>**</span>
+<span id='line71'>**   "focus"       The focus event is fired when an element has received focus</span>
+<span id='line72'>**</span>
+<span id='line73'>**   "blur"        The blur event is fired when an element has lost focus.</span>
+<span id='line74'>**</span>
+<span id='line75'>**   "keydown"     Fired when a key is pressed down.</span>
+<span id='line76'>**</span>
+<span id='line77'>**   "keyup"       Fired when a key is released.</span>
+<span id='line78'>**</span>
+<span id='line79'>**   "keypress"    Fired when a key is pressed down and that key normally</span>
+<span id='line80'>**                 produces a character value <b>(</b>use "input" instead<b>)</b>.</span>
+<span id='line81'>**</span>
+<span id='line82'>**   "input"       Fired synchronously when the value of an &lt;input> or</span>
+<span id='line83'>**                 &lt;textarea> element is changed.</span>
+<span id='line84'>**</span>
+<span id='line85'>**   "dragstart"   Fired on an element when a drag is started. The user is</span>
+<span id='line86'>**                 requesting to drag the element where the dragstart event is</span>
+<span id='line87'>**                 fired. During this event, a listener would set information</span>
+<span id='line88'>**                 such as the drag data and image to be associated with the drag.</span>
+<span id='line89'>**                 This event is not fired when dragging a file into the browser</span>
+<span id='line90'>**                 from the OS.</span>
+<span id='line91'>**</span>
+<span id='line92'>**   "dragenter"   Fired when the mouse enters an element while a drag is</span>
+<span id='line93'>**                 occurring. A listener for this event should indicate whether</span>
+<span id='line94'>**                 a drop is allowed over this location. If there are no listeners,</span>
+<span id='line95'>**                 or the listeners perform no operations, then a drop is not</span>
+<span id='line96'>**                 allowed by default. This is also the event to listen for in</span>
+<span id='line97'>**                 order to provide feedback that a drop is allowed, such as</span>
+<span id='line98'>**                 displaying a highlight or insertion marker.</span>
+<span id='line99'>**</span>
+<span id='line100'>**   "dragover"    This event is fired as the mouse is moving over an element</span>
+<span id='line101'>**                 when a drag is occurring. Much of the time, the operation that</span>
+<span id='line102'>**                 occurs during a listener will be the same as the "dragenter"</span>
+<span id='line103'>**                 event.</span>
+<span id='line104'>**</span>
+<span id='line105'>**   "dragleave"   This event is fired when the mouse leaves an element while a</span>
+<span id='line106'>**                 drag is occurring. Listeners should remove any highlighting</span>
+<span id='line107'>**                 or insertion markers used for drop feedback.</span>
+<span id='line108'>**</span>
+<span id='line109'>**   "drag"        This event is fired at the source of the drag and is the element</span>
+<span id='line110'>**                 where "dragstart" was fired during the drag operation.</span>
+<span id='line111'>**</span>
+<span id='line112'>**   "drop"        The drop event is fired on the element where the drop</span>
+<span id='line113'>**                 occurred at the end of the drag operation. A listener would</span>
+<span id='line114'>**                 be responsible for retrieving the data being dragged and</span>
+<span id='line115'>**                 inserting it at the drop location. This event will only fire</span>
+<span id='line116'>**                 if a drop is desired. It will not fire if the user cancelled</span>
+<span id='line117'>**                 the drag operation, for example by pressing the Escape key,</span>
+<span id='line118'>**                 or if the mouse button was released while the mouse was not</span>
+<span id='line119'>**                 over a valid drop target.</span>
+<span id='line120'>**</span>
+<span id='line121'>**   "dragend"     The source of the drag will receive a "dragend" event when the</span>
+<span id='line122'>**                 drag operation is complete, whether it was successful or not.</span>
+<span id='line123'>**                 This event is not fired when dragging a file into the browser</span>
+<span id='line124'>**                 from the OS.</span>
+<span id='line125'>**</span>
+<span id='line126'>@Js</span>
+<span id='line127'>class Event</span>
+<span id='line128'><b>{</b></span>
+<span id='line129'></span>
+<span id='line130'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line131'>// Constructors</span>
+<span id='line132'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line133'></span>
+<span id='line134'>  private new make<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line135'></span>
+<span id='line136'>  ** Create a mock `Event` manullay.</span>
+<span id='line137'>  @NoDoc static native Event makeMock<b>(</b><b>)</b></span>
+<span id='line138'></span>
+<span id='line139'>  ** Create an `Event` instance from a native JavaScript Event object.</span>
+<span id='line140'>  static native Event fromNative<b>(</b>Obj event<b>)</b></span>
+<span id='line141'></span>
+<span id='line142'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line143'>// Methods</span>
+<span id='line144'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line145'></span>
+<span id='line146'>  ** The type of this event.</span>
+<span id='line147'>  native Str type<b>(</b><b>)</b></span>
+<span id='line148'></span>
+<span id='line149'>  ** The target to which the event was dispatched.</span>
+<span id='line150'>  native Elem target<b>(</b><b>)</b></span>
+<span id='line151'></span>
+<span id='line152'>  ** The mouse position of this event relative to page.</span>
+<span id='line153'>  native Point pagePos<b>(</b><b>)</b></span>
+<span id='line154'></span>
+<span id='line155'>  ** Return true if the ALT key was pressed during the event.</span>
+<span id='line156'>  native Bool alt<b>(</b><b>)</b></span>
+<span id='line157'></span>
+<span id='line158'>  ** Return true if the CTRL key was pressed during the event.</span>
+<span id='line159'>  native Bool ctrl<b>(</b><b>)</b></span>
+<span id='line160'></span>
+<span id='line161'>  ** Return true if the SHIFT key was pressed during the event.</span>
+<span id='line162'>  native Bool shift<b>(</b><b>)</b></span>
+<span id='line163'></span>
+<span id='line164'>  ** Return true if the Meta key was pressed during the event.  On Macs</span>
+<span id='line165'>  ** this maps to "command" key.  On Windows this maps to "Windows" key.</span>
+<span id='line166'>  native Bool meta<b>(</b><b>)</b></span>
+<span id='line167'></span>
+<span id='line168'>  ** Mouse button number pressed.</span>
+<span id='line169'>  native Int? button<b>(</b><b>)</b></span>
+<span id='line170'></span>
+<span id='line171'>  ** Scroll amount for wheel events.</span>
+<span id='line172'>  native Point? delta<b>(</b><b>)</b></span>
+<span id='line173'></span>
+<span id='line174'>  ** Key instance for key pressed.</span>
+<span id='line175'>  native Key? key<b>(</b><b>)</b></span>
+<span id='line176'></span>
+<span id='line177'>  ** Err instance if available for 'window.onerror'.</span>
+<span id='line178'>  native Err? err<b>(</b><b>)</b></span>
+<span id='line179'></span>
+<span id='line180'>  ** Stop further propagation of this event.</span>
+<span id='line181'>  native Void stop<b>(</b><b>)</b></span>
+<span id='line182'></span>
+<span id='line183'>  ** Get an attribute by name.  If not found return</span>
+<span id='line184'>  ** the specified default value.</span>
+<span id='line185'>  @Operator native Obj? get<b>(</b>Str name, Obj? def := null<b>)</b></span>
+<span id='line186'></span>
+<span id='line187'>  ** Set an attribute to the given value.</span>
+<span id='line188'>  @Operator native Void set<b>(</b>Str name, Obj? val<b>)</b></span>
+<span id='line189'></span>
+<span id='line190'>  ** Get or set an attribute.</span>
+<span id='line191'>  override Obj? trap<b>(</b>Str name, Obj?<b>[</b><b>]</b>? args := null<b>)</b></span>
+<span id='line192'>  <b>{</b></span>
+<span id='line193'>    if <b>(</b>args == null || args.isEmpty<b>)</b> return get<b>(</b>name<b>)</b></span>
+<span id='line194'>    set<b>(</b>name, args.first<b>)</b></span>
+<span id='line195'>    return null</span>
+<span id='line196'>  <b>}</b></span>
+<span id='line197'></span>
+<span id='line198'>  ** The DataTransfer object for this event.</span>
+<span id='line199'>  native DataTransfer dataTransfer<b>(</b><b>)</b></span>
+<span id='line200'></span>
+<span id='line201'>  ** Meta-data for this event instance.</span>
+<span id='line202'>  Str:Obj? stash := Str:Obj?<b>[</b>:<b>]</b></span>
+<span id='line203'></span>
+<span id='line204'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line205'>  <b>{</b></span>
+<span id='line206'>    "Event <b>{</b> type=$type target=$target pagePos=$pagePos button=$button delta=$delta key=$key" +</span>
+<span id='line207'>    " alt="   + <b>(</b>alt   ? "T" : "F"<b>)</b> +</span>
+<span id='line208'>    " ctrl="  + <b>(</b>ctrl  ? "T" : "F"<b>)</b> +</span>
+<span id='line209'>    " shift=" + <b>(</b>shift ? "T" : "F"<b>)</b> +</span>
+<span id='line210'>    " meta="  + <b>(</b>meta  ? "T" : "F"<b>)</b> +</span>
+<span id='line211'>    " <b>}</b>"</span>
+<span id='line212'>  <b>}</b></span>
+<span id='line213'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

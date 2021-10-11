@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Dialog.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Dialog.html'>Dialog</a></li><li><a href='src-Dialog.fan.html'>Dialog.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2014, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   21 Dec 2014  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using dom</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** Dialog manages a modal window above page content.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Modals#dialog`</span>
+<span id='line16'>**</span>
+<span id='line17'>@Js class Dialog : Box</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line20'>  <b>{</b></span>
+<span id='line21'>    this.uid = nextId.val</span>
+<span id='line22'>    nextId.val = uid+1</span>
+<span id='line23'>    this.style.addClass<b>(</b>"domkit-Dialog"<b>)</b></span>
+<span id='line24'>    this->tabIndex = 0</span>
+<span id='line25'>  <b>}</b></span>
+<span id='line26'></span>
+<span id='line27'>  ** 'Str' or 'Elem' content displayed in title bar, or</span>
+<span id='line28'>  ** 'null' to hide title bar.</span>
+<span id='line29'>  Obj? title := null</span>
+<span id='line30'></span>
+<span id='line31'>  ** Protected sub-class callback invoked directly before dialog is opened.</span>
+<span id='line32'>  protected virtual Void onBeforeOpen<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line33'></span>
+<span id='line34'>  ** Protected sub-class callback invoked directly after dialog is opened.</span>
+<span id='line35'>  protected virtual Void onAfterOpen<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line36'></span>
+<span id='line37'>  ** Callback when a key is pressed while Dialog is open, including</span>
+<span id='line38'>  ** events that where dispatched outside the dialog.</span>
+<span id='line39'>  protected Void onKeyDown<b>(</b>|Event e| f<b>)</b> <b>{</b> this.cbKeyDown = f <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  ** Open this dialog in the current Window. If dialog</span>
+<span id='line42'>  ** is already open this method does nothing.</span>
+<span id='line43'>  Void open<b>(</b><b>)</b></span>
+<span id='line44'>  <b>{</b></span>
+<span id='line45'>    onBeforeOpen</span>
+<span id='line46'></span>
+<span id='line47'>    mask := Elem <b>{</b></span>
+<span id='line48'>      it.id = "domkitDialog-mask-$uid"</span>
+<span id='line49'>      it->tabIndex = 0</span>
+<span id='line50'>      it.style.addClass<b>(</b>"domkit-Dialog-mask"<b>)</b></span>
+<span id='line51'>      it.style->opacity = "0"</span>
+<span id='line52'>      it.onEvent<b>(</b>"keydown", false<b>)</b> |e| <b>{</b> cbKeyDown?.call<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line53'>    <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>    this.frame = Elem</span>
+<span id='line56'>    <b>{</b></span>
+<span id='line57'>      it.style.addClass<b>(</b>"domkit-Dialog-frame"<b>)</b></span>
+<span id='line58'>      it.style.setAll<b>(</b><b>[</b></span>
+<span id='line59'>        "transform": "scale<b>(</b>0.75<b>)</b>",</span>
+<span id='line60'>        "opacity": "0.0"</span>
+<span id='line61'>      <b>]</b><b>)</b></span>
+<span id='line62'>    <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>    if <b>(</b>title != null<b>)</b></span>
+<span id='line65'>    <b>{</b></span>
+<span id='line66'>      telem := title as Elem ?:</span>
+<span id='line67'>        Label <b>{</b> it.style.addClass<b>(</b>"def-label"<b>)</b>; it.text=title.toStr <b>}</b></span>
+<span id='line68'></span>
+<span id='line69'>      frame.add<b>(</b>Elem <b>{</b></span>
+<span id='line70'>        it.style.addClass<b>(</b>"domkit-Dialog-title"<b>)</b></span>
+<span id='line71'>        it.add<b>(</b>telem<b>)</b></span>
+<span id='line72'>        it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
+<span id='line73'>          e.stop</span>
+<span id='line74'>          vp  := Win.cur.viewport</span>
+<span id='line75'>          doc := Win.cur.doc</span>
+<span id='line76'>          off := doc.body.relPos<b>(</b>e.pagePos<b>)</b></span>
+<span id='line77'>          fps := frame.pos</span>
+<span id='line78'>          fsz := frame.size</span>
+<span id='line79'>          Obj? fmove</span>
+<span id='line80'>          Obj? fup</span>
+<span id='line81'></span>
+<span id='line82'>          fmove = doc.onEvent<b>(</b>"mousemove", true<b>)</b> |de| <b>{</b></span>
+<span id='line83'>            pos := doc.body.relPos<b>(</b>de.pagePos<b>)</b></span>
+<span id='line84'>            fx  := <b>(</b>pos.x.toInt - <b>(</b>off.x.toInt - fps.x.toInt<b>)</b><b>)</b>.max<b>(</b>0<b>)</b>.min<b>(</b>vp.w.toInt - fsz.w.toInt<b>)</b></span>
+<span id='line85'>            fy  := <b>(</b>pos.y.toInt - <b>(</b>off.y.toInt - fps.y.toInt<b>)</b><b>)</b>.max<b>(</b>0<b>)</b>.min<b>(</b>vp.h.toInt - fsz.h.toInt<b>)</b></span>
+<span id='line86'>            mask.style->display = "block"</span>
+<span id='line87'>            frame.style->position = "absolute"</span>
+<span id='line88'>            frame.style->left = "$<b>{</b>fx<b>}</b>px"</span>
+<span id='line89'>            frame.style->top  = "$<b>{</b>fy<b>}</b>px"</span>
+<span id='line90'>          <b>}</b></span>
+<span id='line91'></span>
+<span id='line92'>          fup = doc.onEvent<b>(</b>"mouseup", true<b>)</b> |de| <b>{</b></span>
+<span id='line93'>            de.stop</span>
+<span id='line94'>            doc.removeEvent<b>(</b>"mousemove", true, fmove<b>)</b></span>
+<span id='line95'>            doc.removeEvent<b>(</b>"mouseup",   true, fup<b>)</b></span>
+<span id='line96'>          <b>}</b></span>
+<span id='line97'>        <b>}</b></span>
+<span id='line98'>      <b>}</b><b>)</b></span>
+<span id='line99'>    <b>}</b></span>
+<span id='line100'></span>
+<span id='line101'>    frame.add<b>(</b>this<b>)</b></span>
+<span id='line102'>    mask.add<b>(</b>frame<b>)</b></span>
+<span id='line103'></span>
+<span id='line104'>    body := Win.cur.doc.body</span>
+<span id='line105'>    body.add<b>(</b>mask<b>)</b></span>
+<span id='line106'></span>
+<span id='line107'>    mask.transition<b>(</b><b>[</b>"opacity":"1"<b>]</b>, null, 100ms<b>)</b></span>
+<span id='line108'>    frame.transition<b>(</b><b>[</b></span>
+<span id='line109'>      "transform": "scale<b>(</b>1<b>)</b>",</span>
+<span id='line110'>      "opacity": "1"</span>
+<span id='line111'>    <b>]</b>, null, 100ms<b>)</b> <b>{</b> this.focus; onAfterOpen<b>(</b><b>)</b>; fireOpen <b>}</b></span>
+<span id='line112'>  <b>}</b></span>
+<span id='line113'></span>
+<span id='line114'>  ** Close this dialog. If dialog is already closed</span>
+<span id='line115'>  ** this method does nothing.</span>
+<span id='line116'>  Void close<b>(</b><b>)</b></span>
+<span id='line117'>  <b>{</b></span>
+<span id='line118'>    mask := Win.cur.doc.elemById<b>(</b>"domkitDialog-mask-$uid"<b>)</b></span>
+<span id='line119'>    mask?.transition<b>(</b><b>[</b>"opacity":"0"<b>]</b>, null, 100ms<b>)</b></span>
+<span id='line120'>    frame?.transition<b>(</b><b>[</b>"transform": "scale<b>(</b>0.75<b>)</b>", "opacity": "0"<b>]</b>, null, 100ms<b>)</b></span>
+<span id='line121'>    <b>{</b></span>
+<span id='line122'>      mask?.parent?.remove<b>(</b>mask<b>)</b></span>
+<span id='line123'>      fireClose</span>
+<span id='line124'>    <b>}</b></span>
+<span id='line125'>  <b>}</b></span>
+<span id='line126'></span>
+<span id='line127'>  ** Callback when dialog is opened.</span>
+<span id='line128'>  Void onOpen<b>(</b>|This| f<b>)</b> <b>{</b> cbOpen = f <b>}</b></span>
+<span id='line129'></span>
+<span id='line130'>  ** Callback when popup is closed.</span>
+<span id='line131'>  Void onClose<b>(</b>|This| f<b>)</b> <b>{</b> cbClose = f <b>}</b></span>
+<span id='line132'></span>
+<span id='line133'>  private Void fireOpen<b>(</b><b>)</b>  <b>{</b> cbOpen?.call<b>(</b>this<b>)</b>  <b>}</b></span>
+<span id='line134'>  private Void fireClose<b>(</b><b>)</b> <b>{</b> cbClose?.call<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line135'></span>
+<span id='line136'>  private const Int uid</span>
+<span id='line137'>  private static const AtomicRef nextId := AtomicRef<b>(</b>0<b>)</b></span>
+<span id='line138'></span>
+<span id='line139'>  private Elem? frame     := null</span>
+<span id='line140'>  private Func? cbOpen    := null</span>
+<span id='line141'>  private Func? cbClose   := null</span>
+<span id='line142'>  private Func? cbKeyDown := null</span>
+<span id='line143'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

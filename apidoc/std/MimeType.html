@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::MimeType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='MimeType.html'>MimeType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> std::MimeType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::MimeType</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>MimeType represents the parsed value of a Content-Type header per RFC 2045 section 5.1.</p>
+<dl>
+<dt id='charset'>
+charset</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Charset.html'>Charset</a> charset()</code></p>
+
+<p>If a charset parameter is specified, then map it to the <code>Charset</code> instance, otherwise return <code>Charset.utf8</code>.</p>
+</dd>
+<dt id='dir'>
+dir</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> dir := ...</code></p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Equality is based on the case insensitive mediaType and subType, and params (keys are case insensitive and values are case sensitive).</p>
+</dd>
+<dt id='forExt'>
+forExt</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='MimeType.html'>MimeType?</a> forExt(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Map a case insensitive file extension to a MimeType. This mapping is configured via "etc/sys/ext2mime.props".  If no mapping is available return null.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Parse from string format.  If invalid format and checked is false return null, otherwise throw ParseErr. Parenthesis comments are treated as part of the value.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Hash code is derived from the mediaType, subType, and params hashes.</p>
+</dd>
+<dt id='imageGif'>
+imageGif</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> imageGif := ...</code></p>
+</dd>
+<dt id='imageJpeg'>
+imageJpeg</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> imageJpeg := ...</code></p>
+</dd>
+<dt id='imagePng'>
+imagePng</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> imagePng := ...</code></p>
+</dd>
+<dt id='mediaType'>
+mediaType</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> mediaType</code></p>
+
+<p>The primary media type always in lowercase:</p>
+
+<pre>text/html  =>  text</pre>
+</dd>
+<dt id='noParams'>
+noParams</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MimeType.html'>MimeType</a> noParams()</code></p>
+
+<p>Return an instance with this mediaType and subType, but strip any parameters.</p>
+</dd>
+<dt id='params'>
+params</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> params</code></p>
+
+<p>Additional parameters stored in case-insensitive map. If no parameters, then this is an empty map.</p>
+
+<pre>text/html; charset=utf-8    =>  [charset:utf-8]
+text/html; charset="utf-8"  =>  [charset:utf-8]</pre>
+</dd>
+<dt id='parseParams'>
+parseParams</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> parseParams(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a set of attribute-value parameters where the values may be tokens or quoted-strings.  The resulting map is case insensitive.  If invalid format and checked is false return null, otherwise throw ParseErr.  Parenthesis comments are not supported.</p>
+
+<p>Examples:</p>
+
+<pre>a=b; c="d"  =>  ["a":"b", "c"="d"]</pre>
+</dd>
+<dt id='subType'>
+subType</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> subType</code></p>
+
+<p>The subtype always in lowercase:</p>
+
+<pre>text/html  =>  html</pre>
+</dd>
+<dt id='textCss'>
+textCss</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textCss := ...</code></p>
+</dd>
+<dt id='textHtml'>
+textHtml</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textHtml := ...</code></p>
+</dd>
+<dt id='textHtmlUtf8'>
+textHtmlUtf8</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textHtmlUtf8 := ...</code></p>
+</dd>
+<dt id='textJs'>
+textJs</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textJs := ...</code></p>
+</dd>
+<dt id='textJsUtf8'>
+textJsUtf8</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textJsUtf8 := ...</code></p>
+</dd>
+<dt id='textJson'>
+textJson</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textJson := ...</code></p>
+</dd>
+<dt id='textJsonUtf8'>
+textJsonUtf8</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textJsonUtf8 := ...</code></p>
+</dd>
+<dt id='textPlain'>
+textPlain</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textPlain := ...</code></p>
+</dd>
+<dt id='textPlainUtf8'>
+textPlainUtf8</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textPlainUtf8 := ...</code></p>
+</dd>
+<dt id='textXml'>
+textXml</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textXml := ...</code></p>
+</dd>
+<dt id='textXmlUtf8'>
+textXmlUtf8</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='MimeType.html'>MimeType</a> textXmlUtf8 := ...</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Encode as a MIME message according to RFC 822.  This is always the exact same string passed to <code><a href='MimeType.html#fromStr'>fromStr</a></code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#dir'>dir</a></li><li><a href='#forExt'>forExt</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#imageGif'>imageGif</a></li><li><a href='#imageJpeg'>imageJpeg</a></li><li><a href='#imagePng'>imagePng</a></li><li><a href='#parseParams'>parseParams</a></li><li><a href='#textCss'>textCss</a></li><li><a href='#textHtml'>textHtml</a></li><li><a href='#textHtmlUtf8'>textHtmlUtf8</a></li><li><a href='#textJs'>textJs</a></li><li><a href='#textJsUtf8'>textJsUtf8</a></li><li><a href='#textJson'>textJson</a></li><li><a href='#textJsonUtf8'>textJsonUtf8</a></li><li><a href='#textPlain'>textPlain</a></li><li><a href='#textPlainUtf8'>textPlainUtf8</a></li><li><a href='#textXml'>textXml</a></li><li><a href='#textXmlUtf8'>textXmlUtf8</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#charset'>charset</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#mediaType'>mediaType</a></li><li><a href='#noParams'>noParams</a></li><li><a href='#params'>params</a></li><li><a href='#subType'>subType</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

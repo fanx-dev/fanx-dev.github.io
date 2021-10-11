@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::EditText</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='EditText.html'>EditText</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::EditText</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Widget.html'>vaseGui::Widget</a>
+    vaseGui::EditText : <a href='../vaseWindow/TextInput.html'>vaseWindow::TextInput</a></pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>EditText.</p>
+<dl>
+<dt id='caret'>
+caret</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='Caret.html'>Caret</a> caret := Caret.&lt;ctor>()</code></p>
+</dd>
+<dt id='editable'>
+editable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> editable := true</code></p>
+</dd>
+<dt id='font'>
+font</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseGraphics/Font.html'>Font</a> font()</code></p>
+</dd>
+<dt id='gestureEvent'>
+gestureEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> gestureEvent(<a href='GestureEvent.html'>GestureEvent</a> e)</code></p>
+</dd>
+<dt id='getInputType'>
+getInputType</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> getInputType()</code></p>
+</dd>
+<dt id='hint'>
+hint</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> hint := &quot;&quot;</code></p>
+</dd>
+<dt id='host'>
+host</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />virtual override <a href='../vaseWindow/TextInputPeer.html'>TextInputPeer?</a> host</code></p>
+</dd>
+<dt id='inputType'>
+inputType</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> inputType := 1</code></p>
+</dd>
+<dt id='keyAction'>
+keyAction</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> keyAction(<a href='../sys/Str.html'>Str</a> text)</code></p>
+</dd>
+<dt id='keyEvent'>
+keyEvent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> keyEvent(<a href='../vaseWindow/KeyEvent.html'>KeyEvent</a> e)</code></p>
+</dd>
+<dt id='layoutChildren'>
+layoutChildren</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> layoutChildren(<a href='../sys/Bool.html'>Bool</a> force)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+</dd>
+<dt id='onKeyEvent'>
+onKeyEvent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onKeyEvent(<a href='../vaseWindow/KeyEvent.html'>KeyEvent</a> e)</code></p>
+</dd>
+<dt id='password'>
+password</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> password()</code></p>
+</dd>
+<dt id='prefContentSize'>
+prefContentSize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../vaseGraphics/Size.html'>Size</a> prefContentSize(<a href='../sys/Int.html'>Int</a> hintsWidth := -1, <a href='../sys/Int.html'>Int</a> hintsHeight := -1)</code></p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> text := &quot;&quot;</code></p>
+</dd>
+<dt id='textChange'>
+textChange</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> textChange(<a href='../sys/Str.html'>Str</a> text)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#caret'>caret</a></li><li><a href='#editable'>editable</a></li><li><a href='#font'>font</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#getInputType'>getInputType</a></li><li><a href='#hint'>hint</a></li><li><a href='#host'>host</a></li><li><a href='#inputType'>inputType</a></li><li><a href='#keyAction'>keyAction</a></li><li><a href='#keyEvent'>keyEvent</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#onKeyEvent'>onKeyEvent</a></li><li><a href='#password'>password</a></li><li><a href='#prefContentSize'>prefContentSize</a></li><li><a href='#text'>text</a></li><li><a href='#textChange'>textChange</a></li></ul>
+</div>
+</div>
+</body>
+</html>

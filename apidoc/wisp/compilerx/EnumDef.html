@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::EnumDef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='EnumDef.html'>EnumDef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::EnumDef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compilerx::Node</a>
+    compilerx::EnumDef</pre>
+
+<p>EnumDef is used to define one ordinal/named enum value in an enum TypeDef.  If using a custom constructor, it includes the constructor arguments.</p>
+<dl>
+<dt id='ctorArgs'>
+ctorArgs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Expr.html'>Expr</a>&gt;</a> ctorArgs</code></p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocDef.html'>DocDef?</a> doc</code></p>
+</dd>
+<dt id='facets'>
+facets</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FacetDef.html'>FacetDef</a>&gt;?</a> facets</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='DocDef.html'>DocDef?</a> doc, <a href='../sys/List.html'>List&lt;<a href='FacetDef.html'>FacetDef</a>&gt;?</a> facets, <a href='../sys/Str.html'>Str</a> name, <a href='../sys/Int.html'>Int</a> ordinal)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='ordinal'>
+ordinal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> ordinal</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#ctorArgs'>ctorArgs</a></li><li><a href='#doc'>doc</a></li><li><a href='#facets'>facets</a></li><li><a href='#name'>name</a></li><li><a href='#ordinal'>ordinal</a></li><li><a href='#print'>print</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

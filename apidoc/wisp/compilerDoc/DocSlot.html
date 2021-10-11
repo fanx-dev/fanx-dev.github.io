@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocSlot</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocSlot.html'>DocSlot</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> compilerDoc::DocSlot</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::DocSlot</pre>
+<p class='src'>
+<a href='src-DocSlot.fan.html'>Source</a></p>
+
+<p>DocSlot models the documentation of a <a href='sys::Slot'>sys::Slot</a>.</p>
+<dl>
+<dt id='dis'>
+dis</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> dis()</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line48'>Source</a></p>
+
+<p>Display name is Type.name</p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocFandoc.html'>DocFandoc</a> doc</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line51'>Source</a></p>
+
+<p>Fandoc documentation string</p>
+</dd>
+<dt id='facet'>
+facet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocFacet.html'>DocFacet?</a> facet(<a href='../sys/Str.html'>Str</a> qname, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line57'>Source</a></p>
+
+<p>Return given facet</p>
+</dd>
+<dt id='facets'>
+facets</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocFacet.html'>DocFacet</a>&gt;</a> facets</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line54'>Source</a></p>
+
+<p>Facets defined on this slot</p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> flags</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line39'>Source</a></p>
+
+<p>Flags mask - see <code><a href='DocFlags.html'>DocFlags</a></code></p>
+</dd>
+<dt id='hasFacet'>
+hasFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasFacet(<a href='../sys/Str.html'>Str</a> qname)</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line68'>Source</a></p>
+
+<p>Return if given facet is defined on slot</p>
+</dd>
+<dt id='isField'>
+isField</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isField()</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line42'>Source</a></p>
+
+<p>Is this a DocField</p>
+</dd>
+<dt id='isMethod'>
+isMethod</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isMethod()</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line45'>Source</a></p>
+
+<p>Is this a DocMethod</p>
+</dd>
+<dt id='isNoDoc'>
+isNoDoc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> isNoDoc</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line71'>Source</a></p>
+
+<p>Return true if annotated as NoDoc</p>
+</dd>
+<dt id='isStatic'>
+isStatic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStatic()</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line66'>Source</a></p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocLoc.html'>DocLoc</a> loc</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line27'>Source</a></p>
+
+<p>Source code location of this slot</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line33'>Source</a></p>
+
+<p>Simple name of the slot such as "equals".</p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocTypeRef.html'>DocTypeRef</a> parent</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line30'>Source</a></p>
+
+<p>Type which defines the slot</p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> qname</code></p>
+<p class='src'>
+<a href='src-DocSlot.fan.html#line36'>Source</a></p>
+
+<p>Qualified name formatted as "sys::Str.replace".</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocSlot.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dis'>dis</a></li><li><a href='#doc'>doc</a></li><li><a href='#facet'>facet</a></li><li><a href='#facets'>facets</a></li><li><a href='#flags'>flags</a></li><li><a href='#hasFacet'>hasFacet</a></li><li><a href='#isField'>isField</a></li><li><a href='#isMethod'>isMethod</a></li><li><a href='#isNoDoc'>isNoDoc</a></li><li><a href='#isStatic'>isStatic</a></li><li><a href='#loc'>loc</a></li><li><a href='#name'>name</a></li><li><a href='#parent'>parent</a></li><li><a href='#qname'>qname</a></li></ul>
+</div>
+</div>
+</body>
+</html>

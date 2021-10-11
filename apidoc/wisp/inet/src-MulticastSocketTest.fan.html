@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>MulticastSocketTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='src-MulticastSocketTest.fan.html'>MulticastSocketTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2013, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   5 Jul 13  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'></span>
+<span id='line11'>class MulticastSocketTest : Test</span>
+<span id='line12'><b>{</b></span>
+<span id='line13'></span>
+<span id='line14'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line15'>// Make</span>
+<span id='line16'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line17'></span>
+<span id='line18'>  Void testMake<b>(</b><b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    s := MulticastSocket.make</span>
+<span id='line21'>    verifyEq<b>(</b>s.isBound, false<b>)</b></span>
+<span id='line22'>    verifyEq<b>(</b>s.isConnected, false<b>)</b></span>
+<span id='line23'>    verifyEq<b>(</b>s.isClosed, false<b>)</b></span>
+<span id='line24'>    verifyEq<b>(</b>s.localAddr, null<b>)</b></span>
+<span id='line25'>    verifyEq<b>(</b>s.localPort, null<b>)</b></span>
+<span id='line26'>    verifyEq<b>(</b>s.remoteAddr, null<b>)</b></span>
+<span id='line27'>    verifyEq<b>(</b>s.remotePort, null<b>)</b></span>
+<span id='line28'>    verifyEq<b>(</b>s.timeToLive, 1<b>)</b></span>
+<span id='line29'>    verifyEq<b>(</b>s.interface.name.isEmpty, false<b>)</b></span>
+<span id='line30'>    s.close</span>
+<span id='line31'>  <b>}</b></span>
+<span id='line32'></span>
+<span id='line33'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line34'>// Utils</span>
+<span id='line35'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line36'></span>
+<span id='line37'>  /*</span>
+<span id='line38'>  Void dump<b>(</b>MulticastSocket s<b>)</b></span>
+<span id='line39'>  <b>{</b></span>
+<span id='line40'>    echo<b>(</b>"---------"<b>)</b></span>
+<span id='line41'>    echo<b>(</b>"bound        = $s.isBound"<b>)</b></span>
+<span id='line42'>    echo<b>(</b>"connected    = $s.isConnected"<b>)</b></span>
+<span id='line43'>    echo<b>(</b>"closed       = $s.isClosed"<b>)</b></span>
+<span id='line44'>    echo<b>(</b>"localAddr    = $s.localAddr"<b>)</b></span>
+<span id='line45'>    echo<b>(</b>"localPort    = $s.localPort"<b>)</b></span>
+<span id='line46'>    echo<b>(</b>"remoteAddr   = $s.remoteAddr"<b>)</b></span>
+<span id='line47'>    echo<b>(</b>"remotePort   = $s.remotePort"<b>)</b></span>
+<span id='line48'>    echo<b>(</b>"receive      = $s.options.receiveBufferSize"<b>)</b></span>
+<span id='line49'>    echo<b>(</b>"send         = $s.options.sendBufferSize"<b>)</b></span>
+<span id='line50'>    echo<b>(</b>"reuseAddr    = $s.options.reuseAddr"<b>)</b></span>
+<span id='line51'>    echo<b>(</b>"timeout      = $s.options.receiveTimeout"<b>)</b></span>
+<span id='line52'>    echo<b>(</b>"trafficCls   = 0x$s.options.trafficClass.toHex"<b>)</b></span>
+<span id='line53'>    echo<b>(</b>"loopbackMode = $s.loopbackMode"<b>)</b></span>
+<span id='line54'>    echo<b>(</b>"ttl          = $s.timeToLive"<b>)</b></span>
+<span id='line55'>    echo<b>(</b>"interface    = $s.interface"<b>)</b></span>
+<span id='line56'>  <b>}</b></span>
+<span id='line57'>  */</span>
+<span id='line58'></span>
+<span id='line59'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

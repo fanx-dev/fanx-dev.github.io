@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>IpAddrTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='src-IpAddrTest.fan.html'>IpAddrTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   9 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>class IpAddrTest : Test</span>
+<span id='line10'><b>{</b></span>
+<span id='line11'></span>
+<span id='line12'>  public Void test<b>(</b><b>)</b></span>
+<span id='line13'>  <b>{</b></span>
+<span id='line14'>    // numeric IPv4</span>
+<span id='line15'>    verifyAddr<b>(</b>"192.168.1.105", <b>[</b>192, 168, 1, 105<b>]</b><b>)</b></span>
+<span id='line16'>    verifyAddr<b>(</b>"255.0.128.0",   <b>[</b>255, 0, 128, 0<b>]</b><b>)</b></span>
+<span id='line17'></span>
+<span id='line18'>    // numeric IPv6</span>
+<span id='line19'>    verifyAddr<b>(</b>"1123:4567:89ab:cdef:fedc:ba98:7654:3210",</span>
+<span id='line20'>               <b>[</b>0x11, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10<b>]</b>,</span>
+<span id='line21'>               "1123:4567:89ab:cdef:fedc:ba98:7654:3210"<b>)</b></span>
+<span id='line22'>    verifyAddr<b>(</b>"f123:4567::89ab:cdef",</span>
+<span id='line23'>               <b>[</b>0xf1, 0x23, 0x45, 0x67, 0, 0, 0, 0, 0, 0, 0, 0, 0x89, 0xab, 0xcd, 0xef<b>]</b>,</span>
+<span id='line24'>               "f123:4567:0:0:0:0:89ab:cdef",</span>
+<span id='line25'>               "f123:4567::89ab:cdef"<b>)</b></span>
+<span id='line26'>    verifyAddr<b>(</b>"::f123:89ab:CDEF",</span>
+<span id='line27'>               <b>[</b>0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xf1, 0x23, 0x89, 0xab, 0xcd, 0xef<b>]</b>,</span>
+<span id='line28'>               "0:0:0:0:0:f123:89ab:cdef",</span>
+<span id='line29'>               "::f123:89ab:cdef"<b>)</b></span>
+<span id='line30'>    verifyAddr<b>(</b>"::FE77:169.2.30.200",</span>
+<span id='line31'>               <b>[</b>0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xfe, 0x77, 169, 2, 30, 200<b>]</b>,</span>
+<span id='line32'>               "0:0:0:0:0:fe77:a902:1ec8",</span>
+<span id='line33'>               "::fe77:a902:1ec8"<b>)</b></span>
+<span id='line34'>    verifyAddr<b>(</b>"::169.2.30.200",</span>
+<span id='line35'>               <b>[</b>0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 169, 2, 30, 200<b>]</b>,</span>
+<span id='line36'>               "0:0:0:0:0:0:a902:1ec8",</span>
+<span id='line37'>               "::169.2.30.200"<b>)</b></span>
+<span id='line38'></span>
+<span id='line39'>    // invalid</span>
+<span id='line40'>    verifyErr<b>(</b>UnknownHostErr#<b>)</b> <b>{</b> x := IpAddr<b>(</b>"0123:4567:89ab:cdef:fedc:ba98:7654:3210:ffff"<b>)</b> <b>}</b></span>
+<span id='line41'>    verifyErr<b>(</b>UnknownHostErr#<b>)</b> <b>{</b> x := IpAddr<b>(</b>"::fx54:3210:ffff"<b>)</b> <b>}</b></span>
+<span id='line42'>    //verifyErr<b>(</b>UnknownHostErr#<b>)</b> <b>{</b> x := IpAddr<b>(</b>"not.going.to.happen."<b>)</b> <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>    // local</span>
+<span id='line45'>    verifySame<b>(</b>IpAddr.local, IpAddr.local<b>)</b></span>
+<span id='line46'></span>
+<span id='line47'>    // host lookup <b>(</b>will this test last the test of time...</span>
+<span id='line48'>    ms := IpAddr.makeAll<b>(</b>"microsoft.com"<b>)</b></span>
+<span id='line49'>    verify<b>(</b>ms.size > 1<b>)</b></span>
+<span id='line50'></span>
+<span id='line51'>    // identity</span>
+<span id='line52'>    verifyEq<b>(</b>ms<b>[</b>0<b>]</b>, IpAddr<b>(</b>ms<b>[</b>0<b>]</b>.numeric<b>)</b><b>)</b></span>
+<span id='line53'>    verifyEq<b>(</b>ms<b>[</b>0<b>]</b>.hash, IpAddr<b>(</b>ms<b>[</b>0<b>]</b>.numeric<b>)</b>.hash<b>)</b></span>
+<span id='line54'>    verifyNotEq<b>(</b>ms<b>[</b>0<b>]</b>, IpAddr<b>(</b>ms<b>[</b>1<b>]</b>.numeric<b>)</b><b>)</b></span>
+<span id='line55'>    verifyNotEq<b>(</b>ms<b>[</b>0<b>]</b>.hash, IpAddr<b>(</b>ms<b>[</b>1<b>]</b>.numeric<b>)</b>.hash<b>)</b></span>
+<span id='line56'>    verifyEq<b>(</b>IpAddr<b>(</b>"www.microsoft.com"<b>)</b>, IpAddr<b>(</b>"WWW.Microsoft.COM"<b>)</b><b>)</b></span>
+<span id='line57'>    verifyEq<b>(</b>IpAddr<b>(</b>"www.microsoft.com"<b>)</b>.hash, IpAddr<b>(</b>"WWW.Microsoft.COM"<b>)</b>.hash<b>)</b></span>
+<span id='line58'>  <b>}</b></span>
+<span id='line59'></span>
+<span id='line60'>  Void verifyAddr<b>(</b>Str str, Int<b>[</b><b>]</b> bytes, Str numeric := str, Str? numericAlt := null<b>)</b></span>
+<span id='line61'>  <b>{</b></span>
+<span id='line62'>    // check fields</span>
+<span id='line63'>    a := IpAddr<b>(</b>str<b>)</b></span>
+<span id='line64'>    verifyEq<b>(</b>a.toStr, str<b>)</b></span>
+<span id='line65'>    verifyEq<b>(</b>a.isIPv4,  bytes.size == 4<b>)</b></span>
+<span id='line66'>    verifyEq<b>(</b>a.isIPv6,  bytes.size == 16<b>)</b></span>
+<span id='line67'>    try</span>
+<span id='line68'>    <b>{</b></span>
+<span id='line69'>      verifyEq<b>(</b>a.numeric, numeric<b>)</b></span>
+<span id='line70'>    <b>}</b></span>
+<span id='line71'>    catch <b>(</b>Err err<b>)</b></span>
+<span id='line72'>    <b>{</b></span>
+<span id='line73'>      if <b>(</b>numericAlt != null<b>)</b></span>
+<span id='line74'>        verifyEq<b>(</b>a.numeric, numericAlt<b>)</b></span>
+<span id='line75'>      else</span>
+<span id='line76'>        throw err</span>
+<span id='line77'>    <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>    // map bytes to Buf</span>
+<span id='line80'>    buf := Buf.make</span>
+<span id='line81'>    bytes.each |Int b| <b>{</b> buf.write<b>(</b>b<b>)</b> <b>}</b></span>
+<span id='line82'>    verifyEq<b>(</b>a.bytes.toHex, buf.toHex<b>)</b></span>
+<span id='line83'></span>
+<span id='line84'>    // ensure buf ready to read</span>
+<span id='line85'>    2.times</span>
+<span id='line86'>    <b>{</b></span>
+<span id='line87'>      abytes := a.bytes</span>
+<span id='line88'>      bytes.each |Int b| <b>{</b> verifyEq<b>(</b>abytes.read, b<b>)</b> <b>}</b></span>
+<span id='line89'>    <b>}</b></span>
+<span id='line90'></span>
+<span id='line91'>    // map to new instance by bytes</span>
+<span id='line92'>    // NOTE: Java appears to normalize the host address string</span>
+<span id='line93'>    // differently when made by bytes, but I don't think we should</span>
+<span id='line94'>    // push that into the Fantom API contract</span>
+<span id='line95'>    x := IpAddr.makeBytes<b>(</b>a.bytes<b>)</b></span>
+<span id='line96'>    verifyEq<b>(</b>a, x<b>)</b></span>
+<span id='line97'>    verifyEq<b>(</b>a.bytes.toHex, x.bytes.toHex<b>)</b></span>
+<span id='line98'>    verifyEq<b>(</b>a.isIPv4,  x.isIPv4<b>)</b></span>
+<span id='line99'></span>
+<span id='line100'>    // makeAll</span>
+<span id='line101'>    all := IpAddr.makeAll<b>(</b>str<b>)</b></span>
+<span id='line102'>    verifyEq<b>(</b>all.size, 1<b>)</b></span>
+<span id='line103'>    verifyEq<b>(</b>all<b>[</b>0<b>]</b>.toStr, str<b>)</b></span>
+<span id='line104'>    verifyEq<b>(</b>all<b>[</b>0<b>]</b>, a<b>)</b></span>
+<span id='line105'>  <b>}</b></span>
+<span id='line106'></span>
+<span id='line107'>  /*</span>
+<span id='line108'>  Void dump<b>(</b>IpAddr a<b>)</b></span>
+<span id='line109'>  <b>{</b></span>
+<span id='line110'>    echo<b>(</b>"-------------------"<b>)</b></span>
+<span id='line111'>    echo<b>(</b>"toStr    = $a"<b>)</b></span>
+<span id='line112'>    echo<b>(</b>"isIPv4   = $a.isIPv4"<b>)</b></span>
+<span id='line113'>    echo<b>(</b>"isIPv6   = $a.isIPv6"<b>)</b></span>
+<span id='line114'>    echo<b>(</b>"bytes    = $a.bytes"<b>)</b></span>
+<span id='line115'>    echo<b>(</b>"numeric  = $a.numeric"<b>)</b></span>
+<span id='line116'>    echo<b>(</b>"hostname = $a.hostname"<b>)</b></span>
+<span id='line117'>    echo<b>(</b>"hash     = $a.hash"<b>)</b></span>
+<span id='line118'>  <b>}</b></span>
+<span id='line119'>  */</span>
+<span id='line120'></span>
+<span id='line121'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>isql::Statement</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>isql</a></li><li><a href='Statement.html'>Statement</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> isql::Statement</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  isql::Statement</pre>
+
+<p>Statement is an executable statement for a specific database. A statement may be executed immediately or prepared and executed later with parameters. See <a href='pod-doc#statements'>pod-doc</a>.</p>
+<dl>
+<dt id='addBatch'>
+addBatch</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> addBatch()</code></p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> close()</code></p>
+
+<p>Close the statement.</p>
+</dd>
+<dt id='execute'>
+execute</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> execute()</code></p>
+
+<p>Execute a SQL statement and return number of rows modified.</p>
+</dd>
+<dt id='executeBatch'>
+executeBatch</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> executeBatch()</code></p>
+</dd>
+<dt id='getGeneratedKeys'>
+getGeneratedKeys</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ResultSet.html'>ResultSet</a> getGeneratedKeys()</code></p>
+
+<p>Get the auto generate keys</p>
+</dd>
+<dt id='limit'>
+limit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> limit</code></p>
+
+<p>Maximum number of rows returned when this statement is executed.  If limit is exceeded rows are silently dropped. A value of null indicates no limit.</p>
+</dd>
+<dt id='query'>
+query</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ResultSet.html'>ResultSet</a> query()</code></p>
+
+<p>Execute the statement and return the resulting ResultSet</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> set(<a href='../sys/Int.html'>Int</a> i, <a href='../sys/Obj.html'>Obj?</a> val)</code></p>
+
+<p>Prepare this statement by compiling for efficient execution.  Return this.</p>
+</dd>
+<dt id='sql'>
+sql</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> sql(<a href='../sys/Str.html'>Str</a> sql)</code></p>
+
+<p>Set the sql</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addBatch'>addBatch</a></li><li><a href='#close'>close</a></li><li><a href='#execute'>execute</a></li><li><a href='#executeBatch'>executeBatch</a></li><li><a href='#getGeneratedKeys'>getGeneratedKeys</a></li><li><a href='#limit'>limit</a></li><li><a href='#query'>query</a></li><li><a href='#set'>set</a></li><li><a href='#sql'>sql</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocTypeRenderer.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocTypeRenderer.html'>DocTypeRenderer</a></li><li><a href='src-DocTypeRenderer.fan.html'>DocTypeRenderer.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   13 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using web</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Renders DocType documents</span>
+<span id='line13'>**</span>
+<span id='line14'>** Overview</span>
+<span id='line15'>** ========</span>
+<span id='line16'>**</span>
+<span id='line17'>**   &lt;h1></span>
+<span id='line18'>**    &lt;span><b>{</b>type.flags<b>}</b>&lt;/span> <b>{</b>type.qname<b>}</b></span>
+<span id='line19'>**   &lt;/h1></span>
+<span id='line20'>**   &lt;pre>...&lt;/pre>                 // inhertiance</span>
+<span id='line21'>**   &lt;p class='facets'>...&lt;/p>      // facet list <b>(</b>if available<b>)</b></span>
+<span id='line22'>**   &lt;p class='src'>&lt;a>...&lt;/a>&lt;/p>  // source link <b>(</b>if available<b>)</b></span>
+<span id='line23'>**   ...                            // type fandoc</span>
+<span id='line24'>**   &lt;ul>...&lt;/ul>                   // emum list <b>(</b>if available<b>)</b></span>
+<span id='line25'>**</span>
+<span id='line26'>** Slots</span>
+<span id='line27'>** =====</span>
+<span id='line28'>**</span>
+<span id='line29'>**   &lt;dl></span>
+<span id='line30'>**    &lt;dt id='<b>{</b>slot.name<b>}</b>'><b>{</b>slot.name<b>}</b>&lt;/dt></span>
+<span id='line31'>**    &lt;dd></span>
+<span id='line32'>**     &lt;p class='sig'>&lt;code>...&lt;/code>&lt;/p>  // slot signature</span>
+<span id='line33'>**     &lt;p class='src'>&lt;a>...&lt;/a>&lt;/p>        // source link <b>(</b>if available<b>)</b></span>
+<span id='line34'>**     ...                                  // slot fandoc</span>
+<span id='line35'>**    &lt;/dd></span>
+<span id='line36'>**   &lt;/dl></span>
+<span id='line37'>**</span>
+<span id='line38'>** Table of Contents</span>
+<span id='line39'>** ==================</span>
+<span id='line40'>**</span>
+<span id='line41'>**   &lt;h3>Source&lt;/h3></span>
+<span id='line42'>**   &lt;ul>&lt;li>&lt;a>...&lt;/a>&lt;/li>&lt;/ul>     // if source link</span>
+<span id='line43'>**   &lt;ul>&lt;li>Not available&lt;/li>&lt;/ul>  // if no source link</span>
+<span id='line44'>**</span>
+<span id='line45'>**   &lt;h3>Slots&lt;/h3></span>
+<span id='line46'>**   &lt;ul></span>
+<span id='line47'>**    &lt;li>&lt;a href='#<b>{</b>slot.name<b>}</b>'><b>{</b>slot.name<b>}</b>&lt;/a>&lt;/li></span>
+<span id='line48'>**   &lt;/ul></span>
+<span id='line49'>**</span>
+<span id='line50'>class DocTypeRenderer : DocRenderer</span>
+<span id='line51'><b>{</b></span>
+<span id='line52'></span>
+<span id='line53'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line54'>// TypeRenderer</span>
+<span id='line55'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line56'></span>
+<span id='line57'>  ** Constructor with env, out params.</span>
+<span id='line58'>  new make<b>(</b>DocEnv env, WebOutStream out, DocType doc<b>)</b></span>
+<span id='line59'>    : super<b>(</b>env, out, doc<b>)</b></span>
+<span id='line60'>  <b>{</b></span>
+<span id='line61'>    this.type = doc</span>
+<span id='line62'>  <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  ** Type to renderer</span>
+<span id='line65'>  const DocType type</span>
+<span id='line66'></span>
+<span id='line67'>  override Void writeContent<b>(</b><b>)</b></span>
+<span id='line68'>  <b>{</b></span>
+<span id='line69'>    out.div<b>(</b>"class='mainSidebar'"<b>)</b></span>
+<span id='line70'>      out.div<b>(</b>"class='main type'"<b>)</b></span>
+<span id='line71'>        writeTypeOverview</span>
+<span id='line72'>        writeSlots</span>
+<span id='line73'>      out.divEnd</span>
+<span id='line74'>      out.div<b>(</b>"class='sidebar'"<b>)</b></span>
+<span id='line75'>        writeToc</span>
+<span id='line76'>      out.divEnd</span>
+<span id='line77'>    out.divEnd</span>
+<span id='line78'>  <b>}</b></span>
+<span id='line79'></span>
+<span id='line80'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line81'>// Overview</span>
+<span id='line82'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line83'></span>
+<span id='line84'>  **</span>
+<span id='line85'>  ** Render the HTML for the type overview <b>(</b>base, mixins, type doc<b>)</b></span>
+<span id='line86'>  **</span>
+<span id='line87'>  virtual Void writeTypeOverview<b>(</b><b>)</b></span>
+<span id='line88'>  <b>{</b></span>
+<span id='line89'>    // type name</span>
+<span id='line90'>    out.h1</span>
+<span id='line91'>      .span.w<b>(</b>DocFlags.toTypeDis<b>(</b>type.flags<b>)</b><b>)</b>.spanEnd</span>
+<span id='line92'>      .w<b>(</b>" $type.qname"<b>)</b></span>
+<span id='line93'>      .h1End</span>
+<span id='line94'></span>
+<span id='line95'>    // inheritance</span>
+<span id='line96'>    writeTypeInheritance</span>
+<span id='line97'></span>
+<span id='line98'>    // facets</span>
+<span id='line99'>    if <b>(</b>type.facets.size > 0<b>)</b></span>
+<span id='line100'>    <b>{</b></span>
+<span id='line101'>      out.p<b>(</b>"class='facets'"<b>)</b></span>
+<span id='line102'>      type.facets.each |f| <b>{</b> writeFacet<b>(</b>f<b>)</b>; out.br <b>}</b></span>
+<span id='line103'>      out.pEnd</span>
+<span id='line104'>    <b>}</b></span>
+<span id='line105'></span>
+<span id='line106'>    // if source if available</span>
+<span id='line107'>    writeSrcLink<b>(</b>type.doc.loc<b>)</b></span>
+<span id='line108'></span>
+<span id='line109'>    // fandoc</span>
+<span id='line110'>    writeFandoc<b>(</b>type.doc<b>)</b></span>
+<span id='line111'></span>
+<span id='line112'>    // enum vals</span>
+<span id='line113'>    if <b>(</b>DocFlags.isEnum<b>(</b>type.flags<b>)</b><b>)</b></span>
+<span id='line114'>    <b>{</b></span>
+<span id='line115'>      out.ul</span>
+<span id='line116'>      type.declared.each |s|</span>
+<span id='line117'>      <b>{</b></span>
+<span id='line118'>        if <b>(</b>DocFlags.isEnum<b>(</b>s.flags<b>)</b><b>)</b></span>
+<span id='line119'>          out.li.a<b>(</b>`#$s.name`<b>)</b>.esc<b>(</b>s.name<b>)</b>.aEnd.liEnd</span>
+<span id='line120'>      <b>}</b></span>
+<span id='line121'>      out.ulEnd</span>
+<span id='line122'>    <b>}</b></span>
+<span id='line123'>  <b>}</b></span>
+<span id='line124'></span>
+<span id='line125'>  ** Render type inheritance.</span>
+<span id='line126'>  virtual Void writeTypeInheritance<b>(</b><b>)</b></span>
+<span id='line127'>  <b>{</b></span>
+<span id='line128'>    out.pre</span>
+<span id='line129'>    indent := 0</span>
+<span id='line130'>    type.base.eachr |ref|</span>
+<span id='line131'>    <b>{</b></span>
+<span id='line132'>      if <b>(</b>indent > 0<b>)</b> out.w<b>(</b>"\n$<b>{</b>Str.spaces<b>(</b>indent*2<b>)</b><b>}</b>"<b>)</b></span>
+<span id='line133'>      writeTypeRef<b>(</b>ref, true<b>)</b></span>
+<span id='line134'>      indent++</span>
+<span id='line135'>    <b>}</b></span>
+<span id='line136'>    if <b>(</b>type.base.size > 0<b>)</b> out.w<b>(</b>"\n$<b>{</b>Str.spaces<b>(</b>indent*2<b>)</b><b>}</b>"<b>)</b></span>
+<span id='line137'>    out.w<b>(</b>"$type.qname"<b>)</b></span>
+<span id='line138'>    type.mixins.each |ref,i|</span>
+<span id='line139'>    <b>{</b></span>
+<span id='line140'>      out.w<b>(</b>i==0 ? " : " : ", "<b>)</b></span>
+<span id='line141'>      writeTypeRef<b>(</b>ref, true<b>)</b></span>
+<span id='line142'>    <b>}</b></span>
+<span id='line143'>    out.preEnd</span>
+<span id='line144'>  <b>}</b></span>
+<span id='line145'></span>
+<span id='line146'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line147'>// Slots</span>
+<span id='line148'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line149'></span>
+<span id='line150'>  ** Render the HTML for all the slot definitions</span>
+<span id='line151'>  virtual Void writeSlots<b>(</b><b>)</b></span>
+<span id='line152'>  <b>{</b></span>
+<span id='line153'>    out.dl</span>
+<span id='line154'>    type.slots.each |slot| <b>{</b> writeSlot<b>(</b>slot<b>)</b> <b>}</b></span>
+<span id='line155'>    out.dlEnd</span>
+<span id='line156'>  <b>}</b></span>
+<span id='line157'></span>
+<span id='line158'>  ** Render the HTML for all the given slot</span>
+<span id='line159'>  virtual Void writeSlot<b>(</b>DocSlot slot<b>)</b></span>
+<span id='line160'>  <b>{</b></span>
+<span id='line161'>    out.dt<b>(</b>"id='$slot.name'"<b>)</b>.w<b>(</b>"$slot.name"<b>)</b>.dtEnd</span>
+<span id='line162'>    out.dd</span>
+<span id='line163'>    writeSlotSig<b>(</b>slot<b>)</b></span>
+<span id='line164'>    writeSrcLink<b>(</b>slot.doc.loc<b>)</b></span>
+<span id='line165'>    writeFandoc<b>(</b>slot.doc<b>)</b></span>
+<span id='line166'>    out.ddEnd</span>
+<span id='line167'>  <b>}</b></span>
+<span id='line168'></span>
+<span id='line169'>  ** Render HTML for slot signature.</span>
+<span id='line170'>  virtual Void writeSlotSig<b>(</b>DocSlot slot<b>)</b></span>
+<span id='line171'>  <b>{</b></span>
+<span id='line172'>    out.p<b>(</b>"class='sig'"<b>)</b>.code</span>
+<span id='line173'>    slot.facets.each |f| <b>{</b> writeFacet<b>(</b>f<b>)</b>; out.br <b>}</b></span>
+<span id='line174'>    writeSlotSigText<b>(</b>slot<b>)</b></span>
+<span id='line175'>    out.codeEnd.pEnd</span>
+<span id='line176'>  <b>}</b></span>
+<span id='line177'></span>
+<span id='line178'>  ** Render slot signature inside the outer p element.</span>
+<span id='line179'>  ** This does *not* include facets, but does include signature links.</span>
+<span id='line180'>  @NoDoc Void writeSlotSigText<b>(</b>DocSlot slot<b>)</b></span>
+<span id='line181'>  <b>{</b></span>
+<span id='line182'>    if <b>(</b>slot is DocField<b>)</b></span>
+<span id='line183'>    <b>{</b></span>
+<span id='line184'>      // field sig</span>
+<span id='line185'>      field := <b>(</b>DocField<b>)</b>slot</span>
+<span id='line186'>      out.w<b>(</b>DocFlags.toSlotDis<b>(</b>field.flags<b>)</b><b>)</b>.w<b>(</b>" "<b>)</b></span>
+<span id='line187'>      writeTypeRef<b>(</b>field.type<b>)</b></span>
+<span id='line188'>      out.w<b>(</b>" "<b>)</b>.w<b>(</b>field.name<b>)</b></span>
+<span id='line189'>      if <b>(</b>field.init != null<b>)</b> out.w<b>(</b>" := "<b>)</b>.w<b>(</b>field.init.toXml<b>)</b></span>
+<span id='line190'></span>
+<span id='line191'>      // field setter if different protection scope</span>
+<span id='line192'>      if <b>(</b>field.setterFlags != null<b>)</b></span>
+<span id='line193'>        out.w<b>(</b>" <b>{</b> "<b>)</b>.w<b>(</b>DocFlags.toSlotDis<b>(</b>field.setterFlags<b>)</b><b>)</b>.w<b>(</b>" set <b>}</b>"<b>)</b></span>
+<span id='line194'>    <b>}</b></span>
+<span id='line195'>    else</span>
+<span id='line196'>    <b>{</b></span>
+<span id='line197'>      //  method sig</span>
+<span id='line198'>      method := <b>(</b>DocMethod<b>)</b>slot</span>
+<span id='line199'>      if <b>(</b>DocFlags.isCtor<b>(</b>method.flags<b>)</b><b>)</b></span>
+<span id='line200'>      <b>{</b></span>
+<span id='line201'>        if <b>(</b>DocFlags.isStatic<b>(</b>method.flags<b>)</b><b>)</b> out.w<b>(</b>"static "<b>)</b></span>
+<span id='line202'>        out.w<b>(</b>"new"<b>)</b></span>
+<span id='line203'>      <b>}</b></span>
+<span id='line204'>      else</span>
+<span id='line205'>      <b>{</b></span>
+<span id='line206'>        out.w<b>(</b>DocFlags.toSlotDis<b>(</b>method.flags<b>)</b><b>)</b>.w<b>(</b>" "<b>)</b></span>
+<span id='line207'>        writeTypeRef<b>(</b>method.returns<b>)</b></span>
+<span id='line208'>      <b>}</b></span>
+<span id='line209'>      out.w<b>(</b>" $method.name<b>(</b>"<b>)</b></span>
+<span id='line210'>      method.params.each |param, i|</span>
+<span id='line211'>      <b>{</b></span>
+<span id='line212'>        if <b>(</b>i > 0<b>)</b> out.w<b>(</b>", "<b>)</b></span>
+<span id='line213'>        writeTypeRef<b>(</b>param.type<b>)</b></span>
+<span id='line214'>        out.w<b>(</b>" $param.name"<b>)</b></span>
+<span id='line215'>        if <b>(</b>param.def != null<b>)</b> out.w<b>(</b>" := $param.def.toXml"<b>)</b></span>
+<span id='line216'>      <b>}</b></span>
+<span id='line217'>      out.w<b>(</b>"<b>)</b>"<b>)</b></span>
+<span id='line218'>    <b>}</b></span>
+<span id='line219'>  <b>}</b></span>
+<span id='line220'></span>
+<span id='line221'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line222'>// Toc</span>
+<span id='line223'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line224'></span>
+<span id='line225'>  ** Render the table of contents for this type.</span>
+<span id='line226'>  virtual Void writeToc<b>(</b><b>)</b></span>
+<span id='line227'>  <b>{</b></span>
+<span id='line228'>    // source link</span>
+<span id='line229'>    out.h3.w<b>(</b>"Source"<b>)</b>.h3End</span>
+<span id='line230'>    out.ul.li</span>
+<span id='line231'>    srcLink := toSrcLink<b>(</b>type.doc.loc, "View Source"<b>)</b></span>
+<span id='line232'>    if <b>(</b>srcLink == null<b>)</b></span>
+<span id='line233'>      out.w<b>(</b>"Not available"<b>)</b></span>
+<span id='line234'>    else</span>
+<span id='line235'>      writeLink<b>(</b>srcLink<b>)</b></span>
+<span id='line236'>    out.liEnd.ulEnd</span>
+<span id='line237'></span>
+<span id='line238'>    // slot list</span>
+<span id='line239'>    out.h3.w<b>(</b>"Static Slots"<b>)</b>.h3End</span>
+<span id='line240'>    out.ul</span>
+<span id='line241'>    type.slots.each |slot|</span>
+<span id='line242'>    <b>{</b></span>
+<span id='line243'>      if <b>(</b>slot.isStatic<b>)</b></span>
+<span id='line244'>        out.li.a<b>(</b>`#$slot.name`<b>)</b>.w<b>(</b>slot.name<b>)</b>.aEnd.liEnd</span>
+<span id='line245'>    <b>}</b></span>
+<span id='line246'>    out.ulEnd</span>
+<span id='line247'></span>
+<span id='line248'>    out.h3.w<b>(</b>"Instance Slots"<b>)</b>.h3End</span>
+<span id='line249'>    out.ul</span>
+<span id='line250'>    type.slots.each |slot|</span>
+<span id='line251'>    <b>{</b></span>
+<span id='line252'>      if <b>(</b>!slot.isStatic<b>)</b></span>
+<span id='line253'>        out.li.a<b>(</b>`#$slot.name`<b>)</b>.w<b>(</b>slot.name<b>)</b>.aEnd.liEnd</span>
+<span id='line254'>    <b>}</b></span>
+<span id='line255'>    out.ulEnd</span>
+<span id='line256'>  <b>}</b></span>
+<span id='line257'></span>
+<span id='line258'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line259'>// Util</span>
+<span id='line260'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line261'></span>
+<span id='line262'>  ** Write the given type ref as a hyperlink</span>
+<span id='line263'>  virtual Void writeTypeRef<b>(</b>DocTypeRef ref, Bool full := false<b>)</b></span>
+<span id='line264'>  <b>{</b></span>
+<span id='line265'>    /*</span>
+<span id='line266'>    if <b>(</b>ref.isParameterized<b>)</b></span>
+<span id='line267'>    <b>{</b></span>
+<span id='line268'>      if <b>(</b>ref.qname == "sys::List"<b>)</b></span>
+<span id='line269'>      <b>{</b></span>
+<span id='line270'>        writeTypeRef<b>(</b>ref.v<b>)</b></span>
+<span id='line271'>        out.w<b>(</b>"<b>[</b><b>]</b>"<b>)</b></span>
+<span id='line272'>      <b>}</b></span>
+<span id='line273'>      else if <b>(</b>ref.qname == "sys::Map"<b>)</b></span>
+<span id='line274'>      <b>{</b></span>
+<span id='line275'>        if <b>(</b>ref.isNullable<b>)</b> out.w<b>(</b>"<b>[</b>"<b>)</b></span>
+<span id='line276'>        writeTypeRef<b>(</b>ref.k<b>)</b></span>
+<span id='line277'>        out.w<b>(</b>":"<b>)</b></span>
+<span id='line278'>        writeTypeRef<b>(</b>ref.v<b>)</b></span>
+<span id='line279'>        if <b>(</b>ref.isNullable<b>)</b> out.w<b>(</b>"<b>]</b>"<b>)</b></span>
+<span id='line280'>      <b>}</b></span>
+<span id='line281'>      else if <b>(</b>ref.qname == "sys::Func"<b>)</b></span>
+<span id='line282'>      <b>{</b></span>
+<span id='line283'>        isVoid := ref.funcReturn.qname == "sys::Void"</span>
+<span id='line284'>        out.w<b>(</b>"|"<b>)</b></span>
+<span id='line285'>        ref.funcParams.each |p, i|</span>
+<span id='line286'>        <b>{</b></span>
+<span id='line287'>          if <b>(</b>i > 0<b>)</b> out.w<b>(</b>","<b>)</b></span>
+<span id='line288'>          writeTypeRef<b>(</b>p<b>)</b></span>
+<span id='line289'>        <b>}</b></span>
+<span id='line290'>        if <b>(</b>!isVoid || ref.funcParams.isEmpty<b>)</b></span>
+<span id='line291'>        <b>{</b></span>
+<span id='line292'>          out.w<b>(</b>"->"<b>)</b></span>
+<span id='line293'>          writeTypeRef<b>(</b>ref.funcReturn<b>)</b></span>
+<span id='line294'>        <b>}</b></span>
+<span id='line295'>        out.w<b>(</b>"|"<b>)</b></span>
+<span id='line296'>      <b>}</b></span>
+<span id='line297'>      else throw Err<b>(</b>"Unsupported parameterized type: $ref"<b>)</b></span>
+<span id='line298'>      if <b>(</b>ref.isNullable<b>)</b> out.w<b>(</b>"?"<b>)</b></span>
+<span id='line299'>    <b>}</b></span>
+<span id='line300'>    else if <b>(</b>ref.isGenericVar<b>)</b></span>
+<span id='line301'>    <b>{</b></span>
+<span id='line302'>      out.w<b>(</b>full ? ref.qname : ref.name<b>)</b></span>
+<span id='line303'>         .w<b>(</b>ref.isNullable ? "?" : ""<b>)</b></span>
+<span id='line304'>    <b>}</b></span>
+<span id='line305'>    else</span>
+<span id='line306'>    <b>{</b></span>
+<span id='line307'>      */</span>
+<span id='line308'>      // make link by hand to avoid having to resolve</span>
+<span id='line309'>      // every type to a full fledged Doc instance</span>
+<span id='line310'>      uri := StrBuf<b>(</b><b>)</b></span>
+<span id='line311'>      if <b>(</b>ref.pod != type.pod.name<b>)</b> uri.add<b>(</b>"../"<b>)</b>.add<b>(</b>ref.pod<b>)</b>.add<b>(</b>"/"<b>)</b></span>
+<span id='line312'>      uri.add<b>(</b>ref.name<b>)</b></span>
+<span id='line313'>      uriExt := env.linkUriExt</span>
+<span id='line314'>      if <b>(</b>uriExt != null<b>)</b> uri.add<b>(</b>uriExt<b>)</b></span>
+<span id='line315'></span>
+<span id='line316'>      out.a<b>(</b>uri.toStr.toUri<b>)</b></span>
+<span id='line317'>      out.w<b>(</b>full ? ref.qname : ref.name<b>)</b></span>
+<span id='line318'></span>
+<span id='line319'>      if <b>(</b>ref.isParameterized<b>)</b> <b>{</b></span>
+<span id='line320'>        out.esc<b>(</b>"&lt;"<b>)</b></span>
+<span id='line321'>        ref.params.each |p, i| <b>{</b></span>
+<span id='line322'>          if <b>(</b>i > 0<b>)</b> out.w<b>(</b>","<b>)</b></span>
+<span id='line323'>          writeTypeRef<b>(</b>p<b>)</b></span>
+<span id='line324'>        <b>}</b></span>
+<span id='line325'>        out.esc<b>(</b>">"<b>)</b></span>
+<span id='line326'>      <b>}</b></span>
+<span id='line327'></span>
+<span id='line328'>      out.w<b>(</b>ref.isNullable ? "?" : ""<b>)</b></span>
+<span id='line329'>      .aEnd</span>
+<span id='line330'>    //<b>}</b></span>
+<span id='line331'>  <b>}</b></span>
+<span id='line332'></span>
+<span id='line333'>  ** Write the given facet.</span>
+<span id='line334'>  virtual Void writeFacet<b>(</b>DocFacet f<b>)</b></span>
+<span id='line335'>  <b>{</b></span>
+<span id='line336'>    out.code<b>(</b>"class='sig'"<b>)</b></span>
+<span id='line337'>    writeFacetText<b>(</b>f<b>)</b></span>
+<span id='line338'>    out.codeEnd</span>
+<span id='line339'>  <b>}</b></span>
+<span id='line340'></span>
+<span id='line341'>  ** Write the facet content inside the outer code element</span>
+<span id='line342'>  ** which includes links to the facet type and body values.</span>
+<span id='line343'>  @NoDoc Void writeFacetText<b>(</b>DocFacet f<b>)</b></span>
+<span id='line344'>  <b>{</b></span>
+<span id='line345'>    out.w<b>(</b>"@"<b>)</b></span>
+<span id='line346'>    writeTypeRef<b>(</b>f.type<b>)</b></span>
+<span id='line347'>    if <b>(</b>f.fields.size > 0<b>)</b></span>
+<span id='line348'>    <b>{</b></span>
+<span id='line349'>      s := f.fields.join<b>(</b>"; "<b>)</b> |v,n| <b>{</b> "$n.toXml=$v.toXml" <b>}</b></span>
+<span id='line350'>      out.w<b>(</b>" <b>{</b> $s <b>}</b>"<b>)</b></span>
+<span id='line351'>    <b>}</b></span>
+<span id='line352'>  <b>}</b></span>
+<span id='line353'></span>
+<span id='line354'>  ** Map filename/line number to a source file link</span>
+<span id='line355'>  DocLink? toSrcLink<b>(</b>DocLoc loc, Str dis<b>)</b></span>
+<span id='line356'>  <b>{</b></span>
+<span id='line357'>    src := type.pod.src<b>(</b>loc.file, false<b>)</b></span>
+<span id='line358'>    if <b>(</b>src == null<b>)</b> return null</span>
+<span id='line359'>    frag := loc.line > 20 ? "line$<b>{</b>loc.line<b>}</b>" : null</span>
+<span id='line360'>    return DocLink<b>(</b>doc, src, dis, frag<b>)</b></span>
+<span id='line361'>  <b>}</b></span>
+<span id='line362'></span>
+<span id='line363'>  ** Write source code link as &lt;p> if source is available.</span>
+<span id='line364'>  virtual Void writeSrcLink<b>(</b>DocLoc loc, Str dis := "Source"<b>)</b></span>
+<span id='line365'>  <b>{</b></span>
+<span id='line366'>    link := toSrcLink<b>(</b>loc, dis<b>)</b></span>
+<span id='line367'>    if <b>(</b>link == null<b>)</b> return</span>
+<span id='line368'>    out.p<b>(</b>"class='src'"<b>)</b></span>
+<span id='line369'>    writeLink<b>(</b>link<b>)</b></span>
+<span id='line370'>    out.pEnd</span>
+<span id='line371'>  <b>}</b></span>
+<span id='line372'></span>
+<span id='line373'><b>}</b></span>
+<span id='line374'></span>
+</pre>
+</div>
+</body>
+</html>

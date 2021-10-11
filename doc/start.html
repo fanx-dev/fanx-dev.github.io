@@ -1,0 +1,178 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>交流社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h3>安装和配置</h3>
+
+<h4>安装</h4>
+
+<p>请先确认已经安装了java。 <a href='../download.html'>点击这里下载最新版本</a></p>
+
+<p>解压后，配置环境变量和可执行权限：</p>
+
+<pre>Unix:
+  export PATH=$PATH:/fanx/env/bin
+  chmod +x /fanx/env/bin/*
+
+Windows:
+  PATH=%PATH%;C:\fanx\env\bin</pre>
+
+<p>测试安装是否正常：</p>
+
+<pre>fan -version</pre>
+
+<p>windows上的cmd比较难用，推荐使用git bash、msys2、Linux子系统等。</p>
+
+<h4>配置IDE</h4>
+
+<p>FanIDE是为Fanx语言开发的IDE。使用见： <a href='https://zhuanlan.zhihu.com/p/113919752'>https://zhuanlan.zhihu.com/p/113919752</a></p>
+
+<p>也可以使用Atom、Sublime、VSCode等编辑器，在插件管理里面搜Fantom插件并安装。</p>
+
+<h3>各种版本的HelloWorld</h3>
+
+<h4>Hello脚本</h4>
+
+<p>创建Hello.fanx文件：</p>
+
+<pre>class Hello {
+  fun main() { echo("Hello World") }
+}</pre>
+
+<p>运行：</p>
+
+<pre>fan Hello.fanx</pre>
+
+<h4>Hello图形界面</h4>
+
+<p>一个例子HelloGui.fanx：</p>
+
+<pre>using vaseGui
+
+class HelloTest
+{
+  static fun main() {
+    root := Frame {
+      Button {
+        text = "Press Me"
+        onClick {
+          Toast("Hello World").show(it)
+        }
+      },
+    }
+    root.show
+  }
+}</pre>
+
+<p>运行：</p>
+
+<pre>fan HelloGui.fanx</pre>
+
+<h4>Hello服务端</h4>
+
+<p>创建文件./public/Hello.fanx:</p>
+
+<pre>using slanWeb
+
+class Hello : SlanWeblet
+{
+  fun hi()
+  {
+    setContentType("html")
+    res.out.print("&lt;h2>Hello World!&lt;/h2>")
+  }
+}</pre>
+
+<p>运行服务:</p>
+
+<pre>fan slanWeb -resPath public/</pre>
+
+<p>在浏览器查看： <a href='http://localhost:8080/Hello/hi'>http://localhost:8080/Hello/hi</a></p>
+
+<h4>Hello JavaScript</h4>
+
+<p>将Fanx代码编译为JS来执行。</p>
+
+<p>将上面图形界面的HelloGui.fanx例子拷贝到public目录，并重命名为HelloJs.fwtx。</p>
+
+<p>用同样的方法启动服务后(如果已经启动服务，则只需要刷新浏览器即可)，在浏览器查看: <a href='http://localhost:8080/HelloJs.fwtx'>http://localhost:8080/HelloJs.fwtx</a></p>
+
+<h4>Hello Pod</h4>
+
+<p>对于大一点的系统，应该把代码组织成Pod的形式。Pod是预编译的模块。约定的目录结构如下：</p>
+
+<pre>- helloPod
+   - pod.props
+   - fan/
+       - Main.fan
+   - test/
+       - Test.fan
+</pre>
+
+<p>pod.props用来指定pod的名称、版本、依赖关系。例如：</p>
+
+<pre>podName = hello
+summary = test lib
+version = 2.0
+srcDirs = test/,fan/
+depends = sys 1.0, std 1.0</pre>
+
+<p>构建pod：</p>
+
+<pre>fanxb pod.props</pre>
+
+<p>构建后的文件默认存放在fanx安装目录/lib/fan/下。</p>
+
+<p>运行pod:</p>
+
+<pre>fan hello::Main.main
+fan hello::Main
+fan hello</pre>
+
+   </div>
+ </body>
+ </html>
+ 

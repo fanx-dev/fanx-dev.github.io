@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>TcpListenerTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='src-TcpListenerTest.fan.html'>TcpListenerTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   9 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'></span>
+<span id='line11'>class TcpListenerTest : Test</span>
+<span id='line12'><b>{</b></span>
+<span id='line13'></span>
+<span id='line14'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line15'>// Make</span>
+<span id='line16'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line17'></span>
+<span id='line18'>  Void testMake<b>(</b><b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    s := TcpListener.make</span>
+<span id='line21'>    verifyEq<b>(</b>s.isBound, false<b>)</b></span>
+<span id='line22'>    verifyEq<b>(</b>s.isClosed, false<b>)</b></span>
+<span id='line23'>    verifyEq<b>(</b>s.localAddr, null<b>)</b></span>
+<span id='line24'>    verifyEq<b>(</b>s.localPort, null<b>)</b></span>
+<span id='line25'>    s.close</span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line29'>// Bind</span>
+<span id='line30'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line31'></span>
+<span id='line32'>  Void testBind<b>(</b><b>)</b></span>
+<span id='line33'>  <b>{</b></span>
+<span id='line34'>    verifyBind<b>(</b>null, null<b>)</b></span>
+<span id='line35'>    verifyBind<b>(</b>IpAddr.local, null<b>)</b></span>
+<span id='line36'>    verifyBind<b>(</b>null, 1872<b>)</b></span>
+<span id='line37'>    verifyBind<b>(</b>IpAddr.local, 1873<b>)</b></span>
+<span id='line38'>  <b>}</b></span>
+<span id='line39'></span>
+<span id='line40'>  Void verifyBind<b>(</b>IpAddr? addr, Int? port<b>)</b></span>
+<span id='line41'>  <b>{</b></span>
+<span id='line42'>    s := TcpListener.make</span>
+<span id='line43'>    verifySame<b>(</b>s.bind<b>(</b>addr, port<b>)</b>, s<b>)</b></span>
+<span id='line44'></span>
+<span id='line45'>    // state</span>
+<span id='line46'>    verifyEq<b>(</b>s.isBound, true<b>)</b></span>
+<span id='line47'>    verifyEq<b>(</b>s.isClosed, false<b>)</b></span>
+<span id='line48'></span>
+<span id='line49'>    // local address</span>
+<span id='line50'>    if <b>(</b>addr == null<b>)</b></span>
+<span id='line51'>      verify<b>(</b>s.localAddr!= null<b>)</b></span>
+<span id='line52'>    else</span>
+<span id='line53'>      verifyEq<b>(</b>s.localAddr, addr<b>)</b></span>
+<span id='line54'></span>
+<span id='line55'>    // local port</span>
+<span id='line56'>    if <b>(</b>port == null<b>)</b></span>
+<span id='line57'>      verify<b>(</b>s.localPort > 0<b>)</b></span>
+<span id='line58'>    else</span>
+<span id='line59'>      verifyEq<b>(</b>s.localPort, port<b>)</b></span>
+<span id='line60'></span>
+<span id='line61'>    // duplicate port</span>
+<span id='line62'>    /* On Windows7 this doesn't fail?</span>
+<span id='line63'>    x := TcpSocket.make</span>
+<span id='line64'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> x.bind<b>(</b>null, s.localPort<b>)</b> <b>}</b></span>
+<span id='line65'>    x.close</span>
+<span id='line66'>    */</span>
+<span id='line67'></span>
+<span id='line68'>    // cleanup</span>
+<span id='line69'>    s.close</span>
+<span id='line70'></span>
+<span id='line71'>    verifyEq<b>(</b>s.isClosed, true<b>)</b></span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line75'>// Accept</span>
+<span id='line76'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line77'></span>
+<span id='line78'>  Void testAccept<b>(</b><b>)</b></span>
+<span id='line79'>  <b>{</b></span>
+<span id='line80'>    // NOTE: with SocketConfig changes, you can no longer set a receive timeout</span>
+<span id='line81'>    // on TcpListener</span>
+<span id='line82'>    // config := SocketConfig <b>{</b> it.receiveTimeout = 100ms <b>}</b></span>
+<span id='line83'>    listener := TcpListener.make<b>(</b><b>)</b>.bind<b>(</b>null, null<b>)</b></span>
+<span id='line84'>    port := listener.localPort</span>
+<span id='line85'></span>
+<span id='line86'>    /*</span>
+<span id='line87'>    // Force an accept before doing timings - one time class creation/initialization</span>
+<span id='line88'>    // needs to occur before doing the timing test.</span>
+<span id='line89'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> listener.accept <b>}</b></span>
+<span id='line90'>    verifyEq<b>(</b>listener.options.receiveTimeout, 100ms<b>)</b></span>
+<span id='line91'></span>
+<span id='line92'>    t1 := Duration.now</span>
+<span id='line93'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> listener.accept <b>}</b></span>
+<span id='line94'>    t2 := Duration.now</span>
+<span id='line95'>    verify<b>(</b>50ms &lt; t2-t1 &amp;&amp; t2-t1 &lt; 200ms, <b>(</b>t2-t1<b>)</b>.toLocale<b>)</b></span>
+<span id='line96'>    */</span>
+<span id='line97'></span>
+<span id='line98'>    actor := Actor<b>(</b>ActorPool<b>(</b><b>)</b><b>)</b> <b>{</b> runClient<b>(</b>port<b>)</b> <b>}</b></span>
+<span id='line99'>    future := actor.send<b>(</b>null<b>)</b></span>
+<span id='line100'></span>
+<span id='line101'>    // accept</span>
+<span id='line102'>    trace<b>(</b>"s: accept..."<b>)</b></span>
+<span id='line103'>    s := listener.accept</span>
+<span id='line104'>    trace<b>(</b>"s: accepted!"<b>)</b></span>
+<span id='line105'>    verifyEq<b>(</b>s.isConnected, true<b>)</b></span>
+<span id='line106'></span>
+<span id='line107'>    // read req line</span>
+<span id='line108'>    req := s.in.readLine</span>
+<span id='line109'>    trace<b>(</b>"s: req = $req"<b>)</b></span>
+<span id='line110'>    verifyEq<b>(</b>req, "hello"<b>)</b></span>
+<span id='line111'></span>
+<span id='line112'>    // write response and verify it is returned back on join</span>
+<span id='line113'>    s.out.printLine<b>(</b>"how you doing?"<b>)</b>.flush</span>
+<span id='line114'>    res := future.get<b>(</b>5sec<b>)</b></span>
+<span id='line115'>    trace<b>(</b>"s: response = $res"<b>)</b></span>
+<span id='line116'>    verifyEq<b>(</b>res, "how you doing?"<b>)</b></span>
+<span id='line117'></span>
+<span id='line118'>    // cleanup</span>
+<span id='line119'>    s.close</span>
+<span id='line120'>    listener.close</span>
+<span id='line121'>  <b>}</b></span>
+<span id='line122'></span>
+<span id='line123'>  static Obj runClient<b>(</b>Int port<b>)</b></span>
+<span id='line124'>  <b>{</b></span>
+<span id='line125'>    trace<b>(</b>"c: connecting..."<b>)</b></span>
+<span id='line126'>    s := TcpSocket.make.connect<b>(</b>IpAddr.local, port<b>)</b></span>
+<span id='line127'>    trace<b>(</b>"c: connected!"<b>)</b></span>
+<span id='line128'>    s.out.printLine<b>(</b>"hello"<b>)</b>.flush</span>
+<span id='line129'>    res := s.in.readLine</span>
+<span id='line130'>    trace<b>(</b>"c: response $res"<b>)</b></span>
+<span id='line131'>    s.close</span>
+<span id='line132'>    return res</span>
+<span id='line133'>  <b>}</b></span>
+<span id='line134'></span>
+<span id='line135'>  static Void trace<b>(</b>Str s<b>)</b></span>
+<span id='line136'>  <b>{</b></span>
+<span id='line137'>    // echo<b>(</b>s<b>)</b></span>
+<span id='line138'>  <b>}</b></span>
+<span id='line139'></span>
+<span id='line140'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line141'>// Options</span>
+<span id='line142'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line143'></span>
+<span id='line144'>  Void testOptions<b>(</b><b>)</b></span>
+<span id='line145'>  <b>{</b></span>
+<span id='line146'>    s := TcpListener.make</span>
+<span id='line147'>    so := s.options</span>
+<span id='line148'></span>
+<span id='line149'>    receive := so.receiveBufferSize</span>
+<span id='line150'>    so.receiveBufferSize = receive*2</span>
+<span id='line151'>    verifyEq<b>(</b>so.receiveBufferSize, receive*2<b>)</b></span>
+<span id='line152'></span>
+<span id='line153'>    reuse := so.reuseAddr</span>
+<span id='line154'>    so.reuseAddr = !reuse</span>
+<span id='line155'>    verifyEq<b>(</b>so.reuseAddr, !reuse<b>)</b></span>
+<span id='line156'></span>
+<span id='line157'>    // NOTE: SocketConfig removes this option</span>
+<span id='line158'>    // so.receiveTimeout = 100ms</span>
+<span id='line159'>    // verifyEq<b>(</b>so.receiveTimeout, 100ms<b>)</b></span>
+<span id='line160'>    // so.receiveTimeout = null</span>
+<span id='line161'>    // verifyEq<b>(</b>so.receiveTimeout, null<b>)</b></span>
+<span id='line162'></span>
+<span id='line163'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.broadcast<b>)</b> <b>}</b></span>
+<span id='line164'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.broadcast = false <b>}</b></span>
+<span id='line165'></span>
+<span id='line166'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.inBufferSize<b>)</b> <b>}</b></span>
+<span id='line167'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.inBufferSize = 88 <b>}</b></span>
+<span id='line168'></span>
+<span id='line169'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.outBufferSize<b>)</b> <b>}</b></span>
+<span id='line170'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.outBufferSize = 99 <b>}</b></span>
+<span id='line171'></span>
+<span id='line172'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.keepAlive<b>)</b> <b>}</b></span>
+<span id='line173'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.keepAlive = false <b>}</b></span>
+<span id='line174'></span>
+<span id='line175'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.sendBufferSize<b>)</b> <b>}</b></span>
+<span id='line176'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.sendBufferSize = 100 <b>}</b></span>
+<span id='line177'></span>
+<span id='line178'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.linger<b>)</b> <b>}</b></span>
+<span id='line179'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.linger = null <b>}</b></span>
+<span id='line180'></span>
+<span id='line181'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.noDelay<b>)</b> <b>}</b></span>
+<span id='line182'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.noDelay = true <b>}</b></span>
+<span id='line183'></span>
+<span id='line184'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.trafficClass<b>)</b> <b>}</b></span>
+<span id='line185'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.trafficClass = 0 <b>}</b></span>
+<span id='line186'></span>
+<span id='line187'>    s.close</span>
+<span id='line188'>  <b>}</b></span>
+<span id='line189'></span>
+<span id='line190'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line191'>// Utils</span>
+<span id='line192'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line193'></span>
+<span id='line194'>  Void dump<b>(</b>TcpListener s<b>)</b></span>
+<span id='line195'>  <b>{</b></span>
+<span id='line196'>    echo<b>(</b>"---------"<b>)</b></span>
+<span id='line197'>    echo<b>(</b>"bound      = $s.isBound"<b>)</b></span>
+<span id='line198'>    echo<b>(</b>"closed     = $s.isClosed"<b>)</b></span>
+<span id='line199'>    echo<b>(</b>"localAddr  = $s.localAddr"<b>)</b></span>
+<span id='line200'>    echo<b>(</b>"localPort  = $s.localPort"<b>)</b></span>
+<span id='line201'>    echo<b>(</b>"receive    = $s.options.receiveBufferSize"<b>)</b></span>
+<span id='line202'>    echo<b>(</b>"reuseAddr  = $s.options.reuseAddr"<b>)</b></span>
+<span id='line203'>    echo<b>(</b>"timeout    = $s.options.receiveTimeout"<b>)</b></span>
+<span id='line204'>  <b>}</b></span>
+<span id='line205'></span>
+<span id='line206'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::CreateZip</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='CreateZip.html'>CreateZip</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> build::CreateZip</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Task.html'>build::Task</a>
+    build::CreateZip</pre>
+
+<p>CreateZip is used to create a zip file from a directory on the file system.</p>
+<dl>
+<dt id='filter'>
+filter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='../std/File.html'>File</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> filter</code></p>
+
+<p>This function is called on each file under <code>inDir</code>; if true returned it is included in the zip, if false then it is excluded. Returning false for a directory will skip recursing the entire directory.</p>
+</dd>
+<dt id='inDirs'>
+inDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;?</a> inDirs</code></p>
+
+<p>Required directories to zip up.  The contents of these dirs are recursively zipped up with zip paths relative to this root directory.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='BuildScript.html'>BuildScript</a> script)</code></p>
+</dd>
+<dt id='outFile'>
+outFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File?</a> outFile</code></p>
+
+<p>Required output zip file to create</p>
+</dd>
+<dt id='pathPrefix'>
+pathPrefix</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri?</a> pathPrefix := null</code></p>
+
+<p>Specifies the top level directory inside the zip file prefixed to all the files.  For example use <code>acme/</code> to put everything inside the zip file inside a "acme" directory. The URI used must end with a slash.  If null, then no path prefix is used.</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#filter'>filter</a></li><li><a href='#inDirs'>inDirs</a></li><li><a href='#outFile'>outFile</a></li><li><a href='#pathPrefix'>pathPrefix</a></li><li><a href='#run'>run</a></li></ul>
+</div>
+</div>
+</body>
+</html>

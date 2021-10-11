@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::AtomicInt</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='AtomicInt.html'>AtomicInt</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> std::AtomicInt</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::AtomicInt</pre>
+
+<p>AtomicInt is used to manage an integer variable shared between actor/threads with atomic updates.</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> add(<a href='../sys/Int.html'>Int</a> delta)</code></p>
+
+<p>Atomically add the given value to the current value</p>
+</dd>
+<dt id='addAndGet'>
+addAndGet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> addAndGet(<a href='../sys/Int.html'>Int</a> delta)</code></p>
+
+<p>Atomically add the given value to the current value and return the updated value.</p>
+</dd>
+<dt id='compareAndSet'>
+compareAndSet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> compareAndSet(<a href='../sys/Int.html'>Int</a> expect, <a href='../sys/Int.html'>Int</a> update)</code></p>
+
+<p>Atomically set the value to <code>update</code> if current value is equivalent to the <code>expect</code> value.  Return true if updated, or false if current value was not equal to the expected value.</p>
+</dd>
+<dt id='decrement'>
+decrement</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> decrement()</code></p>
+
+<p>Atomically decrement the value by one</p>
+</dd>
+<dt id='decrementAndGet'>
+decrementAndGet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> decrementAndGet()</code></p>
+
+<p>Atomically decrement the current value by one and return the updated value.</p>
+</dd>
+<dt id='finalize'>
+finalize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> finalize()</code></p>
+</dd>
+<dt id='getAndAdd'>
+getAndAdd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> getAndAdd(<a href='../sys/Int.html'>Int</a> delta)</code></p>
+
+<p>Atomically add the given value to the current value and return the previous value.</p>
+</dd>
+<dt id='getAndDecrement'>
+getAndDecrement</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> getAndDecrement()</code></p>
+
+<p>Atomically decrement the current value by one and return the previous value.</p>
+</dd>
+<dt id='getAndIncrement'>
+getAndIncrement</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> getAndIncrement()</code></p>
+
+<p>Atomically increment the current value by one and return the previous value.</p>
+</dd>
+<dt id='getAndSet'>
+getAndSet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> getAndSet(<a href='../sys/Int.html'>Int</a> val)</code></p>
+
+<p>Atomically set the value and return the previous value.</p>
+</dd>
+<dt id='increment'>
+increment</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> increment()</code></p>
+
+<p>Atomically increment the value by one</p>
+</dd>
+<dt id='incrementAndGet'>
+incrementAndGet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> incrementAndGet()</code></p>
+
+<p>Atomically increment the current value by one and return the updated value.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Int.html'>Int</a> val := 0)</code></p>
+
+<p>Construct with initial value</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return <code>val.toStr</code></p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> val</code></p>
+
+<p>The current integer value</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#addAndGet'>addAndGet</a></li><li><a href='#compareAndSet'>compareAndSet</a></li><li><a href='#decrement'>decrement</a></li><li><a href='#decrementAndGet'>decrementAndGet</a></li><li><a href='#finalize'>finalize</a></li><li><a href='#getAndAdd'>getAndAdd</a></li><li><a href='#getAndDecrement'>getAndDecrement</a></li><li><a href='#getAndIncrement'>getAndIncrement</a></li><li><a href='#getAndSet'>getAndSet</a></li><li><a href='#increment'>increment</a></li><li><a href='#incrementAndGet'>incrementAndGet</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#val'>val</a></li></ul>
+</div>
+</div>
+</body>
+</html>

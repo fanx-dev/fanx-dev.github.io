@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::TypeDef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='TypeDef.html'>TypeDef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::TypeDef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CTypeDef.html'>compilerx::CTypeDef</a>
+    compilerx::TypeDef</pre>
+
+<p>TypeDef models a type definition for a class, mixin or enum</p>
+<dl>
+<dt id='addFacet'>
+addFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> addFacet(<a href='CType.html'>CType</a> type, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> vals := null)</code></p>
+</dd>
+<dt id='addSlot'>
+addSlot</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> addSlot(<a href='SlotDef.html'>SlotDef</a> s, <a href='../sys/Int.html'>Int?</a> slotDefIndex := null)</code></p>
+
+<p>Add a slot to the type definition.  The method is used to add SlotDefs declared by this type as well as slots inherited by this type.</p>
+</dd>
+<dt id='baseSpecified'>
+baseSpecified</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> baseSpecified := true</code></p>
+</dd>
+<dt id='closure'>
+closure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ClosureExpr.html'>ClosureExpr?</a> closure</code></p>
+</dd>
+<dt id='closures'>
+closures</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='ClosureExpr.html'>ClosureExpr</a>&gt;</a> closures</code></p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='DocDef.html'>DocDef?</a> doc</code></p>
+</dd>
+<dt id='enumDef'>
+enumDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='EnumDef.html'>EnumDef?</a> enumDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return EnumDef for specified name or null.</p>
+</dd>
+<dt id='enumDefs'>
+enumDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='EnumDef.html'>EnumDef</a>&gt;</a> enumDefs</code></p>
+</dd>
+<dt id='facets'>
+facets</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CFacet.html'>CFacet</a>&gt;?</a> facets</code></p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> flags</code></p>
+</dd>
+<dt id='genericParameters'>
+genericParameters</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='GenericParamDef.html'>GenericParamDef</a>&gt;</a> genericParameters := GenericParamDef[,]</code></p>
+</dd>
+<dt id='getChildren'>
+getChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> getChildren(<a href='../sys/List.html'>List&lt;<a href='CNode.html'>CNode</a>&gt;</a> list, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options)</code></p>
+</dd>
+<dt id='indexedFacets'>
+indexedFacets</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FacetDef.html'>FacetDef</a>&gt;?</a> indexedFacets</code></p>
+</dd>
+<dt id='inheritances'>
+inheritances</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> inheritances</code></p>
+</dd>
+<dt id='instanceInit'>
+instanceInit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> instanceInit()</code></p>
+</dd>
+<dt id='isClosure'>
+isClosure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isClosure()</code></p>
+
+<p>Return if this type is the anonymous class of a closure</p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Loc.html'>Loc</a> loc</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='CompilationUnit.html'>CompilationUnit</a> unit, <a href='../sys/Str.html'>Str</a> name, <a href='../sys/Int.html'>Int</a> flags := 0)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual const override <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='normalizeStaticInits'>
+normalizeStaticInits</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> normalizeStaticInits(<a href='MethodDef.html'>MethodDef</a> m)</code></p>
+
+<p>If during parse we added any static initializer methods, now is the time to remove them all and replace them with a single collapsed MethodDef (processed in Normalize step)</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='PodDef.html'>PodDef</a> pod</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>virtual const override <a href='../sys/Str.html'>Str</a> qname</code></p>
+</dd>
+<dt id='setBase'>
+setBase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setBase(<a href='CType.html'>CType</a> base)</code></p>
+</dd>
+<dt id='slotDefs'>
+slotDefs</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='SlotDef.html'>SlotDef</a>&gt;</a> slotDefs()</code></p>
+
+<p>Get the SlotDefs declared within this TypeDef.</p>
+</dd>
+<dt id='staticInit'>
+staticInit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> staticInit()</code></p>
+
+<p>Get static initializer if one is defined.</p>
+</dd>
+<dt id='unit'>
+unit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilationUnit.html'>CompilationUnit</a> unit</code></p>
+</dd>
+<dt id='walk'>
+walk</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> walk(<a href='Visitor.html'>Visitor</a> v, <a href='VisitDepth.html'>VisitDepth</a> depth)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addFacet'>addFacet</a></li><li><a href='#addSlot'>addSlot</a></li><li><a href='#baseSpecified'>baseSpecified</a></li><li><a href='#closure'>closure</a></li><li><a href='#closures'>closures</a></li><li><a href='#doc'>doc</a></li><li><a href='#enumDef'>enumDef</a></li><li><a href='#enumDefs'>enumDefs</a></li><li><a href='#facets'>facets</a></li><li><a href='#flags'>flags</a></li><li><a href='#genericParameters'>genericParameters</a></li><li><a href='#getChildren'>getChildren</a></li><li><a href='#indexedFacets'>indexedFacets</a></li><li><a href='#inheritances'>inheritances</a></li><li><a href='#instanceInit'>instanceInit</a></li><li><a href='#isClosure'>isClosure</a></li><li><a href='#loc'>loc</a></li><li><a href='#name'>name</a></li><li><a href='#normalizeStaticInits'>normalizeStaticInits</a></li><li><a href='#pod'>pod</a></li><li><a href='#print'>print</a></li><li><a href='#qname'>qname</a></li><li><a href='#setBase'>setBase</a></li><li><a href='#slotDefs'>slotDefs</a></li><li><a href='#staticInit'>staticInit</a></li><li><a href='#unit'>unit</a></li><li><a href='#walk'>walk</a></li></ul>
+</div>
+</div>
+</body>
+</html>

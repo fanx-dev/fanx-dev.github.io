@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>email::Email</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>email</a></li><li><a href='Email.html'>Email</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> email::Email</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  email::Email</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+<p class='src'>
+<a href='src-Email.fan.html'>Source</a></p>
+
+<p>Email models a top level MIME message.</p>
+
+<p>See <a href='index.html'>pod doc</a> and <a href='https://fantom.org/doc/examples/email-sending'>examples</a>.</p>
+<dl>
+<dt id='bcc'>
+bcc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;?</a> bcc</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line44'>Source</a></p>
+
+<p>List of "bcc" email addresses. See <code><a href='MimeUtil.html#toAddrSpec'>MimeUtil.toAddrSpec</a></code> for address formatting.</p>
+</dd>
+<dt id='body'>
+body</dt>
+<dd>
+<p class='sig'>
+<code> <a href='EmailPart.html'>EmailPart?</a> body</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line56'>Source</a></p>
+
+<p>Body of the email - typically an instance of <code><a href='TextPart.html'>TextPart</a></code> or <code><a href='MultiPart.html'>MultiPart</a></code>.</p>
+</dd>
+<dt id='cc'>
+cc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;?</a> cc</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line38'>Source</a></p>
+
+<p>List of "cc" email addresses. See <code><a href='MimeUtil.html#toAddrSpec'>MimeUtil.toAddrSpec</a></code> for address formatting.</p>
+</dd>
+<dt id='encode'>
+encode</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> encode(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line87'>Source</a></p>
+
+<p>Encode as a MIME message according to RFC 822.</p>
+</dd>
+<dt id='from'>
+from</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> from</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line26'>Source</a></p>
+
+<p>From email address. See <code><a href='MimeUtil.html#toAddrSpec'>MimeUtil.toAddrSpec</a></code> for address formatting.</p>
+</dd>
+<dt id='msgId'>
+msgId</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> msgId := ...</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line21'>Source</a></p>
+
+<p>Unique identifier for message (auto-generated).</p>
+</dd>
+<dt id='recipients'>
+recipients</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> recipients()</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line62'>Source</a></p>
+
+<p>Return the aggregation of <code><a href='Email.html#to'>to</a></code>, <code><a href='Email.html#cc'>cc</a></code>, and <code><a href='Email.html#bcc'>bcc</a></code>.</p>
+</dd>
+<dt id='subject'>
+subject</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> subject := &quot;&quot;</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line50'>Source</a></p>
+
+<p>Subject of the email.  This string can be any Unicode and is automatically translated into an encoded word.</p>
+</dd>
+<dt id='to'>
+to</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;?</a> to</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line32'>Source</a></p>
+
+<p>List of "to" email addresses. See <code><a href='MimeUtil.html#toAddrSpec'>MimeUtil.toAddrSpec</a></code> for address formatting.</p>
+</dd>
+<dt id='validate'>
+validate</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> validate()</code></p>
+<p class='src'>
+<a href='src-Email.fan.html#line74'>Source</a></p>
+
+<p>Validate this email message - throw Err if not configured correctly.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Email.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bcc'>bcc</a></li><li><a href='#body'>body</a></li><li><a href='#cc'>cc</a></li><li><a href='#encode'>encode</a></li><li><a href='#from'>from</a></li><li><a href='#msgId'>msgId</a></li><li><a href='#recipients'>recipients</a></li><li><a href='#subject'>subject</a></li><li><a href='#to'>to</a></li><li><a href='#validate'>validate</a></li></ul>
+</div>
+</div>
+</body>
+</html>

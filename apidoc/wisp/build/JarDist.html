@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::JarDist</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='JarDist.html'>JarDist</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> build::JarDist</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Task.html'>build::Task</a>
+    <a href='JdkTask.html'>build::JdkTask</a>
+      build::JarDist</pre>
+
+<p>JarDist compiles a set of Fantom pods into a single Java JAR file.</p>
+<dl>
+<dt id='mainMethod'>
+mainMethod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> mainMethod</code></p>
+
+<p>Qualified name of main method to run for JAR. This must be a static void method with no arguments.</p>
+</dd>
+<dt id='mainMethodArg'>
+mainMethodArg</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> mainMethodArg</code></p>
+
+<p>Does the main method accept a Str[] arg</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='BuildScript.html'>BuildScript</a> script)</code></p>
+
+<p>Construct uninitialized task</p>
+</dd>
+<dt id='outFile'>
+outFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File?</a> outFile</code></p>
+
+<p>Required output jar file to create</p>
+</dd>
+<dt id='podNames'>
+podNames</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> podNames := Str[,]</code></p>
+
+<p>List of pods to compile into JAR; sys is always implied</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run the javac task</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#mainMethod'>mainMethod</a></li><li><a href='#mainMethodArg'>mainMethodArg</a></li><li><a href='#outFile'>outFile</a></li><li><a href='#podNames'>podNames</a></li><li><a href='#run'>run</a></li></ul>
+</div>
+</div>
+</body>
+</html>

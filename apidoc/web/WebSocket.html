@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::WebSocket</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebSocket.html'>WebSocket</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> web::WebSocket</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  web::WebSocket</pre>
+<p class='src'>
+<a href='src-WebSocket.fan.html'>Source</a></p>
+
+<p>WebSocket is used for both client and server web socket messaging. Current implementation only supports basic non-fragmented text or binary messages.</p>
+<dl>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+<p class='src'>
+<a href='src-WebSocket.fan.html#line251'>Source</a></p>
+
+<p>Close the web socket</p>
+</dd>
+<dt id='isClosed'>
+isClosed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isClosed()</code></p>
+<p class='src'>
+<a href='src-WebSocket.fan.html#line108'>Source</a></p>
+
+<p>Return true if this socket has been closed</p>
+</dd>
+<dt id='openClient'>
+openClient</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='WebSocket.html'>WebSocket</a> openClient(<a href='../std/Uri.html'>Uri</a> uri, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> headers := null)</code></p>
+<p class='src'>
+<a href='src-WebSocket.fan.html#line21'>Source</a></p>
+
+<p>Open a client connection.  The URI must have a "ws" or "wss" scheme. The <code>headers</code> parameter defines additional HTTP headers to include in the connection request.</p>
+</dd>
+<dt id='openServer'>
+openServer</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='WebSocket.html'>WebSocket</a> openServer(<a href='WebReq.html'>WebReq</a> req, <a href='WebRes.html'>WebRes</a> res)</code></p>
+<p class='src'>
+<a href='src-WebSocket.fan.html#line56'>Source</a></p>
+
+<p>Upgrade a server request to a WebSocket.  Raise IOErr is there is any problems during the handshake in which case the calling WebMod should return a 400 response.</p>
+
+<p>Note: once this method completes, the socket is now owned by the WebSocket instance and not the web server (wisp); it must be explicitly closed to prevent a file handle leak.</p>
+</dd>
+<dt id='receive'>
+receive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> receive()</code></p>
+<p class='src'>
+<a href='src-WebSocket.fan.html#line113'>Source</a></p>
+
+<p>Receive a message which is returned as either a Str or Buf. Raise IOErr if socket has error or is closed.</p>
+</dd>
+<dt id='send'>
+send</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> send(<a href='../sys/Obj.html'>Obj</a> msg)</code></p>
+<p class='src'>
+<a href='src-WebSocket.fan.html#line181'>Source</a></p>
+
+<p>Send a message which must be either a Str of Buf.  Bufs are sent using their full contents irrelevant of their current position.</p>
+</dd>
+<dt id='socketOptions'>
+socketOptions</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=... }</code><br /> <a href='../inet/SocketOptions.html'>SocketOptions</a> socketOptions()</code></p>
+<p class='src'>
+<a href='src-WebSocket.fan.html#line102'>Source</a></p>
+
+<p>Access to socket options for this request.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-WebSocket.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#openClient'>openClient</a></li><li><a href='#openServer'>openServer</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#close'>close</a></li><li><a href='#isClosed'>isClosed</a></li><li><a href='#receive'>receive</a></li><li><a href='#send'>send</a></li><li><a href='#socketOptions'>socketOptions</a></li></ul>
+</div>
+</div>
+</body>
+</html>

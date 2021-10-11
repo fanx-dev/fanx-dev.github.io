@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::TypeParser</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='TypeParser.html'>TypeParser</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compilerx::TypeParser</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::TypeParser</pre>
+
+<p>TypeParser is used to parser formal type signatures into CTypes.</p>
+
+<pre>x::N
+x::V[]
+x::V[x::K]
+|x::A, ... -> x::R|</pre>
+<dl>
+<dt id='parse'>
+parse</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType</a> parse(<a href='../sys/Str.html'>Str</a> sig)</code></p>
+
+<p>Parse the signature into a resolved CType.  We <em>don't</em> use the CNamespace's cache - it is using me when a signature isn't found in the cache.  But we do use the CPod's type cache via CPod.resolveType.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#parse'>parse</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

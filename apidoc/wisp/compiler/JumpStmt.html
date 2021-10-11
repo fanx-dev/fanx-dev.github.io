@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::JumpStmt</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='JumpStmt.html'>JumpStmt</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::JumpStmt</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    <a href='Stmt.html'>compiler::Stmt</a>
+      <a href='LowerLevelStmt.html'>compiler::LowerLevelStmt</a>
+        compiler::JumpStmt</pre>
+<dl>
+<dt id='condition'>
+condition</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr?</a> condition</code></p>
+</dd>
+<dt id='ifFalse'>
+ifFalse</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> ifFalse := true</code></p>
+</dd>
+<dt id='isLeave'>
+isLeave</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isLeave := false</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='Expr.html'>Expr?</a> condition)</code></p>
+</dd>
+<dt id='makeGoto'>
+makeGoto</dt>
+<dd>
+<p class='sig'>
+<code>new makeGoto(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='target'>
+target</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TargetLabel.html'>TargetLabel?</a> target</code></p>
+</dd>
+<dt id='walkChildren'>
+walkChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> walkChildren(<a href='Visitor.html'>Visitor</a> v, <a href='VisitDepth.html'>VisitDepth</a> depth)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeGoto'>makeGoto</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#condition'>condition</a></li><li><a href='#ifFalse'>ifFalse</a></li><li><a href='#isLeave'>isLeave</a></li><li><a href='#print'>print</a></li><li><a href='#target'>target</a></li><li><a href='#walkChildren'>walkChildren</a></li></ul>
+</div>
+</div>
+</body>
+</html>

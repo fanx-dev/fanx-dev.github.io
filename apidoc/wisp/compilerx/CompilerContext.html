@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CompilerContext</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CompilerContext.html'>CompilerContext</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compilerx::CompilerContext</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::CompilerContext</pre>
+
+<p>shared data in compiler step</p>
+<dl>
+<dt id='cunits'>
+cunits</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CompilationUnit.html'>CompilationUnit</a>&gt;</a> cunits</code></p>
+
+<p>code to compile</p>
+</dd>
+<dt id='cunitsMap'>
+cunitsMap</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CompilationUnit.html'>CompilationUnit</a>&gt;</a> cunitsMap</code></p>
+</dd>
+<dt id='fpod'>
+fpod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FPod.html'>FPod?</a> fpod</code></p>
+
+<p>pod file to write</p>
+</dd>
+<dt id='input'>
+input</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerInput.html'>CompilerInput</a> input</code></p>
+</dd>
+<dt id='js'>
+js</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> js</code></p>
+</dd>
+<dt id='jsPod'>
+jsPod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> jsPod</code></p>
+
+<p>javascript target</p>
+</dd>
+<dt id='jsSourceMap'>
+jsSourceMap</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> jsSourceMap</code></p>
+</dd>
+<dt id='localeDefs'>
+localeDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='LocaleLiteralExpr.html'>LocaleLiteralExpr</a>&gt;</a> localeDefs</code></p>
+
+<p>temp vars see: ResolveExpr.resolveLocaleLiteral</p>
+</dd>
+<dt id='localeProps'>
+localeProps</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> localeProps</code></p>
+
+<p>temp storage for locale/en.props</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerLog.html'>CompilerLog</a> log</code></p>
+
+<p>Log used for reporting compile errors</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='PodDef.html'>PodDef</a> pod, <a href='CompilerInput.html'>CompilerInput</a> input, <a href='CNamespace.html'>CNamespace</a> ns)</code></p>
+
+<p>ctor</p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CNamespace.html'>CNamespace?</a> ns</code></p>
+
+<p>Namespace used to resolve dependency pods/types.</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='PodDef.html'>PodDef</a> pod</code></p>
+
+<p>Current pod</p>
+</dd>
+<dt id='podFile'>
+podFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File?</a> podFile</code></p>
+
+<p>If <a href='CompilerOutputMode.podFile'>CompilerOutputMode.podFile</a> mode, the pod zip file written to disk.</p>
+</dd>
+<dt id='syntheticsUnit'>
+syntheticsUnit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilationUnit.html'>CompilationUnit</a> syntheticsUnit()</code></p>
+
+<p>Get default compilation unit to use for synthetic definitions such as wrapper types.</p>
+</dd>
+<dt id='transientPod'>
+transientPod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Pod.html'>Pod?</a> transientPod</code></p>
+
+<p>If <a href='CompilerOutputMode.transientPod'>CompilerOutputMode.transientPod</a> mode, this is loaded pod.</p>
+</dd>
+<dt id='wrappers'>
+wrappers</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CField.html'>CField</a>&gt;</a> wrappers := Map&lt;Str,CField>[:]</code></p>
+
+<p>ClosureVars wrapper types cache</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#cunits'>cunits</a></li><li><a href='#cunitsMap'>cunitsMap</a></li><li><a href='#fpod'>fpod</a></li><li><a href='#input'>input</a></li><li><a href='#js'>js</a></li><li><a href='#jsPod'>jsPod</a></li><li><a href='#jsSourceMap'>jsSourceMap</a></li><li><a href='#localeDefs'>localeDefs</a></li><li><a href='#localeProps'>localeProps</a></li><li><a href='#log'>log</a></li><li><a href='#ns'>ns</a></li><li><a href='#pod'>pod</a></li><li><a href='#podFile'>podFile</a></li><li><a href='#syntheticsUnit'>syntheticsUnit</a></li><li><a href='#transientPod'>transientPod</a></li><li><a href='#wrappers'>wrappers</a></li></ul>
+</div>
+</div>
+</body>
+</html>

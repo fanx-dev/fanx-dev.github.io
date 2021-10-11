@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>asn1::AsnObjBuilder</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnObjBuilder.html'>AsnObjBuilder</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> asn1::AsnObjBuilder</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  asn1::AsnObjBuilder</pre>
+<p class='src'>
+<a href='src-Asn.fan.html#line101'>Source</a></p>
+
+<p>Utility to build an <code><a href='AsnObj.html'>AsnObj</a></code></p>
+<dl>
+<dt id='asnEnum'>
+asnEnum</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> asnEnum(<a href='../sys/Int.html'>Int</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line192'>Source</a></p>
+
+<p>Build an ASN.1 <code>Enumerated</code> value.</p>
+</dd>
+<dt id='asnNull'>
+asnNull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> asnNull()</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line163'>Source</a></p>
+
+<p>Build an ASN.1 <code>Null</code> value</p>
+</dd>
+<dt id='bits'>
+bits</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> bits(<a href='../std/Buf.html'>Buf</a> bits)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line145'>Source</a></p>
+
+<p>Build an ASN.1 <code>Bit String</code> value. The bits in the bit string are numbered from left to right. For example, bits <code>0-7</code> are in the first byte of the bits buffer.</p>
+</dd>
+<dt id='bool'>
+bool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> bool(<a href='../sys/Bool.html'>Bool</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line130'>Source</a></p>
+
+<p>Build an ASN.1 <code>Boolean</code> value</p>
+</dd>
+<dt id='genTime'>
+genTime</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> genTime(<a href='../std/DateTime.html'>DateTime</a> ts)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line232'>Source</a></p>
+
+<p>Build an ASN.1 <code>GeneralizedTime</code> value.</p>
+</dd>
+<dt id='int'>
+int</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> int(<a href='../sys/Obj.html'>Obj</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line136'>Source</a></p>
+
+<p>Build an ASN.1 <code>Integer</code> value. The <code>val</code> may be either an <code><a href='../sys/Int.html'>Int</a></code> or a <code><a href='../math/BigInt.html'>BigInt</a></code>, but is always normalized to <code><a href='../math/BigInt.html'>BigInt</a></code>.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line105'>Source</a></p>
+</dd>
+<dt id='octets'>
+octets</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> octets(<a href='../sys/Obj.html'>Obj</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line153'>Source</a></p>
+
+<p>Build an ASN.1 <code>Octet String</code> value. The <code>val</code> may be:</p>
+
+<ul>
+<li>a <code>Str</code> - it will be converted to a Buf as <code>((Str)val).toBuf</code></li>
+
+<li>a <code>Buf</code> containing the raw octets</li>
+</ul>
+</dd>
+<dt id='oid'>
+oid</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnOid.html'>AsnOid</a> oid(<a href='../sys/Obj.html'>Obj</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line171'>Source</a></p>
+
+<p>Build an ASN.1 <code>Object Identifier</code> value (OID). The <code>val</code> may be:</p>
+
+<ol style='list-style-type:decimal'>
+<li>an <code>Int[]</code> where each element of the list is a part of the oid.</li>
+
+<li>a <code>Str</code> where each part of the oid is separated by <code>.</code>.</li>
+</ol>
+
+<pre>Asn.oid([1,2,3])
+Asn.oid("1.2.3")</pre>
+</dd>
+<dt id='seq'>
+seq</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnSeq.html'>AsnSeq</a> seq(<a href='../sys/Obj.html'>Obj</a> items)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line238'>Source</a></p>
+
+<p>Build an ASN.1 <code>SEQUENCE</code> value The <code>items</code> parameter may be:</p>
+
+<ul>
+<li>An <code>AsnItem[]</code> of raw items to add to the collection</li>
+
+<li>An <code>AsnObj[]</code></li>
+
+<li>A <code>Str:AsnObj</code> - if the order of the sequence is important, you should ensure the map is ordered.</li>
+</ul>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnSet.html'>AsnSet</a> set(<a href='../sys/Obj.html'>Obj</a> items)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line249'>Source</a></p>
+
+<p>Create an ASN.1 <code>SET</code> value The <code>items</code> parameter may be any of the values accepted by <code><a href='AsnObjBuilder.html#seq'>seq</a></code>.</p>
+</dd>
+<dt id='str'>
+str</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> str(<a href='../sys/Str.html'>Str</a> val, <a href='AsnTag.html'>AsnTag</a> univ)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line204'>Source</a></p>
+
+<p>Build one of the ASN.1 string types. The <code>univ</code> parameter must be one of:</p>
+
+<ul>
+<li><code><a href='AsnTag.html#univUtf8'>AsnTag.univUtf8</a></code></li>
+
+<li><code><a href='AsnTag.html#univPrintStr'>AsnTag.univPrintStr</a></code></li>
+
+<li><code><a href='AsnTag.html#univIa5Str'>AsnTag.univIa5Str</a></code></li>
+
+<li><code><a href='AsnTag.html#univVisStr'>AsnTag.univVisStr</a></code></li>
+</ul>
+
+<p>See <code><a href='AsnObjBuilder.html#utf8'>utf8</a></code> to easily create UTF-8 strings.</p>
+</dd>
+<dt id='tag'>
+tag</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> tag(<a href='AsnTag.html'>AsnTag?</a> tag)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line112'>Source</a></p>
+
+<p>Add a tag to the object builder. Tags should be added in ther order they are specified in an ASN.1 type declaration. If the <code>tag</code> is <code>null</code>, then this is a no-op.</p>
+
+<p>Whenever a concrete <code><a href='AsnObj.html'>AsnObj</a></code> is built, the builder will clear all tags.</p>
+
+<pre>// [0] [1 APPLICATION] Boolean
+obj := AsnObjBuilder()
+   .tag(AsnTag.context(0).implicit)
+   .tag(AsnTag.app(1).implicit)
+   .bool(true)</pre>
+</dd>
+<dt id='utc'>
+utc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> utc(<a href='../std/DateTime.html'>DateTime</a> ts)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line226'>Source</a></p>
+
+<p>Build an ASN.1 <code>UTCTime</code> value</p>
+</dd>
+<dt id='utf8'>
+utf8</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj</a> utf8(<a href='../sys/Str.html'>Str</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line198'>Source</a></p>
+
+<p>Build an ASN.1 <code>Utf8String</code> value.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Asn.fan.html#line101'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#asnEnum'>asnEnum</a></li><li><a href='#asnNull'>asnNull</a></li><li><a href='#bits'>bits</a></li><li><a href='#bool'>bool</a></li><li><a href='#genTime'>genTime</a></li><li><a href='#int'>int</a></li><li><a href='#octets'>octets</a></li><li><a href='#oid'>oid</a></li><li><a href='#seq'>seq</a></li><li><a href='#set'>set</a></li><li><a href='#str'>str</a></li><li><a href='#tag'>tag</a></li><li><a href='#utc'>utc</a></li><li><a href='#utf8'>utf8</a></li></ul>
+</div>
+</div>
+</body>
+</html>

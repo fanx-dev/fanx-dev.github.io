@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::FanScript</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='FanScript.html'>FanScript</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> build::FanScript</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Task.html'>build::Task</a>
+    build::FanScript</pre>
+
+<p>FanScript is used to compile a Fantom script into memory and run it via reflection.</p>
+<dl>
+<dt id='args'>
+args</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> args</code></p>
+</dd>
+<dt id='compile'>
+compile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Pod.html'>Pod</a> compile()</code></p>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File</a> file</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='BuildScript.html'>BuildScript</a> script, <a href='../std/File.html'>File</a> file, <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;?</a> args := null)</code></p>
+
+<p>Make with script name, arguments are Fantom arguments passed to main method (**not** command line string arguments)</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#args'>args</a></li><li><a href='#compile'>compile</a></li><li><a href='#file'>file</a></li><li><a href='#run'>run</a></li></ul>
+</div>
+</div>
+</body>
+</html>

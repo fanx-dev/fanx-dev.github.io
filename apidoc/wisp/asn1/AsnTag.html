@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>asn1::AsnTag</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnTag.html'>AsnTag</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> asn1::AsnTag</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  asn1::AsnTag</pre>
+<p class='src'>
+<a href='src-AsnTag.fan.html'>Source</a></p>
+
+<p>ASN.1 Tag</p>
+<dl>
+<dt id='app'>
+app</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnTagBuilder.html'>AsnTagBuilder</a> app(<a href='../sys/Int.html'>Int</a> id)</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line25'>Source</a></p>
+
+<p>Get a <code><a href='AsnTagBuilder.html'>builder</a></code> for an application tag with the given id</p>
+</dd>
+<dt id='cls'>
+cls</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='AsnTagClass.html'>AsnTagClass</a> cls</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line42'>Source</a></p>
+
+<p>The <code><a href='AsnTagClass.html'>tag class</a></code></p>
+</dd>
+<dt id='context'>
+context</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnTagBuilder.html'>AsnTagBuilder</a> context(<a href='../sys/Int.html'>Int</a> id)</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line22'>Source</a></p>
+
+<p>Get a <code><a href='AsnTagBuilder.html'>builder</a></code> for a context tag with the given id</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line105'>Source</a></p>
+
+<p>Tag equality is based only the <code><a href='AsnTagClass.html'>class</a></code> and <code>id</code>. The <code><a href='AsnTagMode.html'>mode</a></code> is ignored for eqality purposes.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line97'>Source</a></p>
+</dd>
+<dt id='id'>
+id</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> id</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line45'>Source</a></p>
+
+<p>The tag id</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='AsnTagClass.html'>AsnTagClass</a> cls, <a href='../sys/Int.html'>Int</a> id, <a href='AsnTagMode.html'>AsnTagMode</a> mode)</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line31'>Source</a></p>
+</dd>
+<dt id='mode'>
+mode</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='AsnTagMode.html'>AsnTagMode</a> mode</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line48'>Source</a></p>
+
+<p>The <code><a href='AsnTagMode.html'>tag mode</a></code></p>
+</dd>
+<dt id='priv'>
+priv</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnTagBuilder.html'>AsnTagBuilder</a> priv(<a href='../sys/Int.html'>Int</a> id)</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line28'>Source</a></p>
+
+<p>Get a <code><a href='AsnTagBuilder.html'>builder</a></code> for a private tag with the given id</p>
+</dd>
+<dt id='strictEquals'>
+strictEquals</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> strictEquals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line118'>Source</a></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line129'>Source</a></p>
+</dd>
+<dt id='univ'>
+univ</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnTagBuilder.html'>AsnTagBuilder</a> univ(<a href='../sys/Int.html'>Int</a> id)</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html'>Source</a></p>
+
+<p>Get a <code><a href='AsnTagBuilder.html'>builder</a></code> for a universal tag with the given id.</p>
+</dd>
+<dt id='univBits'>
+univBits</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univBits := AsnTag.univ(3).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line68'>Source</a></p>
+</dd>
+<dt id='univBool'>
+univBool</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univBool := AsnTag.univ(1).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line66'>Source</a></p>
+</dd>
+<dt id='univEnum'>
+univEnum</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univEnum := AsnTag.univ(10).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line75'>Source</a></p>
+</dd>
+<dt id='univGenTime'>
+univGenTime</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univGenTime := AsnTag.univ(24).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line89'>Source</a></p>
+</dd>
+<dt id='univGraphStr'>
+univGraphStr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univGraphStr := AsnTag.univ(25).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line90'>Source</a></p>
+</dd>
+<dt id='univIa5Str'>
+univIa5Str</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univIa5Str := AsnTag.univ(22).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line87'>Source</a></p>
+</dd>
+<dt id='univInt'>
+univInt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univInt := AsnTag.univ(2).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line67'>Source</a></p>
+</dd>
+<dt id='univNull'>
+univNull</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univNull := AsnTag.univ(5).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line70'>Source</a></p>
+</dd>
+<dt id='univOcts'>
+univOcts</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univOcts := AsnTag.univ(4).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line69'>Source</a></p>
+</dd>
+<dt id='univOid'>
+univOid</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univOid := AsnTag.univ(6).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line71'>Source</a></p>
+</dd>
+<dt id='univPrintStr'>
+univPrintStr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univPrintStr := AsnTag.univ(19).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line84'>Source</a></p>
+</dd>
+<dt id='univReal'>
+univReal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univReal := AsnTag.univ(9).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line74'>Source</a></p>
+</dd>
+<dt id='univSeq'>
+univSeq</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univSeq := AsnTag.univ(16).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line81'>Source</a></p>
+</dd>
+<dt id='univSet'>
+univSet</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univSet := AsnTag.univ(17).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line82'>Source</a></p>
+</dd>
+<dt id='univUtcTime'>
+univUtcTime</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univUtcTime := AsnTag.univ(23).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line88'>Source</a></p>
+</dd>
+<dt id='univUtf8'>
+univUtf8</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univUtf8 := AsnTag.univ(12).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line77'>Source</a></p>
+</dd>
+<dt id='univVisStr'>
+univVisStr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTag.html'>AsnTag</a> univVisStr := AsnTag.univ(26).explicit</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line91'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-AsnTag.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#app'>app</a></li><li><a href='#context'>context</a></li><li><a href='#make'>make</a></li><li><a href='#priv'>priv</a></li><li><a href='#univ'>univ</a></li><li><a href='#univBits'>univBits</a></li><li><a href='#univBool'>univBool</a></li><li><a href='#univEnum'>univEnum</a></li><li><a href='#univGenTime'>univGenTime</a></li><li><a href='#univGraphStr'>univGraphStr</a></li><li><a href='#univIa5Str'>univIa5Str</a></li><li><a href='#univInt'>univInt</a></li><li><a href='#univNull'>univNull</a></li><li><a href='#univOcts'>univOcts</a></li><li><a href='#univOid'>univOid</a></li><li><a href='#univPrintStr'>univPrintStr</a></li><li><a href='#univReal'>univReal</a></li><li><a href='#univSeq'>univSeq</a></li><li><a href='#univSet'>univSet</a></li><li><a href='#univUtcTime'>univUtcTime</a></li><li><a href='#univUtf8'>univUtf8</a></li><li><a href='#univVisStr'>univVisStr</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#cls'>cls</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#id'>id</a></li><li><a href='#mode'>mode</a></li><li><a href='#strictEquals'>strictEquals</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

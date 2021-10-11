@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::OutStream</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='OutStream.html'>OutStream</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> std::OutStream</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::OutStream</pre>
+
+<p>OutStream is used to write binary and text data to an output stream.</p>
+<dl>
+<dt id='bigEndian'>
+bigEndian</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> bigEndian()</code></p>
+</dd>
+<dt id='charset'>
+charset</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Charset.html'>Charset</a> charset</code></p>
+
+<p>The current charset used to encode Unicode characters into bytes.  The default charset should always be UTF-8.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+
+<p>Close the output stream.  This method is guaranteed to never throw an IOErr.  Return true if the stream was closed successfully or false if the stream was closed abnormally.  Default implementation does nothing and returns true.</p>
+</dd>
+<dt id='endian'>
+endian</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Endian.html'>Endian</a> endian</code></p>
+
+<p>Byte order mode for binary writes. Default is <code><a href='Endian.html#big'>Endian.big</a></code> (network byte order).</p>
+</dd>
+<dt id='flush'>
+flush</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> flush()</code></p>
+
+<p>Flush the stream so any buffered bytes are written out.  Default implementation does nothing.  Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> print(<a href='../sys/Obj.html'>Obj?</a> s)</code></p>
+
+<p>Convenience for <code>writeChars(obj.toStr)</code>.  If obj is null, then print the string "null".  Return this.</p>
+</dd>
+<dt id='printLine'>
+printLine</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> printLine(<a href='../sys/Obj.html'>Obj?</a> obj := &quot;&quot;)</code></p>
+
+<p>Convenience for <code>writeChars(obj.toStr + "\n")</code>.  If obj is null then print the string "null\n".  Return this.</p>
+</dd>
+<dt id='sync'>
+sync</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> sync()</code></p>
+
+<p>If this output stream is mapped to a file device, then synchronize all memory buffers to the physical storage device. Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='use'>
+use</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> use(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='OutStream.html'>OutStream</a>&gt;</a> f)</code></p>
+
+<p>This OutStream is guaranteed to be closed upon return</p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> write(<a href='../sys/Int.html'>Int</a> byte)</code></p>
+
+<p>Write a byte to the output stream.  Throw IOErr on error. Return this.</p>
+</dd>
+<dt id='writeBits'>
+writeBits</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeBits(<a href='../sys/Int.html'>Int</a> val, <a href='../sys/Int.html'>Int</a> num)</code></p>
+
+<p>Write between 0 and 64 bits of the given integer value.  Bits which are only a partial byte are bufferred in RAM until <code><a href='OutStream.html#flush'>flush</a></code>.</p>
+</dd>
+<dt id='writeBool'>
+writeBool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeBool(<a href='../sys/Bool.html'>Bool</a> b)</code></p>
+
+<p>Write one byte, one if true or zero if false.  This method is paired with <code><a href='InStream.html#readBool'>InStream.readBool</a></code>.  Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='writeBuf'>
+writeBuf</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeBuf(<a href='Buf.html'>Buf</a> buf, <a href='../sys/Int.html'>Int</a> n := buf.remaining())</code></p>
+
+<p>Write n bytes from the specified Buf at it's current position to this output stream.  If n is defaulted to buf.remaining(), then everything left in the buffer is drained to this output stream. The buf's position is advanced n bytes upon return.  Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='writeBytes'>
+writeBytes</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeBytes(<a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;</a> ba, <a href='../sys/Int.html'>Int</a> off := 0, <a href='../sys/Int.html'>Int</a> len := ba.size())</code></p>
+
+<p>Writes len bytes from the specified byte array starting at offset off to this output stream.</p>
+</dd>
+<dt id='writeChar'>
+writeChar</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeChar(<a href='../sys/Int.html'>Int</a> ch)</code></p>
+
+<p>Write one or more bytes to the stream for the specified Unicode character based on the current charset encoding.  Return this.</p>
+</dd>
+<dt id='writeChars'>
+writeChars</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeChars(<a href='../sys/Str.html'>Str</a> str, <a href='../sys/Int.html'>Int</a> off := 0, <a href='../sys/Int.html'>Int</a> len := str.size() - off)</code></p>
+
+<p>Write the Unicode characters in the specified string to the stream using the current charset encoding.  Off specifies the index offset to start writing characters and len the number of characters in str to write.  Return this.</p>
+</dd>
+<dt id='writeF4'>
+writeF4</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeF4(<a href='../sys/Float.html'>Float</a> r)</code></p>
+
+<p>Write four bytes as a 32-bit floating point number using configured <code><a href='OutStream.html#endian'>endian</a></code> order according to <a href='Float.bits32'>Float.bits32</a>.  This is paired with <code><a href='InStream.html#readF4'>InStream.readF4</a></code>. Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='writeF8'>
+writeF8</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeF8(<a href='../sys/Float.html'>Float</a> r)</code></p>
+
+<p>Write eight bytes as a 64-bit floating point number using configured <code><a href='OutStream.html#endian'>endian</a></code> order according to <a href='Float.bits'>Float.bits</a>.  This is paired with <code><a href='InStream.html#readF8'>InStream.readF8</a></code>. Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='writeI2'>
+writeI2</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeI2(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Write two bytes as a 16-bit number using configured <code><a href='OutStream.html#endian'>endian</a></code>.  This method may be paired with <code><a href='InStream.html#readU2'>InStream.readU2</a></code> or <code><a href='InStream.html#readS2'>InStream.readS2</a></code>.  Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='writeI4'>
+writeI4</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeI4(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Write four bytes as a 32-bit number using configured <code><a href='OutStream.html#endian'>endian</a></code>.  This method may be paired with <code><a href='InStream.html#readU4'>InStream.readU4</a></code> or <code><a href='InStream.html#readS4'>InStream.readS4</a></code>.  Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='writeI8'>
+writeI8</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeI8(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Write eight bytes as a 64-bit number using configured <code><a href='OutStream.html#endian'>endian</a></code>.  This is paired with <code><a href='InStream.html#readS8'>InStream.readS8</a></code>.  Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='writeProps'>
+writeProps</dt>
+<dd>
+<p class='sig'>
+<code> <a href='OutStream.html'>OutStream</a> writeProps(<a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> props, <a href='../sys/Bool.html'>Bool</a> close := true)</code></p>
+
+<p>Write the given map of Str name/value pairs to the output stream according to the Fantom props file format (see <code><a href='InStream.html#readProps'>InStream.readProps</a></code> for full specification).  The props are written using UTF-8 regardless of this stream's current charset.  If close argument is true, then automatically close the stream.  Return this.</p>
+</dd>
+<dt id='writeUtf'>
+writeUtf</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeUtf(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Write a Str in modified UTF-8 format according the <code>java.io.DataOutput</code> specification.  This method is paired with <code><a href='InStream.html#readUtf'>InStream.readUtf</a></code>.  Throw IOErr on error.  Return this.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bigEndian'>bigEndian</a></li><li><a href='#charset'>charset</a></li><li><a href='#close'>close</a></li><li><a href='#endian'>endian</a></li><li><a href='#flush'>flush</a></li><li><a href='#print'>print</a></li><li><a href='#printLine'>printLine</a></li><li><a href='#sync'>sync</a></li><li><a href='#use'>use</a></li><li><a href='#write'>write</a></li><li><a href='#writeBits'>writeBits</a></li><li><a href='#writeBool'>writeBool</a></li><li><a href='#writeBuf'>writeBuf</a></li><li><a href='#writeBytes'>writeBytes</a></li><li><a href='#writeChar'>writeChar</a></li><li><a href='#writeChars'>writeChars</a></li><li><a href='#writeF4'>writeF4</a></li><li><a href='#writeF8'>writeF8</a></li><li><a href='#writeI2'>writeI2</a></li><li><a href='#writeI4'>writeI4</a></li><li><a href='#writeI8'>writeI8</a></li><li><a href='#writeProps'>writeProps</a></li><li><a href='#writeUtf'>writeUtf</a></li></ul>
+</div>
+</div>
+</body>
+</html>

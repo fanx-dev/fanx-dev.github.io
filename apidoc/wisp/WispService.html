@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>wisp::WispService</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>wisp</a></li><li><a href='WispService.html'>WispService</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> wisp::WispService</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  wisp::WispService : <a href='../util/Service.html'>util::Service</a></pre>
+<p class='src'>
+<a href='src-WispService.fan.html'>Source</a></p>
+
+<p>Simple web server services HTTP/HTTPS requests to a top-level root WebMod. A given instance of WispService can be only be used through one start/stop lifecycle.</p>
+
+<p>Example:</p>
+
+<pre>WispService { httpPort = 8080; root = MyWebMod() }.start</pre>
+<dl>
+<dt id='addr'>
+addr</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../inet/IpAddr.html'>IpAddr?</a> addr := null</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line31'>Source</a></p>
+
+<p>Which IpAddr to bind to or null for the default.</p>
+</dd>
+<dt id='errMod'>
+errMod</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../web/WebMod.html'>WebMod</a> errMod := initErrMod</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line66'>Source</a></p>
+
+<p>WebMod which is called on internal server error to return an 500 error response.  The exception raised is available in <code>req.stash["err"]</code>. The <code>onService</code> method is called after clearing all headers and setting the response code to 500.  The default error mod may be configured via <code>errMod</code> property in etc/web/config.props.</p>
+</dd>
+<dt id='extraResHeaders'>
+extraResHeaders</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> extraResHeaders := initExtraResHeaders</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line91'>Source</a></p>
+
+<p>Map of HTTP headers to include in every response.  These are initialized from etc/web/config.props with the key "extraResHeaders" as a set of "key:value" pairs separated by semicolons.</p>
+</dd>
+<dt id='httpPort'>
+httpPort</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int?</a> httpPort := null</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line36'>Source</a></p>
+
+<p>Well known TCP port for HTTP traffic. The port is enabled if non-null and disabled if null.</p>
+</dd>
+<dt id='httpsPort'>
+httpsPort</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int?</a> httpsPort := null</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line42'>Source</a></p>
+
+<p>Well known TCP port for HTTPS traffic. The port is enabled if non-null and disabled if null. If the http and https ports are both non-null then all http traffic will be redirected to the https port.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line147'>Source</a></p>
+
+<p>Constructor with it-block</p>
+</dd>
+<dt id='maxThreads'>
+maxThreads</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> maxThreads := 500</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line60'>Source</a></p>
+
+<p>Max number of threads which are used for concurrent web request processing.</p>
+</dd>
+<dt id='onStart'>
+onStart</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onStart()</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line163'>Source</a></p>
+</dd>
+<dt id='onStop'>
+onStop</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onStop()</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line174'>Source</a></p>
+</dd>
+<dt id='root'>
+root</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../web/WebMod.html'>WebMod</a> root := WispDefaultRootMod.&lt;ctor>()</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line49'>Source</a></p>
+
+<p>Root WebMod used to service requests.</p>
+</dd>
+<dt id='sessionCookieName'>
+sessionCookieName</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> sessionCookieName := ...</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line140'>Source</a></p>
+
+<p>Cookie name to use for built-in session management. Initialized from etc/web/config.props with the key "sessionCookieName" otherwise defaults to "fanws"</p>
+</dd>
+<dt id='sessionStore'>
+sessionStore</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='WispSessionStore.html'>WispSessionStore</a> sessionStore := MemWispSessionStore.&lt;ctor>(this)</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line54'>Source</a></p>
+
+<p>Pluggable interface for managing web session state. Default implementation stores sessions in main memory.</p>
+</dd>
+<dt id='socketConfig'>
+socketConfig</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../inet/SocketConfig.html'>SocketConfig</a> socketConfig := SocketConfig.cur</code></p>
+<p class='src'>
+<a href='src-WispService.fan.html#line74'>Source</a></p>
+
+<p>The <code><a href='../inet/SocketConfig.html'>SocketConfig</a></code> to use for creating sockets</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-WispService.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addr'>addr</a></li><li><a href='#errMod'>errMod</a></li><li><a href='#extraResHeaders'>extraResHeaders</a></li><li><a href='#httpPort'>httpPort</a></li><li><a href='#httpsPort'>httpsPort</a></li><li><a href='#maxThreads'>maxThreads</a></li><li><a href='#onStart'>onStart</a></li><li><a href='#onStop'>onStop</a></li><li><a href='#root'>root</a></li><li><a href='#sessionCookieName'>sessionCookieName</a></li><li><a href='#sessionStore'>sessionStore</a></li><li><a href='#socketConfig'>socketConfig</a></li></ul>
+</div>
+</div>
+</body>
+</html>

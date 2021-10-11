@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::FuncTypeDef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='FuncTypeDef.html'>FuncTypeDef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::FuncTypeDef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compilerx::Node</a>
+    compilerx::FuncTypeDef</pre>
+<dl>
+<dt id='arity'>
+arity</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> arity()</code></p>
+</dd>
+<dt id='getChildren'>
+getChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> getChildren(<a href='../sys/List.html'>List&lt;<a href='CNode.html'>CNode</a>&gt;</a> list, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options)</code></p>
+</dd>
+<dt id='inferredSignature'>
+inferredSignature</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> inferredSignature</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> params, <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> names, <a href='CType.html'>CType</a> ret)</code></p>
+</dd>
+<dt id='makeItBlock'>
+makeItBlock</dt>
+<dd>
+<p class='sig'>
+<code>new makeItBlock(<a href='Loc.html'>Loc</a> loc, <a href='CType.html'>CType</a> itType)</code></p>
+</dd>
+<dt id='mostSpecific'>
+mostSpecific</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> mostSpecific(<a href='CType.html'>CType</a> b, <a href='../sys/Bool.html'>Bool</a> inferredSignature)</code></p>
+</dd>
+<dt id='names'>
+names</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> names { private set }</code></p>
+</dd>
+<dt id='params'>
+params</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> params</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='ret'>
+ret</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> ret</code></p>
+</dd>
+<dt id='toParamDefs'>
+toParamDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='ParamDef.html'>ParamDef</a>&gt;</a> toParamDefs()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='typeRef'>
+typeRef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> typeRef</code></p>
+</dd>
+<dt id='unnamed'>
+unnamed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> unnamed</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeItBlock'>makeItBlock</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#arity'>arity</a></li><li><a href='#getChildren'>getChildren</a></li><li><a href='#inferredSignature'>inferredSignature</a></li><li><a href='#mostSpecific'>mostSpecific</a></li><li><a href='#names'>names</a></li><li><a href='#params'>params</a></li><li><a href='#print'>print</a></li><li><a href='#ret'>ret</a></li><li><a href='#toParamDefs'>toParamDefs</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#typeRef'>typeRef</a></li><li><a href='#unnamed'>unnamed</a></li></ul>
+</div>
+</div>
+</body>
+</html>

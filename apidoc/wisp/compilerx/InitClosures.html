@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::InitClosures</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='InitClosures.html'>InitClosures</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::InitClosures</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerStep.html'>compilerx::CompilerStep</a>
+    compilerx::InitClosures</pre>
+
+<p>During the Parse step we created a list of all the closures. In InitClosures we map each ClosureExpr into a TypeDef as an anonymous class, then we map ClosureExpr.substitute to call the constructor anonymous class.</p>
+<dl>
+<dt id='closure'>
+closure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ClosureExpr.html'>ClosureExpr?</a> closure</code></p>
+</dd>
+<dt id='cls'>
+cls</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TypeDef.html'>TypeDef?</a> cls</code></p>
+</dd>
+<dt id='ctor'>
+ctor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> ctor</code></p>
+</dd>
+<dt id='doCall'>
+doCall</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> doCall</code></p>
+</dd>
+<dt id='enclosingType'>
+enclosingType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TypeDef.html'>TypeDef?</a> enclosingType</code></p>
+</dd>
+<dt id='genMethodCall'>
+genMethodCall</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef</a> genMethodCall(<a href='CompilerContext.html'>CompilerContext</a> compiler, <a href='Loc.html'>Loc</a> loc, <a href='TypeDef.html'>TypeDef</a> parent, <a href='FuncTypeDef.html'>FuncTypeDef</a> signature, <a href='CallExpr.html'>CallExpr</a> c, <a href='../sys/Bool.html'>Bool</a> firstAsTarget)</code></p>
+
+<p>This method overrides either call(List) or callx(A...) to push the args onto the stack, then redirect to the specified CallExpr c. We share this code for both closures and curries.</p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Loc.html'>Loc?</a> loc</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CompilerContext.html'>CompilerContext</a> compiler)</code></p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FuncTypeDef.html'>FuncTypeDef?</a> signature</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#closure'>closure</a></li><li><a href='#cls'>cls</a></li><li><a href='#ctor'>ctor</a></li><li><a href='#doCall'>doCall</a></li><li><a href='#enclosingType'>enclosingType</a></li><li><a href='#genMethodCall'>genMethodCall</a></li><li><a href='#loc'>loc</a></li><li><a href='#run'>run</a></li><li><a href='#signature'>signature</a></li></ul>
+</div>
+</div>
+</body>
+</html>

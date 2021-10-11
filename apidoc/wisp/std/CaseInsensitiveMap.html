@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::CaseInsensitiveMap</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='CaseInsensitiveMap.html'>CaseInsensitiveMap</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>rtconst virtual class</span> std::CaseInsensitiveMap</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Map.html'>std::Map&lt;<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a>,<a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V</a>&gt;</a>
+    std::CaseInsensitiveMap</pre>
+
+<p>case insensitive map</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/This.html'>This</a> add(<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a> key, <a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V</a> val)</code></p>
+</dd>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/This.html'>This</a> clear()</code></p>
+</dd>
+<dt id='containsKey'>
+containsKey</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> containsKey(<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a> key)</code></p>
+</dd>
+<dt id='createEmpty'>
+createEmpty</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/This.html'>This</a> createEmpty()</code></p>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> each(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V</a>,<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a>&gt;</a> c)</code></p>
+</dd>
+<dt id='eachWhile'>
+eachWhile</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj?</a> eachWhile(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V</a>,<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a>&gt;</a> c)</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />virtual override <a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V?</a> get(<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a> key, <a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V?</a> defValue := super.defV)</code></p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='isRO'>
+isRO</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isRO()</code></p>
+</dd>
+<dt id='keys'>
+keys</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a>&gt;</a> keys()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Int.html'>Int</a> capacity := 16)</code></p>
+</dd>
+<dt id='modify'>
+modify</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> modify()</code></p>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V?</a> remove(<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a> key)</code></p>
+</dd>
+<dt id='ro'>
+ro</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/This.html'>This</a> ro()</code></p>
+</dd>
+<dt id='rw'>
+rw</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/This.html'>This</a> rw()</code></p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />virtual override <a href='../sys/This.html'>This</a> set(<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a> key, <a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V</a> val)</code></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> size()</code></p>
+</dd>
+<dt id='toImmutable'>
+toImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Map.html'>Map&lt;<a href='CaseInsensitiveMapK.html'>CaseInsensitiveMap^K</a>,<a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V</a>&gt;</a> toImmutable()</code></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CaseInsensitiveMapV.html'>CaseInsensitiveMap^V</a>&gt;</a> vals()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#clear'>clear</a></li><li><a href='#containsKey'>containsKey</a></li><li><a href='#createEmpty'>createEmpty</a></li><li><a href='#each'>each</a></li><li><a href='#eachWhile'>eachWhile</a></li><li><a href='#get'>get</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#isRO'>isRO</a></li><li><a href='#keys'>keys</a></li><li><a href='#modify'>modify</a></li><li><a href='#remove'>remove</a></li><li><a href='#ro'>ro</a></li><li><a href='#rw'>rw</a></li><li><a href='#set'>set</a></li><li><a href='#size'>size</a></li><li><a href='#toImmutable'>toImmutable</a></li><li><a href='#vals'>vals</a></li></ul>
+</div>
+</div>
+</body>
+</html>

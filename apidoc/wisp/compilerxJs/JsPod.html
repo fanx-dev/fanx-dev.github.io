@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerxJs::JsPod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerxJs</a></li><li><a href='JsPod.html'>JsPod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerxJs::JsPod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='JsNode.html'>compilerxJs::JsNode</a>
+    compilerxJs::JsPod</pre>
+
+<p>JsPod</p>
+<dl>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='JsCompilerSupport.html'>JsCompilerSupport</a> s, <a href='../compilerx/PodDef.html'>PodDef</a> pod, <a href='../sys/List.html'>List&lt;<a href='../compilerx/TypeDef.html'>TypeDef</a>&gt;</a> defs)</code></p>
+</dd>
+<dt id='meta'>
+meta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> meta</code></p>
+</dd>
+<dt id='missNatives'>
+missNatives</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> missNatives := Map&lt;Str,Obj?>[:]</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='natives'>
+natives</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../std/File.html'>File</a>&gt;</a> natives</code></p>
+</dd>
+<dt id='props'>
+props</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='JsProps.html'>JsProps</a>&gt;</a> props</code></p>
+</dd>
+<dt id='requireSys'>
+requireSys</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Str.html'>Str</a> requireSys := ...</code></p>
+</dd>
+<dt id='types'>
+types</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='JsType.html'>JsType</a>&gt;</a> types</code></p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> write(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writeClosureFields'>
+writeClosureFields</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeClosureFields(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+
+<p>Write closure function spec fields</p>
+</dd>
+<dt id='writeNs'>
+writeNs</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> writeNs(<a href='JsWriter.html'>JsWriter</a> out, <a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='writePeer'>
+writePeer</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writePeer(<a href='JsWriter.html'>JsWriter</a> out, <a href='JsType.html'>JsType</a> t, <a href='../sys/Bool.html'>Bool</a> isPeer)</code></p>
+</dd>
+<dt id='writeTypeInfo'>
+writeTypeInfo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeTypeInfo(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#requireSys'>requireSys</a></li><li><a href='#writeNs'>writeNs</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#meta'>meta</a></li><li><a href='#missNatives'>missNatives</a></li><li><a href='#name'>name</a></li><li><a href='#natives'>natives</a></li><li><a href='#props'>props</a></li><li><a href='#types'>types</a></li><li><a href='#write'>write</a></li><li><a href='#writeClosureFields'>writeClosureFields</a></li><li><a href='#writePeer'>writePeer</a></li><li><a href='#writeTypeInfo'>writeTypeInfo</a></li></ul>
+</div>
+</div>
+</body>
+</html>

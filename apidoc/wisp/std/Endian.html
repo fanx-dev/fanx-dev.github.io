@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Endian</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Endian.html'>Endian</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> std::Endian</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    std::Endian</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Byte ordering.</p>
+<ul>
+<li><a href='#big'>big</a></li><li><a href='#little'>little</a></li></ul>
+<dl>
+<dt id='big'>
+big</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Endian.html'>Endian</a> big := ...</code></p>
+
+<p>Most significant byte first (network byte order)</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the Endian instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='little'>
+little</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Endian.html'>Endian</a> little := ...</code></p>
+
+<p>Least significant byte first</p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='Endian.html'>Endian</a>&gt;</a> vals := Endian[Endian.big,Endian.little]</code></p>
+
+<p>List of Endian values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#big'>big</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#little'>little</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

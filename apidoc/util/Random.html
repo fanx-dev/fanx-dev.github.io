@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::Random</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='Random.html'>Random</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract virtual class</span> util::Random</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  util::Random</pre>
+
+<p>Random provides different implementation of random number generators with more flexibility than the methods available in sys.  Also see <code><a href='../sys/Int.html#random'>Int.random</a></code>, <code><a href='../sys/Float.html#random'>Float.random</a></code>, <code><a href='../sys/Range.html#random'>Range.random</a></code>, and <code><a href='../sys/List.html#random'>List.random</a></code>.</p>
+<dl>
+<dt id='makeSecure'>
+makeSecure</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Random.html'>Random</a> makeSecure()</code></p>
+
+<p>Construct a cryptographically strong random number generator.</p>
+</dd>
+<dt id='makeSeeded'>
+makeSeeded</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Random.html'>Random</a> makeSeeded(<a href='../sys/Int.html'>Int</a> seed := TimePoint.nowMillis())</code></p>
+
+<p>Construct a repeatable, seeded random number generator.</p>
+</dd>
+<dt id='next'>
+next</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> next(<a href='../sys/Range.html'>Range?</a> r := null)</code></p>
+
+<p>Generate 64-bit integer within the given range. If range is null, assume full range of 64-bit integers</p>
+</dd>
+<dt id='nextBool'>
+nextBool</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> nextBool()</code></p>
+
+<p>Generate random boolean.</p>
+</dd>
+<dt id='nextBuf'>
+nextBuf</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Buf.html'>Buf</a> nextBuf(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Generate a randomized number of bytes.</p>
+</dd>
+<dt id='nextFloat'>
+nextFloat</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Float.html'>Float</a> nextFloat()</code></p>
+
+<p>Generate 64-bit floating point number between 0.0f and 1.0f.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#makeSecure'>makeSecure</a></li><li><a href='#makeSeeded'>makeSeeded</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#next'>next</a></li><li><a href='#nextBool'>nextBool</a></li><li><a href='#nextBuf'>nextBuf</a></li><li><a href='#nextFloat'>nextFloat</a></li></ul>
+</div>
+</div>
+</body>
+</html>

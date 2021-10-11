@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Uuid</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Uuid.html'>Uuid</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>struct const class</span> std::Uuid</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Uuid</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Universally Unique Identifier.  UUIDs are 128-bit identifiers which are unique across space and time making them ideal for naming without a central naming authority.  Fantom's UUIDs are loosely based on RFC 4122 with the following parts used in the generation:</p>
+
+<ul>
+<li>8 bytes: nanosecond ticks since 1 Jan 2000 UTC</li>
+
+<li>2 bytes: sequence number</li>
+
+<li>6 bytes: node address</li>
+</ul>
+
+<p>The sequence number is initialized from a randomized number, and helps protect against collisions when the system clock is changed. The node address is ideally mapped to the MAC address if available, or the IP address hashed with a random number.</p>
+
+<p>No guarantee is made how the bytes are laid out.  Future versions might hash these bytes, or use alternate mechanisms.</p>
+
+<p>The string format for the UUID follows the canonical format of 32 hexadecimal digits displayed in five groups for "8-4-4-4-12". For example:</p>
+
+<pre>03f0e2bb-8f1a-c800-e1f8-00623f7473c4</pre>
+<dl>
+<dt id='bitsHi'>
+bitsHi</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> bitsHi()</code></p>
+
+<p>Get the most significant 64 bits of this 128 bit UUID.</p>
+</dd>
+<dt id='bitsLo'>
+bitsLo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> bitsLo()</code></p>
+
+<p>Get the least significant 64 bits of this 128 bit UUID.</p>
+</dd>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> compare(<a href='../sys/Obj.html'>Obj</a> that)</code></p>
+
+<p>Compare based on the 128 bit value which will naturally result in sorts by created timestamp.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Return if the specified object is a Uuid with the same 128 bits.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> str)</code></p>
+
+<p>Parse a UUID from according to the string format defined in the class header documentation.  If invalid format and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Hashcode is defined as <code>bitsHi ^ bitsLow</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Uuid.html'>Uuid</a> make()</code></p>
+
+<p>Generate a new UUID globally unique in space and time.</p>
+</dd>
+<dt id='makeBits'>
+makeBits</dt>
+<dd>
+<p class='sig'>
+<code>new makeBits(<a href='../sys/Int.html'>Int</a> hi, <a href='../sys/Int.html'>Int</a> lo)</code></p>
+
+<p>Create a 128-bit UUID from two 64-bit integers.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return the string representation of this UUID. See class header for string format.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li><li><a href='#makeBits'>makeBits</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bitsHi'>bitsHi</a></li><li><a href='#bitsLo'>bitsLo</a></li><li><a href='#compare'>compare</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocPod.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocPod.html'>DocPod</a></li><li><a href='src-DocPod.fan.html'>DocPod.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   11 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//   19 Dec 11  Brian Frank  Redesign to make DocPod const</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** DocPod models the documentation of a `sys::Pod`.</span>
+<span id='line12'>**</span>
+<span id='line13'>const class DocPod : DocSpace</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'></span>
+<span id='line16'>  ** Load from a zip file using the given DocEnv as the  gerror handler</span>
+<span id='line17'>  static DocPod load<b>(</b>DocEnv? env, File file<b>)</b></span>
+<span id='line18'>  <b>{</b></span>
+<span id='line19'>    loadFile<b>(</b>file<b>)</b> |err|</span>
+<span id='line20'>    <b>{</b></span>
+<span id='line21'>      if <b>(</b>env == null<b>)</b></span>
+<span id='line22'>        echo<b>(</b>"ERROR: $err"<b>)</b></span>
+<span id='line23'>      else</span>
+<span id='line24'>        env.errReport<b>(</b>err<b>)</b></span>
+<span id='line25'>    <b>}</b></span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  ** Load from a zip file with given error handler</span>
+<span id='line29'>  static DocPod loadFile<b>(</b>File file, |DocErr| onErr<b>)</b></span>
+<span id='line30'>  <b>{</b></span>
+<span id='line31'>    make<b>(</b>file, onErr<b>)</b></span>
+<span id='line32'>  <b>}</b></span>
+<span id='line33'></span>
+<span id='line34'>  ** Private constructor to copy loader fields</span>
+<span id='line35'>  @NoDoc new make<b>(</b>File file, |DocErr| onErr<b>)</b></span>
+<span id='line36'>  <b>{</b></span>
+<span id='line37'>    this.file = file</span>
+<span id='line38'>    loader := DocPodLoader<b>(</b>file, this, onErr<b>)</b></span>
+<span id='line39'>    zip := Zip.open<b>(</b>file<b>)</b></span>
+<span id='line40'>    try</span>
+<span id='line41'>    <b>{</b></span>
+<span id='line42'>      // first load meta data</span>
+<span id='line43'>      loader.loadMeta<b>(</b>zip<b>)</b></span>
+<span id='line44'>      this.name    = loader.name</span>
+<span id='line45'>      this.version = loader.version</span>
+<span id='line46'>      this.summary = loader.summary</span>
+<span id='line47'>      this.meta    = loader.meta</span>
+<span id='line48'></span>
+<span id='line49'>      // next load meta</span>
+<span id='line50'>      loader.loadContent<b>(</b>zip<b>)</b></span>
+<span id='line51'>      this.index      = loader.index</span>
+<span id='line52'>      this.types      = loader.typeList</span>
+<span id='line53'>      this.typeMap    = loader.typeMap</span>
+<span id='line54'>      this.podDoc     = loader.podDoc</span>
+<span id='line55'>      this.chapters   = loader.chapterList</span>
+<span id='line56'>      this.chapterMap = loader.chapterMap</span>
+<span id='line57'>      this.resList    = loader.resList</span>
+<span id='line58'>      this.resMap     = loader.resMap</span>
+<span id='line59'>      this.srcList    = loader.srcList</span>
+<span id='line60'>      this.srcMap     = loader.srcMap</span>
+<span id='line61'>    <b>}</b></span>
+<span id='line62'>    finally zip .close</span>
+<span id='line63'>  <b>}</b></span>
+<span id='line64'></span>
+<span id='line65'>  ** File the pod was loaded from</span>
+<span id='line66'>  const File file</span>
+<span id='line67'></span>
+<span id='line68'>  ** Simple name of the pod such as "sys".</span>
+<span id='line69'>  const Str name</span>
+<span id='line70'></span>
+<span id='line71'>  ** Version number for this pod.</span>
+<span id='line72'>  const Version version</span>
+<span id='line73'></span>
+<span id='line74'>  ** Summary string for the pod</span>
+<span id='line75'>  const Str summary</span>
+<span id='line76'></span>
+<span id='line77'>  ** Always return `name`.</span>
+<span id='line78'>  override Str toStr<b>(</b><b>)</b> <b>{</b> name <b>}</b></span>
+<span id='line79'></span>
+<span id='line80'>  ** Get the meta name/value pairs for this pod.</span>
+<span id='line81'>  ** See <b>[</b>docLang<b>]</b>`docLang::Pods#meta`.</span>
+<span id='line82'>  const <b>[</b>Str:Str<b>]</b> meta</span>
+<span id='line83'></span>
+<span id='line84'>  ** Document which models the index page for this pod</span>
+<span id='line85'>  const DocPodIndex index</span>
+<span id='line86'></span>
+<span id='line87'>  ** List of the public, documented types in this pod.</span>
+<span id='line88'>  const DocType<b>[</b><b>]</b> types</span>
+<span id='line89'></span>
+<span id='line90'>  ** Get all types <b>(</b>public, internal, nodoc, etc<b>)</b></span>
+<span id='line91'>  DocType<b>[</b><b>]</b> allTypes<b>(</b><b>)</b> <b>{</b> typeMap.vals <b>}</b></span>
+<span id='line92'></span>
+<span id='line93'>  ** Get the build timestamp or null if not available</span>
+<span id='line94'>  DateTime? ts<b>(</b><b>)</b> <b>{</b> DateTime.fromStr<b>(</b><b>(</b>meta<b>[</b>"build.ts"<b>]</b> ?: meta<b>[</b>"build.time"<b>]</b><b>)</b> ?: "", false<b>)</b> <b>}</b></span>
+<span id='line95'></span>
+<span id='line96'>  ** Find a type by name.  If the type doesn't exist and checked</span>
+<span id='line97'>  ** is false then return null, otherwise throw UnknownTypeErr.</span>
+<span id='line98'>  DocType? type<b>(</b>Str typeName, Bool checked := true<b>)</b></span>
+<span id='line99'>  <b>{</b></span>
+<span id='line100'>    t := typeMap<b>[</b>typeName<b>]</b></span>
+<span id='line101'>    if <b>(</b>t != null<b>)</b> return t</span>
+<span id='line102'>    if <b>(</b>checked<b>)</b> throw UnknownTypeErr<b>(</b>"$<b>{</b>this.name<b>}</b>::$<b>{</b>typeName<b>}</b>"<b>)</b></span>
+<span id='line103'>    return null</span>
+<span id='line104'>  <b>}</b></span>
+<span id='line105'>  private const <b>[</b>Str:DocType<b>]</b> typeMap</span>
+<span id='line106'></span>
+<span id='line107'>  ** If this pod has an associated pod.fandoc chapter</span>
+<span id='line108'>  const DocChapter? podDoc</span>
+<span id='line109'></span>
+<span id='line110'>  ** A *manual* pod is a pod with two or more fandoc chapters and no types.</span>
+<span id='line111'>  Bool isManual<b>(</b><b>)</b> <b>{</b> types.isEmpty &amp;&amp; chapters.size >= 2 <b>}</b></span>
+<span id='line112'></span>
+<span id='line113'>  ** If this is a manual like docLang, return list of chapters.</span>
+<span id='line114'>  const DocChapter<b>[</b><b>]</b> chapters</span>
+<span id='line115'></span>
+<span id='line116'>  ** Find a chapter by name.  If the chapter doesn't exist and</span>
+<span id='line117'>  ** checked is false then return null, otherwise throw Err.</span>
+<span id='line118'>  DocChapter? chapter<b>(</b>Str chapterName, Bool checked := true<b>)</b></span>
+<span id='line119'>  <b>{</b></span>
+<span id='line120'>    c := chapterMap<b>[</b>chapterName<b>]</b></span>
+<span id='line121'>    if <b>(</b>c != null<b>)</b> return c</span>
+<span id='line122'>    if <b>(</b>checked<b>)</b> throw Err<b>(</b>"Unknown chapter: $<b>{</b>this.name<b>}</b>::$<b>{</b>chapterName<b>}</b>"<b>)</b></span>
+<span id='line123'>    return null</span>
+<span id='line124'>  <b>}</b></span>
+<span id='line125'>  private const <b>[</b>Str:DocChapter<b>]</b> chapterMap</span>
+<span id='line126'></span>
+<span id='line127'>  ** Resource files in pod which are used to support the</span>
+<span id='line128'>  ** documentation such as images used by the fandoc chapters.</span>
+<span id='line129'>  ** Resources can only be located in doc/ sub-directory.</span>
+<span id='line130'>  const DocRes<b>[</b><b>]</b> resList</span>
+<span id='line131'></span>
+<span id='line132'>  ** Return resource for filename, or if not available</span>
+<span id='line133'>  ** return null/raise exception.  This filenames is</span>
+<span id='line134'>  ** always relative to doc/ sub-directory.</span>
+<span id='line135'>  DocRes? res<b>(</b>Str filename, Bool checked := true<b>)</b></span>
+<span id='line136'>  <b>{</b></span>
+<span id='line137'>    uri := resMap<b>[</b>filename<b>]</b></span>
+<span id='line138'>    if <b>(</b>uri != null<b>)</b> return uri</span>
+<span id='line139'>    if <b>(</b>checked<b>)</b> throw UnknownDocErr<b>(</b>"resource file: $filename"<b>)</b></span>
+<span id='line140'>    return null</span>
+<span id='line141'>  <b>}</b></span>
+<span id='line142'>  private const <b>[</b>Str:DocRes<b>]</b> resMap</span>
+<span id='line143'></span>
+<span id='line144'>  ** Source files in pod which should be included in documentation.</span>
+<span id='line145'>  const DocSrc<b>[</b><b>]</b> srcList</span>
+<span id='line146'></span>
+<span id='line147'>  ** Return source code for filename, or if not</span>
+<span id='line148'>  ** available return null/raise exception.</span>
+<span id='line149'>  DocSrc? src<b>(</b>Str filename, Bool checked := true<b>)</b></span>
+<span id='line150'>  <b>{</b></span>
+<span id='line151'>    uri := srcMap<b>[</b>filename<b>]</b></span>
+<span id='line152'>    if <b>(</b>uri != null<b>)</b> return uri</span>
+<span id='line153'>    if <b>(</b>checked<b>)</b> throw UnknownDocErr<b>(</b>"source file: $filename"<b>)</b></span>
+<span id='line154'>    return null</span>
+<span id='line155'>  <b>}</b></span>
+<span id='line156'>  private const <b>[</b>Str:DocSrc<b>]</b> srcMap</span>
+<span id='line157'></span>
+<span id='line158'>  ** Space name is same as `name`</span>
+<span id='line159'>  override Str spaceName<b>(</b><b>)</b> <b>{</b> name <b>}</b></span>
+<span id='line160'></span>
+<span id='line161'>  **</span>
+<span id='line162'>  ** Find the document with the given name.  If not found raise</span>
+<span id='line163'>  ** UnknownDocErr or return null based on checked flag.</span>
+<span id='line164'>  ** The document namespace of a pod is:</span>
+<span id='line165'>  **   - "index": the DocPodIndex</span>
+<span id='line166'>  **   - "<b>{</b>type name<b>}</b>": DocType</span>
+<span id='line167'>  **   - "<b>{</b>chapter name<b>}</b>": DocChapter</span>
+<span id='line168'>  **   - "<b>{</b>filename<b>}</b>": DocRes</span>
+<span id='line169'>  **   - "src-<b>{</b>filename<b>}</b>": DocSrc</span>
+<span id='line170'>  **</span>
+<span id='line171'>  override Doc? doc<b>(</b>Str name, Bool checked := true<b>)</b></span>
+<span id='line172'>  <b>{</b></span>
+<span id='line173'>    // index</span>
+<span id='line174'>    if <b>(</b>name == "index"<b>)</b> return index</span>
+<span id='line175'></span>
+<span id='line176'>    // type</span>
+<span id='line177'>    type := type<b>(</b>name, false<b>)</b></span>
+<span id='line178'>    if <b>(</b>type != null<b>)</b> return type</span>
+<span id='line179'></span>
+<span id='line180'>    // chapter</span>
+<span id='line181'>    chapter := chapter<b>(</b>name, false<b>)</b></span>
+<span id='line182'>    if <b>(</b>chapter != null<b>)</b> return chapter</span>
+<span id='line183'></span>
+<span id='line184'>    // source</span>
+<span id='line185'>    if <b>(</b>name.startsWith<b>(</b>"src-"<b>)</b><b>)</b></span>
+<span id='line186'>    <b>{</b></span>
+<span id='line187'>      src := src<b>(</b>name<b>[</b>4..-1<b>]</b>, false<b>)</b></span>
+<span id='line188'>      if <b>(</b>src != null<b>)</b> return src</span>
+<span id='line189'>    <b>}</b></span>
+<span id='line190'></span>
+<span id='line191'>    // resource</span>
+<span id='line192'>    res := res<b>(</b>name, false<b>)</b></span>
+<span id='line193'>    if <b>(</b>res != null<b>)</b> return res</span>
+<span id='line194'></span>
+<span id='line195'>    // not found</span>
+<span id='line196'>    if <b>(</b>checked<b>)</b> throw UnknownDocErr<b>(</b>"$<b>{</b>this.name<b>}</b>::$<b>{</b>name<b>}</b>"<b>)</b></span>
+<span id='line197'>    return null</span>
+<span id='line198'>  <b>}</b></span>
+<span id='line199'></span>
+<span id='line200'>  override Void eachDoc<b>(</b>|Doc| f<b>)</b></span>
+<span id='line201'>  <b>{</b></span>
+<span id='line202'>    f<b>(</b>index<b>)</b></span>
+<span id='line203'>    types.each<b>(</b>f<b>)</b></span>
+<span id='line204'>    chapters.each<b>(</b>f<b>)</b></span>
+<span id='line205'>    srcList.each<b>(</b>f<b>)</b></span>
+<span id='line206'>    resList.each<b>(</b>f<b>)</b></span>
+<span id='line207'>  <b>}</b></span>
+<span id='line208'><b>}</b></span>
+<span id='line209'></span>
+<span id='line210'>**************************************************************************</span>
+<span id='line211'>** DocPodIndex</span>
+<span id='line212'>**************************************************************************</span>
+<span id='line213'></span>
+<span id='line214'>**</span>
+<span id='line215'>** DocPodIndex represents the index document of a DocPod.</span>
+<span id='line216'>**</span>
+<span id='line217'>const class DocPodIndex : Doc</span>
+<span id='line218'><b>{</b></span>
+<span id='line219'>  ** Constructor</span>
+<span id='line220'>  internal new make<b>(</b>DocPod pod, Obj<b>[</b><b>]</b> toc<b>)</b></span>
+<span id='line221'>  <b>{</b></span>
+<span id='line222'>    this.pod = pod</span>
+<span id='line223'>    this.toc = toc</span>
+<span id='line224'>  <b>}</b></span>
+<span id='line225'></span>
+<span id='line226'>  ** Parent pod</span>
+<span id='line227'>  const DocPod pod</span>
+<span id='line228'></span>
+<span id='line229'>  ** If this a API pod, this is the Str/DocType where the string indicates</span>
+<span id='line230'>  ** groupings such as "Classes", "Mixins", etc.  If this is a manual return</span>
+<span id='line231'>  ** the list of Str/DocChapter where Str indicates index grouping headers.</span>
+<span id='line232'>  const Obj<b>[</b><b>]</b> toc</span>
+<span id='line233'></span>
+<span id='line234'>  ** The space for this doc is `pod`</span>
+<span id='line235'>  override DocSpace space<b>(</b><b>)</b> <b>{</b> pod <b>}</b></span>
+<span id='line236'></span>
+<span id='line237'>  ** The document name under space is "index"</span>
+<span id='line238'>  override Str docName<b>(</b><b>)</b> <b>{</b> "index" <b>}</b></span>
+<span id='line239'></span>
+<span id='line240'>  ** Title is pod name</span>
+<span id='line241'>  override Str title<b>(</b><b>)</b> <b>{</b> pod.name <b>}</b></span>
+<span id='line242'></span>
+<span id='line243'>  ** Return true</span>
+<span id='line244'>  override Bool isSpaceIndex<b>(</b><b>)</b> <b>{</b> true <b>}</b></span>
+<span id='line245'></span>
+<span id='line246'>  ** Default renderer is `DocPodIndexRenderer`</span>
+<span id='line247'>  override Type renderer<b>(</b><b>)</b> <b>{</b> DocPodIndexRenderer# <b>}</b></span>
+<span id='line248'></span>
+<span id='line249'>  ** Index the type summary and all slot docs</span>
+<span id='line250'>  override Void onCrawl<b>(</b>DocCrawler crawler<b>)</b></span>
+<span id='line251'>  <b>{</b></span>
+<span id='line252'>    crawler.addKeyword<b>(</b>pod.name, pod.name, DocFandoc<b>(</b>DocLoc<b>(</b>pod.name, 0<b>)</b>, pod.summary<b>)</b>, null<b>)</b></span>
+<span id='line253'>  <b>}</b></span>
+<span id='line254'><b>}</b></span>
+<span id='line255'></span>
+<span id='line256'>**************************************************************************</span>
+<span id='line257'>** DocPodLoader</span>
+<span id='line258'>**************************************************************************</span>
+<span id='line259'></span>
+<span id='line260'>internal class DocPodLoader</span>
+<span id='line261'><b>{</b></span>
+<span id='line262'>  new make<b>(</b>File file, DocPod pod, |DocErr| onErr<b>)</b></span>
+<span id='line263'>  <b>{</b></span>
+<span id='line264'>    this.file  = file</span>
+<span id='line265'>    this.pod   = pod</span>
+<span id='line266'>    this.onErr = onErr</span>
+<span id='line267'>  <b>}</b></span>
+<span id='line268'></span>
+<span id='line269'>  Void loadMeta<b>(</b>Zip zip<b>)</b></span>
+<span id='line270'>  <b>{</b></span>
+<span id='line271'>    // first read meta</span>
+<span id='line272'>    metaFile := zip.contents<b>[</b>`/meta.props`<b>]</b> ?: throw Err<b>(</b>"Pod missing meta.props: $file"<b>)</b></span>
+<span id='line273'>    this.meta    = metaFile.in.readProps</span>
+<span id='line274'>    this.name    = getMeta<b>(</b>"pod.name"<b>)</b></span>
+<span id='line275'>    this.summary = getMeta<b>(</b>"pod.summary"<b>)</b></span>
+<span id='line276'>    this.version = Version.fromStr<b>(</b>getMeta<b>(</b>"pod.version"<b>)</b><b>)</b></span>
+<span id='line277'>  <b>}</b></span>
+<span id='line278'></span>
+<span id='line279'>  private Str getMeta<b>(</b>Str n<b>)</b></span>
+<span id='line280'>  <b>{</b></span>
+<span id='line281'>    meta<b>[</b>n<b>]</b> ?: throw Err<b>(</b>"Missing '$n' in meta.props"<b>)</b></span>
+<span id='line282'>  <b>}</b></span>
+<span id='line283'></span>
+<span id='line284'>  Void loadContent<b>(</b>Zip zip<b>)</b></span>
+<span id='line285'>  <b>{</b></span>
+<span id='line286'>    // these are the data structures we'll be building up</span>
+<span id='line287'>    types     := Str:DocType<b>[</b>:<b>]</b></span>
+<span id='line288'>    chapters  := Str:DocChapter<b>[</b>:<b>]</b></span>
+<span id='line289'>    indexFog  := null</span>
+<span id='line290'>    resources := Uri<b>[</b>,<b>]</b></span>
+<span id='line291'>    sources   := Uri<b>[</b>,<b>]</b></span>
+<span id='line292'></span>
+<span id='line293'>    // iterate thru the zip file looking for the files we need</span>
+<span id='line294'>    zip.contents.each |f|</span>
+<span id='line295'>    <b>{</b></span>
+<span id='line296'>      try</span>
+<span id='line297'>      <b>{</b></span>
+<span id='line298'>        // if this is src/<b>{</b>file<b>}</b>, save to source list</span>
+<span id='line299'>        if <b>(</b>f.path<b>[</b>0<b>]</b> == "src"<b>)</b></span>
+<span id='line300'>        <b>{</b></span>
+<span id='line301'>          if <b>(</b>f.path.size == 2<b>)</b> sources.add<b>(</b>f.uri<b>)</b></span>
+<span id='line302'>          return</span>
+<span id='line303'>        <b>}</b></span>
+<span id='line304'></span>
+<span id='line305'>        // we only care about files in doc/*</span>
+<span id='line306'>        if <b>(</b>f.path<b>[</b>0<b>]</b> != "doc"<b>)</b> return</span>
+<span id='line307'></span>
+<span id='line308'>        // if doc/<b>{</b>type<b>}</b>.apidoc</span>
+<span id='line309'>        if <b>(</b>f.ext == "apidoc"<b>)</b></span>
+<span id='line310'>        <b>{</b></span>
+<span id='line311'>          type := ApiDocParser<b>(</b>pod, f.in<b>)</b>.parseType</span>
+<span id='line312'>          types<b>[</b>type.name<b>]</b> = type</span>
+<span id='line313'>          return</span>
+<span id='line314'>        <b>}</b></span>
+<span id='line315'></span>
+<span id='line316'>        // if doc/<b>{</b>type<b>}</b>.fandoc</span>
+<span id='line317'>        if <b>(</b>f.ext == "fandoc"<b>)</b></span>
+<span id='line318'>        <b>{</b></span>
+<span id='line319'>          chapter := DocChapter<b>(</b>this, f<b>)</b></span>
+<span id='line320'>          chapters<b>[</b>chapter.name<b>]</b> = chapter</span>
+<span id='line321'>          return</span>
+<span id='line322'>        <b>}</b></span>
+<span id='line323'></span>
+<span id='line324'>        // if doc/index.fog</span>
+<span id='line325'>        if <b>(</b>f.name == "index.fog"<b>)</b></span>
+<span id='line326'>        <b>{</b></span>
+<span id='line327'>          indexFog = f.in.readObj</span>
+<span id='line328'>          return</span>
+<span id='line329'>        <b>}</b></span>
+<span id='line330'></span>
+<span id='line331'>        // otherwise assume its a resource</span>
+<span id='line332'>        resources.add<b>(</b>f.uri<b>)</b></span>
+<span id='line333'>      <b>}</b></span>
+<span id='line334'>      catch <b>(</b>Err e<b>)</b> err<b>(</b>"Cannot parse", DocLoc<b>(</b>"$<b>{</b>name<b>}</b>::$<b>{</b>f<b>}</b>", 0<b>)</b>, e<b>)</b></span>
+<span id='line335'>    <b>}</b></span>
+<span id='line336'></span>
+<span id='line337'>    // finish</span>
+<span id='line338'>    finishTypes<b>(</b>types<b>)</b></span>
+<span id='line339'>    finishChapters<b>(</b>chapters, indexFog<b>)</b></span>
+<span id='line340'>    finishResources<b>(</b>resources<b>)</b></span>
+<span id='line341'>    finishSources<b>(</b>sources<b>)</b></span>
+<span id='line342'>    finishIndex</span>
+<span id='line343'>  <b>}</b></span>
+<span id='line344'></span>
+<span id='line345'>  private Void finishTypes<b>(</b><b>[</b>Str:DocType<b>]</b> map<b>)</b></span>
+<span id='line346'>  <b>{</b></span>
+<span id='line347'>    // create sorted list</span>
+<span id='line348'>    list := map.vals.sort|a, b| <b>{</b> a.name &lt;=> b.name <b>}</b></span>
+<span id='line349'></span>
+<span id='line350'>    // filter out types which shouldn't be documented,</span>
+<span id='line351'>    // but leave them in the map for lookup</span>
+<span id='line352'>    list = list.exclude |t|</span>
+<span id='line353'>    <b>{</b></span>
+<span id='line354'>      t.isNoDoc ||</span>
+<span id='line355'>      DocFlags.isInternal<b>(</b>t.flags<b>)</b> ||</span>
+<span id='line356'>      DocFlags.isSynthetic<b>(</b>t.flags<b>)</b></span>
+<span id='line357'>    <b>}</b></span>
+<span id='line358'></span>
+<span id='line359'>    // build toc</span>
+<span id='line360'>    toc := Obj<b>[</b>,<b>]</b></span>
+<span id='line361'>    mixins  := DocType<b>[</b>,<b>]</b></span>
+<span id='line362'>    classes := DocType<b>[</b>,<b>]</b></span>
+<span id='line363'>    enums   := DocType<b>[</b>,<b>]</b></span>
+<span id='line364'>    facets  := DocType<b>[</b>,<b>]</b></span>
+<span id='line365'>    errs    := DocType<b>[</b>,<b>]</b></span>
+<span id='line366'>    list.each |t|</span>
+<span id='line367'>    <b>{</b></span>
+<span id='line368'>      if <b>(</b>t.isEnum<b>)</b> enums.add<b>(</b>t<b>)</b></span>
+<span id='line369'>      else if <b>(</b>t.isFacet<b>)</b> facets.add<b>(</b>t<b>)</b></span>
+<span id='line370'>      else if <b>(</b>t.isMixin<b>)</b> mixins.add<b>(</b>t<b>)</b></span>
+<span id='line371'>      else if <b>(</b>t.isErr<b>)</b> errs.add<b>(</b>t<b>)</b></span>
+<span id='line372'>      else classes.add<b>(</b>t<b>)</b></span>
+<span id='line373'>    <b>}</b></span>
+<span id='line374'>    if <b>(</b>mixins.size  > 0<b>)</b> toc.add<b>(</b>"Mixins"<b>)</b>.addAll<b>(</b>mixins<b>)</b></span>
+<span id='line375'>    if <b>(</b>classes.size > 0<b>)</b> toc.add<b>(</b>"Classes"<b>)</b>.addAll<b>(</b>classes<b>)</b></span>
+<span id='line376'>    if <b>(</b>enums.size   > 0<b>)</b> toc.add<b>(</b>"Enums"<b>)</b>.addAll<b>(</b>enums<b>)</b></span>
+<span id='line377'>    if <b>(</b>facets.size  > 0<b>)</b> toc.add<b>(</b>"Facets"<b>)</b>.addAll<b>(</b>facets<b>)</b></span>
+<span id='line378'>    if <b>(</b>errs.size    > 0<b>)</b> toc.add<b>(</b>"Errs"<b>)</b>.addAll<b>(</b>errs<b>)</b></span>
+<span id='line379'></span>
+<span id='line380'>    // save to fields</span>
+<span id='line381'>    this.typeMap  = map.toImmutable</span>
+<span id='line382'>    this.typeList = list.toImmutable</span>
+<span id='line383'>    this.toc      = toc.toImmutable</span>
+<span id='line384'>  <b>}</b></span>
+<span id='line385'></span>
+<span id='line386'>  private Void finishChapters<b>(</b><b>[</b>Str:DocChapter<b>]</b> map, Obj<b>[</b><b>]</b>? indexFog<b>)</b></span>
+<span id='line387'>  <b>{</b></span>
+<span id='line388'>    // create sorted list of chapters</span>
+<span id='line389'>    list := map.vals.sort |a, b| <b>{</b> a.name &lt;=> b.name <b>}</b></span>
+<span id='line390'></span>
+<span id='line391'>    // if this pod has types, it can't be a manual</span>
+<span id='line392'>    if <b>(</b>!typeList.isEmpty || list.size &lt;= 1<b>)</b></span>
+<span id='line393'>    <b>{</b></span>
+<span id='line394'>      this.podDoc = list.find |x| <b>{</b> x.isPodDoc <b>}</b></span>
+<span id='line395'>      this.chapterList = this.podDoc == null ? List.defVal : DocChapter<b>[</b>podDoc<b>]</b></span>
+<span id='line396'>      this.chapterMap  = Str:DocChapter<b>[</b>:<b>]</b>.setList<b>(</b>this.chapterList<b>)</b> |x| <b>{</b> x.name <b>}</b></span>
+<span id='line397'>      return</span>
+<span id='line398'>    <b>}</b></span>
+<span id='line399'></span>
+<span id='line400'>    // generate indexFog if not specified</span>
+<span id='line401'>    if <b>(</b>indexFog == null<b>)</b></span>
+<span id='line402'>    <b>{</b></span>
+<span id='line403'>      if <b>(</b>!map.isEmpty<b>)</b> err<b>(</b>"Manual missing '$<b>{</b>name<b>}</b>::index.fog'", DocLoc<b>(</b>name, 0<b>)</b><b>)</b></span>
+<span id='line404'>      indexFog = <b>[</b>,<b>]</b></span>
+<span id='line405'>      list.each |c| <b>{</b> indexFog.add<b>(</b><b>[</b>c.name.toUri, ""<b>]</b><b>)</b> <b>}</b></span>
+<span id='line406'>    <b>}</b></span>
+<span id='line407'></span>
+<span id='line408'>    // order the chapters by indexFog:</span>
+<span id='line409'>    //   - map DocChapter summary</span>
+<span id='line410'>    //   - check that chapters/index.fog match</span>
+<span id='line411'>    toc := Obj<b>[</b>,<b>]</b></span>
+<span id='line412'>    indexLoc := DocLoc<b>(</b>"$<b>{</b>name<b>}</b>::index.fog", 0<b>)</b></span>
+<span id='line413'>    indexMap := map.dup</span>
+<span id='line414'>    indexFog.each |item|</span>
+<span id='line415'>    <b>{</b></span>
+<span id='line416'>      // grouping header</span>
+<span id='line417'>      if <b>(</b>item is Str<b>)</b> <b>{</b> toc.add<b>(</b>item<b>)</b>; return <b>}</b></span>
+<span id='line418'></span>
+<span id='line419'>      // get item as Uri/Str pair</span>
+<span id='line420'>      Uri? uri</span>
+<span id='line421'>      Str? summary</span>
+<span id='line422'>      try</span>
+<span id='line423'>      <b>{</b></span>
+<span id='line424'>        uri = <b>(</b><b>(</b>List<b>)</b>item<b>)</b>.get<b>(</b>0<b>)</b></span>
+<span id='line425'>        summary = <b>(</b><b>(</b>List<b>)</b>item<b>)</b>.get<b>(</b>1<b>)</b></span>
+<span id='line426'>      <b>}</b></span>
+<span id='line427'>      catch <b>{</b> err<b>(</b>"Invalid item: $item", indexLoc<b>)</b>; return <b>}</b></span>
+<span id='line428'></span>
+<span id='line429'>      // lookup chapter and remove from map so we know it was indexed</span>
+<span id='line430'>      c := indexMap.remove<b>(</b>uri.toStr<b>)</b></span>
+<span id='line431'>      if <b>(</b>c == null<b>)</b> <b>{</b> err<b>(</b>"Unknown chapter: $uri", indexLoc<b>)</b>; return <b>}</b></span>
+<span id='line432'></span>
+<span id='line433'>      // add it toc</span>
+<span id='line434'>      toc.add<b>(</b>c<b>)</b></span>
+<span id='line435'></span>
+<span id='line436'>      // map summary</span>
+<span id='line437'>      c.summaryRef.val = summary</span>
+<span id='line438'>    <b>}</b></span>
+<span id='line439'></span>
+<span id='line440'>    // report errors for chapters not in index</span>
+<span id='line441'>    indexMap.each |c| <b>{</b> err<b>(</b>"Chapter not in index: $c.name", indexLoc<b>)</b> <b>}</b></span>
+<span id='line442'></span>
+<span id='line443'>    // redo list now that we have chapters ordered by index</span>
+<span id='line444'>    list = toc.findType<b>(</b>DocChapter#<b>)</b></span>
+<span id='line445'></span>
+<span id='line446'>    // map DocChapter num/prev/next</span>
+<span id='line447'>    list.each |c, i|</span>
+<span id='line448'>    <b>{</b></span>
+<span id='line449'>      c.numRef.val = i+1</span>
+<span id='line450'>      if <b>(</b>i > 0<b>)</b> c.prevRef.val = list<b>[</b>i-1<b>]</b></span>
+<span id='line451'>      c.nextRef.val = list.getSafe<b>(</b>i+1<b>)</b></span>
+<span id='line452'>    <b>}</b></span>
+<span id='line453'></span>
+<span id='line454'>    // save to fields</span>
+<span id='line455'>    this.chapterMap  = map.toImmutable</span>
+<span id='line456'>    this.chapterList = list.toImmutable</span>
+<span id='line457'>    this.toc         = toc.toImmutable</span>
+<span id='line458'>  <b>}</b></span>
+<span id='line459'></span>
+<span id='line460'>  private Void finishResources<b>(</b>Uri<b>[</b><b>]</b> uris<b>)</b></span>
+<span id='line461'>  <b>{</b></span>
+<span id='line462'>    DocRes<b>[</b><b>]</b> list := uris.sort.map |uri->DocRes| <b>{</b> DocRes<b>(</b>pod, uri<b>)</b> <b>}</b></span>
+<span id='line463'>    this.resList = list.toImmutable</span>
+<span id='line464'>    this.resMap  = Str:DocRes<b>[</b>:<b>]</b>.addList<b>(</b>list<b>)</b> |res| <b>{</b> res.uri.name <b>}</b>.toImmutable</span>
+<span id='line465'>  <b>}</b></span>
+<span id='line466'></span>
+<span id='line467'>  private Void finishSources<b>(</b>Uri<b>[</b><b>]</b> uris<b>)</b></span>
+<span id='line468'>  <b>{</b></span>
+<span id='line469'>    DocSrc<b>[</b><b>]</b> list := uris.sort.map |uri->DocSrc| <b>{</b> DocSrc<b>(</b>pod, uri<b>)</b> <b>}</b></span>
+<span id='line470'>    this.srcList = list.toImmutable</span>
+<span id='line471'>    this.srcMap  = Str:DocSrc<b>[</b>:<b>]</b>.addList<b>(</b>list<b>)</b> |src| <b>{</b> src.uri.name <b>}</b>.toImmutable</span>
+<span id='line472'>  <b>}</b></span>
+<span id='line473'></span>
+<span id='line474'>  private Void finishIndex<b>(</b><b>)</b></span>
+<span id='line475'>  <b>{</b></span>
+<span id='line476'>    this.index = DocPodIndex<b>(</b>pod, toc<b>)</b></span>
+<span id='line477'>  <b>}</b></span>
+<span id='line478'></span>
+<span id='line479'>  Void err<b>(</b>Str msg, DocLoc loc, Err? cause := null<b>)</b></span>
+<span id='line480'>  <b>{</b></span>
+<span id='line481'>    onErr<b>(</b>DocErr<b>(</b>msg, loc, cause<b>)</b><b>)</b></span>
+<span id='line482'>  <b>}</b></span>
+<span id='line483'></span>
+<span id='line484'>  File file                     // ctor</span>
+<span id='line485'>  DocPod pod                    // ctor</span>
+<span id='line486'>  |DocErr| onErr                // ctor</span>
+<span id='line487'>  <b>[</b>Str:Str<b>]</b>? meta               // load</span>
+<span id='line488'>  Str? name                     // loadMeta</span>
+<span id='line489'>  Str? summary                  // loadMeta</span>
+<span id='line490'>  Version? version              // loadMeta</span>
+<span id='line491'>  DocType<b>[</b><b>]</b>? typeList           // finishTypes</span>
+<span id='line492'>  <b>[</b>Str:DocType<b>]</b>? typeMap        // finishTypes</span>
+<span id='line493'>  DocChapter<b>[</b><b>]</b>? chapterList     // finishChapters</span>
+<span id='line494'>  <b>[</b>Str:DocChapter<b>]</b>? chapterMap  // finishChapters</span>
+<span id='line495'>  DocChapter? podDoc            // finishChapters</span>
+<span id='line496'>  DocRes<b>[</b><b>]</b>? resList             // finishResource</span>
+<span id='line497'>  <b>[</b>Str:DocRes<b>]</b>? resMap          // finishResource</span>
+<span id='line498'>  DocSrc<b>[</b><b>]</b>? srcList             // finishSource</span>
+<span id='line499'>  <b>[</b>Str:DocSrc<b>]</b>? srcMap          // finishSource</span>
+<span id='line500'>  Obj<b>[</b><b>]</b>? toc                    // finishTypes/finishChapters</span>
+<span id='line501'>  DocPodIndex? index            // finishIndex</span>
+<span id='line502'><b>}</b></span>
+<span id='line503'></span>
+<span id='line504'></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>concurrent::Async</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>concurrent</a></li><li><a href='Async.html'>Async</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract virtual class</span> concurrent::Async</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  concurrent::Async : <a href='Promise.html'>concurrent::Promise&lt;<a href='AsyncT.html'>Async^T</a>&gt;</a></pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/NoPeer.html'>NoPeer</a></code><br /></p>
+<dl>
+<dt id='awaitRes'>
+awaitRes</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> awaitRes</code></p>
+
+<p>resolved value</p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Err.html'>Err?</a> err</code></p>
+
+<p>err in async task</p>
+</dd>
+<dt id='isDone'>
+isDone</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isDone()</code></p>
+</dd>
+<dt id='nextStep'>
+nextStep</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract <a href='../sys/Bool.html'>Bool</a> nextStep()</code></p>
+</dd>
+<dt id='result'>
+result</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='AsyncT.html'>Async^T?</a> result { protected set }</code></p>
+
+<p>async function final return result</p>
+</dd>
+<dt id='sleep'>
+sleep</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Promise.html'>Promise&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;</a> sleep(<a href='../std/Duration.html'>Duration</a> d)</code></p>
+</dd>
+<dt id='state'>
+state</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Int.html'>Int</a> state := 0</code></p>
+
+<p>execute step state</p>
+</dd>
+<dt id='step'>
+step</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> step()</code></p>
+
+<p>run next step call by AsyncRunner</p>
+</dd>
+<dt id='then'>
+then</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> then(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='AsyncT.html'>Async^T?</a>,<a href='../sys/Err.html'>Err?</a>&gt;</a> f)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#sleep'>sleep</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#awaitRes'>awaitRes</a></li><li><a href='#err'>err</a></li><li><a href='#isDone'>isDone</a></li><li><a href='#nextStep'>nextStep</a></li><li><a href='#result'>result</a></li><li><a href='#state'>state</a></li><li><a href='#step'>step</a></li><li><a href='#then'>then</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::TimeOfDay</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='TimeOfDay.html'>TimeOfDay</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>struct const class</span> std::TimeOfDay</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::TimeOfDay</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Time represents a time of day independent of a specific date or timezone.</p>
+<dl>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> compare(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>Compare based on hour, min, sec, and ns values.</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='TimeOfDay.html'>TimeOfDay</a> defVal := TimeOfDay.fromTicks(0)</code></p>
+
+<p>Default value is "00:00:00".</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Two times are equal if have identical hour, min, sec, and ns values.</p>
+</dd>
+<dt id='fromDuration'>
+fromDuration</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='TimeOfDay.html'>TimeOfDay</a> fromDuration(<a href='Duration.html'>Duration</a> d)</code></p>
+
+<p>Translate a duration of time which has elapsed since midnight into a Time of day.  See <code><a href='TimeOfDay.html#toDuration'>toDuration</a></code>.  If the duration is not between 0 and 24hr throw ArgErr.</p>
+
+<p>Example:</p>
+
+<pre>Time.fromDuration(150min)  =>  02:30:00</pre>
+</dd>
+<dt id='fromIso'>
+fromIso</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='TimeOfDay.html'>TimeOfDay?</a> fromIso(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse an ISO 8601 time.  If invalid format and checked is false return null, otherwise throw ParseErr.  The following format is supported:</p>
+
+<pre>hh:mm:ss.FFFFFFFFF</pre>
+
+<p>Also see <code><a href='TimeOfDay.html#toIso'>toIso</a></code> and <code><a href='TimeOfDay.html#fromStr'>fromStr</a></code>.</p>
+</dd>
+<dt id='fromLocale'>
+fromLocale</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='TimeOfDay.html'>TimeOfDay?</a> fromLocale(<a href='../sys/Str.html'>Str</a> str, <a href='../sys/Str.html'>Str</a> pattern, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a string into a Time using the given pattern.  If string is not a valid format then return null or raise ParseErr based on checked flag.  See <code><a href='TimeOfDay.html#toLocale'>toLocale</a></code> for pattern syntax.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse the string into a Time from the programmatic encoding defined by <code><a href='TimeOfDay.html#toStr'>toStr</a></code>.  If the string cannot be parsed into a valid Time and checked is false then return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='fromTicks'>
+fromTicks</dt>
+<dd>
+<p class='sig'>
+<code>new fromTicks(<a href='../sys/Int.html'>Int</a> ticks)</code></p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return hash of hour, min, sec, and ns values.</p>
+</dd>
+<dt id='hour'>
+hour</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> hour()</code></p>
+
+<p>Get the hour of the time as a number between 0 and 23.</p>
+</dd>
+<dt id='isMidnight'>
+isMidnight</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isMidnight()</code></p>
+
+<p>Return if "00:00:00" which is equal to <code><a href='TimeOfDay.html#defVal'>defVal</a></code>.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Int.html'>Int</a> hour, <a href='../sys/Int.html'>Int</a> min, <a href='../sys/Int.html'>Int</a> sec := 0, <a href='../sys/Int.html'>Int</a> ns := 0)</code></p>
+
+<p>Make for the specified time values:</p>
+
+<ul>
+<li>hour:  0-23</li>
+
+<li>min:   0-59</li>
+
+<li>sec:   0-59</li>
+
+<li>ns:    0-999_999_999</li>
+</ul>
+
+<p>Throw ArgErr is any of the parameters are out of range.</p>
+</dd>
+<dt id='min'>
+min</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> min()</code></p>
+
+<p>Get the minutes of the time as a number between 0 and 59.</p>
+</dd>
+<dt id='minus'>
+minus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='TimeOfDay.html'>TimeOfDay</a> minus(<a href='Duration.html'>Duration</a> d)</code></p>
+
+<p>Subtract the specified duration to this time. Throw ArgErr if <code>dur</code> is not between 0 and 24hr.</p>
+
+<p>Example:</p>
+
+<pre>Time(5,0,0) - 30min  =>  04:30:00</pre>
+</dd>
+<dt id='nanoSec'>
+nanoSec</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> nanoSec()</code></p>
+
+<p>Get the number of nanoseconds (the fraction of seconds) as a number between 0 and 999,999,999.</p>
+</dd>
+<dt id='now'>
+now</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='TimeOfDay.html'>TimeOfDay</a> now(<a href='TimeZone.html'>TimeZone</a> tz := TimeZone.cur())</code></p>
+
+<p>Get the current time using the specified timezone. This method may use <code><a href='DateTime.html#now'>DateTime.now</a></code> with the default tolerance 250ms.</p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='TimeOfDay.html'>TimeOfDay</a> plus(<a href='Duration.html'>Duration</a> d)</code></p>
+
+<p>Add the specified duration to this time. Throw ArgErr if <code>dur</code> is not between 0 and 24hr.</p>
+
+<p>Example:</p>
+
+<pre>Time(5,0,0) + 30min  =>  05:30:00</pre>
+</dd>
+<dt id='sec'>
+sec</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> sec()</code></p>
+
+<p>Get the whole seconds of the time as a number between 0 and 59.</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toCode()</code></p>
+
+<p>Get this Time as a Fantom expression suitable for code generation.</p>
+</dd>
+<dt id='toDateTime'>
+toDateTime</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DateTime.html'>DateTime</a> toDateTime(<a href='Date.html'>Date</a> d, <a href='TimeZone.html'>TimeZone</a> tz := TimeZone.cur())</code></p>
+
+<p>Combine this Time with the given Date to return a DateTime.</p>
+</dd>
+<dt id='toDuration'>
+toDuration</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Duration.html'>Duration</a> toDuration()</code></p>
+
+<p>Return the duration of time which has elapsed since midnight. See <code><a href='TimeOfDay.html#fromDuration'>fromDuration</a></code>.</p>
+
+<p>Example:</p>
+
+<pre>Time(2, 30).toDuration  =>  150min</pre>
+</dd>
+<dt id='toIso'>
+toIso</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toIso()</code></p>
+
+<p>Format this instance according to ISO 8601 using the pattern:</p>
+
+<pre>hh:mm:ss.FFFFFFFFF</pre>
+
+<p>Also see <code><a href='TimeOfDay.html#fromIso'>fromIso</a></code> and <code><a href='TimeOfDay.html#toStr'>toStr</a></code>.</p>
+</dd>
+<dt id='toLocale'>
+toLocale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toLocale(<a href='../sys/Str.html'>Str?</a> pattern := null, <a href='Locale.html'>Locale</a> locale := Locale.cur())</code></p>
+
+<p>Format this date according to the specified pattern.  If pattern is null, then a localized default is used.  The pattern format is the same as <code><a href='DateTime.html#toLocale'>DateTime.toLocale</a></code>:</p>
+
+<pre>h      One digit 24 hour (0-23)   3, 22
+hh     Two digit 24 hour (0-23)   03, 22
+k      One digit 12 hour (1-12)   3, 11
+kk     Two digit 12 hour (1-12)   03, 11
+m      One digit minutes (0-59)   4, 45
+mm     Two digit minutes (0-59)   04, 45
+s      One digit seconds (0-59)   4, 45
+ss     Two digit seconds (0-59)   04, 45
+SS     Optional seconds (only if non-zero)
+f*     Fractional secs trailing zeros
+F*     Fractional secs no trailing zeros
+a      Lower case a/p for am/pm   a, p
+aa     Lower case am/pm           am, pm
+A      Upper case A/P for am/pm   A, P
+AA     Upper case AM/PM           AM, PM
+'xyz'  Literal characters</pre>
+
+<p>A symbol immediately preceding a "F" pattern with a no fraction to print is skipped.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return programmatic ISO 8601 string encoding formatted as follows:</p>
+
+<pre>hh:mm:ss.FFFFFFFFF
+12:06:00.0</pre>
+
+<p>Also see <code><a href='TimeOfDay.html#fromStr'>fromStr</a></code>, <code><a href='TimeOfDay.html#toIso'>toIso</a></code>, and <code><a href='TimeOfDay.html#toLocale'>toLocale</a></code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromDuration'>fromDuration</a></li><li><a href='#fromIso'>fromIso</a></li><li><a href='#fromLocale'>fromLocale</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#fromTicks'>fromTicks</a></li><li><a href='#make'>make</a></li><li><a href='#now'>now</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#compare'>compare</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#hour'>hour</a></li><li><a href='#isMidnight'>isMidnight</a></li><li><a href='#min'>min</a></li><li><a href='#minus'>minus</a></li><li><a href='#nanoSec'>nanoSec</a></li><li><a href='#plus'>plus</a></li><li><a href='#sec'>sec</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toDateTime'>toDateTime</a></li><li><a href='#toDuration'>toDuration</a></li><li><a href='#toIso'>toIso</a></li><li><a href='#toLocale'>toLocale</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

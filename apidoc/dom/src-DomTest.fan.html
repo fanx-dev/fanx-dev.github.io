@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DomTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='DomTest.html'>DomTest</a></li><li><a href='src-DomTest.fan.html'>DomTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2009, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   12 Jan 09  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using graphics</span>
+<span id='line10'>using web</span>
+<span id='line11'></span>
+<span id='line12'>**************************************************************************</span>
+<span id='line13'>** DomTest</span>
+<span id='line14'>**************************************************************************</span>
+<span id='line15'></span>
+<span id='line16'>@NoDoc class DomTest : Weblet</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  override Void onGet<b>(</b><b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    res.headers<b>[</b>"Content-Type"<b>]</b> = "text/html; charset=utf-8"</span>
+<span id='line21'>    out := res.out</span>
+<span id='line22'>    out.docType</span>
+<span id='line23'>    out.html</span>
+<span id='line24'>    out.head</span>
+<span id='line25'>      .title.w<b>(</b>"Dom Test"<b>)</b>.titleEnd</span>
+<span id='line26'>      .includeJs<b>(</b>`/pod/sys/sys.js`<b>)</b></span>
+<span id='line27'>      .includeJs<b>(</b>`/pod/concurrent/concurrent.js`<b>)</b></span>
+<span id='line28'>      .includeJs<b>(</b>`/pod/graphics/graphics.js`<b>)</b></span>
+<span id='line29'>      .includeJs<b>(</b>`/pod/web/web.js`<b>)</b></span>
+<span id='line30'>      .includeJs<b>(</b>`/pod/dom/dom.js`<b>)</b></span>
+<span id='line31'>      .style.w<b>(</b></span>
+<span id='line32'>       ".hidden <b>{</b> display: none; <b>}</b>"<b>)</b></span>
+<span id='line33'>      .styleEnd</span>
+<span id='line34'>      .script.w<b>(</b></span>
+<span id='line35'>       "function print<b>(</b>name<b>)</b></span>
+<span id='line36'>        <b>{</b></span>
+<span id='line37'>          var p = document.getElementById<b>(</b>'tests'<b>)</b>;</span>
+<span id='line38'>          p.innerHTML = p.innerHTML + ' -- ' + name + '...&lt;'+'br/>';</span>
+<span id='line39'>         <b>}</b></span>
+<span id='line40'>         window.onload = function<b>(</b><b>)</b> <b>{</b></span>
+<span id='line41'>          var results = document.getElementById<b>(</b>'results'<b>)</b>;</span>
+<span id='line42'>          try</span>
+<span id='line43'>          <b>{</b></span>
+<span id='line44'>            var test = fan.dom.DomTestClient.make<b>(</b><b>)</b>;</span>
+<span id='line45'>            print<b>(</b>'testEmpty'<b>)</b>;     test.testEmpty<b>(</b><b>)</b>;</span>
+<span id='line46'>            print<b>(</b>'testBasics'<b>)</b>;    test.testBasics<b>(</b><b>)</b>;</span>
+<span id='line47'>            print<b>(</b>'testAttrs'<b>)</b>;     test.testAttrs<b>(</b><b>)</b>;</span>
+<span id='line48'>            print<b>(</b>'testCreate'<b>)</b>;    test.testCreate<b>(</b><b>)</b>;</span>
+<span id='line49'>            print<b>(</b>'testAddRemove'<b>)</b>; test.testAddRemove<b>(</b><b>)</b>;</span>
+<span id='line50'>            print<b>(</b>'testStyle'<b>)</b>;     test.testStyle<b>(</b><b>)</b>;</span>
+<span id='line51'>            print<b>(</b>'testSvg'<b>)</b>;       test.testSvg<b>(</b><b>)</b>;</span>
+<span id='line52'>            results.style.color = 'green';</span>
+<span id='line53'>            results.innerHTML = 'All tests passed! <b>[</b>' + test.m_verifies + ' verifies<b>]</b>';</span>
+<span id='line54'>          <b>}</b></span>
+<span id='line55'>          catch <b>(</b>err<b>)</b></span>
+<span id='line56'>          <b>{</b></span>
+<span id='line57'>            results.style.color = 'red';</span>
+<span id='line58'>            results.innerHTML = 'Test failed - ' + err;</span>
+<span id='line59'>          <b>}</b></span>
+<span id='line60'>        <b>}</b>"<b>)</b></span>
+<span id='line61'>       .scriptEnd</span>
+<span id='line62'>       .headEnd</span>
+<span id='line63'></span>
+<span id='line64'>    out.body</span>
+<span id='line65'>      .h1.w<b>(</b>"Dom Test"<b>)</b>.h1End</span>
+<span id='line66'>      .hr</span>
+<span id='line67'></span>
+<span id='line68'>    // testEmpty <b>(</b>use raw html so no whitespace nodes<b>)</b></span>
+<span id='line69'>    out.w<b>(</b>"&lt;div>&lt;/div>"<b>)</b>.nl</span>
+<span id='line70'></span>
+<span id='line71'>    // testBasics</span>
+<span id='line72'>    out.div<b>(</b>"id='testBasics' class='hidden'"<b>)</b></span>
+<span id='line73'>      .p.w<b>(</b>"alpha"<b>)</b>.pEnd</span>
+<span id='line74'>      .span.w<b>(</b>"beta-1"<b>)</b>.spanEnd</span>
+<span id='line75'>      .span.w<b>(</b>"beta-2"<b>)</b>.spanEnd</span>
+<span id='line76'>      .a<b>(</b>`#`<b>)</b>.w<b>(</b>"gamma"<b>)</b>.aEnd</span>
+<span id='line77'>      .divEnd</span>
+<span id='line78'></span>
+<span id='line79'>    // testAttrs</span>
+<span id='line80'>    out.div<b>(</b>"id='testAttrs' class='hidden'"<b>)</b></span>
+<span id='line81'>      .input<b>(</b>"type='text' name='alpha' value='foo'"<b>)</b></span>
+<span id='line82'>      .checkbox<b>(</b>"name='beta' checked='checked'"<b>)</b></span>
+<span id='line83'>      .checkbox</span>
+<span id='line84'>      .div<b>(</b>"class='a'"<b>)</b>.divEnd</span>
+<span id='line85'>      .div<b>(</b>"class='a b'"<b>)</b>.divEnd</span>
+<span id='line86'>      .div.divEnd</span>
+<span id='line87'>      .divEnd</span>
+<span id='line88'></span>
+<span id='line89'>    // testAttrs</span>
+<span id='line90'>    out.div<b>(</b>"id='testStyle' class='hidden'"<b>)</b></span>
+<span id='line91'>      .div<b>(</b>"class='a'"<b>)</b>.divEnd</span>
+<span id='line92'>      .div<b>(</b>"class='a b'"<b>)</b>.divEnd</span>
+<span id='line93'>      .div.divEnd</span>
+<span id='line94'>      .divEnd</span>
+<span id='line95'></span>
+<span id='line96'>    out.p.w<b>(</b>"Running..."<b>)</b>.pEnd</span>
+<span id='line97'>     .p<b>(</b>"id='tests'"<b>)</b>.pEnd</span>
+<span id='line98'>     .p<b>(</b>"id='results'"<b>)</b>.pEnd</span>
+<span id='line99'></span>
+<span id='line100'>    out.bodyEnd.htmlEnd</span>
+<span id='line101'>  <b>}</b></span>
+<span id='line102'><b>}</b></span>
+<span id='line103'></span>
+<span id='line104'>**************************************************************************</span>
+<span id='line105'>** DomTestClient</span>
+<span id='line106'>**************************************************************************</span>
+<span id='line107'></span>
+<span id='line108'>@Js @NoDoc internal class DomTestClient</span>
+<span id='line109'><b>{</b></span>
+<span id='line110'></span>
+<span id='line111'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line112'>// testEmpty</span>
+<span id='line113'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line114'></span>
+<span id='line115'>  Void testEmpty<b>(</b><b>)</b></span>
+<span id='line116'>  <b>{</b></span>
+<span id='line117'>    elem := Win.cur.doc.body.querySelector<b>(</b>"div"<b>)</b>  // testEmpty must be first div</span>
+<span id='line118'>    verifyEq<b>(</b>elem.ns,  `http://www.w3.org/1999/xhtml`<b>)</b></span>
+<span id='line119'>    verifyEq<b>(</b>elem.id,  null<b>)</b></span>
+<span id='line120'>    verifyEq<b>(</b>elem->id, ""<b>)</b></span>
+<span id='line121'>    verifyEq<b>(</b>elem.attrs.size, 0<b>)</b></span>
+<span id='line122'>    verifyEq<b>(</b>elem.hasChildren, false<b>)</b></span>
+<span id='line123'>    verifyEq<b>(</b>elem.text,   ""<b>)</b></span>
+<span id='line124'>    verifyEq<b>(</b>elem.size.h, 0f<b>)</b>  // w will vary...</span>
+<span id='line125'>  <b>}</b></span>
+<span id='line126'></span>
+<span id='line127'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line128'>// testBasics</span>
+<span id='line129'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line130'></span>
+<span id='line131'>  Void testBasics<b>(</b><b>)</b></span>
+<span id='line132'>  <b>{</b></span>
+<span id='line133'>    elem := Win.cur.doc.elemById<b>(</b>"testBasics"<b>)</b></span>
+<span id='line134'>    verify<b>(</b>elem != null<b>)</b></span>
+<span id='line135'>    verifyEq<b>(</b>elem.size, Size<b>(</b>0,0<b>)</b><b>)</b></span>
+<span id='line136'></span>
+<span id='line137'>    kids := elem.children</span>
+<span id='line138'>    verifyEq<b>(</b>kids.size, 4<b>)</b></span>
+<span id='line139'>    verifyEq<b>(</b>kids<b>[</b>0<b>]</b>.html.trim, "alpha"<b>)</b></span>
+<span id='line140'>    verifyEq<b>(</b>kids<b>[</b>1<b>]</b>.html, "beta-1"<b>)</b></span>
+<span id='line141'>    verifyEq<b>(</b>kids<b>[</b>2<b>]</b>.html, "beta-2"<b>)</b></span>
+<span id='line142'>    verifyEq<b>(</b>kids<b>[</b>3<b>]</b>.html, "gamma"<b>)</b></span>
+<span id='line143'></span>
+<span id='line144'>    a := Win.cur.doc.querySelector<b>(</b>"#testBasics :last-child"<b>)</b></span>
+<span id='line145'>    verify<b>(</b>a != null<b>)</b></span>
+<span id='line146'>    verifyEq<b>(</b>a.tagName, "a"<b>)</b></span>
+<span id='line147'>    verifyEq<b>(</b>a.parent.id, "testBasics"<b>)</b></span>
+<span id='line148'></span>
+<span id='line149'>    spans := Win.cur.doc.querySelectorAll<b>(</b>"#testBasics span"<b>)</b></span>
+<span id='line150'>    verifyEq<b>(</b>spans.size, 2<b>)</b></span>
+<span id='line151'>    verifyEq<b>(</b>spans<b>[</b>0<b>]</b>.tagName, "span"<b>)</b></span>
+<span id='line152'>    verifyEq<b>(</b>spans<b>[</b>1<b>]</b>.tagName, "span"<b>)</b></span>
+<span id='line153'>  <b>}</b></span>
+<span id='line154'></span>
+<span id='line155'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line156'>// testAttrs</span>
+<span id='line157'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line158'></span>
+<span id='line159'>  Void testAttrs<b>(</b><b>)</b></span>
+<span id='line160'>  <b>{</b></span>
+<span id='line161'>    top := Win.cur.doc.elemById<b>(</b>"testAttrs"<b>)</b></span>
+<span id='line162'>    verify<b>(</b>top != null<b>)</b></span>
+<span id='line163'></span>
+<span id='line164'>    // top &lt;div></span>
+<span id='line165'>    verifyEq<b>(</b>top.tagName, "div"<b>)</b></span>
+<span id='line166'>    verifyAttrProp<b>(</b>top, "id",    "testAttrs"<b>)</b></span>
+<span id='line167'>    verifyAttrProp<b>(</b>top, "name",  null<b>)</b></span>
+<span id='line168'>    verifyAttrProp<b>(</b>top, "yabba", null<b>)</b></span>
+<span id='line169'>    verifyEq<b>(</b>top->offsetTop, 0<b>)</b></span>
+<span id='line170'>    verify<b>(</b>top->innerHTML.toStr.contains<b>(</b>"&lt;input type="<b>)</b><b>)</b></span>
+<span id='line171'></span>
+<span id='line172'>    a := top.children<b>[</b>0<b>]</b>  // &lt;input></span>
+<span id='line173'>    b := top.children<b>[</b>1<b>]</b>  // &lt;checkbox></span>
+<span id='line174'>    c := top.children<b>[</b>2<b>]</b>  // &lt;checkbox></span>
+<span id='line175'>    d := top.children<b>[</b>3<b>]</b>  // &lt;div></span>
+<span id='line176'>    e := top.children<b>[</b>4<b>]</b>  // &lt;div></span>
+<span id='line177'>    f := top.children<b>[</b>5<b>]</b>  // &lt;div></span>
+<span id='line178'></span>
+<span id='line179'>    // a:&lt;input></span>
+<span id='line180'>    try</span>
+<span id='line181'>    <b>{</b></span>
+<span id='line182'>      verifyEq<b>(</b>a.tagName, "input"<b>)</b></span>
+<span id='line183'>      verifyAttrProp<b>(</b>a, "id",       null, ""<b>)</b>   // null for attr, "" for prop</span>
+<span id='line184'>      verifyAttrProp<b>(</b>a, "type",     "text"<b>)</b></span>
+<span id='line185'>      verifyAttrProp<b>(</b>a, "name",     "alpha"<b>)</b></span>
+<span id='line186'>      verifyAttrProp<b>(</b>a, "tabIndex", null, 0<b>)</b>    // &lt;input> tab defaults to 0</span>
+<span id='line187'>      a->tabIndex = 1</span>
+<span id='line188'>      verifyAttrProp<b>(</b>a, "tabIndex", "1", 1<b>)</b>     // set prop updates both attr/prop</span>
+<span id='line189'>      verifyAttrProp<b>(</b>a, "value", "foo"<b>)</b></span>
+<span id='line190'>      a->value = "bar"                          // setting prop does not modify attr</span>
+<span id='line191'>      verifyAttrProp<b>(</b>a, "value", "foo", "bar"<b>)</b>  //   orig="foo", modified="bar"</span>
+<span id='line192'>      verifyEq<b>(</b>a<b>[</b>"value"<b>]</b>, "foo"<b>)</b>               //   orig</span>
+<span id='line193'>      verifyEq<b>(</b>a->defaultValue, "foo"<b>)</b>          //   orig</span>
+<span id='line194'>    <b>}</b></span>
+<span id='line195'>    finally <b>{</b> a->value = "foo" <b>}</b>  // make firefox re-entrant...</span>
+<span id='line196'></span>
+<span id='line197'>    // b:&lt;checkbox></span>
+<span id='line198'>    try</span>
+<span id='line199'>    <b>{</b></span>
+<span id='line200'>      verifyEq<b>(</b>b.tagName, "input"<b>)</b></span>
+<span id='line201'>      verifyAttrProp<b>(</b>b, "type",  "checkbox"<b>)</b></span>
+<span id='line202'>      verifyAttrProp<b>(</b>b, "name",  "beta"<b>)</b></span>
+<span id='line203'>      verifyAttrProp<b>(</b>b, "value", null, "on"<b>)</b>          // value attr not defined</span>
+<span id='line204'>      verifyAttrProp<b>(</b>b, "checked", "checked", true<b>)</b>   // bool attrs mirror name</span>
+<span id='line205'>      b->checked = false                              // setting prop does not modify attr</span>
+<span id='line206'>      verifyAttrProp<b>(</b>b, "checked", "checked", false<b>)</b>  //   orig=true, modified=false</span>
+<span id='line207'>      verifyEq<b>(</b>b<b>[</b>"checked"<b>]</b>, "checked"<b>)</b>               //   orig</span>
+<span id='line208'>      verifyEq<b>(</b>b->defaultChecked, true<b>)</b>               //   orig</span>
+<span id='line209'>      b<b>[</b>"checked"<b>]</b> = "checked"                        // setting attr does not modify prop</span>
+<span id='line210'>      verifyAttrProp<b>(</b>b, "checked", "checked", false<b>)</b>  //   same prop</span>
+<span id='line211'>    <b>}</b></span>
+<span id='line212'>    finally <b>{</b> b->checked = true <b>}</b>  // make firefox re-entrant...</span>
+<span id='line213'></span>
+<span id='line214'>    // c:&lt;checkbox></span>
+<span id='line215'>    verifyEq<b>(</b>c.tagName, "input"<b>)</b></span>
+<span id='line216'>    verifyAttrProp<b>(</b>c, "type",  "checkbox"<b>)</b></span>
+<span id='line217'>    verifyAttrProp<b>(</b>c, "name",  null, ""<b>)</b>       // name attr null; prop is "" for &lt;inputs></span>
+<span id='line218'>    verifyAttrProp<b>(</b>c, "value", null, "on"<b>)</b>     // value prop appears meaningless across browsers for &lt;checkbox>?</span>
+<span id='line219'>    verifyAttrProp<b>(</b>c, "checked", null, false<b>)</b>  // bool attrs mirror name</span>
+<span id='line220'></span>
+<span id='line221'>    // d:&lt;div></span>
+<span id='line222'>    verifyEq<b>(</b>d.tagName, "div"<b>)</b></span>
+<span id='line223'>    verifyAttrProp<b>(</b>d, "tabIndex", null, -1<b>)</b>    // non-inputs default to null/-1</span>
+<span id='line224'>    d->tabIndex = 0</span>
+<span id='line225'>    verifyAttrProp<b>(</b>d, "tabIndex", "0", 0<b>)</b>      // set prop updates both attr/prop</span>
+<span id='line226'></span>
+<span id='line227'>    // e:&lt;div></span>
+<span id='line228'>    verifyEq<b>(</b>e.tagName, "div"<b>)</b></span>
+<span id='line229'>    verifyAttr<b>(</b>e, "x", null<b>)</b></span>
+<span id='line230'>    e<b>[</b>"x"<b>]</b> = "123";    verifyAttr<b>(</b>e, "x", "123"<b>)</b></span>
+<span id='line231'>    e.removeAttr<b>(</b>"x"<b>)</b>; verifyAttr<b>(</b>e, "x", null<b>)</b></span>
+<span id='line232'>    e<b>[</b>"x"<b>]</b> = "abc";    verifyAttr<b>(</b>e, "x", "abc"<b>)</b></span>
+<span id='line233'>    e<b>[</b>"x"<b>]</b> = null;     verifyAttr<b>(</b>e, "x", null<b>)</b></span>
+<span id='line234'></span>
+<span id='line235'>    // f:&lt;div></span>
+<span id='line236'>    verifyEq<b>(</b>f.tagName, "div"<b>)</b></span>
+<span id='line237'>  <b>}</b></span>
+<span id='line238'></span>
+<span id='line239'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line240'>// testCreate</span>
+<span id='line241'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line242'></span>
+<span id='line243'>  Void testCreate<b>(</b><b>)</b></span>
+<span id='line244'>  <b>{</b></span>
+<span id='line245'>    elem := Elem <b>{</b><b>}</b></span>
+<span id='line246'>    verifyEq<b>(</b>elem.ns, `http://www.w3.org/1999/xhtml`<b>)</b></span>
+<span id='line247'>    verifyEq<b>(</b>elem.tagName, "div"<b>)</b></span>
+<span id='line248'></span>
+<span id='line249'>    elem = Elem<b>(</b>"table"<b>)</b> <b>{</b><b>}</b></span>
+<span id='line250'>    verifyEq<b>(</b>elem.tagName, "table"<b>)</b></span>
+<span id='line251'></span>
+<span id='line252'>    elem = Win.cur.doc.createElem<b>(</b>"div"<b>)</b></span>
+<span id='line253'>    verifyEq<b>(</b>elem.ns, `http://www.w3.org/1999/xhtml`<b>)</b></span>
+<span id='line254'>    verifyEq<b>(</b>elem.tagName, "div"<b>)</b></span>
+<span id='line255'></span>
+<span id='line256'>    elem = Win.cur.doc.createElem<b>(</b>"div", <b>[</b>"class":"foo"<b>]</b><b>)</b></span>
+<span id='line257'>    verifyEq<b>(</b>elem.tagName, "div"<b>)</b></span>
+<span id='line258'>    verifyEq<b>(</b>elem.style.classes, <b>[</b>"foo"<b>]</b><b>)</b></span>
+<span id='line259'></span>
+<span id='line260'>    elem = Win.cur.doc.createElem<b>(</b>"div", <b>[</b>"id":"cool", "name":"yay", "class":"foo"<b>]</b><b>)</b></span>
+<span id='line261'>    verifyEq<b>(</b>elem.tagName, "div"<b>)</b></span>
+<span id='line262'>    verifyEq<b>(</b>elem<b>[</b>"id"<b>]</b>, "cool"<b>)</b></span>
+<span id='line263'>    verifyEq<b>(</b>elem<b>[</b>"name"<b>]</b>, "yay"<b>)</b></span>
+<span id='line264'>    verifyEq<b>(</b>elem<b>[</b>"class"<b>]</b>, "foo"<b>)</b></span>
+<span id='line265'></span>
+<span id='line266'>    // TODO: create with namespace</span>
+<span id='line267'>    // TODO: some SVG tests</span>
+<span id='line268'>  <b>}</b></span>
+<span id='line269'></span>
+<span id='line270'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line271'>// testAddRemove</span>
+<span id='line272'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line273'></span>
+<span id='line274'>  Void testAddRemove<b>(</b><b>)</b></span>
+<span id='line275'>  <b>{</b></span>
+<span id='line276'>    elem := Elem <b>{</b><b>}</b></span>
+<span id='line277'>    verifyEq<b>(</b>elem.children.size, 0<b>)</b></span>
+<span id='line278'>    verifyEq<b>(</b>elem.hasChildren, false<b>)</b></span>
+<span id='line279'></span>
+<span id='line280'>    a := Elem <b>{</b> it.style.addClass<b>(</b>"a"<b>)</b> <b>}</b></span>
+<span id='line281'>    b := Elem <b>{</b> it.style.addClass<b>(</b>"b"<b>)</b> <b>}</b></span>
+<span id='line282'>    c := Elem <b>{</b> it.style.addClass<b>(</b>"c"<b>)</b> <b>}</b></span>
+<span id='line283'></span>
+<span id='line284'>    elem.add<b>(</b>a<b>)</b></span>
+<span id='line285'>    verifyEq<b>(</b>elem.children.size, 1<b>)</b></span>
+<span id='line286'>    verifyEq<b>(</b>elem.children.first.style.classes, <b>[</b>"a"<b>]</b><b>)</b></span>
+<span id='line287'></span>
+<span id='line288'>    elem.add<b>(</b>b<b>)</b></span>
+<span id='line289'>    elem.add<b>(</b>c<b>)</b></span>
+<span id='line290'>    verifyEq<b>(</b>elem.children.size, 3<b>)</b></span>
+<span id='line291'>    verifyEq<b>(</b>elem.children<b>[</b>1<b>]</b>.style.classes, <b>[</b>"b"<b>]</b><b>)</b></span>
+<span id='line292'>    verifyEq<b>(</b>elem.children<b>[</b>2<b>]</b>.style.classes, <b>[</b>"c"<b>]</b><b>)</b></span>
+<span id='line293'></span>
+<span id='line294'>    elem.remove<b>(</b>b<b>)</b></span>
+<span id='line295'>    verifyEq<b>(</b>elem.children.size, 2<b>)</b></span>
+<span id='line296'>    verifyEq<b>(</b>elem.children<b>[</b>0<b>]</b>.style.classes, <b>[</b>"a"<b>]</b><b>)</b></span>
+<span id='line297'>    verifyEq<b>(</b>elem.children<b>[</b>1<b>]</b>.style.classes, <b>[</b>"c"<b>]</b><b>)</b></span>
+<span id='line298'></span>
+<span id='line299'>    elem.remove<b>(</b>c<b>)</b></span>
+<span id='line300'>    verifyEq<b>(</b>elem.children.size, 1<b>)</b></span>
+<span id='line301'>    verifyEq<b>(</b>elem.children<b>[</b>0<b>]</b>.style.classes, <b>[</b>"a"<b>]</b><b>)</b></span>
+<span id='line302'></span>
+<span id='line303'>    elem.remove<b>(</b>elem.children.first<b>)</b></span>
+<span id='line304'>    verifyEq<b>(</b>elem.children.size, 0<b>)</b></span>
+<span id='line305'></span>
+<span id='line306'>    elem.addAll<b>(</b><b>[</b>b,c<b>]</b><b>)</b></span>
+<span id='line307'>    verifyEq<b>(</b>elem.children.size, 2<b>)</b></span>
+<span id='line308'>    verifyEq<b>(</b>elem.hasChildren, true<b>)</b></span>
+<span id='line309'>    elem.insertBefore<b>(</b>a, b<b>)</b></span>
+<span id='line310'>    verifyEq<b>(</b>elem.children.size, 3<b>)</b></span>
+<span id='line311'>    verifyEq<b>(</b>elem.children<b>[</b>0<b>]</b>.style.classes, <b>[</b>"a"<b>]</b><b>)</b></span>
+<span id='line312'>    verifyEq<b>(</b>elem.children<b>[</b>1<b>]</b>.style.classes, <b>[</b>"b"<b>]</b><b>)</b></span>
+<span id='line313'>    verifyEq<b>(</b>elem.children<b>[</b>2<b>]</b>.style.classes, <b>[</b>"c"<b>]</b><b>)</b></span>
+<span id='line314'></span>
+<span id='line315'>    elem.removeAll</span>
+<span id='line316'>    verifyEq<b>(</b>elem.children.size, 0<b>)</b></span>
+<span id='line317'>    verifyEq<b>(</b>elem.hasChildren, false<b>)</b></span>
+<span id='line318'>  <b>}</b></span>
+<span id='line319'></span>
+<span id='line320'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line321'>// testStyle</span>
+<span id='line322'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line323'></span>
+<span id='line324'>  Void testStyle<b>(</b><b>)</b></span>
+<span id='line325'>  <b>{</b></span>
+<span id='line326'>    top := Win.cur.doc.elemById<b>(</b>"testStyle"<b>)</b></span>
+<span id='line327'></span>
+<span id='line328'>    // class tests</span>
+<span id='line329'>    a := top.children<b>[</b>0<b>]</b></span>
+<span id='line330'>    b := top.children<b>[</b>1<b>]</b></span>
+<span id='line331'>    c := top.children<b>[</b>2<b>]</b></span>
+<span id='line332'></span>
+<span id='line333'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"a"<b>)</b>, true<b>)</b></span>
+<span id='line334'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"b"<b>)</b>, false<b>)</b></span>
+<span id='line335'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"c"<b>)</b>, false<b>)</b></span>
+<span id='line336'>    verifyEq<b>(</b>b.style.hasClass<b>(</b>"a"<b>)</b>, true<b>)</b></span>
+<span id='line337'>    verifyEq<b>(</b>b.style.hasClass<b>(</b>"b"<b>)</b>, true<b>)</b></span>
+<span id='line338'>    verifyEq<b>(</b>b.style.hasClass<b>(</b>"c"<b>)</b>, false<b>)</b></span>
+<span id='line339'>    verifyEq<b>(</b>c.style.hasClass<b>(</b>"a"<b>)</b>, false<b>)</b></span>
+<span id='line340'>    a.style.addClass<b>(</b>"c"<b>)</b></span>
+<span id='line341'>    b.style.addClass<b>(</b>"c"<b>)</b></span>
+<span id='line342'>    c.style.addClass<b>(</b>"c"<b>)</b></span>
+<span id='line343'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"c"<b>)</b>, true<b>)</b></span>
+<span id='line344'>    verifyEq<b>(</b>b.style.hasClass<b>(</b>"c"<b>)</b>, true<b>)</b></span>
+<span id='line345'>    verifyEq<b>(</b>c.style.hasClass<b>(</b>"c"<b>)</b>, true<b>)</b></span>
+<span id='line346'>    a.style.removeClass<b>(</b>"a"<b>)</b></span>
+<span id='line347'>    b.style.removeClass<b>(</b>"a"<b>)</b></span>
+<span id='line348'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"a"<b>)</b>, false<b>)</b></span>
+<span id='line349'>    verifyEq<b>(</b>b.style.hasClass<b>(</b>"a"<b>)</b>, false<b>)</b></span>
+<span id='line350'>    c.style.removeClass<b>(</b>"c"<b>)</b></span>
+<span id='line351'>    verifyEq<b>(</b>c.style.hasClass<b>(</b>"c"<b>)</b>, false<b>)</b></span>
+<span id='line352'>    verifyEq<b>(</b>b.style.classes, <b>[</b>"b", "c"<b>]</b><b>)</b></span>
+<span id='line353'>    b.style.addClass<b>(</b>"b"<b>)</b></span>
+<span id='line354'>    verifyEq<b>(</b>b.style.classes, <b>[</b>"b", "c"<b>]</b><b>)</b></span>
+<span id='line355'>    b.style.removeClass<b>(</b>"x"<b>)</b></span>
+<span id='line356'>    verifyEq<b>(</b>b.style.classes, <b>[</b>"b", "c"<b>]</b><b>)</b></span>
+<span id='line357'></span>
+<span id='line358'>    // legacy test -- keep supporting this</span>
+<span id='line359'>    a.style.addClass<b>(</b>"x y z"<b>)</b></span>
+<span id='line360'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"x"<b>)</b>, true<b>)</b></span>
+<span id='line361'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"y"<b>)</b>, true<b>)</b></span>
+<span id='line362'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"z"<b>)</b>, true<b>)</b></span>
+<span id='line363'>    a.style.removeClass<b>(</b>"y z"<b>)</b></span>
+<span id='line364'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"x"<b>)</b>, true<b>)</b></span>
+<span id='line365'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"y"<b>)</b>, false<b>)</b></span>
+<span id='line366'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"z"<b>)</b>, false<b>)</b></span>
+<span id='line367'></span>
+<span id='line368'>    // style tests</span>
+<span id='line369'>    x := Elem <b>{</b><b>}</b></span>
+<span id='line370'>    x.style<b>[</b>"padding"<b>]</b> =  "10px"; verifyEq<b>(</b>x.style<b>[</b>"padding"<b>]</b>, "10px"<b>)</b></span>
+<span id='line371'>    x.style->padding = "20px";    verifyEq<b>(</b>x.style->padding, "20px"<b>)</b></span>
+<span id='line372'></span>
+<span id='line373'>    x.style<b>[</b>"background-color"<b>]</b> = "#f00"; verifyEq<b>(</b>x.style<b>[</b>"background-color"<b>]</b>, "rgb<b>(</b>255, 0, 0<b>)</b>"<b>)</b></span>
+<span id='line374'>    x.style->backgroundColor = "#0f0";    verifyEq<b>(</b>x.style->backgroundColor, "rgb<b>(</b>0, 255, 0<b>)</b>"<b>)</b></span>
+<span id='line375'></span>
+<span id='line376'>    x.style<b>[</b>"border-bottom-color"<b>]</b> = "#00f"</span>
+<span id='line377'>    verifyEq<b>(</b>x.style->borderBottomColor, "rgb<b>(</b>0, 0, 255<b>)</b>"<b>)</b></span>
+<span id='line378'></span>
+<span id='line379'>    x.style.setAll<b>(</b><b>[</b></span>
+<span id='line380'>      "padding": "3px",</span>
+<span id='line381'>      "margin":  "6px",</span>
+<span id='line382'>      "border":  "2px dotted #ff0"</span>
+<span id='line383'>    <b>]</b><b>)</b></span>
+<span id='line384'>    verifyEq<b>(</b>x.style->padding, "3px"<b>)</b></span>
+<span id='line385'>    verifyEq<b>(</b>x.style->margin,  "6px"<b>)</b></span>
+<span id='line386'>    verifyEq<b>(</b>x.style->border,  "2px dotted rgb<b>(</b>255, 255, 0<b>)</b>"<b>)</b></span>
+<span id='line387'></span>
+<span id='line388'>    x.style.setCss<b>(</b>"padding: 5px; margin: 10px; border: 1px solid #0f0"<b>)</b></span>
+<span id='line389'>    verifyEq<b>(</b>x.style->padding, "5px"<b>)</b></span>
+<span id='line390'>    verifyEq<b>(</b>x.style->margin,  "10px"<b>)</b></span>
+<span id='line391'>    verifyEq<b>(</b>x.style->border,  "1px solid rgb<b>(</b>0, 255, 0<b>)</b>"<b>)</b></span>
+<span id='line392'>  <b>}</b></span>
+<span id='line393'></span>
+<span id='line394'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line395'>// testSvg</span>
+<span id='line396'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line397'></span>
+<span id='line398'>  Void testSvg<b>(</b><b>)</b></span>
+<span id='line399'>  <b>{</b></span>
+<span id='line400'>    a := Svg.line<b>(</b>0, 0, 10, 10<b>)</b></span>
+<span id='line401'>    verifyEq<b>(</b>a.ns, `http://www.w3.org/2000/svg`<b>)</b></span>
+<span id='line402'>    verifyEq<b>(</b>a.tagName, "line"<b>)</b></span>
+<span id='line403'></span>
+<span id='line404'>    // svg prop routes to attr</span>
+<span id='line405'>    verifyEq<b>(</b>a->x1, "0"<b>)</b></span>
+<span id='line406'>    verifyEq<b>(</b>a->y1, "0"<b>)</b></span>
+<span id='line407'>    verifyEq<b>(</b>a->x2, "10"<b>)</b></span>
+<span id='line408'>    verifyEq<b>(</b>a->y2, "10"<b>)</b></span>
+<span id='line409'></span>
+<span id='line410'>    // svg setProp routes to setAttr</span>
+<span id='line411'>    a->x1 = 5</span>
+<span id='line412'>    a->y1 = 5</span>
+<span id='line413'>    verifyEq<b>(</b>a->x1, "5"<b>)</b></span>
+<span id='line414'>    verifyEq<b>(</b>a->y1, "5"<b>)</b></span>
+<span id='line415'></span>
+<span id='line416'>    // svg classNames</span>
+<span id='line417'>    verifyEq<b>(</b>a.style.classes, List.defVal<b>)</b></span>
+<span id='line418'>    a.style.addClass<b>(</b>"a b c"<b>)</b></span>
+<span id='line419'>    verifyEq<b>(</b>a.style.classes, <b>[</b>"a", "b", "c"<b>]</b><b>)</b></span>
+<span id='line420'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"a"<b>)</b>, true<b>)</b></span>
+<span id='line421'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"b"<b>)</b>, true<b>)</b></span>
+<span id='line422'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"c"<b>)</b>, true<b>)</b></span>
+<span id='line423'>    a.style.removeClass<b>(</b>"b c"<b>)</b></span>
+<span id='line424'>    verifyEq<b>(</b>a.style.classes, <b>[</b>"a"<b>]</b><b>)</b></span>
+<span id='line425'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"a"<b>)</b>, true<b>)</b></span>
+<span id='line426'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"b"<b>)</b>, false<b>)</b></span>
+<span id='line427'>    verifyEq<b>(</b>a.style.hasClass<b>(</b>"c"<b>)</b>, false<b>)</b></span>
+<span id='line428'>  <b>}</b></span>
+<span id='line429'></span>
+<span id='line430'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line431'>// Support</span>
+<span id='line432'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line433'></span>
+<span id='line434'>  private Void verify<b>(</b>Bool v<b>)</b></span>
+<span id='line435'>  <b>{</b></span>
+<span id='line436'>    if <b>(</b>v<b>)</b> verifies++</span>
+<span id='line437'>    else throw Err<b>(</b>"Test failed"<b>)</b></span>
+<span id='line438'>  <b>}</b></span>
+<span id='line439'></span>
+<span id='line440'>  private Void verifyEq<b>(</b>Obj? a, Obj? b<b>)</b></span>
+<span id='line441'>  <b>{</b></span>
+<span id='line442'>    if <b>(</b>a == b<b>)</b> verifies++</span>
+<span id='line443'>    else throw Err<b>(</b>"$a != $b"<b>)</b></span>
+<span id='line444'>  <b>}</b></span>
+<span id='line445'></span>
+<span id='line446'>  private Void verifyAttrProp<b>(</b>Elem elem, Str name, Str? attrVal, Obj? propVal := null<b>)</b></span>
+<span id='line447'>  <b>{</b></span>
+<span id='line448'>    verifyAttr<b>(</b>elem, name, attrVal<b>)</b></span>
+<span id='line449'>    verifyProp<b>(</b>elem, name, propVal ?: attrVal<b>)</b></span>
+<span id='line450'>  <b>}</b></span>
+<span id='line451'></span>
+<span id='line452'>  private Void verifyAttr<b>(</b>Elem elem, Str name, Str? val<b>)</b></span>
+<span id='line453'>  <b>{</b></span>
+<span id='line454'>    // echo<b>(</b>"# $elem a<b>[</b>$name<b>]</b>: " + elem.attr<b>(</b>name<b>)</b> + "/" + elem.get<b>(</b>name<b>)</b><b>)</b></span>
+<span id='line455'>    verifyEq<b>(</b>elem.attr<b>(</b>name<b>)</b>, val<b>)</b></span>
+<span id='line456'>    verifyEq<b>(</b>elem.get<b>(</b>name<b>)</b>,  val<b>)</b></span>
+<span id='line457'>    verifyEq<b>(</b>elem<b>[</b>name<b>]</b>,      val<b>)</b></span>
+<span id='line458'>  <b>}</b></span>
+<span id='line459'></span>
+<span id='line460'>  private Void verifyProp<b>(</b>Elem elem, Str name, Obj? val<b>)</b></span>
+<span id='line461'>  <b>{</b></span>
+<span id='line462'>    // echo<b>(</b>"# $elem p<b>[</b>$name<b>]</b>: " + elem.prop<b>(</b>name<b>)</b> + "/" + elem.trap<b>(</b>name<b>)</b><b>)</b></span>
+<span id='line463'>    verifyEq<b>(</b>elem.prop<b>(</b>name<b>)</b>, val<b>)</b></span>
+<span id='line464'>    verifyEq<b>(</b>elem.trap<b>(</b>name<b>)</b>, val<b>)</b></span>
+<span id='line465'>  <b>}</b></span>
+<span id='line466'></span>
+<span id='line467'>  private Int verifies := 0</span>
+<span id='line468'><b>}</b></span>
+<span id='line469'></span>
+</pre>
+</div>
+</body>
+</html>

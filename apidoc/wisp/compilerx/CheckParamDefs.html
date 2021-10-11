@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CheckParamDefs</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CheckParamDefs.html'>CheckParamDefs</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::CheckParamDefs</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerStep.html'>compilerx::CompilerStep</a>
+    compilerx::CheckParamDefs</pre>
+
+<p>CheckParamDefs is used to process all the parameter default expressions for all the methods.  What we are looking for is default expressions which use default expressions before it which require us to insert a store instruction.</p>
+<dl>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CompilerContext.html'>CompilerContext</a> compiler)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> name</code></p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+<dt id='used'>
+used</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> used</code></p>
+</dd>
+<dt id='usedInSuccDef'>
+usedInSuccDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ParamDef.html'>ParamDef?</a> usedInSuccDef(<a href='../sys/List.html'>List&lt;<a href='ParamDef.html'>ParamDef</a>&gt;</a> params, <a href='../sys/Int.html'>Int</a> index)</code></p>
+</dd>
+<dt id='visitExpr'>
+visitExpr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Expr.html'>Expr</a> visitExpr(<a href='Expr.html'>Expr</a> expr)</code></p>
+</dd>
+<dt id='visitMethodDef'>
+visitMethodDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> visitMethodDef(<a href='MethodDef.html'>MethodDef</a> m)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#name'>name</a></li><li><a href='#run'>run</a></li><li><a href='#used'>used</a></li><li><a href='#usedInSuccDef'>usedInSuccDef</a></li><li><a href='#visitExpr'>visitExpr</a></li><li><a href='#visitMethodDef'>visitMethodDef</a></li></ul>
+</div>
+</div>
+</body>
+</html>

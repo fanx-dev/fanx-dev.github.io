@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::ScrollBar</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='ScrollBar.html'>ScrollBar</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::ScrollBar</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Widget.html'>vaseGui::Widget</a>
+    vaseGui::ScrollBar</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>An implementation of a scrollbar.</p>
+<dl>
+<dt id='barLength'>
+barLength</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> barLength()</code></p>
+
+<p>bar length in screen coordinate</p>
+</dd>
+<dt id='barSize'>
+barSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> barSize := 60</code></p>
+</dd>
+<dt id='curPos'>
+curPos</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> curPos := 0.0f</code></p>
+
+<p>start position at content</p>
+</dd>
+<dt id='gestureEvent'>
+gestureEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> gestureEvent(<a href='GestureEvent.html'>GestureEvent</a> e)</code></p>
+</dd>
+<dt id='intPrecision'>
+intPrecision</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> intPrecision := true</code></p>
+
+<p>store pos value as Int perecision</p>
+</dd>
+<dt id='isActive'>
+isActive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isActive()</code></p>
+</dd>
+<dt id='isOverScroll'>
+isOverScroll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isOverScroll()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+</dd>
+<dt id='max'>
+max</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> max := 2000.0f</code></p>
+
+<p>max content length</p>
+</dd>
+<dt id='motionEvent'>
+motionEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> motionEvent(<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+</dd>
+<dt id='onPosChanged'>
+onPosChanged</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onPosChanged(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Float.html'>Float</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='overScrollVal'>
+overScrollVal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> overScrollVal()</code></p>
+</dd>
+<dt id='posChangeFunc'>
+posChangeFunc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Float.html'>Float</a>&gt;?</a> posChangeFunc</code></p>
+</dd>
+<dt id='screenPos'>
+screenPos</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> screenPos()</code></p>
+</dd>
+<dt id='setCurPos'>
+setCurPos</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setCurPos(<a href='../sys/Float.html'>Float</a> pos, <a href='../sys/Bool.html'>Bool</a> fireEvent, <a href='../sys/Bool.html'>Bool</a> allowOverScroll := false)</code></p>
+</dd>
+<dt id='thumbSize'>
+thumbSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> thumbSize()</code></p>
+
+<p>screen thumb size</p>
+</dd>
+<dt id='toScreenCoord'>
+toScreenCoord</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Float.html'>Float</a> toScreenCoord(<a href='../sys/Float.html'>Float</a> val)</code></p>
+
+<p>maping from world to screen</p>
+</dd>
+<dt id='toWorldCoord'>
+toWorldCoord</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Float.html'>Float</a> toWorldCoord(<a href='../sys/Float.html'>Float</a> val)</code></p>
+
+<p>map from screen to world</p>
+</dd>
+<dt id='vertical'>
+vertical</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> vertical := true</code></p>
+
+<p>is vertical</p>
+</dd>
+<dt id='viewport'>
+viewport</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> viewport := 0.0f</code></p>
+
+<p>view size of content</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#barLength'>barLength</a></li><li><a href='#barSize'>barSize</a></li><li><a href='#curPos'>curPos</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#intPrecision'>intPrecision</a></li><li><a href='#isActive'>isActive</a></li><li><a href='#isOverScroll'>isOverScroll</a></li><li><a href='#max'>max</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#onPosChanged'>onPosChanged</a></li><li><a href='#overScrollVal'>overScrollVal</a></li><li><a href='#posChangeFunc'>posChangeFunc</a></li><li><a href='#screenPos'>screenPos</a></li><li><a href='#setCurPos'>setCurPos</a></li><li><a href='#thumbSize'>thumbSize</a></li><li><a href='#toScreenCoord'>toScreenCoord</a></li><li><a href='#toWorldCoord'>toWorldCoord</a></li><li><a href='#vertical'>vertical</a></li><li><a href='#viewport'>viewport</a></li></ul>
+</div>
+</div>
+</body>
+</html>

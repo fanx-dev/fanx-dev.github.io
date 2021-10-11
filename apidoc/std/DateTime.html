@@ -1,0 +1,547 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::DateTime</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='DateTime.html'>DateTime</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>struct const class</span> std::DateTime</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::DateTime</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /><code class='sig'>@<a href='../sys/NoPeer.html'>NoPeer</a></code><br /></p>
+
+<p>DateTime represents an absolute instance in time.  Fantom time is normalized as nanosecond ticks since 1 Jan 2000 UTC with a supported range of 1901 to 2099.  Fantom time does not support leap seconds (same as Java and UNIX).  An instance of DateTime also models the date and time of an absolute instance against a specific <code><a href='TimeZone.html'>TimeZone</a></code>.</p>
+
+<p>Also see <a href='docLang::DateTime'>docLang</a>.</p>
+<dl>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> compare(<a href='../sys/Obj.html'>Obj</a> that)</code></p>
+
+<p>Compare based on nanosecond ticks.</p>
+</dd>
+<dt id='date'>
+date</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Date.html'>Date</a> date()</code></p>
+
+<p>Get the date component of this timestamp.</p>
+</dd>
+<dt id='day'>
+day</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> day()</code></p>
+
+<p>Get the day of the month as a number between 1 and 31.</p>
+</dd>
+<dt id='dayOfYear'>
+dayOfYear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> dayOfYear()</code></p>
+
+<p>Return the day of the year as a number between 1 and 365 (or 1 to 366 if a leap year).</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='DateTime.html'>DateTime</a> defVal := ...</code></p>
+
+<p>Default value is "2000-01-01T00:00:00Z UTC".</p>
+</dd>
+<dt id='dst'>
+dst</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> dst()</code></p>
+
+<p>Return if this time is within daylight savings time for its associated time zone.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Two times are equal if have identical nanosecond ticks.</p>
+</dd>
+<dt id='floor'>
+floor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DateTime.html'>DateTime</a> floor(<a href='Duration.html'>Duration</a> accuracy)</code></p>
+
+<p>Return a new DateTime with this time's nanosecond ticks truncated according to the specified accuracy.  For example <code>floor(1min)</code> will truncate this time to the minute such that seconds are 0.0.  This method is strictly based on absolute ticks, it does not take into account wall-time rollovers.</p>
+</dd>
+<dt id='fromHttpStr'>
+fromHttpStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DateTime.html'>DateTime?</a> fromHttpStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse an HTTP date according to the RFC 2616 section 3.3.1.  If invalid format and checked is false return null, otherwise throw ParseErr.  The following date formats are supported:</p>
+
+<pre>Sun, 06 Nov 1994 08:49:37 GMT  ; RFC 822, updated by RFC 1123
+Sunday, 06-Nov-94 08:49:37 GMT ; RFC 850, obsoleted by RFC 1036
+Sun Nov  6 08:49:37 1994       ; ANSI C's asctime() format</pre>
+</dd>
+<dt id='fromIso'>
+fromIso</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DateTime.html'>DateTime?</a> fromIso(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse an ISO 8601 timestamp.  If invalid format and checked is false return null, otherwise throw ParseErr.  The following formats are supported:</p>
+
+<pre>YYYY-MM-DD'T'hh:mm:ss[.FFFFFFFFF]
+YYYY-MM-DD'T'hh:mm:ss[.FFFFFFFFF]+HH:MM
+YYYY-MM-DD'T'hh:mm:ss[.FFFFFFFFF]-HH:MM</pre>
+
+<p>If a timezone offset is specified, then one the predefined "Etc/GMT+x" timezones are used for the result:</p>
+
+<pre>DateTime("2009-01-15T12:00:00Z")       =>  2009-01-15T12:00:00Z UTC
+DateTime("2009-01-15T12:00:00-05:00")  =>  2009-01-15T12:00:00-05:00 GMT+5</pre>
+
+<p>Also see <code><a href='DateTime.html#toIso'>toIso</a></code>, <code><a href='DateTime.html#fromStr'>fromStr</a></code>, and <code><a href='DateTime.html#fromHttpStr'>fromHttpStr</a></code>.</p>
+</dd>
+<dt id='fromJava'>
+fromJava</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DateTime.html'>DateTime?</a> fromJava(<a href='../sys/Int.html'>Int</a> millis, <a href='TimeZone.html'>TimeZone</a> tz := TimeZone.cur(), <a href='../sys/Bool.html'>Bool</a> negIsNull := true)</code></p>
+
+<p>Create date for Java milliseconds since the epoch of 1 Jan 1970 using the specified timezone (defaults to current).  If millis are less than or equal to zero then return null.</p>
+</dd>
+<dt id='fromLocale'>
+fromLocale</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DateTime.html'>DateTime?</a> fromLocale(<a href='../sys/Str.html'>Str</a> str, <a href='../sys/Str.html'>Str</a> pattern, <a href='TimeZone.html'>TimeZone?</a> tz := TimeZone.cur(), <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a string into a DateTime using the given pattern.  If string is not a valid format then return null or raise ParseErr based on checked flag.  See <code><a href='DateTime.html#toLocale'>toLocale</a></code> for pattern syntax.</p>
+
+<p>The timezone is inferred from the zone pattern, or else the given <code>tz</code> parameter is used for the timezone.  The <code>z</code> pattern will match "hh:mm", "hhmm", or "hh".  If only a zone offset is available and it doesn't match the expected <code>tz</code> parameter, then use a "GMT+/-" timezone.  Note that if offset is a fractional hour such as GMT-3:30, then result will have ticks, but its tz will be floored hour based GMT timezone such as GMT-3.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true, <a href='../sys/Bool.html'>Bool</a> iso := false)</code></p>
+
+<p>Parse the string into a DateTime from the programmatic encoding defined by <code><a href='DateTime.html#toStr'>toStr</a></code>.  If the string cannot be parsed into a valid DateTime and checked is false then return null, otherwise throw ParseErr. Also see <code><a href='DateTime.html#fromIso'>fromIso</a></code> and <code><a href='DateTime.html#fromHttpStr'>fromHttpStr</a></code>.</p>
+</dd>
+<dt id='fromTimePoint'>
+fromTimePoint</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DateTime.html'>DateTime</a> fromTimePoint(<a href='TimePoint.html'>TimePoint</a> tp, <a href='TimeZone.html'>TimeZone</a> tz := TimeZone.cur())</code></p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return nanosecond ticks for the hashcode.</p>
+</dd>
+<dt id='hour'>
+hour</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> hour()</code></p>
+
+<p>Get the hour of the time as a number between 0 and 23.</p>
+</dd>
+<dt id='hoursInDay'>
+hoursInDay</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> hoursInDay()</code></p>
+
+<p>Return the number of hours for this date and this timezone. Days which transition to DST will be 23 hours and days which transition back to standard time will be 25 hours.  Note there one timezone "Lord_Howe" which has a 30min offset which is not handled by this method (WTF).</p>
+</dd>
+<dt id='httpFormats'>
+httpFormats</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> httpFormats := ...</code></p>
+</dd>
+<dt id='isLeapYear'>
+isLeapYear</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isLeapYear(<a href='../sys/Int.html'>Int</a> year)</code></p>
+
+<p>Return if the specified year is a leap year.</p>
+</dd>
+<dt id='isMidnight'>
+isMidnight</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isMidnight()</code></p>
+
+<p>Return if the time portion is "00:00:00".</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DateTime.html'>DateTime</a> make(<a href='../sys/Int.html'>Int</a> year, <a href='Month.html'>Month</a> month, <a href='../sys/Int.html'>Int</a> day, <a href='../sys/Int.html'>Int</a> hour, <a href='../sys/Int.html'>Int</a> min, <a href='../sys/Int.html'>Int</a> sec := 0, <a href='../sys/Int.html'>Int</a> ns := 0, <a href='TimeZone.html'>TimeZone</a> tz := TimeZone.cur())</code></p>
+
+<p>Make for the specified date and time values:</p>
+
+<ul>
+<li>year:  1901-2099</li>
+
+<li>month: Month enumeration</li>
+
+<li>day:   1-31</li>
+
+<li>hour:  0-23</li>
+
+<li>min:   0-59</li>
+
+<li>sec:   0-59</li>
+
+<li>ns:    0-999_999_999</li>
+
+<li>tz:    time zone used to map date/time to ns ticks</li>
+</ul>
+
+<p>Throw ArgErr is any of the parameters are out of range.</p>
+</dd>
+<dt id='midnight'>
+midnight</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DateTime.html'>DateTime</a> midnight()</code></p>
+
+<p>Return a DateTime for the beginning of the current day at midnight.</p>
+</dd>
+<dt id='min'>
+min</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> min()</code></p>
+
+<p>Get the minutes of the time as a number between 0 and 59.</p>
+</dd>
+<dt id='minus'>
+minus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='DateTime.html'>DateTime</a> minus(<a href='Duration.html'>Duration</a> duration)</code></p>
+
+<p>Subtract a duration to compute a new time.  This method works off absolute time, so subtracting 1days means to subtract 24 hours from the ticks.  This might be a different time of day if on a DST boundry.  Use <code><a href='Date.html#minus'>Date.minus</a></code> for daily increments.</p>
+
+<p>Example:</p>
+
+<pre>prevHour := DateTime.now - 1hr</pre>
+</dd>
+<dt id='minusDateTime'>
+minusDateTime</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Duration.html'>Duration</a> minusDateTime(<a href='DateTime.html'>DateTime</a> time)</code></p>
+
+<p>Return the delta between this and the given time.</p>
+
+<p>Example:</p>
+
+<pre>elapsed := DateTime.now - startTime</pre>
+</dd>
+<dt id='month'>
+month</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Month.html'>Month</a> month()</code></p>
+
+<p>Get the month of this date.</p>
+</dd>
+<dt id='nanoSec'>
+nanoSec</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> nanoSec()</code></p>
+
+<p>Get the number of nanoseconds (the fraction of seconds) as a number between 0 and 999,999,999.</p>
+</dd>
+<dt id='now'>
+now</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DateTime.html'>DateTime</a> now(<a href='Duration.html'>Duration?</a> tolerance := 250.ms)</code></p>
+
+<p>Return the current time using <code><a href='TimeZone.html#cur'>TimeZone.cur</a></code>.  The tolerance parameter specifies that you are willing to use a cached DateTime instance as long as (now - cached &lt;= tolerance).  If tolerance is null, then this method always creates a new DateTime instance.  Using tolerance can increase performance and save memory.  The tolerance default is 250ms.</p>
+
+<p>If you are using time to calculate relative time periods, then use <code><a href='Duration.html#now'>Duration.now</a></code> instead.  Duration is more efficient and won't cause you grief when the system clock is modified.</p>
+</dd>
+<dt id='nowUtc'>
+nowUtc</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DateTime.html'>DateTime</a> nowUtc(<a href='Duration.html'>Duration?</a> tolerance := 250.ms)</code></p>
+
+<p>Return the current time using <code><a href='TimeZone.html#utc'>TimeZone.utc</a></code>. See <code><a href='DateTime.html#now'>now</a></code> for a description of the tolerance parameter.</p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='DateTime.html'>DateTime</a> plus(<a href='Duration.html'>Duration</a> duration)</code></p>
+
+<p>Add a duration to compute a new time.  This method works off absolute time, so adding 1days means to add 24 hours to the ticks.  This might be a different time of day if on a DST boundry.  Use <code><a href='Date.html#plus'>Date.plus</a></code> for daily increments.</p>
+
+<p>Example:</p>
+
+<pre>nextHour := DateTime.now + 1hr</pre>
+</dd>
+<dt id='sec'>
+sec</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> sec()</code></p>
+
+<p>Get the whole seconds of the time as a number between 0 and 59.</p>
+</dd>
+<dt id='time'>
+time</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TimeOfDay.html'>TimeOfDay</a> time()</code></p>
+
+<p>Get the time component of this timestamp.</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toCode()</code></p>
+
+<p>Get this DateTime as a Fantom expression suitable for code generation.</p>
+</dd>
+<dt id='toHttpStr'>
+toHttpStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toHttpStr()</code></p>
+
+<p>Format this time for use in an MIME or HTTP message according to RFC 2616 using the RFC 1123 format:</p>
+
+<pre>Sun, 06 Nov 1994 08:49:37 GMT</pre>
+</dd>
+<dt id='toIso'>
+toIso</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toIso()</code></p>
+
+<p>Format this instance according to ISO 8601 using the pattern:</p>
+
+<pre>YYYY-MM-DD'T'hh:mm:ss.FFFz</pre>
+
+<p>Also see <code><a href='DateTime.html#fromIso'>fromIso</a></code>, <code><a href='DateTime.html#toStr'>toStr</a></code>, and <code><a href='DateTime.html#toHttpStr'>toHttpStr</a></code>.</p>
+</dd>
+<dt id='toJava'>
+toJava</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> toJava()</code></p>
+
+<p>Get this date in Java milliseconds since the epoch of 1 Jan 1970.</p>
+</dd>
+<dt id='toLocale'>
+toLocale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toLocale(<a href='../sys/Str.html'>Str?</a> pattern := null, <a href='Locale.html'>Locale</a> locale := Locale.cur())</code></p>
+
+<p>Format this time according to the specified pattern.  If pattern is null, then a localized default is used.  Any ASCII letter in the pattern is interpreted as follows:</p>
+
+<pre>YY     Two digit year             07
+YYYY   Four digit year            2007
+M      One/two digit month        6, 11
+MM     Two digit month            06, 11
+MMM    Three letter abbr month    Jun, Nov
+MMMM   Full month                 June, November
+D      One/two digit day          5, 28
+DD     Two digit day              05, 28
+DDD    Day with suffix            1st, 2nd, 3rd, 24th
+WWW    Three letter abbr weekday  Tue
+WWWW   Full weekday               Tuesday
+V      One/two digit week of year 1,52
+VV     Two digit week of year     01,52
+VVV    Week of year with suffix   1st,52nd
+h      One digit 24 hour (0-23)   3, 22
+hh     Two digit 24 hour (0-23)   03, 22
+k      One digit 12 hour (1-12)   3, 11
+kk     Two digit 12 hour (1-12)   03, 11
+m      One digit minutes (0-59)   4, 45
+mm     Two digit minutes (0-59)   04, 45
+s      One digit seconds (0-59)   4, 45
+ss     Two digit seconds (0-59)   04, 45
+SS     Optional seconds (only if non-zero)
+f*     Fractional secs trailing zeros
+F*     Fractional secs no trailing zeros
+a      Lower case a/p for am/pm   a, p
+aa     Lower case am/pm           am, pm
+A      Upper case A/P for am/pm   A, P
+AA     Upper case AM/PM           AM, PM
+z      Time zone offset           Z, +03:00 (ISO 8601, XML Schema)
+zzz    Time zone abbr             EST, EDT
+zzzz   Time zone name             New_York
+'xyz'  Literal characters</pre>
+
+<p>A symbol immediately preceding a "F" pattern with a no fraction to print is skipped.</p>
+
+<p>Examples:</p>
+
+<pre>YYYY-MM-DD'T'hh:mm:ss.FFFz  =>  2009-01-16T09:57:35.097-05:00
+DD MMM YYYY                 =>  06 Jan 2009
+DD/MMM/YY                   =>  06/Jan/09
+MMMM D, YYYY                =>  January 16, 2009
+hh:mm:ss.fff zzzz           =>  09:58:54.845 New_York
+k:mma                       =>  9:58a
+k:mmAA                      =>  9:58AM</pre>
+</dd>
+<dt id='toRel'>
+toRel</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DateTime.html'>DateTime</a> toRel()</code></p>
+
+<p>Convenience for <code>toTimeZone(TimeZone.rel)</code>. See <a href='docLang::DateTime#relTimeZone'>docLang</a>.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return programmatic string encoding formatted as follows:</p>
+
+<pre>"YYYY-MM-DD'T'hh:mm:ss.FFFFFFFFFz zzzz"</pre>
+
+<p>See <code><a href='DateTime.html#toLocale'>toLocale</a></code> for the pattern legend.  The base of the string encoding conforms to ISO 8601 and XML Schema Part 2.  The Fantom format also appends the timezone name to avoid the ambiguities associated with interpretting the time zone offset.  Also see <code><a href='DateTime.html#toIso'>toIso</a></code> and <code><a href='DateTime.html#toHttpStr'>toHttpStr</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>"2000-04-03T00:00:00.123Z UTC"
+"2006-10-31T01:02:03-05:00 New_York"
+"2009-03-10T11:33:20Z London"
+"2009-03-01T12:00:00+01:00 Amsterdam"</pre>
+</dd>
+<dt id='toTimePoint'>
+toTimePoint</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TimePoint.html'>TimePoint</a> toTimePoint()</code></p>
+</dd>
+<dt id='toTimeZone'>
+toTimeZone</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DateTime.html'>DateTime</a> toTimeZone(<a href='TimeZone.html'>TimeZone</a> tz)</code></p>
+
+<p>Convert this DateTime to the specific timezone.  The absolute point time as ticks remains the same, but the date and time fields will be converted to represent the new time zone.  However if converting to or from <code><a href='TimeZone.html#rel'>TimeZone.rel</a></code> then the resulting DateTime has the same day and time.  Also see <code><a href='DateTime.html#toUtc'>toUtc</a></code> and <code><a href='DateTime.html#toRel'>toRel</a></code>.</p>
+
+<p>Example:</p>
+
+<pre>dt := DateTime("2010-06-03T10:30:00-04:00 New_York")
+dt.toUtc  =>  2010-06-03T14:30:00Z UTC
+dt.toRel  =>  2010-06-03T10:30:00Z Rel</pre>
+</dd>
+<dt id='toUtc'>
+toUtc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DateTime.html'>DateTime</a> toUtc()</code></p>
+
+<p>Convenience for <code>toTimeZone(TimeZone.utc)</code>.</p>
+</dd>
+<dt id='tz'>
+tz</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TimeZone.html'>TimeZone</a> tz()</code></p>
+
+<p>Get the time zone associated with this date time.</p>
+</dd>
+<dt id='tzAbbr'>
+tzAbbr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> tzAbbr()</code></p>
+
+<p>Get the time zone's abbreviation for this time. See <code><a href='TimeZone.html#stdAbbr'>TimeZone.stdAbbr</a></code> and <code><a href='TimeZone.html#dstAbbr'>TimeZone.dstAbbr</a></code>.</p>
+</dd>
+<dt id='weekOfYear'>
+weekOfYear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> weekOfYear(<a href='Weekday.html'>Weekday</a> startOfWeek := Weekday.localeStartOfWeek())</code></p>
+
+<p>Return the week number of the year as a number between 1 and 53 using the given weekday as the start of the week (defaults to current locale).</p>
+</dd>
+<dt id='weekday'>
+weekday</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Weekday.html'>Weekday</a> weekday()</code></p>
+
+<p>Get the day of the week for this time.</p>
+</dd>
+<dt id='weekdayInMonth'>
+weekdayInMonth</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> weekdayInMonth(<a href='../sys/Int.html'>Int</a> year, <a href='Month.html'>Month</a> mon, <a href='Weekday.html'>Weekday</a> weekday, <a href='../sys/Int.html'>Int</a> pos)</code></p>
+
+<p>This method computes the day of month (1-31) for a given weekday.  The pos parameter specifies the first, second, third, or fourth occurence of the weekday.  A negative pos is used to compute the last (or second to last, etc) weekday in the month.</p>
+
+<p>Examples:</p>
+
+<pre>// compute the second monday in Apr 2007
+weekdayInMonth(2007, Month.apr, Weekday.mon, 2)
+
+// compute the last sunday in Oct 2007
+weekdayInMonth(2007, Month.oct, Weekday.sun, -1)</pre>
+</dd>
+<dt id='year'>
+year</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> year()</code></p>
+
+<p>Get the year as a number such as 2007.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromHttpStr'>fromHttpStr</a></li><li><a href='#fromIso'>fromIso</a></li><li><a href='#fromJava'>fromJava</a></li><li><a href='#fromLocale'>fromLocale</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#fromTimePoint'>fromTimePoint</a></li><li><a href='#httpFormats'>httpFormats</a></li><li><a href='#isLeapYear'>isLeapYear</a></li><li><a href='#make'>make</a></li><li><a href='#now'>now</a></li><li><a href='#nowUtc'>nowUtc</a></li><li><a href='#weekdayInMonth'>weekdayInMonth</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#compare'>compare</a></li><li><a href='#date'>date</a></li><li><a href='#day'>day</a></li><li><a href='#dayOfYear'>dayOfYear</a></li><li><a href='#dst'>dst</a></li><li><a href='#equals'>equals</a></li><li><a href='#floor'>floor</a></li><li><a href='#hash'>hash</a></li><li><a href='#hour'>hour</a></li><li><a href='#hoursInDay'>hoursInDay</a></li><li><a href='#isMidnight'>isMidnight</a></li><li><a href='#midnight'>midnight</a></li><li><a href='#min'>min</a></li><li><a href='#minus'>minus</a></li><li><a href='#minusDateTime'>minusDateTime</a></li><li><a href='#month'>month</a></li><li><a href='#nanoSec'>nanoSec</a></li><li><a href='#plus'>plus</a></li><li><a href='#sec'>sec</a></li><li><a href='#time'>time</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toHttpStr'>toHttpStr</a></li><li><a href='#toIso'>toIso</a></li><li><a href='#toJava'>toJava</a></li><li><a href='#toLocale'>toLocale</a></li><li><a href='#toRel'>toRel</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#toTimePoint'>toTimePoint</a></li><li><a href='#toTimeZone'>toTimeZone</a></li><li><a href='#toUtc'>toUtc</a></li><li><a href='#tz'>tz</a></li><li><a href='#tzAbbr'>tzAbbr</a></li><li><a href='#weekOfYear'>weekOfYear</a></li><li><a href='#weekday'>weekday</a></li><li><a href='#year'>year</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Checkbox.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Checkbox.html'>Checkbox</a></li><li><a href='src-Checkbox.fan.html'>Checkbox.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   10 Jul 2015  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Checkbox displays a checkbox that can be toggled on and off.</span>
+<span id='line13'>**</span>
+<span id='line14'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#checkbox`</span>
+<span id='line15'>**</span>
+<span id='line16'>@Js class Checkbox : Elem</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  new make<b>(</b><b>)</b> : super<b>(</b>"input"<b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    this.set<b>(</b>"type", "checkbox"<b>)</b></span>
+<span id='line21'>    this.style.addClass<b>(</b>"domkit-Checkbox"<b>)</b></span>
+<span id='line22'>    this.onEvent<b>(</b>"change", false<b>)</b> |e| <b>{</b> fireAction<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line23'>  <b>}</b></span>
+<span id='line24'></span>
+<span id='line25'>  ** Wrap this checkbox with content that can also be</span>
+<span id='line26'>  ** clicked to toggle checkbox.</span>
+<span id='line27'>  Elem wrap<b>(</b>Obj content<b>)</b></span>
+<span id='line28'>  <b>{</b></span>
+<span id='line29'>    Elem<b>(</b>"label"<b>)</b></span>
+<span id='line30'>    <b>{</b></span>
+<span id='line31'>      this,</span>
+<span id='line32'>      content is Elem ? content : Label <b>{</b> it.text=content.toStr <b>}</b>,</span>
+<span id='line33'>    <b>}</b></span>
+<span id='line34'>  <b>}</b></span>
+<span id='line35'></span>
+<span id='line36'>  ** Get or set indeterminate flag.</span>
+<span id='line37'>  Bool indeterminate</span>
+<span id='line38'>  <b>{</b></span>
+<span id='line39'>    get <b>{</b> this->indeterminate <b>}</b></span>
+<span id='line40'>    set <b>{</b> this->indeterminate = it <b>}</b></span>
+<span id='line41'>  <b>}</b></span>
+<span id='line42'></span>
+<span id='line43'>  ** Value of checked.</span>
+<span id='line44'>  Bool checked</span>
+<span id='line45'>  <b>{</b></span>
+<span id='line46'>    get <b>{</b> this->checked <b>}</b></span>
+<span id='line47'>    set <b>{</b> this->checked = it <b>}</b></span>
+<span id='line48'>  <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  ** Callback when state is toggled.</span>
+<span id='line51'>  Void onAction<b>(</b>|This| f<b>)</b> <b>{</b> this.cbAction = f <b>}</b></span>
+<span id='line52'></span>
+<span id='line53'>  private Void fireAction<b>(</b>Event e<b>)</b> <b>{</b> cbAction?.call<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line54'>  private Func? cbAction := null</span>
+<span id='line55'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

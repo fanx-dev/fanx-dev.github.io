@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Key.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Key.html'>Key</a></li><li><a href='src-Key.fan.html'>Key.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   18 Aug 08  Brian Frank  Creation</span>
+<span id='line7'>//   18 Feb 15  Brian Frank  Port to domkit</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** Key models a key code</span>
+<span id='line12'>**</span>
+<span id='line13'>@Js</span>
+<span id='line14'>@Serializable <b>{</b> simple = true <b>}</b></span>
+<span id='line15'>const class Key</span>
+<span id='line16'><b>{</b></span>
+<span id='line17'></span>
+<span id='line18'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line19'>// Constants</span>
+<span id='line20'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line21'></span>
+<span id='line22'>  static const Key a            := make<b>(</b>65, "A"<b>)</b></span>
+<span id='line23'>  static const Key b            := make<b>(</b>66, "B"<b>)</b></span>
+<span id='line24'>  static const Key c            := make<b>(</b>67, "C"<b>)</b></span>
+<span id='line25'>  static const Key d            := make<b>(</b>68, "D"<b>)</b></span>
+<span id='line26'>  static const Key e            := make<b>(</b>69, "E"<b>)</b></span>
+<span id='line27'>  static const Key f            := make<b>(</b>70, "F"<b>)</b></span>
+<span id='line28'>  static const Key g            := make<b>(</b>71, "G"<b>)</b></span>
+<span id='line29'>  static const Key h            := make<b>(</b>72, "H"<b>)</b></span>
+<span id='line30'>  static const Key i            := make<b>(</b>73, "I"<b>)</b></span>
+<span id='line31'>  static const Key j            := make<b>(</b>74, "J"<b>)</b></span>
+<span id='line32'>  static const Key k            := make<b>(</b>75, "K"<b>)</b></span>
+<span id='line33'>  static const Key l            := make<b>(</b>76, "L"<b>)</b></span>
+<span id='line34'>  static const Key m            := make<b>(</b>77, "M"<b>)</b></span>
+<span id='line35'>  static const Key n            := make<b>(</b>78, "N"<b>)</b></span>
+<span id='line36'>  static const Key o            := make<b>(</b>79, "O"<b>)</b></span>
+<span id='line37'>  static const Key p            := make<b>(</b>80, "P"<b>)</b></span>
+<span id='line38'>  static const Key q            := make<b>(</b>81, "Q"<b>)</b></span>
+<span id='line39'>  static const Key r            := make<b>(</b>82, "R"<b>)</b></span>
+<span id='line40'>  static const Key s            := make<b>(</b>83, "S"<b>)</b></span>
+<span id='line41'>  static const Key t            := make<b>(</b>84, "T"<b>)</b></span>
+<span id='line42'>  static const Key u            := make<b>(</b>85, "U"<b>)</b></span>
+<span id='line43'>  static const Key v            := make<b>(</b>86, "V"<b>)</b></span>
+<span id='line44'>  static const Key w            := make<b>(</b>87, "W"<b>)</b></span>
+<span id='line45'>  static const Key x            := make<b>(</b>88, "X"<b>)</b></span>
+<span id='line46'>  static const Key y            := make<b>(</b>89, "Y"<b>)</b></span>
+<span id='line47'>  static const Key z            := make<b>(</b>90, "Z"<b>)</b></span>
+<span id='line48'></span>
+<span id='line49'>  static const Key num0         := make<b>(</b>48, "0"<b>)</b></span>
+<span id='line50'>  static const Key num1         := make<b>(</b>49, "1"<b>)</b></span>
+<span id='line51'>  static const Key num2         := make<b>(</b>50, "2"<b>)</b></span>
+<span id='line52'>  static const Key num3         := make<b>(</b>51, "3"<b>)</b></span>
+<span id='line53'>  static const Key num4         := make<b>(</b>52, "4"<b>)</b></span>
+<span id='line54'>  static const Key num5         := make<b>(</b>53, "5"<b>)</b></span>
+<span id='line55'>  static const Key num6         := make<b>(</b>54, "6"<b>)</b></span>
+<span id='line56'>  static const Key num7         := make<b>(</b>55, "7"<b>)</b></span>
+<span id='line57'>  static const Key num8         := make<b>(</b>56, "8"<b>)</b></span>
+<span id='line58'>  static const Key num9         := make<b>(</b>57, "9"<b>)</b></span>
+<span id='line59'></span>
+<span id='line60'>  static const Key space        := make<b>(</b>32, "Space"<b>)</b></span>
+<span id='line61'>  static const Key backspace    := make<b>(</b>8,  "Backspace"<b>)</b></span>
+<span id='line62'>  static const Key enter        := make<b>(</b>13, "Enter"<b>)</b></span>
+<span id='line63'>  static const Key delete       := make<b>(</b>46, "Del"<b>)</b></span>
+<span id='line64'>  static const Key esc          := make<b>(</b>27, "Esc"<b>)</b></span>
+<span id='line65'>  static const Key tab          := make<b>(</b>9,  "Tab"<b>)</b></span>
+<span id='line66'>  static const Key capsLock     := make<b>(</b>20, "CapsLock"<b>)</b></span>
+<span id='line67'></span>
+<span id='line68'>  static const Key semicolon    := make<b>(</b>186, "Semicolon", ";"<b>)</b></span>
+<span id='line69'>  static const Key equal        := make<b>(</b>187, "Equal", "="<b>)</b></span>
+<span id='line70'>  static const Key comma        := make<b>(</b>188, "Comma", ","<b>)</b></span>
+<span id='line71'>  static const Key dash         := make<b>(</b>189, "Dash", "-"<b>)</b></span>
+<span id='line72'>  static const Key period       := make<b>(</b>190, "Period", "."<b>)</b></span>
+<span id='line73'>  static const Key slash        := make<b>(</b>191, "Slash", "/"<b>)</b></span>
+<span id='line74'>  static const Key backtick     := make<b>(</b>192, "Backtick", "`"<b>)</b></span>
+<span id='line75'>  static const Key openBracket  := make<b>(</b>219, "OpenBracket", "<b>[</b>"<b>)</b></span>
+<span id='line76'>  static const Key backSlash    := make<b>(</b>220, "BackSlash", "\\"<b>)</b></span>
+<span id='line77'>  static const Key closeBracket := make<b>(</b>221, "CloseBracket", "<b>]</b>"<b>)</b></span>
+<span id='line78'>  static const Key quote        := make<b>(</b>222, "Quote", "\""<b>)</b></span>
+<span id='line79'></span>
+<span id='line80'>  static const Key left         := make<b>(</b>37, "Left",  "\u2190"<b>)</b></span>
+<span id='line81'>  static const Key up           := make<b>(</b>38, "Up",    "\u2191"<b>)</b></span>
+<span id='line82'>  static const Key right        := make<b>(</b>39, "Right", "\u2192"<b>)</b></span>
+<span id='line83'>  static const Key down         := make<b>(</b>40, "Down",  "\u2193"<b>)</b></span>
+<span id='line84'>  static const Key pageUp       := make<b>(</b>33, "PageUp"<b>)</b></span>
+<span id='line85'>  static const Key pageDown     := make<b>(</b>34, "PageDown"<b>)</b></span>
+<span id='line86'>  static const Key home         := make<b>(</b>36, "Home"<b>)</b></span>
+<span id='line87'>  static const Key end          := make<b>(</b>35, "End"<b>)</b></span>
+<span id='line88'>  static const Key insert       := make<b>(</b>45, "Insert"<b>)</b></span>
+<span id='line89'></span>
+<span id='line90'>  static const Key f1           := make<b>(</b>112, "F1"<b>)</b></span>
+<span id='line91'>  static const Key f2           := make<b>(</b>113, "F2"<b>)</b></span>
+<span id='line92'>  static const Key f3           := make<b>(</b>114, "F3"<b>)</b></span>
+<span id='line93'>  static const Key f4           := make<b>(</b>115, "F4"<b>)</b></span>
+<span id='line94'>  static const Key f5           := make<b>(</b>116, "F5"<b>)</b></span>
+<span id='line95'>  static const Key f6           := make<b>(</b>117, "F6"<b>)</b></span>
+<span id='line96'>  static const Key f7           := make<b>(</b>118, "F7"<b>)</b></span>
+<span id='line97'>  static const Key f8           := make<b>(</b>119, "F8"<b>)</b></span>
+<span id='line98'>  static const Key f9           := make<b>(</b>120, "F9"<b>)</b></span>
+<span id='line99'>  static const Key f10          := make<b>(</b>121, "F10"<b>)</b></span>
+<span id='line100'></span>
+<span id='line101'>  static const Key alt          := make<b>(</b>18, "Alt"<b>)</b></span>
+<span id='line102'>  static const Key shift        := make<b>(</b>16, "Shift"<b>)</b></span>
+<span id='line103'>  static const Key ctrl         := make<b>(</b>17, "Ctrl"<b>)</b></span>
+<span id='line104'>  static const Key meta         := make<b>(</b>91, "Meta"<b>)</b></span>
+<span id='line105'></span>
+<span id='line106'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line107'>// Registry</span>
+<span id='line108'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line109'></span>
+<span id='line110'>  private static const <b>[</b>Int:Key<b>]</b> byCode</span>
+<span id='line111'>  private static const <b>[</b>Str:Key<b>]</b> byName</span>
+<span id='line112'>  static</span>
+<span id='line113'>  <b>{</b></span>
+<span id='line114'>    c := Int:Key<b>[</b>:<b>]</b></span>
+<span id='line115'>    n := Str:Key<b>[</b>:<b>]</b></span>
+<span id='line116'>    Key#.fields.each |Field f|</span>
+<span id='line117'>    <b>{</b></span>
+<span id='line118'>      if <b>(</b>f.isStatic &amp;&amp; f.type == Key#<b>)</b></span>
+<span id='line119'>      <b>{</b></span>
+<span id='line120'>        Key key := f.get<b>(</b>null<b>)</b></span>
+<span id='line121'>        c.add<b>(</b>key.code, key<b>)</b></span>
+<span id='line122'>        n.add<b>(</b>key.name, key<b>)</b></span>
+<span id='line123'>        if <b>(</b>key.symbol != null<b>)</b> n.add<b>(</b>key.symbol, key<b>)</b></span>
+<span id='line124'>      <b>}</b></span>
+<span id='line125'>    <b>}</b></span>
+<span id='line126'>    // additional cross browser mapping</span>
+<span id='line127'>    c.add<b>(</b>173, dash<b>)</b></span>
+<span id='line128'>    c.add<b>(</b>61,  equal<b>)</b></span>
+<span id='line129'>    c.add<b>(</b>59,  semicolon<b>)</b></span>
+<span id='line130'>    c.add<b>(</b>224, meta<b>)</b></span>
+<span id='line131'>    c.add<b>(</b>93,  meta<b>)</b></span>
+<span id='line132'>    byCode = c</span>
+<span id='line133'>    byName = n</span>
+<span id='line134'>  <b>}</b></span>
+<span id='line135'></span>
+<span id='line136'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line137'>// Lookup</span>
+<span id='line138'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line139'></span>
+<span id='line140'>  ** Lookup by string name</span>
+<span id='line141'>  static Key? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line142'>  <b>{</b></span>
+<span id='line143'>    try</span>
+<span id='line144'>    <b>{</b></span>
+<span id='line145'>      key := byName<b>[</b>s<b>]</b></span>
+<span id='line146'>      if <b>(</b>key != null<b>)</b> return key</span>
+<span id='line147'>    <b>}</b></span>
+<span id='line148'>    catch <b>{</b><b>}</b></span>
+<span id='line149'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Invalid Key: $s"<b>)</b></span>
+<span id='line150'>    return null</span>
+<span id='line151'>  <b>}</b></span>
+<span id='line152'></span>
+<span id='line153'>  ** Lookup by key code.</span>
+<span id='line154'>  static Key fromCode<b>(</b>Int code<b>)</b></span>
+<span id='line155'>  <b>{</b></span>
+<span id='line156'>    return byCode<b>[</b>code<b>]</b> ?: make<b>(</b>code, "0x$<b>{</b>code.toHex<b>}</b>"<b>)</b></span>
+<span id='line157'>  <b>}</b></span>
+<span id='line158'></span>
+<span id='line159'>  ** Private constructor</span>
+<span id='line160'>  private new make<b>(</b>Int code, Str name, Str? symbol := null<b>)</b></span>
+<span id='line161'>  <b>{</b></span>
+<span id='line162'>    this.code = code</span>
+<span id='line163'>    this.name = name</span>
+<span id='line164'>    this.symbol = symbol</span>
+<span id='line165'>  <b>}</b></span>
+<span id='line166'></span>
+<span id='line167'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line168'>// Identity</span>
+<span id='line169'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line170'></span>
+<span id='line171'>  ** Key name</span>
+<span id='line172'>  const Str name</span>
+<span id='line173'></span>
+<span id='line174'>  ** Hash code is based on name.</span>
+<span id='line175'>  override Int hash<b>(</b><b>)</b> <b>{</b> name.hash <b>}</b></span>
+<span id='line176'></span>
+<span id='line177'>  ** Equality is based on name.</span>
+<span id='line178'>  override Bool equals<b>(</b>Obj? that<b>)</b></span>
+<span id='line179'>  <b>{</b></span>
+<span id='line180'>    x := that as Key</span>
+<span id='line181'>    if <b>(</b>x == null<b>)</b> return false</span>
+<span id='line182'>    return name == x.name</span>
+<span id='line183'>  <b>}</b></span>
+<span id='line184'></span>
+<span id='line185'>  ** Return `name`.</span>
+<span id='line186'>  override Str toStr<b>(</b><b>)</b> <b>{</b> name <b>}</b></span>
+<span id='line187'></span>
+<span id='line188'>  ** Key code</span>
+<span id='line189'>  const Int code</span>
+<span id='line190'></span>
+<span id='line191'>  ** Is this one of the modifier keys alt, shift, ctrl, meta</span>
+<span id='line192'>  Bool isModifier<b>(</b><b>)</b></span>
+<span id='line193'>  <b>{</b></span>
+<span id='line194'>    this == alt || this == shift || this == ctrl || this == meta</span>
+<span id='line195'>  <b>}</b></span>
+<span id='line196'></span>
+<span id='line197'>  ** If this a char symbol such as OpenBracket this is its symbol "<b>[</b>".</span>
+<span id='line198'>  ** The arrow keys will return their respective Unicode arrow char.</span>
+<span id='line199'>  const Str? symbol</span>
+<span id='line200'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::FileLogger</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='FileLogger.html'>FileLogger</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> util::FileLogger</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../concurrent/ActorPool.html'>concurrent::ActorPool</a>
+    util::FileLogger</pre>
+
+<p>FileLogger appends Str log entries to a file.  You can add a FileLogger as a Log handler:</p>
+
+<pre>sysLogger := FileLogger
+{
+  dir = scriptDir
+  filename = "sys-{YYMM}.log"
+}
+Log.addHandler |rec| { sysLogger.writeLogRec(rec) }</pre>
+
+<p>See <code><a href='FileLogger.html#filename'>filename</a></code> for specifying a datetime pattern for your log files.</p>
+<dl>
+<dt id='dir'>
+dir</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/File.html'>File</a> dir</code></p>
+
+<p>Directory used to store log file(s).</p>
+</dd>
+<dt id='filename'>
+filename</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> filename</code></p>
+
+<p>Log filename pattern.  The name may contain a pattern between <code>{}</code> using the pattern format of <a href='sys::DateTime.toLocale'>sys::DateTime.toLocale</a>.  For example to maintain a log file per month, use a filename such as "mylog-{YYYY-MM}.log".</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+
+<p>Constructor must set <code><a href='FileLogger.html#dir'>dir</a></code> and <code><a href='FileLogger.html#filename'>filename</a></code></p>
+</dd>
+<dt id='onOpen'>
+onOpen</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../std/OutStream.html'>OutStream</a>&gt;?</a> onOpen</code></p>
+
+<p>Callback called each time the file logger opens an existing or new log file.  Callback should write any header information to the given output stream.  The callback will occur on the logger's actor, so take care not incur additional actor messaging.</p>
+</dd>
+<dt id='writeLogRec'>
+writeLogRec</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeLogRec(<a href='../std/LogRec.html'>LogRec</a> rec)</code></p>
+
+<p>Append string log message to file.</p>
+</dd>
+<dt id='writeStr'>
+writeStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeStr(<a href='../sys/Str.html'>Str</a> msg)</code></p>
+
+<p>Append string log message to file.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dir'>dir</a></li><li><a href='#filename'>filename</a></li><li><a href='#onOpen'>onOpen</a></li><li><a href='#writeLogRec'>writeLogRec</a></li><li><a href='#writeStr'>writeStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

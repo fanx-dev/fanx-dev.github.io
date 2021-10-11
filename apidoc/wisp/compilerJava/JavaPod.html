@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJava::JavaPod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJava</a></li><li><a href='JavaPod.html'>JavaPod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerJava::JavaPod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerJava::JavaPod : <a href='../compiler/CPod.html'>compiler::CPod</a></pre>
+
+<p>JavaPod is the CPod wrapper for a Java package.</p>
+<dl>
+<dt id='bridge'>
+bridge</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='JavaBridge.html'>JavaBridge?</a> bridge</code></p>
+</dd>
+<dt id='depends'>
+depends</dt>
+<dd>
+<p class='sig'>
+<code>virtual const override <a href='../sys/List.html'>List&lt;<a href='../compiler/CDepend.html'>CDepend</a>&gt;</a> depends := CDepend[,]</code></p>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/File.html'>File</a> file()</code></p>
+</dd>
+<dt id='isForeign'>
+isForeign</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isForeign()</code></p>
+</dd>
+<dt id='isInterop'>
+isInterop</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> isInterop</code></p>
+
+<p>Is this the fanx.interop package?</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='JavaBridge.html'>JavaBridge</a> bridge, <a href='ClassPathPackage.html'>ClassPathPackage</a> package)</code></p>
+</dd>
+<dt id='makePrimitives'>
+makePrimitives</dt>
+<dd>
+<p class='sig'>
+<code>new makePrimitives(<a href='JavaBridge.html'>JavaBridge</a> bridge)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual const override <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/CNamespace.html'>CNamespace</a> ns()</code></p>
+</dd>
+<dt id='packageName'>
+packageName</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> packageName</code></p>
+</dd>
+<dt id='resolveType'>
+resolveType</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/CType.html'>CType?</a> resolveType(<a href='../sys/Str.html'>Str</a> typeName, <a href='../sys/Bool.html'>Bool</a> checked)</code></p>
+</dd>
+<dt id='types'>
+types</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='../compiler/CType.html'>CType</a>&gt;</a> types</code></p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code>virtual const override <a href='../std/Version.html'>Version</a> version := Version.defVal</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makePrimitives'>makePrimitives</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bridge'>bridge</a></li><li><a href='#depends'>depends</a></li><li><a href='#file'>file</a></li><li><a href='#isForeign'>isForeign</a></li><li><a href='#isInterop'>isInterop</a></li><li><a href='#name'>name</a></li><li><a href='#ns'>ns</a></li><li><a href='#packageName'>packageName</a></li><li><a href='#resolveType'>resolveType</a></li><li><a href='#types'>types</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

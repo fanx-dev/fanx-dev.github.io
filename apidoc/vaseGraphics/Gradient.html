@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGraphics::Gradient</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGraphics</a></li><li><a href='Gradient.html'>Gradient</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> vaseGraphics::Gradient</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGraphics::Gradient : <a href='Brush.html'>vaseGraphics::Brush</a></pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Fills a shape with a linear or radial color gradient.</p>
+
+<p class='NOTE'>NOTE: SWT only supports linear two stop gradients with no angle using the Graphics.fillRect method.</p>
+<dl>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Equality is based on fields.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Gradient.html'>Gradient?</a> fromStr(<a href='../sys/Str.html'>Str</a> str, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a gradient from string (see <code><a href='Gradient.html#toStr'>toStr</a></code>).  If invalid and checked is true then throw ParseErr otherwise return null:</p>
+
+<pre>&lt;gradient>      :=  &lt;linear> | &lt;radial> | &lt;impliedLinear>
+&lt;linear>        :=  "linear(" &lt;args> ")"
+&lt;radial>        :=  "radial(" &lt;args> ")"
+&lt;impliedLinear> :=  &lt;args>
+&lt;args>          :=  &lt;start> "," &lt;end> ("," &lt;stop>)*
+&lt;start>         :=  &lt;pos> &lt;pos>
+&lt;end>           :=  &lt;pos> &lt;pos>
+&lt;pos>           :=  &lt;int> &lt;unit> // no space allowed between
+&lt;stop>          :=  &lt;color> [&lt;float>]  // 0f..1f
+&lt;color>         :=  #AARRGGBB, #RRGGBB, #RGB
+&lt;unit>          :=  "px" | "%"</pre>
+
+<p>The general format is a start and end position followed by a comma list of gradient stops.  The start and end positions are x, y coordinates (% or pixel). The stops are a color followed by a position in the range (0..1).  If the position is omitted it is calcaulated as percentage:</p>
+
+<pre>#000, #fff        =>  #000 0.0, #fff 1.0
+#000, #abc, #fff  =>  #000 0.0, #000 0.5, #fff 1.0</pre>
+
+<p>Examples:</p>
+
+<pre>Gradient("linear(0% 0%, 100% 100%, #f00, #00f)") =>  linear(0% 0%, 100% 100%, #ff0000 0.0, #0000ff 1.0)
+Gradient("5px 3px, 25px 30px, #f00, #00f")       =>  linear(5px 3px, 25px 30px, #ff0000 0.0, #0000ff 1.0)
+Gradient("0% 50%, 100% 50%, #f00 0.1, #00f 0.9") =>  linear(0% 50%, 100% 50%, #ff0000 0.1, #0000ff 0.9)</pre>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Hash the fields.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+
+<p>Construct for it-block. Throw ArgErr if any units are invalid or less than 2 stops.</p>
+</dd>
+<dt id='mode'>
+mode</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='GradientMode.html'>GradientMode</a> mode := GradientMode.linear</code></p>
+
+<p>Mode is linear or radial</p>
+</dd>
+<dt id='percent'>
+percent</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Str.html'>Str</a> percent := &quot;%&quot;</code></p>
+
+<p>Percent unit constant</p>
+</dd>
+<dt id='pixel'>
+pixel</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Str.html'>Str</a> pixel := &quot;px&quot;</code></p>
+
+<p>Pixel unit constant</p>
+</dd>
+<dt id='stops'>
+stops</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='GradientStop.html'>GradientStop</a>&gt;</a> stops := defStops</code></p>
+
+<p>List of gradient stops, default is "white 0.0" to "black 1.0".</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return <code>"[point1:color1; point2:color2]"</code>. This string format is subject to change.</p>
+</dd>
+<dt id='x1'>
+x1</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> x1 := 0</code></p>
+
+<p>Starting point x coordinate with unit defined by <code><a href='Gradient.html#x1Unit'>x1Unit</a></code></p>
+</dd>
+<dt id='x1Unit'>
+x1Unit</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> x1Unit := pixel</code></p>
+
+<p>Unit of <code><a href='Gradient.html#x1'>x1</a></code> which must be <code><a href='Gradient.html#percent'>percent</a></code> or <code><a href='Gradient.html#pixel'>pixel</a></code></p>
+</dd>
+<dt id='x2'>
+x2</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> x2 := 100</code></p>
+
+<p>Ending point x coordinate with unit defined by <code><a href='Gradient.html#x2Unit'>x2Unit</a></code></p>
+</dd>
+<dt id='x2Unit'>
+x2Unit</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> x2Unit := pixel</code></p>
+
+<p>Unit of <code><a href='Gradient.html#x2'>x2</a></code> which must be <code><a href='Gradient.html#percent'>percent</a></code> or <code><a href='Gradient.html#pixel'>pixel</a></code></p>
+</dd>
+<dt id='y1'>
+y1</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> y1 := 0</code></p>
+
+<p>Starting point y coordinate with unit defined by <code><a href='Gradient.html#y1Unit'>y1Unit</a></code></p>
+</dd>
+<dt id='y1Unit'>
+y1Unit</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> y1Unit := pixel</code></p>
+
+<p>Unit of <code><a href='Gradient.html#y1'>y1</a></code> which must be <code><a href='Gradient.html#percent'>percent</a></code> or <code><a href='Gradient.html#pixel'>pixel</a></code></p>
+</dd>
+<dt id='y2'>
+y2</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> y2 := 100</code></p>
+
+<p>Ending point y coordinate with unit defined by <code><a href='Gradient.html#y2Unit'>y2Unit</a></code></p>
+</dd>
+<dt id='y2Unit'>
+y2Unit</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> y2Unit := pixel</code></p>
+
+<p>Unit of <code><a href='Gradient.html#y2'>y2</a></code> which must be <code><a href='Gradient.html#percent'>percent</a></code> or <code><a href='Gradient.html#pixel'>pixel</a></code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li><li><a href='#percent'>percent</a></li><li><a href='#pixel'>pixel</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#mode'>mode</a></li><li><a href='#stops'>stops</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#x1'>x1</a></li><li><a href='#x1Unit'>x1Unit</a></li><li><a href='#x2'>x2</a></li><li><a href='#x2Unit'>x2Unit</a></li><li><a href='#y1'>y1</a></li><li><a href='#y1Unit'>y1Unit</a></li><li><a href='#y2'>y2</a></li><li><a href='#y2Unit'>y2Unit</a></li></ul>
+</div>
+</div>
+</body>
+</html>

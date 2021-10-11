@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>AsnTag.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnTag.html'>AsnTag</a></li><li><a href='src-AsnTag.fan.html'>AsnTag.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   05 Aug 2021 Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** ASN.1 Tag</span>
+<span id='line11'>**</span>
+<span id='line12'>final const class AsnTag</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line16'>// Constructor</span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'></span>
+<span id='line19'>  ** Get a <b>[</b>builder<b>]</b>`AsnTagBuilder` for a universal tag with the given id.</span>
+<span id='line20'>  static AsnTagBuilder univ<b>(</b>Int id<b>)</b> <b>{</b> AsnTagBuilder<b>(</b><b>)</b>.univ.id<b>(</b>id<b>)</b> <b>}</b></span>
+<span id='line21'></span>
+<span id='line22'>  ** Get a <b>[</b>builder<b>]</b>`AsnTagBuilder` for a context tag with the given id</span>
+<span id='line23'>  static AsnTagBuilder context<b>(</b>Int id<b>)</b> <b>{</b> AsnTagBuilder<b>(</b><b>)</b>.context.id<b>(</b>id<b>)</b> <b>}</b></span>
+<span id='line24'></span>
+<span id='line25'>  ** Get a <b>[</b>builder<b>]</b>`AsnTagBuilder` for an application tag with the given id</span>
+<span id='line26'>  static AsnTagBuilder app<b>(</b>Int id<b>)</b> <b>{</b> AsnTagBuilder<b>(</b><b>)</b>.app.id<b>(</b>id<b>)</b> <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  ** Get a <b>[</b>builder<b>]</b>`AsnTagBuilder` for a private tag with the given id</span>
+<span id='line29'>  static AsnTagBuilder priv<b>(</b>Int id<b>)</b> <b>{</b> AsnTagBuilder<b>(</b><b>)</b>.priv.id<b>(</b>id<b>)</b> <b>}</b></span>
+<span id='line30'></span>
+<span id='line31'>  new make<b>(</b>AsnTagClass cls, Int id, AsnTagMode mode<b>)</b></span>
+<span id='line32'>  <b>{</b></span>
+<span id='line33'>    this.cls = cls</span>
+<span id='line34'>    this.id = id</span>
+<span id='line35'>    this.mode = mode</span>
+<span id='line36'>  <b>}</b></span>
+<span id='line37'></span>
+<span id='line38'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line39'>// Identity</span>
+<span id='line40'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line41'></span>
+<span id='line42'>  ** The <b>[</b>tag class<b>]</b>`AsnTagClass`</span>
+<span id='line43'>  const AsnTagClass cls</span>
+<span id='line44'></span>
+<span id='line45'>  ** The tag id</span>
+<span id='line46'>  const Int id</span>
+<span id='line47'></span>
+<span id='line48'>  ** The <b>[</b>tag mode<b>]</b>`AsnTagMode`</span>
+<span id='line49'>  const AsnTagMode mode</span>
+<span id='line50'></span>
+<span id='line51'>  @NoDoc AsnTag toCls<b>(</b>AsnTagClass newCls<b>)</b></span>
+<span id='line52'>  <b>{</b></span>
+<span id='line53'>    AsnTag<b>(</b>newCls, id, mode<b>)</b></span>
+<span id='line54'>  <b>}</b></span>
+<span id='line55'></span>
+<span id='line56'>  @NoDoc AsnTag toId<b>(</b>Int newId<b>)</b></span>
+<span id='line57'>  <b>{</b></span>
+<span id='line58'>    AsnTag<b>(</b>cls, newId, mode<b>)</b></span>
+<span id='line59'>  <b>}</b></span>
+<span id='line60'></span>
+<span id='line61'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line62'>// Universal Tags</span>
+<span id='line63'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line64'></span>
+<span id='line65'>  @NoDoc public static const AsnTag univAny := AsnTag.univ<b>(</b>-1<b>)</b>.explicit</span>
+<span id='line66'>  public static const AsnTag univBool := AsnTag.univ<b>(</b>1<b>)</b>.explicit</span>
+<span id='line67'>  public static const AsnTag univInt := AsnTag.univ<b>(</b>2<b>)</b>.explicit</span>
+<span id='line68'>  public static const AsnTag univBits := AsnTag.univ<b>(</b>3<b>)</b>.explicit</span>
+<span id='line69'>  public static const AsnTag univOcts := AsnTag.univ<b>(</b>4<b>)</b>.explicit</span>
+<span id='line70'>  public static const AsnTag univNull := AsnTag.univ<b>(</b>5<b>)</b>.explicit</span>
+<span id='line71'>  public static const AsnTag univOid := AsnTag.univ<b>(</b>6<b>)</b>.explicit</span>
+<span id='line72'>  // public static const AsnTag univObjDesc := AsnTag.explicit<b>(</b>TagClass.univ, 7<b>)</b></span>
+<span id='line73'>  // public static const AsnTag univExt := AsnTag.explicit<b>(</b>TagClass.univ, 8<b>)</b></span>
+<span id='line74'>  public static const AsnTag univReal := AsnTag.univ<b>(</b>9<b>)</b>.explicit</span>
+<span id='line75'>  public static const AsnTag univEnum := AsnTag.univ<b>(</b>10<b>)</b>.explicit</span>
+<span id='line76'>  // public static const AsnTag univPdv := AsnTag.explicit<b>(</b>TagClass.univ, 11<b>)</b></span>
+<span id='line77'>  public static const AsnTag univUtf8 := AsnTag.univ<b>(</b>12<b>)</b>.explicit</span>
+<span id='line78'>  // public static const AsnTag univRelOid := AsnTag.explicit<b>(</b>TagClass.univ, 13<b>)</b></span>
+<span id='line79'>  // 14 - reserved</span>
+<span id='line80'>  // 15 - reserved</span>
+<span id='line81'>  public static const AsnTag univSeq := AsnTag.univ<b>(</b>16<b>)</b>.explicit</span>
+<span id='line82'>  public static const AsnTag univSet := AsnTag.univ<b>(</b>17<b>)</b>.explicit</span>
+<span id='line83'>  // public static const AsnTag univNumStr := AsnTag.explicit<b>(</b>TagClass.univ, 18<b>)</b></span>
+<span id='line84'>  public static const AsnTag univPrintStr := AsnTag.univ<b>(</b>19<b>)</b>.explicit</span>
+<span id='line85'>  // public static const AsnTag univTeleStr := AsnTag.explicit<b>(</b>TagClass.univ, 20<b>)</b></span>
+<span id='line86'>  // public static const AsnTag univVidStr := AsnTag.explicit<b>(</b>TagClass.univ, 21<b>)</b></span>
+<span id='line87'>  public static const AsnTag univIa5Str := AsnTag.univ<b>(</b>22<b>)</b>.explicit</span>
+<span id='line88'>  public static const AsnTag univUtcTime := AsnTag.univ<b>(</b>23<b>)</b>.explicit</span>
+<span id='line89'>  public static const AsnTag univGenTime := AsnTag.univ<b>(</b>24<b>)</b>.explicit</span>
+<span id='line90'>  public static const AsnTag univGraphStr := AsnTag.univ<b>(</b>25<b>)</b>.explicit</span>
+<span id='line91'>  public static const AsnTag univVisStr := AsnTag.univ<b>(</b>26<b>)</b>.explicit</span>
+<span id='line92'></span>
+<span id='line93'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line94'>// Obj</span>
+<span id='line95'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line96'></span>
+<span id='line97'>  override Int hash<b>(</b><b>)</b></span>
+<span id='line98'>  <b>{</b></span>
+<span id='line99'>    res := 31 + cls.hash</span>
+<span id='line100'>    res = <b>(</b>31 * res<b>)</b> + id</span>
+<span id='line101'>    // res = <b>(</b>31 * res<b>)</b> + mode.hash</span>
+<span id='line102'>    return res</span>
+<span id='line103'>  <b>}</b></span>
+<span id='line104'></span>
+<span id='line105'>  ** Tag equality is based only the <b>[</b>class<b>]</b>`AsnTagClass` and 'id'. The</span>
+<span id='line106'>  ** <b>[</b>mode<b>]</b>`AsnTagMode` is ignored for eqality purposes.</span>
+<span id='line107'>  override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line108'>  <b>{</b></span>
+<span id='line109'>    if <b>(</b>this === obj<b>)</b> return true</span>
+<span id='line110'>    that := obj as AsnTag</span>
+<span id='line111'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line112'>    if <b>(</b>this.cls !== that.cls<b>)</b> return false</span>
+<span id='line113'>    if <b>(</b>this.id != that.id<b>)</b> return false</span>
+<span id='line114'>    // if <b>(</b>this.mode != that.mode<b>)</b> return false</span>
+<span id='line115'>    return true</span>
+<span id='line116'>  <b>}</b></span>
+<span id='line117'></span>
+<span id='line118'>  Bool strictEquals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line119'>  <b>{</b></span>
+<span id='line120'>    if <b>(</b>this === obj<b>)</b> return true</span>
+<span id='line121'>    that := obj as AsnTag</span>
+<span id='line122'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line123'>    if <b>(</b>this.cls !== that.cls<b>)</b> return false</span>
+<span id='line124'>    if <b>(</b>this.id != that.id<b>)</b> return false</span>
+<span id='line125'>    if <b>(</b>this.mode != that.mode<b>)</b> return false</span>
+<span id='line126'>    return true</span>
+<span id='line127'>  <b>}</b></span>
+<span id='line128'></span>
+<span id='line129'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line130'>  <b>{</b></span>
+<span id='line131'>    "&lt;$cls, $id, $mode>"</span>
+<span id='line132'>  <b>}</b></span>
+<span id='line133'><b>}</b></span>
+<span id='line134'></span>
+<span id='line135'>**************************************************************************</span>
+<span id='line136'>** TagClass</span>
+<span id='line137'>**************************************************************************</span>
+<span id='line138'></span>
+<span id='line139'>**</span>
+<span id='line140'>** The tag class for an `AsnTag`</span>
+<span id='line141'>**</span>
+<span id='line142'>enum class AsnTagClass</span>
+<span id='line143'><b>{</b></span>
+<span id='line144'>  univ<b>(</b>0x00<b>)</b>,</span>
+<span id='line145'>  app<b>(</b>0x40<b>)</b>,</span>
+<span id='line146'>  context<b>(</b>0x80<b>)</b>,</span>
+<span id='line147'>  priv<b>(</b>0xc0<b>)</b></span>
+<span id='line148'></span>
+<span id='line149'>  private new make<b>(</b>Int mask<b>)</b> <b>{</b> this.mask = mask <b>}</b></span>
+<span id='line150'></span>
+<span id='line151'>  const Int mask;</span>
+<span id='line152'></span>
+<span id='line153'>  ** Is this the 'UNIVERSAL' class</span>
+<span id='line154'>  Bool isUniv<b>(</b><b>)</b> <b>{</b> this === AsnTagClass.univ <b>}</b></span>
+<span id='line155'></span>
+<span id='line156'>  ** Is this the 'APPLICATION' class</span>
+<span id='line157'>  Bool isApp<b>(</b><b>)</b> <b>{</b> this === AsnTagClass.app <b>}</b></span>
+<span id='line158'></span>
+<span id='line159'>  ** Is this the 'CONTEXT' class</span>
+<span id='line160'>  Bool isContext<b>(</b><b>)</b> <b>{</b> this === AsnTagClass.context <b>}</b></span>
+<span id='line161'></span>
+<span id='line162'>  ** Is this  the 'PRIVATE' class</span>
+<span id='line163'>  Bool isPriv<b>(</b><b>)</b> <b>{</b> this === AsnTagClass.priv <b>}</b></span>
+<span id='line164'><b>}</b></span>
+<span id='line165'></span>
+<span id='line166'>**************************************************************************</span>
+<span id='line167'>** AsnTagMode</span>
+<span id='line168'>**************************************************************************</span>
+<span id='line169'></span>
+<span id='line170'>**</span>
+<span id='line171'>** The tag mode for a `AsnTag`</span>
+<span id='line172'>**</span>
+<span id='line173'>enum class AsnTagMode <b>{</b> explicit, implicit <b>}</b></span>
+<span id='line174'></span>
+<span id='line175'>**************************************************************************</span>
+<span id='line176'>** AsnTagBuilder</span>
+<span id='line177'>**************************************************************************</span>
+<span id='line178'></span>
+<span id='line179'>**</span>
+<span id='line180'>** Utility to build an `AsnTag`.</span>
+<span id='line181'>**</span>
+<span id='line182'>** See:</span>
+<span id='line183'>**  - `AsnTag.univ`</span>
+<span id='line184'>**  - `AsnTag.context`</span>
+<span id='line185'>**  - `AsnTag.app`</span>
+<span id='line186'>**  - `AsnTag.priv`</span>
+<span id='line187'>**</span>
+<span id='line188'>class AsnTagBuilder</span>
+<span id='line189'><b>{</b></span>
+<span id='line190'>  ** Create an unconfigured builder</span>
+<span id='line191'>  new make<b>(</b><b>)</b> <b>{</b> <b>}</b></span>
+<span id='line192'></span>
+<span id='line193'>  private AsnTagClass? cls</span>
+<span id='line194'>  private Int? identifier</span>
+<span id='line195'></span>
+<span id='line196'>  ** Set the tag class to universal</span>
+<span id='line197'>  This univ<b>(</b><b>)</b> <b>{</b> this.cls = AsnTagClass.univ; return this <b>}</b></span>
+<span id='line198'></span>
+<span id='line199'>  ** Set the tag class to context</span>
+<span id='line200'>  This context<b>(</b><b>)</b> <b>{</b> this.cls = AsnTagClass.context; return this <b>}</b></span>
+<span id='line201'></span>
+<span id='line202'>  ** Set the tag class to application</span>
+<span id='line203'>  This app<b>(</b><b>)</b> <b>{</b> this.cls = AsnTagClass.app; return this <b>}</b></span>
+<span id='line204'></span>
+<span id='line205'>  ** Set the tag class to private</span>
+<span id='line206'>  This priv<b>(</b><b>)</b> <b>{</b> this.cls = AsnTagClass.priv; return this <b>}</b></span>
+<span id='line207'></span>
+<span id='line208'>  ** Set the tag identifier</span>
+<span id='line209'>  This id<b>(</b>Int id<b>)</b> <b>{</b> this.identifier = id; return this <b>}</b></span>
+<span id='line210'></span>
+<span id='line211'>  ** Build the tag with explicit mode</span>
+<span id='line212'>  AsnTag explicit<b>(</b><b>)</b></span>
+<span id='line213'>  <b>{</b></span>
+<span id='line214'>    check</span>
+<span id='line215'>    return AsnTag<b>(</b>cls, identifier, AsnTagMode.explicit<b>)</b></span>
+<span id='line216'>  <b>}</b></span>
+<span id='line217'></span>
+<span id='line218'>  ** Build the tag with implicit mode</span>
+<span id='line219'>  AsnTag implicit<b>(</b><b>)</b></span>
+<span id='line220'>  <b>{</b></span>
+<span id='line221'>    check</span>
+<span id='line222'>    return AsnTag<b>(</b>cls, identifier, AsnTagMode.implicit<b>)</b></span>
+<span id='line223'>  <b>}</b></span>
+<span id='line224'></span>
+<span id='line225'>  private Void check<b>(</b><b>)</b></span>
+<span id='line226'>  <b>{</b></span>
+<span id='line227'>    if <b>(</b>cls == null<b>)</b> throw AsnErr<b>(</b>"Tag class is not configured"<b>)</b></span>
+<span id='line228'>    if <b>(</b>identifier == null<b>)</b> throw AsnErr<b>(</b>"Tag identifier not configured"<b>)</b></span>
+<span id='line229'>  <b>}</b></span>
+<span id='line230'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

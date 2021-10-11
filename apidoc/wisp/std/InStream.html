@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::InStream</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='InStream.html'>InStream</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> std::InStream</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::InStream</pre>
+
+<p>InStream is used to read binary and text stream based input.</p>
+<dl>
+<dt id='avail'>
+avail</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> avail()</code></p>
+
+<p>Return the number of bytes available on input stream without blocking.  Return zero if no bytes available or it is unknown. Throw IOErr on error.</p>
+</dd>
+<dt id='bigEndian'>
+bigEndian</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> bigEndian()</code></p>
+</dd>
+<dt id='charset'>
+charset</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Charset.html'>Charset</a> charset</code></p>
+
+<p>The current charset used to decode bytes into Unicode characters.  The default charset should always be UTF-8.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+
+<p>Close the input stream.  This method is guaranteed to never throw an IOErr.  Return true if the stream was closed successfully or false if the stream was closed abnormally.  Default implementation does nothing and returns true.</p>
+</dd>
+<dt id='eachLine'>
+eachLine</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> eachLine(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> f)</code></p>
+
+<p>Read the entire stream into Str lines based on the current encoding.  Call the specified function for each line read. Each line is terminated by \n, \r\n, \r, or EOF.  The Str lines themselves do not contain a trailing newline.  Empty lines are returned as the empty Str "".  This InStream is guaranteed to be closed upon return.</p>
+</dd>
+<dt id='endian'>
+endian</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Endian.html'>Endian</a> endian</code></p>
+
+<p>Byte order mode for binary reads. Default is <code><a href='Endian.html#big'>Endian.big</a></code> (network byte order).</p>
+</dd>
+<dt id='peek'>
+peek</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> peek()</code></p>
+
+<p>Peek at the next byte to be read without actually consuming it.  Peek has the same semantics as a read/unread.  Return -1 if at end of stream.</p>
+</dd>
+<dt id='peekChar'>
+peekChar</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> peekChar()</code></p>
+
+<p>Peek at the next char to be read without actually consuming it.  Peek has the same semantics as a readChar/unreadChar. Return null if at end of stream.</p>
+</dd>
+<dt id='pipe'>
+pipe</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> pipe(<a href='OutStream.html'>OutStream</a> out, <a href='../sys/Int.html'>Int</a> toPipe := -1, <a href='../sys/Bool.html'>Bool</a> close := true)</code></p>
+
+<p>Pipe bytes from this input stream to the specified output stream. If n is specified, then block until exactly n bytes have been read or throw IOErr if end of stream is reached first.  If n is null then the entire contents of this input stream are piped.  If close is true, then this input stream is guaranteed to be closed upon return (the OutStream is never closed).  Return the number of bytes piped to the output stream.</p>
+</dd>
+<dt id='read'>
+read</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> read()</code></p>
+
+<p>Read the next unsigned byte from the input stream. Return -1 if at end of stream.  Throw IOErr on error.</p>
+</dd>
+<dt id='readAllBuf'>
+readAllBuf</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Buf.html'>Buf</a> readAllBuf()</code></p>
+
+<p>Read the entire contents of the stream into a memory Buf. The resulting buffer is automatically positioned at the beginning. This InStream is guaranteed to be closed.</p>
+</dd>
+<dt id='readAllLines'>
+readAllLines</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> readAllLines()</code></p>
+
+<p>Read the entire stream into a list of Str lines based on the configured charset encoding.  Each Str in the list maps to a line terminated by \n, \r\n, \r, or EOF.  The Str lines themselves do not contain a trailing newline.  Empty lines are returned as the empty Str "".  Return an empty list if currently at end of stream (not null).  Throw IOErr if there is a problem reading the stream or an invalid character encoding is encountered.  This InStream is guaranteed to be closed upon return.</p>
+</dd>
+<dt id='readAllStr'>
+readAllStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> readAllStr(<a href='../sys/Bool.html'>Bool</a> normalizeNewlines := true)</code></p>
+
+<p>Read the entire stream into a Str based on the configured charset encoding.  If the normalizeNewlines flag is true, then all occurances of \r\n or \r newlines are normalized into \n.  Return "" if the stream is empty.  Throw IOErr if there is a problem reading the stream or an invalid character encoding is encountered.  This InStream is guaranteed to be closed.</p>
+</dd>
+<dt id='readBits'>
+readBits</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readBits(<a href='../sys/Int.html'>Int</a> num)</code></p>
+
+<p>Read between 0 and 64 bits from the input stream.  Bits which are partial bytes are consumed from the input stream one byte at a time.  Throw IOErr on error or if end of stream is reached before given number of bits can be read.</p>
+</dd>
+<dt id='readBool'>
+readBool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> readBool()</code></p>
+
+<p>Read the next byte and return true if nonzero.  This method may be paired with <code><a href='OutStream.html#writeBool'>OutStream.writeBool</a></code>.  Throw IOErr on error or if the end of stream is reached before one byte can be read.</p>
+</dd>
+<dt id='readBuf'>
+readBuf</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> readBuf(<a href='Buf.html'>Buf</a> buf, <a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Attempt to read the next n bytes into the Buf at it's current position.  The buffer will be grown as needed.  Return the number of bytes read and increment buf's size and position accordingly. Return -1 and leave buf's state untouched if end of stream. Note this method may not read the full number of n bytes, use <code><a href='InStream.html#readBufFully'>readBufFully</a></code> if you must block until all n bytes read. Throw IOErr on error.</p>
+</dd>
+<dt id='readBufFully'>
+readBufFully</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Buf.html'>Buf</a> readBufFully(<a href='Buf.html'>Buf?</a> buf, <a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Read the next n bytes from the stream into the Buf at it's current position.  The buffer will be grown as needed.  If the buf parameter is null, then a memory buffer is automatically created with a capacity of n.  Block until exactly n bytes have been read or throw IOErr if end of stream is reached first.  Return the Buf passed in or the one created automatically if buf is null. The buffer is automatically positioned at zero.</p>
+</dd>
+<dt id='readBytes'>
+readBytes</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> readBytes(<a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;</a> ba, <a href='../sys/Int.html'>Int</a> off := 0, <a href='../sys/Int.html'>Int</a> len := ba.size())</code></p>
+
+<p>Reads up to len bytes of data from the input stream into an array of bytes.</p>
+</dd>
+<dt id='readChar'>
+readChar</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> readChar()</code></p>
+
+<p>Read a single Unicode character from the stream using the current charset encoding.  Return -1 if at end of stream. Throw IOErr if there is a problem reading the stream, or an invalid character encoding is encountered.</p>
+</dd>
+<dt id='readChars'>
+readChars</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> readChars(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Read the next n chars from the stream as a Str using the current <code><a href='InStream.html#charset'>charset</a></code>.  Block until exactly n chars have been read or throw IOErr if end of stream is reached first.</p>
+</dd>
+<dt id='readF4'>
+readF4</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> readF4()</code></p>
+
+<p>Read the next four bytes as a 32-bit floating point number using using configured <code><a href='InStream.html#endian'>endian</a></code> according to <a href='Float.bits32'>Float.bits32</a>.  This method may be paired with <code><a href='OutStream.html#writeF4'>OutStream.writeF4</a></code>.  Throw IOErr on error or if the end of stream is reached before four bytes can be read.</p>
+</dd>
+<dt id='readF8'>
+readF8</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> readF8()</code></p>
+
+<p>Read the next eight bytes as a 64-bit floating point number using configured <code><a href='InStream.html#endian'>endian</a></code> according to <a href='Float.bits'>Float.bits</a>.  This method may be paired with <code><a href='OutStream.html#writeF8'>OutStream.writeF8</a></code>.  Throw IOErr on error or if the end of stream is reached before four bytes can be read.</p>
+</dd>
+<dt id='readLine'>
+readLine</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str?</a> readLine(<a href='../sys/Int.html'>Int</a> max := -1)</code></p>
+
+<p>Read the next line from the input stream as a Str based on the configured charset.  A line is terminated by \n, \r\n, \r, or EOF.  The Str returned never contains the trailing newline.</p>
+
+<p>The max parameter specifies the maximum number of Unicode chacters (not bytes) to read before truncating the line and returning.  If max is null, then no boundary is enforced except of course the end of the stream.  Max defaults to 4kb.</p>
+
+<p>Return null if the end of stream has been reached.  Throw IOErr if there is a problem reading the stream or an invalid character encoding is encountered.</p>
+</dd>
+<dt id='readNullTerminatedStr'>
+readNullTerminatedStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> readNullTerminatedStr(<a href='../sys/Int.html'>Int</a> max := -1)</code></p>
+
+<p>Read a string terminated by the "\0" character.  The "\0" character is read from the stream, but not included in the string result.</p>
+
+<p>The max parameter specifies the maximum number of Unicode chacters (not bytes) to read before truncating the string and returning.  If max is null, then no boundary is enforced except of course the end of the stream.</p>
+</dd>
+<dt id='readProps'>
+readProps</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> readProps()</code></p>
+
+<p>Read the entire stream into a <code>Str:Str</code> of name/value pairs using the Fantom props file format.  This format is similiar but different than the Java properties file format:</p>
+
+<ul>
+<li>Input must be UTF-8 encoded (current charset is ignored)</li>
+
+<li>Name/value pairs formatted as logical line: <code>&lt;name>=&lt;value></code></li>
+
+<li>Any Unicode character allowed in name or value</li>
+
+<li>Leading and trailing whitespace trimmed from both name and value</li>
+
+<li>Duplicate name keys within one file is an error condition</li>
+
+<li>Comment to end of line is <code>//</code> if start of line or preceeded by whitespace</li>
+
+<li>Block comment is <code>/* */</code> (may be nested)</li>
+
+<li>Use trailing <code>\</code> to continue logical line to another actual line, any leading whitespace (space or tab char) is trimmed from beginning of continued line</li>
+
+<li>Fantom Str literal escape sequences supported: <code>\n \r \t or \uxxxx</code></li>
+
+<li>The <code>$</code> character is treated as a normal character and should not be escaped, but convention is to indicate a variable in a format string</li>
+
+<li>Convention is that name is lower camel case with dot separators</li>
+</ul>
+
+<p>Throw IOErr if there is a problem reading the stream or an invalid props format is encountered.  This InStream is guaranteed to be closed.</p>
+
+<p>Also see <code><a href='Env.html#props'>Env.props</a></code>.</p>
+</dd>
+<dt id='readS1'>
+readS1</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> readS1()</code></p>
+
+<p>Read the next byte as a signed 8-bit number.  This method may be paired with <code><a href='OutStream.html#write'>OutStream.write</a></code>.  Throw IOErr on error or if the end of stream is reached before one byte can be read.</p>
+</dd>
+<dt id='readS2'>
+readS2</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> readS2()</code></p>
+
+<p>Read the next two bytes as a signed 16-bit number using configured <code><a href='InStream.html#endian'>endian</a></code>.  This method may be paired with <code><a href='OutStream.html#writeI2'>OutStream.writeI2</a></code>. Throw IOErr on error or if the end of stream is reached before two bytes can be read.</p>
+</dd>
+<dt id='readS4'>
+readS4</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> readS4()</code></p>
+
+<p>Read the next four bytes as a signed 32-bit number using configured <code><a href='InStream.html#endian'>endian</a></code>.  This method may be paired with <code><a href='OutStream.html#writeI4'>OutStream.writeI4</a></code>. Throw IOErr on error or if the end of stream is reached before four bytes can be read.</p>
+</dd>
+<dt id='readS8'>
+readS8</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readS8()</code></p>
+
+<p>Read the next eight bytes as a signed 64-bit number using configured <code><a href='InStream.html#endian'>endian</a></code>.  This method may be paired with <code><a href='OutStream.html#writeI8'>OutStream.writeI8</a></code>. Throw IOErr on error or if the end of stream is reached before eight bytes can be read.  Note there is no readU8 (because Java doesn't support unsigned longs).</p>
+</dd>
+<dt id='readStrToken'>
+readStrToken</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> readStrToken(<a href='../sys/Int.html'>Int</a> max := -1, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='../sys/Int.html'>Int</a>&gt;?</a> callback := null)</code></p>
+
+<p>Read a Str token from the input stream which is terminated when the specified function <code>c</code> returns true.  The terminating char is unread and will be the next char read once this method returns.  Characters are read based on the currently configured charset.</p>
+
+<p>If <code>c</code> is null then the default implementation tokenizes up until the next character which returns true for <a href='Int.isSpace'>Int.isSpace</a>.</p>
+
+<p>The max parameter specifies the maximum number of Unicode chacters (not bytes) to read before truncating the line and returning.  If max is null, then no boundary is enforced except of course the end of the stream.  Max defaults to 4kb.</p>
+
+<p>Return null if the end of stream has been reached.  Throw IOErr if there is a problem reading the stream or an invalid character encoding is encountered.</p>
+</dd>
+<dt id='readU1'>
+readU1</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readU1()</code></p>
+
+<p>Read the next byte as an unsigned 8-bit number.  This method may be paired with <code><a href='OutStream.html#write'>OutStream.write</a></code>.  Throw IOErr on error or if the end of stream is reached before one byte can be read.  This method differs from <code><a href='InStream.html#read'>read</a></code> in that it will throw IOErr on end of stream rather than return null.</p>
+</dd>
+<dt id='readU2'>
+readU2</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readU2()</code></p>
+
+<p>Read the next two bytes as an unsigned 16-bit number using configured <code><a href='InStream.html#endian'>endian</a></code>.  This method may be paired with <code><a href='OutStream.html#writeI2'>OutStream.writeI2</a></code>. Throw IOErr on error or if the end of stream is reached before two bytes can be read.</p>
+</dd>
+<dt id='readU4'>
+readU4</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readU4()</code></p>
+
+<p>Read the next four bytes as an unsigned 32-bit number using configured <code><a href='InStream.html#endian'>endian</a></code>.  This method may be paired with <code><a href='OutStream.html#writeI4'>OutStream.writeI4</a></code>. Throw IOErr on error or if the end of stream is reached before four bytes can be read.</p>
+</dd>
+<dt id='readUtf'>
+readUtf</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> readUtf()</code></p>
+
+<p>Read a Str in modified UTF-8 format according the java.io.DataInput specification. This method may be paired with <code><a href='OutStream.html#writeUtf'>OutStream.writeUtf</a></code>. Throw IOErr on error, invalid UTF encoding, or if the end of stream is reached before the string is fully read.</p>
+</dd>
+<dt id='skip'>
+skip</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> skip(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Attempt to skip <code>n</code> number of bytes.  Return the number of bytes actually skipped which may be equal to or lesser than n.</p>
+</dd>
+<dt id='unread'>
+unread</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> unread(<a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Pushback a byte so that it is the next byte to be read.  There is a finite limit to the number of bytes which may be pushed back.  Return this.</p>
+</dd>
+<dt id='unreadChar'>
+unreadChar</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> unreadChar(<a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Pushback a char so that it is the next char to be read.  This method pushes back one or more bytes depending on the current character encoding.  Return this.</p>
+</dd>
+<dt id='use'>
+use</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> use(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='InStream.html'>InStream</a>&gt;</a> f)</code></p>
+
+<p>This InStream is guaranteed to be closed upon return</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#avail'>avail</a></li><li><a href='#bigEndian'>bigEndian</a></li><li><a href='#charset'>charset</a></li><li><a href='#close'>close</a></li><li><a href='#eachLine'>eachLine</a></li><li><a href='#endian'>endian</a></li><li><a href='#peek'>peek</a></li><li><a href='#peekChar'>peekChar</a></li><li><a href='#pipe'>pipe</a></li><li><a href='#read'>read</a></li><li><a href='#readAllBuf'>readAllBuf</a></li><li><a href='#readAllLines'>readAllLines</a></li><li><a href='#readAllStr'>readAllStr</a></li><li><a href='#readBits'>readBits</a></li><li><a href='#readBool'>readBool</a></li><li><a href='#readBuf'>readBuf</a></li><li><a href='#readBufFully'>readBufFully</a></li><li><a href='#readBytes'>readBytes</a></li><li><a href='#readChar'>readChar</a></li><li><a href='#readChars'>readChars</a></li><li><a href='#readF4'>readF4</a></li><li><a href='#readF8'>readF8</a></li><li><a href='#readLine'>readLine</a></li><li><a href='#readNullTerminatedStr'>readNullTerminatedStr</a></li><li><a href='#readProps'>readProps</a></li><li><a href='#readS1'>readS1</a></li><li><a href='#readS2'>readS2</a></li><li><a href='#readS4'>readS4</a></li><li><a href='#readS8'>readS8</a></li><li><a href='#readStrToken'>readStrToken</a></li><li><a href='#readU1'>readU1</a></li><li><a href='#readU2'>readU2</a></li><li><a href='#readU4'>readU4</a></li><li><a href='#readUtf'>readUtf</a></li><li><a href='#skip'>skip</a></li><li><a href='#unread'>unread</a></li><li><a href='#unreadChar'>unreadChar</a></li><li><a href='#use'>use</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WeakMap.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='WeakMap.html'>WeakMap</a></li><li><a href='src-WeakMap.fan.html'>WeakMap.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   9 Mar 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>//using web</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** WeakMap is a collection of key/value pairs in which the keys are</span>
+<span id='line13'>** weakly referenced.  The keys must be objects and the values can</span>
+<span id='line14'>** be arbitrary values.</span>
+<span id='line15'>**</span>
+<span id='line16'>@Js</span>
+<span id='line17'>class WeakMap</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'>  ** Return 'true' if key exists in this map.</span>
+<span id='line20'>  native Bool has<b>(</b>Obj key<b>)</b></span>
+<span id='line21'></span>
+<span id='line22'>  ** Returns the value associated to the key, or 'null' if there is none.</span>
+<span id='line23'>  @Operator native Obj? get<b>(</b>Obj key<b>)</b></span>
+<span id='line24'></span>
+<span id='line25'>  ** Sets value for given key in this map.  Returns this.</span>
+<span id='line26'>  @Operator native This set<b>(</b>Obj key, Obj val<b>)</b></span>
+<span id='line27'></span>
+<span id='line28'>  ** Removes any value associated to the key. Returns 'true'</span>
+<span id='line29'>  ** if an element has been removed successfully.</span>
+<span id='line30'>  native Bool delete<b>(</b>Obj key<b>)</b></span>
+<span id='line31'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

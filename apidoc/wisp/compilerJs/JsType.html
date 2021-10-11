@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJs::JsType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJs</a></li><li><a href='JsType.html'>JsType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerJs::JsType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='JsNode.html'>compilerJs::JsNode</a>
+    compilerJs::JsType</pre>
+
+<p>JsType</p>
+<dl>
+<dt id='base'>
+base</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsTypeRef.html'>JsTypeRef?</a> base</code></p>
+</dd>
+<dt id='copyMixin'>
+copyMixin</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> copyMixin(<a href='JsTypeRef.html'>JsTypeRef</a> ref, <a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='def'>
+def</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/TypeDef.html'>TypeDef</a> def</code></p>
+</dd>
+<dt id='facets'>
+facets</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='JsFacet.html'>JsFacet</a>&gt;</a> facets</code></p>
+</dd>
+<dt id='fields'>
+fields</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='JsField.html'>JsField</a>&gt;</a> fields</code></p>
+</dd>
+<dt id='findPeer'>
+findPeer</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='JsTypeRef.html'>JsTypeRef?</a> findPeer(<a href='JsCompilerSupport.html'>JsCompilerSupport</a> cs, <a href='../compiler/CType.html'>CType</a> def)</code></p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> flags</code></p>
+</dd>
+<dt id='hasNatives'>
+hasNatives</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasNatives</code></p>
+</dd>
+<dt id='instanceInit'>
+instanceInit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsBlock.html'>JsBlock?</a> instanceInit</code></p>
+</dd>
+<dt id='isJsSafe'>
+isJsSafe</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isJsSafe(<a href='../compiler/CType.html'>CType</a> ctype)</code></p>
+
+<p>Return true if type is javascript safe</p>
+</dd>
+<dt id='isMixin'>
+isMixin</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isMixin</code></p>
+</dd>
+<dt id='isNative'>
+isNative</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNative</code></p>
+</dd>
+<dt id='isSynthetic'>
+isSynthetic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSynthetic</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='JsCompilerSupport.html'>JsCompilerSupport</a> s, <a href='../compiler/TypeDef.html'>TypeDef</a> def)</code></p>
+</dd>
+<dt id='methods'>
+methods</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='JsMethod.html'>JsMethod</a>&gt;</a> methods</code></p>
+</dd>
+<dt id='mixins'>
+mixins</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='JsTypeRef.html'>JsTypeRef</a>&gt;</a> mixins</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='node'>
+node</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/TypeDef.html'>TypeDef?</a> node()</code></p>
+</dd>
+<dt id='peer'>
+peer</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsTypeRef.html'>JsTypeRef?</a> peer</code></p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> pod</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> qname</code></p>
+</dd>
+<dt id='sig'>
+sig</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> sig</code></p>
+</dd>
+<dt id='staticInit'>
+staticInit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> staticInit</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> write(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writeStatic'>
+writeStatic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeStatic(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#findPeer'>findPeer</a></li><li><a href='#isJsSafe'>isJsSafe</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#base'>base</a></li><li><a href='#copyMixin'>copyMixin</a></li><li><a href='#def'>def</a></li><li><a href='#facets'>facets</a></li><li><a href='#fields'>fields</a></li><li><a href='#flags'>flags</a></li><li><a href='#hasNatives'>hasNatives</a></li><li><a href='#instanceInit'>instanceInit</a></li><li><a href='#isMixin'>isMixin</a></li><li><a href='#isNative'>isNative</a></li><li><a href='#isSynthetic'>isSynthetic</a></li><li><a href='#methods'>methods</a></li><li><a href='#mixins'>mixins</a></li><li><a href='#name'>name</a></li><li><a href='#node'>node</a></li><li><a href='#peer'>peer</a></li><li><a href='#pod'>pod</a></li><li><a href='#qname'>qname</a></li><li><a href='#sig'>sig</a></li><li><a href='#staticInit'>staticInit</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#write'>write</a></li><li><a href='#writeStatic'>writeStatic</a></li></ul>
+</div>
+</div>
+</body>
+</html>

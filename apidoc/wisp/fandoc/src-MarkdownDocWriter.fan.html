@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>MarkdownDocWriter.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='MarkdownDocWriter.html'>MarkdownDocWriter</a></li><li><a href='src-MarkdownDocWriter.fan.html'>MarkdownDocWriter.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'></span>
+<span id='line6'>**</span>
+<span id='line7'>** MarkdownDocWriter outputs a fandoc model to</span>
+<span id='line8'>** <b>[</b>Markdown<b>]</b>`http://daringfireball.net/projects/markdown/`</span>
+<span id='line9'>**</span>
+<span id='line10'>@Js class MarkdownDocWriter : DocWriter</span>
+<span id='line11'><b>{</b></span>
+<span id='line12'></span>
+<span id='line13'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line14'>// Constructor</span>
+<span id='line15'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line16'></span>
+<span id='line17'>  new make<b>(</b>OutStream out := Env.cur.out<b>)</b></span>
+<span id='line18'>  <b>{</b></span>
+<span id='line19'>    this.out = out</span>
+<span id='line20'>  <b>}</b></span>
+<span id='line21'></span>
+<span id='line22'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line23'>// Config</span>
+<span id='line24'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line25'></span>
+<span id='line26'>  ** Callback to perform link resolution and checking for</span>
+<span id='line27'>  ** every Link element</span>
+<span id='line28'>  |Link link|? onLink := null</span>
+<span id='line29'></span>
+<span id='line30'>  ** Callback to perform image link resolution and checking</span>
+<span id='line31'>  |Image img|? onImage := null</span>
+<span id='line32'></span>
+<span id='line33'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line34'>// DocWriter</span>
+<span id='line35'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line36'></span>
+<span id='line37'>  override Void docStart<b>(</b>Doc doc<b>)</b></span>
+<span id='line38'>  <b>{</b></span>
+<span id='line39'>  <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  override Void docEnd<b>(</b>Doc doc<b>)</b></span>
+<span id='line42'>  <b>{</b></span>
+<span id='line43'>    out.flush</span>
+<span id='line44'>  <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  override Void elemStart<b>(</b>DocElem elem<b>)</b></span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    switch <b>(</b>elem.id<b>)</b></span>
+<span id='line49'>    <b>{</b></span>
+<span id='line50'>      case DocNodeId.para:</span>
+<span id='line51'>        para := elem as Para</span>
+<span id='line52'>        if <b>(</b>inListItem<b>)</b></span>
+<span id='line53'>        <b>{</b></span>
+<span id='line54'>          out.printLine</span>
+<span id='line55'>          out.print<b>(</b>Str.defVal.padl<b>(</b>indDef<b>)</b><b>)</b></span>
+<span id='line56'>        <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>        if <b>(</b>para.anchorId != null<b>)</b></span>
+<span id='line59'>          out.print<b>(</b>"<b>[</b>#$<b>{</b>para.anchorId<b>}</b><b>]</b>"<b>)</b></span>
+<span id='line60'></span>
+<span id='line61'>      case DocNodeId.blockQuote:</span>
+<span id='line62'>        out.print<b>(</b>"> "<b>)</b></span>
+<span id='line63'></span>
+<span id='line64'>      case DocNodeId.pre:</span>
+<span id='line65'>        inPre = true</span>
+<span id='line66'></span>
+<span id='line67'>      case DocNodeId.heading:</span>
+<span id='line68'>        h := elem as Heading</span>
+<span id='line69'>        out.print<b>(</b>Str.defVal.padl<b>(</b>h.level, '#'<b>)</b><b>)</b>.writeChar<b>(</b>' '<b>)</b></span>
+<span id='line70'>        if <b>(</b>elem.anchorId != null<b>)</b></span>
+<span id='line71'>          out.print<b>(</b>"&lt;a name=\"$<b>{</b>elem.anchorId<b>}</b>\">&lt;/a>"<b>)</b></span>
+<span id='line72'></span>
+<span id='line73'>      case DocNodeId.unorderedList:</span>
+<span id='line74'>        listIndexes.push<b>(</b>ListIndex<b>(</b><b>)</b><b>)</b></span>
+<span id='line75'></span>
+<span id='line76'>      case DocNodeId.orderedList:</span>
+<span id='line77'>        // Markdown only supports numbered ordered lists</span>
+<span id='line78'>        ol := elem as OrderedList</span>
+<span id='line79'>        listIndexes.push<b>(</b>ListIndex<b>(</b>OrderedListStyle.number<b>)</b><b>)</b></span>
+<span id='line80'></span>
+<span id='line81'>      case DocNodeId.listItem:</span>
+<span id='line82'>        indent := <b>(</b>listIndexes.size - 1<b>)</b> * indDef</span>
+<span id='line83'>        out.print<b>(</b>Str.defVal.padl<b>(</b>indent<b>)</b><b>)</b></span>
+<span id='line84'>        out.print<b>(</b>liSymbol<b>)</b></span>
+<span id='line85'>        listIndexes.peek.increment</span>
+<span id='line86'></span>
+<span id='line87'>      case DocNodeId.link:</span>
+<span id='line88'>        link := elem as Link</span>
+<span id='line89'>        onLink?.call<b>(</b>link<b>)</b></span>
+<span id='line90'>        out.writeChar<b>(</b>'<b>[</b>'<b>)</b></span>
+<span id='line91'></span>
+<span id='line92'>      case DocNodeId.image:</span>
+<span id='line93'>        img := elem as Image</span>
+<span id='line94'>        onImage?.call<b>(</b>img<b>)</b></span>
+<span id='line95'>        out.print<b>(</b>"!<b>[</b>$<b>{</b>img.alt<b>}</b>"<b>)</b></span>
+<span id='line96'></span>
+<span id='line97'>      case DocNodeId.emphasis:</span>
+<span id='line98'>        out.writeChar<b>(</b>'*'<b>)</b></span>
+<span id='line99'></span>
+<span id='line100'>      case DocNodeId.strong:</span>
+<span id='line101'>        out.print<b>(</b>"**"<b>)</b></span>
+<span id='line102'></span>
+<span id='line103'>      case DocNodeId.code:</span>
+<span id='line104'>        out.print<b>(</b>"`"<b>)</b></span>
+<span id='line105'></span>
+<span id='line106'>      case DocNodeId.hr:</span>
+<span id='line107'>        out.print<b>(</b>"---\n"<b>)</b></span>
+<span id='line108'>    <b>}</b></span>
+<span id='line109'>  <b>}</b></span>
+<span id='line110'></span>
+<span id='line111'>  override Void elemEnd<b>(</b>DocElem elem<b>)</b></span>
+<span id='line112'>  <b>{</b></span>
+<span id='line113'>    switch <b>(</b>elem.id<b>)</b></span>
+<span id='line114'>    <b>{</b></span>
+<span id='line115'>      case DocNodeId.para:</span>
+<span id='line116'>        if <b>(</b>!inListItem<b>)</b></span>
+<span id='line117'>          out.printLine // blank line</span>
+<span id='line118'></span>
+<span id='line119'>      case DocNodeId.pre:</span>
+<span id='line120'>        inPre = false</span>
+<span id='line121'></span>
+<span id='line122'>      case DocNodeId.heading:</span>
+<span id='line123'>        out.printLine // blank line</span>
+<span id='line124'></span>
+<span id='line125'>      case DocNodeId.orderedList:</span>
+<span id='line126'>      case DocNodeId.unorderedList:</span>
+<span id='line127'>        listIndexes.pop</span>
+<span id='line128'>        // fall-through</span>
+<span id='line129'>        if <b>(</b>listIndexes.isEmpty<b>)</b></span>
+<span id='line130'>          out.printLine // blank line</span>
+<span id='line131'></span>
+<span id='line132'>      case DocNodeId.link:</span>
+<span id='line133'>        link := elem as Link</span>
+<span id='line134'>        out.print<b>(</b>"<b>]</b><b>(</b>$<b>{</b>link.uri<b>}</b><b>)</b>"<b>)</b></span>
+<span id='line135'></span>
+<span id='line136'>      case DocNodeId.image:</span>
+<span id='line137'>        img := elem as Image</span>
+<span id='line138'>        out.print<b>(</b>"<b>]</b><b>(</b>$<b>{</b>img.uri<b>}</b><b>)</b>"<b>)</b></span>
+<span id='line139'></span>
+<span id='line140'>      case DocNodeId.emphasis:</span>
+<span id='line141'>        out.writeChar<b>(</b>'*'<b>)</b></span>
+<span id='line142'></span>
+<span id='line143'>      case DocNodeId.strong:</span>
+<span id='line144'>        out.print<b>(</b>"**"<b>)</b></span>
+<span id='line145'></span>
+<span id='line146'>      case DocNodeId.code:</span>
+<span id='line147'>        out.print<b>(</b>"`"<b>)</b></span>
+<span id='line148'>    <b>}</b></span>
+<span id='line149'>    if <b>(</b>elem.isBlock<b>)</b> out.writeChar<b>(</b>'\n'<b>)</b></span>
+<span id='line150'>  <b>}</b></span>
+<span id='line151'></span>
+<span id='line152'>  override Void text<b>(</b>DocText text<b>)</b></span>
+<span id='line153'>  <b>{</b></span>
+<span id='line154'>    if <b>(</b>inPre<b>)</b></span>
+<span id='line155'>    <b>{</b></span>
+<span id='line156'>      indent := indCode</span>
+<span id='line157'>      if <b>(</b>inListItem<b>)</b> indent += <b>(</b>listIndexes.size - 1<b>)</b> * indDef</span>
+<span id='line158'>      pad := Str.defVal.padl<b>(</b>indent<b>)</b></span>
+<span id='line159'>      text.str.splitLines.each |line| <b>{</b></span>
+<span id='line160'>        out.print<b>(</b>pad<b>)</b>.printLine<b>(</b>line<b>)</b></span>
+<span id='line161'>      <b>}</b></span>
+<span id='line162'>    <b>}</b></span>
+<span id='line163'>    else</span>
+<span id='line164'>    <b>{</b></span>
+<span id='line165'>      out.print<b>(</b>text.str<b>)</b></span>
+<span id='line166'>    <b>}</b></span>
+<span id='line167'>  <b>}</b></span>
+<span id='line168'></span>
+<span id='line169'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line170'>// MarkdownDocWriter</span>
+<span id='line171'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line172'></span>
+<span id='line173'>  ** Get the symbol to use for the current list item.</span>
+<span id='line174'>  private Str liSymbol<b>(</b><b>)</b></span>
+<span id='line175'>  <b>{</b></span>
+<span id='line176'>    li := listIndexes.peek</span>
+<span id='line177'>    if <b>(</b>li.style == null<b>)</b></span>
+<span id='line178'>    <b>{</b></span>
+<span id='line179'>      numUl := listIndexes.findAll <b>{</b> it.style == null <b>}</b>.size</span>
+<span id='line180'>      return ulSymbols<b>[</b><b>(</b>numUl-1<b>)</b> % ulSymbols.size<b>]</b></span>
+<span id='line181'>    <b>}</b></span>
+<span id='line182'>    return li.toStr</span>
+<span id='line183'>  <b>}</b></span>
+<span id='line184'></span>
+<span id='line185'>  private Bool inListItem<b>(</b><b>)</b></span>
+<span id='line186'>  <b>{</b></span>
+<span id='line187'>    !listIndexes.isEmpty</span>
+<span id='line188'>  <b>}</b></span>
+<span id='line189'></span>
+<span id='line190'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line191'>// Fields</span>
+<span id='line192'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line193'></span>
+<span id='line194'>  const static private Str<b>[</b><b>]</b> ulSymbols := <b>[</b>"* ", "+ ", "- "<b>]</b></span>
+<span id='line195'>  const static private Int indDef  := 4</span>
+<span id='line196'>  const static private Int indCode := 4</span>
+<span id='line197'></span>
+<span id='line198'>  private OutStream out</span>
+<span id='line199'>  private ListIndex<b>[</b><b>]</b> listIndexes := <b>[</b>,<b>]</b></span>
+<span id='line200'>  private Bool inPre</span>
+<span id='line201'></span>
+<span id='line202'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line203'>// Main</span>
+<span id='line204'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line205'></span>
+<span id='line206'>  static Void main<b>(</b>Str<b>[</b><b>]</b> args := Env.cur.args<b>)</b></span>
+<span id='line207'>  <b>{</b></span>
+<span id='line208'>    doc := FandocParser<b>(</b><b>)</b>.parse<b>(</b>args<b>[</b>0<b>]</b>, File<b>(</b>args<b>[</b>0<b>]</b>.toUri<b>)</b>.in<b>)</b></span>
+<span id='line209'>    doc.write<b>(</b>MarkdownDocWriter<b>(</b><b>)</b><b>)</b></span>
+<span id='line210'>  <b>}</b></span>
+<span id='line211'></span>
+<span id='line212'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

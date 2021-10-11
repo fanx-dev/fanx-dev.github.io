@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>syntax::SyntaxType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='SyntaxType.html'>SyntaxType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> syntax::SyntaxType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    syntax::SyntaxType</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line78'>Source</a></p>
+
+<p>SyntaxType models a syntax specific segment type such keyword or comment</p>
+<ul>
+<li><a href='#text'>text</a></li><li><a href='#bracket'>bracket</a></li><li><a href='#keyword'>keyword</a></li><li><a href='#literal'>literal</a></li><li><a href='#comment'>comment</a></li></ul>
+<dl>
+<dt id='bracket'>
+bracket</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='SyntaxType.html'>SyntaxType</a> bracket := ...</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line85'>Source</a></p>
+
+<p>Bracket such as <code>{</code>, <code>}</code>, <code>(</code>, <code>)</code>, <code>[</code>, or <code>]</code></p>
+</dd>
+<dt id='comment'>
+comment</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='SyntaxType.html'>SyntaxType</a> comment := ...</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line94'>Source</a></p>
+
+<p>Comment section either to end of line or multi-line block</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line80'>Source</a></p>
+
+<p>Return the SyntaxType instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='keyword'>
+keyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='SyntaxType.html'>SyntaxType</a> keyword := ...</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line88'>Source</a></p>
+
+<p>Language specific keyword</p>
+</dd>
+<dt id='literal'>
+literal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='SyntaxType.html'>SyntaxType</a> literal := ...</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line91'>Source</a></p>
+
+<p>String literal</p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='SyntaxType.html'>SyntaxType</a> text := ...</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line82'>Source</a></p>
+
+<p>Normal text</p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='SyntaxType.html'>SyntaxType</a>&gt;</a> vals := ...</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line80'>Source</a></p>
+
+<p>List of SyntaxType values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-SyntaxModel.fan.html#line78'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#bracket'>bracket</a></li><li><a href='#comment'>comment</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#keyword'>keyword</a></li><li><a href='#literal'>literal</a></li><li><a href='#text'>text</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

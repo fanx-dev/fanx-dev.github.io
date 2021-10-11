@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::Layout</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='Layout.html'>Layout</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::Layout</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGui::Layout</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+
+<p>Tell parent how to layout this widget The parent may ignore the param</p>
+<dl>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return if obj is same Point value.</p>
+</dd>
+<dt id='hAlign'>
+hAlign</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Align.html'>Align</a> hAlign := Align.begin</code></p>
+
+<p>horizontal Alignment</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return hash of x and y.</p>
+</dd>
+<dt id='height'>
+height</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> height := wrapContent</code></p>
+
+<p>height of widget</p>
+</dd>
+<dt id='ignored'>
+ignored</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> ignored := false</code></p>
+</dd>
+<dt id='matchParent'>
+matchParent</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> matchParent := 0</code></p>
+
+<p>fill parent or others define by layout pane</p>
+</dd>
+<dt id='offsetX'>
+offsetX</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> offsetX := 0</code></p>
+
+<p>x position of widget.</p>
+</dd>
+<dt id='offsetY'>
+offsetY</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> offsetY := 0</code></p>
+
+<p>y position of widget.</p>
+</dd>
+<dt id='prefHeight'>
+prefHeight</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> prefHeight(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentHeight, <a href='../sys/Int.html'>Int</a> selfHeight)</code></p>
+</dd>
+<dt id='prefWidth'>
+prefWidth</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> prefWidth(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentWidth, <a href='../sys/Int.html'>Int</a> selfWidth)</code></p>
+</dd>
+<dt id='prefX'>
+prefX</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> prefX(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentWidth, <a href='../sys/Int.html'>Int</a> selfWidth)</code></p>
+</dd>
+<dt id='prefY'>
+prefY</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> prefY(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentHeight, <a href='../sys/Int.html'>Int</a> selfHeight)</code></p>
+</dd>
+<dt id='vAlign'>
+vAlign</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Align.html'>Align</a> vAlign := Align.begin</code></p>
+
+<p>vertical Alignment</p>
+</dd>
+<dt id='weight'>
+weight</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> weight := 1.0f</code></p>
+
+<p>layout weight compare to sibling widget</p>
+</dd>
+<dt id='width'>
+width</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> width := matchParent</code></p>
+
+<p>width of widget</p>
+</dd>
+<dt id='wrapContent'>
+wrapContent</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> wrapContent := -1</code></p>
+
+<p>preferred size by prefSize()</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#matchParent'>matchParent</a></li><li><a href='#wrapContent'>wrapContent</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#equals'>equals</a></li><li><a href='#hAlign'>hAlign</a></li><li><a href='#hash'>hash</a></li><li><a href='#height'>height</a></li><li><a href='#ignored'>ignored</a></li><li><a href='#offsetX'>offsetX</a></li><li><a href='#offsetY'>offsetY</a></li><li><a href='#prefHeight'>prefHeight</a></li><li><a href='#prefWidth'>prefWidth</a></li><li><a href='#prefX'>prefX</a></li><li><a href='#prefY'>prefY</a></li><li><a href='#vAlign'>vAlign</a></li><li><a href='#weight'>weight</a></li><li><a href='#width'>width</a></li></ul>
+</div>
+</div>
+</body>
+</html>

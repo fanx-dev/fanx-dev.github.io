@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::MutationObserver</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='MutationObserver.html'>MutationObserver</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> dom::MutationObserver</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::MutationObserver</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html'>Source</a></p>
+
+<p>MutationObserver invokes a callback when DOM modifications occur.</p>
+<dl>
+<dt id='disconnet'>
+disconnet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> disconnet()</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line39'>Source</a></p>
+
+<p>Disconnect this observer from receiving DOM mutation events.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/List.html'>List&lt;<a href='MutationRec.html'>MutationRec</a>&gt;</a>&gt;</a> callback)</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html'>Source</a></p>
+
+<p>Constructor.</p>
+</dd>
+<dt id='observe'>
+observe</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> observe(<a href='Elem.html'>Elem</a> target, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> opts)</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line25'>Source</a></p>
+
+<p>Register to receive DOM mutation events for given node. At least one option is required:</p>
+
+<ul>
+<li>"childList": <code>true</code> to observe node additions and removals on target (including text nodes)</li>
+
+<li>"attrs":  <code>true</code> to observe target attribute mutations</li>
+
+<li>"charData": <code>true</code> to observe target data mutation</li>
+
+<li>"subtree": <code>true</code> to observe target and target's descendant mutations</li>
+
+<li>"attrOldVal": <code>true</code> to capture attribute value before mutation (requires "attrs":'true')</li>
+
+<li>"charDataOldVal": <code>true</code> to capture target's data before mutation (requires "charData":'true')</li>
+
+<li>"attrFilter": Str[] whitelist of attribute names to observe (requires "attrs":'true')</li>
+</ul>
+</dd>
+<dt id='takeRecs'>
+takeRecs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='MutationRec.html'>MutationRec</a>&gt;</a> takeRecs()</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line36'>Source</a></p>
+
+<p>Empties this observers's record queue and returns what was in there.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-MutationObserver.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#disconnet'>disconnet</a></li><li><a href='#observe'>observe</a></li><li><a href='#takeRecs'>takeRecs</a></li></ul>
+</div>
+</div>
+</body>
+</html>

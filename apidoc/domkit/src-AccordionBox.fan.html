@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>AccordionBox.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='AccordionBox.html'>AccordionBox</a></li><li><a href='src-AccordionBox.fan.html'>AccordionBox.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   17 Jun 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** AccordionBox displays collapsible content panels for presenting</span>
+<span id='line13'>** information in a limited amount of vertical space, where the</span>
+<span id='line14'>** header element is used to collapse or expand the child content.</span>
+<span id='line15'>**</span>
+<span id='line16'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Layout`</span>
+<span id='line17'>**</span>
+<span id='line18'>@Js class AccordionBox : Box</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line21'>  <b>{</b></span>
+<span id='line22'>    this.style.addClass<b>(</b>"domkit-AccordionBox"<b>)</b></span>
+<span id='line23'>    this.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b> onMouseDown<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line24'>  <b>}</b></span>
+<span id='line25'></span>
+<span id='line26'>  ** Add a new group with given header and child nodes. Optionally</span>
+<span id='line27'>  ** configure default expansion state with 'expanded' paramter</span>
+<span id='line28'>  ** <b>(</b>defaults to collapsed<b>)</b>.</span>
+<span id='line29'>  This addGroup<b>(</b>Elem header, Elem<b>[</b><b>]</b> kids, Bool expanded := false<b>)</b></span>
+<span id='line30'>  <b>{</b></span>
+<span id='line31'>    // default display styles for all nodes</span>
+<span id='line32'>    header.style->display = "block"</span>
+<span id='line33'>    kids.each |k| <b>{</b> k.style->display = "none" <b>}</b></span>
+<span id='line34'></span>
+<span id='line35'>    // wrap into group node</span>
+<span id='line36'>    group := Elem <b>{</b> it.style.addClass<b>(</b>"domkit-AccordionBox-group collapsed"<b>)</b> <b>}</b></span>
+<span id='line37'>    group.add<b>(</b>header<b>)</b></span>
+<span id='line38'>    group.addAll<b>(</b>kids<b>)</b></span>
+<span id='line39'></span>
+<span id='line40'>    this.add<b>(</b>group<b>)</b></span>
+<span id='line41'></span>
+<span id='line42'>    // check if we need to expand group</span>
+<span id='line43'>    if <b>(</b>expanded<b>)</b> expand<b>(</b>this.children.size-1, true<b>)</b></span>
+<span id='line44'></span>
+<span id='line45'>    return this</span>
+<span id='line46'>  <b>}</b></span>
+<span id='line47'></span>
+<span id='line48'>  ** Return 'true' if given group is expanded, or 'false' if not.</span>
+<span id='line49'>  Bool isExpanded<b>(</b>Int groupIndex<b>)</b></span>
+<span id='line50'>  <b>{</b></span>
+<span id='line51'>    group := this.children.getSafe<b>(</b>groupIndex<b>)</b></span>
+<span id='line52'>    if <b>(</b>group == null<b>)</b> return false // TODO: throw err?</span>
+<span id='line53'>    return group.style.hasClass<b>(</b>"expanded"<b>)</b></span>
+<span id='line54'>  <b>}</b></span>
+<span id='line55'></span>
+<span id='line56'>  ** Set expanded state for given group.</span>
+<span id='line57'>  Void expand<b>(</b>Int groupIndex, Bool expanded<b>)</b></span>
+<span id='line58'>  <b>{</b></span>
+<span id='line59'>    group := this.children.getSafe<b>(</b>groupIndex<b>)</b></span>
+<span id='line60'>    if <b>(</b>group == null<b>)</b> return // TODO: throw err?</span>
+<span id='line61'></span>
+<span id='line62'>    if <b>(</b>expanded<b>)</b></span>
+<span id='line63'>    <b>{</b></span>
+<span id='line64'>      // expand</span>
+<span id='line65'>      group.style.removeClass<b>(</b>"collapsed"<b>)</b>.addClass<b>(</b>"expanded"<b>)</b></span>
+<span id='line66'>      group.children.each |k| <b>{</b> k.style->display = "block" <b>}</b></span>
+<span id='line67'>    <b>}</b></span>
+<span id='line68'>    else</span>
+<span id='line69'>    <b>{</b></span>
+<span id='line70'>      // collapse</span>
+<span id='line71'>      group.style.removeClass<b>(</b>"expanded"<b>)</b>.addClass<b>(</b>"collapsed"<b>)</b></span>
+<span id='line72'>      group.children.eachRange<b>(</b>1..-1<b>)</b> |k| <b>{</b> k.style->display = "none" <b>}</b></span>
+<span id='line73'>    <b>}</b></span>
+<span id='line74'>  <b>}</b></span>
+<span id='line75'></span>
+<span id='line76'>  ** Toggle a group or fire action for child.</span>
+<span id='line77'>  private Void onMouseDown<b>(</b>Event e<b>)</b></span>
+<span id='line78'>  <b>{</b></span>
+<span id='line79'>    // find group</span>
+<span id='line80'>    kids  := this.children</span>
+<span id='line81'>    group := kids.find |g| <b>{</b> g.containsChild<b>(</b>e.target<b>)</b> <b>}</b></span>
+<span id='line82'>    if <b>(</b>group == null<b>)</b> return</span>
+<span id='line83'></span>
+<span id='line84'>    // toggle if fired on header</span>
+<span id='line85'>    if <b>(</b>group.firstChild.containsChild<b>(</b>e.target<b>)</b><b>)</b></span>
+<span id='line86'>    <b>{</b></span>
+<span id='line87'>      index := kids.findIndex |g| <b>{</b> g == group <b>}</b></span>
+<span id='line88'>      expand<b>(</b>index, !isExpanded<b>(</b>index<b>)</b><b>)</b></span>
+<span id='line89'>    <b>}</b></span>
+<span id='line90'>  <b>}</b></span>
+<span id='line91'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

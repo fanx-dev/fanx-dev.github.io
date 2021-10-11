@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocRenderer.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocRenderer.html'>DocRenderer</a></li><li><a href='src-DocRenderer.fan.html'>DocRenderer.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   13 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using fandoc</span>
+<span id='line10'>using fandoc::Doc as FandocDoc</span>
+<span id='line11'>using web</span>
+<span id='line12'></span>
+<span id='line13'>**</span>
+<span id='line14'>** DocRenderer is base class for rendering a Doc.</span>
+<span id='line15'>** See `writeDoc` for rendering pipeline.</span>
+<span id='line16'>**</span>
+<span id='line17'>abstract class DocRenderer</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'></span>
+<span id='line20'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line21'>// Constructor</span>
+<span id='line22'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line23'></span>
+<span id='line24'>  ** All subclasses must implement ctor with env, out, doc params.</span>
+<span id='line25'>  new make<b>(</b>DocEnv env, WebOutStream out, Doc doc<b>)</b></span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    this.envRef = env</span>
+<span id='line28'>    this.outRef = out</span>
+<span id='line29'>    this.docRef = doc</span>
+<span id='line30'>  <b>}</b></span>
+<span id='line31'></span>
+<span id='line32'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line33'>// State</span>
+<span id='line34'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line35'></span>
+<span id='line36'>  ** Environment with access to model, theme, linking, etc</span>
+<span id='line37'>  virtual DocEnv env<b>(</b><b>)</b> <b>{</b> envRef <b>}</b></span>
+<span id='line38'>  private DocEnv envRef</span>
+<span id='line39'></span>
+<span id='line40'>  ** HTML output stream</span>
+<span id='line41'>  virtual WebOutStream out<b>(</b><b>)</b> <b>{</b> outRef <b>}</b></span>
+<span id='line42'>  private WebOutStream outRef</span>
+<span id='line43'></span>
+<span id='line44'>  ** Document to be renderered</span>
+<span id='line45'>  virtual Doc doc<b>(</b><b>)</b> <b>{</b> docRef <b>}</b></span>
+<span id='line46'>  private Doc docRef</span>
+<span id='line47'></span>
+<span id='line48'>  ** Theme to use for rendering chrome and navigation.</span>
+<span id='line49'>  ** This field is initialized from `DocEnv.theme`.</span>
+<span id='line50'>  virtual DocTheme theme<b>(</b><b>)</b> <b>{</b> env.theme <b>}</b></span>
+<span id='line51'></span>
+<span id='line52'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line53'>// Hooks</span>
+<span id='line54'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line55'></span>
+<span id='line56'>  **</span>
+<span id='line57'>  ** Render the `doc`.  This method delegates to:</span>
+<span id='line58'>  **  1. `DocTheme.writeStart`</span>
+<span id='line59'>  **  2. `DocTheme.writeBreadcrumb`</span>
+<span id='line60'>  **  3. `writeContent`</span>
+<span id='line61'>  **  3. `DocTheme.writeEnd`</span>
+<span id='line62'>  **</span>
+<span id='line63'>  virtual Void writeDoc<b>(</b><b>)</b></span>
+<span id='line64'>  <b>{</b></span>
+<span id='line65'>    theme.writeStart<b>(</b>this<b>)</b></span>
+<span id='line66'>    theme.writeBreadcrumb<b>(</b>this<b>)</b></span>
+<span id='line67'>    writeContent</span>
+<span id='line68'>    theme.writeEnd<b>(</b>this<b>)</b></span>
+<span id='line69'>  <b>}</b></span>
+<span id='line70'></span>
+<span id='line71'>  **</span>
+<span id='line72'>  ** Subclass hook to render document specific content.</span>
+<span id='line73'>  ** See `writeDoc` for rendering pipeline.</span>
+<span id='line74'>  **</span>
+<span id='line75'>  abstract Void writeContent<b>(</b><b>)</b></span>
+<span id='line76'></span>
+<span id='line77'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line78'>// Utils</span>
+<span id='line79'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line80'></span>
+<span id='line81'>  **</span>
+<span id='line82'>  ** Write an '&lt;a>' element for the given link from this renderer</span>
+<span id='line83'>  ** document to another document.  See `DocEnv.linkUri`.</span>
+<span id='line84'>  **</span>
+<span id='line85'>  virtual Void writeLink<b>(</b>DocLink link<b>)</b></span>
+<span id='line86'>  <b>{</b></span>
+<span id='line87'>    out.a<b>(</b>env.linkUri<b>(</b>link<b>)</b><b>)</b>.esc<b>(</b>link.dis<b>)</b>.aEnd</span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>  **</span>
+<span id='line91'>  ** Convenience for 'writeLink<b>(</b>linkTo<b>(</b>target, dis, frag<b>)</b><b>)</b>'</span>
+<span id='line92'>  **</span>
+<span id='line93'>  virtual Void writeLinkTo<b>(</b>Doc target, Str? dis := null, Str? frag := null<b>)</b></span>
+<span id='line94'>  <b>{</b></span>
+<span id='line95'>    if <b>(</b>dis == null<b>)</b> dis = target is DocChapter ? target.title : target.docName</span>
+<span id='line96'>    writeLink<b>(</b>linkTo<b>(</b>target, dis, frag<b>)</b><b>)</b></span>
+<span id='line97'>  <b>}</b></span>
+<span id='line98'></span>
+<span id='line99'>  **</span>
+<span id='line100'>  ** Create a DocLink from this renderer doc to the target document.</span>
+<span id='line101'>  **</span>
+<span id='line102'>  DocLink linkTo<b>(</b>Doc target, Str? dis := null, Str? frag := null<b>)</b></span>
+<span id='line103'>  <b>{</b></span>
+<span id='line104'>    if <b>(</b>dis == null<b>)</b> dis = target is DocChapter ? target.title : target.docName</span>
+<span id='line105'>    return DocLink<b>(</b>this.doc, target, dis, frag<b>)</b></span>
+<span id='line106'>  <b>}</b></span>
+<span id='line107'></span>
+<span id='line108'>  **</span>
+<span id='line109'>  ** Write the given fandoc string as HTML.  This method</span>
+<span id='line110'>  ** delegates to `DocEnv.link` and `DocEnv.linkUri` to</span>
+<span id='line111'>  ** resolve links from the current document.</span>
+<span id='line112'>  **</span>
+<span id='line113'>  virtual Void writeFandoc<b>(</b>DocFandoc doc<b>)</b></span>
+<span id='line114'>  <b>{</b></span>
+<span id='line115'>    // parse fandoc</span>
+<span id='line116'>    docLoc := doc.loc</span>
+<span id='line117'>    parser := FandocParser<b>(</b><b>)</b></span>
+<span id='line118'>    parser.silent = true</span>
+<span id='line119'>    root := parser.parse<b>(</b>docLoc.file, doc.text.in<b>)</b></span>
+<span id='line120'></span>
+<span id='line121'>    // if no errors, then write as HTML</span>
+<span id='line122'>    if <b>(</b>parser.errs.isEmpty<b>)</b></span>
+<span id='line123'>    <b>{</b></span>
+<span id='line124'>      writer := HtmlDocWriter<b>(</b>out<b>)</b></span>
+<span id='line125'>      writer.onLink  = |Link elem| <b>{</b> onFandocLink<b>(</b>elem, toFandocElemLoc<b>(</b>docLoc, elem.line<b>)</b><b>)</b> <b>}</b></span>
+<span id='line126'>      writer.onImage = |Image elem| <b>{</b> onFandocImage<b>(</b>elem, toFandocElemLoc<b>(</b>docLoc, elem.line<b>)</b><b>)</b> <b>}</b></span>
+<span id='line127'>      root.children.each |child| <b>{</b> child.write<b>(</b>writer<b>)</b> <b>}</b></span>
+<span id='line128'>    <b>}</b></span>
+<span id='line129'></span>
+<span id='line130'>    // otherwise report errors and print as &lt;pre></span>
+<span id='line131'>    else</span>
+<span id='line132'>    <b>{</b></span>
+<span id='line133'>      // report each error</span>
+<span id='line134'>      parser.errs.each |err|</span>
+<span id='line135'>      <b>{</b></span>
+<span id='line136'>        env.err<b>(</b>err.msg, toFandocElemLoc<b>(</b>docLoc, err.line<b>)</b><b>)</b></span>
+<span id='line137'>      <b>}</b></span>
+<span id='line138'></span>
+<span id='line139'>      // print as &lt;pre></span>
+<span id='line140'>      out.pre.w<b>(</b>doc.text<b>)</b>.preEnd</span>
+<span id='line141'>    <b>}</b></span>
+<span id='line142'>  <b>}</b></span>
+<span id='line143'></span>
+<span id='line144'>  ** Map document location and element to the element location</span>
+<span id='line145'>  private DocLoc toFandocElemLoc<b>(</b>DocLoc docLoc, Int line<b>)</b></span>
+<span id='line146'>  <b>{</b></span>
+<span id='line147'>    DocLoc<b>(</b>docLoc.file, docLoc.line + line - 1<b>)</b></span>
+<span id='line148'>  <b>}</b></span>
+<span id='line149'></span>
+<span id='line150'>  ** Fandoc handling for link nodes</span>
+<span id='line151'>  @NoDoc</span>
+<span id='line152'>  virtual Void onFandocLink<b>(</b>Link elem, DocLoc loc<b>)</b></span>
+<span id='line153'>  <b>{</b></span>
+<span id='line154'>    // don't process absolute links</span>
+<span id='line155'>    orig := elem.uri</span>
+<span id='line156'>    if <b>(</b>orig.startsWith<b>(</b>"http:/"<b>)</b> ||</span>
+<span id='line157'>        orig.startsWith<b>(</b>"https:/"<b>)</b> ||</span>
+<span id='line158'>        orig.startsWith<b>(</b>"ftp:/"<b>)</b><b>)</b> return</span>
+<span id='line159'></span>
+<span id='line160'>    try</span>
+<span id='line161'>    <b>{</b></span>
+<span id='line162'>      // route to DocEnv.link</span>
+<span id='line163'>      link := resolveFandocLink<b>(</b>elem, true<b>)</b></span>
+<span id='line164'></span>
+<span id='line165'>      // get environment URI for the DocLink</span>
+<span id='line166'>      elem.uri = env.linkUri<b>(</b>link<b>)</b>.encode</span>
+<span id='line167'>      elem.isCode = link.target.isCode</span>
+<span id='line168'></span>
+<span id='line169'>      // extra checking</span>
+<span id='line170'>      env.linkCheck<b>(</b>link, loc<b>)</b></span>
+<span id='line171'></span>
+<span id='line172'>      // if link text was original URI, then update with DocLink.dis</span>
+<span id='line173'>      if <b>(</b>elem.children.first is DocText &amp;&amp; elem.children.first.toStr == orig<b>)</b></span>
+<span id='line174'>      <b>{</b></span>
+<span id='line175'>        elem.removeAll.add<b>(</b>DocText<b>(</b>link.dis<b>)</b><b>)</b></span>
+<span id='line176'>      <b>}</b></span>
+<span id='line177'>    <b>}</b></span>
+<span id='line178'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line179'>    <b>{</b></span>
+<span id='line180'>      if <b>(</b>elem.uri.startsWith<b>(</b>"examples::"<b>)</b><b>)</b></span>
+<span id='line181'>        elem.uri = "https://fantom.org/doc/" + elem.uri.replace<b>(</b>"::", "/"<b>)</b></span>
+<span id='line182'>      else</span>
+<span id='line183'>        onFandocErr<b>(</b>e, loc<b>)</b></span>
+<span id='line184'>    <b>}</b></span>
+<span id='line185'>  <b>}</b></span>
+<span id='line186'></span>
+<span id='line187'>  ** Fandoc handling for inage nodes</span>
+<span id='line188'>  @NoDoc</span>
+<span id='line189'>  virtual Void onFandocImage<b>(</b>Image elem, DocLoc loc<b>)</b></span>
+<span id='line190'>  <b>{</b></span>
+<span id='line191'>  <b>}</b></span>
+<span id='line192'></span>
+<span id='line193'>  **</span>
+<span id='line194'>  ** Hook used to map a fandoc link to a doc link</span>
+<span id='line195'>  **</span>
+<span id='line196'>  virtual DocLink? resolveFandocLink<b>(</b>Link elem, Bool checked := true<b>)</b></span>
+<span id='line197'>  <b>{</b></span>
+<span id='line198'>    env.link<b>(</b>this.doc, elem.uri, true<b>)</b></span>
+<span id='line199'>  <b>}</b></span>
+<span id='line200'></span>
+<span id='line201'>  ** Handle a fandoc linking error</span>
+<span id='line202'>  @NoDoc</span>
+<span id='line203'>  virtual Void onFandocErr<b>(</b>Err e, DocLoc loc<b>)</b></span>
+<span id='line204'>  <b>{</b></span>
+<span id='line205'>    env.err<b>(</b>e.toStr, loc<b>)</b></span>
+<span id='line206'>  <b>}</b></span>
+<span id='line207'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::DomListener</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='DomListener.html'>DomListener</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> domkit::DomListener</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  domkit::DomListener</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-DomListener.fan.html'>Source</a></p>
+
+<p>DomListener monitors the DOM and invokes callbacks when modifications occur.</p>
+
+<p>DomListener works by registering a global <code><a href='../dom/MutationObserver.html'>MutationObserver</a></code> on the <code>body</code> tag and collects all <code>childList</code> events for his subtree.  All mutation events are queued and processed on a <code><a href='../dom/Win.html#reqAnimationFrame'>reqAnimationFrame</a></code>.  Registered nodes are held with weak references, and will be garbage collected when out of scope.</p>
+<dl>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DomListener.html'>DomListener</a> cur()</code></p>
+<p class='src'>
+<a href='src-DomListener.fan.html#line25'>Source</a></p>
+</dd>
+<dt id='onMount'>
+onMount</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onMount(<a href='../dom/Elem.html'>Elem</a> target, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../dom/Elem.html'>Elem</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-DomListener.fan.html#line40'>Source</a></p>
+
+<p>Request callback when target node is mounted into document.</p>
+</dd>
+<dt id='onResize'>
+onResize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onResize(<a href='../dom/Elem.html'>Elem</a> target, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../dom/Elem.html'>Elem</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-DomListener.fan.html#line56'>Source</a></p>
+
+<p>Request callback when target node size has changed.</p>
+</dd>
+<dt id='onUnmount'>
+onUnmount</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onUnmount(<a href='../dom/Elem.html'>Elem</a> target, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../dom/Elem.html'>Elem</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-DomListener.fan.html#line48'>Source</a></p>
+
+<p>Request callback when target node is unmounted from document.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DomListener.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cur'>cur</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#onMount'>onMount</a></li><li><a href='#onResize'>onResize</a></li><li><a href='#onUnmount'>onUnmount</a></li></ul>
+</div>
+</div>
+</body>
+</html>

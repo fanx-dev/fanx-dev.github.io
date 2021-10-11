@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>email::MultiPart</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>email</a></li><li><a href='MultiPart.html'>MultiPart</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> email::MultiPart</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='EmailPart.html'>email::EmailPart</a>
+    email::MultiPart</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+<p class='src'>
+<a href='src-MultiPart.fan.html'>Source</a></p>
+
+<p>MultiPart is used to model a multipart MIME type.  The default is "multipart/mixed".</p>
+<dl>
+<dt id='encode'>
+encode</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> encode(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+<p class='src'>
+<a href='src-MultiPart.fan.html#line54'>Source</a></p>
+
+<p>Encode as a MIME message according to RFC 822.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-MultiPart.fan.html#line23'>Source</a></p>
+
+<p>Construct with default type of "multipart/mixed".</p>
+</dd>
+<dt id='parts'>
+parts</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='EmailPart.html'>EmailPart</a>&gt;</a> parts := EmailPart[,]</code></p>
+<p class='src'>
+<a href='src-MultiPart.fan.html'>Source</a></p>
+
+<p>The sub-parts of this multipart.</p>
+</dd>
+<dt id='validate'>
+validate</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> validate()</code></p>
+<p class='src'>
+<a href='src-MultiPart.fan.html#line31'>Source</a></p>
+
+<p>Validate this part - throw Err if not configured correctly:</p>
+
+<ul>
+<li>must have at least one part</li>
+
+<li>Content-Type must be defined</li>
+
+<li>if Content-Type doesn't define boundary, one is auto-generated</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-MultiPart.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#encode'>encode</a></li><li><a href='#parts'>parts</a></li><li><a href='#validate'>validate</a></li></ul>
+</div>
+</div>
+</body>
+</html>

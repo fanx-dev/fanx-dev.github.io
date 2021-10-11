@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocPod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocPod.html'>DocPod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerDoc::DocPod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='DocSpace.html'>compilerDoc::DocSpace</a>
+    compilerDoc::DocPod</pre>
+<p class='src'>
+<a href='src-DocPod.fan.html'>Source</a></p>
+
+<p>DocPod models the documentation of a <a href='sys::Pod'>sys::Pod</a>.</p>
+<dl>
+<dt id='allTypes'>
+allTypes</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='DocType.html'>DocType</a>&gt;</a> allTypes()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line90'>Source</a></p>
+
+<p>Get all types (public, internal, nodoc, etc)</p>
+</dd>
+<dt id='chapter'>
+chapter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocChapter.html'>DocChapter?</a> chapter(<a href='../sys/Str.html'>Str</a> chapterName, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line116'>Source</a></p>
+
+<p>Find a chapter by name.  If the chapter doesn't exist and checked is false then return null, otherwise throw Err.</p>
+</dd>
+<dt id='chapters'>
+chapters</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocChapter.html'>DocChapter</a>&gt;</a> chapters</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line113'>Source</a></p>
+
+<p>If this is a manual like docLang, return list of chapters.</p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Doc.html'>Doc?</a> doc(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line162'>Source</a></p>
+
+<p>Find the document with the given name.  If not found raise UnknownDocErr or return null based on checked flag. The document namespace of a pod is:</p>
+
+<ul>
+<li>"index": the DocPodIndex</li>
+
+<li>"{type name}": DocType</li>
+
+<li>"{chapter name}": DocChapter</li>
+
+<li>"{filename}": DocRes</li>
+
+<li>"src-{filename}": DocSrc</li>
+</ul>
+</dd>
+<dt id='eachDoc'>
+eachDoc</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> eachDoc(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Doc.html'>Doc</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line200'>Source</a></p>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/File.html'>File</a> file</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line65'>Source</a></p>
+
+<p>File the pod was loaded from</p>
+</dd>
+<dt id='index'>
+index</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocPodIndex.html'>DocPodIndex</a> index</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line84'>Source</a></p>
+
+<p>Document which models the index page for this pod</p>
+</dd>
+<dt id='isManual'>
+isManual</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isManual()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line110'>Source</a></p>
+
+<p>A <em>manual</em> pod is a pod with two or more fandoc chapters and no types.</p>
+</dd>
+<dt id='load'>
+load</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DocPod.html'>DocPod</a> load(<a href='DocEnv.html'>DocEnv?</a> env, <a href='../std/File.html'>File</a> file)</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html'>Source</a></p>
+
+<p>Load from a zip file using the given DocEnv as the  gerror handler</p>
+</dd>
+<dt id='loadFile'>
+loadFile</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DocPod.html'>DocPod</a> loadFile(<a href='../std/File.html'>File</a> file, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='DocErr.html'>DocErr</a>&gt;</a> onErr)</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line28'>Source</a></p>
+
+<p>Load from a zip file with given error handler</p>
+</dd>
+<dt id='meta'>
+meta</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> meta</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line80'>Source</a></p>
+
+<p>Get the meta name/value pairs for this pod. See <a href='docLang::Pods#meta'>docLang</a>.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line68'>Source</a></p>
+
+<p>Simple name of the pod such as "sys".</p>
+</dd>
+<dt id='podDoc'>
+podDoc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocChapter.html'>DocChapter?</a> podDoc</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line107'>Source</a></p>
+
+<p>If this pod has an associated pod.fandoc chapter</p>
+</dd>
+<dt id='res'>
+res</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocRes.html'>DocRes?</a> res(<a href='../sys/Str.html'>Str</a> filename, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line132'>Source</a></p>
+
+<p>Return resource for filename, or if not available return null/raise exception.  This filenames is always relative to doc/ sub-directory.</p>
+</dd>
+<dt id='resList'>
+resList</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocRes.html'>DocRes</a>&gt;</a> resList</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line127'>Source</a></p>
+
+<p>Resource files in pod which are used to support the documentation such as images used by the fandoc chapters. Resources can only be located in doc/ sub-directory.</p>
+</dd>
+<dt id='spaceName'>
+spaceName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> spaceName()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line158'>Source</a></p>
+
+<p>Space name is same as <code><a href='DocPod.html#name'>name</a></code></p>
+</dd>
+<dt id='src'>
+src</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocSrc.html'>DocSrc?</a> src(<a href='../sys/Str.html'>Str</a> filename, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line147'>Source</a></p>
+
+<p>Return source code for filename, or if not available return null/raise exception.</p>
+</dd>
+<dt id='srcList'>
+srcList</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocSrc.html'>DocSrc</a>&gt;</a> srcList</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line144'>Source</a></p>
+
+<p>Source files in pod which should be included in documentation.</p>
+</dd>
+<dt id='summary'>
+summary</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> summary</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line74'>Source</a></p>
+
+<p>Summary string for the pod</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line77'>Source</a></p>
+
+<p>Always return <code><a href='DocPod.html#name'>name</a></code>.</p>
+</dd>
+<dt id='ts'>
+ts</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/DateTime.html'>DateTime?</a> ts()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line93'>Source</a></p>
+
+<p>Get the build timestamp or null if not available</p>
+</dd>
+<dt id='type'>
+type</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocType.html'>DocType?</a> type(<a href='../sys/Str.html'>Str</a> typeName, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line96'>Source</a></p>
+
+<p>Find a type by name.  If the type doesn't exist and checked is false then return null, otherwise throw UnknownTypeErr.</p>
+</dd>
+<dt id='types'>
+types</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocType.html'>DocType</a>&gt;</a> types</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line87'>Source</a></p>
+
+<p>List of the public, documented types in this pod.</p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Version.html'>Version</a> version</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line71'>Source</a></p>
+
+<p>Version number for this pod.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocPod.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#load'>load</a></li><li><a href='#loadFile'>loadFile</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#allTypes'>allTypes</a></li><li><a href='#chapter'>chapter</a></li><li><a href='#chapters'>chapters</a></li><li><a href='#doc'>doc</a></li><li><a href='#eachDoc'>eachDoc</a></li><li><a href='#file'>file</a></li><li><a href='#index'>index</a></li><li><a href='#isManual'>isManual</a></li><li><a href='#meta'>meta</a></li><li><a href='#name'>name</a></li><li><a href='#podDoc'>podDoc</a></li><li><a href='#res'>res</a></li><li><a href='#resList'>resList</a></li><li><a href='#spaceName'>spaceName</a></li><li><a href='#src'>src</a></li><li><a href='#srcList'>srcList</a></li><li><a href='#summary'>summary</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#ts'>ts</a></li><li><a href='#type'>type</a></li><li><a href='#types'>types</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

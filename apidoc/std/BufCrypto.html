@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::BufCrypto</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='BufCrypto.html'>BufCrypto</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> std::BufCrypto</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::BufCrypto</pre>
+<dl>
+<dt id='crc'>
+crc</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Int.html'>Int</a> crc(<a href='Buf.html'>Buf</a> buf, <a href='../sys/Str.html'>Str</a> algorithm)</code></p>
+
+<p>Compute a cycle reduancy check code using this buffer's contents from 0 to size.  The supported algorithm names:</p>
+
+<ul>
+<li>"CRC-16": also known as CRC-16-ANSI, CRC-16-IBM; used by USB, ANSI X3.28, and Modbus</li>
+
+<li>"CRC-32": used by Ethernet, MPEG-2, PKZIP, Gzip, PNG</li>
+
+<li>"CRC-32-Adler": used by Zlib</li>
+</ul>
+
+<p>Raise ArgErr is algorithm is not available.  This method is only supported for memory based buffers.</p>
+</dd>
+<dt id='fromBase64'>
+fromBase64</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Buf.html'>Buf</a> fromBase64(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Decode the specified Base64 string into its binary contents as defined by MIME RFC 2045.  Any characters which are not included in the Base64 character set are safely ignored.</p>
+
+<p>Example:</p>
+
+<pre>Buf.make.print("Fan").toBase64    => "RmFu"
+Buf.fromBase64("RmFu").readAllStr => "Fan"</pre>
+</dd>
+<dt id='hmac'>
+hmac</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='Buf.html'>Buf</a> hmac(<a href='Buf.html'>Buf</a> buf, <a href='../sys/Str.html'>Str</a> algorithm, <a href='Buf.html'>Buf</a> key)</code></p>
+
+<p>Generate an HMAC message authentication as specified by RFC 2104. This buffer is the data input, <code>algorithm</code> specifies the hash digest, and <code>key</code> represents the secret key:</p>
+
+<ul>
+<li><code>H</code>: specified by algorthim parameter - "MD5" or "SHA1"</li>
+
+<li><code>K</code>: secret key specified by key parameter</li>
+
+<li><code>B</code>: fixed at 64</li>
+
+<li><code>text</code>: this instance</li>
+</ul>
+
+<p>The HMAC is computed using:</p>
+
+<pre>ipad = the byte 0x36 repeated B times
+opad = the byte 0x5C repeated B times
+H(K XOR opad, H(K XOR ipad, text))</pre>
+
+<p>Throw ArgErr if the algorithm is not available.  This method is only supported for memory buffers.</p>
+
+<p>Examples:</p>
+
+<pre>"hi there".toBuf.hmac("MD5", "secret".toBuf)</pre>
+</dd>
+<dt id='pbk'>
+pbk</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Buf.html'>Buf</a> pbk(<a href='../sys/Str.html'>Str</a> algorithm, <a href='../sys/Str.html'>Str</a> password, <a href='Buf.html'>Buf</a> salt, <a href='../sys/Int.html'>Int</a> iterations, <a href='../sys/Int.html'>Int</a> keyLen)</code></p>
+
+<p>Generate a password based cryptographic key.  Supported algoriths:</p>
+
+<ul>
+<li>"PBKDF2WithHmacSHA1"</li>
+
+<li>"PBKDF2WithHmacSHA256"</li>
+</ul>
+
+<p>Parameters:</p>
+
+<ul>
+<li>password: secret used to generate resulting cryptographic key</li>
+
+<li>salt: cryptographic salt</li>
+
+<li>iterations: number of iterations (the <code>c</code> term)</li>
+
+<li>keyLen: desired length of key in bytes (not bits!)</li>
+</ul>
+
+<p>Throw ArgErr if the algorithm is not available.  This method is only supported for memory buffers.</p>
+</dd>
+<dt id='toBase64'>
+toBase64</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> toBase64(<a href='Buf.html'>Buf</a> buf)</code></p>
+
+<p>Encode the buffer contents from 0 to size to a Base64 string as defined by MIME RFC 2045.  No line breaks are added.  This method is only supported by memory backed buffers, file backed buffers will throw UnsupportedErr.</p>
+
+<p>Example:</p>
+
+<pre>Buf.make.print("Fan").toBase64    => "RmFu"
+Buf.fromBase64("RmFu").readAllStr => "Fan"</pre>
+</dd>
+<dt id='toBase64Uri'>
+toBase64Uri</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> toBase64Uri(<a href='Buf.html'>Buf</a> buf)</code></p>
+
+<p>Encode the buffer contents from 0 to size to a Uri-safe Base64 string as defined by RFC 4648. This means <code>+</code> is encoded as <code>-</code>, and <code>/</code> is encoded as <code>_</code>. Additionally, no padding is applied. This method is only supported by memory-backed buffers; file-backed buffers will throw UnsupportedErr.</p>
+
+<p>Example:</p>
+
+<pre>Buf.make.print("safe base64~~").toBase64    => "c2FmZSBiYXNlNjR+fg=="
+Buf.make.print("safe base64~~").toBase64Uri => "c2FmZSBiYXNlNjR-fg"</pre>
+</dd>
+<dt id='toDigest'>
+toDigest</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='Buf.html'>Buf</a> toDigest(<a href='Buf.html'>Buf</a> buf, <a href='../sys/Str.html'>Str</a> algorithm)</code></p>
+
+<p>Apply the specified message digest algorthm to this buffer's contents from 0 to size and return the resulting hash.  Digests are secure one-way hash functions which input an arbitrary sized buffer and return a fixed sized buffer.  Common algorithms include: "MD5", "SHA-1", and "SHA-256"; the full list supported is platform dependent.  On the Java VM, the algorithm maps to those avaialble via the <code>java.security.MessageDigest</code> API.  Throw ArgErr if the algorithm is not available.  This method is unsupported for mmap buffers.</p>
+
+<p>Example:</p>
+
+<pre>Buf.make.print("password").print("salt").toDigest("MD5").toHex
+ =>  "b305cadbb3bce54f3aa59c64fec00dea"</pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#crc'>crc</a></li><li><a href='#fromBase64'>fromBase64</a></li><li><a href='#hmac'>hmac</a></li><li><a href='#pbk'>pbk</a></li><li><a href='#toBase64'>toBase64</a></li><li><a href='#toBase64Uri'>toBase64Uri</a></li><li><a href='#toDigest'>toDigest</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

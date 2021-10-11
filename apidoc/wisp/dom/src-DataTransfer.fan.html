@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DataTransfer.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='DataTransfer.html'>DataTransfer</a></li><li><a href='src-DataTransfer.fan.html'>DataTransfer.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Jun 2015  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** The DataTransfer object is used to hold the data that is being dragged</span>
+<span id='line11'>** during a drag and drop operation.</span>
+<span id='line12'>**</span>
+<span id='line13'>@Js</span>
+<span id='line14'>class DataTransfer</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'>  ** The effect used for drop targets.</span>
+<span id='line17'>  native Str dropEffect</span>
+<span id='line18'></span>
+<span id='line19'>  ** The effects that are allowed for this drag.</span>
+<span id='line20'>  native Str effectAllowed</span>
+<span id='line21'></span>
+<span id='line22'>  ** List of the format types of data, in the same order the data was added.</span>
+<span id='line23'>  native Str<b>[</b><b>]</b> types<b>(</b><b>)</b></span>
+<span id='line24'></span>
+<span id='line25'>  ** Get data for given MIME type, or an empty string if data for that type</span>
+<span id='line26'>  ** does not exist or the data transfer contains no data.</span>
+<span id='line27'>  native Str getData<b>(</b>Str type<b>)</b></span>
+<span id='line28'></span>
+<span id='line29'>  ** Set data for given MIME type.</span>
+<span id='line30'>  native This setData<b>(</b>Str type, Str val<b>)</b></span>
+<span id='line31'></span>
+<span id='line32'>  ** Set a custom image to be used for dragging, where 'x' and 'y' are</span>
+<span id='line33'>  ** offsets from the mouse cursor position.</span>
+<span id='line34'>  native This setDragImage<b>(</b>Elem image, Int x, Int y<b>)</b></span>
+<span id='line35'></span>
+<span id='line36'>  ** List of local files available on the data transfer, or empty list if</span>
+<span id='line37'>  ** this drag operation doesn't involve dragging files.</span>
+<span id='line38'>  native DomFile<b>[</b><b>]</b> files<b>(</b><b>)</b></span>
+<span id='line39'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

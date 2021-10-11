@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>UtilTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='src-UtilTest.fan.html'>UtilTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   27 Jul 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** UtilTest</span>
+<span id='line11'>**</span>
+<span id='line12'>@Js</span>
+<span id='line13'>class UtilTest : Test</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'></span>
+<span id='line16'>  Void testIsToken<b>(</b><b>)</b></span>
+<span id='line17'>  <b>{</b></span>
+<span id='line18'>    verifyEq<b>(</b>WebUtil.isToken<b>(</b>""<b>)</b>, false<b>)</b></span>
+<span id='line19'>    verifyEq<b>(</b>WebUtil.isToken<b>(</b>"x"<b>)</b>, true<b>)</b></span>
+<span id='line20'>    verifyEq<b>(</b>WebUtil.isToken<b>(</b>"x y"<b>)</b>, false<b>)</b></span>
+<span id='line21'>    verifyEq<b>(</b>WebUtil.isToken<b>(</b>"5a-3dd_33*&amp;^%22!~"<b>)</b>, true<b>)</b></span>
+<span id='line22'>    verifyEq<b>(</b>WebUtil.isToken<b>(</b>"<b>(</b>foo<b>)</b>"<b>)</b>, false<b>)</b></span>
+<span id='line23'>    verifyEq<b>(</b>WebUtil.isToken<b>(</b>"foo;bar"<b>)</b>, false<b>)</b></span>
+<span id='line24'></span>
+<span id='line25'>    // test https://tools.ietf.org/html/rfc7230#section-3.2.6</span>
+<span id='line26'>    chars := Int:Bool<b>[</b>:<b>]</b> //<b>{</b> def = false <b>}</b></span>
+<span id='line27'>    <b>(</b>'0'..'9'<b>)</b>.each |c| <b>{</b> chars<b>[</b>c<b>]</b> = true <b>}</b></span>
+<span id='line28'>    <b>(</b>'a'..'z'<b>)</b>.each |c| <b>{</b> chars<b>[</b>c<b>]</b> = true <b>}</b></span>
+<span id='line29'>    <b>(</b>'A'..'Z'<b>)</b>.each |c| <b>{</b> chars<b>[</b>c<b>]</b> = true <b>}</b></span>
+<span id='line30'>    "!#\$%&amp;'*+-.^_`|~".each |c| <b>{</b> chars<b>[</b>c<b>]</b> = true <b>}</b></span>
+<span id='line31'>    for <b>(</b>c:=0; c&lt;130; ++c<b>)</b></span>
+<span id='line32'>      verifyEq<b>(</b>WebUtil.isTokenChar<b>(</b>c<b>)</b>, chars<b>[</b>c<b>]</b> == true<b>)</b></span>
+<span id='line33'>  <b>}</b></span>
+<span id='line34'></span>
+<span id='line35'>  Void testToQuotedStr<b>(</b><b>)</b></span>
+<span id='line36'>  <b>{</b></span>
+<span id='line37'>    verifyQuotedStr<b>(</b>"", "\"\""<b>)</b></span>
+<span id='line38'>    verifyQuotedStr<b>(</b>"foo bar", "\"foo bar\""<b>)</b></span>
+<span id='line39'>    verifyQuotedStr<b>(</b>"foo\"bar\"baz", "\"foo\\\"bar\\\"baz\""<b>)</b></span>
+<span id='line40'></span>
+<span id='line41'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> WebUtil.toQuotedStr<b>(</b>"foo\nbar"<b>)</b> <b>}</b></span>
+<span id='line42'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> WebUtil.toQuotedStr<b>(</b>"\u007f"<b>)</b> <b>}</b></span>
+<span id='line43'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> WebUtil.toQuotedStr<b>(</b>"\u024a"<b>)</b> <b>}</b></span>
+<span id='line44'></span>
+<span id='line45'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> WebUtil.fromQuotedStr<b>(</b>""<b>)</b> <b>}</b></span>
+<span id='line46'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> WebUtil.fromQuotedStr<b>(</b>"\""<b>)</b> <b>}</b></span>
+<span id='line47'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> WebUtil.fromQuotedStr<b>(</b>"\"x"<b>)</b> <b>}</b></span>
+<span id='line48'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> WebUtil.fromQuotedStr<b>(</b>"x\""<b>)</b> <b>}</b></span>
+<span id='line49'>  <b>}</b></span>
+<span id='line50'></span>
+<span id='line51'>  Void verifyQuotedStr<b>(</b>Str s, Str expected<b>)</b></span>
+<span id='line52'>  <b>{</b></span>
+<span id='line53'>    verifyEq<b>(</b>WebUtil.toQuotedStr<b>(</b>s<b>)</b>, expected<b>)</b></span>
+<span id='line54'>    verifyEq<b>(</b>WebUtil.fromQuotedStr<b>(</b>expected<b>)</b>, s<b>)</b></span>
+<span id='line55'>  <b>}</b></span>
+<span id='line56'></span>
+<span id='line57'>  Void testParseList<b>(</b><b>)</b></span>
+<span id='line58'>  <b>{</b></span>
+<span id='line59'>    verifyEq<b>(</b>WebUtil.parseList<b>(</b>"a"<b>)</b>, <b>[</b>"a"<b>]</b><b>)</b></span>
+<span id='line60'>    verifyEq<b>(</b>WebUtil.parseList<b>(</b>" a "<b>)</b>, <b>[</b>"a"<b>]</b><b>)</b></span>
+<span id='line61'>    verifyEq<b>(</b>WebUtil.parseList<b>(</b>"a, bob, c,delta "<b>)</b>, <b>[</b>"a", "bob", "c", "delta"<b>]</b><b>)</b></span>
+<span id='line62'>  <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  Void testParseHeaders<b>(</b><b>)</b></span>
+<span id='line65'>  <b>{</b></span>
+<span id='line66'>    in :=</span>
+<span id='line67'>      <b>(</b>"Host: foobar\r\n" +</span>
+<span id='line68'>      "Extra1:  space\r\n" +</span>
+<span id='line69'>      "Extra2: space  \r\n" +</span>
+<span id='line70'>      "Cont: one two \r\n" +</span>
+<span id='line71'>      "  three\r\n" +</span>
+<span id='line72'>      "\tfour\r\n" +</span>
+<span id='line73'>      "Coalesce: a,b\r\n" +</span>
+<span id='line74'>      "Coalesce: c\r\n" +</span>
+<span id='line75'>      "Coalesce:  d\r\n" +</span>
+<span id='line76'>      "\r\n"<b>)</b>.toBuf.in</span>
+<span id='line77'></span>
+<span id='line78'>     headers := WebUtil.parseHeaders<b>(</b>in<b>)</b></span>
+<span id='line79'>     verify<b>(</b>headers is CaseInsensitiveMap<b>)</b></span>
+<span id='line80'>     verifyEq<b>(</b>headers,</span>
+<span id='line81'>       <b>[</b></span>
+<span id='line82'>        "Host":     "foobar",</span>
+<span id='line83'>        "Extra1":   "space",</span>
+<span id='line84'>        "Extra2":   "space",</span>
+<span id='line85'>        "Cont":     "one two three four",</span>
+<span id='line86'>        "Coalesce": "a,b,c,d",</span>
+<span id='line87'>       <b>]</b><b>)</b></span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>  Void testChunkInStream<b>(</b><b>)</b></span>
+<span id='line91'>  <b>{</b></span>
+<span id='line92'>    str := "3\r\nxyz\r\nB\r\nhello there\r\n0\r\n\r\n"</span>
+<span id='line93'></span>
+<span id='line94'>    // readAllStr</span>
+<span id='line95'>    in := WebUtil.makeChunkedInStream<b>(</b>str.toBuf.in<b>)</b></span>
+<span id='line96'>    verifyEq<b>(</b>in.readAllStr, "xyzhello there"<b>)</b></span>
+<span id='line97'></span>
+<span id='line98'>    // readBuf chunks</span>
+<span id='line99'>    in = WebUtil.makeChunkedInStream<b>(</b>str.toBuf.in<b>)</b></span>
+<span id='line100'>    buf := Buf<b>(</b><b>)</b></span>
+<span id='line101'>    verifyEq<b>(</b>in.readBuf<b>(</b>buf.clear, 20<b>)</b>, 3<b>)</b></span>
+<span id='line102'>    verifyEq<b>(</b>buf.flip.readAllStr, "xyz"<b>)</b></span>
+<span id='line103'>    verifyEq<b>(</b>in.readBuf<b>(</b>buf.clear, 20<b>)</b>, 11<b>)</b></span>
+<span id='line104'>    verifyEq<b>(</b>buf.flip.readAllStr, "hello there"<b>)</b></span>
+<span id='line105'>    verifyEq<b>(</b>in.readBuf<b>(</b>buf.clear, 20<b>)</b>, -1<b>)</b></span>
+<span id='line106'>    verifyEq<b>(</b>in.readBuf<b>(</b>buf.clear, 20<b>)</b>, -1<b>)</b></span>
+<span id='line107'></span>
+<span id='line108'>    // readBufFully</span>
+<span id='line109'>    in = WebUtil.makeChunkedInStream<b>(</b>str.toBuf.in<b>)</b></span>
+<span id='line110'>    in.readBufFully<b>(</b>buf.clear, 14<b>)</b></span>
+<span id='line111'>    verifyEq<b>(</b>buf.readAllStr, "xyzhello there"<b>)</b></span>
+<span id='line112'>    verifyEq<b>(</b>in.read, -1<b>)</b></span>
+<span id='line113'>    verifyEq<b>(</b>in.readChar, -1<b>)</b></span>
+<span id='line114'>    verifyEq<b>(</b>in.read, -1<b>)</b></span>
+<span id='line115'></span>
+<span id='line116'>    // unread</span>
+<span id='line117'>    in = WebUtil.makeChunkedInStream<b>(</b>str.toBuf.in<b>)</b></span>
+<span id='line118'>    verifyEq<b>(</b>in.read, 'x'<b>)</b></span>
+<span id='line119'>    verifyEq<b>(</b>in.read, 'y'<b>)</b></span>
+<span id='line120'>    in.unread<b>(</b>'?'<b>)</b></span>
+<span id='line121'>    verifyEq<b>(</b>in.read, '?'<b>)</b></span>
+<span id='line122'>    in.unread<b>(</b>'2'<b>)</b>.unread<b>(</b>'1'<b>)</b></span>
+<span id='line123'>    in.readBufFully<b>(</b>buf.clear, 14<b>)</b></span>
+<span id='line124'>    verifyEq<b>(</b>buf.readAllStr, "12zhello there"<b>)</b></span>
+<span id='line125'></span>
+<span id='line126'>    // fixed chunked stream</span>
+<span id='line127'>    in = WebUtil.makeFixedInStream<b>(</b>"abcdefgh".toBuf.in, 3<b>)</b></span>
+<span id='line128'>    verifyEq<b>(</b>in.readAllStr, "abc"<b>)</b></span>
+<span id='line129'>  <b>}</b></span>
+<span id='line130'></span>
+<span id='line131'>  Void testFixedOutStream<b>(</b><b>)</b></span>
+<span id='line132'>  <b>{</b></span>
+<span id='line133'>    buf := Buf<b>(</b><b>)</b></span>
+<span id='line134'>    out := WebUtil.makeFixedOutStream<b>(</b>buf.out, 4<b>)</b></span>
+<span id='line135'>    out.print<b>(</b>"abcd"<b>)</b></span>
+<span id='line136'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> out.write<b>(</b>'x'<b>)</b> <b>}</b></span>
+<span id='line137'>    verifyEq<b>(</b>buf.flip.readAllStr, "abcd"<b>)</b></span>
+<span id='line138'></span>
+<span id='line139'>    buf2 := Buf<b>(</b><b>)</b></span>
+<span id='line140'>    buf.seek<b>(</b>0<b>)</b></span>
+<span id='line141'>    out = WebUtil.makeFixedOutStream<b>(</b>buf2.out, 2<b>)</b></span>
+<span id='line142'>    out.writeBuf<b>(</b>buf, 2<b>)</b></span>
+<span id='line143'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> out.writeBuf<b>(</b>buf, 1<b>)</b> <b>}</b></span>
+<span id='line144'>    verifyEq<b>(</b>buf2.flip.readAllStr, "ab"<b>)</b></span>
+<span id='line145'>  <b>}</b></span>
+<span id='line146'></span>
+<span id='line147'>  Void testChunkOutStream<b>(</b><b>)</b></span>
+<span id='line148'>  <b>{</b></span>
+<span id='line149'>    buf := Buf<b>(</b><b>)</b></span>
+<span id='line150'>    out := WebUtil.makeChunkedOutStream<b>(</b>buf.out<b>)</b></span>
+<span id='line151'>    2000.times |Int i| <b>{</b> out.printLine<b>(</b>i<b>)</b> <b>}</b></span>
+<span id='line152'>    out.close</span>
+<span id='line153'></span>
+<span id='line154'>    in := WebUtil.makeChunkedInStream<b>(</b>buf.flip.in<b>)</b></span>
+<span id='line155'>    2000.times |Int i| <b>{</b> verifyEq<b>(</b>in.readLine, i.toStr<b>)</b> <b>}</b></span>
+<span id='line156'>    verifyEq<b>(</b>in.read, -1<b>)</b></span>
+<span id='line157'>  <b>}</b></span>
+<span id='line158'></span>
+<span id='line159'>  Void testParseQVals<b>(</b><b>)</b></span>
+<span id='line160'>  <b>{</b></span>
+<span id='line161'>    verifyEq<b>(</b>WebUtil.parseQVals<b>(</b>""<b>)</b>, Str:Float<b>[</b>:<b>]</b><b>)</b></span>
+<span id='line162'>    verifyEq<b>(</b>WebUtil.parseQVals<b>(</b>"compress"<b>)</b>, Str:Float<b>[</b>"compress":1.0f<b>]</b><b>)</b></span>
+<span id='line163'>    verifyEq<b>(</b>WebUtil.parseQVals<b>(</b>"compress,gzip"<b>)</b>, Str:Float<b>[</b>"compress":1.0f, "gzip": 1.0f<b>]</b><b>)</b></span>
+<span id='line164'>    verifyEq<b>(</b>WebUtil.parseQVals<b>(</b>"compress;q=0.7,gzip;q=0.0"<b>)</b>, Str:Float<b>[</b>"compress":0.7f, "gzip": 0f<b>]</b><b>)</b></span>
+<span id='line165'></span>
+<span id='line166'>    q := WebUtil.parseQVals<b>(</b>"foo , compress ; q=0.8 , gzip ; q=0.5 , bar; q=x"<b>)</b></span>
+<span id='line167'>    verifyEq<b>(</b>q, Str:Float<b>[</b>"foo":1.0f, "compress": 0.8f, "gzip": 0.5f, "bar":1.0f<b>]</b><b>)</b></span>
+<span id='line168'>    verifyEq<b>(</b>q<b>[</b>"compress"<b>]</b>, 0.8f<b>)</b></span>
+<span id='line169'>    //verifyEq<b>(</b>q<b>[</b>"def"<b>]</b>, 0.0f<b>)</b></span>
+<span id='line170'>  <b>}</b></span>
+<span id='line171'></span>
+<span id='line172'>  Void testParseMultiPart<b>(</b><b>)</b></span>
+<span id='line173'>  <b>{</b></span>
+<span id='line174'>    // couple empty posts</span>
+<span id='line175'>    s :=</span>
+<span id='line176'>    """------WebKitFormBoundaryvx0NalAyBZjdpZAe</span>
+<span id='line177'>       Content-Disposition: form-data; name="file1"; filename="empty.txt"</span>
+<span id='line178'></span>
+<span id='line179'></span>
+<span id='line180'>       ------WebKitFormBoundaryvx0NalAyBZjdpZAe</span>
+<span id='line181'>       Content-Disposition: form-data; name="file2"; filename="empty.txt"</span>
+<span id='line182'></span>
+<span id='line183'></span>
+<span id='line184'>       ------WebKitFormBoundaryvx0NalAyBZjdpZAe--</span>
+<span id='line185'>       """</span>
+<span id='line186'></span>
+<span id='line187'>    boundary := "----WebKitFormBoundaryvx0NalAyBZjdpZAe"</span>
+<span id='line188'>    WebUtil.parseMultiPart<b>(</b>s.replace<b>(</b>"\n", "\r\n"<b>)</b>.toBuf.in, boundary<b>)</b> |h, in|</span>
+<span id='line189'>    <b>{</b></span>
+<span id='line190'>      verify<b>(</b>h<b>[</b>"Content-Disposition"<b>]</b>.startsWith<b>(</b>"form-data"<b>)</b><b>)</b></span>
+<span id='line191'>      verifyEq<b>(</b>in.readAllStr, ""<b>)</b></span>
+<span id='line192'>    <b>}</b></span>
+<span id='line193'></span>
+<span id='line194'>    // test real post from IE using test data below</span>
+<span id='line195'>    boundary = "---------------------------7dacb195e0632"</span>
+<span id='line196'>    base64 :=</span>
+<span id='line197'>      "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS03ZGFjYjE5NWUwNjMyDQpDb250ZW5</span>
+<span id='line198'>       0LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImZpbGUxIjsgZmlsZW5hbWU9Ik</span>
+<span id='line199'>       M6XGRldlxmYW5cbXVsdGlwYXJ0LWEudHh0Ig0KQ29udGVudC1UeXBlOiB0ZXh0L3BsY</span>
+<span id='line200'>       WluDQoNCmZvbyBiYXINCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tN2RhY2Ix</span>
+<span id='line201'>       OTVlMDYzMg0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWx</span>
+<span id='line202'>       lMiI7IGZpbGVuYW1lPSJDOlxkZXZcZmFuXG11bHRpcGFydC1iLnR4dCINCkNvbnRlbn</span>
+<span id='line203'>       QtVHlwZTogdGV4dC9wbGFpbg0KDQoAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobH</span>
+<span id='line204'>       B0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1O</span>
+<span id='line205'>       T1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4C</span>
+<span id='line206'>       BgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7Cxsr</span>
+<span id='line207'>       O0tba3uLm6u7y9vr/AwcLDxMXGxw0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tL</span>
+<span id='line208'>       S03ZGFjYjE5NWUwNjMyDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5h</span>
+<span id='line209'>       bWU9ImZpbGUzIjsgZmlsZW5hbWU9IkM6XGRldlxmYW5cbXVsdGlwYXJ0LWMudHh0Ig0</span>
+<span id='line210'>       KQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluDQoNCi0tLS0tLS0NCi0tLS0tLS0NCi0tLS</span>
+<span id='line211'>       0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tN2RhY2IxOTVlMDYzMi0tDQo="</span>
+<span id='line212'>    count := 0</span>
+<span id='line213'>    WebUtil.parseMultiPart<b>(</b>BufCrypto.fromBase64<b>(</b>base64<b>)</b>.in, boundary<b>)</b> |h, in|</span>
+<span id='line214'>    <b>{</b></span>
+<span id='line215'>      switch <b>(</b>count++<b>)</b></span>
+<span id='line216'>      <b>{</b></span>
+<span id='line217'>        // verify no extra newlines</span>
+<span id='line218'>        case 0:</span>
+<span id='line219'>          verifyEq<b>(</b>in.readAllStr, "foo bar"<b>)</b></span>
+<span id='line220'></span>
+<span id='line221'>        // verify binary data, readBuf, and unread</span>
+<span id='line222'>        case 1:</span>
+<span id='line223'>          100.times |i| <b>{</b> verifyEq<b>(</b>in.readU1, i<b>)</b> <b>}</b></span>
+<span id='line224'>          in.unread<b>(</b>0xab<b>)</b>.unread<b>(</b>0xcd<b>)</b></span>
+<span id='line225'>          verifyEq<b>(</b>in.readU2, 0xcdab<b>)</b></span>
+<span id='line226'>          buf := Buf<b>(</b><b>)</b></span>
+<span id='line227'>          in.readBufFully<b>(</b>buf, 100<b>)</b></span>
+<span id='line228'>          100.times |i| <b>{</b> verifyEq<b>(</b>buf<b>[</b>i<b>]</b>, 100+i<b>)</b> <b>}</b></span>
+<span id='line229'>          verifyEq<b>(</b>in.read, -1<b>)</b></span>
+<span id='line230'></span>
+<span id='line231'>        // verify data that might look like boundaries</span>
+<span id='line232'>        case 2:</span>
+<span id='line233'>          verifyEq<b>(</b>in.readAllStr<b>(</b>false<b>)</b>, "-------\r\n-------"<b>)</b></span>
+<span id='line234'>      <b>}</b></span>
+<span id='line235'>    <b>}</b></span>
+<span id='line236'></span>
+<span id='line237'>    // single item</span>
+<span id='line238'>    boundary = "---------------------------41184676334"</span>
+<span id='line239'>    s =</span>
+<span id='line240'>     """-----------------------------41184676334</span>
+<span id='line241'>        Content-Disposition: form-data; name=""; filename="something.txt"</span>
+<span id='line242'>        Content-Type: text/plain</span>
+<span id='line243'></span>
+<span id='line244'>        hello world</span>
+<span id='line245'>        -----------------------------41184676334--</span>
+<span id='line246'>        """</span>
+<span id='line247'>    buf := Buf<b>(</b><b>)</b></span>
+<span id='line248'>    numRead := 0</span>
+<span id='line249'>    WebUtil.parseMultiPart<b>(</b>s.replace<b>(</b>"\n", "\r\n"<b>)</b>.toBuf.in, boundary<b>)</b> |h, in|</span>
+<span id='line250'>    <b>{</b></span>
+<span id='line251'>      in.pipe<b>(</b>buf.out<b>)</b></span>
+<span id='line252'>      numRead = in->numRead</span>
+<span id='line253'>    <b>}</b></span>
+<span id='line254'>    verifyEq<b>(</b>buf.flip.readAllStr, "hello world"<b>)</b></span>
+<span id='line255'>    verifyEq<b>(</b>numRead, 11<b>)</b></span>
+<span id='line256'></span>
+<span id='line257'>    // mixed</span>
+<span id='line258'>    s =</span>
+<span id='line259'>     """------WebKitFormBoundaryZ7PdCaCUA42JfPxv</span>
+<span id='line260'>        Content-Disposition: form-data; name="name"</span>
+<span id='line261'></span>
+<span id='line262'>        FooBar</span>
+<span id='line263'>        ------WebKitFormBoundaryZ7PdCaCUA42JfPxv</span>
+<span id='line264'>        Content-Disposition: form-data; name="ver"</span>
+<span id='line265'></span>
+<span id='line266'>        1.0.5</span>
+<span id='line267'>        ------WebKitFormBoundaryZ7PdCaCUA42JfPxv</span>
+<span id='line268'>        Content-Disposition: form-data; name="file"; filename="temp.txt"</span>
+<span id='line269'>        Content-Type: application/octet-stream</span>
+<span id='line270'></span>
+<span id='line271'>        Hello,</span>
+<span id='line272'>        World</span>
+<span id='line273'>        :<b>)</b></span>
+<span id='line274'>        ------WebKitFormBoundaryZ7PdCaCUA42JfPxv--</span>
+<span id='line275'>        """</span>
+<span id='line276'>    boundary = "----WebKitFormBoundaryZ7PdCaCUA42JfPxv"</span>
+<span id='line277'>    numRead = 0</span>
+<span id='line278'>    WebUtil.parseMultiPart<b>(</b>s.replace<b>(</b>"\n", "\r\n"<b>)</b>.toBuf.in, boundary<b>)</b> |h, in|</span>
+<span id='line279'>    <b>{</b></span>
+<span id='line280'>      numRead++</span>
+<span id='line281'>      disp := h<b>[</b>"Content-Disposition"<b>]</b></span>
+<span id='line282'>      verify<b>(</b>disp.startsWith<b>(</b>"form-data;"<b>)</b><b>)</b></span>
+<span id='line283'></span>
+<span id='line284'>      map := MimeType.parseParams<b>(</b>disp<b>[</b>"form-data;".size..-1<b>]</b>.trim<b>)</b></span>
+<span id='line285'>      switch <b>(</b>map<b>[</b>"name"<b>]</b><b>)</b></span>
+<span id='line286'>      <b>{</b></span>
+<span id='line287'>        case "name": verifyEq<b>(</b>in.readAllStr, "FooBar"<b>)</b></span>
+<span id='line288'>        case "ver":  verifyEq<b>(</b>in.readAllStr, "1.0.5"<b>)</b></span>
+<span id='line289'>        case "file": verifyEq<b>(</b>in.readAllStr, "Hello,\nWorld\n:<b>)</b>"<b>)</b></span>
+<span id='line290'>      <b>}</b></span>
+<span id='line291'>    <b>}</b></span>
+<span id='line292'>    verifyEq<b>(</b>numRead, 3<b>)</b></span>
+<span id='line293'>  <b>}</b></span>
+<span id='line294'></span>
+<span id='line295'>  // generate test files for testParseMultiPart</span>
+<span id='line296'>  static Void main<b>(</b>Str<b>[</b><b>]</b> args<b>)</b></span>
+<span id='line297'>  <b>{</b></span>
+<span id='line298'>    `multipart-a`.toFile.out.print<b>(</b>"foo bar"<b>)</b>.close</span>
+<span id='line299'></span>
+<span id='line300'>    out := `multipart-b`.toFile.out</span>
+<span id='line301'>    200.times |i| <b>{</b> out.write<b>(</b>i<b>)</b> <b>}</b></span>
+<span id='line302'>    out.close</span>
+<span id='line303'></span>
+<span id='line304'>    `multipart-c`.toFile.out.print<b>(</b>"-------\r\n-------"<b>)</b>.close</span>
+<span id='line305'>  <b>}</b></span>
+<span id='line306'></span>
+<span id='line307'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

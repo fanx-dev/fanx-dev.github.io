@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::IncCompiler</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='IncCompiler.html'>IncCompiler</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compilerx::IncCompiler</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::IncCompiler</pre>
+
+<p>Compiler manages the top level process of the compiler pipeline. There are a couple different "pipelines" used to accomplish various twists on compiling Fantom code (from memory, files, etc). The pipelines are implemented as discrete CompilerSteps. As the steps are executed, the Compiler instance itself stores the state as we move from files -> ast -> resolved ast -> code.</p>
+<dl>
+<dt id='checkError'>
+checkError</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> checkError()</code></p>
+
+<p>run pipelines, do expression resolve and type check</p>
+</dd>
+<dt id='context'>
+context</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerContext.html'>CompilerContext</a> context</code></p>
+
+<p>compiler context</p>
+</dd>
+<dt id='fromProps'>
+fromProps</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IncCompiler.html'>IncCompiler</a> fromProps(<a href='../std/File.html'>File</a> file)</code></p>
+
+<p>make from pod build file, and parse all srouce code</p>
+</dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> main()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='PodDef.html'>PodDef</a> pod, <a href='CompilerInput.html'>CompilerInput?</a> input := null, <a href='CNamespace.html'>CNamespace?</a> ns := null)</code></p>
+
+<p>make from empty pod obj</p>
+</dd>
+<dt id='parseAll'>
+parseAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> parseAll()</code></p>
+
+<p>do parse code</p>
+</dd>
+<dt id='pipelines'>
+pipelines</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CompilerStep.html'>CompilerStep</a>&gt;</a> pipelines := CompilerStep[,]</code></p>
+
+<p>compiler pipeline</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> run()</code></p>
+</dd>
+<dt id='updateSource'>
+updateSource</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilationUnit.html'>CompilationUnit?</a> updateSource(<a href='../sys/Str.html'>Str</a> file, <a href='../sys/Str.html'>Str</a> code, <a href='../sys/Bool.html'>Bool</a> isDelete := false)</code></p>
+
+<p>update compiler result by source str</p>
+</dd>
+<dt id='updateSourceFile'>
+updateSourceFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilationUnit.html'>CompilationUnit?</a> updateSourceFile(<a href='../std/File.html'>File</a> file, <a href='../sys/Bool.html'>Bool</a> isDelete := false)</code></p>
+
+<p>update compiler result by source file</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromProps'>fromProps</a></li><li><a href='#main'>main</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#checkError'>checkError</a></li><li><a href='#context'>context</a></li><li><a href='#parseAll'>parseAll</a></li><li><a href='#pipelines'>pipelines</a></li><li><a href='#run'>run</a></li><li><a href='#updateSource'>updateSource</a></li><li><a href='#updateSourceFile'>updateSourceFile</a></li></ul>
+</div>
+</div>
+</body>
+</html>

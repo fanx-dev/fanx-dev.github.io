@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>HttpReq.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='HttpReq.html'>HttpReq</a></li><li><a href='src-HttpReq.fan.html'>HttpReq.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2009, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   8 Jan 09  Andy Frank  Creation</span>
+<span id='line7'>//   8 Jul 09  Andy Frank  Split webappClient into sys/dom</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** HttpReq models the request side of an XMLHttpRequest instance.</span>
+<span id='line12'>**</span>
+<span id='line13'>** See <b>[</b>pod doc<b>]</b>`pod-doc#xhr` for details.</span>
+<span id='line14'>**</span>
+<span id='line15'>@Js</span>
+<span id='line16'>class HttpReq</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  ** Create a new HttpReq instance.</span>
+<span id='line19'>  new make<b>(</b>|This|? f := null<b>)</b></span>
+<span id='line20'>  <b>{</b></span>
+<span id='line21'>    if <b>(</b>f != null<b>)</b> f<b>(</b>this<b>)</b></span>
+<span id='line22'>  <b>}</b></span>
+<span id='line23'></span>
+<span id='line24'>  ** The Uri to send the request.</span>
+<span id='line25'>  Uri uri := `#`</span>
+<span id='line26'></span>
+<span id='line27'>  ** The request headers to send.</span>
+<span id='line28'>  Str:Str headers := Str:Str<b>[</b>:<b>]</b></span>
+<span id='line29'></span>
+<span id='line30'>  ** If true then perform this request asynchronously.</span>
+<span id='line31'>  ** Defaults to 'true'</span>
+<span id='line32'>  Bool asynch := true</span>
+<span id='line33'></span>
+<span id='line34'>  ** The type of data contained in the response. It also lets the</span>
+<span id='line35'>  ** author change the response type. If an empty string is set as</span>
+<span id='line36'>  ** the value, the default value of '"text"' is used.</span>
+<span id='line37'>  @NoDoc Str resType := ""</span>
+<span id='line38'></span>
+<span id='line39'>  **</span>
+<span id='line40'>  ** Indicates whether or not cross-site 'Access-Control' requests</span>
+<span id='line41'>  ** should be made using credentials such as cookies, authorization</span>
+<span id='line42'>  ** headers or TLS client certificates. Setting 'withCredentials' has</span>
+<span id='line43'>  ** no effect on same-site requests. The default is 'false'.</span>
+<span id='line44'>  **</span>
+<span id='line45'>  ** Requests from a different domain cannot set cookie values  for</span>
+<span id='line46'>  ** their own domain unless 'withCredentials' is set to 'true' before</span>
+<span id='line47'>  ** making the request. The third-party cookies obtained by setting</span>
+<span id='line48'>  ** 'withCredentials' to 'true' will still honor same-origin policy and</span>
+<span id='line49'>  ** hence can not be accessed by the requesting script through</span>
+<span id='line50'>  ** `Doc.cookies` or from response headers.</span>
+<span id='line51'>  **</span>
+<span id='line52'>  Bool withCredentials := false</span>
+<span id='line53'></span>
+<span id='line54'>  **</span>
+<span id='line55'>  ** Optional callback to track progress of request transfers, where</span>
+<span id='line56'>  ** 'loaded' is the number of bytes that have been transferred, and</span>
+<span id='line57'>  ** 'total' is the total number of bytes to be transferred.</span>
+<span id='line58'>  **</span>
+<span id='line59'>  ** For 'GET' requests, the progress will track the response being</span>
+<span id='line60'>  ** downloaded to the browser.  For 'PUT' and 'POST' requests, the</span>
+<span id='line61'>  ** progress will track the content being uploaded to the server.</span>
+<span id='line62'>  **</span>
+<span id='line63'>  ** Note this callback is only invoked when 'lengthComputable' is</span>
+<span id='line64'>  ** 'true' on the underlying progress events.</span>
+<span id='line65'>  **</span>
+<span id='line66'>  Void onProgress<b>(</b>|Int loaded, Int total| f<b>)</b> <b>{</b> this.cbProgress = f <b>}</b></span>
+<span id='line67'></span>
+<span id='line68'>  private Func? cbProgress</span>
+<span id='line69'></span>
+<span id='line70'>  **</span>
+<span id='line71'>  ** Send a request with the given content using the given</span>
+<span id='line72'>  ** HTTP method <b>(</b>case does not matter<b>)</b>.  After receiving</span>
+<span id='line73'>  ** the response, call the given closure with the resulting</span>
+<span id='line74'>  ** HttpRes object.</span>
+<span id='line75'>  **</span>
+<span id='line76'>  native Void send<b>(</b>Str method, Obj? content, |HttpRes res| c<b>)</b></span>
+<span id='line77'></span>
+<span id='line78'>  ** Convenience for 'send<b>(</b>"GET", "", c<b>)</b>'.</span>
+<span id='line79'>  Void get<b>(</b>|HttpRes res| c<b>)</b></span>
+<span id='line80'>  <b>{</b></span>
+<span id='line81'>    send<b>(</b>"GET", null, c<b>)</b></span>
+<span id='line82'>  <b>}</b></span>
+<span id='line83'></span>
+<span id='line84'>  ** Convenience for 'send<b>(</b>"POST", content, c<b>)</b>'.</span>
+<span id='line85'>  Void post<b>(</b>Obj content, |HttpRes res| c<b>)</b></span>
+<span id='line86'>  <b>{</b></span>
+<span id='line87'>    send<b>(</b>"POST", content, c<b>)</b></span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>  **</span>
+<span id='line91'>  ** Post the 'form' map as a HTML form submission.  Formats</span>
+<span id='line92'>  ** the map into a valid url-encoded content string, and sets</span>
+<span id='line93'>  ** 'Content-Type' header to 'application/x-www-form-urlencoded'.</span>
+<span id='line94'>  **</span>
+<span id='line95'>  Void postForm<b>(</b><b>[</b>Str:Str<b>]</b> form, |HttpRes res| c<b>)</b></span>
+<span id='line96'>  <b>{</b></span>
+<span id='line97'>    headers<b>[</b>"Content-Type"<b>]</b> = "application/x-www-form-urlencoded"</span>
+<span id='line98'>    send<b>(</b>"POST", encodeForm<b>(</b>form<b>)</b>, c<b>)</b></span>
+<span id='line99'>  <b>}</b></span>
+<span id='line100'></span>
+<span id='line101'>  ** Encode the form map into a value URL-encoded string.</span>
+<span id='line102'>  private native Str encodeForm<b>(</b><b>[</b>Str:Str<b>]</b> form<b>)</b></span>
+<span id='line103'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

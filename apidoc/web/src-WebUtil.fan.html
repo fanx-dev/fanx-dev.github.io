@@ -1,0 +1,892 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WebUtil.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebUtil.html'>WebUtil</a></li><li><a href='src-WebUtil.fan.html'>WebUtil.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   27 Jun 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** WebUtil encapsulates several useful utility web methods.</span>
+<span id='line11'>** Also see `sys::MimeType` and its utility methods.</span>
+<span id='line12'>**</span>
+<span id='line13'>@Js</span>
+<span id='line14'>class WebUtil</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'>// Chars</span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'></span>
+<span id='line21'>  **</span>
+<span id='line22'>  ** Return if the specified string is a valid HTTP token production</span>
+<span id='line23'>  ** which is any ASCII character which is not a control char or a</span>
+<span id='line24'>  ** separator.  The separators characters are:</span>
+<span id='line25'>  **   "<b>(</b>" | "<b>)</b>" | "&lt;" | ">" | "@" |</span>
+<span id='line26'>  **   "," | ";" | ":" | "\" | &lt;"> |</span>
+<span id='line27'>  **   "/" | "<b>[</b>" | "<b>]</b>" | "?" | "=" |</span>
+<span id='line28'>  **   "<b>{</b>" | "<b>}</b>" | SP | HT</span>
+<span id='line29'>  **</span>
+<span id='line30'>  static Bool isToken<b>(</b>Str s<b>)</b></span>
+<span id='line31'>  <b>{</b></span>
+<span id='line32'>    if <b>(</b>s.isEmpty<b>)</b> return false</span>
+<span id='line33'>    return s.all |Int c->Bool| <b>{</b> isTokenChar<b>(</b>c<b>)</b> <b>}</b></span>
+<span id='line34'>  <b>}</b></span>
+<span id='line35'></span>
+<span id='line36'>  **</span>
+<span id='line37'>  ** Return if given char unicode point is allowable within the</span>
+<span id='line38'>  ** HTTP token production.  See `isToken`.</span>
+<span id='line39'>  **</span>
+<span id='line40'>  static Bool isTokenChar<b>(</b>Int c<b>)</b></span>
+<span id='line41'>  <b>{</b></span>
+<span id='line42'>    c &lt; 127 &amp;&amp; tokenChars<b>[</b>c<b>]</b></span>
+<span id='line43'>  <b>}</b></span>
+<span id='line44'></span>
+<span id='line45'>  private static const Bool<b>[</b><b>]</b> tokenChars</span>
+<span id='line46'>  static</span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    m := Bool<b>[</b>,<b>]</b></span>
+<span id='line49'>    for <b>(</b>i:=0; i&lt;127; ++i<b>)</b> m.add<b>(</b>i > 0x20<b>)</b></span>
+<span id='line50'>    m<b>[</b>'<b>(</b>'<b>]</b>  = false;  m<b>[</b>'<b>)</b>'<b>]</b> = false;  m<b>[</b>'&lt;'<b>]</b>  = false;  m<b>[</b>'>'<b>]</b> = false</span>
+<span id='line51'>    m<b>[</b>'@'<b>]</b>  = false;  m<b>[</b>','<b>]</b> = false;  m<b>[</b>';'<b>]</b>  = false;  m<b>[</b>':'<b>]</b> = false</span>
+<span id='line52'>    m<b>[</b>'\\'<b>]</b> = false;  m<b>[</b>'"'<b>]</b> = false;  m<b>[</b>'/'<b>]</b>  = false;  m<b>[</b>'<b>[</b>'<b>]</b> = false</span>
+<span id='line53'>    m<b>[</b>'<b>]</b>'<b>]</b>  = false;  m<b>[</b>'?'<b>]</b> = false;  m<b>[</b>'='<b>]</b>  = false;  m<b>[</b>'<b>{</b>'<b>]</b> = false</span>
+<span id='line54'>    m<b>[</b>'<b>}</b>'<b>]</b>  = false;  m<b>[</b>' '<b>]</b> = false;  m<b>[</b>'\t'<b>]</b> = false;</span>
+<span id='line55'>    tokenChars = m</span>
+<span id='line56'>  <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>  **</span>
+<span id='line59'>  ** Return the specified string as a HTTP quoted string according</span>
+<span id='line60'>  ** to RFC 2616 Section 2.2.  The result is wrapped in quotes.  Throw</span>
+<span id='line61'>  ** ArgErr if any character is outside of the ASCII range of 0x20</span>
+<span id='line62'>  ** to 0x7e.  The quote char itself is backslash escaped.</span>
+<span id='line63'>  ** See `fromQuotedStr`.</span>
+<span id='line64'>  **</span>
+<span id='line65'>  static Str toQuotedStr<b>(</b>Str s<b>)</b></span>
+<span id='line66'>  <b>{</b></span>
+<span id='line67'>    buf := StrBuf<b>(</b><b>)</b></span>
+<span id='line68'>    buf.addChar<b>(</b>'"'<b>)</b></span>
+<span id='line69'>    s.each |Int c|</span>
+<span id='line70'>    <b>{</b></span>
+<span id='line71'>      if <b>(</b>c &lt; 0x20 || c > 0x7e<b>)</b> throw ArgErr<b>(</b>"Invalid quoted str chars: $s"<b>)</b></span>
+<span id='line72'>      if <b>(</b>c == '"'<b>)</b> buf.addChar<b>(</b>'\\'<b>)</b></span>
+<span id='line73'>      buf.addChar<b>(</b>c<b>)</b></span>
+<span id='line74'>    <b>}</b></span>
+<span id='line75'>    buf.addChar<b>(</b>'"'<b>)</b></span>
+<span id='line76'>    return buf.toStr</span>
+<span id='line77'>  <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>  **</span>
+<span id='line80'>  ** Decode a HTTP quoted string according to RFC 2616 Section 2.2.</span>
+<span id='line81'>  ** The given string must be wrapped in quotes.  See `toQuotedStr`.</span>
+<span id='line82'>  **</span>
+<span id='line83'>  static Str fromQuotedStr<b>(</b>Str s<b>)</b></span>
+<span id='line84'>  <b>{</b></span>
+<span id='line85'>    if <b>(</b>s.size &lt; 2 || s<b>[</b>0<b>]</b> != '"' || s<b>[</b>s.size-1<b>]</b> != '"'<b>)</b></span>
+<span id='line86'>      throw ArgErr<b>(</b>"Not quoted str: $s"<b>)</b></span>
+<span id='line87'>    return s<b>[</b>1..-2<b>]</b>.replace<b>(</b>"\\\"", "\""<b>)</b></span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line91'>// Parsing</span>
+<span id='line92'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line93'></span>
+<span id='line94'>  **</span>
+<span id='line95'>  ** Parse a list of comma separated tokens.  Any leading</span>
+<span id='line96'>  ** or trailing whitespace is trimmed from the list of tokens.</span>
+<span id='line97'>  **</span>
+<span id='line98'>  static Str<b>[</b><b>]</b> parseList<b>(</b>Str s<b>)</b></span>
+<span id='line99'>  <b>{</b></span>
+<span id='line100'>    return s.split<b>(</b>','<b>)</b></span>
+<span id='line101'>  <b>}</b></span>
+<span id='line102'></span>
+<span id='line103'>  **</span>
+<span id='line104'>  ** Parse a series of HTTP headers according to RFC 2616 section</span>
+<span id='line105'>  ** 4.2.  The final CRLF which terminates headers is consumed with</span>
+<span id='line106'>  ** the stream positioned immediately following.  The headers are</span>
+<span id='line107'>  ** returned as a <b>[</b>case insensitive<b>]</b>`sys::Map.caseInsensitive` map.</span>
+<span id='line108'>  ** Throw ParseErr if headers are malformed.</span>
+<span id='line109'>  **</span>
+<span id='line110'>  static Str:Str parseHeaders<b>(</b>InStream in<b>)</b> <b>{</b> doParseHeaders<b>(</b>in, null<b>)</b> <b>}</b></span>
+<span id='line111'></span>
+<span id='line112'>  // handle set-cookie headers individually</span>
+<span id='line113'>  internal static Str:Str doParseHeaders<b>(</b>InStream in, Cookie<b>[</b><b>]</b>? cookies<b>)</b></span>
+<span id='line114'>  <b>{</b></span>
+<span id='line115'>    headers := CaseInsensitiveMap&lt;Str,Str><b>(</b><b>)</b></span>
+<span id='line116'>    //headers.caseInsensitive = true</span>
+<span id='line117'>    Str? last := null</span>
+<span id='line118'></span>
+<span id='line119'>    // read headers into map</span>
+<span id='line120'>    while <b>(</b>true<b>)</b></span>
+<span id='line121'>    <b>{</b></span>
+<span id='line122'>      peek := in.peek</span>
+<span id='line123'></span>
+<span id='line124'>      // CRLF is end of headers</span>
+<span id='line125'>      if <b>(</b>peek == CR<b>)</b> break</span>
+<span id='line126'></span>
+<span id='line127'>      // if line starts with space it is</span>
+<span id='line128'>      // continuation of last header field</span>
+<span id='line129'>      if <b>(</b>peek.isSpace &amp;&amp; last != null<b>)</b></span>
+<span id='line130'>      <b>{</b></span>
+<span id='line131'>        headers<b>[</b>last<b>]</b> += " " + WebUtil.readLine<b>(</b>in<b>)</b>.trim</span>
+<span id='line132'>        continue</span>
+<span id='line133'>      <b>}</b></span>
+<span id='line134'></span>
+<span id='line135'>      // key/value pair</span>
+<span id='line136'>      key := token<b>(</b>in, ':'<b>)</b>.trim</span>
+<span id='line137'>      val := token<b>(</b>in, CR<b>)</b>.trim</span>
+<span id='line138'>      if <b>(</b>in.read != LF<b>)</b></span>
+<span id='line139'>        throw ParseErr<b>(</b>"Invalid CRLF line ending"<b>)</b></span>
+<span id='line140'></span>
+<span id='line141'>      // set-cookie</span>
+<span id='line142'>      if <b>(</b>key.equalsIgnoreCase<b>(</b>"Set-Cookie"<b>)</b> &amp;&amp; cookies != null<b>)</b></span>
+<span id='line143'>      <b>{</b></span>
+<span id='line144'>        cookie := Cookie.fromStr<b>(</b>val, false<b>)</b></span>
+<span id='line145'>        if <b>(</b>cookie != null<b>)</b> cookies.add<b>(</b>cookie<b>)</b></span>
+<span id='line146'>      <b>}</b></span>
+<span id='line147'></span>
+<span id='line148'>      // check if key already defined in which case</span>
+<span id='line149'>      // this is an append, otherwise its a new pair</span>
+<span id='line150'>      dup := headers<b>[</b>key<b>]</b></span>
+<span id='line151'>      if <b>(</b>dup == null<b>)</b></span>
+<span id='line152'>        headers<b>[</b>key<b>]</b> = val</span>
+<span id='line153'>      else</span>
+<span id='line154'>        headers<b>[</b>key<b>]</b> = dup + "," + val</span>
+<span id='line155'>      last = key</span>
+<span id='line156'>    <b>}</b></span>
+<span id='line157'></span>
+<span id='line158'>    // consume final CRLF</span>
+<span id='line159'>    if <b>(</b>in.read != CR || in.read != LF<b>)</b></span>
+<span id='line160'>      throw ParseErr<b>(</b>"Invalid CRLF headers ending"<b>)</b></span>
+<span id='line161'></span>
+<span id='line162'>    return headers</span>
+<span id='line163'>  <b>}</b></span>
+<span id='line164'></span>
+<span id='line165'>  **</span>
+<span id='line166'>  ** Read the next token from the stream up to the specified</span>
+<span id='line167'>  ** separator. We place a limit of 512 bytes on a single token.</span>
+<span id='line168'>  ** Consume the separate char too.</span>
+<span id='line169'>  **</span>
+<span id='line170'>  private static Str token<b>(</b>InStream in, Int sep<b>)</b></span>
+<span id='line171'>  <b>{</b></span>
+<span id='line172'>    // read up to separator</span>
+<span id='line173'>    tok := in.readStrToken<b>(</b>maxTokenSize<b>)</b> |Int ch->Bool| <b>{</b> return ch == sep <b>}</b></span>
+<span id='line174'></span>
+<span id='line175'>    // sanity checking</span>
+<span id='line176'>    if <b>(</b>tok == null<b>)</b> throw IOErr<b>(</b>"Unexpected end of stream"<b>)</b></span>
+<span id='line177'>    if <b>(</b>tok.size >= maxTokenSize<b>)</b> throw ParseErr<b>(</b>"Token too big"<b>)</b></span>
+<span id='line178'></span>
+<span id='line179'>    // read separator</span>
+<span id='line180'>    in.read</span>
+<span id='line181'></span>
+<span id='line182'>    return tok</span>
+<span id='line183'>  <b>}</b></span>
+<span id='line184'></span>
+<span id='line185'>  **</span>
+<span id='line186'>  ** Given an HTTP header that uses q values, return a map of</span>
+<span id='line187'>  ** name/q-value pairs.  This map has a def value of 0.</span>
+<span id='line188'>  **</span>
+<span id='line189'>  ** Example:</span>
+<span id='line190'>  **   compress,gzip              =>  <b>[</b>"compress":1f, "gzip":1f<b>]</b></span>
+<span id='line191'>  **   compress;q=0.5,gzip;q=0.0  =>  <b>[</b>"compress":0.5f, "gzip":0.0f<b>]</b></span>
+<span id='line192'>  **</span>
+<span id='line193'>  static Str:Float parseQVals<b>(</b>Str s<b>)</b></span>
+<span id='line194'>  <b>{</b></span>
+<span id='line195'>    map := Str:Float<b>[</b>:<b>]</b></span>
+<span id='line196'>    //map.def = 0.0f</span>
+<span id='line197'>    s.split<b>(</b>','<b>)</b>.each |tok|</span>
+<span id='line198'>    <b>{</b></span>
+<span id='line199'>      if <b>(</b>tok.isEmpty<b>)</b> return</span>
+<span id='line200'>      name := tok</span>
+<span id='line201'>      q    := 1.0f</span>
+<span id='line202'>      x := tok.index<b>(</b>";"<b>)</b></span>
+<span id='line203'>      if <b>(</b>x != null<b>)</b></span>
+<span id='line204'>      <b>{</b></span>
+<span id='line205'>        name = tok<b>[</b>0..&lt;x<b>]</b>.trim</span>
+<span id='line206'>        attrs := tok<b>[</b>x+1..-1<b>]</b>.trim</span>
+<span id='line207'>        qattr := attrs.index<b>(</b>"q="<b>)</b></span>
+<span id='line208'>        if <b>(</b>qattr != null<b>)</b> <b>{</b></span>
+<span id='line209'>          try</span>
+<span id='line210'>            q  = Float.fromStr<b>(</b>attrs<b>[</b>qattr+2..-1<b>]</b>, true<b>)</b></span>
+<span id='line211'>          catch</span>
+<span id='line212'>            q = 1.0f</span>
+<span id='line213'>        <b>}</b></span>
+<span id='line214'>      <b>}</b></span>
+<span id='line215'>      map<b>[</b>name<b>]</b> = q</span>
+<span id='line216'>    <b>}</b></span>
+<span id='line217'>    return map</span>
+<span id='line218'>  <b>}</b></span>
+<span id='line219'></span>
+<span id='line220'>  ** Write HTTP headers</span>
+<span id='line221'>  @NoDoc static Void writeHeaders<b>(</b>OutStream out, <b>[</b>Str:Str<b>]</b> headers<b>)</b></span>
+<span id='line222'>  <b>{</b></span>
+<span id='line223'>    headers.each |v,k|</span>
+<span id='line224'>    <b>{</b></span>
+<span id='line225'>      if <b>(</b>v.containsChar<b>(</b>'\n'<b>)</b><b>)</b> v = v.splitLines.join<b>(</b>"\n "<b>)</b></span>
+<span id='line226'>      out.print<b>(</b>k<b>)</b>.print<b>(</b>": "<b>)</b>.print<b>(</b>v<b>)</b>.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line227'>    <b>}</b></span>
+<span id='line228'>  <b>}</b></span>
+<span id='line229'></span>
+<span id='line230'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line231'>// IO</span>
+<span id='line232'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line233'></span>
+<span id='line234'>  **</span>
+<span id='line235'>  ** Given a set of HTTP headers map Content-Type to its charset</span>
+<span id='line236'>  ** or default to UTF-8.</span>
+<span id='line237'>  **</span>
+<span id='line238'>  static Charset headersToCharset<b>(</b><b>[</b>Str:Str<b>]</b> headers<b>)</b></span>
+<span id='line239'>  <b>{</b></span>
+<span id='line240'>    ct := headers<b>[</b>"Content-Type"<b>]</b></span>
+<span id='line241'>    if <b>(</b>ct != null<b>)</b></span>
+<span id='line242'>    <b>{</b></span>
+<span id='line243'>      try <b>{</b></span>
+<span id='line244'>        MimeType<b>(</b>ct<b>)</b>.charset</span>
+<span id='line245'>      <b>}</b></span>
+<span id='line246'>      catch <b>{</b><b>}</b></span>
+<span id='line247'>    <b>}</b></span>
+<span id='line248'>    return Charset.utf8</span>
+<span id='line249'>  <b>}</b></span>
+<span id='line250'></span>
+<span id='line251'>  **</span>
+<span id='line252'>  ** Given a set of headers, wrap the specified input stream</span>
+<span id='line253'>  ** to read the content body:</span>
+<span id='line254'>  **   1. If Content-Encoding is 'gzip' then wrap via `sys::Zip.gzipInStream`</span>
+<span id='line255'>  **   2. If Content-Length then `makeFixedInStream`</span>
+<span id='line256'>  **   3. If Transfer-Encoding is chunked then `makeChunkedInStream`</span>
+<span id='line257'>  **   4. If Content-Type assume non-pipelined connection and</span>
+<span id='line258'>  **      return 'in' directly</span>
+<span id='line259'>  **</span>
+<span id='line260'>  ** If a stream is returned, then it is automatically configured</span>
+<span id='line261'>  ** with the correct content encoding based on the Content-Type.</span>
+<span id='line262'>  **</span>
+<span id='line263'>  static InStream makeContentInStream<b>(</b><b>[</b>Str:Str<b>]</b> headers, InStream in<b>)</b></span>
+<span id='line264'>  <b>{</b></span>
+<span id='line265'>    // handle Content-Length / Transfer-Encoding</span>
+<span id='line266'>    in = doMakeContentInStream<b>(</b>headers, in<b>)</b></span>
+<span id='line267'></span>
+<span id='line268'>    // check for content-encoding</span>
+<span id='line269'>    ce := headers<b>[</b>"Content-Encoding"<b>]</b></span>
+<span id='line270'>    if <b>(</b>ce != null<b>)</b></span>
+<span id='line271'>    <b>{</b></span>
+<span id='line272'>      ce = ce.lower</span>
+<span id='line273'>      switch <b>(</b>ce<b>)</b></span>
+<span id='line274'>      <b>{</b></span>
+<span id='line275'>        case "gzip":    return Zip.gzipInStream<b>(</b>in<b>)</b></span>
+<span id='line276'>        case "deflate": return Zip.deflateInStream<b>(</b>in<b>)</b></span>
+<span id='line277'>        default: throw IOErr<b>(</b>"Unsupported Content-Encoding: $ce"<b>)</b></span>
+<span id='line278'>      <b>}</b></span>
+<span id='line279'>    <b>}</b></span>
+<span id='line280'>    return in</span>
+<span id='line281'>  <b>}</b></span>
+<span id='line282'></span>
+<span id='line283'>  private static InStream? doMakeContentInStream<b>(</b><b>[</b>Str:Str<b>]</b> headers, InStream in<b>)</b></span>
+<span id='line284'>  <b>{</b></span>
+<span id='line285'>    // map the "Content-Type" response header to the</span>
+<span id='line286'>    // appropiate charset or default to UTF-8.</span>
+<span id='line287'>    cs := headersToCharset<b>(</b>headers<b>)</b></span>
+<span id='line288'></span>
+<span id='line289'>    // check for fixed content length</span>
+<span id='line290'>    len := headers<b>[</b>"Content-Length"<b>]</b></span>
+<span id='line291'>    if <b>(</b>len != null<b>)</b></span>
+<span id='line292'>      return makeFixedInStream<b>(</b>in, len.toInt<b>)</b> <b>{</b> charset = cs <b>}</b></span>
+<span id='line293'></span>
+<span id='line294'>    // check for chunked transfer encoding</span>
+<span id='line295'>    if <b>(</b>headers.get<b>(</b>"Transfer-Encoding", ""<b>)</b>.lower.contains<b>(</b>"chunked"<b>)</b><b>)</b></span>
+<span id='line296'>      return makeChunkedInStream<b>(</b>in<b>)</b> <b>{</b> charset = cs <b>}</b></span>
+<span id='line297'></span>
+<span id='line298'>    // assume open ended content until close</span>
+<span id='line299'>    return in</span>
+<span id='line300'>  <b>}</b></span>
+<span id='line301'></span>
+<span id='line302'>  **</span>
+<span id='line303'>  ** Given a set of headers, wrap the specified output stream</span>
+<span id='line304'>  ** to write the content body:</span>
+<span id='line305'>  **   1. If Content-Length then `makeFixedOutStream`</span>
+<span id='line306'>  **   2. If Content-Type then set Transfer-Encoding header to</span>
+<span id='line307'>  **      chunked and return `makeChunkedOutStream`</span>
+<span id='line308'>  **   3. Assume no content and return null</span>
+<span id='line309'>  **</span>
+<span id='line310'>  ** If a stream is returned, then it is automatically configured</span>
+<span id='line311'>  ** with the correct content encoding based on the Content-Type.</span>
+<span id='line312'>  **</span>
+<span id='line313'>  static OutStream? makeContentOutStream<b>(</b><b>[</b>Str:Str<b>]</b> headers, OutStream out<b>)</b></span>
+<span id='line314'>  <b>{</b></span>
+<span id='line315'>    // map the "Content-Type" response header to the</span>
+<span id='line316'>    // appropiate charset or default to UTF-8.</span>
+<span id='line317'>    cs := headersToCharset<b>(</b>headers<b>)</b></span>
+<span id='line318'></span>
+<span id='line319'>    // check for fixed content length</span>
+<span id='line320'>    len := headers<b>[</b>"Content-Length"<b>]</b></span>
+<span id='line321'>    if <b>(</b>len != null<b>)</b></span>
+<span id='line322'>      return makeFixedOutStream<b>(</b>out, len.toInt<b>)</b> <b>{</b> charset = cs <b>}</b></span>
+<span id='line323'></span>
+<span id='line324'>    // if content-type then assumed chunked output</span>
+<span id='line325'>    ct := headers<b>[</b>"Content-Type"<b>]</b></span>
+<span id='line326'>    if <b>(</b>ct != null<b>)</b></span>
+<span id='line327'>    <b>{</b></span>
+<span id='line328'>      headers<b>[</b>"Transfer-Encoding"<b>]</b> = "chunked"</span>
+<span id='line329'>      return makeChunkedOutStream<b>(</b>out<b>)</b> <b>{</b> charset = cs <b>}</b></span>
+<span id='line330'>    <b>}</b></span>
+<span id='line331'></span>
+<span id='line332'>    // no content</span>
+<span id='line333'>    return null</span>
+<span id='line334'>  <b>}</b></span>
+<span id='line335'></span>
+<span id='line336'>  **</span>
+<span id='line337'>  ** Wrap the given input stream to read a fixed number of bytes.</span>
+<span id='line338'>  ** Once 'fixed' bytes have been read from the underlying input</span>
+<span id='line339'>  ** stream, the wrapped stream will return end-of-stream.  Closing</span>
+<span id='line340'>  ** the wrapper stream does not close the underlying stream.</span>
+<span id='line341'>  **</span>
+<span id='line342'>  static InStream makeFixedInStream<b>(</b>InStream in, Int fixed<b>)</b></span>
+<span id='line343'>  <b>{</b></span>
+<span id='line344'>    return ChunkInStream<b>(</b>in, fixed<b>)</b></span>
+<span id='line345'>  <b>}</b></span>
+<span id='line346'></span>
+<span id='line347'>  **</span>
+<span id='line348'>  ** Wrap the given input stream to read bytes using a HTTP</span>
+<span id='line349'>  ** chunked transfer encoding.  The wrapped streams provides</span>
+<span id='line350'>  ** a contiguous stream of bytes until the last chunk is read.</span>
+<span id='line351'>  ** Closing the wrapper stream does not close the underlying stream.</span>
+<span id='line352'>  **</span>
+<span id='line353'>  static InStream makeChunkedInStream<b>(</b>InStream in<b>)</b></span>
+<span id='line354'>  <b>{</b></span>
+<span id='line355'>    return ChunkInStream<b>(</b>in, null<b>)</b></span>
+<span id='line356'>  <b>}</b></span>
+<span id='line357'></span>
+<span id='line358'>  **</span>
+<span id='line359'>  ** Wrap the given output stream to write a fixed number of bytes.</span>
+<span id='line360'>  ** Once 'fixed' bytes have been written, attempting to further</span>
+<span id='line361'>  ** bytes will throw IOErr.  Closing the wrapper stream does not</span>
+<span id='line362'>  ** close the underlying stream.</span>
+<span id='line363'>  **</span>
+<span id='line364'>  static OutStream makeFixedOutStream<b>(</b>OutStream out, Int fixed<b>)</b></span>
+<span id='line365'>  <b>{</b></span>
+<span id='line366'>    return FixedOutStream<b>(</b>out, fixed<b>)</b></span>
+<span id='line367'>  <b>}</b></span>
+<span id='line368'></span>
+<span id='line369'>  **</span>
+<span id='line370'>  ** Wrap the given output stream to write bytes using a HTTP</span>
+<span id='line371'>  ** chunked transfer encoding.  Closing the wrapper stream</span>
+<span id='line372'>  ** terminates the chunking, but does not close the underlying</span>
+<span id='line373'>  ** stream.</span>
+<span id='line374'>  **</span>
+<span id='line375'>  static OutStream makeChunkedOutStream<b>(</b>OutStream out<b>)</b></span>
+<span id='line376'>  <b>{</b></span>
+<span id='line377'>    return ChunkOutStream<b>(</b>out<b>)</b></span>
+<span id='line378'>  <b>}</b></span>
+<span id='line379'></span>
+<span id='line380'>  **</span>
+<span id='line381'>  ** Read line of HTTP protocol.  Raise exception if unexpected</span>
+<span id='line382'>  ** end of stream or the line exceeds our max size.</span>
+<span id='line383'>  **</span>
+<span id='line384'>  @NoDoc static Str readLine<b>(</b>InStream in<b>)</b></span>
+<span id='line385'>  <b>{</b></span>
+<span id='line386'>    max := 65536 // 64KB</span>
+<span id='line387'>    line := in.readLine<b>(</b>max<b>)</b></span>
+<span id='line388'>    if <b>(</b>line == null<b>)</b> throw IOErr<b>(</b>"Unexpected end of stream"<b>)</b></span>
+<span id='line389'>    if <b>(</b>line.size == max<b>)</b> throw IOErr<b>(</b>"Max request line"<b>)</b></span>
+<span id='line390'>    return line</span>
+<span id='line391'>  <b>}</b></span>
+<span id='line392'></span>
+<span id='line393'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line394'>// Multi-Part Forms</span>
+<span id='line395'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line396'></span>
+<span id='line397'>  **</span>
+<span id='line398'>  ** Parse a multipart/form-data input stream.  For each part in the</span>
+<span id='line399'>  ** stream call the given callback function with the part's headers</span>
+<span id='line400'>  ** and an input stream used to read the part's body.  Each callback</span>
+<span id='line401'>  ** must completely drain the input stream to prepare for the next</span>
+<span id='line402'>  ** part.  Also see `WebReq.parseMultiPartForm`.</span>
+<span id='line403'>  **</span>
+<span id='line404'>  static Void parseMultiPart<b>(</b>InStream in, Str boundary, |<b>[</b>Str:Str<b>]</b> headers, InStream in| cb<b>)</b></span>
+<span id='line405'>  <b>{</b></span>
+<span id='line406'>    boundary = "--" + boundary</span>
+<span id='line407'>    line := WebUtil.readLine<b>(</b>in<b>)</b></span>
+<span id='line408'>    if <b>(</b>line == boundary + "--"<b>)</b> return</span>
+<span id='line409'>    if <b>(</b>line != boundary<b>)</b> throw IOErr<b>(</b>"Expecting boundry line $boundary.toCode"<b>)</b></span>
+<span id='line410'>    while <b>(</b>true<b>)</b></span>
+<span id='line411'>    <b>{</b></span>
+<span id='line412'>      headers := parseHeaders<b>(</b>in<b>)</b></span>
+<span id='line413'>      partIn := MultiPartInStream<b>(</b>in, boundary<b>)</b></span>
+<span id='line414'>      cb<b>(</b>headers, partIn<b>)</b></span>
+<span id='line415'>      if <b>(</b>partIn.endOfParts<b>)</b> break</span>
+<span id='line416'>    <b>}</b></span>
+<span id='line417'>  <b>}</b></span>
+<span id='line418'></span>
+<span id='line419'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line420'>// JsMain</span>
+<span id='line421'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line422'></span>
+<span id='line423'>  **</span>
+<span id='line424'>  ** Generate the method invocation code used to boostrap into</span>
+<span id='line425'>  ** JavaScript from a webpage.  This *must* be called inside the</span>
+<span id='line426'>  ** '&lt;head>' tag for the page.  The main method will be invoked</span>
+<span id='line427'>  ** using the 'onLoad' DOM event.</span>
+<span id='line428'>  **</span>
+<span id='line429'>  ** The 'main' argument can be either a type or method.  If no</span>
+<span id='line430'>  ** method is specified, 'main' is used.  If the method is not</span>
+<span id='line431'>  ** static, a new instance of type is created:</span>
+<span id='line432'>  **</span>
+<span id='line433'>  **   "foo::Instance"     =>  Instance<b>(</b><b>)</b>.main<b>(</b><b>)</b></span>
+<span id='line434'>  **   "foo::Instance.bar" =>  Instance<b>(</b><b>)</b>.bar<b>(</b><b>)</b></span>
+<span id='line435'>  **   "foo::Static"       =>  Static.main<b>(</b><b>)</b></span>
+<span id='line436'>  **   "foo::Static.bar"   =>  Static.bar<b>(</b><b>)</b></span>
+<span id='line437'>  **</span>
+<span id='line438'>  ** If 'env' is specified, then vars will be added to and available</span>
+<span id='line439'>  ** from `sys::Env.vars` on client-side.</span>
+<span id='line440'>  **</span>
+<span id='line441'>  @Deprecated <b>{</b> msg="use WebOutStream.initJs" <b>}</b></span>
+<span id='line442'>  static Void jsMain<b>(</b>OutStream out, Str main, <b>[</b>Str:Str<b>]</b>? env := null<b>)</b></span>
+<span id='line443'>  <b>{</b></span>
+<span id='line444'>    envStr := StrBuf<b>(</b><b>)</b></span>
+<span id='line445'>    if <b>(</b>env?.size > 0<b>)</b></span>
+<span id='line446'>    <b>{</b></span>
+<span id='line447'>      envStr.add<b>(</b>"var env = fan.std.CaseInsensitiveMap.make<b>(</b><b>)</b>;\n"<b>)</b></span>
+<span id='line448'>      //envStr.add<b>(</b>"  env.caseInsensitive\$<b>(</b>true<b>)</b>;\n"<b>)</b></span>
+<span id='line449'>      env.each |v,k|</span>
+<span id='line450'>      <b>{</b></span>
+<span id='line451'>        envStr.add<b>(</b>"  "<b>)</b></span>
+<span id='line452'>        v = v.toCode<b>(</b>'\''<b>)</b></span>
+<span id='line453'>        // NOTE: uriPodBase is only used for FWT; and this now gets</span>
+<span id='line454'>        // configured via normal Env.var moving forward in initJs</span>
+<span id='line455'>        if <b>(</b>k == "sys.uriPodBase"<b>)</b></span>
+<span id='line456'>          envStr.add<b>(</b>"fan.fwt.WidgetPeer.\$uriPodBase = $v;\n"<b>)</b></span>
+<span id='line457'>        else</span>
+<span id='line458'>          envStr.add<b>(</b>"env.set<b>(</b>'$k', $v<b>)</b>;\n"<b>)</b></span>
+<span id='line459'>      <b>}</b></span>
+<span id='line460'>      envStr.add<b>(</b>"  fan.std.Env.cur<b>(</b><b>)</b>.\$setVars<b>(</b>env<b>)</b>;"<b>)</b></span>
+<span id='line461'>    <b>}</b></span>
+<span id='line462'></span>
+<span id='line463'>    out.printLine<b>(</b></span>
+<span id='line464'>     "&lt;script type='text/javascript'></span>
+<span id='line465'>      window.addEventListener<b>(</b>'load', function<b>(</b><b>)</b></span>
+<span id='line466'>      <b>{</b></span>
+<span id='line467'>        // inject env vars</span>
+<span id='line468'>        $envStr.toStr</span>
+<span id='line469'></span>
+<span id='line470'>        // find main</span>
+<span id='line471'>        var qname = '$main';</span>
+<span id='line472'>        var dot = qname.indexOf<b>(</b>'.'<b>)</b>;</span>
+<span id='line473'>        var type = qname;</span>
+<span id='line474'>        if <b>(</b>dot &lt; 0<b>)</b> qname += '.main';</span>
+<span id='line475'>        else type = qname.substring<b>(</b>0, dot<b>)</b></span>
+<span id='line476'>        var main = fan.std.Slot.findMethod<b>(</b>qname<b>)</b>;</span>
+<span id='line477'></span>
+<span id='line478'>        // invoke main</span>
+<span id='line479'>        if <b>(</b>main.isStatic<b>(</b><b>)</b><b>)</b> main.call<b>(</b><b>)</b>;</span>
+<span id='line480'>        else main.callOn<b>(</b>fan.std.Type.find<b>(</b>type<b>)</b>.make<b>(</b><b>)</b><b>)</b>;</span>
+<span id='line481'>      <b>}</b>, false<b>)</b>;</span>
+<span id='line482'>      &lt;/script>"<b>)</b></span>
+<span id='line483'>  <b>}</b></span>
+<span id='line484'></span>
+<span id='line485'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line486'>// Fields</span>
+<span id='line487'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line488'></span>
+<span id='line489'>  internal const static Int CR  := '\r'</span>
+<span id='line490'>  internal const static Int LF  := '\n'</span>
+<span id='line491'>  internal const static Int HT  := '\t'</span>
+<span id='line492'>  internal const static Int SP  := ' '</span>
+<span id='line493'>  internal const static Int maxTokenSize := 16384</span>
+<span id='line494'></span>
+<span id='line495'><b>}</b></span>
+<span id='line496'></span>
+<span id='line497'>**************************************************************************</span>
+<span id='line498'>** ChunkInStream</span>
+<span id='line499'>**************************************************************************</span>
+<span id='line500'>@Js</span>
+<span id='line501'>internal class ChunkInStream : InStream</span>
+<span id='line502'><b>{</b></span>
+<span id='line503'>  override Endian endian <b>{</b> set<b>{</b> in.endian = it <b>}</b> get<b>{</b> in.endian <b>}</b> <b>}</b></span>
+<span id='line504'>  override Charset charset <b>{</b> set<b>{</b> in.charset = it <b>}</b> get <b>{</b> in.charset <b>}</b> <b>}</b></span>
+<span id='line505'></span>
+<span id='line506'>  new make<b>(</b>InStream in, Int? fixed := null<b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line507'>  <b>{</b></span>
+<span id='line508'>    this.in = in</span>
+<span id='line509'>    this.noMoreChunks = <b>(</b>fixed != null<b>)</b></span>
+<span id='line510'>    this.chunkRem     = <b>(</b>fixed != null<b>)</b> ? fixed : -1</span>
+<span id='line511'>  <b>}</b></span>
+<span id='line512'></span>
+<span id='line513'>  override Int read<b>(</b><b>)</b></span>
+<span id='line514'>  <b>{</b></span>
+<span id='line515'>    if <b>(</b>pushback != null &amp;&amp; !pushback.isEmpty<b>)</b> return pushback.pop</span>
+<span id='line516'>    if <b>(</b>!checkChunk<b>)</b> return -1</span>
+<span id='line517'>    chunkRem -= 1</span>
+<span id='line518'>    return in.read</span>
+<span id='line519'>  <b>}</b></span>
+<span id='line520'></span>
+<span id='line521'>  //override Int avail<b>(</b><b>)</b> <b>{</b> throw UnsupportedErr<b>(</b>"$this.typeof"<b>)</b> <b>}</b></span>
+<span id='line522'></span>
+<span id='line523'>  override Bool close<b>(</b><b>)</b> <b>{</b> return true <b>}</b></span>
+<span id='line524'></span>
+<span id='line525'>  override Int readBytes<b>(</b>Array&lt;Int8> ba, Int off := 0, Int len := ba.size<b>)</b> <b>{</b></span>
+<span id='line526'>    if <b>(</b>pushback != null &amp;&amp; !pushback.isEmpty &amp;&amp; len > 0<b>)</b></span>
+<span id='line527'>    <b>{</b></span>
+<span id='line528'>      ba<b>[</b>0<b>]</b> = pushback.pop</span>
+<span id='line529'>      return 1</span>
+<span id='line530'>    <b>}</b></span>
+<span id='line531'>    numRead := in.readBytes<b>(</b>ba, off, chunkRem.min<b>(</b>len<b>)</b><b>)</b></span>
+<span id='line532'>    if <b>(</b>numRead != -1<b>)</b> chunkRem -= numRead</span>
+<span id='line533'>    return numRead</span>
+<span id='line534'>  <b>}</b></span>
+<span id='line535'></span>
+<span id='line536'>  override Int readBuf<b>(</b>Buf buf, Int n<b>)</b></span>
+<span id='line537'>  <b>{</b></span>
+<span id='line538'>    if <b>(</b>pushback != null &amp;&amp; !pushback.isEmpty &amp;&amp; n > 0<b>)</b></span>
+<span id='line539'>    <b>{</b></span>
+<span id='line540'>      buf.write<b>(</b>pushback.pop<b>)</b></span>
+<span id='line541'>      return 1</span>
+<span id='line542'>    <b>}</b></span>
+<span id='line543'>    if <b>(</b>!checkChunk<b>)</b> return -1</span>
+<span id='line544'>    numRead := in.readBuf<b>(</b>buf, chunkRem.min<b>(</b>n<b>)</b><b>)</b></span>
+<span id='line545'>    if <b>(</b>numRead != -1<b>)</b> chunkRem -= numRead</span>
+<span id='line546'>    return numRead</span>
+<span id='line547'>  <b>}</b></span>
+<span id='line548'></span>
+<span id='line549'>  override This unread<b>(</b>Int b<b>)</b></span>
+<span id='line550'>  <b>{</b></span>
+<span id='line551'>    if <b>(</b>pushback == null<b>)</b> pushback = Int<b>[</b>,<b>]</b></span>
+<span id='line552'>    pushback.push<b>(</b>b<b>)</b></span>
+<span id='line553'>    return this</span>
+<span id='line554'>  <b>}</b></span>
+<span id='line555'></span>
+<span id='line556'>  private Bool checkChunk<b>(</b><b>)</b></span>
+<span id='line557'>  <b>{</b></span>
+<span id='line558'>    try</span>
+<span id='line559'>    <b>{</b></span>
+<span id='line560'>      // if we have bytes remaining in this chunk return true</span>
+<span id='line561'>      if <b>(</b>chunkRem > 0<b>)</b> return true</span>
+<span id='line562'></span>
+<span id='line563'>      // if we have set noMoreChunks this means we at end of the</span>
+<span id='line564'>      // logical chunked stream</span>
+<span id='line565'>      if <b>(</b>noMoreChunks<b>)</b> return false</span>
+<span id='line566'></span>
+<span id='line567'>      // we expect \r\n unless this is first chunk</span>
+<span id='line568'>      if <b>(</b>chunkRem != -1 &amp;&amp; !WebUtil.readLine<b>(</b>in<b>)</b>.isEmpty<b>)</b> throw Err<b>(</b><b>)</b></span>
+<span id='line569'></span>
+<span id='line570'>      // read the next chunk status line</span>
+<span id='line571'>      line := WebUtil.readLine<b>(</b>in<b>)</b></span>
+<span id='line572'>      semi := line.index<b>(</b>";"<b>)</b></span>
+<span id='line573'>      if <b>(</b>semi != null<b>)</b> line = line<b>[</b>0..semi<b>]</b></span>
+<span id='line574'>      chunkRem = line.trim.toInt<b>(</b>16<b>)</b></span>
+<span id='line575'></span>
+<span id='line576'>      // if we have more chunks keep chugging</span>
+<span id='line577'>      if <b>(</b>chunkRem > 0<b>)</b> return true</span>
+<span id='line578'></span>
+<span id='line579'>      // we are done so read trailing headers and set noMoreChunks</span>
+<span id='line580'>      // flag so that additional reads to this input stream</span>
+<span id='line581'>      // always are at end of stream</span>
+<span id='line582'>      noMoreChunks = true</span>
+<span id='line583'>      WebUtil.parseHeaders<b>(</b>in<b>)</b></span>
+<span id='line584'>      return false</span>
+<span id='line585'>    <b>}</b></span>
+<span id='line586'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line587'>    <b>{</b></span>
+<span id='line588'>      throw IOErr<b>(</b>"Invalid format for HTTP chunked transfer encoding"<b>)</b></span>
+<span id='line589'>    <b>}</b></span>
+<span id='line590'>  <b>}</b></span>
+<span id='line591'></span>
+<span id='line592'>  override Str toStr<b>(</b><b>)</b> <b>{</b> "$this.typeof <b>{</b> noMoreChunks=$noMoreChunks chunkRem=$chunkRem pushback=$pushback <b>}</b>" <b>}</b></span>
+<span id='line593'></span>
+<span id='line594'>  InStream in         // underlying input stream</span>
+<span id='line595'>  Bool noMoreChunks   // don't attempt to read more chunks</span>
+<span id='line596'>  Int chunkRem        // remaining bytes in current chunk <b>(</b>-1 for first chunk<b>)</b></span>
+<span id='line597'>  Int<b>[</b><b>]</b>? pushback     // stack for unread</span>
+<span id='line598'><b>}</b></span>
+<span id='line599'></span>
+<span id='line600'>**************************************************************************</span>
+<span id='line601'>** FixedOutStream</span>
+<span id='line602'>**************************************************************************</span>
+<span id='line603'>@Js</span>
+<span id='line604'>internal class FixedOutStream : OutStream</span>
+<span id='line605'><b>{</b></span>
+<span id='line606'>  new make<b>(</b>OutStream out, Int fixed<b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line607'>  <b>{</b></span>
+<span id='line608'>    this.out = out</span>
+<span id='line609'>    this.fixed = fixed</span>
+<span id='line610'>  <b>}</b></span>
+<span id='line611'></span>
+<span id='line612'>  override This write<b>(</b>Int b<b>)</b></span>
+<span id='line613'>  <b>{</b></span>
+<span id='line614'>    checkChunk<b>(</b>1<b>)</b></span>
+<span id='line615'>    out.write<b>(</b>b<b>)</b></span>
+<span id='line616'>    return this</span>
+<span id='line617'>  <b>}</b></span>
+<span id='line618'></span>
+<span id='line619'>  override This writeBuf<b>(</b>Buf buf, Int n := buf.remaining<b>)</b></span>
+<span id='line620'>  <b>{</b></span>
+<span id='line621'>    checkChunk<b>(</b>n<b>)</b></span>
+<span id='line622'>    out.writeBuf<b>(</b>buf, n<b>)</b></span>
+<span id='line623'>    return this</span>
+<span id='line624'>  <b>}</b></span>
+<span id='line625'></span>
+<span id='line626'>  override This flush<b>(</b><b>)</b></span>
+<span id='line627'>  <b>{</b></span>
+<span id='line628'>    out.flush</span>
+<span id='line629'>    return this</span>
+<span id='line630'>  <b>}</b></span>
+<span id='line631'></span>
+<span id='line632'>  override Bool close<b>(</b><b>)</b></span>
+<span id='line633'>  <b>{</b></span>
+<span id='line634'>    try</span>
+<span id='line635'>    <b>{</b></span>
+<span id='line636'>      this.flush</span>
+<span id='line637'>      return true</span>
+<span id='line638'>    <b>}</b></span>
+<span id='line639'>    catch <b>(</b>Err e<b>)</b> return false</span>
+<span id='line640'>  <b>}</b></span>
+<span id='line641'></span>
+<span id='line642'>  private Void checkChunk<b>(</b>Int n<b>)</b></span>
+<span id='line643'>  <b>{</b></span>
+<span id='line644'>    written += n</span>
+<span id='line645'>    if <b>(</b>written > fixed<b>)</b> throw IOErr<b>(</b>"Attempt to write more than Content-Length: $fixed"<b>)</b></span>
+<span id='line646'>  <b>}</b></span>
+<span id='line647'></span>
+<span id='line648'>  override This writeBytes<b>(</b>Array&lt;Int8> ba, Int off := 0, Int len := ba.size<b>)</b> <b>{</b></span>
+<span id='line649'>    checkChunk<b>(</b>len<b>)</b></span>
+<span id='line650'>    out.writeBytes<b>(</b>ba, off, len<b>)</b></span>
+<span id='line651'>    return this</span>
+<span id='line652'>  <b>}</b></span>
+<span id='line653'></span>
+<span id='line654'>  override Endian endian <b>{</b></span>
+<span id='line655'>    get <b>{</b> out.endian <b>}</b></span>
+<span id='line656'>    set <b>{</b> out.endian = it <b>}</b></span>
+<span id='line657'>  <b>}</b></span>
+<span id='line658'>  override Charset charset <b>{</b></span>
+<span id='line659'>    get <b>{</b> out.charset <b>}</b></span>
+<span id='line660'>    set <b>{</b> out.charset = it <b>}</b></span>
+<span id='line661'>  <b>}</b></span>
+<span id='line662'></span>
+<span id='line663'>  override This sync<b>(</b><b>)</b> <b>{</b> out.sync; return this <b>}</b></span>
+<span id='line664'></span>
+<span id='line665'>  OutStream out      // underlying output stream</span>
+<span id='line666'>  Int? fixed         // if non-null, then we're using as one fixed chunk</span>
+<span id='line667'>  Int written        // number of bytes written in this chunk</span>
+<span id='line668'><b>}</b></span>
+<span id='line669'></span>
+<span id='line670'>**************************************************************************</span>
+<span id='line671'>** ChunkOutStream</span>
+<span id='line672'>**************************************************************************</span>
+<span id='line673'>@Js</span>
+<span id='line674'>internal class ChunkOutStream : OutStream</span>
+<span id='line675'><b>{</b></span>
+<span id='line676'>  new make<b>(</b>OutStream out<b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line677'>  <b>{</b></span>
+<span id='line678'>    this.out = out</span>
+<span id='line679'>    this.buffer = Buf<b>(</b>chunkSize + 256<b>)</b></span>
+<span id='line680'>  <b>}</b></span>
+<span id='line681'></span>
+<span id='line682'>  override This write<b>(</b>Int b<b>)</b></span>
+<span id='line683'>  <b>{</b></span>
+<span id='line684'>    buffer.write<b>(</b>b<b>)</b></span>
+<span id='line685'>    checkChunk</span>
+<span id='line686'>    return this</span>
+<span id='line687'>  <b>}</b></span>
+<span id='line688'></span>
+<span id='line689'>  override This writeBuf<b>(</b>Buf buf, Int n := buf.remaining<b>)</b></span>
+<span id='line690'>  <b>{</b></span>
+<span id='line691'>    buffer.writeBuf<b>(</b>buf, n<b>)</b></span>
+<span id='line692'>    checkChunk</span>
+<span id='line693'>    return this</span>
+<span id='line694'>  <b>}</b></span>
+<span id='line695'></span>
+<span id='line696'>  override This flush<b>(</b><b>)</b></span>
+<span id='line697'>  <b>{</b></span>
+<span id='line698'>    if <b>(</b>closed<b>)</b> throw IOErr<b>(</b>"ChunkOutStream is closed"<b>)</b></span>
+<span id='line699'>    if <b>(</b>buffer.size > 0<b>)</b></span>
+<span id='line700'>    <b>{</b></span>
+<span id='line701'>      out.print<b>(</b>buffer.size.toHex<b>)</b>.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line702'>      out.writeBuf<b>(</b>buffer.flip, buffer.remaining<b>)</b></span>
+<span id='line703'>      out.print<b>(</b>"\r\n"<b>)</b>.flush</span>
+<span id='line704'>      buffer.clear</span>
+<span id='line705'>    <b>}</b></span>
+<span id='line706'>    return this</span>
+<span id='line707'>  <b>}</b></span>
+<span id='line708'></span>
+<span id='line709'>  override Bool close<b>(</b><b>)</b></span>
+<span id='line710'>  <b>{</b></span>
+<span id='line711'>    // never write end of chunk more than once</span>
+<span id='line712'>    if <b>(</b>closed<b>)</b> return true</span>
+<span id='line713'></span>
+<span id='line714'>    try</span>
+<span id='line715'>    <b>{</b></span>
+<span id='line716'>      this.flush</span>
+<span id='line717'>      closed = true</span>
+<span id='line718'>      out.print<b>(</b>"0\r\n\r\n"<b>)</b>.flush</span>
+<span id='line719'>      return true</span>
+<span id='line720'>    <b>}</b></span>
+<span id='line721'>    catch return false</span>
+<span id='line722'>  <b>}</b></span>
+<span id='line723'></span>
+<span id='line724'>  private Void checkChunk<b>(</b><b>)</b></span>
+<span id='line725'>  <b>{</b></span>
+<span id='line726'>    if <b>(</b>buffer.size >= chunkSize<b>)</b> flush</span>
+<span id='line727'>  <b>}</b></span>
+<span id='line728'></span>
+<span id='line729'>  override This writeBytes<b>(</b>Array&lt;Int8> ba, Int off := 0, Int len := ba.size<b>)</b> <b>{</b></span>
+<span id='line730'>    buffer.out.writeBytes<b>(</b>ba, off, len<b>)</b></span>
+<span id='line731'>    checkChunk</span>
+<span id='line732'>    return this</span>
+<span id='line733'>  <b>}</b></span>
+<span id='line734'></span>
+<span id='line735'>  override Endian endian <b>{</b></span>
+<span id='line736'>    get <b>{</b> out.endian <b>}</b></span>
+<span id='line737'>    set <b>{</b> out.endian = it <b>}</b></span>
+<span id='line738'>  <b>}</b></span>
+<span id='line739'>  override Charset charset <b>{</b></span>
+<span id='line740'>    get <b>{</b> out.charset <b>}</b></span>
+<span id='line741'>    set <b>{</b> out.charset = it <b>}</b></span>
+<span id='line742'>  <b>}</b></span>
+<span id='line743'></span>
+<span id='line744'>  override This sync<b>(</b><b>)</b> <b>{</b> out.sync; return this <b>}</b></span>
+<span id='line745'></span>
+<span id='line746'>  const static Int chunkSize := 1024</span>
+<span id='line747'></span>
+<span id='line748'>  OutStream out    // underlying output stream</span>
+<span id='line749'>  Buf? buffer      // buffer for bytes</span>
+<span id='line750'>  Bool closed      // have we written final close chunk?</span>
+<span id='line751'><b>}</b></span>
+<span id='line752'></span>
+<span id='line753'>**************************************************************************</span>
+<span id='line754'>** MultiPartInStream</span>
+<span id='line755'>**************************************************************************</span>
+<span id='line756'>@Js</span>
+<span id='line757'>internal class MultiPartInStream : InStream</span>
+<span id='line758'><b>{</b></span>
+<span id='line759'>  new make<b>(</b>InStream in, Str boundary<b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line760'>  <b>{</b></span>
+<span id='line761'>    this.in = in</span>
+<span id='line762'>    this.boundary = boundary</span>
+<span id='line763'>    this.curLine = Buf<b>(</b>1024<b>)</b></span>
+<span id='line764'>  <b>}</b></span>
+<span id='line765'></span>
+<span id='line766'>  override Int read<b>(</b><b>)</b></span>
+<span id='line767'>  <b>{</b></span>
+<span id='line768'>    if <b>(</b>pushback != null &amp;&amp; !pushback.isEmpty<b>)</b> return pushback.pop</span>
+<span id='line769'>    if <b>(</b>!checkLine<b>)</b> return -1</span>
+<span id='line770'>    numRead += 1</span>
+<span id='line771'>    return curLine.read</span>
+<span id='line772'>  <b>}</b></span>
+<span id='line773'></span>
+<span id='line774'>  override Endian endian <b>{</b> set<b>{</b> in.endian = it <b>}</b> get<b>{</b> in.endian <b>}</b> <b>}</b></span>
+<span id='line775'>  override Charset charset <b>{</b> set<b>{</b> in.charset = it <b>}</b> get <b>{</b> in.charset <b>}</b> <b>}</b></span>
+<span id='line776'></span>
+<span id='line777'>  //override Int avail<b>(</b><b>)</b> <b>{</b> throw UnsupportedErr<b>(</b>"$this.typeof"<b>)</b> <b>}</b></span>
+<span id='line778'>  override Bool close<b>(</b><b>)</b> <b>{</b> return true <b>}</b></span>
+<span id='line779'></span>
+<span id='line780'>  override Int readBytes<b>(</b>Array&lt;Int8> ba, Int off := 0, Int len := ba.size<b>)</b> <b>{</b></span>
+<span id='line781'>    if <b>(</b>pushback != null &amp;&amp; !pushback.isEmpty &amp;&amp; len > 0<b>)</b></span>
+<span id='line782'>    <b>{</b></span>
+<span id='line783'>      ba<b>[</b>0<b>]</b> = pushback.pop</span>
+<span id='line784'>      numRead += 1</span>
+<span id='line785'>      return 1</span>
+<span id='line786'>    <b>}</b></span>
+<span id='line787'>    if <b>(</b>!checkLine<b>)</b> return -1</span>
+<span id='line788'>    actualRead := curLine.in.readBytes<b>(</b>ba, off, len<b>)</b></span>
+<span id='line789'>    numRead += actualRead</span>
+<span id='line790'>    return actualRead</span>
+<span id='line791'>  <b>}</b></span>
+<span id='line792'></span>
+<span id='line793'>  override Int readBuf<b>(</b>Buf buf, Int n<b>)</b></span>
+<span id='line794'>  <b>{</b></span>
+<span id='line795'>    if <b>(</b>pushback != null &amp;&amp; !pushback.isEmpty &amp;&amp; n > 0<b>)</b></span>
+<span id='line796'>    <b>{</b></span>
+<span id='line797'>      buf.write<b>(</b>pushback.pop<b>)</b></span>
+<span id='line798'>      numRead += 1</span>
+<span id='line799'>      return 1</span>
+<span id='line800'>    <b>}</b></span>
+<span id='line801'>    if <b>(</b>!checkLine<b>)</b> return -1</span>
+<span id='line802'>    actualRead := curLine.readBuf<b>(</b>buf, n<b>)</b></span>
+<span id='line803'>    numRead += actualRead</span>
+<span id='line804'>    return actualRead</span>
+<span id='line805'>  <b>}</b></span>
+<span id='line806'></span>
+<span id='line807'>  override This unread<b>(</b>Int b<b>)</b></span>
+<span id='line808'>  <b>{</b></span>
+<span id='line809'>    if <b>(</b>pushback == null<b>)</b> pushback = Int<b>[</b>,<b>]</b></span>
+<span id='line810'>    pushback.push<b>(</b>b<b>)</b></span>
+<span id='line811'>    numRead -= 1</span>
+<span id='line812'>    return this</span>
+<span id='line813'>  <b>}</b></span>
+<span id='line814'></span>
+<span id='line815'>  private Bool checkLine<b>(</b><b>)</b></span>
+<span id='line816'>  <b>{</b></span>
+<span id='line817'>    // if we have bytes remaining in this line return true</span>
+<span id='line818'>    if <b>(</b>curLine.remaining > 0<b>)</b> return true</span>
+<span id='line819'></span>
+<span id='line820'>    // if we have read boundary, then this part is complete</span>
+<span id='line821'>    if <b>(</b>endOfPart<b>)</b> return false</span>
+<span id='line822'></span>
+<span id='line823'>    // read the next line or 1000 bytes into curLine buf</span>
+<span id='line824'>    curLine.clear</span>
+<span id='line825'>    for <b>(</b>i:=0; i&lt;1024; ++i<b>)</b></span>
+<span id='line826'>    <b>{</b></span>
+<span id='line827'>      c := in.readU1</span>
+<span id='line828'>      curLine.write<b>(</b>c<b>)</b></span>
+<span id='line829'>      if <b>(</b>c == '\n'<b>)</b> break</span>
+<span id='line830'>    <b>}</b></span>
+<span id='line831'></span>
+<span id='line832'>    // if not a property \r\n newline then keep chugging</span>
+<span id='line833'>    if <b>(</b>curLine.size &lt; 2 || curLine<b>[</b>-2<b>]</b> != '\r'<b>)</b> <b>{</b> curLine.seek<b>(</b>0<b>)</b>; return true <b>}</b></span>
+<span id='line834'></span>
+<span id='line835'>    // go ahead and keep reading as long as we have boundary match</span>
+<span id='line836'>    for <b>(</b>i:=0; i&lt;boundary.size; ++i<b>)</b></span>
+<span id='line837'>    <b>{</b></span>
+<span id='line838'>      c := in.readU1</span>
+<span id='line839'>      if <b>(</b>c != boundary<b>[</b>i<b>]</b><b>)</b></span>
+<span id='line840'>      <b>{</b></span>
+<span id='line841'>        if <b>(</b>c == '\r'<b>)</b> in.unread<b>(</b>c<b>)</b></span>
+<span id='line842'>        else curLine.write<b>(</b>c<b>)</b></span>
+<span id='line843'>        curLine.seek<b>(</b>0<b>)</b></span>
+<span id='line844'>        return true</span>
+<span id='line845'>      <b>}</b></span>
+<span id='line846'>      curLine.write<b>(</b>c<b>)</b></span>
+<span id='line847'>    <b>}</b></span>
+<span id='line848'></span>
+<span id='line849'>    // we have boundary match, so now figure out if end of parts</span>
+<span id='line850'>    curLine.size = curLine.size - boundary.size - 2</span>
+<span id='line851'>    c1 := in.readU1</span>
+<span id='line852'>    c2 := in.readU1</span>
+<span id='line853'>    if <b>(</b>c1 == '-' &amp;&amp; c2 == '-'<b>)</b></span>
+<span id='line854'>    <b>{</b></span>
+<span id='line855'>      endOfParts = true</span>
+<span id='line856'>      c1 = in.readU1</span>
+<span id='line857'>      c2 = in.readU1</span>
+<span id='line858'>    <b>}</b></span>
+<span id='line859'>    if <b>(</b>c1 != '\r' || c2 != '\n'<b>)</b> throw IOErr<b>(</b>"Fishy boundary " + <b>(</b>c1.toChar + c2.toChar<b>)</b>.toCode<b>(</b>'"', true<b>)</b><b>)</b></span>
+<span id='line860'>    endOfPart = true</span>
+<span id='line861'>    curLine.seek<b>(</b>0<b>)</b></span>
+<span id='line862'>    return curLine.size > 0</span>
+<span id='line863'>  <b>}</b></span>
+<span id='line864'></span>
+<span id='line865'>  InStream in</span>
+<span id='line866'>  Str boundary</span>
+<span id='line867'>  Buf curLine</span>
+<span id='line868'>  Int<b>[</b><b>]</b>? pushback     // stack for unread</span>
+<span id='line869'>  Bool endOfPart</span>
+<span id='line870'>  Bool endOfParts</span>
+<span id='line871'>  Int numRead</span>
+<span id='line872'><b>}</b></span>
+<span id='line873'></span>
+</pre>
+</div>
+</body>
+</html>

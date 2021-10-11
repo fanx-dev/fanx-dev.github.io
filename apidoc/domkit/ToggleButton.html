@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::ToggleButton</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='ToggleButton.html'>ToggleButton</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::ToggleButton</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    <a href='Button.html'>domkit::Button</a>
+      domkit::ToggleButton</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-ToggleButton.fan.html'>Source</a></p>
+
+<p>ToggleButton models a boolean state toggled by pressing a button.</p>
+
+<p>See also: <a href='docDomkit::Controls#toggleButton'>docDomkit</a>, <code><a href='Button.html'>Button</a></code></p>
+<dl>
+<dt id='elemOff'>
+elemOff</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> elemOff := null</code></p>
+<p class='src'>
+<a href='src-ToggleButton.fan.html#line51'>Source</a></p>
+
+<p>Optional content to display when not selected. If the argument is not an <code><a href='../dom/Elem.html'>Elem</a></code> instance, one will be created with text content using <code>toStr</code>.</p>
+</dd>
+<dt id='elemOn'>
+elemOn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> elemOn := null</code></p>
+<p class='src'>
+<a href='src-ToggleButton.fan.html#line43'>Source</a></p>
+
+<p>Optional content to display when selected. If the argument is not an <code><a href='../dom/Elem.html'>Elem</a></code> instance, one will be created with text content using <code>toStr</code>.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-ToggleButton.fan.html'>Source</a></p>
+</dd>
+<dt id='selected'>
+selected</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> selected := false</code></p>
+<p class='src'>
+<a href='src-ToggleButton.fan.html#line23'>Source</a></p>
+
+<p>Toggle selection state.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-ToggleButton.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#elemOff'>elemOff</a></li><li><a href='#elemOn'>elemOn</a></li><li><a href='#selected'>selected</a></li></ul>
+</div>
+</div>
+</body>
+</html>

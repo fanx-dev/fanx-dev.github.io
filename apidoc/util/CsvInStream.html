@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::CsvInStream</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='CsvInStream.html'>CsvInStream</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> util::CsvInStream</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../std/InStream.html'>std::InStream</a>
+    <a href='../std/ProxyInStream.html'>std::ProxyInStream</a>
+      util::CsvInStream</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>CsvInStream is used to read delimiter-separated values as specified by RFC 4180.  Format details:</p>
+
+<ul>
+<li>rows are delimited by a newline</li>
+
+<li>cells are separated by <code><a href='CsvInStream.html#delimiter'>delimiter</a></code> char</li>
+
+<li>cells may be quoted with <code>"</code> character</li>
+
+<li>quoted cells may contain the delimiter</li>
+
+<li>quoted cells may contain newlines (always normalized to "\n")</li>
+
+<li>quoted cells must escape <code>"</code> with <code>""</code></li>
+
+<li>the <code><a href='CsvInStream.html#trim'>trim</a></code> flag trims leading/trailing whitespace from non-quoted cells (note that RFC 4180 specifies that whitespace is significant)</li>
+</ul>
+
+<p>Also see <code><a href='CsvOutStream.html'>CsvOutStream</a></code>.</p>
+<dl>
+<dt id='delimiter'>
+delimiter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> delimiter := 44</code></p>
+
+<p>Delimiter character; defaults to comma.</p>
+</dd>
+<dt id='eachRow'>
+eachRow</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> eachRow(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a>&gt;</a> f)</code></p>
+
+<p>Iterate through all the lines parsing each one into delimited-separated strings and calling the given callback functions.  The input stream is guaranteed to be closed upon completion.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+
+<p>Wrap the underlying input stream.</p>
+</dd>
+<dt id='readAllRows'>
+readAllRows</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a>&gt;</a> readAllRows()</code></p>
+
+<p>Read the entire table of rows into memory. The input stream is guaranteed to be closed upon completion.</p>
+</dd>
+<dt id='readRow'>
+readRow</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;?</a> readRow()</code></p>
+
+<p>Read the next line as a row of delimiter-separated strings.  Return null if at end of stream.</p>
+</dd>
+<dt id='trim'>
+trim</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> trim := true</code></p>
+
+<p>Configures whether unqualified whitespace around a cell is automatically trimmed.  If a field is enclosed by quotes then it is never trimmed.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#delimiter'>delimiter</a></li><li><a href='#eachRow'>eachRow</a></li><li><a href='#readAllRows'>readAllRows</a></li><li><a href='#readRow'>readRow</a></li><li><a href='#trim'>trim</a></li></ul>
+</div>
+</div>
+</body>
+</html>

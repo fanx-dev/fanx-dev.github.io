@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Depend</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Depend.html'>Depend</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> std::Depend</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Depend</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Depend models a dependency as a pod name and a version constraint.  Convention for Fantom pods is a four part version format of <code>major.minor.build.patch</code>.</p>
+
+<p>The string format for Depend:</p>
+
+<pre>&lt;depend>        := &lt;name> space &lt;version>
+&lt;version>       := &lt;digits> ["." &lt;digits>]*
+&lt;digits>        := &lt;digit> [&lt;digits>]*
+&lt;digit>         := "0" - "9"</pre>
+
+<p>Examples:</p>
+
+<pre>"foo 1.2"      Any version of foo 1.2 with any build or patch number
+"foo 1.2.64"   Any version of foo 1.2.64 with any patch number</pre>
+<dl>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Two Depends are equal if they have same normalized string representation.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Parse the string according into a dependency.  See class header for specification of the format.  If invalid format and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return a hash code based on the normalized string representation.</p>
+</dd>
+<dt id='match'>
+match</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> match(<a href='Version.html'>Version</a> v)</code></p>
+
+<p>Return if the specified version is a match against this dependency's constraints.  See class header for matching rules.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name</code></p>
+
+<p>Get the pod name of the dependency.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Get the normalized string format of this dependency.  Normalized dependency strings do not contain any optional spaces.  See class header for specification of the format.</p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='Version.html'>Version</a> version</code></p>
+
+<p>Get the version constraint</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#match'>match</a></li><li><a href='#name'>name</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

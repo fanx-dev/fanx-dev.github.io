@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WispRes.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>wisp</a></li><li><a href='src-WispRes.fan.html'>WispRes.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   27 Jun 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using inet</span>
+<span id='line11'>using web</span>
+<span id='line12'></span>
+<span id='line13'>**</span>
+<span id='line14'>** WispRes</span>
+<span id='line15'>**</span>
+<span id='line16'>internal class WispRes : WebRes</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'></span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'>// Construction</span>
+<span id='line21'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line22'></span>
+<span id='line23'>  new make<b>(</b>WispService service, TcpSocket socket<b>)</b></span>
+<span id='line24'>  <b>{</b></span>
+<span id='line25'>    // init headers</span>
+<span id='line26'>    headers := CaseInsensitiveMap&lt;Str,Str><b>(</b><b>)</b>// <b>{</b> caseInsensitive = true <b>}</b></span>
+<span id='line27'>    headers<b>[</b>"Date"<b>]</b> = DateTime.now.toHttpStr</span>
+<span id='line28'>    headers<b>[</b>"Connection"<b>]</b> = "close"</span>
+<span id='line29'>    headers.setAll<b>(</b>service.extraResHeaders<b>)</b></span>
+<span id='line30'></span>
+<span id='line31'>    this.service = service</span>
+<span id='line32'>    this.socket  = socket</span>
+<span id='line33'>    this.headers = headers</span>
+<span id='line34'>  <b>}</b></span>
+<span id='line35'></span>
+<span id='line36'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line37'>// WebRes</span>
+<span id='line38'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line39'></span>
+<span id='line40'>  **</span>
+<span id='line41'>  ** Get or set the HTTP status code for this response. Status code</span>
+<span id='line42'>  ** defaults to 200. If response has already been committed, throws Err.</span>
+<span id='line43'>  ** If status code passed in is not recognized, throws Err.</span>
+<span id='line44'>  **</span>
+<span id='line45'>  override Int statusCode := 200</span>
+<span id='line46'>  <b>{</b></span>
+<span id='line47'>    set</span>
+<span id='line48'>    <b>{</b></span>
+<span id='line49'>      checkUncommitted</span>
+<span id='line50'>      &amp;statusCode = it</span>
+<span id='line51'>    <b>}</b></span>
+<span id='line52'>  <b>}</b></span>
+<span id='line53'></span>
+<span id='line54'>  **</span>
+<span id='line55'>  ** Map of HTTP response headers.  You must set all headers before</span>
+<span id='line56'>  ** you access out<b>(</b><b>)</b> for the first time, which commits the response.</span>
+<span id='line57'>  ** Throw an err if response is already committed.</span>
+<span id='line58'>  **</span>
+<span id='line59'>  override Str:Str headers</span>
+<span id='line60'>  <b>{</b></span>
+<span id='line61'>    get <b>{</b> checkUncommitted; return &amp;headers <b>}</b></span>
+<span id='line62'>  <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  **</span>
+<span id='line65'>  ** Get the list of cookies to set via a header fields.  Add a</span>
+<span id='line66'>  ** a Cookie to this list to set a cookie.  Throw an err if</span>
+<span id='line67'>  ** response is already committed.</span>
+<span id='line68'>  **</span>
+<span id='line69'>  override Cookie<b>[</b><b>]</b> cookies := Cookie<b>[</b>,<b>]</b></span>
+<span id='line70'>  <b>{</b></span>
+<span id='line71'>    get <b>{</b> checkUncommitted; return &amp;cookies <b>}</b></span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  **</span>
+<span id='line75'>  ** Return true if this response has been commmited.  A committed</span>
+<span id='line76'>  ** response has written its response headers, and can no longer</span>
+<span id='line77'>  ** modify its status code or headers.  A response is committed the</span>
+<span id='line78'>  ** first time that `out` is called.</span>
+<span id='line79'>  **</span>
+<span id='line80'>  override Bool isCommitted := false <b>{</b> private set <b>}</b></span>
+<span id='line81'></span>
+<span id='line82'>  **</span>
+<span id='line83'>  ** Return the WebOutStream for this response.  The first time this</span>
+<span id='line84'>  ** method is accessed the response is committed: all headers</span>
+<span id='line85'>  ** currently set will be written to the stream, and can no longer</span>
+<span id='line86'>  ** be modified.  If the "Content-Length" header defines a fixed</span>
+<span id='line87'>  ** number of bytes, then attemps to write too many bytes will throw</span>
+<span id='line88'>  ** an IOErr.  If "Content-Length" is not defined, then a chunked</span>
+<span id='line89'>  ** transfer encoding is automatically used.</span>
+<span id='line90'>  **</span>
+<span id='line91'>  override WebOutStream out<b>(</b><b>)</b></span>
+<span id='line92'>  <b>{</b></span>
+<span id='line93'>    // if we are grabbing a stream to write response content, then</span>
+<span id='line94'>    // ensure we are committed with content; it is an illegal state</span>
+<span id='line95'>    // if another code path committed with no-content</span>
+<span id='line96'>    commit<b>(</b>true<b>)</b></span>
+<span id='line97'>    if <b>(</b>webOut == null<b>)</b> throw Err<b>(</b>"Must set Content-Length or Content-Type to write content"<b>)</b></span>
+<span id='line98'>    return webOut</span>
+<span id='line99'>  <b>}</b></span>
+<span id='line100'></span>
+<span id='line101'>  **</span>
+<span id='line102'>  ** Send a redirect response to the client using the specified status</span>
+<span id='line103'>  ** code and url.  If this response has already been committed this</span>
+<span id='line104'>  ** method throws an Err.</span>
+<span id='line105'>  **</span>
+<span id='line106'>  override Void redirect<b>(</b>Uri uri, Int statusCode := 303<b>)</b></span>
+<span id='line107'>  <b>{</b></span>
+<span id='line108'>    checkUncommitted</span>
+<span id='line109'>    this.statusCode = statusCode</span>
+<span id='line110'>    headers<b>[</b>"Location"<b>]</b> = uri.encode</span>
+<span id='line111'>    headers<b>[</b>"Content-Length"<b>]</b> = "0"</span>
+<span id='line112'>    commit<b>(</b>false<b>)</b></span>
+<span id='line113'>    done</span>
+<span id='line114'>  <b>}</b></span>
+<span id='line115'></span>
+<span id='line116'>  **</span>
+<span id='line117'>  ** Send an error response to client using the specified status and</span>
+<span id='line118'>  ** HTML formatted message.  If this response has already been committed</span>
+<span id='line119'>  ** this method throws an Err.</span>
+<span id='line120'>  **</span>
+<span id='line121'>  override Void sendErr<b>(</b>Int statusCode, Str? msg := null<b>)</b></span>
+<span id='line122'>  <b>{</b></span>
+<span id='line123'>    checkUncommitted</span>
+<span id='line124'></span>
+<span id='line125'>    // unless content-length was forced to zero, write simple body</span>
+<span id='line126'>    Buf? buf := null</span>
+<span id='line127'>    if <b>(</b>headers<b>[</b>"Content-Length"<b>]</b> == null<b>)</b></span>
+<span id='line128'>    <b>{</b></span>
+<span id='line129'>      buf = Buf<b>(</b><b>)</b></span>
+<span id='line130'>      WebOutStream bufOut := WebOutStream<b>(</b>buf.out<b>)</b></span>
+<span id='line131'>      bufOut.docType</span>
+<span id='line132'>      bufOut.html</span>
+<span id='line133'>      bufOut.head.title.w<b>(</b>"$statusCode $<b>{</b>statusMsg<b>[</b>statusCode<b>]</b><b>}</b>"<b>)</b>.titleEnd.headEnd</span>
+<span id='line134'>      bufOut.body</span>
+<span id='line135'>      bufOut.h1.w<b>(</b>statusMsg<b>[</b>statusCode<b>]</b><b>)</b>.h1End</span>
+<span id='line136'>      if <b>(</b>msg != null<b>)</b> bufOut.w<b>(</b>msg.toXml<b>)</b>.nl</span>
+<span id='line137'>      bufOut.bodyEnd</span>
+<span id='line138'>      bufOut.htmlEnd</span>
+<span id='line139'></span>
+<span id='line140'>      headers<b>[</b>"Content-Type"<b>]</b> = "text/html; charset=UTF-8"</span>
+<span id='line141'>      headers<b>[</b>"Content-Length"<b>]</b> = buf.size.toStr</span>
+<span id='line142'>    <b>}</b></span>
+<span id='line143'></span>
+<span id='line144'>    // write response</span>
+<span id='line145'>    this.statusCode = statusCode</span>
+<span id='line146'>    this.errMsg = msg</span>
+<span id='line147'>    if <b>(</b>buf != null<b>)</b> this.out.writeBuf<b>(</b>buf.flip<b>)</b></span>
+<span id='line148'>    else commit<b>(</b>false<b>)</b></span>
+<span id='line149'>    done</span>
+<span id='line150'>  <b>}</b></span>
+<span id='line151'></span>
+<span id='line152'>  **</span>
+<span id='line153'>  ** Send an 100 Continue message to client which is used when the</span>
+<span id='line154'>  ** client specifies the "Expect: 100-continue" request header.</span>
+<span id='line155'>  **</span>
+<span id='line156'>  internal Void sendContinue<b>(</b><b>)</b></span>
+<span id='line157'>  <b>{</b></span>
+<span id='line158'>    checkUncommitted</span>
+<span id='line159'>    sout := socket.out</span>
+<span id='line160'>    sout.print<b>(</b>"HTTP/1.1 100 Continue\r\n"<b>)</b></span>
+<span id='line161'>    sout.print<b>(</b>"\r\n"<b>)</b>.flush</span>
+<span id='line162'>  <b>}</b></span>
+<span id='line163'></span>
+<span id='line164'>  **</span>
+<span id='line165'>  ** Return if this response is complete - see `done`.</span>
+<span id='line166'>  **</span>
+<span id='line167'>  override Bool isDone := false <b>{</b> private set <b>}</b></span>
+<span id='line168'></span>
+<span id='line169'>  **</span>
+<span id='line170'>  ** Done is called to indicate that that response is complete</span>
+<span id='line171'>  ** to terminate pipeline processing.  Once called, no further</span>
+<span id='line172'>  ** WebSteps in the pipeline are executed.</span>
+<span id='line173'>  **</span>
+<span id='line174'>  override Void done<b>(</b><b>)</b> <b>{</b> isDone = true <b>}</b></span>
+<span id='line175'></span>
+<span id='line176'>  **</span>
+<span id='line177'>  ** Write response to socket, then and return ownership of socket</span>
+<span id='line178'>  ** to upgrade to different protocol.</span>
+<span id='line179'>  **</span>
+<span id='line180'>  override TcpSocket upgrade<b>(</b>Int statusCode := 101<b>)</b></span>
+<span id='line181'>  <b>{</b></span>
+<span id='line182'>    checkUncommitted</span>
+<span id='line183'>    this.statusCode = statusCode</span>
+<span id='line184'>    upgraded = true</span>
+<span id='line185'>    commit<b>(</b>false<b>)</b></span>
+<span id='line186'>    return socket</span>
+<span id='line187'>  <b>}</b></span>
+<span id='line188'></span>
+<span id='line189'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line190'>// Impl</span>
+<span id='line191'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line192'></span>
+<span id='line193'>  **</span>
+<span id='line194'>  ** If the response has already been committed, then throw an Err.</span>
+<span id='line195'>  **</span>
+<span id='line196'>  internal Void checkUncommitted<b>(</b><b>)</b></span>
+<span id='line197'>  <b>{</b></span>
+<span id='line198'>    if <b>(</b>isCommitted<b>)</b> throw Err<b>(</b>"WebRes already committed"<b>)</b></span>
+<span id='line199'>  <b>}</b></span>
+<span id='line200'></span>
+<span id='line201'>  **</span>
+<span id='line202'>  ** If we haven't committed yet, then write the response header.</span>
+<span id='line203'>  ** The content flag specifies whether this response will have a</span>
+<span id='line204'>  ** content body in the response.</span>
+<span id='line205'>  **</span>
+<span id='line206'>  internal Void commit<b>(</b>Bool content<b>)</b></span>
+<span id='line207'>  <b>{</b></span>
+<span id='line208'>    // check if committed</span>
+<span id='line209'>    if <b>(</b>isCommitted<b>)</b> return</span>
+<span id='line210'>    isCommitted = true</span>
+<span id='line211'></span>
+<span id='line212'>    // if we have content then we need to ensure we have our</span>
+<span id='line213'>    // headers and response stream are setup correctly</span>
+<span id='line214'>    sout := socket.out</span>
+<span id='line215'>    if <b>(</b>content<b>)</b></span>
+<span id='line216'>    <b>{</b></span>
+<span id='line217'>      cout := WebUtil.makeContentOutStream<b>(</b>&amp;headers, sout<b>)</b></span>
+<span id='line218'>      if <b>(</b>cout != null<b>)</b> webOut = WebOutStream<b>(</b>cout<b>)</b></span>
+<span id='line219'>    <b>}</b></span>
+<span id='line220'></span>
+<span id='line221'>    // write response line and headers</span>
+<span id='line222'>    sout.print<b>(</b>"HTTP/1.1 "<b>)</b>.print<b>(</b>statusCode<b>)</b>.print<b>(</b>" "<b>)</b>.print<b>(</b>toStatusMsg<b>)</b>.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line223'>    WebUtil.writeHeaders<b>(</b>sout, &amp;headers<b>)</b></span>
+<span id='line224'>    &amp;cookies.each |Cookie c| <b>{</b> sout.print<b>(</b>"Set-Cookie: "<b>)</b>.print<b>(</b>c<b>)</b>.print<b>(</b>"\r\n"<b>)</b> <b>}</b></span>
+<span id='line225'>    sout.print<b>(</b>"\r\n"<b>)</b>.flush</span>
+<span id='line226'>  <b>}</b></span>
+<span id='line227'></span>
+<span id='line228'>  private Str toStatusMsg<b>(</b><b>)</b></span>
+<span id='line229'>  <b>{</b></span>
+<span id='line230'>    // special temp hook for WebSocket</span>
+<span id='line231'>    if <b>(</b>statusCode == 101 &amp;&amp; &amp;headers<b>[</b>"Upgrade"<b>]</b> == "WebSocket"<b>)</b></span>
+<span id='line232'>      return "Web Socket Protocol Handshake"</span>
+<span id='line233'>    else if <b>(</b>errMsg != null<b>)</b></span>
+<span id='line234'>      return errMsg</span>
+<span id='line235'>    else</span>
+<span id='line236'>      return statusMsg<b>[</b>statusCode<b>]</b> ?: statusCode.toStr</span>
+<span id='line237'>  <b>}</b></span>
+<span id='line238'></span>
+<span id='line239'>  **</span>
+<span id='line240'>  ** This method is called to close down the response.  We ensure the</span>
+<span id='line241'>  ** response is committed and if we have a response output stream we</span>
+<span id='line242'>  ** close it to flush the content body.</span>
+<span id='line243'>  **</span>
+<span id='line244'>  internal Void close<b>(</b><b>)</b></span>
+<span id='line245'>  <b>{</b></span>
+<span id='line246'>    commit<b>(</b>false<b>)</b></span>
+<span id='line247'>    if <b>(</b>webOut != null<b>)</b> webOut.close</span>
+<span id='line248'>  <b>}</b></span>
+<span id='line249'></span>
+<span id='line250'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line251'>// Fields</span>
+<span id='line252'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line253'></span>
+<span id='line254'>  internal WispService service</span>
+<span id='line255'>  internal TcpSocket socket</span>
+<span id='line256'>  internal WebOutStream? webOut</span>
+<span id='line257'>  internal Bool upgraded</span>
+<span id='line258'>  private Str? errMsg</span>
+<span id='line259'></span>
+<span id='line260'></span>
+<span id='line261'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::Task</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='Task.html'>Task</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> build::Task</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  build::Task</pre>
+
+<p>Task is the base class for commands to run in build scripts. The library of Task subclasses represent the reusable units of work which are composed together to implement build script Targets.</p>
+<dl>
+<dt id='fatal'>
+fatal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FatalBuildErr.html'>FatalBuildErr</a> fatal(<a href='../sys/Str.html'>Str</a> msg, <a href='../sys/Err.html'>Err?</a> err := null)</code></p>
+
+<p>Log an error and return a FatalBuildErr instance</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BuildLog.html'>BuildLog</a> log()</code></p>
+
+<p>Convenience for script.log</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='BuildScript.html'>BuildScript</a> script)</code></p>
+
+<p>Construct with parent script.</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run this task.  If there is an error, the report them via the script's log and throw FatalBuildErr if the script should be terminated.</p>
+</dd>
+<dt id='script'>
+script</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BuildScript.html'>BuildScript</a> script { private set }</code></p>
+
+<p>Return the parent build script associated with this task.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#fatal'>fatal</a></li><li><a href='#log'>log</a></li><li><a href='#run'>run</a></li><li><a href='#script'>script</a></li></ul>
+</div>
+</div>
+</body>
+</html>

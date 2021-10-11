@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocSpace</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocSpace.html'>DocSpace</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> compilerDoc::DocSpace</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::DocSpace</pre>
+<p class='src'>
+<a href='src-DocSpace.fan.html'>Source</a></p>
+
+<p>DocSpace manages a namespace of documents.  All documentation is organized into a two level namespace of "spaceName/docName".</p>
+<dl>
+<dt id='breadcrumb'>
+breadcrumb</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> breadcrumb()</code></p>
+<p class='src'>
+<a href='src-DocSpace.fan.html#line21'>Source</a></p>
+
+<p>String to use for this space in the breadcrumb. By default this is the <code><a href='DocSpace.html#spaceName'>spaceName</a></code>.</p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Doc.html'>Doc?</a> doc(<a href='../sys/Str.html'>Str</a> docName, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocSpace.fan.html#line27'>Source</a></p>
+
+<p>Lookup the document in this space.  If not found raise <code><a href='UnknownDocErr.html'>UnknownDocErr</a></code> or return null based on checked flag.</p>
+</dd>
+<dt id='eachDoc'>
+eachDoc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> eachDoc(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Doc.html'>Doc</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-DocSpace.fan.html#line33'>Source</a></p>
+
+<p>Iterate all the documents in this space.</p>
+</dd>
+<dt id='spaceName'>
+spaceName</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> spaceName()</code></p>
+<p class='src'>
+<a href='src-DocSpace.fan.html'>Source</a></p>
+
+<p>Get the name of this space which is unique with the environment.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-DocSpace.fan.html#line38'>Source</a></p>
+
+<p>Return spaceName by default</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocSpace.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#breadcrumb'>breadcrumb</a></li><li><a href='#doc'>doc</a></li><li><a href='#eachDoc'>eachDoc</a></li><li><a href='#spaceName'>spaceName</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

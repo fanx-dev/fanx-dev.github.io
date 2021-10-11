@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::FPodNamespace</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='FPodNamespace.html'>FPodNamespace</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::FPodNamespace</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CNamespace.html'>compilerx::CNamespace</a>
+    compilerx::FPodNamespace</pre>
+
+<p>FPodNamespace implements Namespace by reading the fcode from pods directly.  Its not as efficient as using reflection, but lets us compile against a different pod set.</p>
+<dl>
+<dt id='dir'>
+dir</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/File.html'>File?</a> dir</code></p>
+
+<p>where to look for pod or null to delegate to Env.findPodFile</p>
+</dd>
+<dt id='findPod'>
+findPod</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='FPod.html'>FPod?</a> findPod(<a href='../sys/Str.html'>Str</a> podName)</code></p>
+
+<p>Map to an FPod</p>
+</dd>
+<dt id='lazyLoad'>
+lazyLoad</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> lazyLoad := false</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/File.html'>File?</a> dir)</code></p>
+
+<p>Make a FPod namespace which looks in the specified directory to resolve pod files or null to delegate to <code>Env.findPodFile</code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dir'>dir</a></li><li><a href='#findPod'>findPod</a></li><li><a href='#lazyLoad'>lazyLoad</a></li></ul>
+</div>
+</div>
+</body>
+</html>

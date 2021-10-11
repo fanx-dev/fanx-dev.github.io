@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::ClosureToImmutable</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='ClosureToImmutable.html'>ClosureToImmutable</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::ClosureToImmutable</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    <a href='CompilerStep.html'>compiler::CompilerStep</a>
+      compiler::ClosureToImmutable</pre>
+
+<p>ClosureToImmutable processes each closure to determine its immutability.  At this point, all the enclosed variables have been mapped to fields by ClosureVars.  So we have three cases:</p>
+
+<ol style='list-style-type:decimal'>
+<li>If every field is known const, then the function is always immutable, and we can just override isImmutable to return true.</li>
+
+<li>If any field is known to never be const, then the function can never be immutable, and we just use Func defaults for isImmutable and toImmutable.</li>
+
+<li>In the last case we have fields like Obj or List which require us calling toImmutable.  In this case we generate a toImmutable method which constructs a new closure instance by calling toImmutable on each field.</li>
+</ol>
+<dl>
+<dt id='isAlwaysImmutable'>
+isAlwaysImmutable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isAlwaysImmutable(<a href='TypeDef.html'>TypeDef</a> cls)</code></p>
+
+<p>Are all the fields known to be const types?</p>
+</dd>
+<dt id='isNeverImmutable'>
+isNeverImmutable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> isNeverImmutable(<a href='TypeDef.html'>TypeDef</a> cls)</code></p>
+
+<p>Are any of the fields known to never be immutable? If any field is not immutable, then return meaningful error message.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler)</code></p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+<dt id='setAllFieldsConst'>
+setAllFieldsConst</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setAllFieldsConst(<a href='TypeDef.html'>TypeDef</a> cls)</code></p>
+
+<p>Set const flag on every field def.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#isAlwaysImmutable'>isAlwaysImmutable</a></li><li><a href='#isNeverImmutable'>isNeverImmutable</a></li><li><a href='#run'>run</a></li><li><a href='#setAllFieldsConst'>setAllFieldsConst</a></li></ul>
+</div>
+</div>
+</body>
+</html>

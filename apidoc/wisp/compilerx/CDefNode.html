@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CDefNode</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CDefNode.html'>CDefNode</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> compilerx::CDefNode</h1>
+<pre>compilerx::CDefNode : <a href='CNode.html'>compilerx::CNode</a></pre>
+
+<p>DefNode is the abstract base class for definition nodes such as TypeDef, MethodDef, and FieldDef.  All definitions may be documented using a Javadoc style FanDoc comment.</p>
+<dl>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='DocDef.html'>DocDef?</a> doc()</code></p>
+</dd>
+<dt id='facets'>
+facets</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='CFacet.html'>CFacet</a>&gt;?</a> facets()</code></p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> flags()</code></p>
+</dd>
+<dt id='isDocumented'>
+isDocumented</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isDocumented()</code></p>
+
+<p>Return if this type or slot should be documented:</p>
+
+<ul>
+<li>public or protected</li>
+
+<li>not synthentic</li>
+
+<li>not a subclass of sys::Test</li>
+</ul>
+
+<p>If a public type/slot is annotated with @NoDoc we we still generate the docs to make it available for reflection</p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='walkFacets'>
+walkFacets</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> walkFacets(<a href='Visitor.html'>Visitor</a> v, <a href='VisitDepth.html'>VisitDepth</a> depth)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#doc'>doc</a></li><li><a href='#facets'>facets</a></li><li><a href='#flags'>flags</a></li><li><a href='#isDocumented'>isDocumented</a></li><li><a href='#print'>print</a></li><li><a href='#walkFacets'>walkFacets</a></li></ul>
+</div>
+</div>
+</body>
+</html>

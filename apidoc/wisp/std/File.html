@@ -1,0 +1,531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::File</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='File.html'>File</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> std::File</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::File</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/NoPeer.html'>NoPeer</a></code><br /></p>
+
+<p>File is used to represent a Uri path to a file or directory. See <a href='https://fantom.org/doc/examples/sys-files'>examples</a>.</p>
+<dl>
+<dt id='basename'>
+basename</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> basename()</code></p>
+
+<p>Convenience for <code><a href='Uri.html#basename'>uri.basename</a></code>.</p>
+</dd>
+<dt id='copyInto'>
+copyInto</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='File.html'>File</a> copyInto(<a href='File.html'>File</a> dir, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+
+<p>Copy this file under the specified directory and return the destination file.  This method is a convenience for:</p>
+
+<pre>return this.copyTo(dir + this.name, options)</pre>
+</dd>
+<dt id='copyTo'>
+copyTo</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='File.html'>File</a> copyTo(<a href='File.html'>File</a> to, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+
+<p>Copy this file or directory to the new specified location. If this file represents a directory, then it recursively copies the entire directory tree.</p>
+
+<p>The options map is used to customize how the copy is performed. The following summarizes the options:</p>
+
+<ul>
+<li>exclude:   Regex or |File f->Bool|</li>
+
+<li>overwrite: Bool or |File f,File f->Bool|</li>
+</ul>
+
+<p>If the "exclude" option is a Regex - each source file's Uri string is is checked for a match to skip.  If a directory is skipped, then its children are skipped also.  The exclude option can also be a function of type <code>|File f->Bool|</code> to check each file.  Exclude processing is performed first before checking for an overwrite.</p>
+
+<p>If during the copy, an existing file of the same name is found, then the "overwrite" option should be to <code>true</code> to overwrite or <code>false</code> to skip.  The overwrite option can also be a function of type <code>|File f->Bool|</code> which is passed every destination file to be overwritten.  If the overwrite function throws an exception, it is raised to the <code>copyTo</code> caller.  If a directory overwrite is skipped, then it its children are skipped too.  If options are null or overwrite is unspecified then the copy is immediately terminated with an IOErr.</p>
+
+<p>Any IOErr or other error encountered during the file copy immediately terminates the copy and is raised to the caller, which might leave the copy in an unfinished state.</p>
+
+<p>Return the <code>to</code> destination file.</p>
+</dd>
+<dt id='create'>
+create</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='File.html'>File</a> create()</code></p>
+
+<p>Create a file or directory represented by this Uri.  If isDir() is false then create an empty file, or if the file already exists overwrite it to empty.  If isDir() is true then create a directory, or if the directory already exists do nothing.  This method will automatically create any parent directories.  Throw IOErr on error. Return this.</p>
+</dd>
+<dt id='createDir'>
+createDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='File.html'>File</a> createDir(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Create a sub-directory under this directory.  Convenience for <code><a href='File.html#create'>create</a></code>:</p>
+
+<pre>return (this+name/.toUri).create</pre>
+
+<p>Throw IOErr is this file is not a directory or if there is a error creating the new directory.  Return the directory created.</p>
+</dd>
+<dt id='createFile'>
+createFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='File.html'>File</a> createFile(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Create a file under this directory.  Convenience for <code><a href='File.html#create'>create</a></code>:</p>
+
+<pre>return (this+name.toUri).create</pre>
+
+<p>Throw IOErr is this file is not a directory or if there is a error creating the new file.  Return the file created.</p>
+</dd>
+<dt id='createTemp'>
+createTemp</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='File.html'>File</a> createTemp(<a href='../sys/Str.html'>Str</a> prefix := &quot;fan&quot;, <a href='../sys/Str.html'>Str</a> suffix := &quot;.tmp&quot;, <a href='File.html'>File?</a> dir := null)</code></p>
+
+<p>Create a temporary file which is guaranteed to be a new, empty file with a unique name.  The file name will be generated using the specified prefix and suffix.  If dir is non-null then it is used as the file's parent directory, otherwise the system's default temporary directory is used.  If dir is specified it must be a directory on the local file system.  See <code><a href='File.html#deleteOnExit'>deleteOnExit</a></code> if you wish to have the file automatically deleted on exit.  Throw IOErr on error.</p>
+
+<p>Examples:</p>
+
+<pre>File.createTemp("x", ".txt") => `/tmp/x67392.txt`
+File.createTemp.deleteOnExit => `/tmp/fan5284.tmp`</pre>
+</dd>
+<dt id='delete'>
+delete</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> delete()</code></p>
+
+<p>Delete this file.  If this file represents a directory, then recursively delete it.  If the file does not exist, then no action is taken.  Throw IOErr on error.</p>
+</dd>
+<dt id='deleteOnExit'>
+deleteOnExit</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='File.html'>File</a> deleteOnExit()</code></p>
+
+<p>Request that the file or directory represented by this File be deleted when the virtual machine exits.  Long running applications should use this method will care since each file marked to delete will consume resources.  Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='eachLine'>
+eachLine</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> eachLine(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> f)</code></p>
+
+<p>Convenience for <code><a href='File.html#eachLine'>in.eachLine</a></code>. The input stream is guaranteed to be closed.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>File equality is based on the un-normalized Uri used to create the File.</p>
+</dd>
+<dt id='exists'>
+exists</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> exists()</code></p>
+
+<p>Return if this file exists.</p>
+</dd>
+<dt id='ext'>
+ext</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> ext()</code></p>
+
+<p>Convenience for <code><a href='Uri.html#ext'>uri.ext</a></code>.</p>
+</dd>
+<dt id='fromOsPath'>
+fromOsPath</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='File.html'>File</a> fromOsPath(<a href='../sys/Str.html'>Str</a> path)</code></p>
+</dd>
+<dt id='fromPath'>
+fromPath</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='File.html'>File</a> fromPath(<a href='../sys/Str.html'>Str</a> path, <a href='../sys/Bool.html'>Bool</a> checkSlash := true)</code></p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return <code>uri.hash</code>.</p>
+</dd>
+<dt id='in'>
+in</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='InStream.html'>InStream</a> in(<a href='../sys/Int.html'>Int</a> bufferSize := 4096)</code></p>
+
+<p>Open a new buffered InStream used to read from this file.  A bufferSize of null or zero will return an unbuffered input stream. Throw IOErr on error.</p>
+</dd>
+<dt id='isDir'>
+isDir</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isDir()</code></p>
+
+<p>Convenience for <code><a href='Uri.html#isDir'>uri.isDir</a></code></p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>If this is a file return if the file size is zero or null. If this is a directory return if this directory has no files without reading a full listing.</p>
+</dd>
+<dt id='isExecutable'>
+isExecutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isExecutable()</code></p>
+
+<p>Return if this file is executable.</p>
+</dd>
+<dt id='isReadable'>
+isReadable</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isReadable()</code></p>
+
+<p>Return if this file is readable.</p>
+</dd>
+<dt id='isWritable'>
+isWritable</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isWritable()</code></p>
+
+<p>Return if this file is writable.</p>
+</dd>
+<dt id='list'>
+list</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='File.html'>File</a>&gt;</a> list()</code></p>
+
+<p>List the files contained by this directory.  This list includes both child sub-directories and normal files.  If the directory is empty or this file doesn't represent a directory, then return an empty list.</p>
+</dd>
+<dt id='listDirs'>
+listDirs</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='File.html'>File</a>&gt;</a> listDirs()</code></p>
+
+<p>List the child sub-directories contained by this directory.  If the directory doesn't contain any sub-direcotries or this file doesn't represent a directory, then return an empty list.</p>
+</dd>
+<dt id='listFiles'>
+listFiles</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='File.html'>File</a>&gt;</a> listFiles()</code></p>
+
+<p>List the child files (excludes directories) contained by this directory.  If the directory doesn't contain any child files or this file doesn't represent a directory, then return an empty list.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static new make(<a href='Uri.html'>Uri</a> uri, <a href='../sys/Bool.html'>Bool</a> checkSlash := true)</code></p>
+
+<p>Make a File for the Uri which represents a file on the local file system.  If creating a Uri to a directory, then the Uri must end in a trailing "/" slash or IOErr is thrown - or you may pass false for checkSlash in which case the trailing slash is implicitly added.  However if a trailing slash is added, then the resulting File's uri will not match the uri passed to this method. If the file doesn't exist, then it is assumed to be to a directory based on a trailing slash (see <code><a href='File.html#isDir'>isDir</a></code>).  If the Uri has a relative path, then it is assumed to be relative to the current working directory.  Throw ArgErr if the Uri has a scheme other than null or "file:".</p>
+</dd>
+<dt id='mimeType'>
+mimeType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MimeType.html'>MimeType?</a> mimeType()</code></p>
+
+<p>Convenience for <code><a href='Uri.html#mimeType'>uri.mimeType</a></code>.</p>
+</dd>
+<dt id='mmap'>
+mmap</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Buf.html'>Buf</a> mmap(<a href='../sys/Str.html'>Str</a> mode := &quot;rw&quot;, <a href='../sys/Int.html'>Int</a> pos := 0, <a href='../sys/Int.html'>Int</a> size := 0)</code></p>
+
+<p>Memory map the region of the file specified by <code>pos</code> and <code>size</code>. If size is null, then use the file's size as a default.  The file is paged into virtual memory on demand.  Modes are:</p>
+
+<ul>
+<li>"r": map the file for reading only.  Throws IOErr if file does not exist.</li>
+
+<li>"rw": open the file for reading and writing; create if the file does not exist.</li>
+
+<li>"p": private read/write mode will not propagate changes to other processes which have mapped the file.</li>
+</ul>
+</dd>
+<dt id='modified'>
+modified</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='TimePoint.html'>TimePoint?</a> modified</code></p>
+
+<p>Get time the file was last modified or null if unknown.</p>
+</dd>
+<dt id='moveInto'>
+moveInto</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='File.html'>File</a> moveInto(<a href='File.html'>File</a> dir)</code></p>
+
+<p>Move this file under the specified directory and return the destination file.  This method is a convenience for:</p>
+
+<pre>return this.moveTo(dir + this.name)</pre>
+</dd>
+<dt id='moveTo'>
+moveTo</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='File.html'>File</a> moveTo(<a href='File.html'>File</a> to)</code></p>
+
+<p>Move this file to the specified location.  If this file is a directory, then the entire directory is moved.  If the target file already exists or the move fails, then an IOErr is thrown.  Return the <code>to</code> destination file.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>Convenience for <code><a href='Uri.html#name'>uri.name</a></code>.</p>
+</dd>
+<dt id='normalize'>
+normalize</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='File.html'>File</a> normalize()</code></p>
+
+<p>Normalize this file path to its canonical representation. If a file on the local file system, then the uri will include the "file:" scheme.  Throw IOErr on error.</p>
+</dd>
+<dt id='open'>
+open</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Buf.html'>Buf</a> open(<a href='../sys/Str.html'>Str</a> mode := &quot;rw&quot;)</code></p>
+
+<p>Open this file for random access.  Modes are:</p>
+
+<ul>
+<li>"r": open the file for reading only.  Throws IOErr if file does not exist.</li>
+
+<li>"rw": open the file for reading and writing; create if the file does not exist.</li>
+</ul>
+
+<p>The Buf instance returned is backed by a random access file pointer. It provides the same functionality as a memory backed buffer, except for a couple exceptions such as <code><a href='Buf.html#unread'>Buf.unread</a></code>. The resulting Buf is a raw interface to the random access file, no buffering is provided at the framework level - so use methods which only access a few bytes carefully.  However methods which transfer data with other Bufs and IO streams will use an internal buffer for efficiency.</p>
+</dd>
+<dt id='os'>
+os</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='File.html'>File</a> os(<a href='../sys/Str.html'>Str</a> osPath)</code></p>
+
+<p>Make a File for the specified operating system specific path on the local file system.</p>
+</dd>
+<dt id='osPath'>
+osPath</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str?</a> osPath()</code></p>
+
+<p>Get this File as an operating system specific path on the local system.  If this File doesn't represent a path on the local file system then return null.</p>
+</dd>
+<dt id='osRoots'>
+osRoots</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='File.html'>File</a>&gt;</a> osRoots()</code></p>
+
+<p>Get the root directories of the operating system's local file system.</p>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='OutStream.html'>OutStream</a> out(<a href='../sys/Bool.html'>Bool</a> append := false, <a href='../sys/Int.html'>Int</a> bufferSize := 4096)</code></p>
+
+<p>Open a new buffered OutStream used to write to this file.  If append is true, then we open the file to append to the end, otherwise it is opened as an empty file.  A bufferSize of null or zero will return an unbuffered output stream.  Throw IOErr on error.</p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='File.html'>File?</a> parent()</code></p>
+
+<p>Get the parent directory of this file or null. Also see <code><a href='Uri.html#parent'>Uri.parent</a></code>.</p>
+</dd>
+<dt id='path'>
+path</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> path()</code></p>
+
+<p>Convenience for <code><a href='Uri.html#path'>uri.path</a></code>.</p>
+</dd>
+<dt id='pathSep'>
+pathSep</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> pathSep()</code></p>
+
+<p>Return the platform's separator for a list of paths: semicolon on Windows, colon on Unix.</p>
+</dd>
+<dt id='pathStr'>
+pathStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> pathStr()</code></p>
+
+<p>Convenience for <code><a href='Uri.html#pathStr'>uri.pathStr</a></code>.</p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />virtual <a href='File.html'>File</a> plus(<a href='Uri.html'>Uri</a> path, <a href='../sys/Bool.html'>Bool</a> checkSlash := true)</code></p>
+
+<p>Make a new File instance by joining this file's Uri together with the specified path.  If the file maps to a directory and the resulting Uri doesn't end in slash then an IOErr is thrown - or pass false for checkSlash to have the slash implicitly added.</p>
+
+<p>Examples:</p>
+
+<pre>File(`a/b/`) + `c` => File(`a/b/c`)
+File(`a/b`) + `c`  => File(`a/c`)</pre>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake(<a href='Uri.html'>Uri</a> uri)</code></p>
+
+<p>Protected constructor for subclasses.</p>
+</dd>
+<dt id='readAllBuf'>
+readAllBuf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Buf.html'>Buf</a> readAllBuf()</code></p>
+
+<p>Convenience for <code><a href='File.html#readAllBuf'>in.readAllBuf</a></code>. The input stream is guaranteed to be closed.</p>
+</dd>
+<dt id='readAllLines'>
+readAllLines</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> readAllLines()</code></p>
+
+<p>Convenience for <code><a href='File.html#readAllLines'>in.readAllLines</a></code>. The input stream is guaranteed to be closed.</p>
+</dd>
+<dt id='readAllStr'>
+readAllStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> readAllStr(<a href='../sys/Bool.html'>Bool</a> normalizeNewlines := true)</code></p>
+
+<p>Convenience for <code><a href='File.html#readAllStr'>in.readAllStr</a></code>. The input stream is guaranteed to be closed.</p>
+</dd>
+<dt id='rename'>
+rename</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='File.html'>File</a> rename(<a href='../sys/Str.html'>Str</a> newName)</code></p>
+
+<p>Renaming this file within its current directory. It is a convenience for:</p>
+
+<pre>return this.moveTo(parent + newName)</pre>
+</dd>
+<dt id='sep'>
+sep</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> sep()</code></p>
+
+<p>Return the platform's separator for names within in a path: backslash on Windows, forward slash on Unix.</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> size()</code></p>
+
+<p>Return the size of the file in bytes otherwise 0 if a directory or unknown.</p>
+</dd>
+<dt id='store'>
+store</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='FileStore.html'>FileStore?</a> store()</code></p>
+
+<p>Get the store instance which models the storage pool, device, partition, or volume used to store this file.  Raise UnsupportedErr if this file is not associated with a store.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return <code>uri.toStr</code>.</p>
+</dd>
+<dt id='uri'>
+uri</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Uri.html'>Uri</a> uri()</code></p>
+
+<p>Return the Uri path used to create this File. This Uri may be absolute or relative.</p>
+</dd>
+<dt id='walk'>
+walk</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> walk(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='File.html'>File</a>&gt;</a> c)</code></p>
+
+<p>Recursively walk this file/directory top down.  If this file is not a directory then the callback is invoked exactly once with this file.  If a directory, then the callback is invoked with this file, then recursively for each child file.</p>
+</dd>
+<dt id='writeAllStr'>
+writeAllStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeAllStr(<a href='../sys/Str.html'>Str</a> str)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeChars'>out.writeChars</a></code> The output stream is guaranteed to be closed.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#createTemp'>createTemp</a></li><li><a href='#fromOsPath'>fromOsPath</a></li><li><a href='#fromPath'>fromPath</a></li><li><a href='#make'>make</a></li><li><a href='#os'>os</a></li><li><a href='#osRoots'>osRoots</a></li><li><a href='#pathSep'>pathSep</a></li><li><a href='#privateMake'>privateMake</a></li><li><a href='#sep'>sep</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#basename'>basename</a></li><li><a href='#copyInto'>copyInto</a></li><li><a href='#copyTo'>copyTo</a></li><li><a href='#create'>create</a></li><li><a href='#createDir'>createDir</a></li><li><a href='#createFile'>createFile</a></li><li><a href='#delete'>delete</a></li><li><a href='#deleteOnExit'>deleteOnExit</a></li><li><a href='#eachLine'>eachLine</a></li><li><a href='#equals'>equals</a></li><li><a href='#exists'>exists</a></li><li><a href='#ext'>ext</a></li><li><a href='#hash'>hash</a></li><li><a href='#in'>in</a></li><li><a href='#isDir'>isDir</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#isExecutable'>isExecutable</a></li><li><a href='#isReadable'>isReadable</a></li><li><a href='#isWritable'>isWritable</a></li><li><a href='#list'>list</a></li><li><a href='#listDirs'>listDirs</a></li><li><a href='#listFiles'>listFiles</a></li><li><a href='#mimeType'>mimeType</a></li><li><a href='#mmap'>mmap</a></li><li><a href='#modified'>modified</a></li><li><a href='#moveInto'>moveInto</a></li><li><a href='#moveTo'>moveTo</a></li><li><a href='#name'>name</a></li><li><a href='#normalize'>normalize</a></li><li><a href='#open'>open</a></li><li><a href='#osPath'>osPath</a></li><li><a href='#out'>out</a></li><li><a href='#parent'>parent</a></li><li><a href='#path'>path</a></li><li><a href='#pathStr'>pathStr</a></li><li><a href='#plus'>plus</a></li><li><a href='#readAllBuf'>readAllBuf</a></li><li><a href='#readAllLines'>readAllLines</a></li><li><a href='#readAllStr'>readAllStr</a></li><li><a href='#rename'>rename</a></li><li><a href='#size'>size</a></li><li><a href='#store'>store</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#uri'>uri</a></li><li><a href='#walk'>walk</a></li><li><a href='#writeAllStr'>writeAllStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

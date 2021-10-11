@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>FileMod.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>webmod</a></li><li><a href='FileMod.html'>FileMod</a></li><li><a href='src-FileMod.fan.html'>FileMod.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   27 Nov 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using web</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** FileMod is a web module which publishes a file or directory.</span>
+<span id='line13'>**</span>
+<span id='line14'>** See <b>[</b>pod doc<b>]</b>`pod-doc#file`</span>
+<span id='line15'>**</span>
+<span id='line16'>const class FileMod : WebMod</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  **</span>
+<span id='line19'>  ** Constructor with it-block, must set `file`</span>
+<span id='line20'>  **</span>
+<span id='line21'>  new make<b>(</b>|This|? f<b>)</b> <b>{</b> f?.call<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line22'></span>
+<span id='line23'>  **</span>
+<span id='line24'>  ** File or directory to publish.  This field must be</span>
+<span id='line25'>  ** configured in the constructor's it-block.</span>
+<span id='line26'>  **</span>
+<span id='line27'>  const File file</span>
+<span id='line28'></span>
+<span id='line29'>  override Void onService<b>(</b><b>)</b></span>
+<span id='line30'>  <b>{</b></span>
+<span id='line31'>    // if servicing a single file, we handle specially</span>
+<span id='line32'>    if <b>(</b>!file.isDir<b>)</b></span>
+<span id='line33'>    <b>{</b></span>
+<span id='line34'>      // don't publish a single file with path longer than mod itself</span>
+<span id='line35'>      if <b>(</b>!req.modRel.path.isEmpty<b>)</b> <b>{</b> res.sendErr<b>(</b>404<b>)</b>; return <b>}</b></span>
+<span id='line36'></span>
+<span id='line37'>      // publish the file and we ar don</span>
+<span id='line38'>      FileWeblet<b>(</b>file<b>)</b>.onService</span>
+<span id='line39'>      return</span>
+<span id='line40'>    <b>}</b></span>
+<span id='line41'></span>
+<span id='line42'>    // get file under directory</span>
+<span id='line43'>    f := this.file.plus<b>(</b>req.modRel, false<b>)</b></span>
+<span id='line44'></span>
+<span id='line45'>    // if we've resolved a directory</span>
+<span id='line46'>    if <b>(</b>f.isDir<b>)</b></span>
+<span id='line47'>    <b>{</b></span>
+<span id='line48'>      // if trailing slash wasn't used by req, redirect to use slash</span>
+<span id='line49'>      if <b>(</b>!req.uri.isDir<b>)</b> <b>{</b> res.redirect<b>(</b>req.uri.plusSlash<b>)</b>; return <b>}</b></span>
+<span id='line50'></span>
+<span id='line51'>      // map to "index.html"</span>
+<span id='line52'>      f = f + `index.html`</span>
+<span id='line53'>    <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>    // if it doesn't exist then 404</span>
+<span id='line56'>    if <b>(</b>!f.exists<b>)</b> <b>{</b> res.sendErr<b>(</b>404<b>)</b>; return <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>    // publish the file</span>
+<span id='line59'>    FileWeblet<b>(</b>f<b>)</b>.checkUnderDir<b>(</b>file<b>)</b>.onService</span>
+<span id='line60'>  <b>}</b></span>
+<span id='line61'></span>
+<span id='line62'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

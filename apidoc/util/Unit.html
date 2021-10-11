@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::Unit</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='Unit.html'>Unit</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> util::Unit</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  util::Unit</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Unit models a unit of measurement.  Units are represented as:</p>
+
+<ul>
+<li>ids: each unit has one or more unique identifiers for the unit within the VM.  Units are typically defined in the unit database "etc/sys/units.txt" or can be via by the <code><a href='Unit.html#define'>define</a></code> method. Every id assigned to a unit must be unique within the VM.</li>
+
+<li>name: the first identifier in the ids list is called the <em>name</em> and should be a descriptive summary of the unit using words separated by underbar such as "miles_per_hour".</li>
+
+<li>symbol: the last identifier in the ids list should be the abbreviated symbol; for example "kilogram" has the symbol "kg". In units with only one id, the symbol is the same as the name. Units with exponents should use Unicode superscript chars, not ASCII digits.</li>
+
+<li>dimension: defines the ratio of the seven SI base units: m, kg, sec, A, K, mol, and cd</li>
+
+<li>scale/factor: defines the normalization equations for unit conversion</li>
+</ul>
+
+<p>A unit identifier is limited to the following characters:</p>
+
+<ul>
+<li>any Unicode char over 128</li>
+
+<li>ASCII letters <code>a</code> - <code>z</code> and <code>A</code> - <code>Z</code></li>
+
+<li>underbar <code>_</code></li>
+
+<li>division sign <code>/</code></li>
+
+<li>percent sign <code>%</code></li>
+
+<li>dollar sign <code>$</code></li>
+</ul>
+
+<p>Units with equal dimensions are considered to the measure the same physical quantity.  This is not always true, but good enough for practice. Conversions with the <code>convertTo</code> method are expressed with the following equations:</p>
+
+<pre>unit       = dimension * scale + offset
+toNormal   = scalar * scale + offset
+fromNormal = (scalar - offset) / scale
+toUnit     = fromUnit.fromNormal( toUnit.toNormal(sclar) )</pre>
+
+<p>As a simple, pragmatic solution for modeling Units, there are some units which don't fit this model including logarithm and angular units. Units which don't cleanly fit this model should be represented as dimensionless (all ratios set to zero).</p>
+
+<p>Fantom's model for units of measurement and the unit database are derived from the OASIS oBIX specification.</p>
+<dl>
+<dt id='A'>
+A</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> A()</code></p>
+
+<p>Ampere (electric current) component of the unit dimension.</p>
+</dd>
+<dt id='K'>
+K</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> K()</code></p>
+
+<p>Kelvin (thermodynamic temperature) component of the unit dimension.</p>
+</dd>
+<dt id='cd'>
+cd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> cd()</code></p>
+
+<p>Candela (luminous intensity) component of the unit dimension.</p>
+</dd>
+<dt id='convertTo'>
+convertTo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> convertTo(<a href='../sys/Float.html'>Float</a> scalar, <a href='Unit.html'>Unit</a> unit)</code></p>
+
+<p>Convert a scalar value from this unit to the given unit.  If the units do not have the same dimension then throw Err. For example, to convert 3km to meters:</p>
+
+<pre>m  := Unit("meter")
+km := Unit("kilometer")
+km.convertTo(3f, m)  =>  3000f</pre>
+</dd>
+<dt id='define'>
+define</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Unit.html'>Unit</a> define(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Define a new Unit definition in the VM's unit database using the following string format:</p>
+
+<pre>unit   := &lt;ids> [";" &lt;dim> [";" &lt;scale> [";" &lt;offset>]]]
+names  := &lt;ids> ("," &lt;id>)*
+id     := &lt;idChar>*
+idChar := 'a'-'z' | 'A'-'Z' | '_' | '%' | '/' | any char > 128
+dim    := &lt;ratio> ["*" &lt;ratio>]*   // no whitespace allowed
+ratio  := &lt;base> &lt;exp>
+base   := "kg" | "m" | "sec" | "K" | "A" | "mol" | "cd"
+exp    := &lt;int>
+scale  := &lt;float>
+offset := &lt;float></pre>
+
+<p>If the format is incorrect or any identifiers are already defined then throw an exception.</p>
+</dd>
+<dt id='definition'>
+definition</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> definition()</code></p>
+
+<p>Return string format as specified by <code><a href='Unit.html#define'>define</a></code>.</p>
+</dd>
+<dt id='dim'>
+dim</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> dim()</code></p>
+
+<p>Return the string format of the dimension portion of <code><a href='Unit.html#definition'>definition</a></code></p>
+</dd>
+<dt id='div'>
+div</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Unit.html'>Unit</a> div(<a href='Unit.html'>Unit</a> b)</code></p>
+
+<p>Match quotient of this divided by b against current database definitions. If an unambiguous match cannot be made then throw Err.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Two units are equal if they have reference equality because all units are interned during definition.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Find a unit by one of its identifiers if it has been defined in this VM.  If the unit isn't defined yet and checked is false then return null, otherwise throw Err.  Any units declared in "etc/sys/units.txt" are implicitly defined.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return <code>toStr.hash</code>.</p>
+</dd>
+<dt id='ids'>
+ids</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> ids()</code></p>
+
+<p>Return the list of programatic identifiers for this unit. The first item is always <code><a href='Unit.html#name'>name</a></code> and the last is always <code><a href='Unit.html#symbol'>symbol</a></code>.</p>
+</dd>
+<dt id='kg'>
+kg</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> kg()</code></p>
+
+<p>Kilogram (mass) component of the unit dimension.</p>
+</dd>
+<dt id='list'>
+list</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='Unit.html'>Unit</a>&gt;</a> list()</code></p>
+
+<p>List all the units currently defined in the VM.  Any units declared in "etc/sys/units.txt" are implicitly defined.</p>
+</dd>
+<dt id='m'>
+m</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> m()</code></p>
+
+<p>Meter (length) component of the unit dimension.</p>
+</dd>
+<dt id='mol'>
+mol</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> mol()</code></p>
+
+<p>Mole (amount of substance) component of the unit dimension.</p>
+</dd>
+<dt id='mult'>
+mult</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Unit.html'>Unit</a> mult(<a href='Unit.html'>Unit</a> that)</code></p>
+
+<p>Match the product of this and b against current database definitions. If an unambiguous match cannot be made then throw Err.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>Return the primary name identifier of this unit. This is always the first item in <code><a href='Unit.html#ids'>ids</a></code>.</p>
+</dd>
+<dt id='offset'>
+offset</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> offset()</code></p>
+
+<p>Return the offset factor used to convert this unit "from normal". See class header for normalization and conversion equations.  Offset is used most commonly with temperature units.  The offset for normalized unit is always zero.</p>
+</dd>
+<dt id='quantities'>
+quantities</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> quantities()</code></p>
+
+<p>List the quantity names used to organize the unit database in "etc/sys/units.txt".  Quantities are merely a convenient mechanism to organize the unit database - there is no guarantee that they include all current VM definitions.</p>
+</dd>
+<dt id='quantity'>
+quantity</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='Unit.html'>Unit</a>&gt;</a> quantity(<a href='../sys/Str.html'>Str</a> quantity)</code></p>
+
+<p>Get the units organized under a specific quantity name in the unit database "etc/sys/units.txt".  Quantities are merely a convenient mechanism to organize the unit database - there is no guarantee that they include all current VM definitions.</p>
+</dd>
+<dt id='scale'>
+scale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> scale()</code></p>
+
+<p>Return the scale factor used to convert this unit "from normal". For example the scale factor for kilometer is 1000 because it is defined as a 1000 meters where meter is the normalized unit for length.  See class header for normalization and conversion equations. The scale factor the normalized unit is always one.</p>
+</dd>
+<dt id='sec'>
+sec</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> sec()</code></p>
+
+<p>Second (time) component of the unit dimension.</p>
+</dd>
+<dt id='symbol'>
+symbol</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> symbol()</code></p>
+
+<p>Return the abbreviated symbol for this unit. This is always the last item in <code><a href='Unit.html#ids'>ids</a></code>.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return <code><a href='Unit.html#symbol'>symbol</a></code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#define'>define</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#list'>list</a></li><li><a href='#quantities'>quantities</a></li><li><a href='#quantity'>quantity</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#A'>A</a></li><li><a href='#K'>K</a></li><li><a href='#cd'>cd</a></li><li><a href='#convertTo'>convertTo</a></li><li><a href='#definition'>definition</a></li><li><a href='#dim'>dim</a></li><li><a href='#div'>div</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#ids'>ids</a></li><li><a href='#kg'>kg</a></li><li><a href='#m'>m</a></li><li><a href='#mol'>mol</a></li><li><a href='#mult'>mult</a></li><li><a href='#name'>name</a></li><li><a href='#offset'>offset</a></li><li><a href='#scale'>scale</a></li><li><a href='#sec'>sec</a></li><li><a href='#symbol'>symbol</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

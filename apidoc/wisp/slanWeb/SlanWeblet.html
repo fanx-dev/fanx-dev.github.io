@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>slanWeb::SlanWeblet</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>slanWeb</a></li><li><a href='SlanWeblet.html'>SlanWeblet</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> slanWeb::SlanWeblet</h1>
+<pre>slanWeb::SlanWeblet : <a href='../web/Weblet.html'>web::Weblet</a></pre>
+
+<p>enhanced Weblet for rendering template.</p>
+<dl>
+<dt id='compileJs'>
+compileJs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> compileJs(<a href='../std/Uri.html'>Uri</a> fwt, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> env := [&quot;fwt.window.root&quot;:&quot;fwt-root&quot;])</code></p>
+
+<p>compile js file.</p>
+</dd>
+<dt id='esc'>
+esc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> esc(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>escape the xml control characters</p>
+</dd>
+<dt id='onService'>
+onService</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onService()</code></p>
+</dd>
+<dt id='render'>
+render</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> render(<a href='../std/Uri.html'>Uri</a> view, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;?</a> lay := null)</code></p>
+
+<p>render the template</p>
+</dd>
+<dt id='sendObj'>
+sendObj</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> sendObj(<a href='../sys/Obj.html'>Obj?</a> result)</code></p>
+</dd>
+<dt id='setContentType'>
+setContentType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setContentType(<a href='../sys/Str.html'>Str?</a> ext := null)</code></p>
+</dd>
+<dt id='stash'>
+stash</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> stash(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>set param</p>
+</dd>
+<dt id='stashId'>
+stashId</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> stashId()</code></p>
+
+<p>id is the first word of unnecessary uri</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#compileJs'>compileJs</a></li><li><a href='#esc'>esc</a></li><li><a href='#onService'>onService</a></li><li><a href='#render'>render</a></li><li><a href='#sendObj'>sendObj</a></li><li><a href='#setContentType'>setContentType</a></li><li><a href='#stash'>stash</a></li><li><a href='#stashId'>stashId</a></li></ul>
+</div>
+</div>
+</body>
+</html>

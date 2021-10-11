@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::TableModel</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='TableModel.html'>TableModel</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::TableModel</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGui::TableModel</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>TableModel models the data of a table widget.</p>
+<dl>
+<dt id='header'>
+header</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> header(<a href='../sys/Int.html'>Int</a> col)</code></p>
+
+<p>Get the header text for specified column.</p>
+</dd>
+<dt id='image'>
+image</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../vaseGraphics/Image.html'>Image?</a> image(<a href='../sys/Int.html'>Int</a> col, <a href='../sys/Int.html'>Int</a> row)</code></p>
+
+<p>Get the image to display for specified cell or null.</p>
+</dd>
+<dt id='numCols'>
+numCols</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> numCols()</code></p>
+
+<p>Get number of columns in table.  Default returns 1.</p>
+</dd>
+<dt id='numRows'>
+numRows</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> numRows()</code></p>
+
+<p>Get number of rows in table.</p>
+</dd>
+<dt id='prefWidth'>
+prefWidth</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int?</a> prefWidth(<a href='../sys/Int.html'>Int</a> col)</code></p>
+
+<p>Return the preferred width in pixels for this column. Return null (the default) to use the Tables default width.</p>
+</dd>
+<dt id='sortCompare'>
+sortCompare</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> sortCompare(<a href='../sys/Int.html'>Int</a> col, <a href='../sys/Int.html'>Int</a> row1, <a href='../sys/Int.html'>Int</a> row2)</code></p>
+
+<p>Compare two cells when sorting the given col.  Return -1, 0, or 1 according to the same semanatics as <code><a href='../sys/Obj.html#compare'>Obj.compare</a></code>. Default behavior sorts <code><a href='TableModel.html#text'>text</a></code> using <a href='sys::Str.localeCompare'>sys::Str.localeCompare</a>. See <a href='fwt::Table.sort'>fwt::Table.sort</a>.</p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> text(<a href='../sys/Int.html'>Int</a> col, <a href='../sys/Int.html'>Int</a> row)</code></p>
+
+<p>Get the text to display for specified cell.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#header'>header</a></li><li><a href='#image'>image</a></li><li><a href='#numCols'>numCols</a></li><li><a href='#numRows'>numRows</a></li><li><a href='#prefWidth'>prefWidth</a></li><li><a href='#sortCompare'>sortCompare</a></li><li><a href='#text'>text</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::DomFile</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='DomFile.html'>DomFile</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> dom::DomFile</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::DomFile</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-DomFile.fan.html'>Source</a></p>
+
+<p>DomFile models a DOM File object.</p>
+<dl>
+<dt id='ext'>
+ext</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> ext()</code></p>
+<p class='src'>
+<a href='src-DomFile.fan.html'>Source</a></p>
+
+<p>Return file name extension (everything after the last dot) or <code>null</code> name has no dot.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name()</code></p>
+<p class='src'>
+<a href='src-DomFile.fan.html'>Source</a></p>
+
+<p>Name of file. This is just the file name, and does not include any path information.</p>
+</dd>
+<dt id='readAsDataUri'>
+readAsDataUri</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> readAsDataUri(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../std/Uri.html'>Uri</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-DomFile.fan.html#line34'>Source</a></p>
+
+<p>Asynchronously load file contents as a <code>data:</code> URI representing the file's contents.</p>
+</dd>
+<dt id='readAsText'>
+readAsText</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> readAsText(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-DomFile.fan.html#line38'>Source</a></p>
+
+<p>Asynchronously load file contents as text and invoke the callback function with results.</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> size()</code></p>
+<p class='src'>
+<a href='src-DomFile.fan.html#line27'>Source</a></p>
+
+<p>Size of file in bytes.</p>
+</dd>
+<dt id='type'>
+type</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> type()</code></p>
+<p class='src'>
+<a href='src-DomFile.fan.html#line30'>Source</a></p>
+
+<p>MIME type of the file as a read-only string or "" if the type could not be determined.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DomFile.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#ext'>ext</a></li><li><a href='#name'>name</a></li><li><a href='#readAsDataUri'>readAsDataUri</a></li><li><a href='#readAsText'>readAsText</a></li><li><a href='#size'>size</a></li><li><a href='#type'>type</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocTypeRenderer</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocTypeRenderer.html'>DocTypeRenderer</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerDoc::DocTypeRenderer</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='DocRenderer.html'>compilerDoc::DocRenderer</a>
+    compilerDoc::DocTypeRenderer</pre>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html'>Source</a></p>
+
+<p>Renders DocType documents</p>
+
+<h3>Overview</h3>
+
+<pre>&lt;h1>
+ &lt;span>{type.flags}&lt;/span> {type.qname}
+&lt;/h1>
+&lt;pre>...&lt;/pre>                 // inhertiance
+&lt;p class='facets'>...&lt;/p>      // facet list (if available)
+&lt;p class='src'>&lt;a>...&lt;/a>&lt;/p>  // source link (if available)
+...                            // type fandoc
+&lt;ul>...&lt;/ul>                   // emum list (if available)</pre>
+
+<h3>Slots</h3>
+
+<pre>&lt;dl>
+ &lt;dt id='{slot.name}'>{slot.name}&lt;/dt>
+ &lt;dd>
+  &lt;p class='sig'>&lt;code>...&lt;/code>&lt;/p>  // slot signature
+  &lt;p class='src'>&lt;a>...&lt;/a>&lt;/p>        // source link (if available)
+  ...                                  // slot fandoc
+ &lt;/dd>
+&lt;/dl></pre>
+
+<h3>Table of Contents</h3>
+
+<pre>&lt;h3>Source&lt;/h3>
+&lt;ul>&lt;li>&lt;a>...&lt;/a>&lt;/li>&lt;/ul>     // if source link
+&lt;ul>&lt;li>Not available&lt;/li>&lt;/ul>  // if no source link
+
+&lt;h3>Slots&lt;/h3>
+&lt;ul>
+ &lt;li>&lt;a href='#{slot.name}'>{slot.name}&lt;/a>&lt;/li>
+&lt;/ul></pre>
+<dl>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='DocEnv.html'>DocEnv</a> env, <a href='../web/WebOutStream.html'>WebOutStream</a> out, <a href='DocType.html'>DocType</a> doc)</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line57'>Source</a></p>
+
+<p>Constructor with env, out params.</p>
+</dd>
+<dt id='toSrcLink'>
+toSrcLink</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocLink.html'>DocLink?</a> toSrcLink(<a href='DocLoc.html'>DocLoc</a> loc, <a href='../sys/Str.html'>Str</a> dis)</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line354'>Source</a></p>
+
+<p>Map filename/line number to a source file link</p>
+</dd>
+<dt id='type'>
+type</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocType.html'>DocType</a> type</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line64'>Source</a></p>
+
+<p>Type to renderer</p>
+</dd>
+<dt id='writeContent'>
+writeContent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> writeContent()</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line67'>Source</a></p>
+</dd>
+<dt id='writeFacet'>
+writeFacet</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeFacet(<a href='DocFacet.html'>DocFacet</a> f)</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line333'>Source</a></p>
+
+<p>Write the given facet.</p>
+</dd>
+<dt id='writeSlot'>
+writeSlot</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeSlot(<a href='DocSlot.html'>DocSlot</a> slot)</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line158'>Source</a></p>
+
+<p>Render the HTML for all the given slot</p>
+</dd>
+<dt id='writeSlotSig'>
+writeSlotSig</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeSlotSig(<a href='DocSlot.html'>DocSlot</a> slot)</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line169'>Source</a></p>
+
+<p>Render HTML for slot signature.</p>
+</dd>
+<dt id='writeSlots'>
+writeSlots</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeSlots()</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line150'>Source</a></p>
+
+<p>Render the HTML for all the slot definitions</p>
+</dd>
+<dt id='writeSrcLink'>
+writeSrcLink</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeSrcLink(<a href='DocLoc.html'>DocLoc</a> loc, <a href='../sys/Str.html'>Str</a> dis := &quot;Source&quot;)</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line363'>Source</a></p>
+
+<p>Write source code link as &lt;p> if source is available.</p>
+</dd>
+<dt id='writeToc'>
+writeToc</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeToc()</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line225'>Source</a></p>
+
+<p>Render the table of contents for this type.</p>
+</dd>
+<dt id='writeTypeInheritance'>
+writeTypeInheritance</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeTypeInheritance()</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line125'>Source</a></p>
+
+<p>Render type inheritance.</p>
+</dd>
+<dt id='writeTypeOverview'>
+writeTypeOverview</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeTypeOverview()</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line85'>Source</a></p>
+
+<p>Render the HTML for the type overview (base, mixins, type doc)</p>
+</dd>
+<dt id='writeTypeRef'>
+writeTypeRef</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeTypeRef(<a href='DocTypeRef.html'>DocTypeRef</a> ref, <a href='../sys/Bool.html'>Bool</a> full := false)</code></p>
+<p class='src'>
+<a href='src-DocTypeRenderer.fan.html#line262'>Source</a></p>
+
+<p>Write the given type ref as a hyperlink</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocTypeRenderer.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#toSrcLink'>toSrcLink</a></li><li><a href='#type'>type</a></li><li><a href='#writeContent'>writeContent</a></li><li><a href='#writeFacet'>writeFacet</a></li><li><a href='#writeSlot'>writeSlot</a></li><li><a href='#writeSlotSig'>writeSlotSig</a></li><li><a href='#writeSlots'>writeSlots</a></li><li><a href='#writeSrcLink'>writeSrcLink</a></li><li><a href='#writeToc'>writeToc</a></li><li><a href='#writeTypeInheritance'>writeTypeInheritance</a></li><li><a href='#writeTypeOverview'>writeTypeOverview</a></li><li><a href='#writeTypeRef'>writeTypeRef</a></li></ul>
+</div>
+</div>
+</body>
+</html>

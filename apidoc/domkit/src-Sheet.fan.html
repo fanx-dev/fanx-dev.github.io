@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Sheet.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Sheet.html'>Sheet</a></li><li><a href='src-Sheet.fan.html'>Sheet.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   15 Mar 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using dom</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** Sheet</span>
+<span id='line14'>**</span>
+<span id='line15'>// TODO FIXIT: combine Popup + Dialog + Sheet <b>(</b>and add modal/non-modal support<b>)</b></span>
+<span id='line16'>@NoDoc @Js class Sheet : Box</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    this.uid = nextId.val</span>
+<span id='line21'>    nextId.val = uid+1</span>
+<span id='line22'>    this->tabIndex = 0</span>
+<span id='line23'>    this.style.addClass<b>(</b>"domkit-Sheet"<b>)</b></span>
+<span id='line24'>    this.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b> e.stop; if <b>(</b>canDismiss<b>)</b> close <b>}</b></span>
+<span id='line25'>  <b>}</b></span>
+<span id='line26'></span>
+<span id='line27'>  ** Can this sheet be dismissed by clicking anywhere in the window?</span>
+<span id='line28'>  Bool canDismiss := false</span>
+<span id='line29'></span>
+<span id='line30'>  ** Return 'true' if this sheet currently open.</span>
+<span id='line31'>  Bool isOpen <b>{</b> private set <b>}</b></span>
+<span id='line32'></span>
+<span id='line33'>  ** Optional delay for open animation.</span>
+<span id='line34'>  @NoDoc Duration? delay := null</span>
+<span id='line35'></span>
+<span id='line36'>  ** Protected sub-class callback invoked directly before dialog is opened.</span>
+<span id='line37'>  protected virtual Void onBeforeOpen<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line38'></span>
+<span id='line39'>  ** Callback when a key is pressed while Dialog is open, including</span>
+<span id='line40'>  ** events that where dispatched outside the dialog. This callback</span>
+<span id='line41'>  ** is only fired if `canDismiss` is 'false'.</span>
+<span id='line42'>  protected Void onKeyDown<b>(</b>|Event e| f<b>)</b> <b>{</b> this.cbKeyDown = f <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>  ** Open this sheet over given element. If sheet</span>
+<span id='line45'>  ** is already open this method does nothing.</span>
+<span id='line46'>  This open<b>(</b>Elem parent, Str height<b>)</b></span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    if <b>(</b>isOpen<b>)</b> return this</span>
+<span id='line49'></span>
+<span id='line50'>    ppos := parent.pagePos</span>
+<span id='line51'>    this.style.setAll<b>(</b><b>[</b></span>
+<span id='line52'>      "left": "$<b>{</b>ppos.x<b>}</b>px",</span>
+<span id='line53'>      "top":  "$<b>{</b>ppos.y<b>}</b>px",</span>
+<span id='line54'>      "width": "$<b>{</b>parent.size.w<b>}</b>px",</span>
+<span id='line55'>      "height": "0px"</span>
+<span id='line56'>    <b>]</b><b>)</b></span>
+<span id='line57'></span>
+<span id='line58'>    body := Win.cur.doc.body</span>
+<span id='line59'>    body.add<b>(</b>Elem <b>{</b></span>
+<span id='line60'>      it.id = "domkitSheet-mask-$uid"</span>
+<span id='line61'>      it.style.addClass<b>(</b>"domkit-Sheet-mask"<b>)</b></span>
+<span id='line62'>      if <b>(</b>canDismiss<b>)</b></span>
+<span id='line63'>      <b>{</b></span>
+<span id='line64'>        it.onEvent<b>(</b>"keydown",   false<b>)</b> |e| <b>{</b> e.stop; close <b>}</b></span>
+<span id='line65'>        it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b> e.stop; close <b>}</b></span>
+<span id='line66'>      <b>}</b></span>
+<span id='line67'>      else</span>
+<span id='line68'>      <b>{</b></span>
+<span id='line69'>        it.onEvent<b>(</b>"keydown", false<b>)</b> |e| <b>{</b> cbKeyDown?.call<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line70'>      <b>}</b></span>
+<span id='line71'>      it.add<b>(</b>this<b>)</b></span>
+<span id='line72'>    <b>}</b><b>)</b></span>
+<span id='line73'></span>
+<span id='line74'>    onBeforeOpen</span>
+<span id='line75'></span>
+<span id='line76'>    opts := delay == null ? null : <b>[</b>"transition-delay":delay<b>]</b></span>
+<span id='line77'>    this.transition<b>(</b><b>[</b>"height": height<b>]</b>, opts, 250ms<b>)</b> <b>{</b> this.focus; fireOpen<b>(</b>null<b>)</b> <b>}</b></span>
+<span id='line78'>    return this</span>
+<span id='line79'>  <b>}</b></span>
+<span id='line80'></span>
+<span id='line81'>  ** Close this sheet. If sheet is already closed this method does</span>
+<span id='line82'>  ** nothing. This method takes an `onClose` callback as a convenience</span>
+<span id='line83'>  ** to set and close in a single operation.</span>
+<span id='line84'>  Void close<b>(</b>|This|? f := null<b>)</b></span>
+<span id='line85'>  <b>{</b></span>
+<span id='line86'>    if <b>(</b>f != null<b>)</b> cbClose = f</span>
+<span id='line87'>    this.transition<b>(</b><b>[</b>"height": "0"<b>]</b>, null, 250ms<b>)</b></span>
+<span id='line88'>    <b>{</b></span>
+<span id='line89'>      mask   := Win.cur.doc.elemById<b>(</b>"domkitSheet-mask-$uid"<b>)</b></span>
+<span id='line90'>      parent := mask?.parent</span>
+<span id='line91'>      if <b>(</b>parent != null<b>)</b></span>
+<span id='line92'>      <b>{</b></span>
+<span id='line93'>        parent.remove<b>(</b>mask<b>)</b></span>
+<span id='line94'>        parent.querySelector<b>(</b>"input"<b>)</b>?.focus  // &lt;-- TODO FIXIT</span>
+<span id='line95'>      <b>}</b></span>
+<span id='line96'>      fireClose<b>(</b>null<b>)</b></span>
+<span id='line97'>    <b>}</b></span>
+<span id='line98'>  <b>}</b></span>
+<span id='line99'></span>
+<span id='line100'>  ** Callback when sheet is opened.</span>
+<span id='line101'>  Void onOpen<b>(</b>|This| f<b>)</b> <b>{</b> cbOpen = f <b>}</b></span>
+<span id='line102'></span>
+<span id='line103'>  ** Callback when sheet is closed.</span>
+<span id='line104'>  Void onClose<b>(</b>|This| f<b>)</b> <b>{</b> cbClose = f <b>}</b></span>
+<span id='line105'></span>
+<span id='line106'>  private Void fireOpen<b>(</b>Event? e<b>)</b>  <b>{</b> cbOpen?.call<b>(</b>this<b>)</b>;  isOpen=true  <b>}</b></span>
+<span id='line107'>  private Void fireClose<b>(</b>Event? e<b>)</b> <b>{</b> cbClose?.call<b>(</b>this<b>)</b>; isOpen=false <b>}</b></span>
+<span id='line108'></span>
+<span id='line109'>  private const Int uid</span>
+<span id='line110'>  private static const AtomicRef nextId := AtomicRef<b>(</b>0<b>)</b></span>
+<span id='line111'></span>
+<span id='line112'>  private Func? cbOpen</span>
+<span id='line113'>  private Func? cbClose</span>
+<span id='line114'>  private Func? cbKeyDown</span>
+<span id='line115'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

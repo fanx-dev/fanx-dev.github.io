@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocType.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocType.html'>DocType</a></li><li><a href='src-DocType.fan.html'>DocType.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   11 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** DocType models the documentation of a `sys::Type`.</span>
+<span id='line13'>**</span>
+<span id='line14'>const class DocType : Doc</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>  ** Constructor</span>
+<span id='line18'>  internal new make<b>(</b>DocPod pod, DocAttrs attrs, DocTypeRef ref, DocSlot<b>[</b><b>]</b> list, <b>[</b>Str:DocSlot<b>]</b> slotMap<b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    this.pod     = pod</span>
+<span id='line21'>    this.ref     = ref</span>
+<span id='line22'>    this.loc     = attrs.loc</span>
+<span id='line23'>    this.flags   = attrs.flags</span>
+<span id='line24'>    this.facets  = attrs.facets</span>
+<span id='line25'>    this.doc     = attrs.doc</span>
+<span id='line26'>    this.base    = attrs.base</span>
+<span id='line27'>    this.mixins  = attrs.mixins</span>
+<span id='line28'>    this.slotMap = slotMap</span>
+<span id='line29'>    this.isErr   = base.find <b>{</b>it.qname=="sys::Err"<b>}</b> != null</span>
+<span id='line30'>    this.isNoDoc = hasFacet<b>(</b>"sys::NoDoc"<b>)</b></span>
+<span id='line31'></span>
+<span id='line32'></span>
+<span id='line33'>    // filter out slots which shouldn't be documented,</span>
+<span id='line34'>    // but leave them in the map for lookup</span>
+<span id='line35'>    list = list.exclude |s|</span>
+<span id='line36'>    <b>{</b></span>
+<span id='line37'>      s.isNoDoc ||</span>
+<span id='line38'>      DocFlags.isInternal<b>(</b>s.flags<b>)</b> ||</span>
+<span id='line39'>      DocFlags.isPrivate<b>(</b>s.flags<b>)</b>  ||</span>
+<span id='line40'>      DocFlags.isSynthetic<b>(</b>s.flags<b>)</b></span>
+<span id='line41'>    <b>}</b></span>
+<span id='line42'>    this.declared = list</span>
+<span id='line43'>    this.slots = list.sort|a, b| <b>{</b> a.name &lt;=> b.name <b>}</b></span>
+<span id='line44'>  <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  ** Pod which defines this type</span>
+<span id='line47'>  const DocPod pod</span>
+<span id='line48'></span>
+<span id='line49'>  ** Representation of this type definition as a reference</span>
+<span id='line50'>  const DocTypeRef ref</span>
+<span id='line51'></span>
+<span id='line52'>  ** Simple name of the type such as "Str".</span>
+<span id='line53'>  Str name<b>(</b><b>)</b> <b>{</b> ref.name <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>  ** Qualified name formatted as "pod::name".</span>
+<span id='line56'>  Str qname<b>(</b><b>)</b> <b>{</b> ref.qname <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>  ** The space for this doc is `pod`</span>
+<span id='line59'>  override DocSpace space<b>(</b><b>)</b> <b>{</b> pod <b>}</b></span>
+<span id='line60'></span>
+<span id='line61'>  ** The document name under space is `name`</span>
+<span id='line62'>  override Str docName<b>(</b><b>)</b> <b>{</b> name <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  ** Title of the document is the qualified name</span>
+<span id='line65'>  override Str title<b>(</b><b>)</b> <b>{</b> qname <b>}</b></span>
+<span id='line66'></span>
+<span id='line67'>  ** Default renderer is `DocTypeRenderer`</span>
+<span id='line68'>  override Type renderer<b>(</b><b>)</b> <b>{</b> DocTypeRenderer# <b>}</b></span>
+<span id='line69'></span>
+<span id='line70'>  ** Return true</span>
+<span id='line71'>  override Bool isCode<b>(</b><b>)</b> <b>{</b> true<b>}</b></span>
+<span id='line72'></span>
+<span id='line73'>  ** Return true if annotated as NoDoc</span>
+<span id='line74'>  const Bool isNoDoc</span>
+<span id='line75'></span>
+<span id='line76'>  ** Source code location of this type definition</span>
+<span id='line77'>  const DocLoc loc</span>
+<span id='line78'></span>
+<span id='line79'>  ** Flags mask - see `DocFlags`</span>
+<span id='line80'>  const Int flags</span>
+<span id='line81'></span>
+<span id='line82'>  ** Facets defined on this type</span>
+<span id='line83'>  const DocFacet<b>[</b><b>]</b> facets</span>
+<span id='line84'></span>
+<span id='line85'>  ** Return given facet</span>
+<span id='line86'>  DocFacet? facet<b>(</b>Str qname, Bool checked := true<b>)</b></span>
+<span id='line87'>  <b>{</b></span>
+<span id='line88'>    f := facets.find |f| <b>{</b> f.type.qname == qname <b>}</b></span>
+<span id='line89'>    if <b>(</b>f != null<b>)</b> return f</span>
+<span id='line90'>    if <b>(</b>checked<b>)</b> throw Err<b>(</b>"Missing facet @$qname on $this.qname"<b>)</b></span>
+<span id='line91'>    return null</span>
+<span id='line92'>  <b>}</b></span>
+<span id='line93'></span>
+<span id='line94'>  ** Return if given facet is defined on type</span>
+<span id='line95'>  Bool hasFacet<b>(</b>Str qname<b>)</b> <b>{</b> facets.any |f| <b>{</b> f.type.qname == qname <b>}</b> <b>}</b></span>
+<span id='line96'></span>
+<span id='line97'>  ** Fandoc documentation string</span>
+<span id='line98'>  const DocFandoc doc</span>
+<span id='line99'></span>
+<span id='line100'>  ** Base class inheritance chain where direct subclass is first</span>
+<span id='line101'>  ** and 'sys::Obj' is last.  If this type is a mixin or this is</span>
+<span id='line102'>  ** 'sys::Obj' itself then this is an empty list.</span>
+<span id='line103'>  const DocTypeRef<b>[</b><b>]</b> base</span>
+<span id='line104'></span>
+<span id='line105'>  ** Mixins directly implemented by this type</span>
+<span id='line106'>  const DocTypeRef<b>[</b><b>]</b> mixins</span>
+<span id='line107'></span>
+<span id='line108'>  ** Is this a subclass of 'sys::Err'</span>
+<span id='line109'>  const Bool isErr</span>
+<span id='line110'></span>
+<span id='line111'>  ** List of the public, documented slots in this type <b>(</b>sorted<b>)</b>.</span>
+<span id='line112'>  const DocSlot<b>[</b><b>]</b> slots</span>
+<span id='line113'></span>
+<span id='line114'>  ** List of the public, documented slots in this type <b>(</b>in declared order<b>)</b>.</span>
+<span id='line115'>  @NoDoc const DocSlot<b>[</b><b>]</b> declared</span>
+<span id='line116'></span>
+<span id='line117'>  ** Get slot by name.  If not found return null or raise UknownSlotErr</span>
+<span id='line118'>  DocSlot? slot<b>(</b>Str name, Bool checked := true<b>)</b></span>
+<span id='line119'>  <b>{</b></span>
+<span id='line120'>    slot := slotMap<b>[</b>name<b>]</b></span>
+<span id='line121'>    if <b>(</b>slot != null<b>)</b> return slot</span>
+<span id='line122'>    if <b>(</b>checked<b>)</b> throw UnknownSlotErr<b>(</b>"$<b>{</b>qname<b>}</b>::$<b>{</b>name<b>}</b>"<b>)</b></span>
+<span id='line123'>    return null</span>
+<span id='line124'>  <b>}</b></span>
+<span id='line125'>  private const <b>[</b>Str:DocSlot<b>]</b> slotMap</span>
+<span id='line126'></span>
+<span id='line127'>  ** return qname</span>
+<span id='line128'>  override Str toStr<b>(</b><b>)</b> <b>{</b> qname <b>}</b></span>
+<span id='line129'></span>
+<span id='line130'>  ** Is an enum type</span>
+<span id='line131'>  Bool isEnum<b>(</b><b>)</b> <b>{</b> DocFlags.isEnum<b>(</b>flags<b>)</b> <b>}</b></span>
+<span id='line132'></span>
+<span id='line133'>  ** Is an mixin type</span>
+<span id='line134'>  Bool isMixin<b>(</b><b>)</b> <b>{</b> DocFlags.isMixin<b>(</b>flags<b>)</b> <b>}</b></span>
+<span id='line135'></span>
+<span id='line136'>  ** Is an facet type</span>
+<span id='line137'>  Bool isFacet<b>(</b><b>)</b> <b>{</b> DocFlags.isFacet<b>(</b>flags<b>)</b> <b>}</b></span>
+<span id='line138'></span>
+<span id='line139'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line140'>// onCrawl</span>
+<span id='line141'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line142'></span>
+<span id='line143'>  ** Index the type summary and all slot docs</span>
+<span id='line144'>  override Void onCrawl<b>(</b>DocCrawler crawler<b>)</b></span>
+<span id='line145'>  <b>{</b></span>
+<span id='line146'>    typeSummary := crawlTypeSummary</span>
+<span id='line147'>    crawler.addKeyword<b>(</b>name,  qname, typeSummary, null<b>)</b></span>
+<span id='line148'>    crawler.addKeyword<b>(</b>qname, qname, typeSummary, null<b>)</b></span>
+<span id='line149'>    crawler.addFandoc<b>(</b>doc<b>)</b></span>
+<span id='line150'></span>
+<span id='line151'>    slots.each |slot|</span>
+<span id='line152'>    <b>{</b></span>
+<span id='line153'>      slotSummary := crawlSlotSummary<b>(</b>slot<b>)</b></span>
+<span id='line154'>      scopedName := "$<b>{</b>this.name<b>}</b>.$<b>{</b>slot.name<b>}</b>"</span>
+<span id='line155'>      crawler.addKeyword<b>(</b>slot.name,  slot.qname, slotSummary, slot.name<b>)</b></span>
+<span id='line156'>      crawler.addKeyword<b>(</b>slot.qname, slot.qname, slotSummary, slot.name<b>)</b></span>
+<span id='line157'>      crawler.addKeyword<b>(</b>scopedName, slot.qname, slotSummary, slot.name<b>)</b></span>
+<span id='line158'>      crawler.addFandoc<b>(</b>slot.doc<b>)</b></span>
+<span id='line159'>    <b>}</b></span>
+<span id='line160'>  <b>}</b></span>
+<span id='line161'></span>
+<span id='line162'>  private DocFandoc crawlTypeSummary<b>(</b><b>)</b></span>
+<span id='line163'>  <b>{</b></span>
+<span id='line164'>    s := doc.firstSentenceStrBuf</span>
+<span id='line165'>    // s.add<b>(</b>"\n  "<b>)</b></span>
+<span id='line166'>    // if <b>(</b>isMixin<b>)</b> s.add<b>(</b>"mixin "<b>)</b></span>
+<span id='line167'>    // else s.add<b>(</b>" class "<b>)</b></span>
+<span id='line168'>    // s.add<b>(</b>name<b>)</b></span>
+<span id='line169'>    return DocFandoc<b>(</b>loc, s.toStr<b>)</b></span>
+<span id='line170'>  <b>}</b></span>
+<span id='line171'></span>
+<span id='line172'>  private DocFandoc crawlSlotSummary<b>(</b>DocSlot slot<b>)</b></span>
+<span id='line173'>  <b>{</b></span>
+<span id='line174'>    s := StrBuf<b>(</b><b>)</b>.add<b>(</b>"> '"<b>)</b></span>
+<span id='line175'>    if <b>(</b>slot is DocField<b>)</b></span>
+<span id='line176'>    <b>{</b></span>
+<span id='line177'>      f := <b>(</b>DocField<b>)</b>slot</span>
+<span id='line178'>      s.add<b>(</b>f.type.dis<b>)</b>.add<b>(</b>" "<b>)</b>.add<b>(</b>slot.name<b>)</b></span>
+<span id='line179'>    <b>}</b></span>
+<span id='line180'>    else</span>
+<span id='line181'>    <b>{</b></span>
+<span id='line182'>      m := <b>(</b>DocMethod<b>)</b>slot</span>
+<span id='line183'>      s.add<b>(</b>m.returns.dis<b>)</b>.add<b>(</b>" "<b>)</b>.add<b>(</b>slot.name<b>)</b></span>
+<span id='line184'>      s.add<b>(</b>"<b>(</b>"<b>)</b></span>
+<span id='line185'>      m.params.each |p, i|</span>
+<span id='line186'>      <b>{</b></span>
+<span id='line187'>        if <b>(</b>i > 0<b>)</b> s.add<b>(</b>", "<b>)</b></span>
+<span id='line188'>        s.add<b>(</b>p.type.dis<b>)</b>.add<b>(</b>" "<b>)</b>.add<b>(</b>p.name<b>)</b></span>
+<span id='line189'>      <b>}</b></span>
+<span id='line190'>      s.add<b>(</b>"<b>)</b>"<b>)</b></span>
+<span id='line191'>    <b>}</b></span>
+<span id='line192'>    s.add<b>(</b>"'\n\n"<b>)</b>.add<b>(</b>doc.firstSentenceStrBuf<b>)</b></span>
+<span id='line193'>    return DocFandoc<b>(</b>loc, s.toStr<b>)</b></span>
+<span id='line194'>  <b>}</b></span>
+<span id='line195'></span>
+<span id='line196'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

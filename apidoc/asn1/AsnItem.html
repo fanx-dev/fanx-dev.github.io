@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>asn1::AsnItem</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnItem.html'>AsnItem</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> asn1::AsnItem</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  asn1::AsnItem</pre>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line107'>Source</a></p>
+
+<p>An item in an ASN.1 collection. An item has a value, and an optional name associated with that value. When comparing items, only the values are compared; the name is ignored.</p>
+<dl>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line122'>Source</a></p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line121'>Source</a></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='AsnObj.html'>AsnObj</a> val, <a href='../sys/Str.html'>Str?</a> name := null)</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line112'>Source</a></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> name</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line118'>Source</a></p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='AsnObj.html'>AsnObj</a> val</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line119'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-AsnColl.fan.html#line107'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#name'>name</a></li><li><a href='#val'>val</a></li></ul>
+</div>
+</div>
+</body>
+</html>

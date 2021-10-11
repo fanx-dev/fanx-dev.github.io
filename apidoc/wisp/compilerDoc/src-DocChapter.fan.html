@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocChapter.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocChapter.html'>DocChapter</a></li><li><a href='src-DocChapter.fan.html'>DocChapter.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   15 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using fandoc::FandocParser</span>
+<span id='line11'>using fandoc::Heading</span>
+<span id='line12'></span>
+<span id='line13'>**</span>
+<span id='line14'>** DocChapter models a fandoc "chapter" in a manual like docLang</span>
+<span id='line15'>**</span>
+<span id='line16'>const class DocChapter : Doc</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  ** Constructor</span>
+<span id='line19'>  internal new make<b>(</b>DocPodLoader loader, File f<b>)</b></span>
+<span id='line20'>  <b>{</b></span>
+<span id='line21'>    this.pod   = loader.pod</span>
+<span id='line22'>    this.name  = f.name == "pod.fandoc" ? "pod-doc" : f.basename</span>
+<span id='line23'>    this.loc   = DocLoc<b>(</b>"$<b>{</b>pod<b>}</b>::$<b>{</b>f.name<b>}</b>", 1<b>)</b></span>
+<span id='line24'>    this.doc   = DocFandoc<b>(</b>this.loc, f.in.readAllStr<b>)</b></span>
+<span id='line25'>    this.qname = "$pod.name::$name"</span>
+<span id='line26'></span>
+<span id='line27'>    // parse fandoc and build the headings tree</span>
+<span id='line28'>    headingTop := DocHeading<b>[</b>,<b>]</b></span>
+<span id='line29'>    headingMap := Str:DocHeading<b>[</b>:<b>]</b></span>
+<span id='line30'>    meta := Str:Str<b>[</b>:<b>]</b></span>
+<span id='line31'>    try</span>
+<span id='line32'>    <b>{</b></span>
+<span id='line33'>      // parse fandoc silently - don't worry about errors,</span>
+<span id='line34'>      // we'll catch and report them at render time</span>
+<span id='line35'>      parser := FandocParser<b>(</b><b>)</b></span>
+<span id='line36'>      parser.silent = true</span>
+<span id='line37'>      fandocDoc := parser.parse<b>(</b>f.name, doc.text.in<b>)</b></span>
+<span id='line38'>      meta = fandocDoc.meta</span>
+<span id='line39'>      fandocHeadings := fandocDoc.findHeadings</span>
+<span id='line40'></span>
+<span id='line41'>      // map headings into tree structure</span>
+<span id='line42'>      buildHeadingsTree<b>(</b>loader, fandocHeadings, headingTop, headingMap<b>)</b></span>
+<span id='line43'>    <b>}</b></span>
+<span id='line44'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line45'>    <b>{</b></span>
+<span id='line46'>      loader.err<b>(</b>"Cannot parse fandoc chapter", loc, e<b>)</b></span>
+<span id='line47'>    <b>}</b></span>
+<span id='line48'>    this.headings = headingTop</span>
+<span id='line49'>    this.headingMap = headingMap</span>
+<span id='line50'>    this.meta = meta</span>
+<span id='line51'>  <b>}</b></span>
+<span id='line52'></span>
+<span id='line53'>  private Void buildHeadingsTree<b>(</b>DocPodLoader loader, Heading<b>[</b><b>]</b> fandoc, DocHeading<b>[</b><b>]</b> top, <b>[</b>Str:DocHeading<b>]</b> map<b>)</b></span>
+<span id='line54'>  <b>{</b></span>
+<span id='line55'>    // if no headings just bail</span>
+<span id='line56'>    if <b>(</b>fandoc.isEmpty<b>)</b> return</span>
+<span id='line57'></span>
+<span id='line58'>    // first map Fandoc headings to DocHeadings and map by anchor id</span>
+<span id='line59'>    headings := DocHeading<b>[</b>,<b>]</b></span>
+<span id='line60'>    children := DocHeading:DocHeading<b>[</b><b>]</b><b>[</b>:<b>]</b></span>
+<span id='line61'>    fandoc.each |d|</span>
+<span id='line62'>    <b>{</b></span>
+<span id='line63'>      id := d.anchorId</span>
+<span id='line64'>      h := DocHeading <b>{</b> it.level = d.level; it.title = d.title; it.anchorId = id<b>}</b></span>
+<span id='line65'>      if <b>(</b>id == null<b>)</b> loader.err<b>(</b>"Heading missing anchor id: $h.title", loc<b>)</b></span>
+<span id='line66'>      else if <b>(</b>map<b>[</b>id<b>]</b> != null<b>)</b> loader.err<b>(</b>"Heading duplicate anchor id: $id", loc<b>)</b></span>
+<span id='line67'>      else map<b>[</b>id<b>]</b> = h</span>
+<span id='line68'>      headings.add<b>(</b>h<b>)</b></span>
+<span id='line69'>      children<b>[</b>h<b>]</b> = DocHeading<b>[</b>,<b>]</b></span>
+<span id='line70'>    <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>    // now map into a tree structure</span>
+<span id='line73'>    stack := DocHeading<b>[</b>,<b>]</b></span>
+<span id='line74'>    headings.each |h|</span>
+<span id='line75'>    <b>{</b></span>
+<span id='line76'>      while <b>(</b>stack.peek != null &amp;&amp; stack.peek.level >= h.level<b>)</b></span>
+<span id='line77'>        stack.pop</span>
+<span id='line78'></span>
+<span id='line79'>      // top level heading</span>
+<span id='line80'>      if <b>(</b>stack.isEmpty<b>)</b></span>
+<span id='line81'>      <b>{</b></span>
+<span id='line82'>        if <b>(</b>h.level != 2 &amp;&amp; pod.name != "fandoc"<b>)</b></span>
+<span id='line83'>          loader.err<b>(</b>"Expected top-level heading to be level 2: $h.title", loc<b>)</b></span>
+<span id='line84'>        top.add<b>(</b>h<b>)</b></span>
+<span id='line85'>      <b>}</b></span>
+<span id='line86'></span>
+<span id='line87'>      // child level heading</span>
+<span id='line88'>      else</span>
+<span id='line89'>      <b>{</b></span>
+<span id='line90'>        if <b>(</b>stack.peek.level +1 != h.level<b>)</b></span>
+<span id='line91'>          loader.err<b>(</b>"Expected heading to be level $<b>{</b>stack.peek.level+1<b>}</b>: $h.title", loc<b>)</b></span>
+<span id='line92'>        children<b>[</b>stack.peek<b>]</b>.add<b>(</b>h<b>)</b></span>
+<span id='line93'>      <b>}</b></span>
+<span id='line94'></span>
+<span id='line95'>      stack.add<b>(</b>h<b>)</b></span>
+<span id='line96'>    <b>}</b></span>
+<span id='line97'></span>
+<span id='line98'>    // map children map to immutable list fields</span>
+<span id='line99'>    children.each |kids, h| <b>{</b> h.childrenRef.val = kids.toImmutable <b>}</b></span>
+<span id='line100'>  <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>  ** Pod which defines this chapter such as "docLang"</span>
+<span id='line103'>  const DocPod pod</span>
+<span id='line104'></span>
+<span id='line105'>  ** Simple name of the chapter such as "Overview" or "pod-doc"</span>
+<span id='line106'>  const Str name</span>
+<span id='line107'></span>
+<span id='line108'>  ** Document name under space is same as `name`</span>
+<span id='line109'>  override Str docName<b>(</b><b>)</b> <b>{</b> name <b>}</b></span>
+<span id='line110'></span>
+<span id='line111'>  ** The space for this doc is `pod`</span>
+<span id='line112'>  override DocSpace space<b>(</b><b>)</b> <b>{</b> pod <b>}</b></span>
+<span id='line113'></span>
+<span id='line114'>  ** Title is 'meta.title', or qualified name if not specified.</span>
+<span id='line115'>  override Str title<b>(</b><b>)</b> <b>{</b> meta<b>[</b>"title"<b>]</b> ?: qname <b>}</b></span>
+<span id='line116'></span>
+<span id='line117'>  ** Use title for breadcrumb</span>
+<span id='line118'>  override Str breadcrumb<b>(</b><b>)</b> <b>{</b> title <b>}</b></span>
+<span id='line119'></span>
+<span id='line120'>  ** Default renderer is `DocChapterRenderer`</span>
+<span id='line121'>  override Type renderer<b>(</b><b>)</b> <b>{</b> DocChapterRenderer# <b>}</b></span>
+<span id='line122'></span>
+<span id='line123'>  ** Return if this chapter is the special "pod-doc" file</span>
+<span id='line124'>  Bool isPodDoc<b>(</b><b>)</b> <b>{</b> name == "pod-doc" <b>}</b></span>
+<span id='line125'></span>
+<span id='line126'>  ** Qualified name as "pod::name"</span>
+<span id='line127'>  const Str qname</span>
+<span id='line128'></span>
+<span id='line129'>  ** Location for chapter file</span>
+<span id='line130'>  const DocLoc loc</span>
+<span id='line131'></span>
+<span id='line132'>  ** Fandoc heating metadata</span>
+<span id='line133'>  const <b>[</b>Str:Str<b>]</b> meta</span>
+<span id='line134'></span>
+<span id='line135'>  ** Chapter contents as Fandoc string</span>
+<span id='line136'>  const DocFandoc doc</span>
+<span id='line137'></span>
+<span id='line138'>  ** Top-level chapter headings</span>
+<span id='line139'>  const DocHeading<b>[</b><b>]</b> headings</span>
+<span id='line140'></span>
+<span id='line141'>  ** Chapter number <b>(</b>one-based<b>)</b></span>
+<span id='line142'>  Int num<b>(</b><b>)</b> <b>{</b> numRef.val <b>}</b></span>
+<span id='line143'>  internal const AtomicInt numRef := AtomicInt<b>(</b><b>)</b></span>
+<span id='line144'></span>
+<span id='line145'>  ** Summary for TOC</span>
+<span id='line146'>  Str summary<b>(</b><b>)</b> <b>{</b> summaryRef.val <b>}</b></span>
+<span id='line147'>  internal const AtomicRef summaryRef := AtomicRef<b>(</b>""<b>)</b></span>
+<span id='line148'></span>
+<span id='line149'>  ** Previous chapter in TOC order or null if first</span>
+<span id='line150'>  DocChapter? prev<b>(</b><b>)</b> <b>{</b> prevRef.val <b>}</b></span>
+<span id='line151'>  internal const AtomicRef prevRef := AtomicRef<b>(</b>null<b>)</b></span>
+<span id='line152'></span>
+<span id='line153'>  ** Next chapter in TOC order or null if last</span>
+<span id='line154'>  DocChapter? next<b>(</b><b>)</b> <b>{</b> nextRef.val <b>}</b></span>
+<span id='line155'>  internal const AtomicRef nextRef := AtomicRef<b>(</b>null<b>)</b></span>
+<span id='line156'></span>
+<span id='line157'>  ** Get a chapter heading by its anchor id or raise NameErr/return null.</span>
+<span id='line158'>  override DocHeading? heading<b>(</b>Str id, Bool checked := true<b>)</b></span>
+<span id='line159'>  <b>{</b></span>
+<span id='line160'>    h := headingMap<b>[</b>id<b>]</b></span>
+<span id='line161'>    if <b>(</b>h != null<b>)</b> return h</span>
+<span id='line162'>    return super.heading<b>(</b>id, checked<b>)</b></span>
+<span id='line163'>  <b>}</b></span>
+<span id='line164'></span>
+<span id='line165'>  ** Return qname</span>
+<span id='line166'>  override Str toStr<b>(</b><b>)</b> <b>{</b> qname <b>}</b></span>
+<span id='line167'></span>
+<span id='line168'>  private const <b>[</b>Str:DocHeading<b>]</b> headingMap</span>
+<span id='line169'></span>
+<span id='line170'>  ** Index the chapter name and body</span>
+<span id='line171'>  override Void onCrawl<b>(</b>DocCrawler crawler<b>)</b></span>
+<span id='line172'>  <b>{</b></span>
+<span id='line173'>    summary := DocFandoc<b>(</b>this.loc, this.summary<b>)</b></span>
+<span id='line174'>    crawler.addKeyword<b>(</b>name, title, summary, null<b>)</b></span>
+<span id='line175'>    crawler.addKeyword<b>(</b>qname, title, summary, null<b>)</b></span>
+<span id='line176'>    crawler.addFandoc<b>(</b>doc<b>)</b></span>
+<span id='line177'>  <b>}</b></span>
+<span id='line178'><b>}</b></span>
+<span id='line179'></span>
+<span id='line180'>**</span>
+<span id='line181'>** DocHeader models a heading in a table of contents for pod/chapter.</span>
+<span id='line182'>**</span>
+<span id='line183'>const class DocHeading</span>
+<span id='line184'><b>{</b></span>
+<span id='line185'>  ** Constructor</span>
+<span id='line186'>  internal new make<b>(</b>|This| f<b>)</b> <b>{</b> f<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line187'></span>
+<span id='line188'>  ** Heading level, chapter top-level sections start at level 2</span>
+<span id='line189'>  const Int level</span>
+<span id='line190'></span>
+<span id='line191'>  ** Display title for the heading</span>
+<span id='line192'>  const Str title</span>
+<span id='line193'></span>
+<span id='line194'>  ** Anchor id for heading or null if not available</span>
+<span id='line195'>  const Str? anchorId</span>
+<span id='line196'></span>
+<span id='line197'>  ** Children headings</span>
+<span id='line198'>  DocHeading<b>[</b><b>]</b> children<b>(</b><b>)</b> <b>{</b> childrenRef.val <b>}</b></span>
+<span id='line199'>  internal const AtomicRef childrenRef := AtomicRef<b>(</b><b>)</b></span>
+<span id='line200'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

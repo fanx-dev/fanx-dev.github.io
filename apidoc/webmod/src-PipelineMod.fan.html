@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>PipelineMod.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>webmod</a></li><li><a href='PipelineMod.html'>PipelineMod</a></li><li><a href='src-PipelineMod.fan.html'>PipelineMod.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   27 Nov 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using web</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** PipelineMod routes seriallly through a list of sub-WebMods.</span>
+<span id='line13'>**</span>
+<span id='line14'>** See <b>[</b>pod doc<b>]</b>`pod-doc#pipeline`</span>
+<span id='line15'>**</span>
+<span id='line16'>const class PipelineMod : WebMod</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  **</span>
+<span id='line19'>  ** Constructor with it-block.</span>
+<span id='line20'>  **</span>
+<span id='line21'>  new make<b>(</b>|This|? f<b>)</b></span>
+<span id='line22'>  <b>{</b></span>
+<span id='line23'>    f?.call<b>(</b>this<b>)</b></span>
+<span id='line24'>    if <b>(</b>before.isEmpty &amp;&amp; steps.isEmpty &amp;&amp; after.isEmpty<b>)</b></span>
+<span id='line25'>      throw ArgErr<b>(</b>"PipelineMod has not steps configured"<b>)</b></span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  **</span>
+<span id='line29'>  ** Steps to run serially regardless of 'WebRes.isDone'</span>
+<span id='line30'>  ** before every request.</span>
+<span id='line31'>  **</span>
+<span id='line32'>  const WebMod<b>[</b><b>]</b> before := WebMod<b>[</b>,<b>]</b></span>
+<span id='line33'></span>
+<span id='line34'>  **</span>
+<span id='line35'>  ** Steps to run serially until 'WebRes.isDone' returns true.</span>
+<span id='line36'>  **</span>
+<span id='line37'>  const WebMod<b>[</b><b>]</b> steps := WebMod<b>[</b>,<b>]</b></span>
+<span id='line38'></span>
+<span id='line39'>  **</span>
+<span id='line40'>  ** Steps to run serially regardless of 'WebRes.isDone'</span>
+<span id='line41'>  ** after every request.</span>
+<span id='line42'>  **</span>
+<span id='line43'>  const WebMod<b>[</b><b>]</b> after := WebMod<b>[</b>,<b>]</b></span>
+<span id='line44'></span>
+<span id='line45'>  **</span>
+<span id='line46'>  ** Call 'onStart' on sub-mods.</span>
+<span id='line47'>  **</span>
+<span id='line48'>  override Void onStart<b>(</b><b>)</b></span>
+<span id='line49'>  <b>{</b></span>
+<span id='line50'>    before.each |mod| <b>{</b> mod.onStart <b>}</b></span>
+<span id='line51'>    steps.each  |mod| <b>{</b> mod.onStart <b>}</b></span>
+<span id='line52'>    after.each  |mod| <b>{</b> mod.onStart <b>}</b></span>
+<span id='line53'>  <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>  **</span>
+<span id='line56'>  ** Call 'onStop' on sub-mods.</span>
+<span id='line57'>  **</span>
+<span id='line58'>  override Void onStop<b>(</b><b>)</b></span>
+<span id='line59'>  <b>{</b></span>
+<span id='line60'>    before.each |mod| <b>{</b> mod.onStop<b>}</b></span>
+<span id='line61'>    steps.each  |mod| <b>{</b> mod.onStop <b>}</b></span>
+<span id='line62'>    after.each  |mod| <b>{</b> mod.onStop <b>}</b></span>
+<span id='line63'>  <b>}</b></span>
+<span id='line64'></span>
+<span id='line65'>  **</span>
+<span id='line66'>  ** Service the pipeline.</span>
+<span id='line67'>  **</span>
+<span id='line68'>  override Void onService<b>(</b><b>)</b></span>
+<span id='line69'>  <b>{</b></span>
+<span id='line70'>    before.each |mod| <b>{</b> req.mod = mod; mod.onService <b>}</b></span>
+<span id='line71'>    steps.each  |mod| <b>{</b> req.mod = mod; if <b>(</b>!res.isDone<b>)</b> mod.onService <b>}</b></span>
+<span id='line72'>    after.each  |mod| <b>{</b> req.mod = mod; mod.onService <b>}</b></span>
+<span id='line73'>  <b>}</b></span>
+<span id='line74'></span>
+<span id='line75'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

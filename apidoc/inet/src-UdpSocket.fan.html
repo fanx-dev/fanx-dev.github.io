@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>UdpSocket.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='UdpSocket.html'>UdpSocket</a></li><li><a href='src-UdpSocket.fan.html'>UdpSocket.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   9 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** UdpSocket manages a UDP/IP datagram endpoint.</span>
+<span id='line11'>**</span>
+<span id='line12'>virtual class UdpSocket</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line16'>// Construction</span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'></span>
+<span id='line19'>  **</span>
+<span id='line20'>  ** Make a new unbound UDP socket. The socket will be configured using the</span>
+<span id='line21'>  ** given <b>[</b>socket configuration<b>]</b>`SocketConfig`. The following configuration</span>
+<span id='line22'>  ** applies to UDP sockets:</span>
+<span id='line23'>  **   - `SocketConfig.broadcast`</span>
+<span id='line24'>  **   - `SocketConfig.receiveBufferSize`</span>
+<span id='line25'>  **   - `SocketConfig.sendBufferSize`</span>
+<span id='line26'>  **   - `SocketConfig.reuseAddr`</span>
+<span id='line27'>  **   - `SocketConfig.receiveBufferSize`</span>
+<span id='line28'>  **   - `SocketConfig.trafficClass`</span>
+<span id='line29'>  **</span>
+<span id='line30'>  new make<b>(</b>SocketConfig config := SocketConfig.cur<b>)</b></span>
+<span id='line31'>  <b>{</b></span>
+<span id='line32'>    init<b>(</b>config<b>)</b></span>
+<span id='line33'>  <b>}</b></span>
+<span id='line34'></span>
+<span id='line35'>  private native This init<b>(</b>SocketConfig config<b>)</b></span>
+<span id='line36'></span>
+<span id='line37'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line38'>// State</span>
+<span id='line39'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line40'></span>
+<span id='line41'>  **</span>
+<span id='line42'>  ** Get the <b>[</b>socket configuration<b>]</b>`SocketConfig` for this socket.</span>
+<span id='line43'>  **</span>
+<span id='line44'>  native SocketConfig config<b>(</b><b>)</b></span>
+<span id='line45'></span>
+<span id='line46'>  **</span>
+<span id='line47'>  ** Is this socket bound to a local address and port.</span>
+<span id='line48'>  **</span>
+<span id='line49'>  native Bool isBound<b>(</b><b>)</b></span>
+<span id='line50'></span>
+<span id='line51'>  **</span>
+<span id='line52'>  ** Is this socket "connected" to a specific remote host.  Since</span>
+<span id='line53'>  ** UDP is not session oriented, connected just means we've used</span>
+<span id='line54'>  ** connect<b>(</b><b>)</b> to predefine the remote address where we want to</span>
+<span id='line55'>  ** send packets.</span>
+<span id='line56'>  **</span>
+<span id='line57'>  native Bool isConnected<b>(</b><b>)</b></span>
+<span id='line58'></span>
+<span id='line59'>  **</span>
+<span id='line60'>  ** Is this socket closed.</span>
+<span id='line61'>  **</span>
+<span id='line62'>  native Bool isClosed<b>(</b><b>)</b></span>
+<span id='line63'></span>
+<span id='line64'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line65'>// End Points</span>
+<span id='line66'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line67'></span>
+<span id='line68'>  **</span>
+<span id='line69'>  ** Get the bound local address or null if unbound.</span>
+<span id='line70'>  **</span>
+<span id='line71'>  native IpAddr? localAddr<b>(</b><b>)</b></span>
+<span id='line72'></span>
+<span id='line73'>  **</span>
+<span id='line74'>  ** Get the bound local port or null if unbound.</span>
+<span id='line75'>  **</span>
+<span id='line76'>  native Int? localPort<b>(</b><b>)</b></span>
+<span id='line77'></span>
+<span id='line78'>  **</span>
+<span id='line79'>  ** Get the remote address or null if not connected to a specific end point.</span>
+<span id='line80'>  **</span>
+<span id='line81'>  native IpAddr? remoteAddr<b>(</b><b>)</b></span>
+<span id='line82'></span>
+<span id='line83'>  **</span>
+<span id='line84'>  ** Get the remote port or null if not connected to a specific end point.</span>
+<span id='line85'>  **</span>
+<span id='line86'>  native Int? remotePort<b>(</b><b>)</b></span>
+<span id='line87'></span>
+<span id='line88'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line89'>// Communication</span>
+<span id='line90'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line91'></span>
+<span id='line92'>  **</span>
+<span id='line93'>  ** Bind this socket to the specified local address.  If addr is null</span>
+<span id='line94'>  ** then the default IpAddr for the local host is selected.  If port</span>
+<span id='line95'>  ** is null an ephemeral port is selected.  Throw IOErr if the port is</span>
+<span id='line96'>  ** already bound or the bind fails.  Return this.</span>
+<span id='line97'>  **</span>
+<span id='line98'>  native This bind<b>(</b>IpAddr? addr, Int? port<b>)</b></span>
+<span id='line99'></span>
+<span id='line100'>  **</span>
+<span id='line101'>  ** Connect this socket to the specified address and port.  Once</span>
+<span id='line102'>  ** connected packets may only be send to the remote using this socket.</span>
+<span id='line103'>  **</span>
+<span id='line104'>  native This connect<b>(</b>IpAddr addr, Int port<b>)</b></span>
+<span id='line105'></span>
+<span id='line106'>  **</span>
+<span id='line107'>  ** Send the packet to its specified remote endpoint.  If this is</span>
+<span id='line108'>  ** socket is connected to a specific remote address, then the packet's</span>
+<span id='line109'>  ** address and port must be null or ArgErr is thrown.  Throw IOErr</span>
+<span id='line110'>  ** on error.</span>
+<span id='line111'>  **</span>
+<span id='line112'>  ** The number of bytes sent is buf.remaining; upon return the buf</span>
+<span id='line113'>  ** is drained and position is advanced.</span>
+<span id='line114'>  **</span>
+<span id='line115'>  native Void send<b>(</b>UdpPacket packet<b>)</b></span>
+<span id='line116'></span>
+<span id='line117'>  **</span>
+<span id='line118'>  ** Receive a packet on this socket's bound local address.  The resulting</span>
+<span id='line119'>  ** packet is filled in with the sender's address and port.  This method</span>
+<span id='line120'>  ** blocks until a packet is received.  If this socket's receiveTimeout</span>
+<span id='line121'>  ** option is configured, then receive will timeout with an IOErr.</span>
+<span id='line122'>  **</span>
+<span id='line123'>  ** The packet data is read into the Buf starting at it's current position.</span>
+<span id='line124'>  ** The buffer is *not* grown - at most Buf.capacity bytes are received.</span>
+<span id='line125'>  ** If the received message is longer than the packet's capacity then the</span>
+<span id='line126'>  ** message is silently truncated <b>(</b>weird Java behavior<b>)</b>.  Upon return the</span>
+<span id='line127'>  ** Buf size and position are updated to reflect the bytes read. Use</span>
+<span id='line128'>  ** `sys::Buf.flip` to ready the buffer to read from start. If packet</span>
+<span id='line129'>  ** is null, then a new packet is created with a capacity of 1kb.  The</span>
+<span id='line130'>  ** packet data must always be a memory backed buffer.</span>
+<span id='line131'>  **</span>
+<span id='line132'>  native UdpPacket receive<b>(</b>UdpPacket? packet := null<b>)</b></span>
+<span id='line133'></span>
+<span id='line134'>  **</span>
+<span id='line135'>  ** Disconnect this socket from its remote address.  Do nothing</span>
+<span id='line136'>  ** if not connected. Return this.</span>
+<span id='line137'>  **</span>
+<span id='line138'>  native This disconnect<b>(</b><b>)</b></span>
+<span id='line139'></span>
+<span id='line140'>  **</span>
+<span id='line141'>  ** Close this socket.  This method is guaranteed to never throw</span>
+<span id='line142'>  ** an IOErr.  Return true if the socket was closed successfully</span>
+<span id='line143'>  ** or false if the socket was closed abnormally.</span>
+<span id='line144'>  **</span>
+<span id='line145'>  native Bool close<b>(</b><b>)</b></span>
+<span id='line146'></span>
+<span id='line147'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line148'>// Socket Options</span>
+<span id='line149'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line150'></span>
+<span id='line151'>  **</span>
+<span id='line152'>  ** Access the SocketOptions used to tune this socket.  The</span>
+<span id='line153'>  ** following options apply to UdpSockets:</span>
+<span id='line154'>  **   - broadcast</span>
+<span id='line155'>  **   - receiveBufferSize</span>
+<span id='line156'>  **   - sendBufferSize</span>
+<span id='line157'>  **   - reuseAddr</span>
+<span id='line158'>  **   - receiveBufferSize</span>
+<span id='line159'>  **   - trafficClass</span>
+<span id='line160'>  **  Accessing other option fields will throw UnsupportedErr.</span>
+<span id='line161'>  **</span>
+<span id='line162'>  @Deprecated <b>{</b> msg = "Use SocketConfig" <b>}</b></span>
+<span id='line163'>  native SocketOptions options<b>(</b><b>)</b></span>
+<span id='line164'></span>
+<span id='line165'>  internal native Bool getBroadcast<b>(</b><b>)</b></span>
+<span id='line166'>  internal native Void setBroadcast<b>(</b>Bool v<b>)</b></span>
+<span id='line167'></span>
+<span id='line168'>  internal native Int getReceiveBufferSize<b>(</b><b>)</b></span>
+<span id='line169'>  internal native Void setReceiveBufferSize<b>(</b>Int v<b>)</b></span>
+<span id='line170'></span>
+<span id='line171'>  internal native Int getSendBufferSize<b>(</b><b>)</b></span>
+<span id='line172'>  internal native Void setSendBufferSize<b>(</b>Int v<b>)</b></span>
+<span id='line173'></span>
+<span id='line174'>  internal native Bool getReuseAddr<b>(</b><b>)</b></span>
+<span id='line175'>  internal native Void setReuseAddr<b>(</b>Bool v<b>)</b></span>
+<span id='line176'></span>
+<span id='line177'>  internal native Duration? getReceiveTimeout<b>(</b><b>)</b></span>
+<span id='line178'>  internal native Void setReceiveTimeout<b>(</b>Duration? v<b>)</b></span>
+<span id='line179'></span>
+<span id='line180'>  internal native Int getTrafficClass<b>(</b><b>)</b></span>
+<span id='line181'>  internal native Void setTrafficClass<b>(</b>Int v<b>)</b></span>
+<span id='line182'></span>
+<span id='line183'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

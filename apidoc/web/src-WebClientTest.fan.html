@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WebClientTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='src-WebClientTest.fan.html'>WebClientTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   24 Dec 08  Brian Frank  Almost Christmas!</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** WebClientTest</span>
+<span id='line13'>**</span>
+<span id='line14'>class WebClientTest : Test</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>  Void testBadConfig<b>(</b><b>)</b></span>
+<span id='line18'>  <b>{</b></span>
+<span id='line19'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> x := WebClient<b>(</b>`not/abs`<b>)</b> <b>}</b></span>
+<span id='line20'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> x := WebClient <b>{</b> reqUri = `/not/abs`; writeReq; readRes <b>}</b> <b>}</b></span>
+<span id='line21'></span>
+<span id='line22'>    verifyErr<b>(</b>Err#<b>)</b> <b>{</b> x := WebClient <b>{</b> writeReq; readRes <b>}</b> <b>}</b></span>
+<span id='line23'>    verifyErr<b>(</b>Err#<b>)</b> <b>{</b> x := WebClient <b>{</b> reqUri = `http://foo/`; reqHeaders = Str:Str<b>[</b>:<b>]</b>; writeReq; readRes <b>}</b> <b>}</b></span>
+<span id='line24'>    verifyErr<b>(</b>Err#<b>)</b> <b>{</b> x := WebClient <b>{</b> reqUri = `http://foo/`; reqHeaders<b>[</b>"Host"<b>]</b> = "bad"; writeReq; readRes <b>}</b> <b>}</b></span>
+<span id='line25'>    verifyErr<b>(</b>Err#<b>)</b> <b>{</b> x := WebClient <b>{</b> reqUri = `http://foo/`; reqHeaders<b>[</b>"host"<b>]</b> = "bad"; writeReq; readRes <b>}</b> <b>}</b></span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  Void testCookies<b>(</b><b>)</b></span>
+<span id='line29'>  <b>{</b></span>
+<span id='line30'>    a := Cookie.fromStr<b>(</b>"alpha=blah; Expires=Tue, 15-Jan-2013 21:47:38 GMT; Path=/; Domain=.example.com; HttpOnly"<b>)</b></span>
+<span id='line31'>    b := Cookie.fromStr<b>(</b>"beta=belch"<b>)</b></span>
+<span id='line32'>    c := WebClient<b>(</b>`http://foo.com/`<b>)</b></span>
+<span id='line33'>    c.cookies = <b>[</b>a<b>]</b></span>
+<span id='line34'>    verifyEq<b>(</b>c.reqHeaders<b>[</b>"Cookie"<b>]</b>, "alpha=blah"<b>)</b></span>
+<span id='line35'>    c.cookies = <b>[</b>a, b<b>]</b></span>
+<span id='line36'>    verifyEq<b>(</b>c.reqHeaders<b>[</b>"Cookie"<b>]</b>, "alpha=blah; beta=belch"<b>)</b></span>
+<span id='line37'>    c.cookies = <b>[</b>,<b>]</b></span>
+<span id='line38'>    verifyEq<b>(</b>c.reqHeaders<b>[</b>"Cookie"<b>]</b>, null<b>)</b></span>
+<span id='line39'>  <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  Void testGetFixed<b>(</b><b>)</b></span>
+<span id='line42'>  <b>{</b></span>
+<span id='line43'>    // use skyfoundry.com assuming simple static image page</span>
+<span id='line44'>    c := WebClient<b>(</b>`https://fantom.org/pod/fantomws/res/img/fanny-mono-grey500.svg`<b>)</b></span>
+<span id='line45'>    verify<b>(</b>!c.isConnected<b>)</b></span>
+<span id='line46'>    try</span>
+<span id='line47'>    <b>{</b></span>
+<span id='line48'>      // status line</span>
+<span id='line49'>      c.writeReq.readRes</span>
+<span id='line50'>      verify<b>(</b>c.isConnected<b>)</b></span>
+<span id='line51'>      verifyEq<b>(</b>c.resVersion, Version<b>(</b>"1.1"<b>)</b><b>)</b></span>
+<span id='line52'>      verifyEq<b>(</b>c.resCode, 200<b>)</b></span>
+<span id='line53'>      verifyEq<b>(</b>c.resPhrase, "OK"<b>)</b></span>
+<span id='line54'>      verify<b>(</b>c.resHeaders is CaseInsensitiveMap<b>)</b></span>
+<span id='line55'></span>
+<span id='line56'>      // response headers</span>
+<span id='line57'>      verify<b>(</b>c.resHeader<b>(</b>"server"<b>)</b>.contains<b>(</b>"nginx"<b>)</b><b>)</b></span>
+<span id='line58'>      verify<b>(</b>c.resHeader<b>(</b>"SERVER", true<b>)</b>.contains<b>(</b>"nginx"<b>)</b><b>)</b></span>
+<span id='line59'>      verifyEq<b>(</b>c.resHeader<b>(</b>"foo-bar", false<b>)</b>, null<b>)</b></span>
+<span id='line60'>      verifyErr<b>(</b>Err#<b>)</b> <b>{</b> c.resHeader<b>(</b>"foo-bar"<b>)</b> <b>}</b></span>
+<span id='line61'>      verifyErr<b>(</b>Err#<b>)</b> <b>{</b> c.resHeader<b>(</b>"foo-bar", true<b>)</b> <b>}</b></span>
+<span id='line62'></span>
+<span id='line63'>      // fixed content-length</span>
+<span id='line64'>      len := c.resHeader<b>(</b>"Content-Length"<b>)</b>.toInt</span>
+<span id='line65'>      png := c.resBuf</span>
+<span id='line66'>      verifyEq<b>(</b>png<b>[</b>0<b>]</b>.toChar, "&lt;"<b>)</b></span>
+<span id='line67'>      verifyEq<b>(</b>png<b>[</b>1<b>]</b>.toChar, "s"<b>)</b></span>
+<span id='line68'>      verifyEq<b>(</b>png<b>[</b>2<b>]</b>.toChar, "v"<b>)</b></span>
+<span id='line69'>      verifyEq<b>(</b>png<b>[</b>3<b>]</b>.toChar, "g"<b>)</b></span>
+<span id='line70'>    <b>}</b></span>
+<span id='line71'>    finally c.close</span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  Void testGetChunked<b>(</b><b>)</b></span>
+<span id='line75'>  <b>{</b></span>
+<span id='line76'>    c := WebClient<b>(</b>`https://news.ycombinator.com/`<b>)</b></span>
+<span id='line77'>    verify<b>(</b>!c.isConnected<b>)</b></span>
+<span id='line78'>    try</span>
+<span id='line79'>    <b>{</b></span>
+<span id='line80'>      // status line</span>
+<span id='line81'>      c.writeReq.readRes</span>
+<span id='line82'>      verify<b>(</b>c.isConnected<b>)</b></span>
+<span id='line83'>      verifyEq<b>(</b>c.resVersion, Version<b>(</b>"1.1"<b>)</b><b>)</b></span>
+<span id='line84'>      verifyEq<b>(</b>c.resCode, 200<b>)</b></span>
+<span id='line85'>      verifyEq<b>(</b>c.resPhrase, "OK"<b>)</b></span>
+<span id='line86'>      verify<b>(</b>c.resHeaders is CaseInsensitiveMap<b>)</b></span>
+<span id='line87'></span>
+<span id='line88'>      // chunked transfer</span>
+<span id='line89'>      verify<b>(</b>c.resHeader<b>(</b>"Transfer-Encoding"<b>)</b>.lower.contains<b>(</b>"chunked"<b>)</b><b>)</b></span>
+<span id='line90'>      verify<b>(</b>c.resStr.contains<b>(</b>"&lt;html"<b>)</b><b>)</b></span>
+<span id='line91'></span>
+<span id='line92'>      // try again</span>
+<span id='line93'>      c.close</span>
+<span id='line94'>      again := c.getStr</span>
+<span id='line95'>      verify<b>(</b>again.contains<b>(</b>"&lt;html"<b>)</b><b>)</b></span>
+<span id='line96'>    <b>}</b></span>
+<span id='line97'>    finally c.close</span>
+<span id='line98'>  <b>}</b></span>
+<span id='line99'></span>
+<span id='line100'>  Void testGetConvenience<b>(</b><b>)</b></span>
+<span id='line101'>  <b>{</b></span>
+<span id='line102'>    c := WebClient<b>(</b>`https://news.ycombinator.com/`<b>)</b></span>
+<span id='line103'>    verify<b>(</b>c.getStr.contains<b>(</b>"&lt;html"<b>)</b><b>)</b></span>
+<span id='line104'>    Actor.sleep<b>(</b>100ms<b>)</b></span>
+<span id='line105'>    verify<b>(</b>!c.isConnected<b>)</b></span>
+<span id='line106'></span>
+<span id='line107'>    buf := c.getBuf</span>
+<span id='line108'>    cs := MimeType<b>(</b>c.resHeaders<b>[</b>"Content-Type"<b>]</b><b>)</b>.charset</span>
+<span id='line109'>    verify<b>(</b>buf <b>{</b> charset = cs <b>}</b>.readAllStr.contains<b>(</b>"&lt;html"<b>)</b><b>)</b></span>
+<span id='line110'>    verify<b>(</b>!c.isConnected<b>)</b></span>
+<span id='line111'></span>
+<span id='line112'>    try</span>
+<span id='line113'>      verify<b>(</b>c.getIn.readAllStr.contains<b>(</b>"&lt;html"<b>)</b><b>)</b></span>
+<span id='line114'>    finally</span>
+<span id='line115'>      c.close</span>
+<span id='line116'>  <b>}</b></span>
+<span id='line117'></span>
+<span id='line118'>  Void testRedirects<b>(</b><b>)</b></span>
+<span id='line119'>  <b>{</b></span>
+<span id='line120'>    // google redirect to www or country specific URL</span>
+<span id='line121'>    verifyRedirect<b>(</b>`http://google.com`, null<b>)</b></span>
+<span id='line122'></span>
+<span id='line123'>    // pick a random URI from one of the pages on fantom.org;</span>
+<span id='line124'>    // this both tests redirects and ensures that these URIs are</span>
+<span id='line125'>    // always maintained</span>
+<span id='line126'>    map :=</span>
+<span id='line127'>    <b>[</b></span>
+<span id='line128'>      `/doc/docIntro/WhyFan.html`: `/doc/docIntro/WhyFantom`,</span>
+<span id='line129'>      `/doc/docLib/Dom.html`:      `/doc/dom/index`,</span>
+<span id='line130'>      `/doc/docLib/Email.html`:    `/doc/email/index`,</span>
+<span id='line131'>      `/doc/docLib/Fandoc.html`:   `/doc/fandoc/index`,</span>
+<span id='line132'>      `/doc/docLib/Flux.html`:     `/doc/flux/index`,</span>
+<span id='line133'>      `/doc/docLib/Fwt.html`:      `/doc/fwt/index`,</span>
+<span id='line134'>      `/doc/docLib/Json.html`:     `/doc/util/index#json`,</span>
+<span id='line135'>      `/doc/docLib/Sql.html` :     `/doc/sql/index`,</span>
+<span id='line136'>      `/doc/docLib/Web.html`:      `/doc/web/index`,</span>
+<span id='line137'>      `/doc/docLib/WebMod.html`:   `/doc/webmod/index`,</span>
+<span id='line138'>      `/doc/docLib/Wisp.html`:     `/doc/wisp/index`,</span>
+<span id='line139'>      `/doc/docLib/Xml.html`:      `/doc/xml/index`,</span>
+<span id='line140'>      `/doc/docLang/TypeDatabase.html`: `/doc/docLang/Env#index`,</span>
+<span id='line141'>    <b>]</b></span>
+<span id='line142'>    uri := map.keys.random</span>
+<span id='line143'>    base := `https://fantom.org/`</span>
+<span id='line144'>    verifyRedirect<b>(</b>base + uri, base + map<b>[</b>uri<b>]</b><b>)</b></span>
+<span id='line145'>  <b>}</b></span>
+<span id='line146'></span>
+<span id='line147'>  Void verifyRedirect<b>(</b>Uri origUri, Uri? expected<b>)</b></span>
+<span id='line148'>  <b>{</b></span>
+<span id='line149'>    c := WebClient<b>(</b>origUri<b>)</b></span>
+<span id='line150'>    try</span>
+<span id='line151'>    <b>{</b></span>
+<span id='line152'>      // disable auto redirects</span>
+<span id='line153'>      c.followRedirects = false</span>
+<span id='line154'>      c.writeReq.readRes</span>
+<span id='line155'>      verifyEq<b>(</b>c.resCode/100, 3<b>)</b></span>
+<span id='line156'>      c.close</span>
+<span id='line157'></span>
+<span id='line158'>      // now enable auto redirects to true and try again</span>
+<span id='line159'>      c.followRedirects = true</span>
+<span id='line160'>      c.writeReq.readRes</span>
+<span id='line161'>      verifyEq<b>(</b>c.resCode, 200<b>)</b></span>
+<span id='line162'>      verifyNotEq<b>(</b>c.reqUri, origUri<b>)</b></span>
+<span id='line163'>      if <b>(</b>expected != null<b>)</b> verifyEq<b>(</b>c.reqUri, expected<b>)</b></span>
+<span id='line164'>    <b>}</b></span>
+<span id='line165'>    finally c.close</span>
+<span id='line166'>  <b>}</b></span>
+<span id='line167'></span>
+<span id='line168'>  /*</span>
+<span id='line169'>  Void testPipeline<b>(</b><b>)</b></span>
+<span id='line170'>  <b>{</b></span>
+<span id='line171'>    c := WebClient<b>(</b>`https://fantom.org/`<b>)</b></span>
+<span id='line172'>    try</span>
+<span id='line173'>    <b>{</b></span>
+<span id='line174'>      c.writeReq</span>
+<span id='line175'>      c.writeReq</span>
+<span id='line176'>      c.reqUri = `https://fantom.org/doc/`</span>
+<span id='line177'>      c.writeReq</span>
+<span id='line178'></span>
+<span id='line179'>      c.readRes</span>
+<span id='line180'>      verifyEq<b>(</b>c.resCode, 200<b>)</b></span>
+<span id='line181'>      verify<b>(</b>c.resStr.contains<b>(</b>"&lt;html"<b>)</b><b>)</b></span>
+<span id='line182'></span>
+<span id='line183'>      c.readRes</span>
+<span id='line184'>      verifyEq<b>(</b>c.resCode, 200<b>)</b></span>
+<span id='line185'>      verify<b>(</b>c.resStr.contains<b>(</b>"&lt;html"<b>)</b><b>)</b></span>
+<span id='line186'></span>
+<span id='line187'>      c.readRes</span>
+<span id='line188'>      verifyEq<b>(</b>c.resCode, 404<b>)</b></span>
+<span id='line189'>    <b>}</b></span>
+<span id='line190'>    finally c.close</span>
+<span id='line191'>  <b>}</b></span>
+<span id='line192'>  */</span>
+<span id='line193'></span>
+<span id='line194'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

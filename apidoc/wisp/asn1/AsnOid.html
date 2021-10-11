@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>asn1::AsnOid</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnOid.html'>AsnOid</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> asn1::AsnOid</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='AsnObj.html'>asn1::AsnObj</a>
+    asn1::AsnOid</pre>
+<p class='src'>
+<a href='src-AsnOid.fan.html'>Source</a></p>
+
+<p>Models an ASN.1 <code>OBJECT IDENTIFIER</code> type.</p>
+<dl>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> compare(<a href='../sys/Obj.html'>Obj</a> that)</code></p>
+<p class='src'>
+<a href='src-AsnOid.fan.html#line66'>Source</a></p>
+
+<p>Oid is ordered by comparing its sub-identifier parts numerically.</p>
+</dd>
+<dt id='getRange'>
+getRange</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='AsnOid.html'>AsnOid</a> getRange(<a href='../sys/Range.html'>Range</a> range)</code></p>
+<p class='src'>
+<a href='src-AsnOid.fan.html#line46'>Source</a></p>
+
+<p>Get a new Oid based on the specified range. This Oid is guaranteed to be in the universal tag class (i.e. - the tag is not preservered).</p>
+
+<p>Throw IndexErr if the range is illegal.</p>
+</dd>
+<dt id='ids'>
+ids</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> ids()</code></p>
+<p class='src'>
+<a href='src-AsnOid.fan.html#line28'>Source</a></p>
+
+<p>Convenience to get the value as a list of its <code>Int</code> identifiers.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/List.html'>List&lt;<a href='AsnTag.html'>AsnTag</a>&gt;</a> tags, <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> val)</code></p>
+<p class='src'>
+<a href='src-AsnOid.fan.html'>Source</a></p>
+</dd>
+<dt id='oidStr'>
+oidStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> oidStr()</code></p>
+<p class='src'>
+<a href='src-AsnOid.fan.html#line38'>Source</a></p>
+
+<p>Convenience to get a Str where the sub-identifiers are joined with a <code>.</code></p>
+
+<pre>Asn.oid("1.2.3").oidStr == "1.2.3"</pre>
+</dd>
+<dt id='valStr'>
+valStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> valStr()</code></p>
+<p class='src'>
+<a href='src-AsnOid.fan.html#line84'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-AsnOid.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#compare'>compare</a></li><li><a href='#getRange'>getRange</a></li><li><a href='#ids'>ids</a></li><li><a href='#oidStr'>oidStr</a></li><li><a href='#valStr'>valStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

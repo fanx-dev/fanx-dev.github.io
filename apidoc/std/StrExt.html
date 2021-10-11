@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::StrExt</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='StrExt.html'>StrExt</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> std::StrExt</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::StrExt</pre>
+
+<p>Str Extension</p>
+<dl>
+<dt id='capitalize'>
+capitalize</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> capitalize(<a href='../sys/Str.html'>Str</a> self)</code></p>
+
+<p>Return this string with the first character converted uppercase.  The case conversion is for ASCII only. Also see <code><a href='StrExt.html#decapitalize'>decapitalize</a></code> and <a href='localeCapitalize'>localeCapitalize</a>.</p>
+
+<p>Example:</p>
+
+<pre>"foo".capitalize => "Foo"</pre>
+</dd>
+<dt id='decapitalize'>
+decapitalize</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> decapitalize(<a href='../sys/Str.html'>Str</a> self)</code></p>
+
+<p>Return this string with the first character converted lowercase.  The case conversion is for ASCII only. Also see <code><a href='StrExt.html#capitalize'>capitalize</a></code> and <a href='localeDecapitalize'>localeDecapitalize</a>.</p>
+
+<p>Example:</p>
+
+<pre>"Foo".decapitalize => "foo"</pre>
+</dd>
+<dt id='extract'>
+extract</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str?</a> extract(<a href='../sys/Str.html'>Str</a> str, <a href='../sys/Str.html'>Str?</a> begin, <a href='../sys/Str.html'>Str?</a> end)</code></p>
+
+<p>get the sub string between begin and end</p>
+</dd>
+<dt id='fromDisplayName'>
+fromDisplayName</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> fromDisplayName(<a href='../sys/Str.html'>Str</a> self)</code></p>
+
+<p>Translate a display name like "Foo Bar" to a programmatic name "fooBar".  This method decapitalizes the first letter, then walks the string removing spaces.  Also see <code><a href='StrExt.html#toDisplayName'>toDisplayName</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>"Foo".fromDisplayName         ->  "foo"
+"Foo Bar".fromDisplayName     ->  "fooBar"
+"Foo Bar Baz".fromDisplayName ->  "fooBarBaz"
+"Foo 33 Bar".fromDisplayName  ->  "foo33Bar"
+"Foo XML".fromDisplayName     ->  "fooXML"
+"foo bar".fromDisplayName     ->  "fooBar"</pre>
+</dd>
+<dt id='in'>
+in</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='InStream.html'>InStream</a> in(<a href='../sys/Str.html'>Str</a> str)</code></p>
+
+<p>Create an input stream to read characters from the this string. The input stream is designed only to read character data.  Attempts to perform binary reads will throw UnsupportedErr.</p>
+</dd>
+<dt id='justl'>
+justl</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> justl(<a href='../sys/Str.html'>Str</a> self, <a href='../sys/Int.html'>Int</a> width)</code></p>
+
+<p>If size is less than width, then add spaces to the right to create a left justified string.  Also see <code><a href='StrExt.html#padr'>padr</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>"xyz".justl(2) => "xyz"
+"xyz".justl(4) => "xyz "</pre>
+</dd>
+<dt id='justr'>
+justr</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> justr(<a href='../sys/Str.html'>Str</a> self, <a href='../sys/Int.html'>Int</a> width)</code></p>
+
+<p>If size is less than width, then add spaces to the left to create a right justified string.  Also see <code><a href='StrExt.html#padl'>padl</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>"xyz".justr(2) => "xyz"
+"xyz".justr(4) => " xyz"</pre>
+</dd>
+<dt id='numNewlines'>
+numNewlines</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Int.html'>Int</a> numNewlines(<a href='../sys/Str.html'>Str</a> self)</code></p>
+
+<p>Count the number of newline combinations: "\n", "\r", or "\r\n".</p>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='OutStream.html'>OutStream</a> out(<a href='../sys/StrBuf.html'>StrBuf</a> buf)</code></p>
+
+<p>Create an output stream to append characters to this string buffer.  The output stream is designed to write character data, attempts to do binary writes will throw UnsupportedErr.</p>
+</dd>
+<dt id='padl'>
+padl</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> padl(<a href='../sys/Str.html'>Str</a> self, <a href='../sys/Int.html'>Int</a> width, <a href='../sys/Int.html'>Int</a> ch := 32)</code></p>
+
+<p>If size is less than width, then add the given char to the left to achieve the specified width.  Also see <code><a href='StrExt.html#justr'>justr</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>"3".padl(3, '0') => "003"
+"123".padl(2, '0') => "123"</pre>
+</dd>
+<dt id='padr'>
+padr</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> padr(<a href='../sys/Str.html'>Str</a> self, <a href='../sys/Int.html'>Int</a> width, <a href='../sys/Int.html'>Int</a> ch := 32)</code></p>
+
+<p>If size is less than width, then add the given char to the left to acheive the specified with.  Also see <code><a href='StrExt.html#justl'>justl</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>"xyz".padr(2, '.') => "xyz"
+"xyz".padr(5, '-') => "xyz--"</pre>
+</dd>
+<dt id='reverse'>
+reverse</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> reverse(<a href='../sys/Str.html'>Str</a> self)</code></p>
+
+<p>Reverse the contents of this string.</p>
+
+<p>Example:</p>
+
+<pre>"stressed".reverse => "desserts"</pre>
+</dd>
+<dt id='splitAny'>
+splitAny</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> splitAny(<a href='../sys/Str.html'>Str</a> str, <a href='../sys/Str.html'>Str</a> sp, <a href='../sys/Bool.html'>Bool</a> normalize := true)</code></p>
+
+<p>split by any char</p>
+</dd>
+<dt id='splitBy'>
+splitBy</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> splitBy(<a href='../sys/Str.html'>Str</a> str, <a href='../sys/Str.html'>Str</a> sp, <a href='../sys/Int.html'>Int</a> max := Int.maxVal)</code></p>
+
+<p>split by Str</p>
+</dd>
+<dt id='splitLines'>
+splitLines</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> splitLines(<a href='../sys/Str.html'>Str</a> self)</code></p>
+
+<p>Split this string into individual lines where lines are terminated by \n, \r\n, or \r.  The returned strings do not contain the newline character.</p>
+
+<p>Examples:</p>
+
+<pre>"x\ny".splitLines  => ["x", "y"]
+"".splitLines      => [""]
+"x".splitLines     => ["x"]
+"\r\n".splitLines  => ["", ""]
+"x\n".splitLines   => ["x", ""]</pre>
+</dd>
+<dt id='toBuf'>
+toBuf</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='Buf.html'>Buf</a> toBuf(<a href='../sys/Str.html'>Str</a> str, <a href='Charset.html'>Charset</a> charset := Charset.utf8)</code></p>
+
+<p>Get this string encoded into a buffer of bytes.</p>
+</dd>
+<dt id='toDisplayName'>
+toDisplayName</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Str.html'>Str</a> toDisplayName(<a href='../sys/Str.html'>Str</a> self)</code></p>
+
+<p>Translate a programmer name like "fooBar" to "Foo Bar". This method capitalizes the first letter, then walks the string looking for ASCII capital letters and inserting a space.  Any underbars are replaced with a space.  Also see <code><a href='StrExt.html#fromDisplayName'>fromDisplayName</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>"foo".toDisplayName       ->  "Foo
+"fooBar".toDisplayName    ->  "Foo Bar"
+"fooBarBaz".toDisplayName ->  "Foo Bar Baz"
+"foo33".toDisplayName     ->  "Foo 33"
+"fooXML".toDisplayName    ->  "Foo XML"
+"Foo".toDisplayName       ->  "Foo"
+"foo_bar".toDisplayName   ->  "Foo Bar"</pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#capitalize'>capitalize</a></li><li><a href='#decapitalize'>decapitalize</a></li><li><a href='#extract'>extract</a></li><li><a href='#fromDisplayName'>fromDisplayName</a></li><li><a href='#in'>in</a></li><li><a href='#justl'>justl</a></li><li><a href='#justr'>justr</a></li><li><a href='#numNewlines'>numNewlines</a></li><li><a href='#out'>out</a></li><li><a href='#padl'>padl</a></li><li><a href='#padr'>padr</a></li><li><a href='#reverse'>reverse</a></li><li><a href='#splitAny'>splitAny</a></li><li><a href='#splitBy'>splitBy</a></li><li><a href='#splitLines'>splitLines</a></li><li><a href='#toBuf'>toBuf</a></li><li><a href='#toDisplayName'>toDisplayName</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

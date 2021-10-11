@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>syntax::HtmlSyntaxWriter</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='HtmlSyntaxWriter.html'>HtmlSyntaxWriter</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> syntax::HtmlSyntaxWriter</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  syntax::HtmlSyntaxWriter</pre>
+<p class='src'>
+<a href='src-SyntaxHtmlWriter.fan.html'>Source</a></p>
+
+<p>HtmlSyntaxWriter outputs a SyntaxDoc to HTML</p>
+<dl>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+<p class='src'>
+<a href='src-SyntaxHtmlWriter.fan.html'>Source</a></p>
+
+<p>Close underlying output stream</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+<p class='src'>
+<a href='src-SyntaxHtmlWriter.fan.html'>Source</a></p>
+</dd>
+<dt id='writeDoc'>
+writeDoc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeDoc(<a href='SyntaxDoc.html'>SyntaxDoc</a> doc)</code></p>
+<p class='src'>
+<a href='src-SyntaxHtmlWriter.fan.html#line23'>Source</a></p>
+
+<p>Write an entire HTML file with proper head, body types using default CSS</p>
+</dd>
+<dt id='writeLine'>
+writeLine</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeLine(<a href='SyntaxLine.html'>SyntaxLine</a> line)</code></p>
+<p class='src'>
+<a href='src-SyntaxHtmlWriter.fan.html#line60'>Source</a></p>
+
+<p>Write a single syntax line as styled HTML</p>
+</dd>
+<dt id='writeLines'>
+writeLines</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeLines(<a href='SyntaxDoc.html'>SyntaxDoc</a> doc)</code></p>
+<p class='src'>
+<a href='src-SyntaxHtmlWriter.fan.html#line50'>Source</a></p>
+
+<p>Write the lines of the document as HTML elements.  This method does not generate HTML head/body tags.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-SyntaxHtmlWriter.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#close'>close</a></li><li><a href='#writeDoc'>writeDoc</a></li><li><a href='#writeLine'>writeLine</a></li><li><a href='#writeLines'>writeLines</a></li></ul>
+</div>
+</div>
+</body>
+</html>

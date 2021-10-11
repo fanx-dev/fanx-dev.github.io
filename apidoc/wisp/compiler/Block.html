@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::Block</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='Block.html'>Block</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::Block</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    compiler::Block</pre>
+
+<p>Block is a list of zero or more Stmts</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> add(<a href='Stmt.html'>Stmt</a> stmt)</code></p>
+
+<p>Append a statement</p>
+</dd>
+<dt id='addAll'>
+addAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> addAll(<a href='../sys/List.html'>List&lt;<a href='Stmt.html'>Stmt</a>&gt;</a> stmts)</code></p>
+
+<p>Append a list of statements</p>
+</dd>
+<dt id='isDefiniteAssign'>
+isDefiniteAssign</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isDefiniteAssign(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='Expr.html'>Expr</a>&gt;</a> f)</code></p>
+
+<p>Return if any of the statements perform definite assignment.</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>Return is there are no statements</p>
+</dd>
+<dt id='isExit'>
+isExit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isExit()</code></p>
+
+<p>Does this block always cause us to exit the method (does the last statement return true for Stmt.isExit)</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='printOpt'>
+printOpt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> printOpt(<a href='AstWriter.html'>AstWriter</a> out, <a href='../sys/Bool.html'>Bool</a> braces := true)</code></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> size()</code></p>
+
+<p>Return number of statements</p>
+</dd>
+<dt id='stmts'>
+stmts</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Stmt.html'>Stmt</a>&gt;</a> stmts</code></p>
+</dd>
+<dt id='walk'>
+walk</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> walk(<a href='Visitor.html'>Visitor</a> v, <a href='VisitDepth.html'>VisitDepth</a> depth)</code></p>
+</dd>
+<dt id='walkExpr'>
+walkExpr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> walkExpr(<a href='../sys/Func.html'>Func&lt;<a href='Expr.html'>Expr</a>,<a href='Expr.html'>Expr</a>&gt;</a> closure)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#addAll'>addAll</a></li><li><a href='#isDefiniteAssign'>isDefiniteAssign</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#isExit'>isExit</a></li><li><a href='#print'>print</a></li><li><a href='#printOpt'>printOpt</a></li><li><a href='#size'>size</a></li><li><a href='#stmts'>stmts</a></li><li><a href='#walk'>walk</a></li><li><a href='#walkExpr'>walkExpr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

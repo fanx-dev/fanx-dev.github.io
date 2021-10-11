@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WebReq.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebReq.html'>WebReq</a></li><li><a href='src-WebReq.fan.html'>WebReq.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2006, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   15 Mar 06  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using inet</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** WebReq encapsulates a web request.</span>
+<span id='line13'>**</span>
+<span id='line14'>** See <b>[</b>pod doc<b>]</b>`pod-doc#webReq`.</span>
+<span id='line15'>**</span>
+<span id='line16'>abstract class WebReq</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'></span>
+<span id='line19'>  **</span>
+<span id='line20'>  ** The HTTP request method in uppercase. Example: GET, POST, PUT.</span>
+<span id='line21'>  **</span>
+<span id='line22'>  abstract Str method<b>(</b><b>)</b></span>
+<span id='line23'></span>
+<span id='line24'>  **</span>
+<span id='line25'>  ** Return if the method is GET</span>
+<span id='line26'>  **</span>
+<span id='line27'>  abstract Bool isGet<b>(</b><b>)</b></span>
+<span id='line28'></span>
+<span id='line29'>  **</span>
+<span id='line30'>  ** Return if the method is POST</span>
+<span id='line31'>  **</span>
+<span id='line32'>  abstract Bool isPost<b>(</b><b>)</b></span>
+<span id='line33'></span>
+<span id='line34'>  **</span>
+<span id='line35'>  ** The HTTP version of the request.</span>
+<span id='line36'>  **</span>
+<span id='line37'>  abstract Version version<b>(</b><b>)</b></span>
+<span id='line38'></span>
+<span id='line39'>  **</span>
+<span id='line40'>  ** Get the IP host address of the client socket making this request.</span>
+<span id='line41'>  **</span>
+<span id='line42'>  abstract IpAddr remoteAddr<b>(</b><b>)</b></span>
+<span id='line43'></span>
+<span id='line44'>  **</span>
+<span id='line45'>  ** Get the IP port of the client socket making this request.</span>
+<span id='line46'>  **</span>
+<span id='line47'>  abstract Int remotePort<b>(</b><b>)</b></span>
+<span id='line48'></span>
+<span id='line49'>  **</span>
+<span id='line50'>  ** The request URI including the query string relative to</span>
+<span id='line51'>  ** this authority.  Also see `absUri`, `modBase`, and `modRel`.</span>
+<span id='line52'>  **</span>
+<span id='line53'>  ** Examples:</span>
+<span id='line54'>  **   /a/b/c</span>
+<span id='line55'>  **   /a?q=bar</span>
+<span id='line56'>  **</span>
+<span id='line57'>  abstract Uri uri<b>(</b><b>)</b></span>
+<span id='line58'></span>
+<span id='line59'>  **</span>
+<span id='line60'>  ** The absolute request URI including the full authority</span>
+<span id='line61'>  ** and the query string.  Also see `uri`, `modBase`, and `modRel`.</span>
+<span id='line62'>  ** This method is equivalent to:</span>
+<span id='line63'>  **   "http://" + headers<b>[</b>"Host"<b>]</b> + uri</span>
+<span id='line64'>  **</span>
+<span id='line65'>  ** Examples:</span>
+<span id='line66'>  **   http://www.foo.com/a/b/c</span>
+<span id='line67'>  **   http://www.foo.com/a?q=bar</span>
+<span id='line68'>  **</span>
+<span id='line69'>  virtual once Uri absUri<b>(</b><b>)</b></span>
+<span id='line70'>  <b>{</b></span>
+<span id='line71'>    host := headers<b>[</b>"Host"<b>]</b></span>
+<span id='line72'>    if <b>(</b>host == null<b>)</b> throw Err<b>(</b>"Missing Host header"<b>)</b></span>
+<span id='line73'>    return `http://$<b>{</b>host<b>}</b>/` + uri</span>
+<span id='line74'>  <b>}</b></span>
+<span id='line75'></span>
+<span id='line76'>  **</span>
+<span id='line77'>  ** Get the WebMod which is currently responsible</span>
+<span id='line78'>  ** for processing this request.</span>
+<span id='line79'>  **</span>
+<span id='line80'>  abstract WebMod mod</span>
+<span id='line81'></span>
+<span id='line82'>  **</span>
+<span id='line83'>  ** Base URI of the current WebMod.  This Uri always ends in a slash.</span>
+<span id='line84'>  ** This is the URI used to route to the WebMod itself.  The remainder</span>
+<span id='line85'>  ** of `uri` is stored in `modRel` so that the following always</span>
+<span id='line86'>  ** holds true <b>(</b>with exception of a trailing slash<b>)</b>:</span>
+<span id='line87'>  **   modBase + modRel == uri</span>
+<span id='line88'>  **</span>
+<span id='line89'>  ** For example if the current WebMod is mounted as '/mod' then:</span>
+<span id='line90'>  **   uri          modBase   modRel</span>
+<span id='line91'>  **   ----------   -------   -------</span>
+<span id='line92'>  **   `/mod`       `/mod/`   ``</span>
+<span id='line93'>  **   `/mod/`      `/mod/`   ``</span>
+<span id='line94'>  **   `/mod?q`     `/mod/`   `?q`</span>
+<span id='line95'>  **   `/mod/a`     `/mod/`   `a`</span>
+<span id='line96'>  **   `/mod/a/b`   `/mod/`   `a/b`</span>
+<span id='line97'>  **</span>
+<span id='line98'>  Uri modBase := `/`</span>
+<span id='line99'>  <b>{</b></span>
+<span id='line100'>    set</span>
+<span id='line101'>    <b>{</b></span>
+<span id='line102'>      if <b>(</b>!it.isDir<b>)</b> throw ArgErr<b>(</b>"modBase must end in slash"<b>)</b>;</span>
+<span id='line103'>      if <b>(</b>it.path.size > uri.path.size<b>)</b> throw ArgErr<b>(</b>"modBase <b>(</b>$it<b>)</b> is not slice of uri <b>(</b>$uri<b>)</b>"<b>)</b>;</span>
+<span id='line104'>      &amp;modBase = it</span>
+<span id='line105'>      modRelVal = uri.relTo<b>(</b>&amp;modBase<b>)</b>//<b>[</b>it.path.size..-1<b>]</b></span>
+<span id='line106'>    <b>}</b></span>
+<span id='line107'>  <b>}</b></span>
+<span id='line108'></span>
+<span id='line109'>  **</span>
+<span id='line110'>  ** WebMod relative part of the URI - see `modBase`.</span>
+<span id='line111'>  **</span>
+<span id='line112'>  Uri modRel<b>(</b><b>)</b> <b>{</b> modRelVal ?: uri <b>}</b></span>
+<span id='line113'>  private Uri? modRelVal</span>
+<span id='line114'></span>
+<span id='line115'>  **</span>
+<span id='line116'>  ** Map of HTTP request headers.  The headers map is readonly</span>
+<span id='line117'>  ** and case insensitive <b>(</b>see `sys::Map.caseInsensitive`<b>)</b>.</span>
+<span id='line118'>  **</span>
+<span id='line119'>  ** Examples:</span>
+<span id='line120'>  **   req.headers<b>[</b>"Accept-Language"<b>]</b></span>
+<span id='line121'>  **</span>
+<span id='line122'>  abstract Str:Str headers<b>(</b><b>)</b></span>
+<span id='line123'></span>
+<span id='line124'>  **</span>
+<span id='line125'>  ** Get the accepted locales for this request based on the</span>
+<span id='line126'>  ** "Accept-Language" HTTP header.  List is sorted by preference, where</span>
+<span id='line127'>  ** 'locales.first' is best, and 'locales.last' is worst.  This list is</span>
+<span id='line128'>  ** guarenteed to contain Locale<b>(</b>"en"<b>)</b>.</span>
+<span id='line129'>  **</span>
+<span id='line130'>  virtual once Locale<b>[</b><b>]</b> locales<b>(</b><b>)</b></span>
+<span id='line131'>  <b>{</b></span>
+<span id='line132'>    list := Locale<b>[</b>,<b>]</b></span>
+<span id='line133'>    hval := headers<b>[</b>"Accept-Language"<b>]</b></span>
+<span id='line134'>    if <b>(</b>hval != null<b>)</b></span>
+<span id='line135'>    <b>{</b></span>
+<span id='line136'>      WebUtil.parseList<b>(</b>hval<b>)</b>.each |val|</span>
+<span id='line137'>      <b>{</b></span>
+<span id='line138'>        try</span>
+<span id='line139'>        <b>{</b></span>
+<span id='line140'>          colon := val.index<b>(</b>";q="<b>)</b></span>
+<span id='line141'>          qual  := colon==null ? 1f : val<b>[</b>colon+3..-1<b>]</b>.toFloat</span>
+<span id='line142'>          lang  := colon==null ? val : val<b>[</b>0..&lt;colon<b>]</b></span>
+<span id='line143'>          loc   := Locale.fromStr<b>(</b>lang, false<b>)</b></span>
+<span id='line144'>          if <b>(</b>qual > 0f &amp;&amp; loc != null &amp;&amp; !list.contains<b>(</b>loc<b>)</b><b>)</b> list.add<b>(</b>loc<b>)</b></span>
+<span id='line145'>        <b>}</b></span>
+<span id='line146'>        catch <b>(</b>Err err<b>)</b> <b>{</b> err.trace <b>}</b></span>
+<span id='line147'>      <b>}</b></span>
+<span id='line148'>    <b>}</b></span>
+<span id='line149'></span>
+<span id='line150'>    // make sure we always have 'en'</span>
+<span id='line151'>    en := Locale<b>(</b>"en"<b>)</b></span>
+<span id='line152'>    if <b>(</b>!list.contains<b>(</b>en<b>)</b><b>)</b> list.add<b>(</b>en<b>)</b></span>
+<span id='line153'>    return list</span>
+<span id='line154'>  <b>}</b></span>
+<span id='line155'></span>
+<span id='line156'>  **</span>
+<span id='line157'>  ** Map of cookie values keyed by cookie name.  The</span>
+<span id='line158'>  ** cookies map is readonly and case insensitive.</span>
+<span id='line159'>  **</span>
+<span id='line160'>  virtual once Str:Str cookies<b>(</b><b>)</b></span>
+<span id='line161'>  <b>{</b></span>
+<span id='line162'>    try</span>
+<span id='line163'>      return MimeType.parseParams<b>(</b>headers.get<b>(</b>"Cookie", ""<b>)</b><b>)</b>.ro</span>
+<span id='line164'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line165'>      e.trace</span>
+<span id='line166'>    return Str:Str<b>[</b>:<b>]</b>.ro</span>
+<span id='line167'>  <b>}</b></span>
+<span id='line168'></span>
+<span id='line169'>  **</span>
+<span id='line170'>  ** Get the session associated with this browser "connection".</span>
+<span id='line171'>  ** The session must be accessed the first time before the</span>
+<span id='line172'>  ** response is committed.</span>
+<span id='line173'>  **</span>
+<span id='line174'>  abstract WebSession session<b>(</b><b>)</b></span>
+<span id='line175'></span>
+<span id='line176'>  **</span>
+<span id='line177'>  ** Get the key/value pairs of the form data.  If the request</span>
+<span id='line178'>  ** content type is "application/x-www-form-urlencoded", then the</span>
+<span id='line179'>  ** first time this method is called the request content is read</span>
+<span id='line180'>  ** and parsed using `sys::Uri.decodeQuery`.  If the content</span>
+<span id='line181'>  ** type is not "application/x-www-form-urlencoded" this method</span>
+<span id='line182'>  ** returns null.</span>
+<span id='line183'>  **</span>
+<span id='line184'>  virtual once <b>[</b>Str:Str<b>]</b>? form<b>(</b><b>)</b></span>
+<span id='line185'>  <b>{</b></span>
+<span id='line186'>    ct := headers.get<b>(</b>"Content-Type", ""<b>)</b>.lower</span>
+<span id='line187'>    if <b>(</b>ct.startsWith<b>(</b>"application/x-www-form-urlencoded"<b>)</b><b>)</b></span>
+<span id='line188'>    <b>{</b></span>
+<span id='line189'>      len := headers<b>[</b>"Content-Length"<b>]</b></span>
+<span id='line190'>      if <b>(</b>len == null<b>)</b> throw IOErr<b>(</b>"Missing Content-Length header"<b>)</b></span>
+<span id='line191'>      return Uri.decodeQuery<b>(</b>in.readLine<b>(</b>len.toInt<b>)</b><b>)</b></span>
+<span id='line192'>    <b>}</b></span>
+<span id='line193'>    return null</span>
+<span id='line194'>  <b>}</b></span>
+<span id='line195'></span>
+<span id='line196'>  **</span>
+<span id='line197'>  ** Get the stream to read request body.  See `WebUtil.makeContentInStream`</span>
+<span id='line198'>  ** to check under which conditions request content is available.</span>
+<span id='line199'>  ** If request content is not available, then throw an exception.</span>
+<span id='line200'>  **</span>
+<span id='line201'>  ** If the client specified the "Expect: 100-continue" header, then the first</span>
+<span id='line202'>  ** access of the request input stream will automatically send the client</span>
+<span id='line203'>  ** a <b>[</b>100 Continue<b>]</b>`pod-doc#expectContinue` response.</span>
+<span id='line204'>  **</span>
+<span id='line205'>  abstract InStream in<b>(</b><b>)</b></span>
+<span id='line206'></span>
+<span id='line207'>  **</span>
+<span id='line208'>  ** Access to socket options for this request.</span>
+<span id='line209'>  **</span>
+<span id='line210'>  abstract SocketOptions socketOptions<b>(</b><b>)</b></span>
+<span id='line211'></span>
+<span id='line212'>  **</span>
+<span id='line213'>  ** Access to underlying socket - internal use only!</span>
+<span id='line214'>  **</span>
+<span id='line215'>  @NoDoc abstract TcpSocket socket<b>(</b><b>)</b></span>
+<span id='line216'></span>
+<span id='line217'>  **</span>
+<span id='line218'>  ** Stash allows you to stash objects on the WebReq object</span>
+<span id='line219'>  ** in order to pass data b/w Weblets while processing</span>
+<span id='line220'>  ** this request.</span>
+<span id='line221'>  **</span>
+<span id='line222'>  virtual Str:Obj? stash<b>(</b><b>)</b> <b>{</b> stashRef <b>}</b></span>
+<span id='line223'>  private Str:Obj? stashRef := Str:Obj?<b>[</b>"web.startTime":Duration.now<b>]</b></span>
+<span id='line224'></span>
+<span id='line225'>  **</span>
+<span id='line226'>  ** Given a web request:</span>
+<span id='line227'>  **   1. check that the content-type is form-data</span>
+<span id='line228'>  **   2. get the boundary string</span>
+<span id='line229'>  **   3. invoke callback for each part <b>(</b>see `WebUtil.parseMultiPart`<b>)</b></span>
+<span id='line230'>  **</span>
+<span id='line231'>  ** For each part in the stream call the given callback function with</span>
+<span id='line232'>  ** the part's form name, headers, and an input stream used to read the</span>
+<span id='line233'>  ** part's body.</span>
+<span id='line234'>  **</span>
+<span id='line235'>  Void parseMultiPartForm<b>(</b>|Str formName, InStream in, <b>[</b>Str:Str<b>]</b> headers| cb<b>)</b></span>
+<span id='line236'>  <b>{</b></span>
+<span id='line237'>    mime := MimeType<b>(</b>this.headers<b>[</b>"Content-Type"<b>]</b><b>)</b></span>
+<span id='line238'>    if <b>(</b>mime.subType != "form-data"<b>)</b> throw Err<b>(</b>"Invalid content-type: $mime"<b>)</b></span>
+<span id='line239'>    boundary := mime.params<b>[</b>"boundary"<b>]</b> ?: throw Err<b>(</b>"Missing boundary param: $mime"<b>)</b></span>
+<span id='line240'>    WebUtil.parseMultiPart<b>(</b>this.in, boundary<b>)</b> |partHeaders, partIn|</span>
+<span id='line241'>    <b>{</b></span>
+<span id='line242'>      cd := partHeaders<b>[</b>"Content-Disposition"<b>]</b> ?: throw Err<b>(</b>"Multi-part missing Content-Disposition"<b>)</b></span>
+<span id='line243'>      semi := cd.index<b>(</b>";"<b>)</b> ?: throw Err<b>(</b>"Expected semicolon; Content-Disposition: $cd"<b>)</b></span>
+<span id='line244'>      params := MimeType.parseParams<b>(</b>cd<b>[</b>cd.index<b>(</b>";"<b>)</b>+1..-1<b>]</b><b>)</b></span>
+<span id='line245'>      formName := params<b>[</b>"name"<b>]</b> ?: throw Err<b>(</b>"Expected name param; Content-Disposition: $cd"<b>)</b></span>
+<span id='line246'>      cb<b>(</b>formName, partIn, partHeaders<b>)</b></span>
+<span id='line247'>      try <b>{</b> partIn.skip<b>(</b>Int.maxVal<b>)</b> <b>}</b> catch <b>{</b><b>}</b> // drain stream</span>
+<span id='line248'>    <b>}</b></span>
+<span id='line249'>  <b>}</b></span>
+<span id='line250'></span>
+<span id='line251'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

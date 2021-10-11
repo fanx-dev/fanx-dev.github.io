@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Month</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Month.html'>Month</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> std::Month</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    std::Month</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Enum for twelve months of the year.</p>
+<ul>
+<li><a href='#jan'>jan</a></li><li><a href='#feb'>feb</a></li><li><a href='#mar'>mar</a></li><li><a href='#apr'>apr</a></li><li><a href='#may'>may</a></li><li><a href='#jun'>jun</a></li><li><a href='#jul'>jul</a></li><li><a href='#aug'>aug</a></li><li><a href='#sep'>sep</a></li><li><a href='#oct'>oct</a></li><li><a href='#nov'>nov</a></li><li><a href='#dec'>dec</a></li></ul>
+<dl>
+<dt id='apr'>
+apr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> apr := ...</code></p>
+
+<p>April</p>
+</dd>
+<dt id='aug'>
+aug</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> aug := ...</code></p>
+
+<p>August</p>
+</dd>
+<dt id='daysInMon'>
+daysInMon</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> daysInMon := ...</code></p>
+</dd>
+<dt id='daysInMonLeap'>
+daysInMonLeap</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> daysInMonLeap := ...</code></p>
+</dd>
+<dt id='dec'>
+dec</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> dec := ...</code></p>
+
+<p>December</p>
+</dd>
+<dt id='decrement'>
+decrement</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Month.html'>Month</a> decrement()</code></p>
+
+<p>Return the month before this month.</p>
+</dd>
+<dt id='feb'>
+feb</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> feb := ...</code></p>
+
+<p>February</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the Month instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='increment'>
+increment</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Month.html'>Month</a> increment()</code></p>
+
+<p>Return the month after this month.</p>
+</dd>
+<dt id='jan'>
+jan</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> jan := ...</code></p>
+
+<p>January</p>
+</dd>
+<dt id='jul'>
+jul</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> jul := ...</code></p>
+
+<p>July</p>
+</dd>
+<dt id='jun'>
+jun</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> jun := ...</code></p>
+
+<p>June</p>
+</dd>
+<dt id='localeAbbr'>
+localeAbbr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> localeAbbr()</code></p>
+
+<p>Get the abbreviated name for the current locale. Configured by the <code>sys::&lt;name>Abbr</code> localized property.</p>
+</dd>
+<dt id='localeFull'>
+localeFull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> localeFull()</code></p>
+
+<p>Get the full name for the current locale. Configured by the <code>sys::&lt;name>Full</code> localized property.</p>
+</dd>
+<dt id='mar'>
+mar</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> mar := ...</code></p>
+
+<p>March</p>
+</dd>
+<dt id='may'>
+may</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> may := ...</code></p>
+
+<p>May</p>
+</dd>
+<dt id='nov'>
+nov</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> nov := ...</code></p>
+
+<p>November</p>
+</dd>
+<dt id='numDays'>
+numDays</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> numDays(<a href='../sys/Int.html'>Int</a> year)</code></p>
+
+<p>Return the number of days in this month for the specified year.</p>
+</dd>
+<dt id='oct'>
+oct</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> oct := ...</code></p>
+
+<p>October</p>
+</dd>
+<dt id='sep'>
+sep</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Month.html'>Month</a> sep := ...</code></p>
+
+<p>September</p>
+</dd>
+<dt id='toLocale'>
+toLocale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toLocale(<a href='../sys/Str.html'>Str?</a> pattern := null, <a href='Locale.html'>Locale</a> locale := Locale.cur())</code></p>
+
+<p>Return the month as a localized string according to the specified pattern.  The pattern rules are a subset of the <code><a href='DateTime.html#toLocale'>DateTime.toLocale</a></code>:</p>
+
+<pre>M      One/two digit month        6, 11
+MM     Two digit month            06, 11
+MMM    Three letter abbr month    Jun, Nov
+MMMM   Full month name            June, November</pre>
+
+<p>If pattern is null it defaults to "MMM".  Also see <code><a href='Month.html#localeAbbr'>localeAbbr</a></code> and <code><a href='Month.html#localeFull'>localeFull</a></code>.</p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='Month.html'>Month</a>&gt;</a> vals := ...</code></p>
+
+<p>List of Month values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#apr'>apr</a></li><li><a href='#aug'>aug</a></li><li><a href='#daysInMon'>daysInMon</a></li><li><a href='#daysInMonLeap'>daysInMonLeap</a></li><li><a href='#dec'>dec</a></li><li><a href='#feb'>feb</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#jan'>jan</a></li><li><a href='#jul'>jul</a></li><li><a href='#jun'>jun</a></li><li><a href='#mar'>mar</a></li><li><a href='#may'>may</a></li><li><a href='#nov'>nov</a></li><li><a href='#oct'>oct</a></li><li><a href='#sep'>sep</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#decrement'>decrement</a></li><li><a href='#increment'>increment</a></li><li><a href='#localeAbbr'>localeAbbr</a></li><li><a href='#localeFull'>localeFull</a></li><li><a href='#numDays'>numDays</a></li><li><a href='#toLocale'>toLocale</a></li></ul>
+</div>
+</div>
+</body>
+</html>

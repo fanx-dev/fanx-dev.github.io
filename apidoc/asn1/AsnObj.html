@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>asn1::AsnObj</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnObj.html'>AsnObj</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> asn1::AsnObj</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  asn1::AsnObj</pre>
+<p class='src'>
+<a href='src-AsnObj.fan.html'>Source</a></p>
+
+<p>A tagged ASN.1 value</p>
+<dl>
+<dt id='bigInt'>
+bigInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../math/BigInt.html'>BigInt</a> bigInt()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line58'>Source</a></p>
+
+<p>Get the value as a <code><a href='../math/BigInt.html'>BigInt</a></code>.</p>
+</dd>
+<dt id='bool'>
+bool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> bool()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line40'>Source</a></p>
+
+<p>Get the value as a <code><a href='../sys/Bool.html'>Bool</a></code></p>
+</dd>
+<dt id='buf'>
+buf</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/Buf.html'>Buf</a> buf()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line65'>Source</a></p>
+
+<p>Get any of the  binary values as a <a href='sys::Buf'>sys::Buf</a>. The Buf will be a safe copy that can be modified. Throws <code><a href='AsnErr.html'>AsnErr</a></code> if the value is not a binary value.</p>
+</dd>
+<dt id='coll'>
+coll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnColl.html'>AsnColl</a> coll()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line87'>Source</a></p>
+
+<p>Get this object as an <code><a href='AsnColl.html'>AsnColl</a></code></p>
+</dd>
+<dt id='effectiveTags'>
+effectiveTags</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='AsnTag.html'>AsnTag</a>&gt;</a> effectiveTags()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line111'>Source</a></p>
+
+<p>Apply rules for <code>EXPLICIT</code> and <code>IMPLICIT</code> tags to obtain the set of effective tags for encoding this object.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line164'>Source</a></p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line155'>Source</a></p>
+</dd>
+<dt id='int'>
+int</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> int()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line46'>Source</a></p>
+
+<p>Get the value as an <code><a href='../sys/Int.html'>Int</a></code>. If the value is a <code><a href='../math/BigInt.html'>BigInt</a></code> you may lose both precision and sign. Use <code><a href='AsnObj.html#bigInt'>bigInt</a></code> to get the value explicitly as a <code><a href='../math/BigInt.html'>BigInt</a></code>.</p>
+</dd>
+<dt id='isBool'>
+isBool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isBool()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line43'>Source</a></p>
+
+<p>Is this object's universal tag a <code>Boolean</code></p>
+</dd>
+<dt id='isInt'>
+isInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInt()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line55'>Source</a></p>
+
+<p>Is this object's universal tag an <code>Integer</code></p>
+</dd>
+<dt id='isNull'>
+isNull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNull()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line72'>Source</a></p>
+
+<p>Is this an ASN.1 <code>Null</code> value</p>
+</dd>
+<dt id='isOcts'>
+isOcts</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isOcts()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line69'>Source</a></p>
+
+<p>Is this object's universal tag an <code>Octet String</code></p>
+</dd>
+<dt id='isOid'>
+isOid</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isOid()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line78'>Source</a></p>
+
+<p>Is this object's universal tag an <code>Object Identifier</code></p>
+</dd>
+<dt id='isPrimitive'>
+isPrimitive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPrimitive()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line138'>Source</a></p>
+
+<p>Is this a primitive type?</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/List.html'>List&lt;<a href='AsnTag.html'>AsnTag</a>&gt;</a> tags, <a href='../sys/Obj.html'>Obj?</a> val)</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line21'>Source</a></p>
+</dd>
+<dt id='oid'>
+oid</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnOid.html'>AsnOid</a> oid()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line75'>Source</a></p>
+
+<p>Get this object as an <code><a href='AsnOid.html'>AsnOid</a></code></p>
+</dd>
+<dt id='push'>
+push</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='AsnObj.html'>AsnObj</a> push(<a href='AsnTag.html'>AsnTag</a> tag)</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line99'>Source</a></p>
+
+<p>Push a tag to the front of the tag chain for this value. Returns a new instance of this object with the current value.</p>
+
+<pre>AsnObj.int(123).tag(AsnTag.implicit(TagClass.context, 0))
+  => [0] IMPLICIT [UNIVERSAL 2]
+AsnObj.int(123).tag(AsnTag.explicit(TagClass.app, 1))
+  => [APPLICATION 1] EXPLICIT [UNIVERSAL 2]</pre>
+</dd>
+<dt id='seq'>
+seq</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnSeq.html'>AsnSeq</a> seq()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line90'>Source</a></p>
+
+<p>Get this object as an <code><a href='AsnSeq.html'>AsnSeq</a></code></p>
+</dd>
+<dt id='str'>
+str</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> str()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line81'>Source</a></p>
+
+<p>Get the value as a <code><a href='../sys/Str.html'>Str</a></code></p>
+</dd>
+<dt id='tag'>
+tag</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnTag.html'>AsnTag</a> tag()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line126'>Source</a></p>
+
+<p>Get the single effective tag for this object. Throws an error if there are multiple effective tags</p>
+</dd>
+<dt id='tags'>
+tags</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='AsnTag.html'>AsnTag</a>&gt;</a> tags</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line30'>Source</a></p>
+
+<p>The tags for this object.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line182'>Source</a></p>
+</dd>
+<dt id='ts'>
+ts</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/DateTime.html'>DateTime</a> ts()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line84'>Source</a></p>
+
+<p>Get the value as a <a href='sys::DateTime'>sys::DateTime</a> timestamp</p>
+</dd>
+<dt id='univTag'>
+univTag</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnTag.html'>AsnTag</a> univTag()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line135'>Source</a></p>
+
+<p>Get the univ tag for this object</p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Obj.html'>Obj?</a> val</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line33'>Source</a></p>
+
+<p>The value for this object.</p>
+</dd>
+<dt id='valEquals'>
+valEquals</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Bool.html'>Bool</a> valEquals(<a href='AsnObj.html'>AsnObj</a> that)</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line180'>Source</a></p>
+</dd>
+<dt id='valHash'>
+valHash</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Int.html'>Int</a> valHash()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line162'>Source</a></p>
+</dd>
+<dt id='valStr'>
+valStr</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Str.html'>Str</a> valStr()</code></p>
+<p class='src'>
+<a href='src-AsnObj.fan.html#line187'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-AsnObj.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bigInt'>bigInt</a></li><li><a href='#bool'>bool</a></li><li><a href='#buf'>buf</a></li><li><a href='#coll'>coll</a></li><li><a href='#effectiveTags'>effectiveTags</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#int'>int</a></li><li><a href='#isBool'>isBool</a></li><li><a href='#isInt'>isInt</a></li><li><a href='#isNull'>isNull</a></li><li><a href='#isOcts'>isOcts</a></li><li><a href='#isOid'>isOid</a></li><li><a href='#isPrimitive'>isPrimitive</a></li><li><a href='#oid'>oid</a></li><li><a href='#push'>push</a></li><li><a href='#seq'>seq</a></li><li><a href='#str'>str</a></li><li><a href='#tag'>tag</a></li><li><a href='#tags'>tags</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#ts'>ts</a></li><li><a href='#univTag'>univTag</a></li><li><a href='#val'>val</a></li><li><a href='#valEquals'>valEquals</a></li><li><a href='#valHash'>valHash</a></li><li><a href='#valStr'>valStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

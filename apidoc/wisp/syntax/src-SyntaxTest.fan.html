@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SyntaxTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='src-SyntaxTest.fan.html'>SyntaxTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   30 Jul 08  Brian Frank  Creation</span>
+<span id='line7'>//   30 Aug 11  Brian Frank  Refactor out of fluxText</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>class SyntaxTest : Test</span>
+<span id='line11'><b>{</b></span>
+<span id='line12'></span>
+<span id='line13'>  const static SyntaxType t := SyntaxType.text</span>
+<span id='line14'>  const static SyntaxType b := SyntaxType.bracket</span>
+<span id='line15'>  const static SyntaxType k := SyntaxType.keyword</span>
+<span id='line16'>  const static SyntaxType s := SyntaxType.literal</span>
+<span id='line17'>  const static SyntaxType c := SyntaxType.comment</span>
+<span id='line18'></span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'>// Keywords</span>
+<span id='line21'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line22'></span>
+<span id='line23'>  Void testKeywords<b>(</b><b>)</b></span>
+<span id='line24'>  <b>{</b></span>
+<span id='line25'>    verifySyntax<b>(</b>"fan",</span>
+<span id='line26'>    Str&lt;|public class Foo</span>
+<span id='line27'>         "public"</span>
+<span id='line28'>         publicx</span>
+<span id='line29'>         public7</span>
+<span id='line30'>         xpublic</span>
+<span id='line31'>         virtual</span>
+<span id='line32'>         foo<b>(</b>bar<b>)</b>|>,</span>
+<span id='line33'>    <b>[</b></span>
+<span id='line34'>      <b>[</b>k, "public", t, " ", k, "class", t, " Foo"<b>]</b>,</span>
+<span id='line35'>      <b>[</b>s, Str&lt;|"public"|><b>]</b>,</span>
+<span id='line36'>      <b>[</b>t, "publicx"<b>]</b>,</span>
+<span id='line37'>      <b>[</b>t, "public7"<b>]</b>,</span>
+<span id='line38'>      <b>[</b>t, "xpublic"<b>]</b>,</span>
+<span id='line39'>      <b>[</b>k, "virtual"<b>]</b>,</span>
+<span id='line40'>      <b>[</b>t, "foo", b, "<b>(</b>", t, "bar", b, "<b>)</b>"<b>]</b>,</span>
+<span id='line41'>    <b>]</b><b>)</b></span>
+<span id='line42'>  <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line45'>// Single line comments</span>
+<span id='line46'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line47'></span>
+<span id='line48'>  Void testComments<b>(</b><b>)</b></span>
+<span id='line49'>  <b>{</b></span>
+<span id='line50'>    verifySyntax<b>(</b>"fan",</span>
+<span id='line51'>    "foo/bar\n" +</span>
+<span id='line52'>    "x // y\n" +</span>
+<span id='line53'>    "// z",</span>
+<span id='line54'>    <b>[</b></span>
+<span id='line55'>      <b>[</b>t, "foo/bar"<b>]</b>,</span>
+<span id='line56'>      <b>[</b>t, "x ", c, "// y"<b>]</b>,</span>
+<span id='line57'>      <b>[</b>c, "// z"<b>]</b>,</span>
+<span id='line58'>    <b>]</b><b>)</b></span>
+<span id='line59'>  <b>}</b></span>
+<span id='line60'></span>
+<span id='line61'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line62'>// Block comments</span>
+<span id='line63'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line64'></span>
+<span id='line65'>  Void testMultiline1<b>(</b><b>)</b></span>
+<span id='line66'>  <b>{</b></span>
+<span id='line67'>    verifySyntax<b>(</b>"fan",</span>
+<span id='line68'>    "aa /* bb\n" +       // 0</span>
+<span id='line69'>    "ccc\n" +            // 1</span>
+<span id='line70'>    "dd */ eee\n" +      // 2</span>
+<span id='line71'>    "x /* // foo */ y",  // 3</span>
+<span id='line72'>    <b>[</b></span>
+<span id='line73'>      <b>[</b>t, "aa ", c, "/* bb"<b>]</b>,</span>
+<span id='line74'>      <b>[</b>c, "ccc"<b>]</b>,</span>
+<span id='line75'>      <b>[</b>c, "dd */", t, " eee"<b>]</b>,</span>
+<span id='line76'>      <b>[</b>t, "x ", c, "/* // foo */", t, " y"<b>]</b>,</span>
+<span id='line77'>    <b>]</b><b>)</b></span>
+<span id='line78'>  <b>}</b></span>
+<span id='line79'></span>
+<span id='line80'>  Void testMultilineNested1<b>(</b><b>)</b></span>
+<span id='line81'>  <b>{</b></span>
+<span id='line82'>    verifySyntax<b>(</b>"fan",</span>
+<span id='line83'>    "x/* bb\n" +  // 0</span>
+<span id='line84'>    "<b>{</b><b>}</b>\n" +      // 1</span>
+<span id='line85'>    "/*\n" +      // 2</span>
+<span id='line86'>    "a /* b /* c\n" +  // 3</span>
+<span id='line87'>    "c */ b */ c\n" +  // 4</span>
+<span id='line88'>    "*/\n" +      // 5</span>
+<span id='line89'>    "<b>{</b><b>}</b>\n" +      // 6</span>
+<span id='line90'>    "dd */ eee",  // 7</span>
+<span id='line91'>    <b>[</b></span>
+<span id='line92'>      <b>[</b>t, "x", c, "/* bb"<b>]</b>,</span>
+<span id='line93'>      <b>[</b>c, "<b>{</b><b>}</b>"<b>]</b>,</span>
+<span id='line94'>      <b>[</b>c, "/*"<b>]</b>,</span>
+<span id='line95'>      <b>[</b>c, "a /* b /* c"<b>]</b>,</span>
+<span id='line96'>      <b>[</b>c, "c */ b */ c"<b>]</b>,</span>
+<span id='line97'>      <b>[</b>c, "*/"<b>]</b>,</span>
+<span id='line98'>      <b>[</b>c, "<b>{</b><b>}</b>"<b>]</b>,</span>
+<span id='line99'>      <b>[</b>c, "dd */", t, " eee"<b>]</b>,</span>
+<span id='line100'>    <b>]</b><b>)</b></span>
+<span id='line101'>  <b>}</b></span>
+<span id='line102'></span>
+<span id='line103'>  Void testMultilineNested2<b>(</b><b>)</b></span>
+<span id='line104'>  <b>{</b></span>
+<span id='line105'>    verifySyntax<b>(</b>"fan",</span>
+<span id='line106'>    "x /* y */ z /*\n" +   // 0</span>
+<span id='line107'>    "a /* b */ xx\n" +     // 1</span>
+<span id='line108'>    "\"foo\"\n" +          // 2</span>
+<span id='line109'>    "*/ c*d /* e */\n" +   // 3</span>
+<span id='line110'>    "x/* /* /* x */ x\n" + // 4</span>
+<span id='line111'>    "*/\n" +               // 5</span>
+<span id='line112'>    "*/foo",               // 6</span>
+<span id='line113'>    <b>[</b></span>
+<span id='line114'>      <b>[</b>t, "x ", c, "/* y */", t, " z ", c, "/*"<b>]</b>,</span>
+<span id='line115'>      <b>[</b>c, "a /* b */ xx"<b>]</b>,</span>
+<span id='line116'>      <b>[</b>c, "\"foo\""<b>]</b>,</span>
+<span id='line117'>      <b>[</b>c, "*/", t, " c*d ", c, "/* e */"<b>]</b>,</span>
+<span id='line118'>      <b>[</b>t, "x", c, "/* /* /* x */ x"<b>]</b>,</span>
+<span id='line119'>      <b>[</b>c, "*/"<b>]</b>,</span>
+<span id='line120'>      <b>[</b>c, "*/", t, "foo"<b>]</b>,</span>
+<span id='line121'>    <b>]</b><b>)</b></span>
+<span id='line122'>  <b>}</b></span>
+<span id='line123'></span>
+<span id='line124'>  Void testMultilineUnnested<b>(</b><b>)</b></span>
+<span id='line125'>  <b>{</b></span>
+<span id='line126'>    verifySyntax<b>(</b>"java",</span>
+<span id='line127'>   //0123456789</span>
+<span id='line128'>    "x /* y */ z /*\n" +   // 0</span>
+<span id='line129'>    "a /* <b>{</b>cool<b>}</b>\n" +      // 1</span>
+<span id='line130'>    "ab */ xx\n" +         // 2</span>
+<span id='line131'>    "/*\"foo\"\n" +        // 3</span>
+<span id='line132'>    "*/ c*d",              // 4</span>
+<span id='line133'>    <b>[</b></span>
+<span id='line134'>      <b>[</b>t, "x ", c, "/* y */", t, " z ", c, "/*"<b>]</b>,</span>
+<span id='line135'>      <b>[</b>c, "a /* <b>{</b>cool<b>}</b>"<b>]</b>,</span>
+<span id='line136'>      <b>[</b>c, "ab */", t, " xx"<b>]</b>,</span>
+<span id='line137'>      <b>[</b>c, "/*\"foo\""<b>]</b>,</span>
+<span id='line138'>      <b>[</b>c, "*/", t, " c*d"<b>]</b>,</span>
+<span id='line139'>    <b>]</b><b>)</b></span>
+<span id='line140'>  <b>}</b></span>
+<span id='line141'></span>
+<span id='line142'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line143'>// Strs</span>
+<span id='line144'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line145'></span>
+<span id='line146'>  Void testStrs<b>(</b><b>)</b></span>
+<span id='line147'>  <b>{</b></span>
+<span id='line148'>    verifySyntax<b>(</b>"fan",</span>
+<span id='line149'>                          //    0123456789_12345</span>
+<span id='line150'>    "x\"foo\"y!\n" +      // 0  x"foo"y!</span>
+<span id='line151'>    "x'c'y\n" +           // 1  x'c'y</span>
+<span id='line152'>    "`/bar`y\n" +         // 2  `/bar`y</span>
+<span id='line153'>    "a\"b\\\"c\"d\n" +    // 3  a"b\"c"d</span>
+<span id='line154'>    "'\\\\'+`x\\`x`!\n" + // 4  '\\'+`x\`x`!</span>
+<span id='line155'>    "\"x\\\\\"!\n" +      // 5  "x\\"!</span>
+<span id='line156'>    "<b>{</b>\"x\\\\\\\"y\"<b>}</b>\n"+ // 6  <b>{</b>"x\\\"y"<b>}</b></span>
+<span id='line157'>    "\"a\",\"b\",`c`,`d`",// 7  "a","b",`c`,`d`</span>
+<span id='line158'>                          //    0123456789_12345</span>
+<span id='line159'>    <b>[</b></span>
+<span id='line160'>      <b>[</b>t, "x", s, Str&lt;|"foo"|>, t, "y!"<b>]</b>,</span>
+<span id='line161'>      <b>[</b>t, "x", s, "'c'", t, "y"<b>]</b>,</span>
+<span id='line162'>      <b>[</b>s, "`/bar`", t, "y"<b>]</b>,</span>
+<span id='line163'>      <b>[</b>t, "a", s, Str&lt;|"b\"c"|>, t, "d"<b>]</b>,</span>
+<span id='line164'>      <b>[</b>s, Str&lt;|'\\'|>, t, "+", s, Str&lt;|`x\`x`|>, t, "!"<b>]</b>,</span>
+<span id='line165'>      <b>[</b>s, Str&lt;|"x\\"|>, t, "!"<b>]</b>,</span>
+<span id='line166'>      <b>[</b>b, "<b>{</b>", s, Str&lt;|"x\\\"y"|>, b, "<b>}</b>"<b>]</b>,</span>
+<span id='line167'>      <b>[</b>s, Str&lt;|"a"|>, t, ",",</span>
+<span id='line168'>       s, Str&lt;|"b"|>, t, ",",</span>
+<span id='line169'>       s, Str&lt;|`c`|>, t, ",",</span>
+<span id='line170'>       s, Str&lt;|`d`|><b>]</b>,</span>
+<span id='line171'>    <b>]</b><b>)</b></span>
+<span id='line172'>  <b>}</b></span>
+<span id='line173'></span>
+<span id='line174'>  Void testMultiLineStr<b>(</b><b>)</b></span>
+<span id='line175'>  <b>{</b></span>
+<span id='line176'>    verifySyntax<b>(</b>"fan",</span>
+<span id='line177'>                       //    0123456789_12345</span>
+<span id='line178'>    "x\"foo\n" +       // 0  x"foo</span>
+<span id='line179'>    "// string!\n" +   // 1  // string</span>
+<span id='line180'>    "a=\\\"b\\\"\n" +  // 2  a=\"b\"</span>
+<span id='line181'>    "bar\"baz\"\n" +   // 3  bar"baz"</span>
+<span id='line182'>    "\";",             // 4  ";</span>
+<span id='line183'>    <b>[</b></span>
+<span id='line184'>      <b>[</b>t, "x", s, Str&lt;|"foo|><b>]</b>,</span>
+<span id='line185'>      <b>[</b>s, "// string!"<b>]</b>,</span>
+<span id='line186'>      <b>[</b>s, Str&lt;|a=\"b\"|><b>]</b>,</span>
+<span id='line187'>      <b>[</b>s, "bar\"", t, "baz", s, "\""<b>]</b>,</span>
+<span id='line188'>      <b>[</b>s, "\"", t, ";"<b>]</b>,</span>
+<span id='line189'>    <b>]</b><b>)</b></span>
+<span id='line190'>  <b>}</b></span>
+<span id='line191'></span>
+<span id='line192'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line193'>// Mixed Blocks</span>
+<span id='line194'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line195'></span>
+<span id='line196'>  Void testMixedBlocks<b>(</b><b>)</b></span>
+<span id='line197'>  <b>{</b></span>
+<span id='line198'>    verifySyntax<b>(</b>"fan",</span>
+<span id='line199'>    Str&lt;|x"""foo/*</span>
+<span id='line200'>         /* "hi"</span>
+<span id='line201'>         bar*/ */"""baz|>,</span>
+<span id='line202'>    <b>[</b></span>
+<span id='line203'>      <b>[</b>t, "x", s, Str&lt;|"""foo/*|><b>]</b>,</span>
+<span id='line204'>      <b>[</b>s, Str&lt;|/* "hi"|><b>]</b>,</span>
+<span id='line205'>      <b>[</b>s, Str&lt;|bar*/ */"""|>, t, "baz"<b>]</b>,</span>
+<span id='line206'>    <b>]</b><b>)</b></span>
+<span id='line207'>  <b>}</b></span>
+<span id='line208'></span>
+<span id='line209'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line210'>// Utils</span>
+<span id='line211'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line212'></span>
+<span id='line213'>  Void verifySyntax<b>(</b>Str ext, Str src, Obj<b>[</b><b>]</b><b>[</b><b>]</b> expected<b>)</b></span>
+<span id='line214'>  <b>{</b></span>
+<span id='line215'>    rules := SyntaxRules.loadForExt<b>(</b>ext<b>)</b></span>
+<span id='line216'>    if <b>(</b>rules == null<b>)</b> throw Err<b>(</b>"no rules for $ext"<b>)</b></span>
+<span id='line217'>    doc := SyntaxDoc.parse<b>(</b>rules, src.in<b>)</b></span>
+<span id='line218'></span>
+<span id='line219'>    // dump</span>
+<span id='line220'>    /*</span>
+<span id='line221'>    echo<b>(</b>"##########################"<b>)</b></span>
+<span id='line222'>    doc.eachLine |line|</span>
+<span id='line223'>    <b>{</b></span>
+<span id='line224'>      line.eachSegment |type, text|</span>
+<span id='line225'>      <b>{</b></span>
+<span id='line226'>        Env.cur.out.print<b>(</b>"$type $text.toCode  "<b>)</b></span>
+<span id='line227'>      <b>}</b></span>
+<span id='line228'>      Env.cur.out.printLine</span>
+<span id='line229'>    <b>}</b></span>
+<span id='line230'>    echo<b>(</b><b>)</b></span>
+<span id='line231'>    */</span>
+<span id='line232'></span>
+<span id='line233'>    // check number of lines</span>
+<span id='line234'>    lines := SyntaxLine<b>[</b>,<b>]</b></span>
+<span id='line235'>    doc.eachLine |line| <b>{</b> lines.add<b>(</b>line<b>)</b> <b>}</b></span>
+<span id='line236'>    verifyEq<b>(</b>lines.size, expected.size<b>)</b></span>
+<span id='line237'></span>
+<span id='line238'>    // check each line</span>
+<span id='line239'>    lines.each |line, i|</span>
+<span id='line240'>    <b>{</b></span>
+<span id='line241'>      verifyEq<b>(</b>line.num, i+1<b>)</b></span>
+<span id='line242'>      segs := Obj<b>[</b>,<b>]</b></span>
+<span id='line243'>      line.eachSegment |t, s| <b>{</b> segs.add<b>(</b>t<b>)</b>.add<b>(</b>s<b>)</b> <b>}</b></span>
+<span id='line244'>      if <b>(</b>segs == expected<b>[</b>i<b>]</b><b>)</b> verify<b>(</b>true<b>)</b></span>
+<span id='line245'>      else</span>
+<span id='line246'>      <b>{</b></span>
+<span id='line247'>        echo<b>(</b>"FAILURE line $line.num"<b>)</b></span>
+<span id='line248'>        echo<b>(</b>"expected: " + lineToStr<b>(</b>expected<b>[</b>i<b>]</b><b>)</b><b>)</b></span>
+<span id='line249'>        echo<b>(</b>"actual:   " + lineToStr<b>(</b>segs<b>)</b><b>)</b></span>
+<span id='line250'>        fail</span>
+<span id='line251'>      <b>}</b></span>
+<span id='line252'>    <b>}</b></span>
+<span id='line253'>  <b>}</b></span>
+<span id='line254'></span>
+<span id='line255'>  Str lineToStr<b>(</b>Obj<b>[</b><b>]</b> styling<b>)</b></span>
+<span id='line256'>  <b>{</b></span>
+<span id='line257'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line258'>    for <b>(</b>i:=0; i&lt;styling.size; i+=2<b>)</b></span>
+<span id='line259'>    <b>{</b></span>
+<span id='line260'>      type := styling<b>[</b>i<b>]</b> as SyntaxType ?: throw Err<b>(</b>"$i $<b>{</b>styling<b>[</b>i<b>]</b><b>}</b>"<b>)</b></span>
+<span id='line261'>      text := styling<b>[</b>i+1<b>]</b> as Str ?: throw Err<b>(</b>"$i+1 $<b>{</b>styling<b>[</b>i+1<b>]</b><b>}</b>"<b>)</b></span>
+<span id='line262'>      s.add<b>(</b>type === SyntaxType.literal ? "s" : type.toStr<b>[</b>0..0<b>]</b><b>)</b></span>
+<span id='line263'>       .add<b>(</b>" "<b>)</b></span>
+<span id='line264'>       .add<b>(</b>text.toCode<b>)</b></span>
+<span id='line265'>       .add<b>(</b>", "<b>)</b></span>
+<span id='line266'>    <b>}</b></span>
+<span id='line267'>    return s.toStr</span>
+<span id='line268'>  <b>}</b></span>
+<span id='line269'></span>
+<span id='line270'><b>}</b></span>
+<span id='line271'></span>
+</pre>
+</div>
+</body>
+</html>

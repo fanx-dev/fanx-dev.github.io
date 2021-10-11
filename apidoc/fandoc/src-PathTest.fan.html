@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>PathTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='src-PathTest.fan.html'>PathTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   23 Jun 14  Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** PathTest</span>
+<span id='line11'>**</span>
+<span id='line12'>@Js</span>
+<span id='line13'>class PathTest : Test</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'>  Void testPara<b>(</b><b>)</b></span>
+<span id='line16'>  <b>{</b></span>
+<span id='line17'>    verifyPath<b>(</b>"", <b>[</b>,<b>]</b>, <b>[</b>,<b>]</b><b>)</b></span>
+<span id='line18'>    verifyPath<b>(</b>"a", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.para<b>]</b><b>)</b></span>
+<span id='line19'>    verifyPath<b>(</b>"a b c\nd e f", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.para<b>]</b><b>)</b></span>
+<span id='line20'>    verifyPath<b>(</b>"a\n\nb",<b>[</b>1<b>]</b>, <b>[</b>DocNodeId.para<b>]</b><b>)</b></span>
+<span id='line21'>    verifyPath<b>(</b>"NOTE: that's right", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.para<b>]</b><b>)</b></span>
+<span id='line22'>  <b>}</b></span>
+<span id='line23'></span>
+<span id='line24'>  Void testHeading<b>(</b><b>)</b></span>
+<span id='line25'>  <b>{</b></span>
+<span id='line26'>    verifyPath<b>(</b>"H1\n####", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.heading<b>]</b><b>)</b></span>
+<span id='line27'>    verifyPath<b>(</b>"H2\n****", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.heading<b>]</b><b>)</b></span>
+<span id='line28'>    verifyPath<b>(</b>"H3\n====", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.heading<b>]</b><b>)</b></span>
+<span id='line29'>    verifyPath<b>(</b>"H4\n----", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.heading<b>]</b><b>)</b></span>
+<span id='line30'>    verifyPath<b>(</b>"para text\n\nH4\n----", <b>[</b>1<b>]</b>, <b>[</b>DocNodeId.heading<b>]</b><b>)</b></span>
+<span id='line31'>  <b>}</b></span>
+<span id='line32'></span>
+<span id='line33'>  Void testCode<b>(</b><b>)</b></span>
+<span id='line34'>  <b>{</b></span>
+<span id='line35'>    verifyPath<b>(</b>"para text\n\nThis is a 'code' example.", <b>[</b>1,1<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.code<b>]</b><b>)</b></span>
+<span id='line36'>  <b>}</b></span>
+<span id='line37'></span>
+<span id='line38'>  Void testLinks<b>(</b><b>)</b></span>
+<span id='line39'>  <b>{</b></span>
+<span id='line40'>    verifyPath<b>(</b>"`link`", <b>[</b>0,0<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.link<b>]</b><b>)</b></span>
+<span id='line41'>    verifyPath<b>(</b>"text <b>[</b>fantom<b>]</b>`https://fantom.org` text", <b>[</b>0,1<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.link<b>]</b><b>)</b></span>
+<span id='line42'>  <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>  Void testImages<b>(</b><b>)</b></span>
+<span id='line45'>  <b>{</b></span>
+<span id='line46'>    verifyPath<b>(</b>"!<b>[</b>cool image<b>]</b>`cool.png`", <b>[</b>0,0<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.image<b>]</b><b>)</b></span>
+<span id='line47'>    verifyPath<b>(</b>"An image: !<b>[</b>cool image<b>]</b>`cool.png`. Neat.", <b>[</b>0,1<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.image<b>]</b><b>)</b></span>
+<span id='line48'>  <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  Void testEmphasis<b>(</b><b>)</b></span>
+<span id='line51'>  <b>{</b></span>
+<span id='line52'>    verifyPath<b>(</b>"*x*", <b>[</b>0,0<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.emphasis<b>]</b><b>)</b></span>
+<span id='line53'>    verifyPath<b>(</b>"foo *emph* bar", <b>[</b>0,1<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.emphasis<b>]</b><b>)</b></span>
+<span id='line54'></span>
+<span id='line55'>    verifyPath<b>(</b>"**strong**", <b>[</b>0,0<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.strong<b>]</b><b>)</b></span>
+<span id='line56'>    verifyPath<b>(</b>"foo **strong** bar", <b>[</b>0,1<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.strong<b>]</b><b>)</b></span>
+<span id='line57'></span>
+<span id='line58'>    verifyPath<b>(</b>"a *emp\n**emp-strong**\nemp*!", <b>[</b>0,1<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.emphasis<b>]</b><b>)</b></span>
+<span id='line59'>    verifyPath<b>(</b>"a *emp\n**emp-strong**\nemp*!", <b>[</b>0,1,1<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.emphasis, DocNodeId.strong<b>]</b><b>)</b></span>
+<span id='line60'></span>
+<span id='line61'>    verifyPath<b>(</b>"**`link`**", <b>[</b>0,0,0<b>]</b>, <b>[</b>DocNodeId.para, DocNodeId.strong, DocNodeId.link<b>]</b><b>)</b></span>
+<span id='line62'>  <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  Void testPre<b>(</b><b>)</b></span>
+<span id='line65'>  <b>{</b></span>
+<span id='line66'>    verifyPath<b>(</b>"  a+b", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.pre<b>]</b><b>)</b></span>
+<span id='line67'>    verifyPath<b>(</b>"Code:\n\n  a+b", <b>[</b>1<b>]</b>, <b>[</b>DocNodeId.pre<b>]</b><b>)</b></span>
+<span id='line68'>    verifyPath<b>(</b></span>
+<span id='line69'>      "  class A</span>
+<span id='line70'>         <b>{</b></span>
+<span id='line71'>           Int x<b>(</b><b>)</b> <b>{</b> return 3 <b>}</b></span>
+<span id='line72'>         <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>         class B : A <b>{</b> <b>}</b></span>
+<span id='line75'>       ", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.pre<b>]</b><b>)</b></span>
+<span id='line76'></span>
+<span id='line77'>    verifyPath<b>(</b></span>
+<span id='line78'>      "pre></span>
+<span id='line79'>        - a</span>
+<span id='line80'>        - b</span>
+<span id='line81'>       &lt;pre</span>
+<span id='line82'>       ", <b>[</b>0<b>]</b>, <b>[</b>DocNodeId.pre<b>]</b><b>)</b></span>
+<span id='line83'>  <b>}</b></span>
+<span id='line84'></span>
+<span id='line85'>  Void testBlockQuotes<b>(</b><b>)</b></span>
+<span id='line86'>  <b>{</b></span>
+<span id='line87'>    verifyPath<b>(</b>"> a", <b>[</b>0,0<b>]</b>, <b>[</b>DocNodeId.blockQuote, DocNodeId.para<b>]</b><b>)</b></span>
+<span id='line88'>    verifyPath<b>(</b>"> a\n> b c\n> d", <b>[</b>0,0<b>]</b>, <b>[</b>DocNodeId.blockQuote, DocNodeId.para<b>]</b><b>)</b></span>
+<span id='line89'>    // NOTE: consecutive block quotes get merged</span>
+<span id='line90'>    verifyPath<b>(</b>"> b1\n> b1\n\n> b2\n> b2", <b>[</b>0,1<b>]</b>, <b>[</b>DocNodeId.blockQuote, DocNodeId.para<b>]</b><b>)</b></span>
+<span id='line91'>    verifyPath<b>(</b>"> b1\n> b1\n\nPara\n\n> b2\n> b2", <b>[</b>2,0<b>]</b>, <b>[</b>DocNodeId.blockQuote, DocNodeId.para<b>]</b><b>)</b></span>
+<span id='line92'>  <b>}</b></span>
+<span id='line93'></span>
+<span id='line94'>  Doc verifyPath<b>(</b>Str str, Int<b>[</b><b>]</b> childIndices, DocNodeId<b>[</b><b>]</b> expected<b>)</b></span>
+<span id='line95'>  <b>{</b></span>
+<span id='line96'>    doc := parse<b>(</b>str<b>)</b></span>
+<span id='line97'></span>
+<span id='line98'>    // NOTE: as a convenience we don't require DocNodeId.doc as first element expected list</span>
+<span id='line99'>    expected = <b>[</b>DocNodeId.doc<b>]</b>.addAll<b>(</b>expected<b>)</b></span>
+<span id='line100'>    DocElem target := doc</span>
+<span id='line101'>    childIndices.each |idx, i| <b>{</b></span>
+<span id='line102'>      target = <b>(</b>DocElem<b>)</b>target.children<b>[</b>idx<b>]</b></span>
+<span id='line103'>      verifyEq<b>(</b>target.path.map |n->DocNodeId| <b>{</b> n.id <b>}</b>, expected<b>[</b>0..i+1<b>]</b><b>)</b></span>
+<span id='line104'>    <b>}</b></span>
+<span id='line105'>    return doc</span>
+<span id='line106'>  <b>}</b></span>
+<span id='line107'></span>
+<span id='line108'>  Void testPositions<b>(</b><b>)</b></span>
+<span id='line109'>  <b>{</b></span>
+<span id='line110'>    doc := parse<b>(</b>"foo"<b>)</b></span>
+<span id='line111'></span>
+<span id='line112'>    // root position</span>
+<span id='line113'>    verifyNull<b>(</b>doc.pos<b>)</b></span>
+<span id='line114'>    verifyFalse<b>(</b>doc.isFirst<b>)</b></span>
+<span id='line115'>    verifyFalse<b>(</b>doc.isLast<b>)</b></span>
+<span id='line116'></span>
+<span id='line117'>    // only child</span>
+<span id='line118'>    para := <b>(</b>DocElem<b>)</b>doc.children<b>[</b>0<b>]</b></span>
+<span id='line119'>    verifySame<b>(</b>para.id, DocNodeId.para<b>)</b></span>
+<span id='line120'>    verifyEq<b>(</b>0, para.pos<b>)</b></span>
+<span id='line121'>    verify<b>(</b>para.isFirst<b>)</b></span>
+<span id='line122'>    verify<b>(</b>para.isLast<b>)</b></span>
+<span id='line123'></span>
+<span id='line124'>    // middle child</span>
+<span id='line125'>    doc = parse<b>(</b>"foo\n\nbar\n\nbaz"<b>)</b></span>
+<span id='line126'>    para = doc.children<b>[</b>1<b>]</b></span>
+<span id='line127'>    verifySame<b>(</b>para.id, DocNodeId.para<b>)</b></span>
+<span id='line128'>    verifyEq<b>(</b>1, para.pos<b>)</b></span>
+<span id='line129'>    verifyFalse<b>(</b>para.isFirst<b>)</b></span>
+<span id='line130'>    verifyFalse<b>(</b>para.isLast<b>)</b></span>
+<span id='line131'>  <b>}</b></span>
+<span id='line132'></span>
+<span id='line133'>  Void testInsert<b>(</b><b>)</b></span>
+<span id='line134'>  <b>{</b></span>
+<span id='line135'>    // insert with text merge</span>
+<span id='line136'>    doc := parse<b>(</b>"foo\n\nbar\n\nbaz"<b>)</b></span>
+<span id='line137'>    DocElem para := doc.children<b>[</b>1<b>]</b></span>
+<span id='line138'>    verifyEq<b>(</b>"bar", para.children.first->str<b>)</b></span>
+<span id='line139'>    para.insert<b>(</b>0, DocText<b>(</b>"foo"<b>)</b><b>)</b></span>
+<span id='line140'>    verifyEq<b>(</b>"foobar", para.children.first->str<b>)</b></span>
+<span id='line141'>    para.insert<b>(</b>para.children.size, DocText<b>(</b>"baz"<b>)</b><b>)</b></span>
+<span id='line142'>    verifyEq<b>(</b>"foobarbaz", para.children.first->str<b>)</b></span>
+<span id='line143'></span>
+<span id='line144'>    // insert with blockquote merge</span>
+<span id='line145'>    doc = parse<b>(</b>"> a"<b>)</b></span>
+<span id='line146'>    verifyEq<b>(</b>1, doc.children.size<b>)</b></span>
+<span id='line147'>    bq := doc.children.first as BlockQuote</span>
+<span id='line148'>    verifyEq<b>(</b>1, bq.children.size<b>)</b></span>
+<span id='line149'>    para = bq.children.first</span>
+<span id='line150'>    verify<b>(</b>para is Para<b>)</b></span>
+<span id='line151'></span>
+<span id='line152'>    p1 := Para<b>(</b><b>)</b>.add<b>(</b>DocText<b>(</b>"foo"<b>)</b><b>)</b></span>
+<span id='line153'>    bq = BlockQuote<b>(</b><b>)</b>.add<b>(</b>p1<b>)</b></span>
+<span id='line154'>    doc.insert<b>(</b>0, bq<b>)</b></span>
+<span id='line155'>    verifyEq<b>(</b>1, doc.children.size<b>)</b></span>
+<span id='line156'>    verifyEq<b>(</b>2, bq.children.size<b>)</b></span>
+<span id='line157'>    verifySame<b>(</b>p1, bq.children.first<b>)</b></span>
+<span id='line158'>    verifySame<b>(</b>para, bq.children.last<b>)</b></span>
+<span id='line159'></span>
+<span id='line160'>    p2 := Para<b>(</b><b>)</b>.add<b>(</b>DocText<b>(</b>"baz"<b>)</b><b>)</b></span>
+<span id='line161'>    bq2 := BlockQuote<b>(</b><b>)</b>.add<b>(</b>p2<b>)</b></span>
+<span id='line162'>    doc.insert<b>(</b>doc.children.size, bq2<b>)</b></span>
+<span id='line163'>    verifyEq<b>(</b>1, doc.children.size<b>)</b></span>
+<span id='line164'>    verifyEq<b>(</b>3, bq.children.size<b>)</b></span>
+<span id='line165'>    verifySame<b>(</b>p1, bq.children.first<b>)</b></span>
+<span id='line166'>    verifySame<b>(</b>para, bq.children<b>[</b>1<b>]</b><b>)</b></span>
+<span id='line167'>    verifySame<b>(</b>p2, bq.children.last<b>)</b></span>
+<span id='line168'></span>
+<span id='line169'>    p3 := Para<b>(</b><b>)</b>.add<b>(</b>DocText<b>(</b>"INNER"<b>)</b><b>)</b></span>
+<span id='line170'>    bq.insert<b>(</b>1, p3<b>)</b></span>
+<span id='line171'>    verifyEq<b>(</b>4, bq.children.size<b>)</b></span>
+<span id='line172'>    verifySame<b>(</b>p1, bq.children.first<b>)</b></span>
+<span id='line173'>    verifySame<b>(</b>p3, bq.children<b>[</b>1<b>]</b><b>)</b></span>
+<span id='line174'>    verifySame<b>(</b>para, bq.children<b>[</b>2<b>]</b><b>)</b></span>
+<span id='line175'>    verifySame<b>(</b>p2, bq.children.last<b>)</b></span>
+<span id='line176'></span>
+<span id='line177'></span>
+<span id='line178'>  <b>}</b></span>
+<span id='line179'></span>
+<span id='line180'>  Doc parse<b>(</b>Str str<b>)</b></span>
+<span id='line181'>  <b>{</b></span>
+<span id='line182'>    return FandocParser <b>{</b> silent = true <b>}</b>.parse<b>(</b>"Test", str.in<b>)</b></span>
+<span id='line183'>  <b>}</b></span>
+<span id='line184'></span>
+<span id='line185'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Zip</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Zip.html'>Zip</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> std::Zip</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Zip</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/NoJs.html'>NoJs</a></code><br /></p>
+
+<p>Zip is used to read/write compressed zip files and streams.  Zip may be used in three modes:</p>
+
+<ol style='list-style-type:decimal'>
+<li><code><a href='Zip.html#open'>Zip.open</a></code> is used to read a random access file and provides access to the entire contents with the ability to read select entries</li>
+
+<li><code><a href='Zip.html#read'>Zip.read</a></code> is used to read a zip file from an input stream. Each entry is pulled off the stream using <code><a href='Zip.html#readNext'>readNext</a></code></li>
+
+<li><code><a href='Zip.html#write'>Zip.write</a></code> is used to write a zip file to an output stream. Each entry must is written to the stream using <code><a href='Zip.html#writeNext'>writeNext</a></code></li>
+</ol>
+<dl>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+
+<p>Close this zip file for reading and writing.  If this zip file is reading or writing an stream, then the underlying stream is also closed.  This method is guaranteed to never throw an IOErr.  Return true if the close was successful or false if the an error occurred.</p>
+</dd>
+<dt id='contents'>
+contents</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Map.html'>Map&lt;<a href='Uri.html'>Uri</a>,<a href='File.html'>File</a>&gt;?</a> contents(<a href='../sys/Str.html'>Str?</a> exclude := null)</code></p>
+
+<p>Return the contents of this zip as a map of Files.  The Uri keys will start with a slash and be relative to this zip file. Return null if using streams.</p>
+</dd>
+<dt id='deflateInStream'>
+deflateInStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='InStream.html'>InStream</a> deflateInStream(<a href='InStream.html'>InStream</a> in, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> opts := null)</code></p>
+
+<p>Construct a new deflate input stream which wraps the given input stream and inflates data written using the "deflate" compression format.  Options:</p>
+
+<ul>
+<li>nowrap: Bool false to suppress defalate header and adler checksum</li>
+</ul>
+</dd>
+<dt id='deflateOutStream'>
+deflateOutStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='OutStream.html'>OutStream</a> deflateOutStream(<a href='OutStream.html'>OutStream</a> out, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> opts := null)</code></p>
+
+<p>Construct a new deflate output stream which wraps the given output stream, and compresses data using the "deflate" compression format.  Options:</p>
+
+<ul>
+<li>level: Int between 9 (best compression) to 0 (no compression)</li>
+
+<li>nowrap: Bool false to suppress defalate header and adler checksum</li>
+</ul>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code> <a href='File.html'>File?</a> file()</code></p>
+
+<p>Get the underlying file or null if using streams.</p>
+</dd>
+<dt id='finalize'>
+finalize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> finalize()</code></p>
+</dd>
+<dt id='finish'>
+finish</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> finish()</code></p>
+
+<p>Finish writing the contents of this zip file, but leave the underlying OutStream open.  This method is guaranteed to never throw an IOErr. Return true if the stream was finished successfully or false if the an error occurred.  Throw UnsupportedErr if zip is not not writing to an output stream.</p>
+</dd>
+<dt id='gzipInStream'>
+gzipInStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='InStream.html'>InStream</a> gzipInStream(<a href='InStream.html'>InStream</a> in)</code></p>
+
+<p>Construct a new GZIP input stream which wraps the given input stream.</p>
+</dd>
+<dt id='gzipOutStream'>
+gzipOutStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='OutStream.html'>OutStream</a> gzipOutStream(<a href='OutStream.html'>OutStream</a> out)</code></p>
+
+<p>Construct a new GZIP output stream which wraps the given output stream.</p>
+</dd>
+<dt id='open'>
+open</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Zip.html'>Zip</a> open(<a href='File.html'>File</a> file)</code></p>
+
+<p>Open the specified file as a zip file for reading.  If the specified file does not exist, is not a valid file, or does not support random access then throw IOErr.</p>
+
+<p>Example:</p>
+
+<pre>zip := Zip.open(File(`test.zip`))
+txt := zip.contents[`/notice.txt`].readAllStr
+zip.close</pre>
+</dd>
+<dt id='read'>
+read</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Zip.html'>Zip</a> read(<a href='InStream.html'>InStream</a> in)</code></p>
+
+<p>Create a Zip used to read a zip file from the specified input stream.</p>
+
+<p>Example:</p>
+
+<pre>zip := Zip.read(File(`test.zip`).in)
+File entry
+while ((entry = zip.readNext()) != null)
+{
+  data := entry.readAllBuf
+  echo("$entry size=$data.size")
+}
+zip.close</pre>
+</dd>
+<dt id='readEntry'>
+readEntry</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;?</a> readEntry(<a href='Uri.html'>Uri</a> path)</code></p>
+</dd>
+<dt id='readNext'>
+readNext</dt>
+<dd>
+<p class='sig'>
+<code> <a href='File.html'>File?</a> readNext()</code></p>
+
+<p>Read the next entry in the zip.  Use the File's input stream to read the file contents.  Some file meta-data such as size may not be available. Return null if at end of zip file.  Throw UnsupportedErr if not reading from an input stream.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>If file is not null then return file.toStr, otherwise return a suitable string representation.</p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Zip.html'>Zip</a> write(<a href='OutStream.html'>OutStream</a> out)</code></p>
+
+<p>Create a Zip used to write a zip file to the specified output stream.</p>
+
+<p>Example:</p>
+
+<pre>zip := Zip.write(File(`test.zip`).out)
+out := zip.writeNext(`/path/hello.txt`)
+out.writeLine("hello zip")
+out.close
+zip.close</pre>
+</dd>
+<dt id='writeEntry'>
+writeEntry</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeEntry(<a href='Buf.html'>Buf</a> buf, <a href='Uri.html'>Uri</a> path, <a href='TimePoint.html'>TimePoint</a> modifyTime := TimePoint.now(), <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> opts := null)</code></p>
+</dd>
+<dt id='writeNext'>
+writeNext</dt>
+<dd>
+<p class='sig'>
+<code> <a href='OutStream.html'>OutStream</a> writeNext(<a href='Uri.html'>Uri</a> path, <a href='TimePoint.html'>TimePoint</a> modifyTime := TimePoint.now(), <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> opts := null)</code></p>
+
+<p>Append a new file to the end of this zip file and return an OutStream which may be used to write the file contents.  The Uri must not contain a query or fragment; it may optionally start with a slash.  Closing the OutStream will close only this file entry - use Zip.close() when finished writing the entire zip file.  Throw UnsupportedErr if zip is not writing to an output stream.</p>
+
+<p>Next entry options:</p>
+
+<ul>
+<li>comment: Str entry comment</li>
+
+<li>crc: Int CRC-32 of the uncompressed data</li>
+
+<li>extra: Buf for extra bytes data field</li>
+
+<li>level: Int between 9 (best compression) to 0 (no compression)</li>
+
+<li>compressedSize: Int for compressed size of data</li>
+
+<li>uncompressedSize: Int for uncompressed size of data</li>
+</ul>
+
+<p class='NOTE'>NOTE: setting level to 0 sets method to STORE, else to DEFLATED.</p>
+
+<p>Examples:</p>
+
+<pre>out := zip.writeNext(`/docs/test.txt`)
+out.writeLine("test")
+out.close</pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#deflateInStream'>deflateInStream</a></li><li><a href='#deflateOutStream'>deflateOutStream</a></li><li><a href='#gzipInStream'>gzipInStream</a></li><li><a href='#gzipOutStream'>gzipOutStream</a></li><li><a href='#open'>open</a></li><li><a href='#read'>read</a></li><li><a href='#write'>write</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#close'>close</a></li><li><a href='#contents'>contents</a></li><li><a href='#file'>file</a></li><li><a href='#finalize'>finalize</a></li><li><a href='#finish'>finish</a></li><li><a href='#readEntry'>readEntry</a></li><li><a href='#readNext'>readNext</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#writeEntry'>writeEntry</a></li><li><a href='#writeNext'>writeNext</a></li></ul>
+</div>
+</div>
+</body>
+</html>

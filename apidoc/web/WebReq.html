@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::WebReq</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebReq.html'>WebReq</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> web::WebReq</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  web::WebReq</pre>
+<p class='src'>
+<a href='src-WebReq.fan.html'>Source</a></p>
+
+<p>WebReq encapsulates a web request.</p>
+
+<p>See <a href='index.html#webReq'>pod doc</a>.</p>
+<dl>
+<dt id='absUri'>
+absUri</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/Uri.html'>Uri</a> absUri()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line60'>Source</a></p>
+
+<p>The absolute request URI including the full authority and the query string.  Also see <code><a href='WebReq.html#uri'>uri</a></code>, <code><a href='WebReq.html#modBase'>modBase</a></code>, and <code><a href='WebReq.html#modRel'>modRel</a></code>. This method is equivalent to:</p>
+
+<pre>"http://" + headers["Host"] + uri</pre>
+
+<p>Examples:</p>
+
+<pre>http://www.foo.com/a/b/c
+http://www.foo.com/a?q=bar</pre>
+</dd>
+<dt id='cookies'>
+cookies</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> cookies()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line157'>Source</a></p>
+
+<p>Map of cookie values keyed by cookie name.  The cookies map is readonly and case insensitive.</p>
+</dd>
+<dt id='form'>
+form</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> form()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line177'>Source</a></p>
+
+<p>Get the key/value pairs of the form data.  If the request content type is "application/x-www-form-urlencoded", then the first time this method is called the request content is read and parsed using <a href='sys::Uri.decodeQuery'>sys::Uri.decodeQuery</a>.  If the content type is not "application/x-www-form-urlencoded" this method returns null.</p>
+</dd>
+<dt id='headers'>
+headers</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> headers()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line116'>Source</a></p>
+
+<p>Map of HTTP request headers.  The headers map is readonly and case insensitive (see <a href='sys::Map.caseInsensitive'>sys::Map.caseInsensitive</a>).</p>
+
+<p>Examples:</p>
+
+<pre>req.headers["Accept-Language"]</pre>
+</dd>
+<dt id='in'>
+in</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/InStream.html'>InStream</a> in()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line197'>Source</a></p>
+
+<p>Get the stream to read request body.  See <code><a href='WebUtil.html#makeContentInStream'>WebUtil.makeContentInStream</a></code> to check under which conditions request content is available. If request content is not available, then throw an exception.</p>
+
+<p>If the client specified the "Expect: 100-continue" header, then the first access of the request input stream will automatically send the client a <a href='index.html#expectContinue'>100 Continue</a> response.</p>
+</dd>
+<dt id='isGet'>
+isGet</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isGet()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line25'>Source</a></p>
+
+<p>Return if the method is GET</p>
+</dd>
+<dt id='isPost'>
+isPost</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isPost()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line30'>Source</a></p>
+
+<p>Return if the method is POST</p>
+</dd>
+<dt id='locales'>
+locales</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='../std/Locale.html'>Locale</a>&gt;</a> locales()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line125'>Source</a></p>
+
+<p>Get the accepted locales for this request based on the "Accept-Language" HTTP header.  List is sorted by preference, where <code>locales.first</code> is best, and <code>locales.last</code> is worst.  This list is guarenteed to contain Locale("en").</p>
+</dd>
+<dt id='method'>
+method</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> method()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html'>Source</a></p>
+
+<p>The HTTP request method in uppercase. Example: GET, POST, PUT.</p>
+</dd>
+<dt id='mod'>
+mod</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='WebMod.html'>WebMod</a> mod</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line77'>Source</a></p>
+
+<p>Get the WebMod which is currently responsible for processing this request.</p>
+</dd>
+<dt id='modBase'>
+modBase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri</a> modBase := `/`</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line83'>Source</a></p>
+
+<p>Base URI of the current WebMod.  This Uri always ends in a slash. This is the URI used to route to the WebMod itself.  The remainder of <code><a href='WebReq.html#uri'>uri</a></code> is stored in <code><a href='WebReq.html#modRel'>modRel</a></code> so that the following always holds true (with exception of a trailing slash):</p>
+
+<pre>modBase + modRel == uri</pre>
+
+<p>For example if the current WebMod is mounted as <code>/mod</code> then:</p>
+
+<pre>uri          modBase   modRel
+----------   -------   -------
+`/mod`       `/mod/`   ``
+`/mod/`      `/mod/`   ``
+`/mod?q`     `/mod/`   `?q`
+`/mod/a`     `/mod/`   `a`
+`/mod/a/b`   `/mod/`   `a/b`</pre>
+</dd>
+<dt id='modRel'>
+modRel</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri</a> modRel()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line110'>Source</a></p>
+
+<p>WebMod relative part of the URI - see <code><a href='WebReq.html#modBase'>modBase</a></code>.</p>
+</dd>
+<dt id='parseMultiPartForm'>
+parseMultiPartForm</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> parseMultiPartForm(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Str.html'>Str</a>,<a href='../std/InStream.html'>InStream</a>,<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a>&gt;</a> cb)</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line226'>Source</a></p>
+
+<p>Given a web request:</p>
+
+<ol style='list-style-type:decimal'>
+<li>check that the content-type is form-data</li>
+
+<li>get the boundary string</li>
+
+<li>invoke callback for each part (see <code><a href='WebUtil.html#parseMultiPart'>WebUtil.parseMultiPart</a></code>)</li>
+</ol>
+
+<p>For each part in the stream call the given callback function with the part's form name, headers, and an input stream used to read the part's body.</p>
+</dd>
+<dt id='remoteAddr'>
+remoteAddr</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../inet/IpAddr.html'>IpAddr</a> remoteAddr()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line40'>Source</a></p>
+
+<p>Get the IP host address of the client socket making this request.</p>
+</dd>
+<dt id='remotePort'>
+remotePort</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> remotePort()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line45'>Source</a></p>
+
+<p>Get the IP port of the client socket making this request.</p>
+</dd>
+<dt id='session'>
+session</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='WebSession.html'>WebSession</a> session()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line170'>Source</a></p>
+
+<p>Get the session associated with this browser "connection". The session must be accessed the first time before the response is committed.</p>
+</dd>
+<dt id='socketOptions'>
+socketOptions</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../inet/SocketOptions.html'>SocketOptions</a> socketOptions()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line208'>Source</a></p>
+
+<p>Access to socket options for this request.</p>
+</dd>
+<dt id='stash'>
+stash</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> stash()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line218'>Source</a></p>
+
+<p>Stash allows you to stash objects on the WebReq object in order to pass data b/w Weblets while processing this request.</p>
+</dd>
+<dt id='uri'>
+uri</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Uri.html'>Uri</a> uri()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line50'>Source</a></p>
+
+<p>The request URI including the query string relative to this authority.  Also see <code><a href='WebReq.html#absUri'>absUri</a></code>, <code><a href='WebReq.html#modBase'>modBase</a></code>, and <code><a href='WebReq.html#modRel'>modRel</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>/a/b/c
+/a?q=bar</pre>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Version.html'>Version</a> version()</code></p>
+<p class='src'>
+<a href='src-WebReq.fan.html#line35'>Source</a></p>
+
+<p>The HTTP version of the request.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-WebReq.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#absUri'>absUri</a></li><li><a href='#cookies'>cookies</a></li><li><a href='#form'>form</a></li><li><a href='#headers'>headers</a></li><li><a href='#in'>in</a></li><li><a href='#isGet'>isGet</a></li><li><a href='#isPost'>isPost</a></li><li><a href='#locales'>locales</a></li><li><a href='#method'>method</a></li><li><a href='#mod'>mod</a></li><li><a href='#modBase'>modBase</a></li><li><a href='#modRel'>modRel</a></li><li><a href='#parseMultiPartForm'>parseMultiPartForm</a></li><li><a href='#remoteAddr'>remoteAddr</a></li><li><a href='#remotePort'>remotePort</a></li><li><a href='#session'>session</a></li><li><a href='#socketOptions'>socketOptions</a></li><li><a href='#stash'>stash</a></li><li><a href='#uri'>uri</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

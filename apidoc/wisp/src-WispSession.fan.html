@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WispSession.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>wisp</a></li><li><a href='src-WispSession.fan.html'>WispSession.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Mar 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using web</span>
+<span id='line10'>using concurrent</span>
+<span id='line11'></span>
+<span id='line12'>internal class WispSession : WebSession</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'>  new make<b>(</b>Str name, Str id, <b>[</b>Str:Obj?<b>]</b> map<b>)</b> <b>{</b> this.name = name; this.id = id; this.map = map <b>}</b></span>
+<span id='line15'></span>
+<span id='line16'>  const Str name</span>
+<span id='line17'></span>
+<span id='line18'>  override Void delete<b>(</b><b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    isDeleted = true</span>
+<span id='line21'>    WispRes res := Actor.locals<b>[</b>"web.res"<b>]</b></span>
+<span id='line22'>    res.cookies.add<b>(</b>Cookie<b>(</b>name, id<b>)</b> <b>{</b> maxAge=0sec <b>}</b><b>)</b></span>
+<span id='line23'>  <b>}</b></span>
+<span id='line24'></span>
+<span id='line25'>  override const Str id</span>
+<span id='line26'></span>
+<span id='line27'>  override Void each<b>(</b>|Obj?,Str| f<b>)</b></span>
+<span id='line28'>  <b>{</b></span>
+<span id='line29'>    map.each<b>(</b>f<b>)</b></span>
+<span id='line30'>  <b>}</b></span>
+<span id='line31'></span>
+<span id='line32'>  override Obj? get<b>(</b>Str name, Obj? def := null<b>)</b></span>
+<span id='line33'>  <b>{</b></span>
+<span id='line34'>    map.get<b>(</b>name, def<b>)</b></span>
+<span id='line35'>  <b>}</b></span>
+<span id='line36'></span>
+<span id='line37'>  override Void set<b>(</b>Str name, Obj? val<b>)</b></span>
+<span id='line38'>  <b>{</b></span>
+<span id='line39'>    if <b>(</b>map<b>[</b>name<b>]</b> == val<b>)</b> return</span>
+<span id='line40'>    if <b>(</b>val != null &amp;&amp; !val.isImmutable<b>)</b></span>
+<span id='line41'>      throw NotImmutableErr<b>(</b>"WebSession value not immutable: $val"<b>)</b></span>
+<span id='line42'>    modify</span>
+<span id='line43'>    map<b>[</b>name<b>]</b> = val</span>
+<span id='line44'>  <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  override Void remove<b>(</b>Str name<b>)</b></span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    if <b>(</b>!map.containsKey<b>(</b>name<b>)</b><b>)</b> return</span>
+<span id='line49'>    modify</span>
+<span id='line50'>    map.remove<b>(</b>name<b>)</b></span>
+<span id='line51'>  <b>}</b></span>
+<span id='line52'></span>
+<span id='line53'>  // TODO: deprecated</span>
+<span id='line54'>  override Str:Obj? map := Str:Obj<b>[</b>:<b>]</b></span>
+<span id='line55'></span>
+<span id='line56'>  private This modify<b>(</b><b>)</b></span>
+<span id='line57'>  <b>{</b></span>
+<span id='line58'>    if <b>(</b>map.isRO<b>)</b> map = map.rw</span>
+<span id='line59'>    return this</span>
+<span id='line60'>  <b>}</b></span>
+<span id='line61'></span>
+<span id='line62'>  internal Bool isDeleted := false</span>
+<span id='line63'><b>}</b></span>
+<span id='line64'></span>
+</pre>
+</div>
+</body>
+</html>

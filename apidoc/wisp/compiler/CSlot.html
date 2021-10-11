@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::CSlot</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='CSlot.html'>CSlot</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> compiler::CSlot</h1>
+<pre>compiler::CSlot</pre>
+
+<p>CSlot is a "compiler slot" which is represents a Slot in the compiler.  CSlots unifies slots being compiled as SlotDefs with slots imported as ReflectSlot or FSlot.</p>
+<dl>
+<dt id='bridge'>
+bridge</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CBridge.html'>CBridge?</a> bridge()</code></p>
+
+<p>If this a foreign function return the bridge.  See <code><a href='CSlot.html#usesForeign'>usesForeign</a></code> to check if the slot uses any FFI types in its signature.</p>
+</dd>
+<dt id='facet'>
+facet</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CFacet.html'>CFacet?</a> facet(<a href='../sys/Str.html'>Str</a> qname)</code></p>
+
+<p>Get the facet keyed by given type, or null if not defined.</p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> flags()</code></p>
+</dd>
+<dt id='genericTypeErasure'>
+genericTypeErasure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> genericTypeErasure()</code></p>
+
+<p>generic type erasure</p>
+</dd>
+<dt id='hasFacet'>
+hasFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasFacet(<a href='../sys/Str.html'>Str</a> qname)</code></p>
+
+<p>Return if the given facet is defined.</p>
+</dd>
+<dt id='isAbstract'>
+isAbstract</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isAbstract()</code></p>
+</dd>
+<dt id='isAccessor'>
+isAccessor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isAccessor()</code></p>
+</dd>
+<dt id='isConst'>
+isConst</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isConst()</code></p>
+</dd>
+<dt id='isCtor'>
+isCtor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCtor()</code></p>
+</dd>
+<dt id='isEnum'>
+isEnum</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEnum()</code></p>
+</dd>
+<dt id='isForeign'>
+isForeign</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isForeign()</code></p>
+
+<p>If this a foreign function interface slot.  A FFI slot is one declared in another language.  See <code><a href='CSlot.html#usesForeign'>usesForeign</a></code> to check if the slot uses any FFI types in its signature.</p>
+</dd>
+<dt id='isGetter'>
+isGetter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isGetter()</code></p>
+</dd>
+<dt id='isInstanceCtor'>
+isInstanceCtor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInstanceCtor()</code></p>
+</dd>
+<dt id='isInternal'>
+isInternal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInternal()</code></p>
+</dd>
+<dt id='isNative'>
+isNative</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNative()</code></p>
+</dd>
+<dt id='isOnce'>
+isOnce</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isOnce()</code></p>
+</dd>
+<dt id='isOverride'>
+isOverride</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isOverride()</code></p>
+</dd>
+<dt id='isParameterized'>
+isParameterized</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isParameterized()</code></p>
+
+<p>Is this field the parameterization of a generic field, with the generic type replaced with a real type.</p>
+</dd>
+<dt id='isPrivate'>
+isPrivate</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPrivate()</code></p>
+</dd>
+<dt id='isProtected'>
+isProtected</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isProtected()</code></p>
+</dd>
+<dt id='isPublic'>
+isPublic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPublic()</code></p>
+</dd>
+<dt id='isReadonly'>
+isReadonly</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isReadonly()</code></p>
+</dd>
+<dt id='isSetter'>
+isSetter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSetter()</code></p>
+</dd>
+<dt id='isStatic'>
+isStatic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStatic()</code></p>
+</dd>
+<dt id='isStaticCtor'>
+isStaticCtor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStaticCtor()</code></p>
+</dd>
+<dt id='isStorage'>
+isStorage</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStorage()</code></p>
+</dd>
+<dt id='isSynthetic'>
+isSynthetic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSynthetic()</code></p>
+</dd>
+<dt id='isVirtual'>
+isVirtual</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isVirtual()</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> name()</code></p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CNamespace.html'>CNamespace</a> ns()</code></p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CType.html'>CType</a> parent()</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> qname()</code></p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> signature()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='usesBridge'>
+usesBridge</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CBridge.html'>CBridge?</a> usesBridge()</code></p>
+
+<p>Return the bridge if this slot is foreign or uses any foreign types in its signature.</p>
+</dd>
+<dt id='usesForeign'>
+usesForeign</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> usesForeign()</code></p>
+
+<p>Return if this slot is foreign or uses any foreign types in its signature.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bridge'>bridge</a></li><li><a href='#facet'>facet</a></li><li><a href='#flags'>flags</a></li><li><a href='#genericTypeErasure'>genericTypeErasure</a></li><li><a href='#hasFacet'>hasFacet</a></li><li><a href='#isAbstract'>isAbstract</a></li><li><a href='#isAccessor'>isAccessor</a></li><li><a href='#isConst'>isConst</a></li><li><a href='#isCtor'>isCtor</a></li><li><a href='#isEnum'>isEnum</a></li><li><a href='#isForeign'>isForeign</a></li><li><a href='#isGetter'>isGetter</a></li><li><a href='#isInstanceCtor'>isInstanceCtor</a></li><li><a href='#isInternal'>isInternal</a></li><li><a href='#isNative'>isNative</a></li><li><a href='#isOnce'>isOnce</a></li><li><a href='#isOverride'>isOverride</a></li><li><a href='#isParameterized'>isParameterized</a></li><li><a href='#isPrivate'>isPrivate</a></li><li><a href='#isProtected'>isProtected</a></li><li><a href='#isPublic'>isPublic</a></li><li><a href='#isReadonly'>isReadonly</a></li><li><a href='#isSetter'>isSetter</a></li><li><a href='#isStatic'>isStatic</a></li><li><a href='#isStaticCtor'>isStaticCtor</a></li><li><a href='#isStorage'>isStorage</a></li><li><a href='#isSynthetic'>isSynthetic</a></li><li><a href='#isVirtual'>isVirtual</a></li><li><a href='#name'>name</a></li><li><a href='#ns'>ns</a></li><li><a href='#parent'>parent</a></li><li><a href='#qname'>qname</a></li><li><a href='#signature'>signature</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#usesBridge'>usesBridge</a></li><li><a href='#usesForeign'>usesForeign</a></li></ul>
+</div>
+</div>
+</body>
+</html>

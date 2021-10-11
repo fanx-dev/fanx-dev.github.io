@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::FlowBox</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='FlowBox.html'>FlowBox</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::FlowBox</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    <a href='Box.html'>domkit::Box</a>
+      domkit::FlowBox</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-FlowBox.fan.html'>Source</a></p>
+
+<p>FlowBox lays out its children in a one-directional flow.</p>
+
+<p>See also: <a href='docDomkit::Layout#flowBox'>docDomkit</a></p>
+<dl>
+<dt id='gaps'>
+gaps</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> gaps := Str[,]</code></p>
+<p class='src'>
+<a href='src-FlowBox.fan.html#line30'>Source</a></p>
+
+<p>Gaps to insert between child elements.  If <code>gaps.length</code> is less than the number of children, then <code>gaps</code> will be cycled to apply to all children.</p>
+</dd>
+<dt id='halign'>
+halign</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Align.html'>Align</a> halign := Align.left</code></p>
+<p class='src'>
+<a href='src-FlowBox.fan.html#line23'>Source</a></p>
+
+<p>How to align children inside container.  Valid values are <code>left</code>, <code>center</code>, <code>right</code>.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-FlowBox.fan.html'>Source</a></p>
+</dd>
+<dt id='onAdd'>
+onAdd</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> onAdd(<a href='../dom/Elem.html'>Elem</a> c)</code></p>
+<p class='src'>
+<a href='src-FlowBox.fan.html#line38'>Source</a></p>
+</dd>
+<dt id='onRemove'>
+onRemove</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> onRemove(<a href='../dom/Elem.html'>Elem</a> c)</code></p>
+<p class='src'>
+<a href='src-FlowBox.fan.html#line39'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-FlowBox.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#gaps'>gaps</a></li><li><a href='#halign'>halign</a></li><li><a href='#onAdd'>onAdd</a></li><li><a href='#onRemove'>onRemove</a></li></ul>
+</div>
+</div>
+</body>
+</html>

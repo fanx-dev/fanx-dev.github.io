@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::Svg</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Svg.html'>Svg</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> dom::Svg</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::Svg</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Svg.fan.html'>Source</a></p>
+
+<p>SVG (Scalar Vector Graphics) utilities</p>
+<dl>
+<dt id='def'>
+def</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> def(<a href='Elem.html'>Elem</a> svgElem, <a href='Elem.html'>Elem</a> defElem)</code></p>
+<p class='src'>
+<a href='src-Svg.fan.html#line64'>Source</a></p>
+
+<p>Auto-generate an id for the def element and mount it into the svg document's defs section.  This method will automatically generate a <code>&lt;defs></code> child in the svg document as needed. If defs already has an id or is already mounted, then no action is taken.</p>
+</dd>
+<dt id='defUrl'>
+defUrl</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> defUrl(<a href='Elem.html'>Elem</a> svgElem, <a href='Elem.html'>Elem</a> defElem)</code></p>
+<p class='src'>
+<a href='src-Svg.fan.html#line99'>Source</a></p>
+
+<p>Mount a definition element using <code><a href='Svg.html#def'>def</a></code> and return a CSS URL to the fragment identifier such as "url(#def-d)".  This is used to reference gradient and clip definitions.</p>
+</dd>
+<dt id='elem'>
+elem</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Elem.html'>Elem</a> elem(<a href='../sys/Str.html'>Str</a> tagName)</code></p>
+<p class='src'>
+<a href='src-Svg.fan.html#line27'>Source</a></p>
+
+<p>Create element with proper namespace</p>
+</dd>
+<dt id='image'>
+image</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Elem.html'>Elem</a> image(<a href='../std/Uri.html'>Uri</a> href, <a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> w, <a href='../sys/Float.html'>Float</a> h)</code></p>
+<p class='src'>
+<a href='src-Svg.fan.html#line51'>Source</a></p>
+
+<p>Convenience to create a <code>image</code> element</p>
+</dd>
+<dt id='line'>
+line</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Elem.html'>Elem</a> line(<a href='../sys/Num.html'>Num</a> x1, <a href='../sys/Num.html'>Num</a> y1, <a href='../sys/Num.html'>Num</a> x2, <a href='../sys/Num.html'>Num</a> y2)</code></p>
+<p class='src'>
+<a href='src-Svg.fan.html#line33'>Source</a></p>
+
+<p>Convenience to create <code>line</code> element</p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../std/Uri.html'>Uri</a> ns := `http://www.w3.org/2000/svg`</code></p>
+<p class='src'>
+<a href='src-Svg.fan.html#line21'>Source</a></p>
+
+<p>SVG XML namesapce</p>
+</dd>
+<dt id='nsXLink'>
+nsXLink</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../std/Uri.html'>Uri</a> nsXLink := `http://www.w3.org/1999/xlink`</code></p>
+<p class='src'>
+<a href='src-Svg.fan.html#line24'>Source</a></p>
+
+<p>XLink XML namespace</p>
+</dd>
+<dt id='rect'>
+rect</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Elem.html'>Elem</a> rect(<a href='../sys/Num.html'>Num</a> x, <a href='../sys/Num.html'>Num</a> y, <a href='../sys/Num.html'>Num</a> w, <a href='../sys/Num.html'>Num</a> h)</code></p>
+<p class='src'>
+<a href='src-Svg.fan.html#line39'>Source</a></p>
+
+<p>Convenience to create <code>rect</code> element</p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Elem.html'>Elem</a> text(<a href='../sys/Str.html'>Str</a> text, <a href='../sys/Num.html'>Num</a> x, <a href='../sys/Num.html'>Num</a> y)</code></p>
+<p class='src'>
+<a href='src-Svg.fan.html#line45'>Source</a></p>
+
+<p>Convenience to create <code>text</code> element</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Svg.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#def'>def</a></li><li><a href='#defUrl'>defUrl</a></li><li><a href='#elem'>elem</a></li><li><a href='#image'>image</a></li><li><a href='#line'>line</a></li><li><a href='#ns'>ns</a></li><li><a href='#nsXLink'>nsXLink</a></li><li><a href='#rect'>rect</a></li><li><a href='#text'>text</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

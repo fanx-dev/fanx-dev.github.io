@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>syntax::SyntaxStr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='SyntaxStr.html'>SyntaxStr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> syntax::SyntaxStr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  syntax::SyntaxStr</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line109'>Source</a></p>
+
+<p>Syntax rules for a string or character literal</p>
+<dl>
+<dt id='delimiter'>
+delimiter</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> delimiter := &quot;\&quot;&quot;</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line114'>Source</a></p>
+
+<p>Token which delimits the start and end of the string. If the end delimiter is different, then also set the <code><a href='SyntaxStr.html#delimiterEnd'>delimiterEnd</a></code> field.</p>
+</dd>
+<dt id='delimiterEnd'>
+delimiterEnd</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> delimiterEnd</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line119'>Source</a></p>
+
+<p>Token which delimits the end of the string, or if null, then <code><a href='SyntaxStr.html#delimiter'>delimiter</a></code> is assumed to be both the start and end of the string.</p>
+</dd>
+<dt id='escape'>
+escape</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> escape</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line124'>Source</a></p>
+
+<p>Escape character placed before ending delimiter to indicate the delimiter is part of the string, not the end.  The escape character is also assumed to escape itself.</p>
+</dd>
+<dt id='multiLine'>
+multiLine</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> multiLine := false</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line129'>Source</a></p>
+
+<p>Can this string literal span multiple lines</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-SyntaxRules.fan.html#line109'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#delimiter'>delimiter</a></li><li><a href='#delimiterEnd'>delimiterEnd</a></li><li><a href='#escape'>escape</a></li><li><a href='#multiLine'>multiLine</a></li></ul>
+</div>
+</div>
+</body>
+</html>

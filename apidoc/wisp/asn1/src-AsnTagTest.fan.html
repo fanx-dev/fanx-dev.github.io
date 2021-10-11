@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>AsnTagTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='src-AsnTagTest.fan.html'>AsnTagTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   05 Aug 2021 Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>class AsnTagTest : Test</span>
+<span id='line10'><b>{</b></span>
+<span id='line11'>  Void testEquality<b>(</b><b>)</b></span>
+<span id='line12'>  <b>{</b></span>
+<span id='line13'>    e := AsnTag.univ<b>(</b>0<b>)</b>.explicit</span>
+<span id='line14'>    verifyEq<b>(</b>e, AsnTag.univ<b>(</b>0<b>)</b>.explicit<b>)</b></span>
+<span id='line15'>    verifyNotEq<b>(</b>e, AsnTag.univ<b>(</b>1<b>)</b>.explicit<b>)</b></span>
+<span id='line16'>    // verifyNotEq<b>(</b>e, AsnTag.implicit<b>(</b>TagClass.univ, 0<b>)</b><b>)</b></span>
+<span id='line17'></span>
+<span id='line18'>    c := AsnTag.context<b>(</b>0<b>)</b>.implicit</span>
+<span id='line19'>    verifyEq<b>(</b>c, AsnTag.context<b>(</b>0<b>)</b>.implicit<b>)</b></span>
+<span id='line20'>    verifyNotEq<b>(</b>c, AsnTag.context<b>(</b>1<b>)</b>.implicit<b>)</b></span>
+<span id='line21'>    // verifyNotEq<b>(</b>c, AsnTag.explicit<b>(</b>TagClass.context, 0<b>)</b><b>)</b></span>
+<span id='line22'>  <b>}</b></span>
+<span id='line23'></span>
+<span id='line24'>  ** Page 244 <b>(</b>12.1.4<b>)</b> Dubuisson - ASN.1 Communication between Heterogeneous Systems</span>
+<span id='line25'>  Void testEffectiveTags<b>(</b><b>)</b></span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    // T ::= <b>[</b>1<b>]</b> IMPLICIT <b>[</b>0<b>]</b> EXPLICIT BOOLEAN => <b>[</b>1<b>]</b> <b>[</b>UNIVERAL 1<b>]</b></span>
+<span id='line28'>    o1 := Asn.bool<b>(</b>true<b>)</b></span>
+<span id='line29'>      .push<b>(</b>AsnTag.context<b>(</b>0<b>)</b>.explicit<b>)</b></span>
+<span id='line30'>      .push<b>(</b>AsnTag.context<b>(</b>1<b>)</b>.implicit<b>)</b></span>
+<span id='line31'>    verifyEq<b>(</b>o1.effectiveTags,</span>
+<span id='line32'>             AsnTag<b>[</b>AsnTag.context<b>(</b>1<b>)</b>.explicit, AsnTag.univBool<b>]</b><b>)</b></span>
+<span id='line33'></span>
+<span id='line34'>    // T ::= <b>[</b>1<b>]</b> EXPLICIT <b>[</b>0<b>]</b> IMPLICIT BOOLEAN => <b>[</b>1<b>]</b> <b>[</b>0<b>]</b></span>
+<span id='line35'>    o2 := Asn.bool<b>(</b>true<b>)</b></span>
+<span id='line36'>      .push<b>(</b>AsnTag.context<b>(</b>0<b>)</b>.implicit<b>)</b></span>
+<span id='line37'>      .push<b>(</b>AsnTag.context<b>(</b>1<b>)</b>.explicit<b>)</b></span>
+<span id='line38'>    verifyEq<b>(</b>o2.effectiveTags,</span>
+<span id='line39'>             AsnTag<b>[</b>AsnTag.context<b>(</b>1<b>)</b>.explicit, AsnTag.context<b>(</b>0<b>)</b>.explicit<b>]</b><b>)</b></span>
+<span id='line40'></span>
+<span id='line41'>  <b>}</b></span>
+<span id='line42'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

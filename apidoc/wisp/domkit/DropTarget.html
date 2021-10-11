@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::DropTarget</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='DropTarget.html'>DropTarget</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> domkit::DropTarget</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  domkit::DropTarget</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Dnd.fan.html#line74'>Source</a></p>
+
+<p>DropTarget converts an Elem into a drop target for drag and drop events. The <code>canDrop</code> callback is used to indicate if <code>data</code> can be dropped on this target.  The <code>onDrop</code> callback is invoked when a drop event completes.</p>
+
+<p>See also: <a href='docDomkit::Dnd'>docDomkit</a></p>
+<dl>
+<dt id='bind'>
+bind</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DropTarget.html'>DropTarget</a> bind(<a href='../dom/Elem.html'>Elem</a> elem)</code></p>
+<p class='src'>
+<a href='src-Dnd.fan.html#line83'>Source</a></p>
+
+<p>Convert given Elem into a drop target.</p>
+</dd>
+<dt id='canDrop'>
+canDrop</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> canDrop(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Dnd.fan.html#line125'>Source</a></p>
+
+<p>Callback to indicate if <code>data</code> can be dropped on this target.</p>
+</dd>
+<dt id='onDrop'>
+onDrop</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onDrop(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Dnd.fan.html#line128'>Source</a></p>
+
+<p>Callback when <code>data</code> is dropped on this target.</p>
+</dd>
+<dt id='onOver'>
+onOver</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onOver(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../graphics/Point.html'>Point</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Dnd.fan.html#line131'>Source</a></p>
+
+<p>Callback when drag target is over this drop target, where <code>pagePos</code> is the current drag node.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Dnd.fan.html#line74'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#bind'>bind</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#canDrop'>canDrop</a></li><li><a href='#onDrop'>onDrop</a></li><li><a href='#onOver'>onOver</a></li></ul>
+</div>
+</div>
+</body>
+</html>

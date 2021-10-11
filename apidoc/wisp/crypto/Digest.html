@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>crypto::Digest</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>crypto</a></li><li><a href='Digest.html'>Digest</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const mixin</span> crypto::Digest</h1>
+<pre>crypto::Digest</pre>
+
+<p>A message digest algorithm</p>
+<dl>
+<dt id='algorithm'>
+algorithm</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> algorithm()</code></p>
+
+<p>Get the digest algorithm name</p>
+</dd>
+<dt id='digest'>
+digest</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Buf.html'>Buf</a> digest()</code></p>
+
+<p>Complete the digest computation and return the hash. The digest is reset after this method is called.</p>
+</dd>
+<dt id='digestSize'>
+digestSize</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> digestSize()</code></p>
+
+<p>Get the computed digest size in bytes</p>
+</dd>
+<dt id='reset'>
+reset</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> reset()</code></p>
+
+<p>Reset the digest. Return this.</p>
+</dd>
+<dt id='update'>
+update</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> update(<a href='../std/Buf.html'>Buf</a> buf)</code></p>
+
+<p>Update the digest using <em>all</em> the bytes in the buf (regardless of current position). Return this.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#algorithm'>algorithm</a></li><li><a href='#digest'>digest</a></li><li><a href='#digestSize'>digestSize</a></li><li><a href='#reset'>reset</a></li><li><a href='#update'>update</a></li></ul>
+</div>
+</div>
+</body>
+</html>

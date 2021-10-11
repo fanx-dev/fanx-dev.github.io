@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Doc.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='Doc.html'>Doc</a></li><li><a href='src-Doc.fan.html'>Doc.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   20 Dec 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** Doc is the base class for document types.  All Docs are organized</span>
+<span id='line11'>** under a `DocSpace` for  a two level namespace of "spaceName/docName".</span>
+<span id='line12'>**</span>
+<span id='line13'>** Subclasses include:</span>
+<span id='line14'>**  - `DocPodIndex`: pod index</span>
+<span id='line15'>**  - `DocType`: type API</span>
+<span id='line16'>**  - `DocChapter`: chapter in manual</span>
+<span id='line17'>**  - `DocRes`: resource file</span>
+<span id='line18'>**  - `DocSrc`: source file</span>
+<span id='line19'>**</span>
+<span id='line20'>const abstract class Doc</span>
+<span id='line21'><b>{</b></span>
+<span id='line22'>  **</span>
+<span id='line23'>  ** Space which contains this document</span>
+<span id='line24'>  **</span>
+<span id='line25'>  abstract DocSpace space<b>(</b><b>)</b></span>
+<span id='line26'></span>
+<span id='line27'>  **</span>
+<span id='line28'>  ** Name which uniquely identifies this document under its space.</span>
+<span id='line29'>  **</span>
+<span id='line30'>  abstract Str docName<b>(</b><b>)</b></span>
+<span id='line31'></span>
+<span id='line32'>  **</span>
+<span id='line33'>  ** Default title for the document</span>
+<span id='line34'>  **</span>
+<span id='line35'>  abstract Str title<b>(</b><b>)</b></span>
+<span id='line36'></span>
+<span id='line37'>  **</span>
+<span id='line38'>  ** String to use for this document in the breadcrumb.</span>
+<span id='line39'>  ** By default this is the `docName`.</span>
+<span id='line40'>  **</span>
+<span id='line41'>  virtual Str breadcrumb<b>(</b><b>)</b> <b>{</b> docName <b>}</b></span>
+<span id='line42'></span>
+<span id='line43'>  **</span>
+<span id='line44'>  ** Get the default `DocRenderer` type to use for renderering this document.</span>
+<span id='line45'>  **</span>
+<span id='line46'>  abstract Type renderer<b>(</b><b>)</b></span>
+<span id='line47'></span>
+<span id='line48'>  **</span>
+<span id='line49'>  ** Should links to this document be formatted as code identifier</span>
+<span id='line50'>  **</span>
+<span id='line51'>  virtual Bool isCode<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line52'></span>
+<span id='line53'>  **</span>
+<span id='line54'>  ** Convenience to check if this is  top-level index document.</span>
+<span id='line55'>  ** Top index often requires a bit of special handling since</span>
+<span id='line56'>  ** it lives a level above the standard two level namespace.</span>
+<span id='line57'>  **</span>
+<span id='line58'>  virtual Bool isTopIndex<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line59'></span>
+<span id='line60'>  **</span>
+<span id='line61'>  ** Return if this is the index document of the space.</span>
+<span id='line62'>  **</span>
+<span id='line63'>  virtual Bool isSpaceIndex<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line64'></span>
+<span id='line65'>  **</span>
+<span id='line66'>  ** Callback to handle a search engine crawl over this document.</span>
+<span id='line67'>  ** Call one of the 'addX' methods on the crawler for each chunk</span>
+<span id='line68'>  ** of text in the document to be indexed.</span>
+<span id='line69'>  **</span>
+<span id='line70'>  virtual Void onCrawl<b>(</b>DocCrawler crawler<b>)</b> <b>{</b><b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>  **</span>
+<span id='line73'>  ** Get a chapter heading for this document by its anchor id</span>
+<span id='line74'>  **</span>
+<span id='line75'>  virtual DocHeading? heading<b>(</b>Str id, Bool checked := true<b>)</b></span>
+<span id='line76'>  <b>{</b></span>
+<span id='line77'>    if <b>(</b>checked<b>)</b> throw NameErr<b>(</b>"Unknown header anchor id $space.spaceName::$docName#$<b>{</b>id<b>}</b>"<b>)</b></span>
+<span id='line78'>    return null</span>
+<span id='line79'>  <b>}</b></span>
+<span id='line80'></span>
+<span id='line81'>  **</span>
+<span id='line82'>  ** Return docName by default</span>
+<span id='line83'>  **</span>
+<span id='line84'>  override Str toStr<b>(</b><b>)</b> <b>{</b> docName <b>}</b></span>
+<span id='line85'><b>}</b></span>
+<span id='line86'></span>
+</pre>
+</div>
+</body>
+</html>

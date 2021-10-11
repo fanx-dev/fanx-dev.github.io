@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::BuildGroup</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='BuildGroup.html'>BuildGroup</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> build::BuildGroup</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='BuildScript.html'>build::BuildScript</a>
+    build::BuildGroup</pre>
+
+<p>BuildGroup is the base class for build scripts which compose a set of children build scripts into a single group.  The target's of a BuildGroup are the union of the target names available in the children scripts.</p>
+<dl>
+<dt id='children'>
+children</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='BuildScript.html'>BuildScript</a>&gt;</a> children()</code></p>
+
+<p>Compiled children scripts</p>
+</dd>
+<dt id='childrenScripts'>
+childrenScripts</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;</a> childrenScripts := Uri[,]</code></p>
+
+<p>Required list of Uris relative to this scriptDir of Fantom build script files to group together.</p>
+</dd>
+<dt id='dumpEnv'>
+dumpEnv</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> dumpEnv()</code></p>
+</dd>
+<dt id='runOnChildren'>
+runOnChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> runOnChildren(<a href='../sys/Str.html'>Str</a> targetName)</code></p>
+
+<p>Run the specified target name on each of the children scripts that support the specified name.</p>
+</dd>
+<dt id='spawnOnChildren'>
+spawnOnChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> spawnOnChildren(<a href='../sys/Str.html'>Str</a> targetName)</code></p>
+
+<p>Run the specified target name on each of the children scripts that support the specified name.  Unlike runOnChildren this method actually spawns a new process to run the child script.</p>
+</dd>
+<dt id='targets'>
+targets</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='TargetMethod.html'>TargetMethod</a>&gt;</a> targets()</code></p>
+
+<p>BuildGroup publishes the union by name of it's children script targets plus any of its own targets.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#children'>children</a></li><li><a href='#childrenScripts'>childrenScripts</a></li><li><a href='#dumpEnv'>dumpEnv</a></li><li><a href='#runOnChildren'>runOnChildren</a></li><li><a href='#spawnOnChildren'>spawnOnChildren</a></li><li><a href='#targets'>targets</a></li></ul>
+</div>
+</div>
+</body>
+</html>

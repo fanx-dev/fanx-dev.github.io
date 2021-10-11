@@ -1,0 +1,539 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::Int</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='Int.html'>Int</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>struct const class</span> sys::Int</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  <a href='Num.html'>sys::Num</a>
+    sys::Int</pre>
+<p class='facets'>
+<code class='sig'>@<a href='Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Int is used to represent a signed 64-bit integer.</p>
+<dl>
+<dt id='abs'>
+abs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> abs()</code></p>
+
+<p>Return the absolute value of this integer.  If this value is positive then return this, otherwise return the negation.</p>
+</dd>
+<dt id='and'>
+and</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> and(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Bitwise-and of this and b.</p>
+</dd>
+<dt id='clip'>
+clip</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> clip(<a href='Int.html'>Int</a> min, <a href='Int.html'>Int</a> max)</code></p>
+
+<p>Clip this integer between the min and max.  If its less than min then return min, if its greater than max return max, otherwise return this integer itself.</p>
+</dd>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> compare(<a href='Obj.html'>Obj</a> obj)</code></p>
+
+<p>Compare based on integer value.</p>
+</dd>
+<dt id='decrement'>
+decrement</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> decrement()</code></p>
+
+<p>Decrement by one.  Shortcut is --a or a--.</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Int.html'>Int</a> defVal := 0</code></p>
+
+<p>Default value is zero.</p>
+</dd>
+<dt id='div'>
+div</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> div(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Divide this by b.  Shortcut is a/b.</p>
+</dd>
+<dt id='divFloat'>
+divFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> divFloat(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Divide this by b.  Shortcut is a/b.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Bool.html'>Bool</a> equals(<a href='Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return true if same integer value.</p>
+</dd>
+<dt id='equalsIgnoreCase'>
+equalsIgnoreCase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> equalsIgnoreCase(<a href='Int.html'>Int</a> ch)</code></p>
+
+<p>Return if the two Unicode chars are equal without regard to ASCII case.</p>
+</dd>
+<dt id='fromDigit'>
+fromDigit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int?</a> fromDigit(<a href='Int.html'>Int</a> radix := 10)</code></p>
+
+<p>Convert a Unicode digit character into a number for the specified radix.  Return null if this char is not a valid digit.</p>
+
+<p>Example:</p>
+
+<pre>'3'.fromDigit     => 3
+'f'.fromDigit(16) => 15
+'%'.fromDigit     => null</pre>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='Str.html'>Str</a> s, <a href='Int.html'>Int</a> radix := 10, <a href='Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a Str into a Int using the specified radix.  Unless the radix is 10, then a leading minus sign is illegal. If invalid format and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> hash()</code></p>
+
+<p>Return this.</p>
+</dd>
+<dt id='increment'>
+increment</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> increment()</code></p>
+
+<p>Increment by one.  Shortcut is ++a or a++.</p>
+</dd>
+<dt id='isAlpha'>
+isAlpha</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isAlpha()</code></p>
+
+<p>Return if this Unicode char is an ASCII alpha char: isUpper||isLower</p>
+</dd>
+<dt id='isAlphaNum'>
+isAlphaNum</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isAlphaNum()</code></p>
+
+<p>Return if this Unicode char is an ASCII alpha-numeric char: isAlpha||isDigit</p>
+</dd>
+<dt id='isDigit'>
+isDigit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isDigit(<a href='Int.html'>Int</a> radix := 10)</code></p>
+
+<p>Return if this Unicode char is an digit in the specified radix. A decimal radix of ten returns true for 0-9.  A radix of 16 also returns true for a-f and A-F.</p>
+
+<p>Example:</p>
+
+<pre>'3'.toDigit     => true
+3.toDigit       => false
+'B'.toDigit(16) => true</pre>
+</dd>
+<dt id='isEven'>
+isEven</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isEven()</code></p>
+
+<p>Return if this integer is evenly divisible by two.</p>
+</dd>
+<dt id='isLower'>
+isLower</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isLower()</code></p>
+
+<p>Return if this Unicode char is an ASCII lowercase alphabetic char: a-z</p>
+</dd>
+<dt id='isOdd'>
+isOdd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isOdd()</code></p>
+
+<p>Return if this integer is not evenly divisible by two.</p>
+</dd>
+<dt id='isSpace'>
+isSpace</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isSpace()</code></p>
+
+<p>Return if this Unicode char is whitespace: space \t \n \r \f</p>
+</dd>
+<dt id='isUpper'>
+isUpper</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isUpper()</code></p>
+
+<p>Return if this Unicode char is an ASCII uppercase alphabetic char: A-Z</p>
+</dd>
+<dt id='lower'>
+lower</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> lower()</code></p>
+
+<p>If this Unicode char is an ASCII uppercase char, then return it as lowercase, otherwise return this.</p>
+
+<p>Example:</p>
+
+<pre>'A'.lower => 'a'
+'h'.lower => 'h'</pre>
+</dd>
+<dt id='max'>
+max</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> max(<a href='Int.html'>Int</a> that)</code></p>
+
+<p>Return the larger of this and the specified Int values.</p>
+</dd>
+<dt id='maxVal'>
+maxVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Int.html'>Int</a> maxVal := 9223372036854775807</code></p>
+
+<p>Maximum value which can be stored in a signed 64-bit Int: 9,223,372,036,854,775,807</p>
+</dd>
+<dt id='min'>
+min</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> min(<a href='Int.html'>Int</a> that)</code></p>
+
+<p>Return the smaller of this and the specified Int values.</p>
+</dd>
+<dt id='minVal'>
+minVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Int.html'>Int</a> minVal := -9223372036854775807 - 1</code></p>
+
+<p>Minimum value which can be stored in a signed 64-bit Int: -9,223,372,036,854,775,808</p>
+</dd>
+<dt id='minus'>
+minus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> minus(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Subtract b from this.  Shortcut is a-b.</p>
+</dd>
+<dt id='minusFloat'>
+minusFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> minusFloat(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Subtract b from this.  Shortcut is a-b.</p>
+</dd>
+<dt id='mod'>
+mod</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> mod(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Return remainder of this divided by b.  Shortcut is a%b.</p>
+</dd>
+<dt id='modFloat'>
+modFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> modFloat(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Return remainder of this divided by b.  Shortcut is a%b.</p>
+</dd>
+<dt id='mult'>
+mult</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> mult(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Multiply this with b.  Shortcut is a*b.</p>
+</dd>
+<dt id='multFloat'>
+multFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> multFloat(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Multiply this with b.  Shortcut is a*b.</p>
+</dd>
+<dt id='negate'>
+negate</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> negate()</code></p>
+
+<p>Negative of this.  Shortcut is -a.</p>
+</dd>
+<dt id='not'>
+not</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> not()</code></p>
+
+<p>Bitwise not/inverse of this.</p>
+</dd>
+<dt id='or'>
+or</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> or(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Bitwise-or of this and b.</p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> plus(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Add this with b.  Shortcut is a+b.</p>
+</dd>
+<dt id='plusFloat'>
+plusFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> plusFloat(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Add this with b.  Shortcut is a+b.</p>
+</dd>
+<dt id='pow'>
+pow</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> pow(<a href='Int.html'>Int</a> pow)</code></p>
+
+<p>Return this value raised to the specified power. Throw ArgErr if pow is less than zero.</p>
+</dd>
+<dt id='random'>
+random</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Int.html'>Int</a> random(<a href='Range.html'>Range?</a> r := null)</code></p>
+
+<p>Generate a random number.  If range is null then all 2^64 integer values (both negative and positive) are produced with equal probability.  If range is non-null, then the result is guaranteed to be inclusive of the range.  Also see <code><a href='Float.html#random'>Float.random</a></code> , <code><a href='Range.html#random'>Range.random</a></code> , <code><a href='List.html#random'>List.random</a></code> , and <code><a href='../util/Random.html'>Random</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>r := Int.random
+r := Int.random(0..100)</pre>
+</dd>
+<dt id='shifta'>
+shifta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> shifta(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Bitwise arithmetic right-shift of this by b. The left-most bit is shifted into the highest bits performing like a signed shift. This is equivalent to the Java <code>>></code> operator.</p>
+</dd>
+<dt id='shiftl'>
+shiftl</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> shiftl(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Bitwise left shift of this by b.</p>
+</dd>
+<dt id='shiftr'>
+shiftr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> shiftr(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Bitwise right shift of this by b.  Zero is shifted into the highest bits performing like an unsigned shift.  This is equivalent to the Java <code>>>></code> operator.</p>
+</dd>
+<dt id='times'>
+times</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Void.html'>Void</a> times(<a href='Func.html'>Func&lt;<a href='Void.html'>Void</a>,<a href='Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Call the specified function to this times passing the current counter. The counter begins at zero.  Also see <code><a href='Range.html#each'>Range.each</a></code>.</p>
+
+<p>Example:</p>
+
+<pre>3.times |i| { echo(i) }  =>  0, 1, 2</pre>
+</dd>
+<dt id='toChar'>
+toChar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toChar()</code></p>
+
+<p>Map as a Unicode code point to a single character Str.</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toCode(<a href='Int.html'>Int</a> base := 10)</code></p>
+
+<p>Get this Int as a Fantom code literal.  Base must be 10 or 16.</p>
+</dd>
+<dt id='toDigit'>
+toDigit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int?</a> toDigit(<a href='Int.html'>Int</a> radix := 10)</code></p>
+
+<p>Convert this number into a Unicode char <code>0</code>-'9'.  If radix is is greater than 10, then use a lower case letter.  Return null if this number cannot be represented as a single digit character for the specified radix.</p>
+
+<p>Example:</p>
+
+<pre>3.toDigit      => '3'
+15.toDigit(16) => 'f'
+99.toDigit     => null</pre>
+</dd>
+<dt id='toFloat'>
+toFloat</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Float.html'>Float</a> toFloat()</code></p>
+
+<p>Convert this number to a Float.</p>
+</dd>
+<dt id='toHex'>
+toHex</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toHex(<a href='Int.html'>Int</a> width := 0)</code></p>
+
+<p>Return hexdecimal string representation.  If width is non-null, then leading zeros are prepended to ensure the specified number of nibble characters.</p>
+
+<p>Examples:</p>
+
+<pre>255.toHex     =>  "ff"
+255.toHex(4)  =>  "00ff"</pre>
+</dd>
+<dt id='toInt'>
+toInt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> toInt()</code></p>
+
+<p>Convert this number to an Int.</p>
+</dd>
+<dt id='toLocale'>
+toLocale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toLocale(<a href='Str.html'>Str?</a> pattern := null)</code></p>
+
+<p>Format this integer number for the current locale. If pattern is null, then the locale's default pattern is used. See <code><a href='Float.html#toLocale'>Float.toLocale</a></code> for pattern language.  Fractional formatting is not supported for integers.</p>
+
+<p>In addition <code>Int.toLocale</code> supports the "B" pattern which will format a number of bytes with the appropiate B, KB, MB, GB suffix based on the magnitide (1024B == 1KB).</p>
+
+<p>Examples:</p>
+
+<pre>3.toLocale("00")             =>  03
+3.toLocale("000")            =>  003
+123456789.toLocale("#,###")  =>  123,456,789
+123.toLocale("B")            =>  123B
+1234.toLocale("B")           =>  1.2KB
+100_000.toLocale("B")        =>  98KB
+(3*1024*1024).toLocale("B")  =>  3MB</pre>
+</dd>
+<dt id='toRadix'>
+toRadix</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toRadix(<a href='Int.html'>Int</a> radix, <a href='Int.html'>Int</a> width := 0)</code></p>
+
+<p>Return string representation in given radix.  If width is non-null, then leading zeros are prepended to ensure the specified width.</p>
+
+<p>Examples:</p>
+
+<pre>255.toRadix(8)    =>  "ff"
+255.toRadix(8, 3) =>  "00ff"</pre>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Str.html'>Str</a> toStr()</code></p>
+
+<p>Return decimal string representation.</p>
+</dd>
+<dt id='upper'>
+upper</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> upper()</code></p>
+
+<p>If this Unicode char is an ASCII lowercase char, then return it as uppercase, otherwise return this.</p>
+
+<p>Example:</p>
+
+<pre>'a'.upper => 'A'
+'4'.upper => '4'</pre>
+</dd>
+<dt id='xor'>
+xor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> xor(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Bitwise-exclusive-or of this and b.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#maxVal'>maxVal</a></li><li><a href='#minVal'>minVal</a></li><li><a href='#random'>random</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#abs'>abs</a></li><li><a href='#and'>and</a></li><li><a href='#clip'>clip</a></li><li><a href='#compare'>compare</a></li><li><a href='#decrement'>decrement</a></li><li><a href='#div'>div</a></li><li><a href='#divFloat'>divFloat</a></li><li><a href='#equals'>equals</a></li><li><a href='#equalsIgnoreCase'>equalsIgnoreCase</a></li><li><a href='#fromDigit'>fromDigit</a></li><li><a href='#hash'>hash</a></li><li><a href='#increment'>increment</a></li><li><a href='#isAlpha'>isAlpha</a></li><li><a href='#isAlphaNum'>isAlphaNum</a></li><li><a href='#isDigit'>isDigit</a></li><li><a href='#isEven'>isEven</a></li><li><a href='#isLower'>isLower</a></li><li><a href='#isOdd'>isOdd</a></li><li><a href='#isSpace'>isSpace</a></li><li><a href='#isUpper'>isUpper</a></li><li><a href='#lower'>lower</a></li><li><a href='#max'>max</a></li><li><a href='#min'>min</a></li><li><a href='#minus'>minus</a></li><li><a href='#minusFloat'>minusFloat</a></li><li><a href='#mod'>mod</a></li><li><a href='#modFloat'>modFloat</a></li><li><a href='#mult'>mult</a></li><li><a href='#multFloat'>multFloat</a></li><li><a href='#negate'>negate</a></li><li><a href='#not'>not</a></li><li><a href='#or'>or</a></li><li><a href='#plus'>plus</a></li><li><a href='#plusFloat'>plusFloat</a></li><li><a href='#pow'>pow</a></li><li><a href='#shifta'>shifta</a></li><li><a href='#shiftl'>shiftl</a></li><li><a href='#shiftr'>shiftr</a></li><li><a href='#times'>times</a></li><li><a href='#toChar'>toChar</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toDigit'>toDigit</a></li><li><a href='#toFloat'>toFloat</a></li><li><a href='#toHex'>toHex</a></li><li><a href='#toInt'>toInt</a></li><li><a href='#toLocale'>toLocale</a></li><li><a href='#toRadix'>toRadix</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#upper'>upper</a></li><li><a href='#xor'>xor</a></li></ul>
+</div>
+</div>
+</body>
+</html>

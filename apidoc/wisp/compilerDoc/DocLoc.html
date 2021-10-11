@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocLoc</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocLoc.html'>DocLoc</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerDoc::DocLoc</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::DocLoc</pre>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line124'>Source</a></p>
+
+<p>DocLoc models a filename / linenumber</p>
+<dl>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> file</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line137'>Source</a></p>
+
+<p>Filename location</p>
+</dd>
+<dt id='line'>
+line</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> line</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line140'>Source</a></p>
+
+<p>Line number or zero if unknown</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Str.html'>Str</a> file, <a href='../sys/Int.html'>Int</a> line)</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line130'>Source</a></p>
+
+<p>Construct with file and line number (zero if unknown)</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line143'>Source</a></p>
+
+<p>Return string representation</p>
+</dd>
+<dt id='unknown'>
+unknown</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='DocLoc.html'>DocLoc</a> unknown := DocLoc.&lt;ctor>(&quot;Unknown&quot;, 0)</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line128'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocMisc.fan.html#line124'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#unknown'>unknown</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#file'>file</a></li><li><a href='#line'>line</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

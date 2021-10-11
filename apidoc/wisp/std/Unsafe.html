@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Unsafe</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Unsafe.html'>Unsafe</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>rtconst class</span> std::Unsafe</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Unsafe</pre>
+
+<p>Unsafe is used to wrap a non-const mutable objects so that it can be passed as an immutable reference.</p>
+<dl>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code> <a href='UnsafeT.html'>Unsafe^T</a> get()</code></p>
+
+<p>Get the wrapped object.</p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='UnsafeT.html'>Unsafe^T</a> val)</code></p>
+
+<p>Wrap specified object.</p>
+</dd>
+<dt id='toImmutable'>
+toImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Unsafe.html'>Unsafe&lt;<a href='UnsafeT.html'>Unsafe^T</a>&gt;</a> toImmutable()</code></p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code> <a href='UnsafeT.html'>Unsafe^T</a> val()</code></p>
+
+<p>Get the wrapped object.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#get'>get</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#toImmutable'>toImmutable</a></li><li><a href='#val'>val</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::FuncType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='FuncType.html'>FuncType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::FuncType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='ProxyType.html'>compiler::ProxyType</a>
+    <a href='ParameterizedType.html'>compiler::ParameterizedType</a>
+      compiler::FuncType</pre>
+
+<p>FuncType models a parameterized Func type.</p>
+<dl>
+<dt id='arity'>
+arity</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> arity()</code></p>
+</dd>
+<dt id='fits'>
+fits</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> fits(<a href='CType.html'>CType</a> ty)</code></p>
+</dd>
+<dt id='inferredSignature'>
+inferredSignature</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> inferredSignature</code></p>
+</dd>
+<dt id='isValid'>
+isValid</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isValid()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> params, <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> names, <a href='CType.html'>CType</a> ret, <a href='../sys/Bool.html'>Bool</a> defaultParameterized := false)</code></p>
+</dd>
+<dt id='makeItBlock'>
+makeItBlock</dt>
+<dd>
+<p class='sig'>
+<code>new makeItBlock(<a href='CType.html'>CType</a> itType)</code></p>
+</dd>
+<dt id='mostSpecific'>
+mostSpecific</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FuncType.html'>FuncType</a> mostSpecific(<a href='FuncType.html'>FuncType</a> b, <a href='../sys/Bool.html'>Bool</a> inferredSignature)</code></p>
+</dd>
+<dt id='names'>
+names</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> names { private set }</code></p>
+</dd>
+<dt id='parameterizeThis'>
+parameterizeThis</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='FuncType.html'>FuncType</a> parameterizeThis(<a href='CType.html'>CType</a> thisType)</code></p>
+
+<p>Replace any occurance of "sys::This" with thisType.</p>
+</dd>
+<dt id='params'>
+params</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> params { private set }</code></p>
+</dd>
+<dt id='ret'>
+ret</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> ret { private set }</code></p>
+</dd>
+<dt id='toArity'>
+toArity</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FuncType.html'>FuncType</a> toArity(<a href='../sys/Int.html'>Int</a> num)</code></p>
+</dd>
+<dt id='toMostSpecific'>
+toMostSpecific</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType</a> toMostSpecific(<a href='CType.html'>CType</a> a, <a href='CType.html'>CType</a> b)</code></p>
+</dd>
+<dt id='toParamDefs'>
+toParamDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='ParamDef.html'>ParamDef</a>&gt;</a> toParamDefs(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='unnamed'>
+unnamed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> unnamed</code></p>
+</dd>
+<dt id='usesThis'>
+usesThis</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> usesThis()</code></p>
+
+<p>Return if this function type has <code>This</code> type in its signature.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeItBlock'>makeItBlock</a></li><li><a href='#toMostSpecific'>toMostSpecific</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#arity'>arity</a></li><li><a href='#fits'>fits</a></li><li><a href='#inferredSignature'>inferredSignature</a></li><li><a href='#isValid'>isValid</a></li><li><a href='#mostSpecific'>mostSpecific</a></li><li><a href='#names'>names</a></li><li><a href='#parameterizeThis'>parameterizeThis</a></li><li><a href='#params'>params</a></li><li><a href='#ret'>ret</a></li><li><a href='#toArity'>toArity</a></li><li><a href='#toParamDefs'>toParamDefs</a></li><li><a href='#unnamed'>unnamed</a></li><li><a href='#usesThis'>usesThis</a></li></ul>
+</div>
+</div>
+</body>
+</html>

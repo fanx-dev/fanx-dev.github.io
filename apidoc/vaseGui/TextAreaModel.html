@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::TextAreaModel</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='TextAreaModel.html'>TextAreaModel</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> vaseGui::TextAreaModel</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGui::TextAreaModel</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>TextAreaModel models the document and styling of a <code><a href='TextArea.html'>TextArea</a></code> document.</p>
+<dl>
+<dt id='charCount'>
+charCount</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> charCount()</code></p>
+
+<p>Return the number of characters in the content.</p>
+</dd>
+<dt id='line'>
+line</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> line(<a href='../sys/Int.html'>Int</a> lineIndex)</code></p>
+
+<p>Return the line at the given zero based line index without delimiters.</p>
+</dd>
+<dt id='lineAtOffset'>
+lineAtOffset</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> lineAtOffset(<a href='../sys/Int.html'>Int</a> offset)</code></p>
+
+<p>Return the zero based line index at the given character offset.</p>
+</dd>
+<dt id='lineBackground'>
+lineBackground</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../vaseGraphics/Color.html'>Color?</a> lineBackground(<a href='../sys/Int.html'>Int</a> lineIndex)</code></p>
+
+<p>Return the color to use for the specified line's background. Normal lineStyling backgrounds only cover the width of the text. However, the lineBackground covers the width of the entire edit area.  Return null for no special background.</p>
+</dd>
+<dt id='lineCount'>
+lineCount</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> lineCount()</code></p>
+
+<p>Return the number of lines.</p>
+</dd>
+<dt id='lineDelimiter'>
+lineDelimiter</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> lineDelimiter()</code></p>
+
+<p>Return the line delimiter that should be used when inserting new lines. The default is "\n".</p>
+</dd>
+<dt id='lineStyling'>
+lineStyling</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;?</a> lineStyling(<a href='../sys/Int.html'>Int</a> lineIndex)</code></p>
+
+<p>Return the styled segments for the given zero based line index. The result is a list of Int/RichTextStyle pairs where the Int specifies a zero based char offset of the line using a pattern such as:</p>
+
+<pre>[Int, RichTextStyle, Int, RichTextStyle, ...]</pre>
+</dd>
+<dt id='modify'>
+modify</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> modify(<a href='../sys/Int.html'>Int</a> start, <a href='../sys/Int.html'>Int</a> replaceLen, <a href='../sys/Str.html'>Str</a> newText)</code></p>
+
+<p>Replace the text with <code>newText</code> starting at position <code>start</code> for a length of <code>replaceLen</code>.  The model implementation must fire the <code><a href='TextAreaModel.html#onModify'>onModify</a></code> event.</p>
+</dd>
+<dt id='modifyLine'>
+modifyLine</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> modifyLine(<a href='../sys/Int.html'>Int</a> lineIndex, <a href='../sys/Str.html'>Str?</a> line, <a href='../sys/Bool.html'>Bool</a> add)</code></p>
+</dd>
+<dt id='offsetAtLine'>
+offsetAtLine</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> offsetAtLine(<a href='../sys/Int.html'>Int</a> lineIndex)</code></p>
+
+<p>Return the character offset of the first character of the given zero based line index.</p>
+</dd>
+<dt id='onModify'>
+onModify</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onModify()</code></p>
+
+<p>Callback model generated when the text is modified.</p>
+
+<p>Event id fired:</p>
+
+<ul>
+<li><a href='EventId.modified'>EventId.modified</a></li>
+</ul>
+
+<p>Event fields:</p>
+
+<ul>
+<li><a href='Event.data'>Event.data</a>: the <a href='TextChange'>TextChange</a>.</li>
+</ul>
+</dd>
+<dt id='posAtOffset'>
+posAtOffset</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../vaseGraphics/Point.html'>Point</a> posAtOffset(<a href='../sys/Int.html'>Int</a> offset)</code></p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> text</code></p>
+
+<p>Get or set the entire text document.</p>
+</dd>
+<dt id='textRange'>
+textRange</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> textRange(<a href='../sys/Int.html'>Int</a> start, <a href='../sys/Int.html'>Int</a> len)</code></p>
+
+<p>Returns a string representing the content at the given range. The default implementation of textRange is optimized to assume the backing store is based on lines.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#charCount'>charCount</a></li><li><a href='#line'>line</a></li><li><a href='#lineAtOffset'>lineAtOffset</a></li><li><a href='#lineBackground'>lineBackground</a></li><li><a href='#lineCount'>lineCount</a></li><li><a href='#lineDelimiter'>lineDelimiter</a></li><li><a href='#lineStyling'>lineStyling</a></li><li><a href='#modify'>modify</a></li><li><a href='#modifyLine'>modifyLine</a></li><li><a href='#offsetAtLine'>offsetAtLine</a></li><li><a href='#onModify'>onModify</a></li><li><a href='#posAtOffset'>posAtOffset</a></li><li><a href='#text'>text</a></li><li><a href='#textRange'>textRange</a></li></ul>
+</div>
+</div>
+</body>
+</html>

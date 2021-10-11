@@ -1,0 +1,760 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::List</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='List.html'>List</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract rtconst class</span> sys::List</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  sys::List</pre>
+<p class='facets'>
+<code class='sig'>@<a href='Serializable.html'>Serializable</a></code><br /></p>
+
+<p>List represents an liner sequence of Objects indexed by an Int.</p>
+
+<p>See <a href='https://fantom.org/doc/examples/sys-lists'>examples</a>.</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br />abstract <a href='This.html'>This</a> add(<a href='ListV.html'>List^V</a> item)</code></p>
+
+<p>Add the specified item to the end of the list.  The item will have an index of size.  Size is incremented by 1.  Return this.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='addAll'>
+addAll</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='This.html'>This</a> addAll(<a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> list)</code></p>
+
+<p>Add all the items in the specified list to the end of this list. Size is incremented by list.size.  Return this.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='addIfNotNull'>
+addIfNotNull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> addIfNotNull(<a href='ListV.html'>List^V?</a> item)</code></p>
+
+<p>Call <code><a href='List.html#add'>add</a></code> if item is non-null otherwise do nothing.  Return this.</p>
+</dd>
+<dt id='all'>
+all</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> all(<a href='Func.html'>Func&lt;<a href='Bool.html'>Bool</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Return true if c returns true for all of the items in the list.  If the list is empty, return true.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := ["ant", "bear"]
+list.all |Str v->Bool| { return v.size >= 3 } => true
+list.all |Str v->Bool| { return v.size >= 4 } => false</pre>
+</dd>
+<dt id='any'>
+any</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> any(<a href='Func.html'>Func&lt;<a href='Bool.html'>Bool</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Return true if c returns true for any of the items in the list.  If the list is empty, return false.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := ["ant", "bear"]
+list.any |Str v->Bool| { return v.size >= 4 } => true
+list.any |Str v->Bool| { return v.size >= 5 } => false</pre>
+</dd>
+<dt id='binaryFind'>
+binaryFind</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Int.html'>Int</a> binaryFind(<a href='Func.html'>Func&lt;<a href='Int.html'>Int</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Find an element in the list using a binary search algorithm. The specified comparator function returns a negative integer, zero, or a positive integer if the desired object is less than, equal to, or greater than specified item. The list must be sorted in ascending order according to the specified comparator function. If the key is not found, then return a negative value which is <code>-(insertation point) - 1</code>.</p>
+</dd>
+<dt id='binarySearch'>
+binarySearch</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Int.html'>Int</a> binarySearch(<a href='ListV.html'>List^V</a> key, <a href='Func.html'>Func&lt;<a href='Int.html'>Int</a>,<a href='ListV.html'>List^V</a>,<a href='ListV.html'>List^V</a>&gt;?</a> c := null)</code></p>
+
+<p>Search the list for the index of the specified key using a binary search algorithm.  The list must be sorted in ascending order according to the specified comparator function.  If the list contains multiple matches for key, no guarantee is made to which one is returned.  If the comparator is null then then it is assumed to be the <code>&lt;=></code> operator (shortcut for the <code>compare</code> method).  If the key is not found, then return a negative value which is <code>-(insertation point) - 1</code>.</p>
+</dd>
+<dt id='capacity'>
+capacity</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Int.html'>Int</a> capacity</code></p>
+
+<p>The number of items this list can hold without allocating more memory. Capacity is always greater or equal to size.  If adding a large number of items, it may be more efficient to manually set capacity. See the <code><a href='List.html#trim'>trim</a></code> method to automatically set capacity to size.  Throw ArgErr if attempting to set capacity less than size.  Getting capacity is readonly safe, setting capacity throws ReadonlyErr if readonly.</p>
+</dd>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='This.html'>This</a> clear()</code></p>
+
+<p>Remove all items from the list and set size to 0.  Return this. Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='contains'>
+contains</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> contains(<a href='ListV.html'>List^V</a> item)</code></p>
+
+<p>Return if this list contains the specified item. Equality is determined by <code><a href='Obj.html#equals'>Obj.equals</a></code>.  This method is readonly safe.</p>
+</dd>
+<dt id='containsAll'>
+containsAll</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Bool.html'>Bool</a> containsAll(<a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> list)</code></p>
+
+<p>Return if this list contains every item in the specified list. Equality is determined by <code><a href='Obj.html#equals'>Obj.equals</a></code>.  This method is readonly safe.</p>
+</dd>
+<dt id='containsAny'>
+containsAny</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Bool.html'>Bool</a> containsAny(<a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> list)</code></p>
+
+<p>Return if this list contains any one of the items in the specified list. Equality is determined by <code><a href='Obj.html#equals'>Obj.equals</a></code>.  This method is readonly safe.</p>
+</dd>
+<dt id='containsSame'>
+containsSame</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> containsSame(<a href='ListV.html'>List^V</a> item)</code></p>
+
+<p>Return if this list contains the specified item. Equality is determined by <code>===</code>.  This method is readonly safe.</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='List.html'>List&lt;<a href='Obj.html'>Obj</a>&gt;</a> defVal := Obj[,]</code></p>
+</dd>
+<dt id='dup'>
+dup</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> dup()</code></p>
+
+<p>Create a shallow duplicate copy of this List.  The items themselves are not duplicated.  This method is readonly safe.</p>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Void.html'>Void</a> each(<a href='Func.html'>Func&lt;<a href='Void.html'>Void</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Call the specified function for every item in the list starting with index 0 and incrementing up to size-1.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>["a", "b", "c"].each |Str s| { echo(s) }</pre>
+</dd>
+<dt id='eachRange'>
+eachRange</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Void.html'>Void</a> eachRange(<a href='Range.html'>Range</a> r, <a href='Func.html'>Func&lt;<a href='Void.html'>Void</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Iterate the list usnig the specified range.   Negative indexes may be used to access from the end of the list.  This method is readonly safe.  Throw IndexErr if range is invalid.</p>
+</dd>
+<dt id='eachWhile'>
+eachWhile</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Obj.html'>Obj?</a> eachWhile(<a href='Func.html'>Func&lt;<a href='Obj.html'>Obj?</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c, <a href='Int.html'>Int</a> offset := 0)</code></p>
+
+<p>Iterate every item in the list starting with index 0 up to size-1 until the function returns non-null.  If function returns non-null, then break the iteration and return the resulting object.  Return null if the function returns null for every item.  This method is readonly safe.</p>
+</dd>
+<dt id='eachr'>
+eachr</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Void.html'>Void</a> eachr(<a href='Func.html'>Func&lt;<a href='Void.html'>Void</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Reverse each - call the specified function for every item in the list starting with index size-1 and decrementing down to 0.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>["a", "b", "c"].eachr |Str s| { echo(s) }</pre>
+</dd>
+<dt id='eachrWhile'>
+eachrWhile</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Obj.html'>Obj?</a> eachrWhile(<a href='Func.html'>Func&lt;<a href='Obj.html'>Obj?</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c, <a href='Int.html'>Int</a> offset := -1)</code></p>
+
+<p>Reverse <code><a href='List.html#eachWhile'>eachWhile</a></code>.  Iterate every item in the list starting with size-1 down to 0.  If the function returns non-null, then break the iteration and return the resulting object.  Return null if the function returns null for every item.  This method is readonly safe.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Bool.html'>Bool</a> equals(<a href='Obj.html'>Obj?</a> other)</code></p>
+
+<p>Two Lists are equal if they have the same type, the same number of items, and all the items at each index return true for <code>equals</code>.</p>
+
+<p>Examples:</p>
+
+<pre>[2, 3] == [2, 3]     =>  true
+[2, 3] == [3, 2]     =>  false
+[2, 3] == Num[2, 3]  =>  false
+Str[,] == [,]        =>  false
+Str[,] == Str?[,]    =>  false</pre>
+</dd>
+<dt id='exclude'>
+exclude</dt>
+<dd>
+<p class='sig'>
+<code> <a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> exclude(<a href='Func.html'>Func&lt;<a href='Bool.html'>Bool</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Return a new list containing the items for which c returns false.  If c returns true for every item, then return an empty list.  The inverse of this method is findAll().  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := [0, 1, 2, 3, 4]
+list.exclude |Int v->Bool| { return v%2==0 } => [1, 3]</pre>
+</dd>
+<dt id='fill'>
+fill</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> fill(<a href='ListV.html'>List^V</a> val, <a href='Int.html'>Int</a> times)</code></p>
+
+<p>Append a value to the end of the list the given number of times. Return this. Throw ReadonlyErr if readonly.</p>
+
+<p>Example:</p>
+
+<pre>Int[,].fill(0, 3)  =>  [0, 0, 0]</pre>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ListV.html'>List^V?</a> find(<a href='Func.html'>Func&lt;<a href='Bool.html'>Bool</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Return the first item in the list for which c returns true. If c returns false for every item, then return null.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := [0, 1, 2, 3, 4]
+list.find |Int v->Bool| { return v.toStr == "3" } => 3
+list.find |Int v->Bool| { return v.toStr == "7" } => null</pre>
+</dd>
+<dt id='findAll'>
+findAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> findAll(<a href='Func.html'>Func&lt;<a href='Bool.html'>Bool</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Return a new list containing the items for which c returns true.  If c returns false for every item, then return an empty list.  The inverse of this method is exclude().  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := [0, 1, 2, 3, 4]
+list.findAll |Int v->Bool| { return v%2==0 } => [0, 2, 4]</pre>
+</dd>
+<dt id='findIndex'>
+findIndex</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Int.html'>Int</a> findIndex(<a href='Func.html'>Func&lt;<a href='Bool.html'>Bool</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c, <a href='Int.html'>Int</a> offset := 0)</code></p>
+
+<p>Return the index of the first item in the list for which c returns true.  If c returns false for every item, then return -1.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := [5, 6, 7]
+list.findIndex |Int v->Bool| { return v.toStr == "7" } => 2
+list.findIndex |Int v->Bool| { return v.toStr == "9" } => -1</pre>
+</dd>
+<dt id='findrIndex'>
+findrIndex</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Int.html'>Int</a> findrIndex(<a href='Func.html'>Func&lt;<a href='Bool.html'>Bool</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c, <a href='Int.html'>Int</a> offset := -1)</code></p>
+</dd>
+<dt id='first'>
+first</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='ListV.html'>List^V?</a> first()</code></p>
+
+<p>Return the item at index 0, or if empty return null. This method is readonly safe.</p>
+</dd>
+<dt id='flatMap'>
+flatMap</dt>
+<dd>
+<p class='sig'>
+<code> <a href='List.html'>List&lt;<a href='Obj.html'>Obj?</a>&gt;</a> flatMap(<a href='Func.html'>Func&lt;<a href='List.html'>List&lt;<a href='Obj.html'>Obj?</a>&gt;</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>This is a combination of <code><a href='List.html#map'>map</a></code> and <code><a href='List.html#flatten'>flatten</a></code>.  Each item in this list is mapped to zero or more new items by the given function and the results are returned in a single flattened list.  Note unlike <code><a href='List.html#flatten'>flatten</a></code> only one level of flattening is performed. The new list is typed based on the return type of c.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := ["a", "b"]
+list.flatMap |v->Str[]| { [v, v.upper] } => ["a", "A", "b", "B"]</pre>
+</dd>
+<dt id='flatten'>
+flatten</dt>
+<dd>
+<p class='sig'>
+<code> <a href='List.html'>List&lt;<a href='Obj.html'>Obj?</a>&gt;</a> flatten()</code></p>
+
+<p>Return a new list which recursively flattens any list items into a one-dimensional result.  This method is readonly safe.</p>
+
+<p>Examples:</p>
+
+<pre>[1,2,3].flatten        =>  [1,2,3]
+[[1,2],[3]].flatten    =>  [1,2,3]
+[1,[2,[3]],4].flatten  =>  [1,2,3,4]</pre>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br />abstract <a href='ListV.html'>List^V</a> get(<a href='Int.html'>Int</a> index)</code></p>
+
+<p>Get is used to return the item at the specified the index.  A negative index may be used to access an index from the end of the list.  The get method is accessed via the [] shortcut operator.  Throw IndexErr if index is out of range.  This method is readonly safe.</p>
+</dd>
+<dt id='getRange'>
+getRange</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br />abstract <a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> getRange(<a href='Range.html'>Range</a> r)</code></p>
+
+<p>Return a sub-list based on the specified range.  Negative indexes may be used to access from the end of the list.  This method is accessed via the <code>[]</code> operator.  This method is readonly safe. Throw IndexErr if range illegal.</p>
+
+<p>Examples:</p>
+
+<pre>list := [0, 1, 2, 3]
+list[0..2]   => [0, 1, 2]
+list[3..3]   => [3]
+list[-2..-1] => [2, 3]
+list[0..&lt;2]  => [0, 1]
+list[1..-2]  => [1, 2]</pre>
+</dd>
+<dt id='getSafe'>
+getSafe</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ListV.html'>List^V?</a> getSafe(<a href='Int.html'>Int</a> index, <a href='ListV.html'>List^V?</a> defV := null)</code></p>
+
+<p>Get the item at the specified index, but if index is out of range, then return <code>def</code> parameter.  A negative index may be used according to the same semantics as <code><a href='List.html#get'>get</a></code>.  This method is readonly safe.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> hash()</code></p>
+
+<p>Return platform dependent hashcode based a hash of the items of the list.</p>
+</dd>
+<dt id='index'>
+index</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> index(<a href='ListV.html'>List^V</a> item, <a href='Int.html'>Int</a> offset := 0)</code></p>
+
+<p>Return the integer index of the specified item using the <code>==</code> operator (shortcut for equals method) to check for equality.  Use <code><a href='List.html#indexSame'>indexSame</a></code> to find with <code>===</code> operator. The search starts at the specified offset and returns the first match.  The offset may be negative to access from end of list.  Throw IndexErr if offset is out of range.  If the item is not found return -1.  This method is readonly safe.</p>
+</dd>
+<dt id='indexSame'>
+indexSame</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> indexSame(<a href='ListV.html'>List^V</a> item, <a href='Int.html'>Int</a> offset := 0)</code></p>
+
+<p>Return integer index just like <code><a href='List.html#index'>List.index</a></code> except use <code>===</code> same operator instead of the <code>==</code> equals operator.</p>
+</dd>
+<dt id='indexr'>
+indexr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> indexr(<a href='ListV.html'>List^V</a> item, <a href='Int.html'>Int</a> offset := -1)</code></p>
+
+<p>Reverse index lookup.  This method works just like <code><a href='List.html#index'>index</a></code> except that it searches backward from the starting offset.</p>
+</dd>
+<dt id='insert'>
+insert</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='This.html'>This</a> insert(<a href='Int.html'>Int</a> index, <a href='ListV.html'>List^V</a> item)</code></p>
+
+<p>Insert the item at the specified index.  A negative index may be used to access an index from the end of the list.  Size is incremented by 1.  Return this.  Throw IndexErr if index is out of range.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='insertAll'>
+insertAll</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='This.html'>This</a> insertAll(<a href='Int.html'>Int</a> index, <a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> list)</code></p>
+
+<p>Insert all the items in the specified list into this list at the specified index.  A negative index may be used to access an index from the end of the list.  Size is incremented by list.size.  Return this.  Throw IndexErr if index is out of range.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>Return if size == 0.  This method is readonly safe.</p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>abstract override <a href='Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='isRO'>
+isRO</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Bool.html'>Bool</a> isRO()</code></p>
+
+<p>Return if this List is readonly.  A readonly List is guaranteed to be immutable (although its items may be mutable themselves).  Any attempt to  modify a readonly List will result in ReadonlyErr.  Use <code><a href='List.html#rw'>rw</a></code> to get a read-write List from a readonly List.  Methods documented as "readonly safe" may be used safely with a readonly List. This method is readonly safe.</p>
+</dd>
+<dt id='isRW'>
+isRW</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isRW()</code></p>
+
+<p>Return if this List is read-write.  A read-write List is mutable and may be modified.  Use <code><a href='List.html#ro'>ro</a></code> to get a readonly List from a read-write List.  This method is readonly safe.</p>
+</dd>
+<dt id='join'>
+join</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> join(<a href='Str.html'>Str</a> separator := &quot;&quot;, <a href='Func.html'>Func&lt;<a href='Str.html'>Str</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;?</a> c := null)</code></p>
+
+<p>Return a string by concatenating each item's toStr result using the specified separator string.  If c is non-null then it is used to format each item into a string, otherwise Obj.toStr is used.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>["a", "b", "c"].join => "abc"
+["a", "b", "c"].join("-") => "a-b-c"
+["a", "b", "c"].join("-") |Str s->Str| { return "($s)" } => "(a)-(b)-(c)"</pre>
+</dd>
+<dt id='last'>
+last</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='ListV.html'>List^V?</a> last()</code></p>
+
+<p>Return the item at index-1, or if empty return null. This method is readonly safe.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static new make(<a href='Int.html'>Int</a> capacity)</code></p>
+
+<p>Constructor with of type and initial capacity.</p>
+</dd>
+<dt id='map'>
+map</dt>
+<dd>
+<p class='sig'>
+<code> <a href='List.html'>List&lt;<a href='Obj.html'>Obj?</a>&gt;</a> map(<a href='Func.html'>Func&lt;<a href='Obj.html'>Obj?</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Create a new list which is the result of calling c for every item in this list.  The new list is typed based on the return type of c.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := [3, 4, 5]
+list.map |Int v->Int| { return v*2 } => [6, 8, 10]</pre>
+</dd>
+<dt id='max'>
+max</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ListV.html'>List^V?</a> max(<a href='Func.html'>Func&lt;<a href='Int.html'>Int</a>,<a href='ListV.html'>List^V</a>,<a href='ListV.html'>List^V</a>&gt;?</a> c := null)</code></p>
+
+<p>Return the maximum value of the list.  If c is provided, then it implements the comparator returning -1, 0, or 1.  If c is null then the &lt;=> operator is used (shortcut for compare method).  If the list is empty, return null.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := ["albatross", "dog", "horse"]
+list.max => "horse"
+list.max |Str a, Str b->Int| { return a.size &lt;=> b.size } => "albatross"</pre>
+</dd>
+<dt id='min'>
+min</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ListV.html'>List^V?</a> min(<a href='Func.html'>Func&lt;<a href='Int.html'>Int</a>,<a href='ListV.html'>List^V</a>,<a href='ListV.html'>List^V</a>&gt;?</a> c := null)</code></p>
+
+<p>Return the minimum value of the list.  If c is provided, then it implements the comparator returning -1, 0, or 1.  If c is null then the &lt;=> operator is used (shortcut for compare method).  If the list is empty, return null.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := ["albatross", "dog", "horse"]
+list.min => "albatross"
+list.min |Str a, Str b->Int| { return a.size &lt;=> b.size } => "dog"</pre>
+</dd>
+<dt id='moveTo'>
+moveTo</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> moveTo(<a href='ListV.html'>List^V?</a> item, <a href='Int.html'>Int</a> toIndex)</code></p>
+
+<p>Find the given item, and move it to the given index.  All the other items are shifted accordingly.  Negative indexes may used to access an index from the end of the list.  If the item is null or not found then this is a no op.  Return this.  Throw ReadonlyErr if readonly.</p>
+
+<p>Examples:</p>
+
+<pre>[10, 11, 12].moveTo(11, 0)  =>  [11, 10, 12]
+[10, 11, 12].moveTo(11, -1) =>  [10, 12, 11]</pre>
+</dd>
+<dt id='peek'>
+peek</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ListV.html'>List^V?</a> peek()</code></p>
+
+<p>Return the item at index-1, or if empty return null. This method has the same semantics as last().  This method is readonly safe.</p>
+</dd>
+<dt id='pop'>
+pop</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='ListV.html'>List^V?</a> pop()</code></p>
+
+<p>Remove the last item and return it, or return null if the list is empty.  This method as the same semantics as remove(-1), with the exception of has an empty list is handled.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake()</code></p>
+</dd>
+<dt id='push'>
+push</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> push(<a href='ListV.html'>List^V</a> item)</code></p>
+
+<p>Add the specified item to the end of the list.  Return this. This method has the same semantics as add(item).  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='random'>
+random</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ListV.html'>List^V?</a> random()</code></p>
+
+<p>Return a random item from the list.  If the list is empty return null.  This method is readonly safe.  Also see <code><a href='Int.html#random'>Int.random</a></code>, <code><a href='Float.html#random'>Float.random</a></code>, <code><a href='Range.html#random'>Range.random</a></code>, and <code><a href='../util/Random.html'>Random</a></code>.</p>
+</dd>
+<dt id='reduce'>
+reduce</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Obj.html'>Obj?</a> reduce(<a href='Obj.html'>Obj?</a> init, <a href='Func.html'>Func&lt;<a href='Obj.html'>Obj?</a>,<a href='Obj.html'>Obj?</a>,<a href='ListV.html'>List^V</a>,<a href='Int.html'>Int</a>&gt;</a> c)</code></p>
+
+<p>Reduce is used to iterate through every item in the list to reduce the list into a single value called the reduction. The initial value of the reduction is passed in as the init parameter, then passed back to the closure along with each item.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>list := [1, 2, 3]
+list.reduce(0) |Obj r, Int v->Obj| { return (Int)r + v } => 6</pre>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='ListV.html'>List^V?</a> remove(<a href='ListV.html'>List^V</a> item)</code></p>
+
+<p>Remove the specified value from the list.  The value is compared using the == operator (shortcut for equals method).  Use <code><a href='List.html#removeSame'>removeSame</a></code> to remove with the === operator.  Return the removed value and decrement size by 1.  If the value is not found, then return null. Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='removeAll'>
+removeAll</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> removeAll(<a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> list)</code></p>
+
+<p>Remove every item in this list which is found in the <code>toRemove</code> list using same semantics as <code><a href='List.html#remove'>remove</a></code> (compare for equality via the == operator). If any value is not found, it is ignored.  Return this. Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='removeAt'>
+removeAt</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='ListV.html'>List^V?</a> removeAt(<a href='Int.html'>Int</a> index)</code></p>
+
+<p>Remove the object at the specified index.  A negative index may be used to access an index from the end of the list.  Size is decremented by 1.  Return the item removed.  Throw IndexErr if index is out of range.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='removeRange'>
+removeRange</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='This.html'>This</a> removeRange(<a href='Range.html'>Range</a> r)</code></p>
+
+<p>Remove a range of indices from this list.  Negative indexes may be used to access from the end of the list.  Throw ReadonlyErr if readonly.  Throw IndexErr if range illegal. Return this (*not* the removed items).</p>
+</dd>
+<dt id='removeSame'>
+removeSame</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='ListV.html'>List^V?</a> removeSame(<a href='ListV.html'>List^V</a> item)</code></p>
+
+<p>Remove the item just like <code><a href='List.html#remove'>remove</a></code> except use the === operator instead of the == equals operator.</p>
+</dd>
+<dt id='reverse'>
+reverse</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> reverse()</code></p>
+
+<p>Reverse the order of the items of this list in-place.  Return this. Throw ReadonlyErr if readonly.</p>
+
+<p>Example:</p>
+
+<pre>[1, 2, 3, 4].reverse  =>  [4, 3, 2, 1]</pre>
+</dd>
+<dt id='ro'>
+ro</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> ro()</code></p>
+
+<p>Get a readonly List instance with the same contents as this List (although the items may be mutable themselves).  If this List is already readonly, then return this.  Only methods documented as "readonly safe" may be used safely with a readonly List, all others will throw ReadonlyErr.  This method is readonly safe.  See <code><a href='Obj.html#isImmutable'>Obj.isImmutable</a></code> and <code><a href='Obj.html#toImmutable'>Obj.toImmutable</a></code> for deep immutability.</p>
+</dd>
+<dt id='rw'>
+rw</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> rw()</code></p>
+
+<p>Get a read-write, mutable List instance with the same contents as this List.  If this List is already read-write, then return this. This method is readonly safe.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br />abstract <a href='This.html'>This</a> set(<a href='Int.html'>Int</a> index, <a href='ListV.html'>List^V</a> item)</code></p>
+
+<p>Set is used to overwrite the item at the specified the index.  A negative index may be used to access an index from the end of the list.  The set method is accessed via the []= shortcut operator. If you wish to use List as a sparse array and set values greater then size, then manually set size larger.  Return this.  Throw IndexErr if index is out of range.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='shuffle'>
+shuffle</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> shuffle()</code></p>
+
+<p>Shuffle this list's items into a randomized order. Return this.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Int.html'>Int</a> size</code></p>
+
+<p>The number of items in the list.  Getting size is readonly safe, setting size throws ReadonlyErr if readonly.</p>
+
+<p>If the size is set greater than the current size then the list is automatically grown to be a sparse list with new items defaulting to null.  However if this is a non-nullable list, then growing a list will throw ArgErr.</p>
+
+<p>If the size is set less than the current size then any items with indices past the new size are automatically removed.  Changing size automatically allocates new storage so that capacity exactly matches the new size.</p>
+</dd>
+<dt id='slice'>
+slice</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> slice(<a href='Range.html'>Range</a> r)</code></p>
+
+<p>Return a sub-list based on the specified range</p>
+</dd>
+<dt id='sort'>
+sort</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> sort(<a href='Func.html'>Func&lt;<a href='Int.html'>Int</a>,<a href='ListV.html'>List^V</a>,<a href='ListV.html'>List^V</a>&gt;?</a> c := null)</code></p>
+
+<p>Perform an in-place sort on this list.  If a method is provided it implements the comparator returning -1, 0, or 1.  If the comparator method is null then sorting is based on the value's &lt;=> operator (shortcut for <code>compare</code> method).  Return this. Throw ReadonlyErr if readonly.</p>
+
+<p>Example:</p>
+
+<pre>s := ["candy", "ate", "he"]
+
+s.sort
+// s now evaluates to [ate, candy, he]
+
+s.sort |Str a, Str b->Int| { return a.size &lt;=> b.size }
+// s now evaluates to ["he", "ate", "candy"]</pre>
+</dd>
+<dt id='sortr'>
+sortr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> sortr(<a href='Func.html'>Func&lt;<a href='Int.html'>Int</a>,<a href='ListV.html'>List^V</a>,<a href='ListV.html'>List^V</a>&gt;?</a> c := null)</code></p>
+
+<p>Reverse sort - perform an in-place reverse sort on this list.  If a method is provided it implements the comparator returning -1, 0, or 1.  If the comparator method is null then sorting is based on the items &lt;=> operator (shortcut for <code>compare</code> method).  Return this.  Throw ReadonlyErr if readonly.</p>
+
+<p>Example:</p>
+
+<pre>[3, 2, 4, 1].sortr =>  [4, 3, 2, 1]</pre>
+</dd>
+<dt id='swap'>
+swap</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> swap(<a href='Int.html'>Int</a> indexA, <a href='Int.html'>Int</a> indexB)</code></p>
+
+<p>Swap the items at the two specified indexes.  Negative indexes may used to access an index from the end of the list.  Return this. Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toCode()</code></p>
+
+<p>Get this list as a Fantom expression suitable for code generation. The individual items must all respond to the <code>toCode</code> method.</p>
+</dd>
+<dt id='toImmutable'>
+toImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='List.html'>List&lt;<a href='ListV.html'>List^V</a>&gt;</a> toImmutable()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Str.html'>Str</a> toStr()</code></p>
+
+<p>Return a string representation the list.  This method is readonly safe.</p>
+</dd>
+<dt id='trim'>
+trim</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> trim()</code></p>
+
+<p>Trim the capacity such that the underlying storage is optimized for the current size.  Return this.  Throw ReadonlyErr if readonly.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#make'>make</a></li><li><a href='#privateMake'>privateMake</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#addAll'>addAll</a></li><li><a href='#addIfNotNull'>addIfNotNull</a></li><li><a href='#all'>all</a></li><li><a href='#any'>any</a></li><li><a href='#binaryFind'>binaryFind</a></li><li><a href='#binarySearch'>binarySearch</a></li><li><a href='#capacity'>capacity</a></li><li><a href='#clear'>clear</a></li><li><a href='#contains'>contains</a></li><li><a href='#containsAll'>containsAll</a></li><li><a href='#containsAny'>containsAny</a></li><li><a href='#containsSame'>containsSame</a></li><li><a href='#dup'>dup</a></li><li><a href='#each'>each</a></li><li><a href='#eachRange'>eachRange</a></li><li><a href='#eachWhile'>eachWhile</a></li><li><a href='#eachr'>eachr</a></li><li><a href='#eachrWhile'>eachrWhile</a></li><li><a href='#equals'>equals</a></li><li><a href='#exclude'>exclude</a></li><li><a href='#fill'>fill</a></li><li><a href='#find'>find</a></li><li><a href='#findAll'>findAll</a></li><li><a href='#findIndex'>findIndex</a></li><li><a href='#findrIndex'>findrIndex</a></li><li><a href='#first'>first</a></li><li><a href='#flatMap'>flatMap</a></li><li><a href='#flatten'>flatten</a></li><li><a href='#get'>get</a></li><li><a href='#getRange'>getRange</a></li><li><a href='#getSafe'>getSafe</a></li><li><a href='#hash'>hash</a></li><li><a href='#index'>index</a></li><li><a href='#indexSame'>indexSame</a></li><li><a href='#indexr'>indexr</a></li><li><a href='#insert'>insert</a></li><li><a href='#insertAll'>insertAll</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#isRO'>isRO</a></li><li><a href='#isRW'>isRW</a></li><li><a href='#join'>join</a></li><li><a href='#last'>last</a></li><li><a href='#map'>map</a></li><li><a href='#max'>max</a></li><li><a href='#min'>min</a></li><li><a href='#moveTo'>moveTo</a></li><li><a href='#peek'>peek</a></li><li><a href='#pop'>pop</a></li><li><a href='#push'>push</a></li><li><a href='#random'>random</a></li><li><a href='#reduce'>reduce</a></li><li><a href='#remove'>remove</a></li><li><a href='#removeAll'>removeAll</a></li><li><a href='#removeAt'>removeAt</a></li><li><a href='#removeRange'>removeRange</a></li><li><a href='#removeSame'>removeSame</a></li><li><a href='#reverse'>reverse</a></li><li><a href='#ro'>ro</a></li><li><a href='#rw'>rw</a></li><li><a href='#set'>set</a></li><li><a href='#shuffle'>shuffle</a></li><li><a href='#size'>size</a></li><li><a href='#slice'>slice</a></li><li><a href='#sort'>sort</a></li><li><a href='#sortr'>sortr</a></li><li><a href='#swap'>swap</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toImmutable'>toImmutable</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#trim'>trim</a></li></ul>
+</div>
+</div>
+</body>
+</html>

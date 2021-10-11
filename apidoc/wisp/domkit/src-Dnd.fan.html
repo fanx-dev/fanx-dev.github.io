@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Dnd.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='src-Dnd.fan.html'>Dnd.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Jun 2015  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using dom</span>
+<span id='line11'>using graphics</span>
+<span id='line12'></span>
+<span id='line13'>**************************************************************************</span>
+<span id='line14'>** DragTarget</span>
+<span id='line15'>**************************************************************************</span>
+<span id='line16'></span>
+<span id='line17'>**</span>
+<span id='line18'>** DragTarget converts an Elem into a drag target for</span>
+<span id='line19'>** a drag-and-drop events.</span>
+<span id='line20'>**</span>
+<span id='line21'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Dnd`</span>
+<span id='line22'>**</span>
+<span id='line23'>@Js class DragTarget</span>
+<span id='line24'><b>{</b></span>
+<span id='line25'>  ** Convert given Elem into a drag target.</span>
+<span id='line26'>  static DragTarget bind<b>(</b>Elem elem<b>)</b> <b>{</b> make<b>(</b>elem<b>)</b> <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  ** Private ctor.</span>
+<span id='line29'>  private new make<b>(</b>Elem elem<b>)</b></span>
+<span id='line30'>  <b>{</b></span>
+<span id='line31'>    elem->draggable = true</span>
+<span id='line32'>    elem.onEvent<b>(</b>"dragstart", false<b>)</b> |e|</span>
+<span id='line33'>    <b>{</b></span>
+<span id='line34'>      if <b>(</b>cbDrag == null<b>)</b> return</span>
+<span id='line35'>      data := cbDrag.call<b>(</b>elem<b>)</b></span>
+<span id='line36'>      DndUtil.setData<b>(</b>e.dataTransfer, data<b>)</b></span>
+<span id='line37'>      if <b>(</b>cbDragImage != null<b>)</b></span>
+<span id='line38'>      <b>{</b></span>
+<span id='line39'>        this.dragImage = cbDragImage.call<b>(</b>data<b>)</b></span>
+<span id='line40'>        this.dragImage.style->position = "absolute"</span>
+<span id='line41'>        this.dragImage.style->top      = "-1000px"</span>
+<span id='line42'>        this.dragImage.style->right    = "-1000px"</span>
+<span id='line43'>        Win.cur.doc.body.add<b>(</b>dragImage<b>)</b></span>
+<span id='line44'>        e.dataTransfer.setDragImage<b>(</b>dragImage, 0, 0<b>)</b></span>
+<span id='line45'>      <b>}</b></span>
+<span id='line46'>    <b>}</b></span>
+<span id='line47'>    elem.onEvent<b>(</b>"dragend", false<b>)</b> |e|</span>
+<span id='line48'>    <b>{</b></span>
+<span id='line49'>      if <b>(</b>cbEnd != null<b>)</b> cbEnd<b>(</b>elem<b>)</b></span>
+<span id='line50'>      dragImage?.parent?.remove<b>(</b>dragImage<b>)</b></span>
+<span id='line51'>    <b>}</b></span>
+<span id='line52'>  <b>}</b></span>
+<span id='line53'></span>
+<span id='line54'>  ** Callback to get data payload for drag event.</span>
+<span id='line55'>  Void onDrag<b>(</b>|Elem->Obj| f<b>)</b> <b>{</b> cbDrag = f <b>}</b></span>
+<span id='line56'></span>
+<span id='line57'>  ** Callback to customize the drag image for drag event.</span>
+<span id='line58'>  Void onDragImage<b>(</b>|Obj->Elem| f<b>)</b> <b>{</b> cbDragImage = f <b>}</b></span>
+<span id='line59'></span>
+<span id='line60'>  ** Callback when the drag event has ended.</span>
+<span id='line61'>  Void onEnd<b>(</b>|Elem| f<b>)</b> <b>{</b> cbEnd = f <b>}</b></span>
+<span id='line62'></span>
+<span id='line63'>  private Func? cbDrag</span>
+<span id='line64'>  private Func? cbDragImage</span>
+<span id='line65'>  private Func? cbEnd</span>
+<span id='line66'>  private Elem? dragImage</span>
+<span id='line67'><b>}</b></span>
+<span id='line68'></span>
+<span id='line69'>**************************************************************************</span>
+<span id='line70'>** DropTarget</span>
+<span id='line71'>**************************************************************************</span>
+<span id='line72'></span>
+<span id='line73'>**</span>
+<span id='line74'>** DropTarget converts an Elem into a drop target for drag and drop</span>
+<span id='line75'>** events. The 'canDrop' callback is used to indicate if 'data' can be</span>
+<span id='line76'>** dropped on this target.  The 'onDrop' callback is invoked when a</span>
+<span id='line77'>** drop event completes.</span>
+<span id='line78'>**</span>
+<span id='line79'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Dnd`</span>
+<span id='line80'>**</span>
+<span id='line81'>@Js class DropTarget</span>
+<span id='line82'><b>{</b></span>
+<span id='line83'>  ** Convert given Elem into a drop target.</span>
+<span id='line84'>  static DropTarget bind<b>(</b>Elem elem<b>)</b> <b>{</b> make<b>(</b>elem<b>)</b> <b>}</b></span>
+<span id='line85'></span>
+<span id='line86'>  ** Private ctor.</span>
+<span id='line87'>  private new make<b>(</b>Elem elem<b>)</b></span>
+<span id='line88'>  <b>{</b></span>
+<span id='line89'>    // setup elem positioning if needed</span>
+<span id='line90'>    pos := elem.style<b>[</b>"position"<b>]</b></span>
+<span id='line91'>    if <b>(</b>pos != "relative" || pos != "absolute"<b>)</b> elem.style<b>[</b>"position"<b>]</b> = "relative"</span>
+<span id='line92'></span>
+<span id='line93'>    // setup events</span>
+<span id='line94'>    elem.onEvent<b>(</b>"dragenter", false<b>)</b> |e|</span>
+<span id='line95'>    <b>{</b></span>
+<span id='line96'>      e.stop</span>
+<span id='line97'>      data := DndUtil.getData<b>(</b>e.dataTransfer<b>)</b></span>
+<span id='line98'>      if <b>(</b>_canDrop<b>(</b>data<b>)</b><b>)</b> elem.style.addClass<b>(</b>"domkit-dnd-over"<b>)</b></span>
+<span id='line99'>    <b>}</b></span>
+<span id='line100'>    elem.onEvent<b>(</b>"dragover",  false<b>)</b> |e|</span>
+<span id='line101'>    <b>{</b></span>
+<span id='line102'>      e.stop</span>
+<span id='line103'>      if <b>(</b>cbOver != null<b>)</b></span>
+<span id='line104'>      <b>{</b></span>
+<span id='line105'>        // TODO: need to translate these to pageX,pageY</span>
+<span id='line106'>        Int x := e->clientX</span>
+<span id='line107'>        Int y := e->clientY</span>
+<span id='line108'>        cbOver<b>(</b>Point<b>(</b>x,y<b>)</b><b>)</b></span>
+<span id='line109'>      <b>}</b></span>
+<span id='line110'>    <b>}</b></span>
+<span id='line111'>    elem.onEvent<b>(</b>"dragleave", false<b>)</b> |e|</span>
+<span id='line112'>    <b>{</b></span>
+<span id='line113'>      if <b>(</b>e.target == elem<b>)</b></span>
+<span id='line114'>        elem.style.removeClass<b>(</b>"domkit-dnd-over"<b>)</b></span>
+<span id='line115'>    <b>}</b></span>
+<span id='line116'>    elem.onEvent<b>(</b>"drop", false<b>)</b> |e|</span>
+<span id='line117'>    <b>{</b></span>
+<span id='line118'>      e.stop</span>
+<span id='line119'>      elem.style.removeClass<b>(</b>"domkit-dnd-over"<b>)</b></span>
+<span id='line120'>      data := DndUtil.getData<b>(</b>e.dataTransfer<b>)</b></span>
+<span id='line121'>      if <b>(</b>_canDrop<b>(</b>data<b>)</b><b>)</b> cbDrop?.call<b>(</b>data<b>)</b></span>
+<span id='line122'>    <b>}</b></span>
+<span id='line123'>  <b>}</b></span>
+<span id='line124'></span>
+<span id='line125'>  ** Callback to indicate if 'data' can be dropped on this target.</span>
+<span id='line126'>  Void canDrop<b>(</b>|Obj data->Bool| f<b>)</b> <b>{</b> this.cbCanDrop = f <b>}</b></span>
+<span id='line127'></span>
+<span id='line128'>  ** Callback when 'data' is dropped on this target.</span>
+<span id='line129'>  Void onDrop<b>(</b>|Obj data| f<b>)</b> <b>{</b> this.cbDrop = f <b>}</b></span>
+<span id='line130'></span>
+<span id='line131'>  ** Callback when drag target is over this drop target, where</span>
+<span id='line132'>  ** 'pagePos' is the current drag node.</span>
+<span id='line133'>  Void onOver<b>(</b>|Point pagePos| f<b>)</b> <b>{</b> this.cbOver = f <b>}</b></span>
+<span id='line134'></span>
+<span id='line135'>  private Bool _canDrop<b>(</b>Obj data<b>)</b></span>
+<span id='line136'>  <b>{</b></span>
+<span id='line137'>    cbCanDrop == null ? true : cbCanDrop.call<b>(</b>data<b>)</b></span>
+<span id='line138'>  <b>}</b></span>
+<span id='line139'></span>
+<span id='line140'>  private Func? cbCanDrop</span>
+<span id='line141'>  private Func? cbDrop</span>
+<span id='line142'>  private Func? cbOver</span>
+<span id='line143'>  private Int depth</span>
+<span id='line144'><b>}</b></span>
+<span id='line145'></span>
+<span id='line146'>**************************************************************************</span>
+<span id='line147'>** DndUtil</span>
+<span id='line148'>**************************************************************************</span>
+<span id='line149'></span>
+<span id='line150'>**</span>
+<span id='line151'>** Internal drag and drop utilities.</span>
+<span id='line152'>**</span>
+<span id='line153'>@NoDoc @Js class DndUtil</span>
+<span id='line154'><b>{</b></span>
+<span id='line155'>  ** Global map of data payloads.</span>
+<span id='line156'>  private static Int:Obj map<b>(</b><b>)</b></span>
+<span id='line157'>  <b>{</b></span>
+<span id='line158'>    m := Actor.locals<b>[</b>"domkit.dnd.map"<b>]</b> as Int:Obj</span>
+<span id='line159'>    if <b>(</b>m == null<b>)</b> Actor.locals<b>[</b>"domkit.dnd.map"<b>]</b> = m = Int:Obj<b>[</b>:<b>]</b></span>
+<span id='line160'>    return m</span>
+<span id='line161'>  <b>}</b></span>
+<span id='line162'></span>
+<span id='line163'>  ** Get the data payload for given transfer instance.</span>
+<span id='line164'>  static Obj getData<b>(</b>DataTransfer dt<b>)</b></span>
+<span id='line165'>  <b>{</b></span>
+<span id='line166'>    data := dt.getData<b>(</b>"text/plain"<b>)</b></span>
+<span id='line167'></span>
+<span id='line168'>    if <b>(</b>data.isEmpty<b>)</b></span>
+<span id='line169'>    <b>{</b></span>
+<span id='line170'>      // if we have no data set then most likely this is file</span>
+<span id='line171'>      // being dragged in externally into the browser</span>
+<span id='line172'>      return dt.files</span>
+<span id='line173'>    <b>}</b></span>
+<span id='line174'></span>
+<span id='line175'>    if <b>(</b>data.startsWith<b>(</b>"fandnd:"<b>)</b><b>)</b></span>
+<span id='line176'>    <b>{</b></span>
+<span id='line177'>      // if our own key then return actor local data copy</span>
+<span id='line178'>      key := 0</span>
+<span id='line179'>      try <b>{</b></span>
+<span id='line180'>        key = data<b>[</b>"fandnd:".size..-1<b>]</b>.toInt<b>(</b>10, true<b>)</b></span>
+<span id='line181'>      <b>}</b></span>
+<span id='line182'>      catch <b>{</b></span>
+<span id='line183'>        throw ArgErr<b>(</b>"Drag target not found: $data"<b>)</b></span>
+<span id='line184'>      <b>}</b></span>
+<span id='line185'>      val := map<b>[</b>key<b>]</b> ?: throw ArgErr<b>(</b>"Drag target not found: $key"<b>)</b></span>
+<span id='line186'>      return val</span>
+<span id='line187'>    <b>}</b></span>
+<span id='line188'></span>
+<span id='line189'>    // fallback to return original data</span>
+<span id='line190'>    return data</span>
+<span id='line191'>  <b>}</b></span>
+<span id='line192'></span>
+<span id='line193'>  ** Set the data payload on given transfer instance.</span>
+<span id='line194'>  static Void setData<b>(</b>DataTransfer dt, Obj data<b>)</b></span>
+<span id='line195'>  <b>{</b></span>
+<span id='line196'>    map<b>[</b>data.hash<b>]</b> = data</span>
+<span id='line197'>    dt.setData<b>(</b>"text/plain", "fandnd:$<b>{</b>data.hash.toStr<b>}</b>"<b>)</b></span>
+<span id='line198'>  <b>}</b></span>
+<span id='line199'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

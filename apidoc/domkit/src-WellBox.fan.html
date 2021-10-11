@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WellBox.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='WellBox.html'>WellBox</a></li><li><a href='src-WellBox.fan.html'>WellBox.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2017, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   14 Mar 2017  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** WellBox displays content in a recessed well.</span>
+<span id='line13'>**</span>
+<span id='line14'>@Js class WellBox : Box</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line17'>  <b>{</b></span>
+<span id='line18'>    this.style.addClass<b>(</b>"domkit-WellBox"<b>)</b></span>
+<span id='line19'>  <b>}</b></span>
+<span id='line20'></span>
+<span id='line21'>// TODO: this isn't working right</span>
+<span id='line22'>  ** Return a new 'Elem' merging this 'WellBox' with the given 'header'</span>
+<span id='line23'>  ** element, where 'halign' specifies if 'header' should be left, center,</span>
+<span id='line24'>  ** or right aligned with well.</span>
+<span id='line25'>  @NoDoc Elem mergeHeader<b>(</b>Elem header, Align halign := Align.left<b>)</b></span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    // setup header</span>
+<span id='line28'>    header.style->top = "12px"</span>
+<span id='line29'>    header.style->zIndex = "10"</span>
+<span id='line30'>    switch <b>(</b>halign<b>)</b></span>
+<span id='line31'>    <b>{</b></span>
+<span id='line32'>      case Align.center: header.style->textAlign = "center"</span>
+<span id='line33'>      case Align.right:  header.style->right = "10px"</span>
+<span id='line34'>      default:           header.style->left  = "10px"</span>
+<span id='line35'>    <b>}</b></span>
+<span id='line36'></span>
+<span id='line37'>    // setup well</span>
+<span id='line38'>    this.style->paddingTop = "24px"</span>
+<span id='line39'></span>
+<span id='line40'>    // merge elements</span>
+<span id='line41'>    return Box</span>
+<span id='line42'>    <b>{</b></span>
+<span id='line43'>      it.style->marginTop = "-12px"</span>
+<span id='line44'>      header,</span>
+<span id='line45'>      this,</span>
+<span id='line46'>    <b>}</b></span>
+<span id='line47'>  <b>}</b></span>
+<span id='line48'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::Button</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Button.html'>Button</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::Button</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    domkit::Button</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Button.fan.html'>Source</a></p>
+
+<p>Button is a widget that invokes an action when pressed.</p>
+
+<p>See also: <a href='docDomkit::Controls#button'>docDomkit</a>, <code><a href='ToggleButton.html'>ToggleButton</a></code>, <code><a href='ListButton.html'>ListButton</a></code></p>
+<dl>
+<dt id='enabled'>
+enabled</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool?</a> enabled</code></p>
+<p class='src'>
+<a href='src-Button.fan.html#line125'>Source</a></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-Button.fan.html'>Source</a></p>
+</dd>
+<dt id='onAction'>
+onAction</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onAction(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Button.fan.html#line68'>Source</a></p>
+
+<p>Callback when button action is invoked.</p>
+</dd>
+<dt id='onPopup'>
+onPopup</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onPopup(<a href='../sys/Func.html'>Func&lt;<a href='Popup.html'>Popup</a>,<a href='Button.html'>Button</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Button.fan.html#line71'>Source</a></p>
+
+<p>Callback to create Popup to display when button is pressed.</p>
+</dd>
+<dt id='openPopup'>
+openPopup</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> openPopup()</code></p>
+<p class='src'>
+<a href='src-Button.fan.html#line82'>Source</a></p>
+
+<p>Programmatically open popup, or do nothing if no popup defined.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Button.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#enabled'>enabled</a></li><li><a href='#onAction'>onAction</a></li><li><a href='#onPopup'>onPopup</a></li><li><a href='#openPopup'>openPopup</a></li></ul>
+</div>
+</div>
+</body>
+</html>

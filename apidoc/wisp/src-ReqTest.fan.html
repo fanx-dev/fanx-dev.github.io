@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>ReqTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>wisp</a></li><li><a href='src-ReqTest.fan.html'>ReqTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   27 Jul 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using inet</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** ReqTest</span>
+<span id='line13'>**</span>
+<span id='line14'>class ReqTest : Test</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>  Void testBasic<b>(</b><b>)</b></span>
+<span id='line18'>  <b>{</b></span>
+<span id='line19'>    verifyReq<b>(</b></span>
+<span id='line20'>      "GET / HTTP/1.0\r\n" +</span>
+<span id='line21'>      "Host: foobar\r\n" +</span>
+<span id='line22'>      "Extra1:  space\r\n" +</span>
+<span id='line23'>      "Extra2: space  \r\n" +</span>
+<span id='line24'>      "Cont: one two \r\n" +</span>
+<span id='line25'>      "  three\r\n" +</span>
+<span id='line26'>      "\tfour\r\n" +</span>
+<span id='line27'>      "Coalesce: a,b\r\n" +</span>
+<span id='line28'>      "Coalesce: c\r\n" +</span>
+<span id='line29'>      "Coalesce:  d\r\n" +</span>
+<span id='line30'>      "\r\n",</span>
+<span id='line31'></span>
+<span id='line32'>      "GET", `/`,</span>
+<span id='line33'>      <b>[</b></span>
+<span id='line34'>        "Host":     "foobar",</span>
+<span id='line35'>        "Extra1":   "space",</span>
+<span id='line36'>        "Extra2":   "space",</span>
+<span id='line37'>        "Cont":     "one two three four",</span>
+<span id='line38'>        "Coalesce": "a,b,c,d",</span>
+<span id='line39'>      <b>]</b><b>)</b></span>
+<span id='line40'>  <b>}</b></span>
+<span id='line41'></span>
+<span id='line42'>  Void verifyReq<b>(</b>Str s, Str method, Uri uri, <b>[</b>Str:Str<b>]</b> headers<b>)</b></span>
+<span id='line43'>  <b>{</b></span>
+<span id='line44'>  /*</span>
+<span id='line45'>    req := WispReq.makeTest<b>(</b>s.in<b>)</b></span>
+<span id='line46'>    WispThread.parseReq<b>(</b>req<b>)</b></span>
+<span id='line47'>    verifyEq<b>(</b>req.method,  method<b>)</b></span>
+<span id='line48'>    verifyEq<b>(</b>req.uri,     uri<b>)</b></span>
+<span id='line49'>    verifyEq<b>(</b>req.headers, headers<b>)</b></span>
+<span id='line50'>    // echo<b>(</b>req.headers<b>)</b></span>
+<span id='line51'>  */</span>
+<span id='line52'>  <b>}</b></span>
+<span id='line53'></span>
+<span id='line54'>  static Void main<b>(</b>Str<b>[</b><b>]</b> args := Env.cur.args<b>)</b></span>
+<span id='line55'>  <b>{</b></span>
+<span id='line56'>    uri := args.first.toUri</span>
+<span id='line57'>    socket := TcpSocket.make</span>
+<span id='line58'>    socket.connect<b>(</b>IpAddr<b>(</b>uri.host<b>)</b>, uri.port<b>)</b></span>
+<span id='line59'>    socket.out.print<b>(</b>"GET $uri.pathStr HTTP/1.1\r\n"<b>)</b></span>
+<span id='line60'>    socket.out.print<b>(</b>"Host: $uri.host\r\n"<b>)</b></span>
+<span id='line61'>    socket.out.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line62'>    socket.out.flush</span>
+<span id='line63'>    while <b>(</b>true<b>)</b></span>
+<span id='line64'>    <b>{</b></span>
+<span id='line65'>      line := socket.in.readLine</span>
+<span id='line66'>      if <b>(</b>line.isEmpty<b>)</b> break</span>
+<span id='line67'>      echo<b>(</b>line<b>)</b></span>
+<span id='line68'>    <b>}</b></span>
+<span id='line69'>    socket.close</span>
+<span id='line70'>  <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

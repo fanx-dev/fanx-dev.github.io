@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::CompilerSupport</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='CompilerSupport.html'>CompilerSupport</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::CompilerSupport</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compiler::CompilerSupport</pre>
+
+<p>CompilerSupport provides lots of convenience methods for classes used during the compiler pipeline.</p>
+<dl>
+<dt id='addTypeDef'>
+addTypeDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> addTypeDef(<a href='TypeDef.html'>TypeDef</a> t)</code></p>
+
+<p>Add a synthetic type</p>
+</dd>
+<dt id='bombIfErr'>
+bombIfErr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> bombIfErr()</code></p>
+
+<p>If any errors are accumulated, then throw the first one</p>
+</dd>
+<dt id='compiler'>
+compiler</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Compiler.html'>Compiler</a> compiler()</code></p>
+
+<p>Get the compiler.</p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CompilerErr.html'>CompilerErr</a> err(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Create, log, and return a CompilerErr.</p>
+</dd>
+<dt id='errReport'>
+errReport</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerErr.html'>CompilerErr</a> errReport(<a href='CompilerErr.html'>CompilerErr</a> e)</code></p>
+
+<p>Log, store, and return the specified CompilerErr.</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerLog.html'>CompilerLog</a> log()</code></p>
+
+<p>Convenience for compiler.log</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler)</code></p>
+
+<p>Constructor takes the associated Compiler</p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CNamespace.html'>CNamespace</a> ns()</code></p>
+
+<p>Convenience for compiler.ns</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='PodDef.html'>PodDef</a> pod()</code></p>
+
+<p>Convenience for compiler.pod</p>
+</dd>
+<dt id='removeTypeDef'>
+removeTypeDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> removeTypeDef(<a href='TypeDef.html'>TypeDef</a> t)</code></p>
+
+<p>Remove a synthetic type</p>
+</dd>
+<dt id='suppressErr'>
+suppressErr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> suppressErr := false</code></p>
+</dd>
+<dt id='syntheticsUnit'>
+syntheticsUnit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilationUnit.html'>CompilationUnit</a> syntheticsUnit()</code></p>
+
+<p>Get default compilation unit to use for synthetic definitions such as wrapper types.</p>
+</dd>
+<dt id='types'>
+types</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='TypeDef.html'>TypeDef</a>&gt;</a> types()</code></p>
+
+<p>Convenience for compiler.types</p>
+</dd>
+<dt id='units'>
+units</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CompilationUnit.html'>CompilationUnit</a>&gt;</a> units()</code></p>
+
+<p>Convenience for compiler.pod.units</p>
+</dd>
+<dt id='warn'>
+warn</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CompilerErr.html'>CompilerErr</a> warn(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Create, log, and return a warning CompilerErr.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addTypeDef'>addTypeDef</a></li><li><a href='#bombIfErr'>bombIfErr</a></li><li><a href='#compiler'>compiler</a></li><li><a href='#err'>err</a></li><li><a href='#errReport'>errReport</a></li><li><a href='#log'>log</a></li><li><a href='#ns'>ns</a></li><li><a href='#pod'>pod</a></li><li><a href='#removeTypeDef'>removeTypeDef</a></li><li><a href='#suppressErr'>suppressErr</a></li><li><a href='#syntheticsUnit'>syntheticsUnit</a></li><li><a href='#types'>types</a></li><li><a href='#units'>units</a></li><li><a href='#warn'>warn</a></li></ul>
+</div>
+</div>
+</body>
+</html>

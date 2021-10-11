@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SvgDecoder.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='SvgDecoder.html'>SvgDecoder</a></li><li><a href='src-SvgDecoder.fan.html'>SvgDecoder.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   18 Mar 2021  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** Decodes a SVG file into an `Image`</span>
+<span id='line11'>**</span>
+<span id='line12'>@NoDoc @Js class SvgDecoder</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line16'>// Construction</span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'></span>
+<span id='line19'>  ** Creates a SVG decoder for the given stream. The stream will</span>
+<span id='line20'>  ** not be closed after decoding.</span>
+<span id='line21'>  new make<b>(</b>InStream in<b>)</b></span>
+<span id='line22'>  <b>{</b></span>
+<span id='line23'>    this.in = in</span>
+<span id='line24'>  <b>}</b></span>
+<span id='line25'></span>
+<span id='line26'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line27'>// Identity</span>
+<span id='line28'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line29'></span>
+<span id='line30'>  ** SVG mime type</span>
+<span id='line31'>  static const MimeType mime := MimeType<b>(</b>"image/svg+xml"<b>)</b></span>
+<span id='line32'></span>
+<span id='line33'>  ** Returns true if Buf starts looks like XML</span>
+<span id='line34'>  static Bool isSvg<b>(</b>Buf buf<b>)</b></span>
+<span id='line35'>  <b>{</b></span>
+<span id='line36'>    if <b>(</b>buf<b>[</b>0<b>]</b> != '&lt;'<b>)</b> return false</span>
+<span id='line37'>    if <b>(</b>buf<b>[</b>1<b>]</b> == 's' &amp;&amp; buf<b>[</b>2<b>]</b> == 'v' &amp;&amp; buf<b>[</b>3<b>]</b> == 'g'<b>)</b> return true</span>
+<span id='line38'>    if <b>(</b>buf<b>[</b>1<b>]</b> == '?' &amp;&amp; buf<b>[</b>2<b>]</b> == 'x' &amp;&amp; buf<b>[</b>3<b>]</b> == 'm' &amp;&amp; buf<b>[</b>4<b>]</b> == 'l'<b>)</b> return true</span>
+<span id='line39'>    return false</span>
+<span id='line40'>  <b>}</b></span>
+<span id='line41'></span>
+<span id='line42'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line43'>// Decode</span>
+<span id='line44'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line45'></span>
+<span id='line46'>  Image decode<b>(</b><b>)</b></span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    width  := 100f</span>
+<span id='line49'>    height := 100f</span>
+<span id='line50'></span>
+<span id='line51'>    // simple mechanism to get size from viewbox with parsing XML</span>
+<span id='line52'>    str := in.readAllStr</span>
+<span id='line53'>    attrName := "viewBox="</span>
+<span id='line54'>    attri := str.index<b>(</b>attrName<b>)</b></span>
+<span id='line55'>    if <b>(</b>attri != null<b>)</b></span>
+<span id='line56'>    <b>{</b></span>
+<span id='line57'>      attri += attrName.size</span>
+<span id='line58'>      quote := str<b>[</b>attri<b>]</b></span>
+<span id='line59'>      endi := str.index<b>(</b>quote.toChar, attri+1<b>)</b></span>
+<span id='line60'>      val := str<b>[</b>attri..&lt;endi<b>]</b></span>
+<span id='line61'>      nums := val.split</span>
+<span id='line62'>      width = Float<b>(</b>nums<b>[</b>2<b>]</b><b>)</b></span>
+<span id='line63'>      height = Float<b>(</b>nums<b>[</b>3<b>]</b><b>)</b></span>
+<span id='line64'>    <b>}</b></span>
+<span id='line65'></span>
+<span id='line66'>    return Image</span>
+<span id='line67'>    <b>{</b></span>
+<span id='line68'>      it.mime  = SvgDecoder.mime</span>
+<span id='line69'>      it.size  = Size<b>(</b>width, height<b>)</b></span>
+<span id='line70'>      it.props = Str:Obj<b>[</b>:<b>]</b></span>
+<span id='line71'>    <b>}</b></span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line75'>// Fields</span>
+<span id='line76'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line77'></span>
+<span id='line78'>  private InStream in</span>
+<span id='line79'><b>}</b></span>
+<span id='line80'></span>
+</pre>
+</div>
+</body>
+</html>

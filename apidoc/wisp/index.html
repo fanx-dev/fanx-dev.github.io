@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>wisp</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>wisp</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>pod</span> wisp</h1>
+<p>
+Wisp web Server</p>
+<h2>Mixins</h2>
+<table>
+<tr>
+<td><a href='WispSessionStore.html'>WispSessionStore</a></td>
+<td>
+<p>Pluggable hooks for Wisp session storage.</p>
+</td>
+</tr>
+</table>
+<h2>Classes</h2>
+<table>
+<tr>
+<td><a href='WispDefaultErrMod.html'>WispDefaultErrMod</a></td>
+<td>
+<p>WispDefaultErrMod</p>
+</td>
+</tr>
+<tr>
+<td><a href='WispService.html'>WispService</a></td>
+<td>
+<p>Simple web server services HTTP/HTTPS requests to a top-level root WebMod.</p>
+</td>
+</tr>
+</table>
+</div>
+<div class='sidebar'>
+<h3>All Types</h3>
+<ul>
+<li><a href='WispDefaultErrMod.html'>WispDefaultErrMod</a></li><li><a href='WispService.html'>WispService</a></li><li><a href='WispSessionStore.html'>WispSessionStore</a></li></ul>
+</div>
+</div>
+<div class='mainSidebar'>
+<div class='main pod-doc' id='pod-doc'>
+
+<h2 id='overview'>Overview</h2>
+
+<p>Fantom comes bundled with the <code><a href='WispService.html'>WispService</a></code> which implements a web server purely in Fantom code - so you can use it without the fuss of setting up additional software.</p>
+
+<h2 id='setup'>Test Setup</h2>
+
+<p>You can run a test wisp server straight from fansh using a configurable port:</p>
+
+<pre>fansh> wisp::WispService { httpPort = 8080 }.start
+fan.wisp.WispService@5a9de6
+[16:22:49 30-Nov-09] [info] [web] http started on port 8080</pre>
+
+<p>If it is running correctly you should be able to hit <a href='http://localhost:8080/'>http://localhost:8080/</a> and see the test page.</p>
+
+<h2 id='config'>Configuration</h2>
+
+<p>Wisp is easily configured by installing a root WebMod which is responsible for serving all requests to the server.  Typically you will install a composition <a href='../webmod/index.html'>WebMod</a> to setup your pipeline and routing configuration.</p>
+
+<p>See the following examples for how to setup a daemon script with various WebMod configurations:</p>
+
+<ul>
+<li><a href='https://fantom.org/doc/examples/web-hello'>web-hello</a>: single, simple custom root webmod</li>
+
+<li><a href='https://fantom.org/doc/examples/web-demo'>web-demo</a>: illustrates use of many different webmods</li>
+
+<li><a href='https://fantom.org/doc/examples/js-demo'>js-demo</a>: configuration used to serve up FWT in browser examples</li>
+</ul>
+
+<h2 id='https'>HTTPS Configuration</h2>
+
+<p>Wisp can be configured to serve HTTPS connection by setting the https port with the <code>-httpsPort</code> option. Wisp requires a <strong>keystore</strong> to serve https connections. A keystore is a repository of security certificates (either authorization or public key certificates) that can be used for TLS encryption. The keystore should contain the public and private key for your web server.</p>
+
+<p>Wisp uses the following conventions for loading the keystore:</p>
+
+<ol style='list-style-type:decimal'>
+<li>The keystore must be PKCS12 formatted</li>
+
+<li>The keystore must have password "changeit"</li>
+
+<li>The keystore must have name <code>keystore.p12</code></li>
+
+<li>The keystore must reside in <code>etc/inet/keystore.p12</code> of your Fantom installation</li>
+</ol>
+
+<p>Java provides a utility called <code>keytool</code> that can be used for generating and managing keystore files. For testing purposes, you can create a self-signed certificate and add it to a new pkcs12 keystore using the following command (make sure to use "changeit" as the password when prompted):</p>
+
+<pre>$ keytool -genkey \
+          -alias my.domain.com \
+          -keyalg RSA \
+          -storetype pkcs12 \
+          -keystore /path/to/etc/inet/keystore.p12</pre>
+
+<p>The following <a href='https://www.digitalocean.com/community/tutorials/java-keytool-essentials-working-with-java-keystores'>article</a> contains many useful examples of working with keystores. The examples all use the JKS keystore format, so make sure to add the <code>-storetype pkcs12</code> option if you attempt to duplicate any of the commands.</p>
+
+<p>If you have a JKS formatted keystore, you can convert it to PKCS12 using the following command:</p>
+
+<pre>$ keytool -importkeystore \
+          -srckeystore keystore.jks \
+          -srcalias my.domain.com \
+          -destkeystore keystore.p12 \
+          -deststoretype PKCS12</pre>
+
+<h2 id='main'>wisp::Main</h2>
+
+<p>For the common case where a single WebMod is used, wisp can be run directly from the command line:</p>
+
+<pre>$ fan wisp
+Usage:
+  wisp [options] &lt;mod>
+Arguments:
+  mod    qualified type name for WebMod to run
+Options:
+  -help, -?           Print usage help
+  -addr &lt;Str>         IP address to bind to
+  -httpPort &lt;Int>     IP port to bind for HTTP (default 8080)
+  -httpsPort &lt;Int>    IP port to bind for HTTPS (disabled unless set)</pre>
+
+<p>For example:</p>
+
+<pre>$ fan wisp myPod::MyWebMod
+[16:43:16 17-Jul-15] [info] [web] http started on port 8080</pre>
+</div>
+<div class='sidebar'>
+<h3>Contents</h3>
+<ul>
+<li><a href='#overview'>Overview</a></li><li><a href='#setup'>Test Setup</a></li><li><a href='#config'>Configuration</a></li><li><a href='#https'>HTTPS Configuration</a></li><li><a href='#main'>wisp::Main</a></li></ul>
+</div>
+</div>
+</body>
+</html>

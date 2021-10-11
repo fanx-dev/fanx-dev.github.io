@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>webmod::FileMod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>webmod</a></li><li><a href='FileMod.html'>FileMod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> webmod::FileMod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../web/WebMod.html'>web::WebMod</a>
+    webmod::FileMod</pre>
+<p class='src'>
+<a href='src-FileMod.fan.html'>Source</a></p>
+
+<p>FileMod is a web module which publishes a file or directory.</p>
+
+<p>See <a href='index.html#file'>pod doc</a></p>
+<dl>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/File.html'>File</a> file</code></p>
+<p class='src'>
+<a href='src-FileMod.fan.html#line24'>Source</a></p>
+
+<p>File or directory to publish.  This field must be configured in the constructor's it-block.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f)</code></p>
+<p class='src'>
+<a href='src-FileMod.fan.html'>Source</a></p>
+
+<p>Constructor with it-block, must set <code><a href='FileMod.html#file'>file</a></code></p>
+</dd>
+<dt id='onService'>
+onService</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onService()</code></p>
+<p class='src'>
+<a href='src-FileMod.fan.html#line29'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-FileMod.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#file'>file</a></li><li><a href='#onService'>onService</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::MutationRec</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='MutationRec.html'>MutationRec</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> dom::MutationRec</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::MutationRec</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line49'>Source</a></p>
+
+<p>MutationRec represents an individual DOM mutation.</p>
+<dl>
+<dt id='added'>
+added</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Elem.html'>Elem</a>&gt;</a> added</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line68'>Source</a></p>
+
+<p>List of nodes added, or empyt list if no nodes added.</p>
+</dd>
+<dt id='attr'>
+attr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> attr</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line82'>Source</a></p>
+
+<p>Name of the changed attribute, or null if no attribute was changed.</p>
+</dd>
+<dt id='attrNs'>
+attrNs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> attrNs</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line85'>Source</a></p>
+
+<p>Namespace of the changed attribute, or null if no attribute was changed.</p>
+</dd>
+<dt id='nextSibling'>
+nextSibling</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Elem.html'>Elem?</a> nextSibling</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line78'>Source</a></p>
+
+<p>Next sibling of the added or removed nodes, or null if no nodes added or removed.</p>
+</dd>
+<dt id='oldVal'>
+oldVal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> oldVal</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line88'>Source</a></p>
+
+<p>Old value, depending on <code>type</code>:</p>
+
+<ul>
+<li>For "attrs", it is the value of the changed attribute before the change</li>
+
+<li>For "charData", it is the data of the changed node before the change</li>
+
+<li>For "childList", it is null</li>
+</ul>
+</dd>
+<dt id='prevSibling'>
+prevSibling</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Elem.html'>Elem?</a> prevSibling</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line74'>Source</a></p>
+
+<p>Previous sibling of the added or removed nodes, or null if not nodes added or removed.</p>
+</dd>
+<dt id='removed'>
+removed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Elem.html'>Elem</a>&gt;</a> removed</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line71'>Source</a></p>
+
+<p>List of nodes removed, or empty list if no nodes removed.</p>
+</dd>
+<dt id='target'>
+target</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Elem.html'>Elem</a> target</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line62'>Source</a></p>
+
+<p>Target node that mutation affected, depending on the <code>type</code>:</p>
+
+<ul>
+<li>For "attrs", it is the element whose attribute changed</li>
+
+<li>For "charData", it is the CharacterData node</li>
+
+<li>For "childList", it is the node whose children changed</li>
+</ul>
+</dd>
+<dt id='type'>
+type</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> type</code></p>
+<p class='src'>
+<a href='src-MutationObserver.fan.html#line56'>Source</a></p>
+
+<p>Mutation type:</p>
+
+<ul>
+<li>"attrs" if the mutation was an attribute mutation</li>
+
+<li>"charData" if it was a mutation to a CharacterData node</li>
+
+<li>"childList" if it was a mutation to the tree of nodes</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-MutationObserver.fan.html#line49'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#added'>added</a></li><li><a href='#attr'>attr</a></li><li><a href='#attrNs'>attrNs</a></li><li><a href='#nextSibling'>nextSibling</a></li><li><a href='#oldVal'>oldVal</a></li><li><a href='#prevSibling'>prevSibling</a></li><li><a href='#removed'>removed</a></li><li><a href='#target'>target</a></li><li><a href='#type'>type</a></li></ul>
+</div>
+</div>
+</body>
+</html>

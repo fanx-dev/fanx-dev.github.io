@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::Coerce</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='Coerce.html'>Coerce</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> compilerx::Coerce</h1>
+<pre>compilerx::Coerce</pre>
+<dl>
+<dt id='canCoerce'>
+canCoerce</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> canCoerce(<a href='Expr.html'>Expr</a> expr, <a href='CType.html'>CType</a> expected)</code></p>
+
+<p>Return if <code><a href='Coerce.html#coerce'>coerce</a></code> would not report a compiler error.</p>
+</dd>
+<dt id='coerce'>
+coerce</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Expr.html'>Expr</a> coerce(<a href='Expr.html'>Expr</a> expr, <a href='CType.html'>CType</a> expected, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;</a> onErr)</code></p>
+
+<p>Coerce the target expression to the specified type.  If the expression is not type compatible run the onErr function.</p>
+</dd>
+<dt id='doCoerce'>
+doCoerce</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Expr.html'>Expr</a> doCoerce(<a href='Expr.html'>Expr</a> expr, <a href='CType.html'>CType</a> expected, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;</a> onErr)</code></p>
+
+<p>Coerce the target expression to the specified type.  If the expression is not type compatible run the onErr function. Default Fantom behavior.</p>
+</dd>
+<dt id='isFuncAutoCoerce'>
+isFuncAutoCoerce</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isFuncAutoCoerce(<a href='CType.html'>CType</a> actual, <a href='CType.html'>CType</a> expected)</code></p>
+</dd>
+<dt id='needCoerce'>
+needCoerce</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> needCoerce(<a href='CType.html'>CType</a> from, <a href='CType.html'>CType</a> to)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#canCoerce'>canCoerce</a></li><li><a href='#coerce'>coerce</a></li><li><a href='#doCoerce'>doCoerce</a></li><li><a href='#isFuncAutoCoerce'>isFuncAutoCoerce</a></li><li><a href='#needCoerce'>needCoerce</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

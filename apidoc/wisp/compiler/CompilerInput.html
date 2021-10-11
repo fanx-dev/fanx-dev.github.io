@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::CompilerInput</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='CompilerInput.html'>CompilerInput</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compiler::CompilerInput</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compiler::CompilerInput</pre>
+
+<p>CompilerInput encapsulates all the input needed run the compiler. The compiler can be run in one of two modes - file or str.  In file mode the source code and resource files are read from the file system.  In str mode we compile a single source file from an in-memory string.</p>
+<dl>
+<dt id='baseDir'>
+baseDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File?</a> baseDir</code></p>
+
+<p>Base directory of source tree - this directory is used to create the relative paths of the source and resource files in the pod zip.</p>
+</dd>
+<dt id='compileJs'>
+compileJs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> compileJs := false</code></p>
+</dd>
+<dt id='depends'>
+depends</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Depend.html'>Depend</a>&gt;</a> depends := Depend[,]</code></p>
+
+<p>List of this pod's dependencies used for both the compiler checking and output in the pod's manifest.</p>
+</dd>
+<dt id='docTests'>
+docTests</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> docTests := false</code></p>
+
+<p>If set to true, then generate apidocs for test subclasses</p>
+</dd>
+<dt id='fcodeDump'>
+fcodeDump</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> fcodeDump := false</code></p>
+
+<p>If set to true, then disassembled fcode is dumped to <code>log.out</code>.</p>
+</dd>
+<dt id='includeDoc'>
+includeDoc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> includeDoc := false</code></p>
+
+<p>Include fandoc in output pod, default is false</p>
+</dd>
+<dt id='includeSrc'>
+includeSrc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> includeSrc := false</code></p>
+
+<p>Include source code in output pod, default is false</p>
+</dd>
+<dt id='index'>
+index</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> index := Map&lt;Str,Obj>[:]</code></p>
+
+<p>Pod indexing name/value pairs.  The index values can be a single Str or a Str[] if there are multiple values mapped to one key.</p>
+</dd>
+<dt id='inputLoc'>
+inputLoc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Loc.html'>Loc</a> inputLoc := Loc.&lt;ctor>(&quot;CompilerInput&quot;)</code></p>
+
+<p>Location to use for reporting errors associated with the input itself - typically this is mapped to the build script.</p>
+</dd>
+<dt id='isScript'>
+isScript</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isScript := false</code></p>
+
+<p>Flag to indicate if we are are compiling a script.  Scripts don't require explicit depends and can import any type via the using statement or with qualified type names.</p>
+</dd>
+<dt id='isTest'>
+isTest</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isTest := false</code></p>
+
+<p>Is this compile process being run inside a test, default is false</p>
+</dd>
+<dt id='jsFiles'>
+jsFiles</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> jsFiles</code></p>
+
+<p>List of JavaScript files or directories containing JavaScript files to include in the JavaScript output.  Uris are relative to <code><a href='CompilerInput.html#baseDir'>baseDir</a></code>. This field is used only in file mode.</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerLog.html'>CompilerLog</a> log := CompilerLog.make</code></p>
+
+<p>Log used for reporting compile status</p>
+</dd>
+<dt id='meta'>
+meta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> meta := Map&lt;Str,Str>[:]</code></p>
+
+<p>Pod meta-data name/value pairs</p>
+</dd>
+<dt id='mode'>
+mode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerInputMode.html'>CompilerInputMode?</a> mode := null</code></p>
+
+<p>This mode determines whether the source code is input from the file system or from an in-memory string.</p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CNamespace.html'>CNamespace</a> ns := FPodNamespace.&lt;ctor>(null)</code></p>
+
+<p>Namespace used to resolve dependency pods/types. Default implementation uses reflection of the compiler's VM.</p>
+</dd>
+<dt id='outDir'>
+outDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File</a> outDir := Env.cur().workDir() + `lib/fan/`</code></p>
+
+<p>Output directory to write pod to, defaults to the current environment's working lib directory</p>
+</dd>
+<dt id='output'>
+output</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerOutputMode.html'>CompilerOutputMode?</a> output := null</code></p>
+
+<p>What type of output should be generated - the compiler can be used to generate a transient in-memory pod, write a pod zip file to disk, or generate JavaScript code.</p>
+</dd>
+<dt id='podName'>
+podName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> podName</code></p>
+
+<p>Name of output pod - required in all modes.</p>
+</dd>
+<dt id='resFiles'>
+resFiles</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> resFiles</code></p>
+
+<p>List of resource files or directories containing resource files to include in the pod zip.  Uris are relative to <code><a href='CompilerInput.html#baseDir'>baseDir</a></code>. This field is used only in file mode.  If a file has a "jar" extension then its contents are unzipped into the target pod.</p>
+</dd>
+<dt id='srcFiles'>
+srcFiles</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> srcFiles</code></p>
+
+<p>List of Fantom source files or directories containing Fantom source files to compile.  Uris are relative to <code><a href='CompilerInput.html#baseDir'>baseDir</a></code>.  This field is used only in file mode.</p>
+</dd>
+<dt id='srcStr'>
+srcStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> srcStr</code></p>
+
+<p>Fantom source code to compile (str mode only)</p>
+</dd>
+<dt id='srcStrLoc'>
+srcStrLoc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Loc.html'>Loc?</a> srcStrLoc</code></p>
+
+<p>Location to use for SourceFile facet (str mode only)</p>
+</dd>
+<dt id='summary'>
+summary</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> summary</code></p>
+
+<p>Summary description for pod</p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Version.html'>Version?</a> version</code></p>
+
+<p>Version to include in ouput pod's manifest.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#baseDir'>baseDir</a></li><li><a href='#compileJs'>compileJs</a></li><li><a href='#depends'>depends</a></li><li><a href='#docTests'>docTests</a></li><li><a href='#fcodeDump'>fcodeDump</a></li><li><a href='#includeDoc'>includeDoc</a></li><li><a href='#includeSrc'>includeSrc</a></li><li><a href='#index'>index</a></li><li><a href='#inputLoc'>inputLoc</a></li><li><a href='#isScript'>isScript</a></li><li><a href='#isTest'>isTest</a></li><li><a href='#jsFiles'>jsFiles</a></li><li><a href='#log'>log</a></li><li><a href='#meta'>meta</a></li><li><a href='#mode'>mode</a></li><li><a href='#ns'>ns</a></li><li><a href='#outDir'>outDir</a></li><li><a href='#output'>output</a></li><li><a href='#podName'>podName</a></li><li><a href='#resFiles'>resFiles</a></li><li><a href='#srcFiles'>srcFiles</a></li><li><a href='#srcStr'>srcStr</a></li><li><a href='#srcStrLoc'>srcStrLoc</a></li><li><a href='#summary'>summary</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

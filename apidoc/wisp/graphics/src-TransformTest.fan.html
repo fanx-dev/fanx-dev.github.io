@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>TransformTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='src-TransformTest.fan.html'>TransformTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2017, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   2 May 2017  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** TransformTest</span>
+<span id='line11'>**</span>
+<span id='line12'>class TransformTest : Test</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'>  Void test<b>(</b><b>)</b></span>
+<span id='line15'>  <b>{</b></span>
+<span id='line16'>    // core multiplication</span>
+<span id='line17'>    a := Transform<b>(</b>1f, 2f, 3f, 4f, 5f, 6f<b>)</b></span>
+<span id='line18'>    b := Transform<b>(</b>7f, 8f, 9f, 10f, 11f, 12f<b>)</b></span>
+<span id='line19'>    c := a * b</span>
+<span id='line20'>    verifyTransform<b>(</b>c, "31 46 39 58 52 76"<b>)</b></span>
+<span id='line21'>    verifyTransform<b>(</b>Transform<b>(</b>"matrix<b>(</b>31 46 39 58 52 76"<b>)</b>, "31 46 39 58 52 76"<b>)</b></span>
+<span id='line22'>    verifyTransform<b>(</b>Transform<b>(</b>"matrix<b>(</b>31,46,39,58,52,76"<b>)</b>, "31 46 39 58 52 76"<b>)</b></span>
+<span id='line23'>    verifyTransform<b>(</b>Transform<b>(</b>"matrix<b>(</b>31, 46, 39, 58, 52, 76"<b>)</b>, "31 46 39 58 52 76"<b>)</b></span>
+<span id='line24'>    verifyTransform<b>(</b>Transform<b>(</b>"matrix<b>(</b>31 ,  46 ,  39 ,  58 ,  52 ,  76"<b>)</b>, "31 46 39 58 52 76"<b>)</b></span>
+<span id='line25'></span>
+<span id='line26'>    // transform</span>
+<span id='line27'>    verifyTransform<b>(</b>Transform.translate<b>(</b>50f, 90f<b>)</b>,  "1 0 0 1 50 90"<b>)</b></span>
+<span id='line28'>    verifyTransform<b>(</b>Transform<b>(</b>"translate <b>(</b> 50 90 <b>)</b> "<b>)</b>,  "1 0 0 1 50 90"<b>)</b></span>
+<span id='line29'>    verifyTransform<b>(</b>Transform<b>(</b>"translate  <b>(</b>  50  <b>)</b> "<b>)</b>,  "1 0 0 1 50 0"<b>)</b></span>
+<span id='line30'></span>
+<span id='line31'>    // scale</span>
+<span id='line32'>    verifyTransform<b>(</b>Transform.scale<b>(</b>2f, 3f<b>)</b>,  "2 0 0 3 0 0"<b>)</b></span>
+<span id='line33'>    verifyTransform<b>(</b>Transform<b>(</b>"scale<b>(</b>2 3<b>)</b>"<b>)</b>,   "2 0 0 3 0 0"<b>)</b></span>
+<span id='line34'>    verifyTransform<b>(</b>Transform<b>(</b>"scale<b>(</b>2<b>)</b>"<b>)</b>,   "2 0 0 2 0 0"<b>)</b></span>
+<span id='line35'></span>
+<span id='line36'>    // rotate</span>
+<span id='line37'>    verifyTransform<b>(</b>Transform.rotate<b>(</b>-45f<b>)</b>,  "0.70711 -0.70711 0.70711 0.70711 0 0"<b>)</b></span>
+<span id='line38'>    verifyTransform<b>(</b>Transform<b>(</b>"rotate<b>(</b>-45<b>)</b>"<b>)</b>,  "0.70711 -0.70711 0.70711 0.70711 0 0"<b>)</b></span>
+<span id='line39'></span>
+<span id='line40'>    // example from spec: https://www.w3.org/TR/SVG/coords.html</span>
+<span id='line41'>    a = Transform.translate<b>(</b>50f, 90f<b>)</b></span>
+<span id='line42'>    b = Transform.rotate<b>(</b>-45f<b>)</b></span>
+<span id='line43'>    c = Transform.translate<b>(</b>130f, 160f<b>)</b></span>
+<span id='line44'>    verifyTransform<b>(</b>a * b * c, "0.70711 -0.70711 0.70711 0.70711 255.06097 111.2132"<b>)</b></span>
+<span id='line45'>    c = Transform<b>(</b>"translate<b>(</b>50 90<b>)</b> rotate<b>(</b>-45<b>)</b> translate<b>(</b>130 160<b>)</b>"<b>)</b></span>
+<span id='line46'>    verifyTransform<b>(</b>c, "0.70711 -0.70711 0.70711 0.70711 255.06097 111.2132"<b>)</b></span>
+<span id='line47'>    c = Transform<b>(</b>"translate<b>(</b>50 90<b>)</b>, rotate<b>(</b>-45<b>)</b> ,  translate<b>(</b>130 160<b>)</b>"<b>)</b></span>
+<span id='line48'>    verifyTransform<b>(</b>c, "0.70711 -0.70711 0.70711 0.70711 255.06097 111.2132"<b>)</b></span>
+<span id='line49'>  <b>}</b></span>
+<span id='line50'></span>
+<span id='line51'>  Void verifyTransform<b>(</b>Transform t, Str expected<b>)</b></span>
+<span id='line52'>  <b>{</b></span>
+<span id='line53'>    //echo<b>(</b>"-- $t"<b>)</b></span>
+<span id='line54'>    //echo<b>(</b>"   matrix<b>(</b>$expected<b>)</b>"<b>)</b></span>
+<span id='line55'>    verifyEq<b>(</b>t.toStr, "matrix<b>(</b>$expected<b>)</b>"<b>)</b></span>
+<span id='line56'>  <b>}</b></span>
+<span id='line57'><b>}</b></span>
+<span id='line58'></span>
+</pre>
+</div>
+</body>
+</html>

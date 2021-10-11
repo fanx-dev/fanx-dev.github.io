@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocType.html'>DocType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerDoc::DocType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Doc.html'>compilerDoc::Doc</a>
+    compilerDoc::DocType</pre>
+<p class='src'>
+<a href='src-DocType.fan.html'>Source</a></p>
+
+<p>DocType models the documentation of a <a href='sys::Type'>sys::Type</a>.</p>
+<dl>
+<dt id='base'>
+base</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocTypeRef.html'>DocTypeRef</a>&gt;</a> base</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line100'>Source</a></p>
+
+<p>Base class inheritance chain where direct subclass is first and <code>sys::Obj</code> is last.  If this type is a mixin or this is <code>sys::Obj</code> itself then this is an empty list.</p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocFandoc.html'>DocFandoc</a> doc</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line97'>Source</a></p>
+
+<p>Fandoc documentation string</p>
+</dd>
+<dt id='docName'>
+docName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> docName()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line61'>Source</a></p>
+
+<p>The document name under space is <code><a href='DocType.html#name'>name</a></code></p>
+</dd>
+<dt id='facet'>
+facet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocFacet.html'>DocFacet?</a> facet(<a href='../sys/Str.html'>Str</a> qname, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line85'>Source</a></p>
+
+<p>Return given facet</p>
+</dd>
+<dt id='facets'>
+facets</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocFacet.html'>DocFacet</a>&gt;</a> facets</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line82'>Source</a></p>
+
+<p>Facets defined on this type</p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> flags</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line79'>Source</a></p>
+
+<p>Flags mask - see <code><a href='DocFlags.html'>DocFlags</a></code></p>
+</dd>
+<dt id='hasFacet'>
+hasFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasFacet(<a href='../sys/Str.html'>Str</a> qname)</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line94'>Source</a></p>
+
+<p>Return if given facet is defined on type</p>
+</dd>
+<dt id='isCode'>
+isCode</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isCode()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line70'>Source</a></p>
+
+<p>Return true</p>
+</dd>
+<dt id='isEnum'>
+isEnum</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEnum()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line130'>Source</a></p>
+
+<p>Is an enum type</p>
+</dd>
+<dt id='isErr'>
+isErr</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> isErr</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line108'>Source</a></p>
+
+<p>Is this a subclass of <code>sys::Err</code></p>
+</dd>
+<dt id='isFacet'>
+isFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFacet()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line136'>Source</a></p>
+
+<p>Is an facet type</p>
+</dd>
+<dt id='isMixin'>
+isMixin</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isMixin()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line133'>Source</a></p>
+
+<p>Is an mixin type</p>
+</dd>
+<dt id='isNoDoc'>
+isNoDoc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> isNoDoc</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line73'>Source</a></p>
+
+<p>Return true if annotated as NoDoc</p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocLoc.html'>DocLoc</a> loc</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line76'>Source</a></p>
+
+<p>Source code location of this type definition</p>
+</dd>
+<dt id='mixins'>
+mixins</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocTypeRef.html'>DocTypeRef</a>&gt;</a> mixins</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line105'>Source</a></p>
+
+<p>Mixins directly implemented by this type</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line52'>Source</a></p>
+
+<p>Simple name of the type such as "Str".</p>
+</dd>
+<dt id='onCrawl'>
+onCrawl</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onCrawl(<a href='DocCrawler.html'>DocCrawler</a> crawler)</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line143'>Source</a></p>
+
+<p>Index the type summary and all slot docs</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocPod.html'>DocPod</a> pod</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line46'>Source</a></p>
+
+<p>Pod which defines this type</p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> qname()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line55'>Source</a></p>
+
+<p>Qualified name formatted as "pod::name".</p>
+</dd>
+<dt id='ref'>
+ref</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocTypeRef.html'>DocTypeRef</a> ref</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line49'>Source</a></p>
+
+<p>Representation of this type definition as a reference</p>
+</dd>
+<dt id='renderer'>
+renderer</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/Type.html'>Type</a> renderer()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line67'>Source</a></p>
+
+<p>Default renderer is <code><a href='DocTypeRenderer.html'>DocTypeRenderer</a></code></p>
+</dd>
+<dt id='slot'>
+slot</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocSlot.html'>DocSlot?</a> slot(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line117'>Source</a></p>
+
+<p>Get slot by name.  If not found return null or raise UknownSlotErr</p>
+</dd>
+<dt id='slots'>
+slots</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DocSlot.html'>DocSlot</a>&gt;</a> slots</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line111'>Source</a></p>
+
+<p>List of the public, documented slots in this type (sorted).</p>
+</dd>
+<dt id='space'>
+space</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='DocSpace.html'>DocSpace</a> space()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line58'>Source</a></p>
+
+<p>The space for this doc is <code><a href='DocType.html#pod'>pod</a></code></p>
+</dd>
+<dt id='title'>
+title</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> title()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line64'>Source</a></p>
+
+<p>Title of the document is the qualified name</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-DocType.fan.html#line127'>Source</a></p>
+
+<p>return qname</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocType.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#base'>base</a></li><li><a href='#doc'>doc</a></li><li><a href='#docName'>docName</a></li><li><a href='#facet'>facet</a></li><li><a href='#facets'>facets</a></li><li><a href='#flags'>flags</a></li><li><a href='#hasFacet'>hasFacet</a></li><li><a href='#isCode'>isCode</a></li><li><a href='#isEnum'>isEnum</a></li><li><a href='#isErr'>isErr</a></li><li><a href='#isFacet'>isFacet</a></li><li><a href='#isMixin'>isMixin</a></li><li><a href='#isNoDoc'>isNoDoc</a></li><li><a href='#loc'>loc</a></li><li><a href='#mixins'>mixins</a></li><li><a href='#name'>name</a></li><li><a href='#onCrawl'>onCrawl</a></li><li><a href='#pod'>pod</a></li><li><a href='#qname'>qname</a></li><li><a href='#ref'>ref</a></li><li><a href='#renderer'>renderer</a></li><li><a href='#slot'>slot</a></li><li><a href='#slots'>slots</a></li><li><a href='#space'>space</a></li><li><a href='#title'>title</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

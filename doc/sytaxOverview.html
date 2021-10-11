@@ -1,0 +1,248 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>交流社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h3>类和方法</h3>
+
+<p>熟悉的语法</p>
+
+<pre>class Person
+{
+  var name: Str
+  var age: Int
+
+  //有默认参数的方法
+  fun say(a: Str = "default") { echo("Hi $a") }
+
+  //命名构造函数
+  new make(name: Str, age: Int) {
+    this.name = name
+    this.age = age
+  }
+}
+
+//类型推断
+p := Person("B", 30)
+
+//命名参数
+p := Person(name:"B", age:30)</pre>
+
+<h3>字段访问</h3>
+
+<p>没有烦人的getters setters冗余代码</p>
+
+<pre>class Person
+{
+  var name: Str
+  var age: Int {
+    set { checkAge(val); &amp;age = it }
+  }
+}</pre>
+
+<h3>混合静态和动态类型</h3>
+
+<p>通过 "->" 操作符动态的调用方法</p>
+
+<pre>//静态调用
+p.age = 10
+p.say("A")
+
+//动态调用
+p->age = 10
+p->say("A")</pre>
+
+<h3>字面量</h3>
+
+<pre>//列表
+[0, 1, 2]
+
+//映射
+[1:"one", 2:"two"]
+
+//区间
+0..5    // 0 to 5
+0..&lt;5   // 0 to 4
+
+//字符串插入
+"$x + $y = ${x+y}"
+
+//时间段
+100.ms   //100毫秒</pre>
+
+<h3>非空类型</h3>
+
+<p>编译器确保非空类型不会存储空值。</p>
+
+<pre>a : Str? = null //可能存储null
+b : Str //从来不会存储null
+
+//可空性作为API的一部分
+fun foo(arg: Str?): Str { ... }</pre>
+
+<h3>函数式和闭包</h3>
+
+<p>函数式第一类对象</p>
+
+<pre>// 打印 0 到 9
+10.times { echo(it) }
+
+//排序
+files = files.sort |a, b| { a.modified &lt;=> b.modified }
+
+//迭代
+["one", "two", "three"].map { it.size }.each { echo(it) }</pre>
+
+<h3>强不可变性</h3>
+
+<p>编译器支持不可变类</p>
+
+<pre>//不可变类
+const class Str { ... }
+
+const p: Str       //深度不可变
+const p: StrBuf    //编译错误
+let p: StrBuf      //浅层不可变</pre>
+
+<h3>线程安全的并发</h3>
+
+<p>Actor模式的并发。编译器和运行时环境确保线程之间不会共享可变对象。</p>
+
+<pre>actor := Actor |msg| { echo(msg) }
+actor.send("Hi")</pre>
+
+<h3>声明式编程</h3>
+
+<p>序列化格式是代码语法的子集。描述做什么，而不是怎么做。</p>
+
+<pre>Window
+{
+  title = "Demo"
+  size = Size(600,600)
+  GridPane
+  {
+    numCols = 2
+    Label { text="label1" },
+    EdgePane
+    {
+      top    = Button { text = "top" }
+      left   = Button { text = "left" }
+      right  = Button { text = "right" }
+      bottom = Button { text = "bottom" }
+      center = Button { text = "center" }
+    }
+  },
+}</pre>
+
+<h3>模块化</h3>
+
+<p>Pods是版本化部署单元和命名空间，它门通过明确的依赖关注组织在一起。</p>
+
+<p>pod的构建脚本是这样的:</p>
+
+<pre>podName = testlib
+summary = test lib
+version = 2.0
+srcDirs = test/,fan/
+depends = sys 1.0, std 1.0, reflect 1.0</pre>
+
+<h3>混入(Mixin)</h3>
+
+<p>接口带有实现代码</p>
+
+<pre>mixin Audio
+{
+  abstract var volume: Int
+  fun incrementVolume() { volume += 1 }
+  fun decrementVolume() { volume -= 1 }
+}
+
+class Television : Audio
+{
+  override var volume : Int = 0
+}</pre>
+
+<h3>泛型</h3>
+
+<pre>class Foo&lt;T> {
+  var t: T?
+  fun get(): T { return t }
+}
+
+foo := Foo&lt;Str>()
+foo.t = "abc"</pre>
+
+<h3>扩展方法</h3>
+
+<p>我们可以从外部给类增加方法</p>
+
+<pre>class Whatever {
+  extension static fun foo(str: Str) {
+    ...
+  }
+}
+
+//shortcut of Whatever.foo(str)
+str.foo</pre>
+
+<h3>面向切面编程</h3>
+
+<pre>//same as bar.trap("foo", arg)
+bar~>foo(arg)</pre>
+
+<h3>Async/Await协程</h3>
+
+<p>C#/Javascript 风格的协程</p>
+
+<pre>async fun foo(id: Int) {
+  user := await getUser(id)
+  image := await getImage(user.image)
+  imageView.image = image
+}</pre>
+
+   </div>
+ </body>
+ </html>
+ 

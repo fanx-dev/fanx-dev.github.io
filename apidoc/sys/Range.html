@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::Range</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='Range.html'>Range</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>struct const class</span> sys::Range</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  sys::Range</pre>
+<p class='facets'>
+<code class='sig'>@<a href='Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Range represents a contiguous range of integers from start to end.  Ranges may be represented as literals in Fantom source code as "start..end" for an inclusive end or "start..&lt;end" for an exlusive range.</p>
+<dl>
+<dt id='contains'>
+contains</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> contains(<a href='Int.html'>Int</a> i)</code></p>
+
+<p>Return if this range contains the specified integer.</p>
+
+<p>Example:</p>
+
+<pre>(1..3).contains(2)  =>  true
+(1..3).contains(4)  =>  false</pre>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Void.html'>Void</a> each(<a href='Func.html'>Func&lt;<a href='Void.html'>Void</a>,<a href='Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Call the specified function for each integer in the range. Also see <code><a href='Int.html#times'>Int.times</a></code>.</p>
+
+<p>Example:</p>
+
+<pre>(1..3).each |i| { echo(i) }          =>  1, 2, 3
+(1..&lt;3).each |i| { echo(i) }         => 1, 2
+('a'..'z').each |Int i| { echo(i) }  => 'a', 'b', ... 'z'</pre>
+</dd>
+<dt id='eachWhile'>
+eachWhile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Obj.html'>Obj?</a> eachWhile(<a href='Func.html'>Func&lt;<a href='Obj.html'>Obj?</a>,<a href='Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Iterate every integer in the range until the function returns non-null.  If function returns non-null, then break the iteration and return the resulting object.  Return null if the function returns null for every integer in the range.</p>
+</dd>
+<dt id='end'>
+end</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> end()</code></p>
+
+<p>Return end index.</p>
+
+<p>Example:</p>
+
+<pre>(1..3).end  =>  3</pre>
+</dd>
+<dt id='endIndex'>
+endIndex</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> endIndex(<a href='Int.html'>Int</a> size)</code></p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Bool.html'>Bool</a> equals(<a href='Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return true if same start, end, and exclusive.</p>
+</dd>
+<dt id='exclusive'>
+exclusive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> exclusive()</code></p>
+
+<p>Is the end index exclusive.</p>
+
+<p>Example:</p>
+
+<pre>(1..3).exclusive   =>  false
+(1..&lt;3).exclusive  =>  true</pre>
+</dd>
+<dt id='first'>
+first</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int?</a> first()</code></p>
+
+<p>Get the first value of the range.   If range contains no values then return null.  Equivalent to <code>toList.first</code>.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='Str.html'>Str</a> str, <a href='Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse from string format - inclusive is "start..end", or exclusive is "start..&lt;end".  If invalid format then throw ParseErr or return null based on checked flag.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> hash()</code></p>
+
+<p>Return start ^ end.</p>
+</dd>
+<dt id='inclusive'>
+inclusive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> inclusive()</code></p>
+
+<p>Is the end index inclusive.</p>
+
+<p>Example:</p>
+
+<pre>(1..3).inclusive   =>  true
+(1..&lt;3).inclusive  =>  false</pre>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>Return if this range contains no integer values. Equivalent to <code>toList.isEmpty</code>.</p>
+</dd>
+<dt id='last'>
+last</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int?</a> last()</code></p>
+
+<p>Get the last value of the range.   If range contains no values then return null.  Equivalent to <code>toList.last</code>.</p>
+</dd>
+<dt id='lastEnd'>
+lastEnd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> lastEnd()</code></p>
+
+<p>Return last inclusive index Example: (1..&lt;3).end => 2</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Int.html'>Int</a> start, <a href='Int.html'>Int</a> end, <a href='Bool.html'>Bool</a> exclusive)</code></p>
+
+<p>Constructor with start, end, and exclusive flag (all must be non-null).</p>
+</dd>
+<dt id='makeExclusive'>
+makeExclusive</dt>
+<dd>
+<p class='sig'>
+<code>static new makeExclusive(<a href='Int.html'>Int</a> start, <a href='Int.html'>Int</a> end)</code></p>
+
+<p>Convenience for make(start, end, true).</p>
+</dd>
+<dt id='makeInclusive'>
+makeInclusive</dt>
+<dd>
+<p class='sig'>
+<code>static new makeInclusive(<a href='Int.html'>Int</a> start, <a href='Int.html'>Int</a> end)</code></p>
+
+<p>Convenience for make(start, end, false).</p>
+</dd>
+<dt id='map'>
+map</dt>
+<dd>
+<p class='sig'>
+<code> <a href='List.html'>List&lt;<a href='Obj.html'>Obj?</a>&gt;</a> map(<a href='Func.html'>Func&lt;<a href='Obj.html'>Obj?</a>,<a href='Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Create a new list which is the result of calling c for every integer in the range.  The new list is typed based on the return type of c.</p>
+
+<p>Example:</p>
+
+<pre>(10..15).map |i->Str| { i.toHex }  =>  Str[a, b, c, d, e, f]</pre>
+</dd>
+<dt id='max'>
+max</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int?</a> max()</code></p>
+
+<p>Get the maximum value of the range. If range contains no values then return null.  Equivalent to <code>toList.max</code>.</p>
+</dd>
+<dt id='min'>
+min</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int?</a> min()</code></p>
+
+<p>Get the minimum value of the range. If range contains no values then return null.  Equivalent to <code>toList.min</code>.</p>
+</dd>
+<dt id='offset'>
+offset</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Range.html'>Range</a> offset(<a href='Int.html'>Int</a> offset)</code></p>
+
+<p>Create a new range by adding offset to this range's start and end values.</p>
+
+<p>Example:</p>
+
+<pre>(3..5).offset(2)   =>  5..7
+(3..&lt;5).offset(-2) =>  1..&lt;3</pre>
+</dd>
+<dt id='random'>
+random</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> random()</code></p>
+
+<p>Convenience for <code><a href='Int.html#random'>Int.random(this)</a></code>. Also see <code><a href='Int.html#random'>Int.random</a></code>, <code><a href='Float.html#random'>Float.random</a></code>, <code><a href='List.html#random'>List.random</a></code>, and <code><a href='../util/Random.html'>Random</a></code>.</p>
+</dd>
+<dt id='start'>
+start</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> start()</code></p>
+
+<p>Return start index.</p>
+
+<p>Example:</p>
+
+<pre>(1..3).start  =>  1</pre>
+</dd>
+<dt id='startIndex'>
+startIndex</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> startIndex(<a href='Int.html'>Int</a> size)</code></p>
+</dd>
+<dt id='toList'>
+toList</dt>
+<dd>
+<p class='sig'>
+<code> <a href='List.html'>List&lt;<a href='Int.html'>Int</a>&gt;</a> toList()</code></p>
+
+<p>Convert this range into a list of Ints.</p>
+
+<p>Example:</p>
+
+<pre>(2..4).toList   =>  [2,3,4]
+(2..&lt;4).toList  =>  [2,3]
+(10..8).toList  =>  [10,9,8]</pre>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Str.html'>Str</a> toStr()</code></p>
+
+<p>If inclusive return "start..end", if exclusive return "start..&lt;end".</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li><li><a href='#makeExclusive'>makeExclusive</a></li><li><a href='#makeInclusive'>makeInclusive</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#contains'>contains</a></li><li><a href='#each'>each</a></li><li><a href='#eachWhile'>eachWhile</a></li><li><a href='#end'>end</a></li><li><a href='#endIndex'>endIndex</a></li><li><a href='#equals'>equals</a></li><li><a href='#exclusive'>exclusive</a></li><li><a href='#first'>first</a></li><li><a href='#hash'>hash</a></li><li><a href='#inclusive'>inclusive</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#last'>last</a></li><li><a href='#lastEnd'>lastEnd</a></li><li><a href='#map'>map</a></li><li><a href='#max'>max</a></li><li><a href='#min'>min</a></li><li><a href='#offset'>offset</a></li><li><a href='#random'>random</a></li><li><a href='#start'>start</a></li><li><a href='#startIndex'>startIndex</a></li><li><a href='#toList'>toList</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

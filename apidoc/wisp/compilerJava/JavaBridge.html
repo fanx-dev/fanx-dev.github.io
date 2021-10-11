@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJava::JavaBridge</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJava</a></li><li><a href='JavaBridge.html'>JavaBridge</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerJava::JavaBridge</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../compiler/CompilerSupport.html'>compiler::CompilerSupport</a>
+    <a href='../compiler/CBridge.html'>compiler::CBridge</a>
+      compilerJava::JavaBridge</pre>
+
+<p>JavaBridge is the compiler plugin for bringing Java classes into the Fantom type system.</p>
+<dl>
+<dt id='areParamsSame'>
+areParamsSame</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> areParamsSame(<a href='../compiler/CMethod.html'>CMethod</a> a, <a href='../compiler/CMethod.html'>CMethod</a> b)</code></p>
+
+<p>Do the two methods have the exact same parameter types.</p>
+</dd>
+<dt id='boolTypes'>
+boolTypes</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> boolTypes := ...</code></p>
+</dd>
+<dt id='checkOverride'>
+checkOverride</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> checkOverride(<a href='../compiler/TypeDef.html'>TypeDef</a> t, <a href='../compiler/CSlot.html'>CSlot</a> base, <a href='../compiler/SlotDef.html'>SlotDef</a> def)</code></p>
+
+<p>Called during Inherit step when a Fantom slot overrides a FFI slot. Log and throw compiler error if there is a problem.</p>
+</dd>
+<dt id='checkType'>
+checkType</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> checkType(<a href='../compiler/TypeDef.html'>TypeDef</a> def)</code></p>
+
+<p>Called during CheckErrors step for a type which extends a FFI class or implements any FFI mixins.</p>
+</dd>
+<dt id='classType'>
+classType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JavaType.html'>JavaType</a> classType()</code></p>
+
+<p>Get a CType representation for <code>java.lang.Class</code></p>
+</dd>
+<dt id='cleanup'>
+cleanup</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> cleanup()</code></p>
+</dd>
+<dt id='coerce'>
+coerce</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/Expr.html'>Expr</a> coerce(<a href='../compiler/Expr.html'>Expr</a> expr, <a href='../compiler/CType.html'>CType</a> expected, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;</a> onErr)</code></p>
+
+<p>Coerce expression to expected type.  If not a type match then run the onErr function.</p>
+</dd>
+<dt id='coerceFromArray'>
+coerceFromArray</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/Expr.html'>Expr</a> coerceFromArray(<a href='../compiler/Expr.html'>Expr</a> expr, <a href='../compiler/CType.html'>CType</a> expected, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;</a> onErr)</code></p>
+
+<p>Coerce a Java array to a Fantom list.</p>
+</dd>
+<dt id='coerceFromPrimitive'>
+coerceFromPrimitive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/Expr.html'>Expr</a> coerceFromPrimitive(<a href='../compiler/Expr.html'>Expr</a> expr, <a href='../compiler/CType.html'>CType</a> expected, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;</a> onErr)</code></p>
+
+<p>Coerce a Java primitive to a Fantom type.</p>
+</dd>
+<dt id='coerceFuncToInterface'>
+coerceFuncToInterface</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/Expr.html'>Expr</a> coerceFuncToInterface(<a href='../compiler/Expr.html'>Expr</a> expr, <a href='JavaType.html'>JavaType</a> expected, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;</a> onErr)</code></p>
+
+<p>Attempt to coerce a parameterized sys::Func expr to a Java interface if the interface supports exactly one matching method.</p>
+</dd>
+<dt id='coerceToArray'>
+coerceToArray</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/Expr.html'>Expr</a> coerceToArray(<a href='../compiler/Expr.html'>Expr</a> expr, <a href='../compiler/CType.html'>CType</a> expected, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;</a> onErr)</code></p>
+
+<p>Coerce a Fantom list to Java array.</p>
+</dd>
+<dt id='coerceToPrimitive'>
+coerceToPrimitive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/Expr.html'>Expr</a> coerceToPrimitive(<a href='../compiler/Expr.html'>Expr</a> expr, <a href='JavaType.html'>JavaType</a> expected, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;</a> onErr)</code></p>
+
+<p>Coerce a fan expression to a Java primitive (other than the ones we support natively)</p>
+</dd>
+<dt id='cp'>
+cp</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ClassPath.html'>ClassPath</a> cp</code></p>
+</dd>
+<dt id='decimalTypes'>
+decimalTypes</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> decimalTypes := ...</code></p>
+</dd>
+<dt id='fits'>
+fits</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> fits(<a href='../compiler/CType.html'>CType</a> actual, <a href='../compiler/CType.html'>CType</a> expected)</code></p>
+
+<p>Return if we can make the actual type fit the expected type, potentially using a coercion.</p>
+</dd>
+<dt id='floatTypes'>
+floatTypes</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> floatTypes := ...</code></p>
+</dd>
+<dt id='generateFuncToInterfaceWrapper'>
+generateFuncToInterfaceWrapper</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/CMethod.html'>CMethod</a> generateFuncToInterfaceWrapper(<a href='../compiler/Loc.html'>Loc</a> loc, <a href='../compiler/FuncType.html'>FuncType</a> funcType, <a href='../compiler/CType.html'>CType</a> expected, <a href='../compiler/CMethod.html'>CMethod</a> method)</code></p>
+
+<p>Generate the wrapper which implements the specified expected interface and overrides the specified method which calls the function.</p>
+</dd>
+<dt id='intTypes'>
+intTypes</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> intTypes := ...</code></p>
+</dd>
+<dt id='interopType'>
+interopType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JavaType.html'>JavaType</a> interopType()</code></p>
+</dd>
+<dt id='isFuncToInterfaceMatch'>
+isFuncToInterfaceMatch</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFuncToInterfaceMatch(<a href='../compiler/FuncType.html'>FuncType</a> funcType, <a href='../compiler/CMethod.html'>CMethod</a> method)</code></p>
+
+<p>Return if the specified function type can be used to implement the specified interface method.</p>
+</dd>
+<dt id='listAsArray'>
+listAsArray</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/CMethod.html'>CMethod</a> listAsArray()</code></p>
+
+<p>Get a CMethod representation for <code>Object[] List.asArray()</code></p>
+</dd>
+<dt id='listMakeFromArray'>
+listMakeFromArray</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compiler/CMethod.html'>CMethod</a> listMakeFromArray()</code></p>
+
+<p>Get a CMethod representation for <code>List.make(Type, Object[])</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../compiler/Compiler.html'>Compiler</a> c)</code></p>
+
+<p>Construct a JavaBridge for current environment</p>
+</dd>
+<dt id='objectArrayType'>
+objectArrayType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JavaType.html'>JavaType</a> objectArrayType()</code></p>
+
+<p>Get a CType representation for <code>java.lang.Object[]</code></p>
+</dd>
+<dt id='primitives'>
+primitives</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JavaPrimitives.html'>JavaPrimitives</a> primitives := JavaPrimitives.&lt;ctor>(this)</code></p>
+</dd>
+<dt id='resolveCall'>
+resolveCall</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/CallExpr.html'>CallExpr</a> resolveCall(<a href='../compiler/CallExpr.html'>CallExpr</a> call)</code></p>
+
+<p>Resolve a method call: try to find the best match and apply any coercions needed.</p>
+</dd>
+<dt id='resolveConstruction'>
+resolveConstruction</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/Expr.html'>Expr</a> resolveConstruction(<a href='../compiler/CallExpr.html'>CallExpr</a> call)</code></p>
+
+<p>Resolve a construction call to a Java constructor.</p>
+</dd>
+<dt id='resolveConstructorChain'>
+resolveConstructorChain</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/Expr.html'>Expr</a> resolveConstructorChain(<a href='../compiler/CallExpr.html'>CallExpr</a> call)</code></p>
+
+<p>Resolve a construction chain call where a Fantom constructor calls the super-class constructor.  Type check the arguments and insert any conversions needed.</p>
+</dd>
+<dt id='resolvePod'>
+resolvePod</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/CPod.html'>CPod</a> resolvePod(<a href='../sys/Str.html'>Str</a> name, <a href='../compiler/Loc.html'>Loc?</a> loc)</code></p>
+
+<p>Map a FFI "podName" to a Java package.</p>
+</dd>
+<dt id='resolveSlotAccess'>
+resolveSlotAccess</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/CSlot.html'>CSlot?</a> resolveSlotAccess(<a href='../compiler/CType.html'>CType</a> base, <a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> noParens)</code></p>
+
+<p>Given a dot operator slot access on the given foreign base type, determine the appopriate slot to use based on whether parens were used</p>
+
+<pre>base.name    =>  noParens = true
+base.name()  =>  noParens = false</pre>
+
+<p>In Java a given name could be bound to both a field and a method.  In this case we only resolve the field if no parens are used.  We also handle the special case of Java annotations here because their element methods are also mapped as Fantom fields (instance based mixin field).</p>
+</dd>
+<dt id='strTypes'>
+strTypes</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> strTypes := ...</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#areParamsSame'>areParamsSame</a></li><li><a href='#boolTypes'>boolTypes</a></li><li><a href='#decimalTypes'>decimalTypes</a></li><li><a href='#floatTypes'>floatTypes</a></li><li><a href='#intTypes'>intTypes</a></li><li><a href='#make'>make</a></li><li><a href='#strTypes'>strTypes</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#checkOverride'>checkOverride</a></li><li><a href='#checkType'>checkType</a></li><li><a href='#classType'>classType</a></li><li><a href='#cleanup'>cleanup</a></li><li><a href='#coerce'>coerce</a></li><li><a href='#coerceFromArray'>coerceFromArray</a></li><li><a href='#coerceFromPrimitive'>coerceFromPrimitive</a></li><li><a href='#coerceFuncToInterface'>coerceFuncToInterface</a></li><li><a href='#coerceToArray'>coerceToArray</a></li><li><a href='#coerceToPrimitive'>coerceToPrimitive</a></li><li><a href='#cp'>cp</a></li><li><a href='#fits'>fits</a></li><li><a href='#generateFuncToInterfaceWrapper'>generateFuncToInterfaceWrapper</a></li><li><a href='#interopType'>interopType</a></li><li><a href='#isFuncToInterfaceMatch'>isFuncToInterfaceMatch</a></li><li><a href='#listAsArray'>listAsArray</a></li><li><a href='#listMakeFromArray'>listMakeFromArray</a></li><li><a href='#objectArrayType'>objectArrayType</a></li><li><a href='#primitives'>primitives</a></li><li><a href='#resolveCall'>resolveCall</a></li><li><a href='#resolveConstruction'>resolveConstruction</a></li><li><a href='#resolveConstructorChain'>resolveConstructorChain</a></li><li><a href='#resolvePod'>resolvePod</a></li><li><a href='#resolveSlotAccess'>resolveSlotAccess</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::EdgeBox</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='EdgeBox.html'>EdgeBox</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::EdgeBox</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Widget.html'>vaseGui::Widget</a>
+    <a href='WidgetGroup.html'>vaseGui::WidgetGroup</a>
+      vaseGui::EdgeBox</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>EdgePane is a container which lays out four children along the four edges and one child in the center.  The top and bottom edges are laid out with their preferred height.  Children on the left or right edges are laid out with with their preferred width.  Any remaining space is given to the center component.</p>
+<dl>
+<dt id='bottom'>
+bottom</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Widget.html'>Widget?</a> bottom</code></p>
+
+<p>Bottom widget is laid out with preferred height.</p>
+</dd>
+<dt id='center'>
+center</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Widget.html'>Widget?</a> center</code></p>
+
+<p>Center widget gets any remaining space in the center.</p>
+</dd>
+<dt id='layoutChildren'>
+layoutChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> layoutChildren(<a href='../sys/Bool.html'>Bool</a> force)</code></p>
+</dd>
+<dt id='left'>
+left</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Widget.html'>Widget?</a> left</code></p>
+
+<p>Left widget is laid out with preferred width.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+</dd>
+<dt id='prefContentSize'>
+prefContentSize</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../vaseGraphics/Size.html'>Size</a> prefContentSize(<a href='../sys/Int.html'>Int</a> hintsWidth := -1, <a href='../sys/Int.html'>Int</a> hintsHeight := -1)</code></p>
+</dd>
+<dt id='right'>
+right</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Widget.html'>Widget?</a> right</code></p>
+
+<p>Right widget is laid out with preferred width.</p>
+</dd>
+<dt id='top'>
+top</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Widget.html'>Widget?</a> top</code></p>
+
+<p>Top widget is laid out with preferred height.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bottom'>bottom</a></li><li><a href='#center'>center</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#left'>left</a></li><li><a href='#prefContentSize'>prefContentSize</a></li><li><a href='#right'>right</a></li><li><a href='#top'>top</a></li></ul>
+</div>
+</div>
+</body>
+</html>

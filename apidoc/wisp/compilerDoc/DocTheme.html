@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocTheme</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocTheme.html'>DocTheme</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerDoc::DocTheme</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::DocTheme</pre>
+<p class='src'>
+<a href='src-DocTheme.fan.html'>Source</a></p>
+
+<p>DocTheme is responsible for providing the common chrome, styling, and breadcrumb across different DocRenderers.  The theme used by renderers is defined by <code><a href='DocEnv.html#theme'>DocEnv.theme</a></code>.</p>
+<dl>
+<dt id='writeBreadcrumb'>
+writeBreadcrumb</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeBreadcrumb(<a href='DocRenderer.html'>DocRenderer</a> r)</code></p>
+<p class='src'>
+<a href='src-DocTheme.fan.html#line38'>Source</a></p>
+
+<p>Write navigation breadcrumbs for given renderer</p>
+</dd>
+<dt id='writeEnd'>
+writeEnd</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeEnd(<a href='DocRenderer.html'>DocRenderer</a> r)</code></p>
+<p class='src'>
+<a href='src-DocTheme.fan.html#line75'>Source</a></p>
+
+<p>Write closing HTML for page.  This should generate the common footer and close the body and html tags.</p>
+</dd>
+<dt id='writeStart'>
+writeStart</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeStart(<a href='DocRenderer.html'>DocRenderer</a> r)</code></p>
+<p class='src'>
+<a href='src-DocTheme.fan.html'>Source</a></p>
+
+<p>Write opening HTML for page.  This should generate the doc type, html, head, and opening body tags.  Any common header should always be generated here.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocTheme.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#writeBreadcrumb'>writeBreadcrumb</a></li><li><a href='#writeEnd'>writeEnd</a></li><li><a href='#writeStart'>writeStart</a></li></ul>
+</div>
+</div>
+</body>
+</html>

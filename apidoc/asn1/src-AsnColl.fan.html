@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>AsnColl.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnColl.html'>AsnColl</a></li><li><a href='src-AsnColl.fan.html'>AsnColl.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   09 Aug 2021 Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** Base class for ASN.1 collection types.</span>
+<span id='line11'>**</span>
+<span id='line12'>abstract const class AsnColl : AsnObj</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line16'>// Construction</span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'></span>
+<span id='line19'>  protected new make<b>(</b>AsnTag<b>[</b><b>]</b> tags, Obj val<b>)</b> : super<b>(</b>tags, toItems<b>(</b>val<b>)</b><b>)</b></span>
+<span id='line20'>  <b>{</b></span>
+<span id='line21'>  <b>}</b></span>
+<span id='line22'></span>
+<span id='line23'>  @NoDoc static AsnItem<b>[</b><b>]</b> toItems<b>(</b>Obj val<b>)</b></span>
+<span id='line24'>  <b>{</b></span>
+<span id='line25'>    items := AsnItem<b>[</b>,<b>]</b></span>
+<span id='line26'>    if <b>(</b>val is Map<b>)</b></span>
+<span id='line27'>    <b>{</b></span>
+<span id='line28'>      m := <b>(</b>Str:AsnObj<b>)</b>val</span>
+<span id='line29'>      m.each |v, k| <b>{</b> items.add<b>(</b>AsnItem<b>(</b>v, k<b>)</b><b>)</b> <b>}</b></span>
+<span id='line30'>    <b>}</b></span>
+<span id='line31'>    else</span>
+<span id='line32'>    <b>{</b></span>
+<span id='line33'>      arr := <b>(</b>List<b>)</b>val</span>
+<span id='line34'>      if <b>(</b>arr.size > 0 &amp;&amp; arr<b>[</b>0<b>]</b>.typeof.fits<b>(</b>AsnItem#<b>)</b><b>)</b> items = val</span>
+<span id='line35'>      else arr.each <b>{</b> items.add<b>(</b>AsnItem<b>(</b>it<b>)</b><b>)</b> <b>}</b></span>
+<span id='line36'>    <b>}</b></span>
+<span id='line37'>    return items</span>
+<span id='line38'>  <b>}</b></span>
+<span id='line39'></span>
+<span id='line40'>  ** Get a <b>[</b>collection builder<b>]</b>`AsnCollBuilder`</span>
+<span id='line41'>  static AsnCollBuilder builder<b>(</b><b>)</b> <b>{</b> AsnCollBuilder<b>(</b><b>)</b> <b>}</b></span>
+<span id='line42'></span>
+<span id='line43'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line44'>// AsnColl</span>
+<span id='line45'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line46'></span>
+<span id='line47'>  ** Is this a 'SEQUENCE'</span>
+<span id='line48'>  Bool isSeq<b>(</b><b>)</b> <b>{</b> univTag == AsnTag.univSeq <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  ** Is this a 'SET'</span>
+<span id='line51'>  Bool isSet<b>(</b><b>)</b> <b>{</b> univTag == AsnTag.univSet <b>}</b></span>
+<span id='line52'></span>
+<span id='line53'>  ** Get the raw `AsnObj` values in the collection</span>
+<span id='line54'>  AsnObj<b>[</b><b>]</b> vals<b>(</b><b>)</b> <b>{</b> items.map <b>{</b> it.val <b>}</b> <b>}</b></span>
+<span id='line55'></span>
+<span id='line56'>  @NoDoc AsnItem<b>[</b><b>]</b> items<b>(</b><b>)</b> <b>{</b> val <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>  ** Get the number of items in the collection</span>
+<span id='line59'>  Int size<b>(</b><b>)</b> <b>{</b> items.size <b>}</b></span>
+<span id='line60'></span>
+<span id='line61'>  ** Is the collection empty</span>
+<span id='line62'>  Bool isEmpty<b>(</b><b>)</b> <b>{</b> items.isEmpty <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  ** Get an item value from the collection.</span>
+<span id='line65'>  **  - If key is a `sys::Str` then get the named item.</span>
+<span id='line66'>  **  - If key is an `sys::Int`, then get the item at that zero-based index.</span>
+<span id='line67'>  AsnObj? get<b>(</b>Obj key<b>)</b></span>
+<span id='line68'>  <b>{</b></span>
+<span id='line69'>    if <b>(</b>key is Int<b>)</b> return items.getSafe<b>(</b>key<b>)</b>?.val</span>
+<span id='line70'>    else if <b>(</b>key is Str<b>)</b> return items.find <b>{</b> it.name == name <b>}</b>?.val</span>
+<span id='line71'>    throw ArgErr<b>(</b>"invalid key type: $<b>{</b>key.typeof<b>}</b>"<b>)</b></span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line75'>// AsnObj</span>
+<span id='line76'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line77'></span>
+<span id='line78'>  protected override Str valStr<b>(</b><b>)</b></span>
+<span id='line79'>  <b>{</b></span>
+<span id='line80'>    buf := StrBuf<b>(</b><b>)</b>.add<b>(</b>"<b>{</b>\n"<b>)</b></span>
+<span id='line81'>    indent := 2</span>
+<span id='line82'>    items.each |AsnItem item|</span>
+<span id='line83'>    <b>{</b></span>
+<span id='line84'>      buf.add<b>(</b>"".padl<b>(</b>indent<b>)</b><b>)</b></span>
+<span id='line85'>      if <b>(</b>item.name != null<b>)</b> buf.add<b>(</b>"$<b>{</b>item.name<b>}</b>: "<b>)</b></span>
+<span id='line86'>      if <b>(</b>item.val is AsnColl<b>)</b></span>
+<span id='line87'>      <b>{</b></span>
+<span id='line88'>        collStr := item.val.toStr</span>
+<span id='line89'>        collStr.splitLines.each |line, i|</span>
+<span id='line90'>        <b>{</b></span>
+<span id='line91'>          if <b>(</b>i==0<b>)</b> buf.add<b>(</b>line<b>)</b></span>
+<span id='line92'>          else buf.add<b>(</b>"".padl<b>(</b>indent<b>)</b><b>)</b>.add<b>(</b>line<b>)</b></span>
+<span id='line93'>          buf.add<b>(</b>"\n"<b>)</b></span>
+<span id='line94'>        <b>}</b></span>
+<span id='line95'>      <b>}</b></span>
+<span id='line96'>      else buf.add<b>(</b>item.val.toStr<b>)</b>.add<b>(</b>"\n"<b>)</b></span>
+<span id='line97'>    <b>}</b></span>
+<span id='line98'>    buf.add<b>(</b>"<b>}</b>"<b>)</b></span>
+<span id='line99'>    return buf.toStr</span>
+<span id='line100'>  <b>}</b></span>
+<span id='line101'><b>}</b></span>
+<span id='line102'></span>
+<span id='line103'>**************************************************************************</span>
+<span id='line104'>** AsnItem</span>
+<span id='line105'>**************************************************************************</span>
+<span id='line106'></span>
+<span id='line107'>** An item in an ASN.1 collection. An item has a value, and an optional name</span>
+<span id='line108'>** associated with that value. When comparing items, only the values are</span>
+<span id='line109'>** compared; the name is ignored.</span>
+<span id='line110'>final const class AsnItem</span>
+<span id='line111'><b>{</b></span>
+<span id='line112'>  new make<b>(</b>AsnObj val, Str? name := null<b>)</b></span>
+<span id='line113'>  <b>{</b></span>
+<span id='line114'>    this.name = name</span>
+<span id='line115'>    this.val = val</span>
+<span id='line116'>  <b>}</b></span>
+<span id='line117'></span>
+<span id='line118'>  const Str? name</span>
+<span id='line119'>  const AsnObj val</span>
+<span id='line120'></span>
+<span id='line121'>  override Int hash<b>(</b><b>)</b> <b>{</b> val.hash <b>}</b></span>
+<span id='line122'>  override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line123'>  <b>{</b></span>
+<span id='line124'>    if <b>(</b>obj == null<b>)</b> return false</span>
+<span id='line125'>    that := obj as AsnItem</span>
+<span id='line126'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line127'>    // name is *not* considered for equality purposes</span>
+<span id='line128'>    return this.val == that.val</span>
+<span id='line129'>  <b>}</b></span>
+<span id='line130'><b>}</b></span>
+<span id='line131'></span>
+<span id='line132'>**************************************************************************</span>
+<span id='line133'>** AsnSeq</span>
+<span id='line134'>**************************************************************************</span>
+<span id='line135'></span>
+<span id='line136'>**</span>
+<span id='line137'>** Models an ASN.1 'SEQUENCE'</span>
+<span id='line138'>**</span>
+<span id='line139'>const class AsnSeq : AsnColl</span>
+<span id='line140'><b>{</b></span>
+<span id='line141'>  protected new makeUniv<b>(</b>Obj val<b>)</b> : this.make<b>(</b><b>[</b>AsnTag.univSeq<b>]</b>, val<b>)</b></span>
+<span id='line142'>  <b>{</b></span>
+<span id='line143'>  <b>}</b></span>
+<span id='line144'>  protected new make<b>(</b>AsnTag<b>[</b><b>]</b> tags, Obj val<b>)</b> : super<b>(</b>tags, toItems<b>(</b>val<b>)</b><b>)</b></span>
+<span id='line145'>  <b>{</b></span>
+<span id='line146'>    if <b>(</b>univTag != AsnTag.univSeq<b>)</b> throw ArgErr<b>(</b>"Not a sequence: $tags"<b>)</b></span>
+<span id='line147'>  <b>}</b></span>
+<span id='line148'><b>}</b></span>
+<span id='line149'></span>
+<span id='line150'>**************************************************************************</span>
+<span id='line151'>** AsnSet</span>
+<span id='line152'>**************************************************************************</span>
+<span id='line153'></span>
+<span id='line154'>**</span>
+<span id='line155'>** Models an ASN.1 'SET'</span>
+<span id='line156'>**</span>
+<span id='line157'>const class AsnSet : AsnColl</span>
+<span id='line158'><b>{</b></span>
+<span id='line159'>  protected new makeUniv<b>(</b>Obj val<b>)</b> : this.make<b>(</b><b>[</b>AsnTag.univSet<b>]</b>, val<b>)</b></span>
+<span id='line160'>  <b>{</b></span>
+<span id='line161'>    if <b>(</b>univTag != AsnTag.univSet<b>)</b> throw ArgErr<b>(</b>"Not a set: $tags"<b>)</b></span>
+<span id='line162'>  <b>}</b></span>
+<span id='line163'>  protected new make<b>(</b>AsnTag<b>[</b><b>]</b> tags, Obj val<b>)</b> : super<b>(</b>tags, toItems<b>(</b>val<b>)</b><b>)</b></span>
+<span id='line164'>  <b>{</b></span>
+<span id='line165'>  <b>}</b></span>
+<span id='line166'><b>}</b></span>
+<span id='line167'></span>
+<span id='line168'>**************************************************************************</span>
+<span id='line169'>** AsnCollBuilder</span>
+<span id='line170'>**************************************************************************</span>
+<span id='line171'></span>
+<span id='line172'>**</span>
+<span id='line173'>** `AsnColl` builder.</span>
+<span id='line174'>**</span>
+<span id='line175'>class AsnCollBuilder</span>
+<span id='line176'><b>{</b></span>
+<span id='line177'>  new make<b>(</b><b>)</b> <b>{</b> <b>}</b></span>
+<span id='line178'></span>
+<span id='line179'>  private AsnItem<b>[</b><b>]</b> items := <b>[</b>,<b>]</b></span>
+<span id='line180'></span>
+<span id='line181'>  ** Convenience to add an `AsnItem` with the given value and name</span>
+<span id='line182'>  This add<b>(</b>AsnObj val, Str? name := null<b>)</b> <b>{</b> item<b>(</b>AsnItem<b>(</b>val, name<b>)</b><b>)</b> <b>}</b></span>
+<span id='line183'></span>
+<span id='line184'>  ** Add an `AsnItem` to the collection</span>
+<span id='line185'>  This item<b>(</b>AsnItem item<b>)</b></span>
+<span id='line186'>  <b>{</b></span>
+<span id='line187'>    items.add<b>(</b>item<b>)</b></span>
+<span id='line188'>    return this</span>
+<span id='line189'>  <b>}</b></span>
+<span id='line190'></span>
+<span id='line191'>  ** Build an ASN.1 sequence</span>
+<span id='line192'>  AsnColl toSeq<b>(</b>AsnTag? tag := null<b>)</b> <b>{</b> Asn.tag<b>(</b>tag<b>)</b>.seq<b>(</b>items<b>)</b> <b>}</b></span>
+<span id='line193'></span>
+<span id='line194'>  ** Build an ASN.1 set</span>
+<span id='line195'>  AsnColl toSet<b>(</b>AsnTag? tag := null<b>)</b> <b>{</b> Asn.tag<b>(</b>tag<b>)</b>.set<b>(</b>items<b>)</b> <b>}</b></span>
+<span id='line196'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

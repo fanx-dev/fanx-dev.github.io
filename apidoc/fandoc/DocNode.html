@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fandoc::DocNode</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='DocNode.html'>DocNode</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> fandoc::DocNode</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  fandoc::DocNode</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line38'>Source</a></p>
+
+<p>DocNode is the base class for nodes in a fandoc model. There are two type of nodes:  DocElem and DocText.</p>
+
+<p>See <a href='index.html#api'>pod doc</a> for usage.</p>
+<dl>
+<dt id='dump'>
+dump</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> dump(<a href='../std/OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line67'>Source</a></p>
+
+<p>Debug dump to output stream.</p>
+</dd>
+<dt id='id'>
+id</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='DocNodeId.html'>DocNodeId</a> id()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line47'>Source</a></p>
+
+<p>Get node id for node type.</p>
+</dd>
+<dt id='isBlock'>
+isBlock</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isBlock()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line62'>Source</a></p>
+
+<p>Is this a block element versus an inline element.</p>
+</dd>
+<dt id='isFirst'>
+isFirst</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFirst()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line111'>Source</a></p>
+
+<p>Return <code>true</code> if this node is the first child in its parent.</p>
+</dd>
+<dt id='isInline'>
+isInline</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isInline()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line57'>Source</a></p>
+
+<p>Is this an inline versus a block node.</p>
+</dd>
+<dt id='isLast'>
+isLast</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isLast()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line119'>Source</a></p>
+
+<p>Return <code>true</code> if this node is the last child in its parent.</p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocElem.html'>DocElem?</a> parent { internal set }</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line81'>Source</a></p>
+
+<p>Get the <code><a href='DocElem.html'>DocElem</a></code> that contains this node. Return <code>null</code> if not parented.</p>
+</dd>
+<dt id='path'>
+path</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='DocNode.html'>DocNode</a>&gt;</a> path()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line87'>Source</a></p>
+
+<p>Get the path from the root of the DOM to this node.</p>
+</dd>
+<dt id='pos'>
+pos</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> pos()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line102'>Source</a></p>
+
+<p>Get the index of this node in its parent's children. Return <code>null</code> if not parented.</p>
+</dd>
+<dt id='toText'>
+toText</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> toText()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line127'>Source</a></p>
+
+<p>Get all the DocText children as a string</p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> write(<a href='DocWriter.html'>DocWriter</a> out)</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line52'>Source</a></p>
+
+<p>Write this node to the specified DocWriter.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocModel.fan.html#line38'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dump'>dump</a></li><li><a href='#id'>id</a></li><li><a href='#isBlock'>isBlock</a></li><li><a href='#isFirst'>isFirst</a></li><li><a href='#isInline'>isInline</a></li><li><a href='#isLast'>isLast</a></li><li><a href='#parent'>parent</a></li><li><a href='#path'>path</a></li><li><a href='#pos'>pos</a></li><li><a href='#toText'>toText</a></li><li><a href='#write'>write</a></li></ul>
+</div>
+</div>
+</body>
+</html>

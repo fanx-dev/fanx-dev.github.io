@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGraphics::Pen</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGraphics</a></li><li><a href='Pen.html'>Pen</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> vaseGraphics::Pen</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGraphics::Pen</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Pen defines how a shape is stroked.</p>
+<dl>
+<dt id='cap'>
+cap</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> cap := capSquare</code></p>
+
+<p>Defines how two ends of unjoined segements are stroked. Valid values are <code><a href='Pen.html#capSquare'>capSquare</a></code>, <code><a href='Pen.html#capButt'>capButt</a></code>, and <code><a href='Pen.html#capRound'>capRound</a></code>. Default is capSquare.</p>
+</dd>
+<dt id='capButt'>
+capButt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> capButt := 1</code></p>
+
+<p>Constant for <code><a href='Pen.html#cap'>cap</a></code></p>
+</dd>
+<dt id='capRound'>
+capRound</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> capRound := 2</code></p>
+
+<p>Constant for <code><a href='Pen.html#cap'>cap</a></code></p>
+</dd>
+<dt id='capSquare'>
+capSquare</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> capSquare := 0</code></p>
+
+<p>Constant for <code><a href='Pen.html#cap'>cap</a></code></p>
+</dd>
+<dt id='capToStr'>
+capToStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> capToStr()</code></p>
+
+<p>Return "square", "butt", "round"</p>
+</dd>
+<dt id='dash'>
+dash</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;?</a> dash</code></p>
+
+<p>Dash pattern as on/off again lengths.  If null then shapes are stroked solid.</p>
+
+<p>Note: dashes not supported in javascript</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Pen.html'>Pen</a> defVal := Pen.make() Func&lt;Void,Pen> { ... }</code></p>
+
+<p>Default pen is width of 1 with capSquare and joinMiter.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Equality is based on Pen's fields.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Pen.html'>Pen?</a> fromStr(<a href='../sys/Str.html'>Str</a> str, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a pen from string (see <code><a href='Pen.html#toStr'>toStr</a></code>).  If invalid and checked is true then throw ParseErr otherwise return null.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Hash the fields.</p>
+</dd>
+<dt id='join'>
+join</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> join := joinMiter</code></p>
+
+<p>Defines how two path segments are joined at the endpoints. Valid values are <code><a href='Pen.html#joinMiter'>joinMiter</a></code>, <code><a href='Pen.html#joinRound'>joinRound</a></code>, and <code><a href='Pen.html#joinBevel'>joinBevel</a></code>. Default is joinMiter.</p>
+</dd>
+<dt id='joinBevel'>
+joinBevel</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> joinBevel := 1</code></p>
+
+<p>Constant for <code><a href='Pen.html#join'>join</a></code></p>
+</dd>
+<dt id='joinMiter'>
+joinMiter</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> joinMiter := 0</code></p>
+
+<p>Constant for <code><a href='Pen.html#join'>join</a></code></p>
+</dd>
+<dt id='joinRound'>
+joinRound</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> joinRound := 3</code></p>
+
+<p>Constant for <code><a href='Pen.html#join'>join</a></code></p>
+</dd>
+<dt id='joinToStr'>
+joinToStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> joinToStr()</code></p>
+
+<p>Return "miter", "round", "bevel"</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+
+<p>Construct with it-block</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return <code>"width cap join dash"</code> such as <code>"2 capButt joinBevel [1,1]"</code>. Omit cap, join, or dash if at defaults.</p>
+</dd>
+<dt id='width'>
+width</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> width := 1</code></p>
+
+<p>Width of the stroke, default is 1.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#capButt'>capButt</a></li><li><a href='#capRound'>capRound</a></li><li><a href='#capSquare'>capSquare</a></li><li><a href='#defVal'>defVal</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#joinBevel'>joinBevel</a></li><li><a href='#joinMiter'>joinMiter</a></li><li><a href='#joinRound'>joinRound</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#cap'>cap</a></li><li><a href='#capToStr'>capToStr</a></li><li><a href='#dash'>dash</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#join'>join</a></li><li><a href='#joinToStr'>joinToStr</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#width'>width</a></li></ul>
+</div>
+</div>
+</body>
+</html>

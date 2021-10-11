@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>email::EmailPart</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>email</a></li><li><a href='EmailPart.html'>EmailPart</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> email::EmailPart</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  email::EmailPart</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+<p class='src'>
+<a href='src-EmailPart.fan.html'>Source</a></p>
+
+<p>EmailPart is the base class for parts within a multipart MIME document.</p>
+
+<p>See <a href='index.html'>pod doc</a> and <a href='https://fantom.org/doc/examples/email-sending'>examples</a>.</p>
+<dl>
+<dt id='encode'>
+encode</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> encode(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+<p class='src'>
+<a href='src-EmailPart.fan.html#line31'>Source</a></p>
+
+<p>Encode as a MIME message according to RFC 822.  The base class encodes the headers - subclasses should override to call super and then encode the part's content.</p>
+</dd>
+<dt id='headers'>
+headers</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> headers := CaseInsensitiveMap&lt;Str,Str>.&lt;ctor>()</code></p>
+<p class='src'>
+<a href='src-EmailPart.fan.html'>Source</a></p>
+
+<p>Map of headers.  The header map is case insensitive.</p>
+</dd>
+<dt id='validate'>
+validate</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> validate()</code></p>
+<p class='src'>
+<a href='src-EmailPart.fan.html#line24'>Source</a></p>
+
+<p>Validate this part - throw Err if not configured correctly.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-EmailPart.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#encode'>encode</a></li><li><a href='#headers'>headers</a></li><li><a href='#validate'>validate</a></li></ul>
+</div>
+</div>
+</body>
+</html>

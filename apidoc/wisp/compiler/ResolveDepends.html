@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::ResolveDepends</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='ResolveDepends.html'>ResolveDepends</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::ResolveDepends</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    <a href='CompilerStep.html'>compiler::CompilerStep</a>
+      compiler::ResolveDepends</pre>
+
+<p>ResolveDepends resolves each dependency to a CPod and checks the version.  We also set CNamespace.depends in this step.</p>
+<dl>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Loc.html'>Loc</a> loc</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler)</code></p>
+
+<p>Constructor takes the associated Compiler</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run the step</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#loc'>loc</a></li><li><a href='#run'>run</a></li></ul>
+</div>
+</div>
+</body>
+</html>

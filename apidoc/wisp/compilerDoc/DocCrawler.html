@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocCrawler</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocCrawler.html'>DocCrawler</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> compilerDoc::DocCrawler</h1>
+<pre>compilerDoc::DocCrawler</pre>
+<p class='src'>
+<a href='src-DocCrawler.fan.html'>Source</a></p>
+
+<p>DocCrawler provides an interface to implement by search engine crawlers when crawling a specific document via <code><a href='Doc.html#onCrawl'>Doc.onCrawl</a></code>.</p>
+<dl>
+<dt id='addFandoc'>
+addFandoc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> addFandoc(<a href='DocFandoc.html'>DocFandoc</a> fandoc)</code></p>
+<p class='src'>
+<a href='src-DocCrawler.fan.html'>Source</a></p>
+
+<p>Add fandoc formatted text to the index for current doc</p>
+</dd>
+<dt id='addKeyword'>
+addKeyword</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> addKeyword(<a href='../sys/Str.html'>Str</a> keyword, <a href='../sys/Str.html'>Str</a> title, <a href='DocFandoc.html'>DocFandoc</a> summary, <a href='../sys/Str.html'>Str?</a> anchor)</code></p>
+<p class='src'>
+<a href='src-DocCrawler.fan.html#line21'>Source</a></p>
+
+<p>Add a search keyword with a curated title, summary formatted as fandoc, and an optional fragment anchor within the document. This is used to index API keywords like types, slot name, qnames, etc.  The summary is used only for hit higlighting and should be added to the index itself separately.</p>
+</dd>
+<dt id='addText'>
+addText</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> addText(<a href='../sys/Str.html'>Str</a> str)</code></p>
+<p class='src'>
+<a href='src-DocCrawler.fan.html'>Source</a></p>
+
+<p>Add plain, unformatted text to the index for current doc</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocCrawler.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addFandoc'>addFandoc</a></li><li><a href='#addKeyword'>addKeyword</a></li><li><a href='#addText'>addText</a></li></ul>
+</div>
+</div>
+</body>
+</html>

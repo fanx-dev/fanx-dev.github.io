@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::WidgetGroup</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='WidgetGroup.html'>WidgetGroup</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> vaseGui::WidgetGroup</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Widget.html'>vaseGui::Widget</a>
+    vaseGui::WidgetGroup</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+
+<p>WidgetGroup is a Widget Container</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />virtual <a href='../sys/This.html'>This</a> add(<a href='Widget.html'>Widget</a> child)</code></p>
+
+<p>Add a child widget. If child is already parented throw ArgErr.  Return this.</p>
+</dd>
+<dt id='children'>
+children</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='../sys/List.html'>List&lt;<a href='Widget.html'>Widget</a>&gt;</a> children := Widget[,]</code></p>
+</dd>
+<dt id='childrenSize'>
+childrenSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> childrenSize()</code></p>
+
+<p>num of children</p>
+</dd>
+<dt id='doPaint'>
+doPaint</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> doPaint(<a href='../vaseGraphics/Graphics.html'>Graphics</a> g)</code></p>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> each(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Widget.html'>Widget</a>,<a href='../sys/Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Iterate the children widgets.</p>
+</dd>
+<dt id='findById'>
+findById</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Widget.html'>Widget?</a> findById(<a href='../sys/Str.html'>Str</a> id)</code></p>
+
+<p>find widget by id in this group</p>
+</dd>
+<dt id='gestureEvent'>
+gestureEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> gestureEvent(<a href='GestureEvent.html'>GestureEvent</a> e)</code></p>
+
+<p>process gesture event</p>
+</dd>
+<dt id='getChild'>
+getChild</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Widget.html'>Widget?</a> getChild(<a href='../sys/Int.html'>Int</a> i)</code></p>
+
+<p>get by index</p>
+</dd>
+<dt id='indexSame'>
+indexSame</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> indexSame(<a href='Widget.html'>Widget</a> child)</code></p>
+</dd>
+<dt id='keyEvent'>
+keyEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> keyEvent(<a href='../vaseWindow/KeyEvent.html'>KeyEvent</a> e)</code></p>
+</dd>
+<dt id='layoutChildren'>
+layoutChildren</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract override <a href='../sys/Void.html'>Void</a> layoutChildren(<a href='../sys/Bool.html'>Bool</a> force)</code></p>
+
+<p>layout the children</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+</dd>
+<dt id='motionEvent'>
+motionEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> motionEvent(<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+
+<p>process motion event</p>
+</dd>
+<dt id='moveToTop'>
+moveToTop</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> moveToTop(<a href='Widget.html'>Widget</a> child)</code></p>
+
+<p>move child to top.</p>
+</dd>
+<dt id='onMounted'>
+onMounted</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> onMounted()</code></p>
+
+<p>callback on mounted</p>
+</dd>
+<dt id='paintChildren'>
+paintChildren</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> paintChildren(<a href='../vaseGraphics/Graphics.html'>Graphics</a> g)</code></p>
+
+<p>paint children widget</p>
+</dd>
+<dt id='prefContentSize'>
+prefContentSize</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract override <a href='../vaseGraphics/Size.html'>Size</a> prefContentSize(<a href='../sys/Int.html'>Int</a> hintsWidth := -1, <a href='../sys/Int.html'>Int</a> hintsHeight := -1)</code></p>
+
+<p>get the prefer content size</p>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> remove(<a href='Widget.html'>Widget?</a> child, <a href='../sys/Bool.html'>Bool</a> doRelayout := true)</code></p>
+
+<p>Remove a child widget</p>
+</dd>
+<dt id='removeAll'>
+removeAll</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> removeAll()</code></p>
+
+<p>Remove all child widgets.  Return this.</p>
+</dd>
+<dt id='resetStyle'>
+resetStyle</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> resetStyle()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#children'>children</a></li><li><a href='#childrenSize'>childrenSize</a></li><li><a href='#doPaint'>doPaint</a></li><li><a href='#each'>each</a></li><li><a href='#findById'>findById</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#getChild'>getChild</a></li><li><a href='#indexSame'>indexSame</a></li><li><a href='#keyEvent'>keyEvent</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#moveToTop'>moveToTop</a></li><li><a href='#onMounted'>onMounted</a></li><li><a href='#paintChildren'>paintChildren</a></li><li><a href='#prefContentSize'>prefContentSize</a></li><li><a href='#remove'>remove</a></li><li><a href='#removeAll'>removeAll</a></li><li><a href='#resetStyle'>resetStyle</a></li></ul>
+</div>
+</div>
+</body>
+</html>

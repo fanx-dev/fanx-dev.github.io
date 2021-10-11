@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::IndexedAssignExpr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='IndexedAssignExpr.html'>IndexedAssignExpr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::IndexedAssignExpr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compilerx::Node</a>
+    <a href='Expr.html'>compilerx::Expr</a>
+      <a href='NameExpr.html'>compilerx::NameExpr</a>
+        <a href='CallExpr.html'>compilerx::CallExpr</a>
+          <a href='ShortcutExpr.html'>compilerx::ShortcutExpr</a>
+            compilerx::IndexedAssignExpr</pre>
+
+<p>IndexedAssignExpr is a subclass of ShortcutExpr used in situations like x[y] += z where we need keep of two extra scratch variables and the get's matching set method. Note this class models the top x[y] += z, NOT the get target which is x[y].</p>
+
+<p>In this example, IndexedAssignExpr shortcuts Int.plus and its target shortcuts List.get:</p>
+
+<pre>x := [2]
+x[0] += 3</pre>
+<dl>
+<dt id='makeFrom'>
+makeFrom</dt>
+<dd>
+<p class='sig'>
+<code>new makeFrom(<a href='ShortcutExpr.html'>ShortcutExpr</a> from)</code></p>
+</dd>
+<dt id='scratchA'>
+scratchA</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodVar.html'>MethodVar?</a> scratchA</code></p>
+</dd>
+<dt id='scratchB'>
+scratchB</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodVar.html'>MethodVar?</a> scratchB</code></p>
+</dd>
+<dt id='setMethod'>
+setMethod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CMethod.html'>CMethod?</a> setMethod</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#makeFrom'>makeFrom</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#scratchA'>scratchA</a></li><li><a href='#scratchB'>scratchB</a></li><li><a href='#setMethod'>setMethod</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fandoc::DocWriter</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='DocWriter.html'>DocWriter</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> fandoc::DocWriter</h1>
+<pre>fandoc::DocWriter</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-DocWriter.fan.html'>Source</a></p>
+
+<p>DocWriter is used to output a fandoc model using a series of callbacks.</p>
+
+<p>See <a href='index.html#api'>pod doc</a> for usage.</p>
+<dl>
+<dt id='docEnd'>
+docEnd</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> docEnd(<a href='Doc.html'>Doc</a> doc)</code></p>
+<p class='src'>
+<a href='src-DocWriter.fan.html#line24'>Source</a></p>
+
+<p>Exit a document.</p>
+</dd>
+<dt id='docStart'>
+docStart</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> docStart(<a href='Doc.html'>Doc</a> doc)</code></p>
+<p class='src'>
+<a href='src-DocWriter.fan.html'>Source</a></p>
+
+<p>Enter a document.</p>
+</dd>
+<dt id='elemEnd'>
+elemEnd</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> elemEnd(<a href='DocElem.html'>DocElem</a> elem)</code></p>
+<p class='src'>
+<a href='src-DocWriter.fan.html#line34'>Source</a></p>
+
+<p>Exit an element.</p>
+</dd>
+<dt id='elemStart'>
+elemStart</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> elemStart(<a href='DocElem.html'>DocElem</a> elem)</code></p>
+<p class='src'>
+<a href='src-DocWriter.fan.html#line29'>Source</a></p>
+
+<p>Enter an element.</p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> text(<a href='DocText.html'>DocText</a> text)</code></p>
+<p class='src'>
+<a href='src-DocWriter.fan.html#line39'>Source</a></p>
+
+<p>Write text node.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocWriter.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#docEnd'>docEnd</a></li><li><a href='#docStart'>docStart</a></li><li><a href='#elemEnd'>elemEnd</a></li><li><a href='#elemStart'>elemStart</a></li><li><a href='#text'>text</a></li></ul>
+</div>
+</div>
+</body>
+</html>

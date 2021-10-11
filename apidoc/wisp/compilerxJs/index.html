@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerxJs</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerxJs</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>pod</span> compilerxJs</h1>
+<p>
+Fanx to JavaScript Compiler</p>
+<h2>Classes</h2>
+<table>
+<tr>
+<td><a href='Base64VLQ.html'>Base64VLQ</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='CompileJsPlugin.html'>CompileJsPlugin</a></td>
+<td>
+<p>Fantom source to JavaScript source compiler - this class is plugged into the compiler pipeline by the compiler::CompileJs step.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Dump.html'>Dump</a></td>
+<td>
+<p>Dump the JavaScript source for a pod.</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsAwaitExpr.html'>JsAwaitExpr</a></td>
+<td>
+<p>JsAwaitExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsBinaryExpr.html'>JsBinaryExpr</a></td>
+<td>
+<p>JsBinaryExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsBlock.html'>JsBlock</a></td>
+<td>
+<p>JsBlock</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsBoolLiteralExpr.html'>JsBoolLiteralExpr</a></td>
+<td>
+<p>JsBoolLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsBreakStmt.html'>JsBreakStmt</a></td>
+<td>
+<p>JsBreakStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsCallExpr.html'>JsCallExpr</a></td>
+<td>
+<p>JsCallExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsCase.html'>JsCase</a></td>
+<td>
+<p>JsCase</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsCatch.html'>JsCatch</a></td>
+<td>
+<p>JsCatch</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsClosureExpr.html'>JsClosureExpr</a></td>
+<td>
+<p>JsClosureExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsCompilerSupport.html'>JsCompilerSupport</a></td>
+<td>
+<p>JsCompilerSupport provides support for JavaScript compiler pipeline.</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsCondExpr.html'>JsCondExpr</a></td>
+<td>
+<p>JsCondExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsContinueStmt.html'>JsContinueStmt</a></td>
+<td>
+<p>JsContinueStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsDecimalLiteralExpr.html'>JsDecimalLiteralExpr</a></td>
+<td>
+<p>JsDecimalLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsDurationLiteralExpr.html'>JsDurationLiteralExpr</a></td>
+<td>
+<p>JsDurationLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsElvisExpr.html'>JsElvisExpr</a></td>
+<td>
+<p>JsElvisExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsExpr.html'>JsExpr</a></td>
+<td>
+<p>JsExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsExprStmt.html'>JsExprStmt</a></td>
+<td>
+<p>JsExprStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsExtToMime.html'>JsExtToMime</a></td>
+<td>
+<p>JsExtToMime</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsFacet.html'>JsFacet</a></td>
+<td>
+<p>JsFacet</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsField.html'>JsField</a></td>
+<td>
+<p>JsField</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsFieldExpr.html'>JsFieldExpr</a></td>
+<td>
+<p>JsFieldExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsFieldRef.html'>JsFieldRef</a></td>
+<td>
+<p>JsFieldRef</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsFloatLiteralExpr.html'>JsFloatLiteralExpr</a></td>
+<td>
+<p>JsFloatLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsForStmt.html'>JsForStmt</a></td>
+<td>
+<p>JsForStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsIfStmt.html'>JsIfStmt</a></td>
+<td>
+<p>JsIfStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsIndexedProps.html'>JsIndexedProps</a></td>
+<td>
+<p>JsIndexedProps is used to support JavaScript implementation of <a href='sys::Env.index'>sys::Env.index</a></p>
+</td>
+</tr>
+<tr>
+<td><a href='JsIntLiteralExpr.html'>JsIntLiteralExpr</a></td>
+<td>
+<p>JsIntLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsItExpr.html'>JsItExpr</a></td>
+<td>
+<p>JsItExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsListLiteralExpr.html'>JsListLiteralExpr</a></td>
+<td>
+<p>JsListLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsLocalDefStmt.html'>JsLocalDefStmt</a></td>
+<td>
+<p>JsLocalDefStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsLocalVarExpr.html'>JsLocalVarExpr</a></td>
+<td>
+<p>JsLocalVarExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsMapLiteralExpr.html'>JsMapLiteralExpr</a></td>
+<td>
+<p>JsMapLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsMethod.html'>JsMethod</a></td>
+<td>
+<p>JsMethod</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsMethodParam.html'>JsMethodParam</a></td>
+<td>
+<p>JsMethodParam</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsMethodRef.html'>JsMethodRef</a></td>
+<td>
+<p>JsMethodRef</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsNoOpStmt.html'>JsNoOpStmt</a></td>
+<td>
+<p>JsNoOpStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsNode.html'>JsNode</a></td>
+<td>
+<p>JsNode translates a compiler::Node into the equivalent JavaScript source code.</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsNullLiteralExpr.html'>JsNullLiteralExpr</a></td>
+<td>
+<p>JsNullLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsPod.html'>JsPod</a></td>
+<td>
+<p>JsPod</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsPodClosures.html'>JsPodClosures</a></td>
+<td>
+<p>Utility for working with JS closures.</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsProps.html'>JsProps</a></td>
+<td>
+<p>JsProps</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsRangeLiteralExpr.html'>JsRangeLiteralExpr</a></td>
+<td>
+<p>JsRangeLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsReturnStmt.html'>JsReturnStmt</a></td>
+<td>
+<p>JsReturnStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsShortcutExpr.html'>JsShortcutExpr</a></td>
+<td>
+<p>JsShortcutExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsSlot.html'>JsSlot</a></td>
+<td>
+<p>JsSlot</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsSlotLiteralExpr.html'>JsSlotLiteralExpr</a></td>
+<td>
+<p>JsSlotLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsSlotRef.html'>JsSlotRef</a></td>
+<td>
+<p>JsSlotRef</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsStaticTargetExpr.html'>JsStaticTargetExpr</a></td>
+<td>
+<p>JsStaticTargetExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsStmt.html'>JsStmt</a></td>
+<td>
+<p>JsStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsStrLiteralExpr.html'>JsStrLiteralExpr</a></td>
+<td>
+<p>JsStrLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsSuperExpr.html'>JsSuperExpr</a></td>
+<td>
+<p>JsSuperExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsSwitchStmt.html'>JsSwitchStmt</a></td>
+<td>
+<p>JsSwitchStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsTernaryExpr.html'>JsTernaryExpr</a></td>
+<td>
+<p>JsTernaryExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsThisExpr.html'>JsThisExpr</a></td>
+<td>
+<p>JsThisExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsThrowExpr.html'>JsThrowExpr</a></td>
+<td>
+<p>JsThrowExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsThrowStmt.html'>JsThrowStmt</a></td>
+<td>
+<p>JsThrowStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsTryStmt.html'>JsTryStmt</a></td>
+<td>
+<p>JsTryStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsType.html'>JsType</a></td>
+<td>
+<p>JsType</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsTypeCheckExpr.html'>JsTypeCheckExpr</a></td>
+<td>
+<p>JsTypeCheckExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsTypeLiteralExpr.html'>JsTypeLiteralExpr</a></td>
+<td>
+<p>JsTypeLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsTypeRef.html'>JsTypeRef</a></td>
+<td>
+<p>JsTypeRef</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsUnaryExpr.html'>JsUnaryExpr</a></td>
+<td>
+<p>JsUnaryExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsUnitDatabase.html'>JsUnitDatabase</a></td>
+<td>
+<p>JsUnitDatabase</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsUriLiteralExpr.html'>JsUriLiteralExpr</a></td>
+<td>
+<p>JsUriLiteralExpr</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsWhileStmt.html'>JsWhileStmt</a></td>
+<td>
+<p>JsWhileStmt</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsWriter.html'>JsWriter</a></td>
+<td>
+<p>JsWriter.</p>
+</td>
+</tr>
+<tr>
+<td><a href='MapField.html'>MapField</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='NodeRunner.html'>NodeRunner</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='SourceMap.html'>SourceMap</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='TzTool.html'>TzTool</a></td>
+<td>
+<p>Tool for managing JS time zones.</p>
+</td>
+</tr>
+</table>
+</div>
+<div class='sidebar'>
+<h3>All Types</h3>
+<ul>
+<li><a href='Base64VLQ.html'>Base64VLQ</a></li><li><a href='CompileJsPlugin.html'>CompileJsPlugin</a></li><li><a href='Dump.html'>Dump</a></li><li><a href='JsAwaitExpr.html'>JsAwaitExpr</a></li><li><a href='JsBinaryExpr.html'>JsBinaryExpr</a></li><li><a href='JsBlock.html'>JsBlock</a></li><li><a href='JsBoolLiteralExpr.html'>JsBoolLiteralExpr</a></li><li><a href='JsBreakStmt.html'>JsBreakStmt</a></li><li><a href='JsCallExpr.html'>JsCallExpr</a></li><li><a href='JsCase.html'>JsCase</a></li><li><a href='JsCatch.html'>JsCatch</a></li><li><a href='JsClosureExpr.html'>JsClosureExpr</a></li><li><a href='JsCompilerSupport.html'>JsCompilerSupport</a></li><li><a href='JsCondExpr.html'>JsCondExpr</a></li><li><a href='JsContinueStmt.html'>JsContinueStmt</a></li><li><a href='JsDecimalLiteralExpr.html'>JsDecimalLiteralExpr</a></li><li><a href='JsDurationLiteralExpr.html'>JsDurationLiteralExpr</a></li><li><a href='JsElvisExpr.html'>JsElvisExpr</a></li><li><a href='JsExpr.html'>JsExpr</a></li><li><a href='JsExprStmt.html'>JsExprStmt</a></li><li><a href='JsExtToMime.html'>JsExtToMime</a></li><li><a href='JsFacet.html'>JsFacet</a></li><li><a href='JsField.html'>JsField</a></li><li><a href='JsFieldExpr.html'>JsFieldExpr</a></li><li><a href='JsFieldRef.html'>JsFieldRef</a></li><li><a href='JsFloatLiteralExpr.html'>JsFloatLiteralExpr</a></li><li><a href='JsForStmt.html'>JsForStmt</a></li><li><a href='JsIfStmt.html'>JsIfStmt</a></li><li><a href='JsIndexedProps.html'>JsIndexedProps</a></li><li><a href='JsIntLiteralExpr.html'>JsIntLiteralExpr</a></li><li><a href='JsItExpr.html'>JsItExpr</a></li><li><a href='JsListLiteralExpr.html'>JsListLiteralExpr</a></li><li><a href='JsLocalDefStmt.html'>JsLocalDefStmt</a></li><li><a href='JsLocalVarExpr.html'>JsLocalVarExpr</a></li><li><a href='JsMapLiteralExpr.html'>JsMapLiteralExpr</a></li><li><a href='JsMethod.html'>JsMethod</a></li><li><a href='JsMethodParam.html'>JsMethodParam</a></li><li><a href='JsMethodRef.html'>JsMethodRef</a></li><li><a href='JsNoOpStmt.html'>JsNoOpStmt</a></li><li><a href='JsNode.html'>JsNode</a></li><li><a href='JsNullLiteralExpr.html'>JsNullLiteralExpr</a></li><li><a href='JsPod.html'>JsPod</a></li><li><a href='JsPodClosures.html'>JsPodClosures</a></li><li><a href='JsProps.html'>JsProps</a></li><li><a href='JsRangeLiteralExpr.html'>JsRangeLiteralExpr</a></li><li><a href='JsReturnStmt.html'>JsReturnStmt</a></li><li><a href='JsShortcutExpr.html'>JsShortcutExpr</a></li><li><a href='JsSlot.html'>JsSlot</a></li><li><a href='JsSlotLiteralExpr.html'>JsSlotLiteralExpr</a></li><li><a href='JsSlotRef.html'>JsSlotRef</a></li><li><a href='JsStaticTargetExpr.html'>JsStaticTargetExpr</a></li><li><a href='JsStmt.html'>JsStmt</a></li><li><a href='JsStrLiteralExpr.html'>JsStrLiteralExpr</a></li><li><a href='JsSuperExpr.html'>JsSuperExpr</a></li><li><a href='JsSwitchStmt.html'>JsSwitchStmt</a></li><li><a href='JsTernaryExpr.html'>JsTernaryExpr</a></li><li><a href='JsThisExpr.html'>JsThisExpr</a></li><li><a href='JsThrowExpr.html'>JsThrowExpr</a></li><li><a href='JsThrowStmt.html'>JsThrowStmt</a></li><li><a href='JsTryStmt.html'>JsTryStmt</a></li><li><a href='JsType.html'>JsType</a></li><li><a href='JsTypeCheckExpr.html'>JsTypeCheckExpr</a></li><li><a href='JsTypeLiteralExpr.html'>JsTypeLiteralExpr</a></li><li><a href='JsTypeRef.html'>JsTypeRef</a></li><li><a href='JsUnaryExpr.html'>JsUnaryExpr</a></li><li><a href='JsUnitDatabase.html'>JsUnitDatabase</a></li><li><a href='JsUriLiteralExpr.html'>JsUriLiteralExpr</a></li><li><a href='JsWhileStmt.html'>JsWhileStmt</a></li><li><a href='JsWriter.html'>JsWriter</a></li><li><a href='MapField.html'>MapField</a></li><li><a href='NodeRunner.html'>NodeRunner</a></li><li><a href='SourceMap.html'>SourceMap</a></li><li><a href='TzTool.html'>TzTool</a></li></ul>
+</div>
+</div>
+</body>
+</html>

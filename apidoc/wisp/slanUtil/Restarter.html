@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>slanUtil::Restarter</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>slanUtil</a></li><li><a href='Restarter.html'>Restarter</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> slanUtil::Restarter</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../util/AbstractMain.html'>util::AbstractMain</a>
+    slanUtil::Restarter</pre>
+
+<p>run process auto restart on crash or file changed usage: fan ./Restarter.fan -watch bin/,res/ -time 1sec  ./service.exe args</p>
+<dl>
+<dt id='commands'>
+commands</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../util/Arg.html'>Arg</a> { help=&quot;commands&quot; }</code><br /> <a href='../sys/Str.html'>Str?</a> commands</code></p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> run()</code></p>
+</dd>
+<dt id='time'>
+time</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../util/Opt.html'>Opt</a> { help=&quot;checkTime&quot; }</code><br /> <a href='../std/Duration.html'>Duration</a> time := 5.sec</code></p>
+</dd>
+<dt id='watch'>
+watch</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../util/Opt.html'>Opt</a> { help=&quot;watch list&quot; }</code><br /> <a href='../sys/Str.html'>Str?</a> watch := Env.cur().workDir().toStr() + &quot;lib/&quot;</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#commands'>commands</a></li><li><a href='#run'>run</a></li><li><a href='#time'>time</a></li><li><a href='#watch'>watch</a></li></ul>
+</div>
+</div>
+</body>
+</html>

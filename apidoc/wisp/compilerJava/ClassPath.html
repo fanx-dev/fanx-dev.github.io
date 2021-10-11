@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJava::ClassPath</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJava</a></li><li><a href='ClassPath.html'>ClassPath</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerJava::ClassPath</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerJava::ClassPath</pre>
+
+<p>ClassPath models a Java classpath to resolve package names to types.  Since the standard Java APIs don't expose this, we have go thru a lot of pain.</p>
+<dl>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> close()</code></p>
+</dd>
+<dt id='dump'>
+dump</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> dump(<a href='../std/OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+</dd>
+<dt id='forRuntime'>
+forRuntime</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ClassPath.html'>ClassPath</a> forRuntime(<a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> addCp := File#.emptyList())</code></p>
+
+<p>Get the classpath for the current Java runtime.</p>
+
+<p>The following are also searched when constructing the class path:</p>
+
+<ul>
+<li>{fan}lib/java/ext</li>
+
+<li>{fan}lib/java/ext/{plat}</li>
+
+<li>Locations specified in the <code>-classpath</code> (as made available in the <code>java.class.path</code> system property)</li>
+
+<li>Any additional locations specified via the <code>addCp</code> parameter</li>
+</ul>
+</dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> main()</code></p>
+</dd>
+<dt id='packages'>
+packages</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='ClassPathPackage.html'>ClassPathPackage</a>&gt;</a> packages()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return list of sources.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#forRuntime'>forRuntime</a></li><li><a href='#main'>main</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#close'>close</a></li><li><a href='#dump'>dump</a></li><li><a href='#packages'>packages</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

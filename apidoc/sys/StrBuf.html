@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::StrBuf</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='StrBuf.html'>StrBuf</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> sys::StrBuf</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  sys::StrBuf</pre>
+
+<p>StrBuf is a mutable sequence of Int characters.</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> add(<a href='Obj.html'>Obj?</a> x)</code></p>
+
+<p>Add x.toStr to the end of this buffer.  If x is null then the string "null" is inserted.  Return this.</p>
+</dd>
+<dt id='addChar'>
+addChar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> addChar(<a href='Int.html'>Int</a> ch)</code></p>
+
+<p>Optimized implementation for add(ch.toChar).  Return this.</p>
+</dd>
+<dt id='addStr'>
+addStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> addStr(<a href='Str.html'>Str</a> str, <a href='Int.html'>Int</a> off := 0, <a href='Int.html'>Int</a> len := str.size())</code></p>
+</dd>
+<dt id='capacity'>
+capacity</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> capacity</code></p>
+
+<p>The number of characters this buffer can hold without allocating more memory.</p>
+</dd>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> clear()</code></p>
+
+<p>Clear the contents of the string buffer so that is has a size of zero.  Return this.</p>
+</dd>
+<dt id='finalize'>
+finalize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='Void.html'>Void</a> finalize()</code></p>
+
+<p>Create an output stream to append characters to this string buffer.  The output stream is designed to write character data, attempts to do binary writes will throw UnsupportedErr.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> get(<a href='Int.html'>Int</a> index)</code></p>
+
+<p>Get the character at the zero based index as a Unicode code point. Negative indexes may be used to access from the end of the string buffer. This method is accessed via the [] operator.</p>
+</dd>
+<dt id='getRange'>
+getRange</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Str.html'>Str</a> getRange(<a href='Range.html'>Range</a> range)</code></p>
+
+<p>Return a substring based on the specified range.  Negative indexes may be used to access from the end of the string buffer.  This method is accessed via the [] operator.  Throw IndexErr if range illegal.</p>
+
+<p>Examples:</p>
+
+<pre>"abcd"[0..2]   => "abc"
+"abcd"[3..3]   => "d"
+"abcd"[-2..-1] => "cd"
+"abcd"[0..&lt;2]  => "ab"
+"abcd"[1..-2]  => "bc"
+"abcd"[4..-1]  => ""</pre>
+</dd>
+<dt id='insert'>
+insert</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> insert(<a href='Int.html'>Int</a> index, <a href='Obj.html'>Obj?</a> x)</code></p>
+
+<p>Insert x.toStr into this buffer at the specified index. If x is null then the string "null" is inserted.  Negative indexes may be used to access from the end of the string buffer.  Throw IndexErr if index is out of range.  Return this.</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>Return if size() == 0.</p>
+</dd>
+<dt id='join'>
+join</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> join(<a href='Obj.html'>Obj?</a> x, <a href='Str.html'>Str</a> sep := &quot; &quot;)</code></p>
+
+<p>Add x.toStr to the end of the buffer.  If the buffer is not empty, then first add the specified separator which defaults to a space if not specified.  Return this.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Int.html'>Int</a> capacity := 16)</code></p>
+
+<p>Create with initial capacity (defaults to 16).</p>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> remove(<a href='Int.html'>Int</a> index)</code></p>
+
+<p>Remove the char at the specified index.  A negative index may be used to access an index from the end of the list.  Size is decremented by 1.  Return the this.  Throw IndexErr if index is out of range.</p>
+</dd>
+<dt id='removeRange'>
+removeRange</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> removeRange(<a href='Range.html'>Range</a> r)</code></p>
+
+<p>Remove a range of indices from this buffer.  Negative indexes may be used to access from the end of the list.  Throw IndexErr if range illegal.  Return this.</p>
+</dd>
+<dt id='replaceRange'>
+replaceRange</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> replaceRange(<a href='Range.html'>Range</a> r, <a href='Str.html'>Str</a> str)</code></p>
+
+<p>Replaces a range of indices from this buffer with the specified string. Negative indexes may be used to access from the end of the buffer. Throw IndexErr if range illegal.  Return this.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='This.html'>This</a> set(<a href='Int.html'>Int</a> index, <a href='Int.html'>Int</a> ch)</code></p>
+
+<p>Replace the existing character at index in this buffer. Negative indexes may be used to access from the end of the string buffer.  This method is accessed via the [] operator.  Return this.</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> size()</code></p>
+
+<p>Return the number of characters in the buffer.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Str.html'>Str</a> toStr()</code></p>
+
+<p>Return the current buffer contents as a Str.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#addChar'>addChar</a></li><li><a href='#addStr'>addStr</a></li><li><a href='#capacity'>capacity</a></li><li><a href='#clear'>clear</a></li><li><a href='#finalize'>finalize</a></li><li><a href='#get'>get</a></li><li><a href='#getRange'>getRange</a></li><li><a href='#insert'>insert</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#join'>join</a></li><li><a href='#remove'>remove</a></li><li><a href='#removeRange'>removeRange</a></li><li><a href='#replaceRange'>replaceRange</a></li><li><a href='#set'>set</a></li><li><a href='#size'>size</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

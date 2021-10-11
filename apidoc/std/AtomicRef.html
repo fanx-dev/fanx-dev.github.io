@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::AtomicRef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='AtomicRef.html'>AtomicRef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> std::AtomicRef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::AtomicRef</pre>
+
+<p>AtomicRef is used to manage a object reference shared between actor/threads with atomic updates.  Only immutable objects may be shared.</p>
+<dl>
+<dt id='compareAndSet'>
+compareAndSet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> compareAndSet(<a href='AtomicRefT.html'>AtomicRef^T?</a> expect, <a href='AtomicRefT.html'>AtomicRef^T?</a> update)</code></p>
+
+<p>Atomically set the value to <code>update</code> if current value is equivalent to the <code>expect</code> value compared using <code>===</code> operator. Return true if updated, or false if current value was not equal to the expected value. Throw NotImmutableErr if <code>update</code> is mutable.</p>
+</dd>
+<dt id='finalize'>
+finalize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> finalize()</code></p>
+</dd>
+<dt id='getAndSet'>
+getAndSet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AtomicRefT.html'>AtomicRef^T?</a> getAndSet(<a href='AtomicRefT.html'>AtomicRef^T?</a> val)</code></p>
+
+<p>Atomically set the value and return the previous value. Throw NotImmutableErr if <code>val</code> is mutable.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='AtomicRefT.html'>AtomicRef^T?</a> val := null)</code></p>
+
+<p>Construct with initial value. Throw NotImmutableErr if initialized to a mutable value.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return <code>val.toStr</code></p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AtomicRefT.html'>AtomicRef^T?</a> val</code></p>
+
+<p>The current value. Throw NotImmutableErr if set to a mutable value.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#compareAndSet'>compareAndSet</a></li><li><a href='#finalize'>finalize</a></li><li><a href='#getAndSet'>getAndSet</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#val'>val</a></li></ul>
+</div>
+</div>
+</body>
+</html>

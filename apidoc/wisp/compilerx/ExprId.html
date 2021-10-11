@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::ExprId</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='ExprId.html'>ExprId</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> compilerx::ExprId</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    compilerx::ExprId</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>ExprId uniquely identifies the type of expr</p>
+<ul>
+<li><a href='#nullLiteral'>nullLiteral</a></li><li><a href='#trueLiteral'>trueLiteral</a></li><li><a href='#falseLiteral'>falseLiteral</a></li><li><a href='#intLiteral'>intLiteral</a></li><li><a href='#floatLiteral'>floatLiteral</a></li><li><a href='#decimalLiteral'>decimalLiteral</a></li><li><a href='#strLiteral'>strLiteral</a></li><li><a href='#durationLiteral'>durationLiteral</a></li><li><a href='#uriLiteral'>uriLiteral</a></li><li><a href='#typeLiteral'>typeLiteral</a></li><li><a href='#localeLiteral'>localeLiteral</a></li><li><a href='#slotLiteral'>slotLiteral</a></li><li><a href='#rangeLiteral'>rangeLiteral</a></li><li><a href='#listLiteral'>listLiteral</a></li><li><a href='#mapLiteral'>mapLiteral</a></li><li><a href='#boolNot'>boolNot</a></li><li><a href='#cmpNull'>cmpNull</a></li><li><a href='#cmpNotNull'>cmpNotNull</a></li><li><a href='#elvis'>elvis</a></li><li><a href='#assign'>assign</a></li><li><a href='#same'>same</a></li><li><a href='#notSame'>notSame</a></li><li><a href='#boolOr'>boolOr</a></li><li><a href='#boolAnd'>boolAnd</a></li><li><a href='#isExpr'>isExpr</a></li><li><a href='#isnotExpr'>isnotExpr</a></li><li><a href='#asExpr'>asExpr</a></li><li><a href='#coerce'>coerce</a></li><li><a href='#call'>call</a></li><li><a href='#construction'>construction</a></li><li><a href='#shortcut'>shortcut</a></li><li><a href='#field'>field</a></li><li><a href='#localVar'>localVar</a></li><li><a href='#thisExpr'>thisExpr</a></li><li><a href='#superExpr'>superExpr</a></li><li><a href='#itExpr'>itExpr</a></li><li><a href='#staticTarget'>staticTarget</a></li><li><a href='#unknownVar'>unknownVar</a></li><li><a href='#storage'>storage</a></li><li><a href='#ternary'>ternary</a></li><li><a href='#complexLiteral'>complexLiteral</a></li><li><a href='#closure'>closure</a></li><li><a href='#dsl'>dsl</a></li><li><a href='#throwExpr'>throwExpr</a></li><li><a href='#awaitExpr'>awaitExpr</a></li><li><a href='#sizeOfExpr'>sizeOfExpr</a></li><li><a href='#addressOfExpr'>addressOfExpr</a></li></ul>
+<dl>
+<dt id='addressOfExpr'>
+addressOfExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> addressOfExpr := ...</code></p>
+</dd>
+<dt id='asExpr'>
+asExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> asExpr := ...</code></p>
+</dd>
+<dt id='assign'>
+assign</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> assign := ...</code></p>
+</dd>
+<dt id='awaitExpr'>
+awaitExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> awaitExpr := ...</code></p>
+</dd>
+<dt id='boolAnd'>
+boolAnd</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> boolAnd := ...</code></p>
+</dd>
+<dt id='boolNot'>
+boolNot</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> boolNot := ...</code></p>
+</dd>
+<dt id='boolOr'>
+boolOr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> boolOr := ...</code></p>
+</dd>
+<dt id='call'>
+call</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> call := ...</code></p>
+</dd>
+<dt id='closure'>
+closure</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> closure := ...</code></p>
+</dd>
+<dt id='cmpNotNull'>
+cmpNotNull</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> cmpNotNull := ...</code></p>
+</dd>
+<dt id='cmpNull'>
+cmpNull</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> cmpNull := ...</code></p>
+</dd>
+<dt id='coerce'>
+coerce</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> coerce := ...</code></p>
+</dd>
+<dt id='complexLiteral'>
+complexLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> complexLiteral := ...</code></p>
+</dd>
+<dt id='construction'>
+construction</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> construction := ...</code></p>
+</dd>
+<dt id='decimalLiteral'>
+decimalLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> decimalLiteral := ...</code></p>
+</dd>
+<dt id='dsl'>
+dsl</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> dsl := ...</code></p>
+</dd>
+<dt id='durationLiteral'>
+durationLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> durationLiteral := ...</code></p>
+</dd>
+<dt id='elvis'>
+elvis</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> elvis := ...</code></p>
+</dd>
+<dt id='falseLiteral'>
+falseLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> falseLiteral := ...</code></p>
+</dd>
+<dt id='field'>
+field</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> field := ...</code></p>
+</dd>
+<dt id='floatLiteral'>
+floatLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> floatLiteral := ...</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the ExprId instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='intLiteral'>
+intLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> intLiteral := ...</code></p>
+</dd>
+<dt id='isExpr'>
+isExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> isExpr := ...</code></p>
+</dd>
+<dt id='isnotExpr'>
+isnotExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> isnotExpr := ...</code></p>
+</dd>
+<dt id='itExpr'>
+itExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> itExpr := ...</code></p>
+</dd>
+<dt id='listLiteral'>
+listLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> listLiteral := ...</code></p>
+</dd>
+<dt id='localVar'>
+localVar</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> localVar := ...</code></p>
+</dd>
+<dt id='localeLiteral'>
+localeLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> localeLiteral := ...</code></p>
+</dd>
+<dt id='mapLiteral'>
+mapLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> mapLiteral := ...</code></p>
+</dd>
+<dt id='notSame'>
+notSame</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> notSame := ...</code></p>
+</dd>
+<dt id='nullLiteral'>
+nullLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> nullLiteral := ...</code></p>
+</dd>
+<dt id='rangeLiteral'>
+rangeLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> rangeLiteral := ...</code></p>
+</dd>
+<dt id='same'>
+same</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> same := ...</code></p>
+</dd>
+<dt id='shortcut'>
+shortcut</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> shortcut := ...</code></p>
+</dd>
+<dt id='sizeOfExpr'>
+sizeOfExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> sizeOfExpr := ...</code></p>
+</dd>
+<dt id='slotLiteral'>
+slotLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> slotLiteral := ...</code></p>
+</dd>
+<dt id='staticTarget'>
+staticTarget</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> staticTarget := ...</code></p>
+</dd>
+<dt id='storage'>
+storage</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> storage := ...</code></p>
+</dd>
+<dt id='strLiteral'>
+strLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> strLiteral := ...</code></p>
+</dd>
+<dt id='superExpr'>
+superExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> superExpr := ...</code></p>
+</dd>
+<dt id='ternary'>
+ternary</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> ternary := ...</code></p>
+</dd>
+<dt id='thisExpr'>
+thisExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> thisExpr := ...</code></p>
+</dd>
+<dt id='throwExpr'>
+throwExpr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> throwExpr := ...</code></p>
+</dd>
+<dt id='trueLiteral'>
+trueLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> trueLiteral := ...</code></p>
+</dd>
+<dt id='typeLiteral'>
+typeLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> typeLiteral := ...</code></p>
+</dd>
+<dt id='unknownVar'>
+unknownVar</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> unknownVar := ...</code></p>
+</dd>
+<dt id='uriLiteral'>
+uriLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='ExprId.html'>ExprId</a> uriLiteral := ...</code></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='ExprId.html'>ExprId</a>&gt;</a> vals := ...</code></p>
+
+<p>List of ExprId values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#addressOfExpr'>addressOfExpr</a></li><li><a href='#asExpr'>asExpr</a></li><li><a href='#assign'>assign</a></li><li><a href='#awaitExpr'>awaitExpr</a></li><li><a href='#boolAnd'>boolAnd</a></li><li><a href='#boolNot'>boolNot</a></li><li><a href='#boolOr'>boolOr</a></li><li><a href='#call'>call</a></li><li><a href='#closure'>closure</a></li><li><a href='#cmpNotNull'>cmpNotNull</a></li><li><a href='#cmpNull'>cmpNull</a></li><li><a href='#coerce'>coerce</a></li><li><a href='#complexLiteral'>complexLiteral</a></li><li><a href='#construction'>construction</a></li><li><a href='#decimalLiteral'>decimalLiteral</a></li><li><a href='#dsl'>dsl</a></li><li><a href='#durationLiteral'>durationLiteral</a></li><li><a href='#elvis'>elvis</a></li><li><a href='#falseLiteral'>falseLiteral</a></li><li><a href='#field'>field</a></li><li><a href='#floatLiteral'>floatLiteral</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#intLiteral'>intLiteral</a></li><li><a href='#isExpr'>isExpr</a></li><li><a href='#isnotExpr'>isnotExpr</a></li><li><a href='#itExpr'>itExpr</a></li><li><a href='#listLiteral'>listLiteral</a></li><li><a href='#localVar'>localVar</a></li><li><a href='#localeLiteral'>localeLiteral</a></li><li><a href='#mapLiteral'>mapLiteral</a></li><li><a href='#notSame'>notSame</a></li><li><a href='#nullLiteral'>nullLiteral</a></li><li><a href='#rangeLiteral'>rangeLiteral</a></li><li><a href='#same'>same</a></li><li><a href='#shortcut'>shortcut</a></li><li><a href='#sizeOfExpr'>sizeOfExpr</a></li><li><a href='#slotLiteral'>slotLiteral</a></li><li><a href='#staticTarget'>staticTarget</a></li><li><a href='#storage'>storage</a></li><li><a href='#strLiteral'>strLiteral</a></li><li><a href='#superExpr'>superExpr</a></li><li><a href='#ternary'>ternary</a></li><li><a href='#thisExpr'>thisExpr</a></li><li><a href='#throwExpr'>throwExpr</a></li><li><a href='#trueLiteral'>trueLiteral</a></li><li><a href='#typeLiteral'>typeLiteral</a></li><li><a href='#unknownVar'>unknownVar</a></li><li><a href='#uriLiteral'>uriLiteral</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>slanWeb::ScriptMod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>slanWeb</a></li><li><a href='ScriptMod.html'>ScriptMod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> slanWeb::ScriptMod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../web/WebMod.html'>web::WebMod</a>
+    slanWeb::ScriptMod</pre>
+
+<p>Route for all Mod</p>
+<dl>
+<dt id='dir'>
+dir</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/File.html'>File?</a> dir</code></p>
+
+<p>res path</p>
+</dd>
+<dt id='findFile'>
+findFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File?</a> findFile(<a href='../std/Uri.html'>Uri</a> path, <a href='../sys/Bool.html'>Bool</a> checked := false)</code></p>
+
+<p>res path. switch podFile or file</p>
+</dd>
+<dt id='jsCompiler'>
+jsCompiler</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../slanCompiler/JsCompiler.html'>JsCompiler</a> jsCompiler</code></p>
+
+<p>fantom to javascript compiler</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/File.html'>File?</a> appPath, <a href='../sys/Str.html'>Str?</a> podName)</code></p>
+</dd>
+<dt id='onService'>
+onService</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onService()</code></p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Pod.html'>Pod?</a> pod</code></p>
+
+<p>main pod</p>
+</dd>
+<dt id='scriptCompiler'>
+scriptCompiler</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../slanCompiler/ScriptCompiler.html'>ScriptCompiler</a> scriptCompiler</code></p>
+</dd>
+<dt id='templateCompiler'>
+templateCompiler</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../slanCompiler/TemplateCompiler.html'>TemplateCompiler</a> templateCompiler</code></p>
+
+<p>html template to fantome class compiler</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dir'>dir</a></li><li><a href='#findFile'>findFile</a></li><li><a href='#jsCompiler'>jsCompiler</a></li><li><a href='#onService'>onService</a></li><li><a href='#pod'>pod</a></li><li><a href='#scriptCompiler'>scriptCompiler</a></li><li><a href='#templateCompiler'>templateCompiler</a></li></ul>
+</div>
+</div>
+</body>
+</html>

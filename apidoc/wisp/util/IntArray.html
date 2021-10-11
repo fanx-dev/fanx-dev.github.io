@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::IntArray</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='IntArray.html'>IntArray</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract virtual class</span> util::IntArray</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  util::IntArray</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/JsNative.html'>JsNative</a></code><br /></p>
+<dl>
+<dt id='copyFrom'>
+copyFrom</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> copyFrom(<a href='IntArray.html'>IntArray</a> that, <a href='../sys/Int.html'>Int</a> thatOffset, <a href='../sys/Int.html'>Int</a> thisOffset, <a href='../sys/Int.html'>Int</a> length)</code></p>
+</dd>
+<dt id='fill'>
+fill</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> fill(<a href='../sys/Int.html'>Int</a> val, <a href='../sys/Int.html'>Int</a> times)</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='../sys/Int.html'>Int</a> get(<a href='../sys/Int.html'>Int</a> pos)</code></p>
+</dd>
+<dt id='makeS1'>
+makeS1</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IntArray.html'>IntArray</a> makeS1(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Create a signed 8-bit, 1-byte integer array (-128 to 127).</p>
+</dd>
+<dt id='makeS2'>
+makeS2</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IntArray.html'>IntArray</a> makeS2(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Create a signed 16-bit, 2-byte integer array (-32_768 to 32_767).</p>
+</dd>
+<dt id='makeS4'>
+makeS4</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IntArray.html'>IntArray</a> makeS4(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Create a signed 32-bit, 4-byte integer array (-2_147_483_648 to 2_147_483_647).</p>
+</dd>
+<dt id='makeS8'>
+makeS8</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IntArray.html'>IntArray</a> makeS8(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Create a signed 64-bit, 8-byte integer array.</p>
+</dd>
+<dt id='makeU1'>
+makeU1</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IntArray.html'>IntArray</a> makeU1(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Create a unsigned 8-bit, 1-byte integer array (0 to 255).</p>
+</dd>
+<dt id='makeU2'>
+makeU2</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IntArray.html'>IntArray</a> makeU2(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Create a unsigned 16-bit, 2-byte integer array (0 to 65_535).</p>
+</dd>
+<dt id='makeU4'>
+makeU4</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IntArray.html'>IntArray</a> makeU4(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Create a unsigned 32-bit, 4-byte integer array (0 to 4_294_967_295).</p>
+</dd>
+<dt id='realloc'>
+realloc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='IntArray.html'>IntArray</a> realloc(<a href='../sys/Int.html'>Int</a> newSize)</code></p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='../sys/Void.html'>Void</a> set(<a href='../sys/Int.html'>Int</a> pos, <a href='../sys/Int.html'>Int</a> val)</code></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> size()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#makeS1'>makeS1</a></li><li><a href='#makeS2'>makeS2</a></li><li><a href='#makeS4'>makeS4</a></li><li><a href='#makeS8'>makeS8</a></li><li><a href='#makeU1'>makeU1</a></li><li><a href='#makeU2'>makeU2</a></li><li><a href='#makeU4'>makeU4</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#copyFrom'>copyFrom</a></li><li><a href='#fill'>fill</a></li><li><a href='#get'>get</a></li><li><a href='#realloc'>realloc</a></li><li><a href='#set'>set</a></li><li><a href='#size'>size</a></li></ul>
+</div>
+</div>
+</body>
+</html>

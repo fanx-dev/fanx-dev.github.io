@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SyntaxHtmlWriter.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='src-SyntaxHtmlWriter.fan.html'>SyntaxHtmlWriter.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   30 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** HtmlSyntaxWriter outputs a SyntaxDoc to HTML</span>
+<span id='line11'>**</span>
+<span id='line12'>class HtmlSyntaxWriter</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>  new make<b>(</b>OutStream out := Env.cur.out<b>)</b></span>
+<span id='line16'>  <b>{</b></span>
+<span id='line17'>    this.out = out</span>
+<span id='line18'>  <b>}</b></span>
+<span id='line19'></span>
+<span id='line20'>  ** Close underlying output stream</span>
+<span id='line21'>  Bool close<b>(</b><b>)</b> <b>{</b> out.close <b>}</b></span>
+<span id='line22'></span>
+<span id='line23'>  ** Write an entire HTML file with proper head, body</span>
+<span id='line24'>  ** types using default CSS</span>
+<span id='line25'>  This writeDoc<b>(</b>SyntaxDoc doc<b>)</b></span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    out.print<b>(</b></span>
+<span id='line28'>      Str&lt;|&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"</span>
+<span id='line29'>            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"></span>
+<span id='line30'>           &lt;html xmlns='http://www.w3.org/1999/xhtml'></span>
+<span id='line31'>           &lt;head></span>
+<span id='line32'>             &lt;title>Source&lt;/title></span>
+<span id='line33'>              &lt;meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/></span>
+<span id='line34'>              &lt;style type='text/css'></span>
+<span id='line35'>                body <b>{</b> margin:1em; padding:0; <b>}</b></span>
+<span id='line36'>                pre <b>{</b> font:9pt Monaco, "Courier New", monospace; <b>}</b></span>
+<span id='line37'>                b   <b>{</b> color:#f00; font-weight:normal; <b>}</b></span>
+<span id='line38'>                i   <b>{</b> color:#00f; font-style:normal; <b>}</b></span>
+<span id='line39'>                em  <b>{</b> color:#077; font-style:normal; <b>}</b></span>
+<span id='line40'>                q   <b>{</b> color:#070; font-style:normal; <b>}</b></span>
+<span id='line41'>                q:before, q:after <b>{</b> content: ""; <b>}</b></span>
+<span id='line42'>           &lt;/style></span>
+<span id='line43'>           &lt;/head></span>
+<span id='line44'>           &lt;body>|><b>)</b></span>
+<span id='line45'>    writeLines<b>(</b>doc<b>)</b></span>
+<span id='line46'>    out.print<b>(</b>"&lt;/body>&lt;/html>"<b>)</b></span>
+<span id='line47'>    return this</span>
+<span id='line48'>  <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  ** Write the lines of the document as HTML elements.  This</span>
+<span id='line51'>  ** method does not generate HTML head/body tags.</span>
+<span id='line52'>  This writeLines<b>(</b>SyntaxDoc doc<b>)</b></span>
+<span id='line53'>  <b>{</b></span>
+<span id='line54'>    out.printLine<b>(</b>"&lt;pre>"<b>)</b></span>
+<span id='line55'>    doc.eachLine |line| <b>{</b> writeLine<b>(</b>line<b>)</b> <b>}</b></span>
+<span id='line56'>    out.printLine<b>(</b>"&lt;/pre>"<b>)</b></span>
+<span id='line57'>    return this</span>
+<span id='line58'>  <b>}</b></span>
+<span id='line59'></span>
+<span id='line60'>  ** Write a single syntax line as styled HTML</span>
+<span id='line61'>  This writeLine<b>(</b>SyntaxLine line<b>)</b></span>
+<span id='line62'>  <b>{</b></span>
+<span id='line63'>    out.print<b>(</b>"&lt;span id='line"<b>)</b>.print<b>(</b>line.num<b>)</b>.print<b>(</b>"'>"<b>)</b></span>
+<span id='line64'>    line.eachSegment |type, text|</span>
+<span id='line65'>    <b>{</b></span>
+<span id='line66'>      if <b>(</b>type.html != null<b>)</b> out.print<b>(</b>"&lt;"<b>)</b>.print<b>(</b>type.html<b>)</b>.print<b>(</b>">"<b>)</b></span>
+<span id='line67'>      out.writeXml<b>(</b>text<b>)</b></span>
+<span id='line68'>      if <b>(</b>type.html != null<b>)</b> out.print<b>(</b>"&lt;/"<b>)</b>.print<b>(</b>type.html<b>)</b>.print<b>(</b>">"<b>)</b></span>
+<span id='line69'>    <b>}</b></span>
+<span id='line70'>    out.print<b>(</b>"&lt;/span>\n"<b>)</b></span>
+<span id='line71'>    return this</span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  private OutStream out</span>
+<span id='line75'></span>
+<span id='line76'><b>}</b></span>
+<span id='line77'></span>
+</pre>
+</div>
+</body>
+</html>

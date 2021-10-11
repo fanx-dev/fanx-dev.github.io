@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::FOpArg</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='FOpArg.html'>FOpArg</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> compilerx::FOpArg</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    compilerx::FOpArg</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>FOpArg</p>
+<ul>
+<li><a href='#None'>None</a></li><li><a href='#Int'>Int</a></li><li><a href='#Float'>Float</a></li><li><a href='#Decimal'>Decimal</a></li><li><a href='#Str'>Str</a></li><li><a href='#Duration'>Duration</a></li><li><a href='#Uri'>Uri</a></li><li><a href='#Register'>Register</a></li><li><a href='#TypeRef'>TypeRef</a></li><li><a href='#FieldRef'>FieldRef</a></li><li><a href='#MethodRef'>MethodRef</a></li><li><a href='#Jump'>Jump</a></li><li><a href='#TypePair'>TypePair</a></li></ul>
+<dl>
+<dt id='Decimal'>
+Decimal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> Decimal := ...</code></p>
+</dd>
+<dt id='Duration'>
+Duration</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> Duration := ...</code></p>
+</dd>
+<dt id='FieldRef'>
+FieldRef</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> FieldRef := ...</code></p>
+</dd>
+<dt id='Float'>
+Float</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> Float := ...</code></p>
+</dd>
+<dt id='Int'>
+Int</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> Int := ...</code></p>
+</dd>
+<dt id='Jump'>
+Jump</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> Jump := ...</code></p>
+</dd>
+<dt id='MethodRef'>
+MethodRef</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> MethodRef := ...</code></p>
+</dd>
+<dt id='None'>
+None</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> None := ...</code></p>
+</dd>
+<dt id='Register'>
+Register</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> Register := ...</code></p>
+</dd>
+<dt id='Str'>
+Str</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> Str := ...</code></p>
+</dd>
+<dt id='TypePair'>
+TypePair</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> TypePair := ...</code></p>
+</dd>
+<dt id='TypeRef'>
+TypeRef</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> TypeRef := ...</code></p>
+</dd>
+<dt id='Uri'>
+Uri</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOpArg.html'>FOpArg</a> Uri := ...</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the FOpArg instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='FOpArg.html'>FOpArg</a>&gt;</a> vals := ...</code></p>
+
+<p>List of FOpArg values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#Decimal'>Decimal</a></li><li><a href='#Duration'>Duration</a></li><li><a href='#FieldRef'>FieldRef</a></li><li><a href='#Float'>Float</a></li><li><a href='#Int'>Int</a></li><li><a href='#Jump'>Jump</a></li><li><a href='#MethodRef'>MethodRef</a></li><li><a href='#None'>None</a></li><li><a href='#Register'>Register</a></li><li><a href='#Str'>Str</a></li><li><a href='#TypePair'>TypePair</a></li><li><a href='#TypeRef'>TypeRef</a></li><li><a href='#Uri'>Uri</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::ConcurrentMap</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='ConcurrentMap.html'>ConcurrentMap</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> std::ConcurrentMap</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::ConcurrentMap</pre>
+
+<p>ConcurrentMap is a Fantom wrapper around Java's ConcurrentHashMap. It provides high performance concurrency and allows many operations to be performed without locking.  Refer to the ConcurrentHashMap Javadoc for the detailed semanatics on behavior and performance.</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> add(<a href='ConcurrentMapK.html'>ConcurrentMap^K</a> key, <a href='ConcurrentMapV.html'>ConcurrentMap^V</a> val)</code></p>
+
+<p>Add a value by key, raise exception if key was already mapped</p>
+</dd>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> clear()</code></p>
+
+<p>Remove all the key/value pairs</p>
+</dd>
+<dt id='containsKey'>
+containsKey</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> containsKey(<a href='ConcurrentMapK.html'>ConcurrentMap^K</a> key)</code></p>
+
+<p>Return true if the specified key is mapped</p>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> each(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='ConcurrentMapV.html'>ConcurrentMap^V</a>,<a href='ConcurrentMapK.html'>ConcurrentMap^K</a>&gt;</a> f)</code></p>
+
+<p>Iterate the map's key value pairs</p>
+</dd>
+<dt id='eachWhile'>
+eachWhile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> eachWhile(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='ConcurrentMapV.html'>ConcurrentMap^V</a>,<a href='ConcurrentMapK.html'>ConcurrentMap^K</a>&gt;</a> f)</code></p>
+
+<p>Iterate the map's key value pairs until given function returns non-null and return that as the result of this method.  Otherwise itereate every pair and return null</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='ConcurrentMapV.html'>ConcurrentMap^V?</a> get(<a href='ConcurrentMapK.html'>ConcurrentMap^K</a> key)</code></p>
+
+<p>Get a value by its key or return null</p>
+</dd>
+<dt id='getOrAdd'>
+getOrAdd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ConcurrentMapV.html'>ConcurrentMap^V</a> getOrAdd(<a href='ConcurrentMapK.html'>ConcurrentMap^K</a> key, <a href='ConcurrentMapV.html'>ConcurrentMap^V</a> defVal)</code></p>
+
+<p>Get the value for the specified key, or if it doesn't exist then automatically add it with the given default value.</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>Return if size is zero (this is expensive and requires full segment traveral)</p>
+</dd>
+<dt id='keys'>
+keys</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='ConcurrentMapK.html'>ConcurrentMap^K</a>&gt;</a> keys()</code></p>
+
+<p>Return list of keys</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Int.html'>Int</a> initialCapacity := 256)</code></p>
+
+<p>Make with initial capacity</p>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ConcurrentMapV.html'>ConcurrentMap^V?</a> remove(<a href='ConcurrentMapK.html'>ConcurrentMap^K</a> key)</code></p>
+
+<p>Remove a value by key, ignore if key not mapped</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/Void.html'>Void</a> set(<a href='ConcurrentMapK.html'>ConcurrentMap^K</a> key, <a href='ConcurrentMapV.html'>ConcurrentMap^V</a> val)</code></p>
+
+<p>Set a value by key</p>
+</dd>
+<dt id='setAll'>
+setAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setAll(<a href='Map.html'>Map&lt;<a href='ConcurrentMapK.html'>ConcurrentMap^K</a>,<a href='ConcurrentMapV.html'>ConcurrentMap^V</a>&gt;</a> m)</code></p>
+
+<p>Append the specified map to this map be setting every key/value from <code>m</code> in this map. Keys in m not yet mapped are added and keys already mapped are overwritten. Return this.</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> size()</code></p>
+
+<p>Return size (this is expensive and requires full segment traveral)</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='ConcurrentMapV.html'>ConcurrentMap^V</a>&gt;</a> vals()</code></p>
+
+<p>Return list of values</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#clear'>clear</a></li><li><a href='#containsKey'>containsKey</a></li><li><a href='#each'>each</a></li><li><a href='#eachWhile'>eachWhile</a></li><li><a href='#get'>get</a></li><li><a href='#getOrAdd'>getOrAdd</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#keys'>keys</a></li><li><a href='#remove'>remove</a></li><li><a href='#set'>set</a></li><li><a href='#setAll'>setAll</a></li><li><a href='#size'>size</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#vals'>vals</a></li></ul>
+</div>
+</div>
+</body>
+</html>

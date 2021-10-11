@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Weekday</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Weekday.html'>Weekday</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> std::Weekday</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    std::Weekday</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Enum for seven days of the week.</p>
+<ul>
+<li><a href='#sun'>sun</a></li><li><a href='#mon'>mon</a></li><li><a href='#tue'>tue</a></li><li><a href='#wed'>wed</a></li><li><a href='#thu'>thu</a></li><li><a href='#fri'>fri</a></li><li><a href='#sat'>sat</a></li></ul>
+<dl>
+<dt id='decrement'>
+decrement</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Weekday.html'>Weekday</a> decrement()</code></p>
+
+<p>Return the day before this weekday.</p>
+</dd>
+<dt id='fri'>
+fri</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Weekday.html'>Weekday</a> fri := ...</code></p>
+
+<p>Friday</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the Weekday instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='increment'>
+increment</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Weekday.html'>Weekday</a> increment()</code></p>
+
+<p>Return the day after this weekday.</p>
+</dd>
+<dt id='localeAbbr'>
+localeAbbr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> localeAbbr()</code></p>
+
+<p>Get the abbreviated name for the current locale. Configured by the <code>sys::&lt;name>Abbr</code> localized property.</p>
+</dd>
+<dt id='localeFull'>
+localeFull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> localeFull()</code></p>
+
+<p>Get the full name for the current locale. Configured by the <code>sys::&lt;name>Full</code> localized property.</p>
+</dd>
+<dt id='localeStartOfWeek'>
+localeStartOfWeek</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Weekday.html'>Weekday</a> localeStartOfWeek()</code></p>
+
+<p>Get the first day of the week for the current locale. For example in the United States, <code>sun</code> is considered the start of the week.  Configured by <code>sys::weekdayStart</code> localized property.  Also see <code><a href='Weekday.html#localeVals'>localeVals</a></code>.</p>
+</dd>
+<dt id='localeVals'>
+localeVals</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='Weekday.html'>Weekday</a>&gt;</a> localeVals()</code></p>
+
+<p>Get the days of the week ordered according to the locale's start of the week.  Also see <code><a href='Weekday.html#localeStartOfWeek'>localeStartOfWeek</a></code>.</p>
+</dd>
+<dt id='mon'>
+mon</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Weekday.html'>Weekday</a> mon := ...</code></p>
+
+<p>Monday</p>
+</dd>
+<dt id='sat'>
+sat</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Weekday.html'>Weekday</a> sat := ...</code></p>
+
+<p>Saturday</p>
+</dd>
+<dt id='sun'>
+sun</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Weekday.html'>Weekday</a> sun := ...</code></p>
+
+<p>Sunday</p>
+</dd>
+<dt id='thu'>
+thu</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Weekday.html'>Weekday</a> thu := ...</code></p>
+
+<p>Thursday</p>
+</dd>
+<dt id='toLocale'>
+toLocale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toLocale(<a href='../sys/Str.html'>Str?</a> pattern := null, <a href='Locale.html'>Locale</a> locale := Locale.cur())</code></p>
+
+<p>Return the weekday as a localized string according to the specified pattern.  The pattern rules are a subset of the <code><a href='DateTime.html#toLocale'>DateTime.toLocale</a></code>:</p>
+
+<pre>WWW    Three letter abbr weekday  Tue
+WWWW   Full weekday name          Tuesday</pre>
+
+<p>If pattern is null it defaults to "WWW".  Also see <code><a href='Weekday.html#localeAbbr'>localeAbbr</a></code> and <code><a href='Weekday.html#localeFull'>localeFull</a></code>.</p>
+</dd>
+<dt id='tue'>
+tue</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Weekday.html'>Weekday</a> tue := ...</code></p>
+
+<p>Tuesday</p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='Weekday.html'>Weekday</a>&gt;</a> vals := ...</code></p>
+
+<p>List of Weekday values indexed by ordinal</p>
+</dd>
+<dt id='wed'>
+wed</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Weekday.html'>Weekday</a> wed := ...</code></p>
+
+<p>Wednesday</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fri'>fri</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#localeStartOfWeek'>localeStartOfWeek</a></li><li><a href='#localeVals'>localeVals</a></li><li><a href='#mon'>mon</a></li><li><a href='#sat'>sat</a></li><li><a href='#sun'>sun</a></li><li><a href='#thu'>thu</a></li><li><a href='#tue'>tue</a></li><li><a href='#vals'>vals</a></li><li><a href='#wed'>wed</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#decrement'>decrement</a></li><li><a href='#increment'>increment</a></li><li><a href='#localeAbbr'>localeAbbr</a></li><li><a href='#localeFull'>localeFull</a></li><li><a href='#toLocale'>toLocale</a></li></ul>
+</div>
+</div>
+</body>
+</html>

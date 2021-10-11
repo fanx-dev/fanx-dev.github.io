@@ -1,21 +1,4 @@
-*{
-  margin:0;
-  padding:0;
-}
 
-body{
-  font-size:20px;
-  font-family:Helvetica, Arial, Sans;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-
-#header{
-  background:#2e7bcf;
-  color: #fff;
-}
 
 #title{
   width: 80%;
@@ -25,18 +8,18 @@ body{
 }
 
 #title h1{
-  font-size:50px;
+  font-size:3em;
   padding: 10px 0;
 }
 
 #title h3{
-  font-size:25px;
-  padding: 10px 0;
+  font-size:1.6em;
+  margin: 0 0 20px 0;
 }
 
 #btn {
   float:right;
-  font-size: 18px;
+  font-size: 1em;
   position:relative;
   top:-120px; 
 }
@@ -48,66 +31,19 @@ border-radius:25px;
 padding: 10px;
 }
 
-#header a:link, 
-#header a:visited { 
-color:#fff; 
-text-decoration:none; 
-}
-#header a:hover, 
-#header a:active { 
-color:#fff; 
-text-decoration:none; 
+
+.fs h3{
+  margin: 0 0 13px 0;
+  font-size:1.5em;
 }
 
-
-
-#content{
-  background:#fff;
-  width: 80%;
-  margin: 50px auto;
-}
-
-#content p{
+.fs p{
   margin: 0 0;
-  font-size:17px;
+  font-size:1em;
+  color:#888; 
 }
 
-#content h3{
-  margin: 8px 0;
-  font-size:20px;
-}
-
-.fs{
-  margin: 30px 0;
-}
-
-#doc_link {
-  margin: 40px 0;
-  font-size:14px;
-}
-
-
-ul li{
-  list-style:none;
-}
-
-/*bar*/
-.sitebar {
-  width:100%;
-  /*background:#364B66;*/
-  height:80px;
-}
-
-.sitebar ul{
-  float:right;
-  font-size:80%;
-  padding:20px 40px;
-}
-.sitebar li{
-  float:left;
-  padding:10px;
-}
-.sitebar li a{
-  color: #aaa;
-  text-decoration:none;
+.fs {
+  padding: 15px;
+  margin: 15px;
 }

@@ -1,0 +1,679 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Buf</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Buf.html'>Buf</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract rtconst class</span> std::Buf</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Buf</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/NoPeer.html'>NoPeer</a></code><br /></p>
+
+<p>Buf is used to model a block of bytes with random access.  Buf is typically backed by a block of memory, but can also be backed by a file:</p>
+
+<ul>
+<li><code><a href='Buf.html#make'>Buf.make</a></code>: backed by RAM</li>
+
+<li><code><a href='File.html#open'>File.open</a></code>: backed by random access file</li>
+
+<li><code><a href='File.html#mmap'>File.mmap</a></code>: backed by memory mapped file</li>
+</ul>
+
+<p>Buf provides an <code><a href='InStream.html'>InStream</a></code> and <code><a href='OutStream.html'>OutStream</a></code> to read and write into the buffer using a configurable position accessed via <code><a href='Buf.html#pos'>Buf.pos</a></code> and <code><a href='Buf.html#seek'>Buf.seek</a></code>.</p>
+
+<p>When using an InStream, bytes are read starting at pos where pos is advanced after each read.  The end of stream is reached when pos reaches size.  When using the OutStream, bytes are written starting at pos with pos advanced after each write.  If pos is less then size then the existing bytes are rewritten and size is not advanced, otherwise the buffer is automatically grown and size is advanced as bytes are appended.  It is common to write bytes into the buffer using the OutStream, then call <code><a href='Buf.html#flip'>Buf.flip</a></code> to prepare the buffer to be used for reading.</p>
+<dl>
+<dt id='bytesEqual'>
+bytesEqual</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> bytesEqual(<a href='Buf.html'>Buf</a> that)</code></p>
+
+<p>Return if the buffer contents are the same size and same bytes. Note this could be an extremely expensive call for non-memory buffers.</p>
+</dd>
+<dt id='capacity'>
+capacity</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> capacity</code></p>
+
+<p>The number of bytes this buffer can hold without allocating more memory.  Capacity is always greater or equal to size.  If adding a large number of bytes, it may be more efficient to manually set capacity.  See the <code><a href='Buf.html#trim'>trim</a></code> method to automatically set capacity to size.  Throw ArgErr if attempting to set capacity less than size. This method is ignored on a file buffer, and unsupported on mmap.</p>
+</dd>
+<dt id='charset'>
+charset</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Charset.html'>Charset</a> charset</code></p>
+
+<p>Character set for both the OutStream and InStream.</p>
+</dd>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> clear()</code></p>
+
+<p>Read the buffer for a fresh read by reseting the buffer's pos and size to zero.  The buffer's capacity remains the same. Return this.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+
+<p>If this buffer is backed by a file, then close it.  If a memory buffer then do nothing.  This method is guaranteed to never throw an IOErr.  Return true if the buffer was closed successfully or false if closed abnormally.</p>
+</dd>
+<dt id='dup'>
+dup</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Buf.html'>Buf</a> dup()</code></p>
+
+<p>Create a new buffer in memory which deeply clones this buffer.</p>
+</dd>
+<dt id='eachLine'>
+eachLine</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> eachLine(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> f)</code></p>
+
+<p>Convenience for <code><a href='InStream.html#eachLine'>in.eachLine</a></code></p>
+</dd>
+<dt id='endian'>
+endian</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Endian.html'>Endian</a> endian</code></p>
+
+<p>Byte order mode for both OutStream and InStream. Default is <code><a href='Endian.html#big'>Endian.big</a></code> (network byte order).</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Buf equality is based on reference equality using the === operator.</p>
+</dd>
+<dt id='fill'>
+fill</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> fill(<a href='../sys/Int.html'>Int</a> b, <a href='../sys/Int.html'>Int</a> times)</code></p>
+
+<p>Write the specified byte to the end of the buffer using given count.</p>
+
+<p>Examples:</p>
+
+<pre>Buf().fill(0xff, 4)  =>  0xffffffff</pre>
+</dd>
+<dt id='flip'>
+flip</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> flip()</code></p>
+
+<p>Flip a buffer from write-mode to read-mode.  This method sets total size to current position, and position to 0.  Return this.</p>
+</dd>
+<dt id='fromHex'>
+fromHex</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Buf.html'>Buf</a> fromHex(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Decode the specified hexadecimal string into its binary contents.  Any characters which are not included in the set "0-9, a-f, A-F" are ignored as long as they appear between bytes (hi and lo nibbles must be contiguous).</p>
+
+<p>Example:</p>
+
+<pre>Buf.make.print("\r\n").toHex   => "0d0a"
+Buf.fromHex("0d0a").readAllStr => "\r\n"</pre>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/Int.html'>Int</a> get(<a href='../sys/Int.html'>Int</a> pos)</code></p>
+
+<p>Get the byte at the specified absolute index.  A negative index may be used to access from the end of the buffer.  For example get(-1)  is translated into get(size()-1).  This method accesses the buffer absolutely independent of current position.  The get method is accessed via the [] shortcut operator.  Throw IndexErr if index out of range.</p>
+</dd>
+<dt id='getByte'>
+getByte</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract <a href='../sys/Int.html'>Int</a> getByte(<a href='../sys/Int.html'>Int</a> pos)</code></p>
+</dd>
+<dt id='getBytes'>
+getBytes</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract <a href='../sys/Int.html'>Int</a> getBytes(<a href='../sys/Int.html'>Int</a> pos, <a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;</a> dst, <a href='../sys/Int.html'>Int</a> off, <a href='../sys/Int.html'>Int</a> len)</code></p>
+</dd>
+<dt id='getRange'>
+getRange</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />virtual <a href='Buf.html'>Buf</a> getRange(<a href='../sys/Range.html'>Range</a> range)</code></p>
+
+<p>Return a new buffer containing the bytes in the specified absolute range.  Negative indexes may be used to access from the end of the buf.  This method accesses the buffer absolutely independent of current position.  This method is accessed via the [] operator. Throw IndexErr if range illegal.</p>
+
+<p>Examples:</p>
+
+<pre>buf := Buf.make
+buf.write(0xaa).write(0xbb).write(0xcc).write(0xdd)
+buf[0..2]   => 0x[aabbcc]
+buf[3..3]   => 0x[dd]
+buf[-2..-1] => 0x[ccdd]
+buf[0..&lt;2]  => 0x[aabb]
+buf[1..-2]  => 0x[bbcc]</pre>
+</dd>
+<dt id='in'>
+in</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='InStream.html'>InStream</a> in()</code></p>
+
+<p>Get the InStream which reads from this buffer. This method always returns the same instance. If this buffer is backed by a file, then <code>in.close</code> will not close the file - you must use <code><a href='Buf.html#close'>Buf.close</a></code>.</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>Return if size() == 0.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static new make(<a href='../sys/Int.html'>Int</a> capacity := 1024)</code></p>
+
+<p>Allocate a byte buffer in RAM with the initial given capacity.</p>
+</dd>
+<dt id='more'>
+more</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> more()</code></p>
+
+<p>Return if more bytes are available to read: remaining() > 0.</p>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='OutStream.html'>OutStream</a> out()</code></p>
+
+<p>Get the OutStream which writes to this buffer. This method always returns the same instance. If this buffer is backed by a file, then <code>out.close</code> will not close the file - you must use <code><a href='Buf.html#close'>Buf.close</a></code>.</p>
+</dd>
+<dt id='peek'>
+peek</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> peek()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#peek'>in.peek</a></code></p>
+</dd>
+<dt id='peekChar'>
+peekChar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> peekChar()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#peekChar'>in.peekChar</a></code></p>
+</dd>
+<dt id='pipeFrom'>
+pipeFrom</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Int.html'>Int</a> pipeFrom(<a href='InStream.html'>InStream</a> in, <a href='../sys/Int.html'>Int</a> len)</code></p>
+</dd>
+<dt id='pipeTo'>
+pipeTo</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> pipeTo(<a href='OutStream.html'>OutStream</a> out, <a href='../sys/Int.html'>Int</a> len)</code></p>
+</dd>
+<dt id='pos'>
+pos</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> pos { internal set }</code></p>
+
+<p>Return the current position for the next read or write.  The position is always between 0 and <code><a href='Buf.html#size'>size</a></code>.  If pos is less then size then future writes will rewrite the existing bytes without growing size.  Change the position with <code><a href='Buf.html#seek'>seek</a></code>.</p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> print(<a href='../sys/Obj.html'>Obj?</a> s)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#print'>out.print</a></code> Return this.</p>
+</dd>
+<dt id='printLine'>
+printLine</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> printLine(<a href='../sys/Obj.html'>Obj?</a> obj := &quot;&quot;)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#printLine'>out.printLine</a></code> Return this.</p>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake()</code></p>
+</dd>
+<dt id='random'>
+random</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Buf.html'>Buf</a> random(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Generate a random series of bytes.</p>
+
+<p>Example:</p>
+
+<pre>Buf.random(8).toHex  => "d548b54989028b90"</pre>
+</dd>
+<dt id='read'>
+read</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> read()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#read'>in.read</a></code></p>
+</dd>
+<dt id='readAllBuf'>
+readAllBuf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Buf.html'>Buf</a> readAllBuf()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readAllBuf'>in.readAllBuf</a></code></p>
+</dd>
+<dt id='readAllLines'>
+readAllLines</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> readAllLines()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readAllLines'>in.readAllLines</a></code></p>
+</dd>
+<dt id='readAllStr'>
+readAllStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> readAllStr(<a href='../sys/Bool.html'>Bool</a> normalizeNewlines := true)</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readAllStr'>in.readAllStr</a></code></p>
+</dd>
+<dt id='readBool'>
+readBool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> readBool()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readBool'>in.readBool</a></code></p>
+</dd>
+<dt id='readBuf'>
+readBuf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> readBuf(<a href='Buf.html'>Buf</a> buf, <a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readBuf'>in.readBuf</a></code></p>
+</dd>
+<dt id='readBufFully'>
+readBufFully</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Buf.html'>Buf</a> readBufFully(<a href='Buf.html'>Buf?</a> buf, <a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readBufFully'>in.readBufFully</a></code></p>
+</dd>
+<dt id='readChar'>
+readChar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readChar()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readChar'>in.readChar</a></code></p>
+</dd>
+<dt id='readChars'>
+readChars</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> readChars(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readChars'>in.readChars</a></code></p>
+</dd>
+<dt id='readF4'>
+readF4</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> readF4()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readF4'>in.readF4</a></code></p>
+</dd>
+<dt id='readF8'>
+readF8</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> readF8()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readF8'>in.readF8</a></code></p>
+</dd>
+<dt id='readLine'>
+readLine</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> readLine(<a href='../sys/Int.html'>Int</a> max := -1)</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readLine'>in.readLine</a></code></p>
+</dd>
+<dt id='readS1'>
+readS1</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readS1()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readS1'>in.readS1</a></code></p>
+</dd>
+<dt id='readS2'>
+readS2</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readS2()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readS2'>in.readS2</a></code></p>
+</dd>
+<dt id='readS4'>
+readS4</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readS4()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readS4'>in.readS4</a></code></p>
+</dd>
+<dt id='readS8'>
+readS8</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readS8()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readS8'>in.readS8</a></code></p>
+</dd>
+<dt id='readStrToken'>
+readStrToken</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> readStrToken(<a href='../sys/Int.html'>Int?</a> max := -1, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='../sys/Int.html'>Int</a>&gt;?</a> c := null)</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readStrToken'>in.readStrToken</a></code></p>
+</dd>
+<dt id='readU1'>
+readU1</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readU1()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readU1'>in.readU1</a></code></p>
+</dd>
+<dt id='readU2'>
+readU2</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readU2()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readU2'>in.readU2</a></code></p>
+</dd>
+<dt id='readU4'>
+readU4</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> readU4()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readU4'>in.readU4</a></code></p>
+</dd>
+<dt id='readUtf'>
+readUtf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> readUtf()</code></p>
+
+<p>Convenience for <code><a href='InStream.html#readUtf'>in.readUtf</a></code></p>
+</dd>
+<dt id='remaining'>
+remaining</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> remaining()</code></p>
+
+<p>Return the remaining number of bytes to read: size-pos.</p>
+</dd>
+<dt id='safeArray'>
+safeArray</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;</a> safeArray()</code></p>
+</dd>
+<dt id='seek'>
+seek</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> seek(<a href='../sys/Int.html'>Int</a> pos)</code></p>
+
+<p>Set the current position to the specified byte offset.  A negative index may be used to access from the end of the buffer. For example seek(-1) is translated into seek(size-1). Return this.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/This.html'>This</a> set(<a href='../sys/Int.html'>Int</a> pos, <a href='../sys/Int.html'>Int</a> byte)</code></p>
+
+<p>Set is used to overwrite the byte at the specified the index.  A negative index may be used to access an index from the end of the buffer.  The set method is accessed via the []= shortcut operator. Return this.  Throw IndexErr if index is out of range.</p>
+</dd>
+<dt id='setByte'>
+setByte</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract <a href='../sys/Void.html'>Void</a> setByte(<a href='../sys/Int.html'>Int</a> pos, <a href='../sys/Int.html'>Int</a> v)</code></p>
+</dd>
+<dt id='setBytes'>
+setBytes</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract <a href='../sys/Void.html'>Void</a> setBytes(<a href='../sys/Int.html'>Int</a> pos, <a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;</a> src, <a href='../sys/Int.html'>Int</a> off, <a href='../sys/Int.html'>Int</a> len)</code></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> size</code></p>
+
+<p>Return the total number of bytes in the buffer.  If the size is set greater than capacity then the buffer's capacity is automatically grown, otherwise capacity remains the same.  Setting size does not actually change any bytes in the buffer.  A mmap buffer can never be increased from its initial size.</p>
+</dd>
+<dt id='sync'>
+sync</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> sync()</code></p>
+
+<p>If this Buf is backed by a file, then fsync all changes to the storage device.  Throw IOErr on error.  Return this.</p>
+</dd>
+<dt id='toFile'>
+toFile</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='File.html'>File</a> toFile(<a href='Uri.html'>Uri</a> uri)</code></p>
+
+<p>Create an in-memory File instance for this buffer with the given file URI.  The buffer must be a RAM based buffer which is converted to an immutable buffer via <code>Obj.toImmutable</code> semantics.  The current time is used for the file's modified time.</p>
+</dd>
+<dt id='toHex'>
+toHex</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> toHex()</code></p>
+
+<p>Encode the buffer contents from 0 to size into a hexadecimal string.  This method is unsupported for mmap buffers.</p>
+
+<p>Example:</p>
+
+<pre>Buf.make.print("\r\n").toHex   => "0d0a"
+Buf.fromHex("0d0a").readAllStr => "\r\n"</pre>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return string summary of the buffer.</p>
+</dd>
+<dt id='trim'>
+trim</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> trim()</code></p>
+
+<p>Trim the capacity such that the underlying storage is optimized for the current size.  Return this.</p>
+</dd>
+<dt id='unread'>
+unread</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> unread(<a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Convenience for <code><a href='InStream.html#unread'>in.unread</a></code> Memory backed buffers support a stack based pushback model like IO streams.  File backed buffers will simply rewrite the last position in the file.  Return this.</p>
+</dd>
+<dt id='unreadChar'>
+unreadChar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> unreadChar(<a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Convenience for <code><a href='InStream.html#unreadChar'>in.unreadChar</a></code> Memory backed buffers support a stack based pushback model like IO streams.  File backed buffers will simply rewrite the last position in the file.  Return this.</p>
+</dd>
+<dt id='unsafeArray'>
+unsafeArray</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;?</a> unsafeArray()</code></p>
+
+<p>Convenience for <a href='InStream.readObj'>in.readObj</a></p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> write(<a href='../sys/Int.html'>Int</a> byte)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#write'>out.write</a></code> Return this.</p>
+</dd>
+<dt id='writeBool'>
+writeBool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeBool(<a href='../sys/Bool.html'>Bool</a> b)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeBool'>out.writeBool</a></code> Return this.</p>
+</dd>
+<dt id='writeBuf'>
+writeBuf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeBuf(<a href='Buf.html'>Buf</a> buf, <a href='../sys/Int.html'>Int</a> n := buf.remaining())</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeBuf'>out.writeBuf</a></code> Return this.</p>
+</dd>
+<dt id='writeChar'>
+writeChar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeChar(<a href='../sys/Int.html'>Int</a> char)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeChar'>out.writeChar</a></code> Return this.</p>
+</dd>
+<dt id='writeChars'>
+writeChars</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeChars(<a href='../sys/Str.html'>Str</a> str, <a href='../sys/Int.html'>Int</a> off := 0, <a href='../sys/Int.html'>Int</a> len := str.size() - off)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeChars'>out.writeChars</a></code> Return this.</p>
+</dd>
+<dt id='writeF4'>
+writeF4</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeF4(<a href='../sys/Float.html'>Float</a> r)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeF4'>out.writeF4</a></code> Return this.</p>
+</dd>
+<dt id='writeF8'>
+writeF8</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeF8(<a href='../sys/Float.html'>Float</a> r)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeF8'>out.writeF8</a></code> Return this.</p>
+</dd>
+<dt id='writeI2'>
+writeI2</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeI2(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeI2'>out.writeI2</a></code> Return this.</p>
+</dd>
+<dt id='writeI4'>
+writeI4</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeI4(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeI4'>out.writeI4</a></code> Return this.</p>
+</dd>
+<dt id='writeI8'>
+writeI8</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeI8(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeI8'>out.writeI8</a></code> Return this.</p>
+</dd>
+<dt id='writeUtf'>
+writeUtf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeUtf(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Convenience for <code><a href='OutStream.html#writeUtf'>out.writeUtf</a></code> Return this.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromHex'>fromHex</a></li><li><a href='#make'>make</a></li><li><a href='#privateMake'>privateMake</a></li><li><a href='#random'>random</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bytesEqual'>bytesEqual</a></li><li><a href='#capacity'>capacity</a></li><li><a href='#charset'>charset</a></li><li><a href='#clear'>clear</a></li><li><a href='#close'>close</a></li><li><a href='#dup'>dup</a></li><li><a href='#eachLine'>eachLine</a></li><li><a href='#endian'>endian</a></li><li><a href='#equals'>equals</a></li><li><a href='#fill'>fill</a></li><li><a href='#flip'>flip</a></li><li><a href='#get'>get</a></li><li><a href='#getByte'>getByte</a></li><li><a href='#getBytes'>getBytes</a></li><li><a href='#getRange'>getRange</a></li><li><a href='#in'>in</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#more'>more</a></li><li><a href='#out'>out</a></li><li><a href='#peek'>peek</a></li><li><a href='#peekChar'>peekChar</a></li><li><a href='#pipeFrom'>pipeFrom</a></li><li><a href='#pipeTo'>pipeTo</a></li><li><a href='#pos'>pos</a></li><li><a href='#print'>print</a></li><li><a href='#printLine'>printLine</a></li><li><a href='#read'>read</a></li><li><a href='#readAllBuf'>readAllBuf</a></li><li><a href='#readAllLines'>readAllLines</a></li><li><a href='#readAllStr'>readAllStr</a></li><li><a href='#readBool'>readBool</a></li><li><a href='#readBuf'>readBuf</a></li><li><a href='#readBufFully'>readBufFully</a></li><li><a href='#readChar'>readChar</a></li><li><a href='#readChars'>readChars</a></li><li><a href='#readF4'>readF4</a></li><li><a href='#readF8'>readF8</a></li><li><a href='#readLine'>readLine</a></li><li><a href='#readS1'>readS1</a></li><li><a href='#readS2'>readS2</a></li><li><a href='#readS4'>readS4</a></li><li><a href='#readS8'>readS8</a></li><li><a href='#readStrToken'>readStrToken</a></li><li><a href='#readU1'>readU1</a></li><li><a href='#readU2'>readU2</a></li><li><a href='#readU4'>readU4</a></li><li><a href='#readUtf'>readUtf</a></li><li><a href='#remaining'>remaining</a></li><li><a href='#safeArray'>safeArray</a></li><li><a href='#seek'>seek</a></li><li><a href='#set'>set</a></li><li><a href='#setByte'>setByte</a></li><li><a href='#setBytes'>setBytes</a></li><li><a href='#size'>size</a></li><li><a href='#sync'>sync</a></li><li><a href='#toFile'>toFile</a></li><li><a href='#toHex'>toHex</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#trim'>trim</a></li><li><a href='#unread'>unread</a></li><li><a href='#unreadChar'>unreadChar</a></li><li><a href='#unsafeArray'>unsafeArray</a></li><li><a href='#write'>write</a></li><li><a href='#writeBool'>writeBool</a></li><li><a href='#writeBuf'>writeBuf</a></li><li><a href='#writeChar'>writeChar</a></li><li><a href='#writeChars'>writeChars</a></li><li><a href='#writeF4'>writeF4</a></li><li><a href='#writeF8'>writeF8</a></li><li><a href='#writeI2'>writeI2</a></li><li><a href='#writeI4'>writeI4</a></li><li><a href='#writeI8'>writeI8</a></li><li><a href='#writeUtf'>writeUtf</a></li></ul>
+</div>
+</div>
+</body>
+</html>

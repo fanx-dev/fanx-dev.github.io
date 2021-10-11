@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>HtmlDocWriter.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='HtmlDocWriter.html'>HtmlDocWriter</a></li><li><a href='src-HtmlDocWriter.fan.html'>HtmlDocWriter.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   17 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** HtmlDocWriter outputs a fandoc model to XHTML</span>
+<span id='line11'>**</span>
+<span id='line12'>** See <b>[</b>pod doc<b>]</b>`pod-doc#api` for usage.</span>
+<span id='line13'>**</span>
+<span id='line14'>@Js</span>
+<span id='line15'>class HtmlDocWriter : DocWriter</span>
+<span id='line16'><b>{</b></span>
+<span id='line17'></span>
+<span id='line18'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line19'>// Constructor</span>
+<span id='line20'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line21'></span>
+<span id='line22'>  new make<b>(</b>OutStream out := Env.cur.out<b>)</b></span>
+<span id='line23'>  <b>{</b></span>
+<span id='line24'>    this.out = out</span>
+<span id='line25'>  <b>}</b></span>
+<span id='line26'></span>
+<span id='line27'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line28'>// Config</span>
+<span id='line29'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line30'></span>
+<span id='line31'>  ** Callback to perform link resolution and checking for</span>
+<span id='line32'>  ** every Link element</span>
+<span id='line33'>  |Link link|? onLink := null</span>
+<span id='line34'></span>
+<span id='line35'>  ** Callback to perform image link resolution and checking</span>
+<span id='line36'>  |Image img|? onImage := null</span>
+<span id='line37'></span>
+<span id='line38'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line39'>// DocWriter</span>
+<span id='line40'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line41'></span>
+<span id='line42'>  override Void docStart<b>(</b>Doc doc<b>)</b></span>
+<span id='line43'>  <b>{</b></span>
+<span id='line44'>    out.print<b>(</b>"&lt;!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n"<b>)</b></span>
+<span id='line45'>    out.print<b>(</b>" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"<b>)</b></span>
+<span id='line46'>    out.print<b>(</b>"&lt;html>\n"<b>)</b></span>
+<span id='line47'>    out.print<b>(</b>"&lt;head>\n"<b>)</b></span>
+<span id='line48'>    docHead<b>(</b>doc<b>)</b></span>
+<span id='line49'>    out.print<b>(</b>"&lt;/head>\n"<b>)</b></span>
+<span id='line50'>  <b>}</b></span>
+<span id='line51'></span>
+<span id='line52'>  virtual Void docHead<b>(</b>Doc doc<b>)</b></span>
+<span id='line53'>  <b>{</b></span>
+<span id='line54'>    out.print<b>(</b>"  &lt;meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>\n"<b>)</b></span>
+<span id='line55'>    doc.meta.each |Str val, Str key|</span>
+<span id='line56'>    <b>{</b></span>
+<span id='line57'>      switch <b>(</b>key<b>)</b></span>
+<span id='line58'>      <b>{</b></span>
+<span id='line59'>        case "title":</span>
+<span id='line60'>          out.print<b>(</b>"  &lt;title>"<b>)</b></span>
+<span id='line61'>          safeText<b>(</b>val<b>)</b></span>
+<span id='line62'>          out.print<b>(</b>"&lt;/title>\n"<b>)</b></span>
+<span id='line63'>        default:</span>
+<span id='line64'>          out.print<b>(</b>"  &lt;meta"<b>)</b></span>
+<span id='line65'>          attr<b>(</b>"name", key<b>)</b></span>
+<span id='line66'>          attr<b>(</b>"content", val<b>)</b></span>
+<span id='line67'>          out.print<b>(</b>"/>\n"<b>)</b></span>
+<span id='line68'>      <b>}</b></span>
+<span id='line69'>    <b>}</b></span>
+<span id='line70'>  <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>  override Void docEnd<b>(</b>Doc doc<b>)</b></span>
+<span id='line73'>  <b>{</b></span>
+<span id='line74'>    out.print<b>(</b>"&lt;/html>"<b>)</b></span>
+<span id='line75'>  <b>}</b></span>
+<span id='line76'></span>
+<span id='line77'>  override Void elemStart<b>(</b>DocElem elem<b>)</b></span>
+<span id='line78'>  <b>{</b></span>
+<span id='line79'>    if <b>(</b>elem.isBlock<b>)</b> out.writeChar<b>(</b>'\n'<b>)</b></span>
+<span id='line80'></span>
+<span id='line81'>    // if hyperlink to code, then wrap in code element</span>
+<span id='line82'>    if <b>(</b>elem.id == DocNodeId.link<b>)</b></span>
+<span id='line83'>    <b>{</b></span>
+<span id='line84'>      if <b>(</b>onLink != null<b>)</b> onLink<b>(</b>elem<b>)</b></span>
+<span id='line85'>      if <b>(</b>elem->isCode<b>)</b> out.print<b>(</b>"&lt;code>"<b>)</b></span>
+<span id='line86'>    <b>}</b></span>
+<span id='line87'></span>
+<span id='line88'>    out.writeChar<b>(</b>'&lt;'<b>)</b>.print<b>(</b>elem.htmlName<b>)</b></span>
+<span id='line89'>    if <b>(</b>elem.anchorId != null<b>)</b> out.print<b>(</b>" id='$elem.anchorId'"<b>)</b></span>
+<span id='line90'>    switch <b>(</b>elem.id<b>)</b></span>
+<span id='line91'>    <b>{</b></span>
+<span id='line92'>      case DocNodeId.link:</span>
+<span id='line93'>        link := elem as Link</span>
+<span id='line94'>        out.print<b>(</b>" href='$link.uri.toXml'"<b>)</b></span>
+<span id='line95'>      case DocNodeId.image:</span>
+<span id='line96'>        img := elem as Image</span>
+<span id='line97'>        if <b>(</b>onImage != null<b>)</b> onImage<b>(</b>img<b>)</b></span>
+<span id='line98'>        out.print<b>(</b>" src='$img.uri.toXml' alt='"<b>)</b></span>
+<span id='line99'>        safeAttr<b>(</b>img.alt<b>)</b></span>
+<span id='line100'>        out.print<b>(</b>"'"<b>)</b></span>
+<span id='line101'>        if <b>(</b>img.size != null<b>)</b></span>
+<span id='line102'>        <b>{</b></span>
+<span id='line103'>          toks := img.size.split<b>(</b>'x'<b>)</b></span>
+<span id='line104'>          w := toks.getSafe<b>(</b>0<b>)</b></span>
+<span id='line105'>          h := toks.getSafe<b>(</b>1<b>)</b></span>
+<span id='line106'>          if <b>(</b>w != null<b>)</b> out.print<b>(</b>" width='"<b>)</b>.print<b>(</b>w<b>)</b>.print<b>(</b>"'"<b>)</b></span>
+<span id='line107'>          if <b>(</b>h != null<b>)</b> out.print<b>(</b>" height='"<b>)</b>.print<b>(</b>h<b>)</b>.print<b>(</b>"'"<b>)</b></span>
+<span id='line108'>        <b>}</b></span>
+<span id='line109'>        out.print<b>(</b>"/>"<b>)</b></span>
+<span id='line110'>        return</span>
+<span id='line111'>      case DocNodeId.para:</span>
+<span id='line112'>        para := elem as Para</span>
+<span id='line113'>        if <b>(</b>para.admonition != null<b>)</b></span>
+<span id='line114'>        <b>{</b></span>
+<span id='line115'>          out.print<b>(</b>" class='$para.admonition'"<b>)</b></span>
+<span id='line116'>          out.print<b>(</b>">"<b>)</b>.print<b>(</b>para.admonition<b>)</b>.print<b>(</b>": "<b>)</b></span>
+<span id='line117'>          return</span>
+<span id='line118'>        <b>}</b></span>
+<span id='line119'>      case DocNodeId.orderedList:</span>
+<span id='line120'>        ol := elem as OrderedList</span>
+<span id='line121'>        out.print<b>(</b>" style='list-style-type:$ol.style.htmlType'"<b>)</b></span>
+<span id='line122'>      case DocNodeId.hr:</span>
+<span id='line123'>        out.printLine<b>(</b>"/>"<b>)</b></span>
+<span id='line124'>        return</span>
+<span id='line125'>    <b>}</b></span>
+<span id='line126'>    out.writeChar<b>(</b>'>'<b>)</b></span>
+<span id='line127'>  <b>}</b></span>
+<span id='line128'></span>
+<span id='line129'>  override Void elemEnd<b>(</b>DocElem elem<b>)</b></span>
+<span id='line130'>  <b>{</b></span>
+<span id='line131'>    if <b>(</b>elem.id == DocNodeId.image<b>)</b> return</span>
+<span id='line132'>    if <b>(</b>elem.id == DocNodeId.hr<b>)</b> return</span>
+<span id='line133'>    out.writeChar<b>(</b>'&lt;'<b>)</b>.writeChar<b>(</b>'/'<b>)</b>.print<b>(</b>elem.htmlName<b>)</b>.writeChar<b>(</b>'>'<b>)</b></span>
+<span id='line134'></span>
+<span id='line135'>    // if hyperlink to code, then wrap in code element</span>
+<span id='line136'>    if <b>(</b>elem.id == DocNodeId.link &amp;&amp; <b>(</b><b>(</b>Link<b>)</b>elem<b>)</b>.isCode<b>)</b></span>
+<span id='line137'>      out.print<b>(</b>"&lt;/code>"<b>)</b></span>
+<span id='line138'></span>
+<span id='line139'>    if <b>(</b>elem.isBlock<b>)</b> out.writeChar<b>(</b>'\n'<b>)</b></span>
+<span id='line140'>  <b>}</b></span>
+<span id='line141'></span>
+<span id='line142'>  override Void text<b>(</b>DocText text<b>)</b></span>
+<span id='line143'>  <b>{</b></span>
+<span id='line144'>    safeText<b>(</b>text.str<b>)</b></span>
+<span id='line145'>  <b>}</b></span>
+<span id='line146'></span>
+<span id='line147'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line148'>// Escapes</span>
+<span id='line149'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line150'></span>
+<span id='line151'>  private Void attr<b>(</b>Str name, Str val<b>)</b></span>
+<span id='line152'>  <b>{</b></span>
+<span id='line153'>    out.writeChar<b>(</b>' '<b>)</b>.print<b>(</b>name<b>)</b>.print<b>(</b>"='"<b>)</b></span>
+<span id='line154'>    safeAttr<b>(</b>val<b>)</b></span>
+<span id='line155'>    out.writeChar<b>(</b>'\''<b>)</b></span>
+<span id='line156'>  <b>}</b></span>
+<span id='line157'></span>
+<span id='line158'>  private Void safeAttr<b>(</b>Str s<b>)</b></span>
+<span id='line159'>  <b>{</b></span>
+<span id='line160'>    s.each |Int ch|</span>
+<span id='line161'>    <b>{</b></span>
+<span id='line162'>      if <b>(</b>ch == '&lt;'<b>)</b> out.print<b>(</b>"&amp;lt;"<b>)</b></span>
+<span id='line163'>      else if <b>(</b>ch == '&amp;'<b>)</b> out.print<b>(</b>"&amp;amp;"<b>)</b></span>
+<span id='line164'>      else if <b>(</b>ch == '\''<b>)</b> out.print<b>(</b>"&amp;#39;"<b>)</b></span>
+<span id='line165'>      else if <b>(</b>ch == '"'<b>)</b> out.print<b>(</b>"&amp;#34;"<b>)</b></span>
+<span id='line166'>      else out.writeChar<b>(</b>ch<b>)</b></span>
+<span id='line167'>    <b>}</b></span>
+<span id='line168'>  <b>}</b></span>
+<span id='line169'></span>
+<span id='line170'>  private Void safeText<b>(</b>Str s<b>)</b></span>
+<span id='line171'>  <b>{</b></span>
+<span id='line172'>    s.each |Int ch|</span>
+<span id='line173'>    <b>{</b></span>
+<span id='line174'>      if <b>(</b>ch == '&lt;'<b>)</b> out.print<b>(</b>"&amp;lt;"<b>)</b></span>
+<span id='line175'>      else if <b>(</b>ch == '&amp;'<b>)</b> out.print<b>(</b>"&amp;amp;"<b>)</b></span>
+<span id='line176'>      else out.writeChar<b>(</b>ch<b>)</b></span>
+<span id='line177'>    <b>}</b></span>
+<span id='line178'>  <b>}</b></span>
+<span id='line179'></span>
+<span id='line180'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line181'>// Fields</span>
+<span id='line182'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line183'></span>
+<span id='line184'>  OutStream out</span>
+<span id='line185'></span>
+<span id='line186'><b>}</b></span>
+<span id='line187'></span>
+</pre>
+</div>
+</body>
+</html>

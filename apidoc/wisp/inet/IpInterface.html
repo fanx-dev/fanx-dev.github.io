@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inet::IpInterface</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='IpInterface.html'>IpInterface</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> inet::IpInterface</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  inet::IpInterface</pre>
+<p class='src'>
+<a href='src-IpInterface.fan.html'>Source</a></p>
+
+<p>Network interface which models name and IP addresses assigned</p>
+<dl>
+<dt id='addrs'>
+addrs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='IpAddr.html'>IpAddr</a>&gt;</a> addrs()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line77'>Source</a></p>
+
+<p>Return list of IP addresses bound to this interface</p>
+</dd>
+<dt id='broadcastAddrs'>
+broadcastAddrs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='IpAddr.html'>IpAddr</a>&gt;</a> broadcastAddrs()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line82'>Source</a></p>
+
+<p>Return list of all broadcast IP addresses bound to this interface</p>
+</dd>
+<dt id='dis'>
+dis</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> dis()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line72'>Source</a></p>
+
+<p>Display name of the interface</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line58'>Source</a></p>
+
+<p>Equality is based on interface name and addresses</p>
+</dd>
+<dt id='findByAddr'>
+findByAddr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IpInterface.html'>IpInterface?</a> findByAddr(<a href='IpAddr.html'>IpAddr</a> addr, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line25'>Source</a></p>
+
+<p>Find the interface bound to the given IP address.  If multiple interfaces are bound to the address it is undefined which one is returned.  If no interfaces are bound then return null or raise UnresolvedErr based on checked flag.</p>
+</dd>
+<dt id='findByName'>
+findByName</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='IpInterface.html'>IpInterface?</a> findByName(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line33'>Source</a></p>
+
+<p>Find the interface by its name.  If the interface is not found then return null or raise UnresolvedErr based on checked flag.</p>
+</dd>
+<dt id='hardwareAddr'>
+hardwareAddr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf?</a> hardwareAddr()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line92'>Source</a></p>
+
+<p>Media Access Control (MAC) or physical address for this interface return null if address does not exist.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line48'>Source</a></p>
+
+<p>Hash code is based on interface name and addresses</p>
+</dd>
+<dt id='isLoopback'>
+isLoopback</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isLoopback()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line113'>Source</a></p>
+
+<p>Return true if a loopback interface</p>
+</dd>
+<dt id='isPointToPoint'>
+isPointToPoint</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPointToPoint()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line108'>Source</a></p>
+
+<p>Return true if point to point interface (PPP through modem)</p>
+</dd>
+<dt id='isUp'>
+isUp</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isUp()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line87'>Source</a></p>
+
+<p>Return true if interface is up and running</p>
+</dd>
+<dt id='list'>
+list</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='IpInterface.html'>IpInterface</a>&gt;</a> list()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html'>Source</a></p>
+
+<p>List the interfaces on this machine</p>
+</dd>
+<dt id='mtu'>
+mtu</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> mtu()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line98'>Source</a></p>
+
+<p>Maximum transmission unit of interface</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line67'>Source</a></p>
+
+<p>Name of the interface</p>
+</dd>
+<dt id='supportsMulticast'>
+supportsMulticast</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> supportsMulticast()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line103'>Source</a></p>
+
+<p>Return true if interface supports multicast</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-IpInterface.fan.html#line53'>Source</a></p>
+
+<p>Return string representation.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-IpInterface.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#findByAddr'>findByAddr</a></li><li><a href='#findByName'>findByName</a></li><li><a href='#list'>list</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addrs'>addrs</a></li><li><a href='#broadcastAddrs'>broadcastAddrs</a></li><li><a href='#dis'>dis</a></li><li><a href='#equals'>equals</a></li><li><a href='#hardwareAddr'>hardwareAddr</a></li><li><a href='#hash'>hash</a></li><li><a href='#isLoopback'>isLoopback</a></li><li><a href='#isPointToPoint'>isPointToPoint</a></li><li><a href='#isUp'>isUp</a></li><li><a href='#mtu'>mtu</a></li><li><a href='#name'>name</a></li><li><a href='#supportsMulticast'>supportsMulticast</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

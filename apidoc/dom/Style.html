@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::Style</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Style.html'>Style</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> dom::Style</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::Style</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Style.fan.html'>Source</a></p>
+
+<p>Style models CSS style properties for an Elem.</p>
+<dl>
+<dt id='addClass'>
+addClass</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> addClass(<a href='../sys/Str.html'>Str</a> name)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line26'>Source</a></p>
+
+<p>Add the given CSS class name to this element.  If this element already contains the given class name, then this method does nothing. Returns this.</p>
+</dd>
+<dt id='addPseudoClass'>
+addPseudoClass</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> addPseudoClass(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Str.html'>Str</a> css)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line51'>Source</a></p>
+
+<p>Add a psuedo-class CSS definietion to this element. A new class name is auto-generated and used to prefix <code>name</code>, <code>name</code> must start with the <code>:</code> character.  Returns the generated class name.</p>
+
+<pre>style.addPseudoClass(":hover", "background: #eee")</pre>
+</dd>
+<dt id='classes'>
+classes</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> classes</code></p>
+<p class='src'>
+<a href='src-Style.fan.html'>Source</a></p>
+
+<p>The CSS classes for this element.</p>
+</dd>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> clear()</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line79'>Source</a></p>
+
+<p>Clear all style declarations.</p>
+</dd>
+<dt id='computed'>
+computed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> computed(<a href='../sys/Str.html'>Str</a> name)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line82'>Source</a></p>
+
+<p>Get the computed property value.</p>
+</dd>
+<dt id='effective'>
+effective</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> effective(<a href='../sys/Str.html'>Str</a> name)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line86'>Source</a></p>
+
+<p>Get the effetive style property value, which is the most specific style or CSS rule in effect on this node. Returns <code>null</code> if no rule in effect for given property.</p>
+
+<p>This method is restricted to stylesheets that have originated from the same domain as the document. Any rules that may be applied from an external sheet will not be included.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/Obj.html'>Obj?</a> get(<a href='../sys/Str.html'>Str</a> name)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line96'>Source</a></p>
+
+<p>Get the given property value.</p>
+
+<pre>color := style["color"]</pre>
+</dd>
+<dt id='hasClass'>
+hasClass</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasClass(<a href='../sys/Str.html'>Str</a> name)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line22'>Source</a></p>
+
+<p>Return true if this element has the given CSS class name, or false if it does not.</p>
+</dd>
+<dt id='removeClass'>
+removeClass</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> removeClass(<a href='../sys/Str.html'>Str</a> name)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line31'>Source</a></p>
+
+<p>Remove the given CSS class name to this element. If this element does not have the given class name, this method does nothing. Returns this.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/This.html'>This</a> set(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Obj.html'>Obj?</a> val)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line100'>Source</a></p>
+
+<p>Set the given propery value.  If <code>val</code> is null this property is removed.</p>
+
+<pre>style["color"] = "#f00"</pre>
+</dd>
+<dt id='setAll'>
+setAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setAll(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> map)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line132'>Source</a></p>
+
+<p>Set all the given property values.</p>
+
+<pre>style.setAll(["color":"#f00", "font-weight":"bold"])</pre>
+</dd>
+<dt id='setCss'>
+setCss</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setCss(<a href='../sys/Str.html'>Str</a> css)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line140'>Source</a></p>
+
+<p>Set properties via CSS text.</p>
+
+<pre>style.setCss("color: #f00; font-weight: bold;")</pre>
+</dd>
+<dt id='toggleClass'>
+toggleClass</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> toggleClass(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool?</a> cond := null)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line37'>Source</a></p>
+
+<p>Toggle the presence of the given CSS class name based on the <code>cond</code> argument:</p>
+
+<ul>
+<li><code>null</code>: remove class if present, or add if missing</li>
+
+<li><code>true</code>: always add class (see <code><a href='Style.html#addClass'>addClass</a></code>)</li>
+
+<li><code>false</code>: always remove class(see <code><a href='Style.html#removeClass'>removeClass</a></code>)</li>
+</ul>
+</dd>
+<dt id='trap'>
+trap</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj?</a> trap(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> args := null)</code></p>
+<p class='src'>
+<a href='src-Style.fan.html#line156'>Source</a></p>
+
+<p>Get or set an attribute.  Attribute names should be specifed in camel case:</p>
+
+<pre>style->backgroundColor == style["background-color"]</pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Style.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addClass'>addClass</a></li><li><a href='#addPseudoClass'>addPseudoClass</a></li><li><a href='#classes'>classes</a></li><li><a href='#clear'>clear</a></li><li><a href='#computed'>computed</a></li><li><a href='#effective'>effective</a></li><li><a href='#get'>get</a></li><li><a href='#hasClass'>hasClass</a></li><li><a href='#removeClass'>removeClass</a></li><li><a href='#set'>set</a></li><li><a href='#setAll'>setAll</a></li><li><a href='#setCss'>setCss</a></li><li><a href='#toggleClass'>toggleClass</a></li><li><a href='#trap'>trap</a></li></ul>
+</div>
+</div>
+</body>
+</html>

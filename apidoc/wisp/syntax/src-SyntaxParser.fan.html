@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SyntaxParser.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='src-SyntaxParser.fan.html'>SyntaxParser.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   10 Aug 08  Brian Frank  Creation</span>
+<span id='line7'>//   30 Aug 11  Brian Frank  Refactor out of fluxText</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** SyntaxParser parses text into a SyntaxDoc</span>
+<span id='line12'>**</span>
+<span id='line13'>internal class SyntaxParser</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'></span>
+<span id='line16'>  new make<b>(</b>SyntaxRules rules<b>)</b></span>
+<span id='line17'>  <b>{</b></span>
+<span id='line18'>    this.rules = rules</span>
+<span id='line19'>    this.tokenizer = LineTokenizer<b>(</b>rules<b>)</b></span>
+<span id='line20'>  <b>}</b></span>
+<span id='line21'></span>
+<span id='line22'>  SyntaxDoc parse<b>(</b>InStream in<b>)</b></span>
+<span id='line23'>  <b>{</b></span>
+<span id='line24'>    doc := SyntaxDoc<b>(</b>rules<b>)</b></span>
+<span id='line25'>    SyntaxLine? tail := null</span>
+<span id='line26'>    num := 1</span>
+<span id='line27'>    while <b>(</b>true<b>)</b></span>
+<span id='line28'>    <b>{</b></span>
+<span id='line29'>      // read next line of text</span>
+<span id='line30'>      text := in.readLine</span>
+<span id='line31'>      if <b>(</b>text == null<b>)</b> break</span>
+<span id='line32'></span>
+<span id='line33'>      // parse into SyntaxLine</span>
+<span id='line34'>      line := parseLine<b>(</b>num++, text<b>)</b></span>
+<span id='line35'></span>
+<span id='line36'>      // append to line linked list</span>
+<span id='line37'>      if <b>(</b>tail == null<b>)</b> doc.lines = line</span>
+<span id='line38'>      else tail.next = line</span>
+<span id='line39'>      tail = line</span>
+<span id='line40'>    <b>}</b></span>
+<span id='line41'>    return doc</span>
+<span id='line42'>  <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>  private SyntaxLine parseLine<b>(</b>Int num, Str lineText<b>)</b></span>
+<span id='line45'>  <b>{</b></span>
+<span id='line46'>    line := SyntaxLine<b>(</b>num<b>)</b></span>
+<span id='line47'>    try</span>
+<span id='line48'>    <b>{</b></span>
+<span id='line49'>      // normalize tabs</span>
+<span id='line50'>      if <b>(</b>tabsToSpaces != 0<b>)</b></span>
+<span id='line51'>        lineText = convertTabsToSpaces<b>(</b>lineText, tabsToSpaces<b>)</b></span>
+<span id='line52'></span>
+<span id='line53'>      // tokenize segments</span>
+<span id='line54'>      tokenizer.tokenizeLine<b>(</b>lineText<b>)</b> |type, text|</span>
+<span id='line55'>      <b>{</b></span>
+<span id='line56'>        line.segments.add<b>(</b>type<b>)</b>.add<b>(</b>text<b>)</b></span>
+<span id='line57'>      <b>}</b></span>
+<span id='line58'>    <b>}</b></span>
+<span id='line59'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line60'>    <b>{</b></span>
+<span id='line61'>      e.trace</span>
+<span id='line62'>      line.segments = <b>[</b>SyntaxType.text, lineText<b>]</b></span>
+<span id='line63'>    <b>}</b></span>
+<span id='line64'>    return line</span>
+<span id='line65'>  <b>}</b></span>
+<span id='line66'></span>
+<span id='line67'>  private static Str convertTabsToSpaces<b>(</b>Str text, Int ts<b>)</b></span>
+<span id='line68'>  <b>{</b></span>
+<span id='line69'>    if <b>(</b>!text.contains<b>(</b>"\t"<b>)</b><b>)</b> return text</span>
+<span id='line70'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line71'>    text.each |ch|</span>
+<span id='line72'>    <b>{</b></span>
+<span id='line73'>      if <b>(</b>ch == '\t'<b>)</b></span>
+<span id='line74'>        s.add<b>(</b>Str.spaces<b>(</b>ts - <b>(</b>s.size%ts<b>)</b><b>)</b><b>)</b></span>
+<span id='line75'>      else</span>
+<span id='line76'>        s.addChar<b>(</b>ch<b>)</b></span>
+<span id='line77'>    <b>}</b></span>
+<span id='line78'>    return s.toStr</span>
+<span id='line79'>  <b>}</b></span>
+<span id='line80'></span>
+<span id='line81'>  ** Number of spaces to convert a tab character to or zero</span>
+<span id='line82'>  ** to disable tab to space conversion</span>
+<span id='line83'>  Int tabsToSpaces := 2</span>
+<span id='line84'></span>
+<span id='line85'>  private SyntaxRules rules        // syntax rules for current document</span>
+<span id='line86'>  private LineTokenizer tokenizer  // line tokenizer for rules</span>
+<span id='line87'><b>}</b></span>
+<span id='line88'></span>
+<span id='line89'>**************************************************************************</span>
+<span id='line90'>** LineTokenizer</span>
+<span id='line91'>**************************************************************************</span>
+<span id='line92'></span>
+<span id='line93'>internal class LineTokenizer</span>
+<span id='line94'><b>{</b></span>
+<span id='line95'></span>
+<span id='line96'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line97'>// Construction</span>
+<span id='line98'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line99'></span>
+<span id='line100'>  new make<b>(</b>SyntaxRules rules<b>)</b></span>
+<span id='line101'>  <b>{</b></span>
+<span id='line102'>    this.rules = rules</span>
+<span id='line103'>    this.brackets = rules.brackets</span>
+<span id='line104'></span>
+<span id='line105'>    // build keyword map, and also a prefix map</span>
+<span id='line106'>    // of the first two characters for fast yes/no</span>
+<span id='line107'>    keywords = Str :Bool<b>[</b>:<b>]</b> //<b>{</b> def=false <b>}</b></span>
+<span id='line108'>    keywordPrefixes = Int:Bool<b>[</b>:<b>]</b> //<b>{</b> def=false <b>}</b></span>
+<span id='line109'>    if <b>(</b>rules.keywords != null<b>)</b></span>
+<span id='line110'>    <b>{</b></span>
+<span id='line111'>      rules.keywords.each |Str k|</span>
+<span id='line112'>      <b>{</b></span>
+<span id='line113'>        keywords<b>[</b>k<b>]</b> = true</span>
+<span id='line114'>        keywordPrefixes<b>[</b>k<b>[</b>0<b>]</b>.shiftl<b>(</b>16<b>)</b>.or<b>(</b>k<b>[</b>1<b>]</b><b>)</b><b>]</b> = true</span>
+<span id='line115'>      <b>}</b></span>
+<span id='line116'>    <b>}</b></span>
+<span id='line117'></span>
+<span id='line118'>    // single line comments</span>
+<span id='line119'>    comments= Matcher<b>[</b>,<b>]</b></span>
+<span id='line120'>    rules.comments?.each |Str s| <b>{</b> comments.add<b>(</b>toMatcher<b>(</b>s<b>)</b><b>)</b> <b>}</b></span>
+<span id='line121'></span>
+<span id='line122'>    // block comments</span>
+<span id='line123'>    commentStart = toMatcher<b>(</b>rules.blockCommentStart<b>)</b></span>
+<span id='line124'>    commentEnd   = toMatcher<b>(</b>rules.blockCommentEnd<b>)</b></span>
+<span id='line125'></span>
+<span id='line126'>    // str literals</span>
+<span id='line127'>    strs = StrMatch<b>[</b>,<b>]</b></span>
+<span id='line128'>    if <b>(</b>rules.strs != null<b>)</b></span>
+<span id='line129'>      rules.strs.each |SyntaxStr s| <b>{</b> strs.add<b>(</b>toStrMatch<b>(</b>s<b>)</b><b>)</b> <b>}</b></span>
+<span id='line130'>  <b>}</b></span>
+<span id='line131'></span>
+<span id='line132'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line133'>// Tokenizing</span>
+<span id='line134'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line135'></span>
+<span id='line136'>  ** Tokenize to given callback</span>
+<span id='line137'>  Void tokenizeLine<b>(</b>Str line, |SyntaxType, Str| f<b>)</b></span>
+<span id='line138'>  <b>{</b></span>
+<span id='line139'>    // reset line</span>
+<span id='line140'>    this.line = line</span>
+<span id='line141'>    this.lineSize = line.size</span>
+<span id='line142'>    this.pos  = 0</span>
+<span id='line143'>    if <b>(</b>lineSize > 0<b>)</b> this.cur  = line<b>[</b>0<b>]</b></span>
+<span id='line144'>    if <b>(</b>lineSize > 1<b>)</b> this.peek = line<b>[</b>1<b>]</b></span>
+<span id='line145'></span>
+<span id='line146'>    // iterate until we hit end of line</span>
+<span id='line147'>    textStart := 0</span>
+<span id='line148'>    while <b>(</b>cur != 0<b>)</b></span>
+<span id='line149'>    <b>{</b></span>
+<span id='line150'>      // parse next token</span>
+<span id='line151'>      thisStart := pos</span>
+<span id='line152'>      type := next</span>
+<span id='line153'></span>
+<span id='line154'>      // if this is text, keep chugging until we</span>
+<span id='line155'>      // get to next special token or end of line</span>
+<span id='line156'>      if <b>(</b>type == SyntaxType.text<b>)</b> continue</span>
+<span id='line157'></span>
+<span id='line158'>      // iterate last text chunk</span>
+<span id='line159'>      if <b>(</b>textStart &lt; thisStart<b>)</b></span>
+<span id='line160'>        f<b>(</b>SyntaxType.text, line<b>[</b>textStart..&lt;thisStart<b>]</b><b>)</b></span>
+<span id='line161'></span>
+<span id='line162'>      // iterate this token</span>
+<span id='line163'>      f<b>(</b>type, line<b>[</b>thisStart..&lt;pos<b>]</b><b>)</b></span>
+<span id='line164'></span>
+<span id='line165'>      // reset textStart</span>
+<span id='line166'>      textStart = pos</span>
+<span id='line167'>    <b>}</b></span>
+<span id='line168'></span>
+<span id='line169'>    // iterate last text chunk</span>
+<span id='line170'>    if <b>(</b>textStart &lt; line.size<b>)</b></span>
+<span id='line171'>      f<b>(</b>SyntaxType.text, line<b>[</b>textStart..&lt;line.size<b>]</b><b>)</b></span>
+<span id='line172'>  <b>}</b></span>
+<span id='line173'></span>
+<span id='line174'>  private SyntaxType next<b>(</b><b>)</b></span>
+<span id='line175'>  <b>{</b></span>
+<span id='line176'>    // if inside multi-line string literal</span>
+<span id='line177'>    if <b>(</b>inStr != null<b>)</b> return strLiteral<b>(</b>inStr<b>)</b></span>
+<span id='line178'></span>
+<span id='line179'>    // if inside block comment or comment open</span>
+<span id='line180'>    if <b>(</b>inComment > 0 || commentStart.isMatch<b>)</b> return blockComment</span>
+<span id='line181'></span>
+<span id='line182'>    // check for end-of-line comments</span>
+<span id='line183'>    for <b>(</b>i:=0; i&lt;comments.size; ++i<b>)</b></span>
+<span id='line184'>    <b>{</b></span>
+<span id='line185'>      if <b>(</b>comments<b>[</b>i<b>]</b>.isMatch<b>)</b></span>
+<span id='line186'>      <b>{</b></span>
+<span id='line187'>        cur = 0</span>
+<span id='line188'>        pos = line.size // force end of line</span>
+<span id='line189'>        return SyntaxType.comment</span>
+<span id='line190'>      <b>}</b></span>
+<span id='line191'>    <b>}</b></span>
+<span id='line192'></span>
+<span id='line193'>    // identifier which might be keyword</span>
+<span id='line194'>    if <b>(</b>keywordPrefixes<b>[</b>cur.shiftl<b>(</b>16<b>)</b>.or<b>(</b>peek<b>)</b><b>]</b> == true &amp;&amp;</span>
+<span id='line195'>        <b>(</b>pos==0 || !line<b>[</b>pos-1<b>]</b>.isAlphaNum<b>)</b><b>)</b></span>
+<span id='line196'>    <b>{</b></span>
+<span id='line197'>      start := pos</span>
+<span id='line198'>      consume</span>
+<span id='line199'>      consume</span>
+<span id='line200'>      while <b>(</b>cur.isAlphaNum || cur == '_'<b>)</b> consume</span>
+<span id='line201'>      word := line<b>[</b>start..&lt;pos<b>]</b></span>
+<span id='line202'>      if <b>(</b>keywords<b>[</b>word<b>]</b> == true<b>)</b> return SyntaxType.keyword</span>
+<span id='line203'>      return SyntaxType.text</span>
+<span id='line204'>    <b>}</b></span>
+<span id='line205'></span>
+<span id='line206'>    // check for str literals</span>
+<span id='line207'>    for <b>(</b>i:=0; i&lt;strs.size; ++i<b>)</b></span>
+<span id='line208'>      if <b>(</b>strs<b>[</b>i<b>]</b>.start.isMatch<b>)</b> return strLiteral<b>(</b>strs<b>[</b>i<b>]</b><b>)</b></span>
+<span id='line209'></span>
+<span id='line210'>    // brackets</span>
+<span id='line211'>    if <b>(</b>brackets.containsChar<b>(</b>cur<b>)</b><b>)</b></span>
+<span id='line212'>    <b>{</b></span>
+<span id='line213'>      consume</span>
+<span id='line214'>      return SyntaxType.bracket</span>
+<span id='line215'>    <b>}</b></span>
+<span id='line216'></span>
+<span id='line217'>    // other chars</span>
+<span id='line218'>    consume</span>
+<span id='line219'>    return SyntaxType.text</span>
+<span id='line220'>  <b>}</b></span>
+<span id='line221'></span>
+<span id='line222'>  private SyntaxType blockComment<b>(</b><b>)</b></span>
+<span id='line223'>  <b>{</b></span>
+<span id='line224'>    while <b>(</b>cur != 0<b>)</b></span>
+<span id='line225'>    <b>{</b></span>
+<span id='line226'>      if <b>(</b>commentStart.isMatch<b>)</b></span>
+<span id='line227'>      <b>{</b></span>
+<span id='line228'>        commentStart.consume</span>
+<span id='line229'>        ++inComment</span>
+<span id='line230'>        if <b>(</b>!rules.blockCommentsNest<b>)</b> inComment = 1</span>
+<span id='line231'>      <b>}</b></span>
+<span id='line232'></span>
+<span id='line233'>      if <b>(</b>commentEnd.isMatch<b>)</b></span>
+<span id='line234'>      <b>{</b></span>
+<span id='line235'>        commentEnd.consume</span>
+<span id='line236'>        --inComment</span>
+<span id='line237'>      <b>}</b></span>
+<span id='line238'></span>
+<span id='line239'>      if <b>(</b>inComment &lt;= 0<b>)</b> break</span>
+<span id='line240'>      consume</span>
+<span id='line241'>    <b>}</b></span>
+<span id='line242'>    return SyntaxType.comment</span>
+<span id='line243'>  <b>}</b></span>
+<span id='line244'></span>
+<span id='line245'>  private SyntaxType strLiteral<b>(</b>StrMatch s<b>)</b></span>
+<span id='line246'>  <b>{</b></span>
+<span id='line247'>    if <b>(</b>inStr !== s<b>)</b> s.start.consume</span>
+<span id='line248'>    while <b>(</b>cur != 0<b>)</b></span>
+<span id='line249'>    <b>{</b></span>
+<span id='line250'>      if <b>(</b>s.end.isMatch &amp;&amp; countEscapes<b>(</b>s.escape<b>)</b>.isEven<b>)</b></span>
+<span id='line251'>      <b>{</b></span>
+<span id='line252'>        s.end.consume</span>
+<span id='line253'>        inStr = null</span>
+<span id='line254'>        return SyntaxType.literal</span>
+<span id='line255'>      <b>}</b></span>
+<span id='line256'>      consume</span>
+<span id='line257'>    <b>}</b></span>
+<span id='line258'>    if <b>(</b>s.multiLine<b>)</b> inStr = s</span>
+<span id='line259'>    return SyntaxType.literal</span>
+<span id='line260'>  <b>}</b></span>
+<span id='line261'></span>
+<span id='line262'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line263'>// Matching Functions</span>
+<span id='line264'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line265'></span>
+<span id='line266'>  StrMatch toStrMatch<b>(</b>SyntaxStr s<b>)</b></span>
+<span id='line267'>  <b>{</b></span>
+<span id='line268'>    return StrMatch</span>
+<span id='line269'>    <b>{</b></span>
+<span id='line270'>      start     = toMatcher<b>(</b>s.delimiter, s.escape<b>)</b></span>
+<span id='line271'>      end       = toMatcher<b>(</b>s.delimiterEnd ?: s.delimiter, s.escape<b>)</b></span>
+<span id='line272'>      escape    = s.escape</span>
+<span id='line273'>      multiLine = s.multiLine</span>
+<span id='line274'>    <b>}</b></span>
+<span id='line275'>  <b>}</b></span>
+<span id='line276'></span>
+<span id='line277'>  Matcher toMatcher<b>(</b>Str? tok, Int esc := 0<b>)</b></span>
+<span id='line278'>  <b>{</b></span>
+<span id='line279'>    tok = tok?.trim ?: ""</span>
+<span id='line280'>    switch <b>(</b>tok.size<b>)</b></span>
+<span id='line281'>    <b>{</b></span>
+<span id='line282'>      case 0:</span>
+<span id='line283'>        return Matcher<b>(</b>0, |->Bool| <b>{</b> noMatch <b>}</b>, |->| <b>{</b><b>}</b><b>)</b></span>
+<span id='line284'>      case 1:</span>
+<span id='line285'>        if <b>(</b>esc > 0<b>)</b></span>
+<span id='line286'>          return Matcher<b>(</b>1, |->Bool| <b>{</b> match1Esc<b>(</b>tok<b>[</b>0<b>]</b>, esc<b>)</b> <b>}</b>, |->| <b>{</b> consume <b>}</b><b>)</b></span>
+<span id='line287'>        else</span>
+<span id='line288'>          return Matcher<b>(</b>1, |->Bool| <b>{</b> match1<b>(</b>tok<b>[</b>0<b>]</b><b>)</b> <b>}</b>, |->| <b>{</b> consume <b>}</b><b>)</b></span>
+<span id='line289'>      case 2:</span>
+<span id='line290'>        if <b>(</b>esc > 0<b>)</b></span>
+<span id='line291'>          return Matcher<b>(</b>2, |->Bool| <b>{</b> match2Esc<b>(</b>tok<b>[</b>0<b>]</b>, tok<b>[</b>1<b>]</b>, esc<b>)</b> <b>}</b>, |->| <b>{</b> consume; consume <b>}</b><b>)</b></span>
+<span id='line292'>        else</span>
+<span id='line293'>          return Matcher<b>(</b>2, |->Bool| <b>{</b> match2<b>(</b>tok<b>[</b>0<b>]</b>, tok<b>[</b>1<b>]</b><b>)</b> <b>}</b>, |->| <b>{</b> consume; consume <b>}</b><b>)</b></span>
+<span id='line294'>      default:</span>
+<span id='line295'>        return Matcher<b>(</b>tok.size, |->Bool| <b>{</b> matchN<b>(</b>tok<b>)</b> <b>}</b>, |->| <b>{</b> consumeN<b>(</b>tok.size<b>)</b> <b>}</b><b>)</b></span>
+<span id='line296'>    <b>}</b></span>
+<span id='line297'>  <b>}</b></span>
+<span id='line298'></span>
+<span id='line299'>  Bool noMatch<b>(</b><b>)</b> <b>{</b> return false <b>}</b></span>
+<span id='line300'></span>
+<span id='line301'>  Bool match1<b>(</b>Int ch1<b>)</b> <b>{</b> return cur == ch1 <b>}</b></span>
+<span id='line302'></span>
+<span id='line303'>  Bool match2<b>(</b>Int ch1, Int ch2<b>)</b> <b>{</b> return cur == ch1 &amp;&amp; peek == ch2 <b>}</b></span>
+<span id='line304'></span>
+<span id='line305'>  Bool match1Esc<b>(</b>Int ch1, Int esc<b>)</b> <b>{</b> return cur == ch1 &amp;&amp; countEscapes<b>(</b>esc<b>)</b>.isEven <b>}</b></span>
+<span id='line306'></span>
+<span id='line307'>  Bool match2Esc<b>(</b>Int ch1, Int ch2, Int esc<b>)</b> <b>{</b> return cur == ch1 &amp;&amp; peek == ch2 &amp;&amp; countEscapes<b>(</b>esc<b>)</b>.isEven <b>}</b></span>
+<span id='line308'></span>
+<span id='line309'>  Bool matchN<b>(</b>Str chars<b>)</b> // assume no escape for 3 or more</span>
+<span id='line310'>  <b>{</b></span>
+<span id='line311'>    try</span>
+<span id='line312'>    <b>{</b></span>
+<span id='line313'>      if <b>(</b>cur != chars<b>[</b>0<b>]</b> || peek != chars<b>[</b>1<b>]</b><b>)</b> return false</span>
+<span id='line314'>      for <b>(</b>i:=2; i&lt;chars.size; ++i<b>)</b> if <b>(</b>chars<b>[</b>i<b>]</b> != line<b>[</b>pos+i<b>]</b><b>)</b> return false</span>
+<span id='line315'>      return true</span>
+<span id='line316'>    <b>}</b></span>
+<span id='line317'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line318'>    <b>{</b></span>
+<span id='line319'>      return false</span>
+<span id='line320'>    <b>}</b></span>
+<span id='line321'>  <b>}</b></span>
+<span id='line322'></span>
+<span id='line323'>  ** Count the number of escape chars preceeding the current char.</span>
+<span id='line324'>  private Int countEscapes<b>(</b>Int esc<b>)</b></span>
+<span id='line325'>  <b>{</b></span>
+<span id='line326'>    n := 0</span>
+<span id='line327'>    while <b>(</b>line<b>[</b>pos-n-1<b>]</b> == esc<b>)</b> n++</span>
+<span id='line328'>    return n</span>
+<span id='line329'>  <b>}</b></span>
+<span id='line330'></span>
+<span id='line331'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line332'>// Consume</span>
+<span id='line333'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line334'></span>
+<span id='line335'>  private Void consume<b>(</b><b>)</b></span>
+<span id='line336'>  <b>{</b></span>
+<span id='line337'>    cur = peek</span>
+<span id='line338'>    pos++</span>
+<span id='line339'>    if <b>(</b>pos >= lineSize<b>)</b> pos = lineSize</span>
+<span id='line340'>    if <b>(</b>pos+1 &lt; line.size<b>)</b></span>
+<span id='line341'>    <b>{</b></span>
+<span id='line342'>      peek = line<b>[</b>pos+1<b>]</b> // next peek is cur+1</span>
+<span id='line343'>    <b>}</b></span>
+<span id='line344'>    else</span>
+<span id='line345'>    <b>{</b></span>
+<span id='line346'>      peek = 0</span>
+<span id='line347'>    <b>}</b></span>
+<span id='line348'>  <b>}</b></span>
+<span id='line349'></span>
+<span id='line350'>  Void consumeN<b>(</b>Int n<b>)</b></span>
+<span id='line351'>  <b>{</b></span>
+<span id='line352'>    for <b>(</b>; n > 0; --n<b>)</b> consume</span>
+<span id='line353'>  <b>}</b></span>
+<span id='line354'></span>
+<span id='line355'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line356'>// Fields</span>
+<span id='line357'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line358'></span>
+<span id='line359'>  // rule lookups</span>
+<span id='line360'>  private SyntaxRules rules        // syntax rules for tokenizing</span>
+<span id='line361'>  private Str brackets             // str of bracket symbols</span>
+<span id='line362'>  private Int:Bool keywordPrefixes // first two letter of keywords</span>
+<span id='line363'>  private Str:Bool keywords        // keywords</span>
+<span id='line364'>  private Matcher<b>[</b><b>]</b> comments       // matchers for eol comments</span>
+<span id='line365'>  private Matcher commentStart     // matcher to check comment start</span>
+<span id='line366'>  private Matcher commentEnd       // matcher to check comment end</span>
+<span id='line367'>  private StrMatch<b>[</b><b>]</b> strs          // matchers for str literals</span>
+<span id='line368'></span>
+<span id='line369'>  // multi-line blocks</span>
+<span id='line370'>  private Int inComment            // nested level of block comments</span>
+<span id='line371'>  private StrMatch? inStr          // in multi-line string literal</span>
+<span id='line372'></span>
+<span id='line373'>  // current line</span>
+<span id='line374'>  private Str? line                // line being parsed</span>
+<span id='line375'>  private Int lineSize             // total size of line</span>
+<span id='line376'>  private Int pos                  // index into line for cur</span>
+<span id='line377'>  private Int cur                  // current char</span>
+<span id='line378'>  private Int peek                 // next char</span>
+<span id='line379'><b>}</b></span>
+<span id='line380'></span>
+<span id='line381'>**************************************************************************</span>
+<span id='line382'>** Matcher</span>
+<span id='line383'>**************************************************************************</span>
+<span id='line384'></span>
+<span id='line385'>** Matcher is used to match a specific token</span>
+<span id='line386'>** against the current character</span>
+<span id='line387'>internal class Matcher</span>
+<span id='line388'><b>{</b></span>
+<span id='line389'>  new make<b>(</b>Int sz, |->Bool| m, |->| c<b>)</b> <b>{</b> size = sz; matchFunc = m; consumeFunc = c <b>}</b></span>
+<span id='line390'>  Bool isMatch<b>(</b><b>)</b> <b>{</b> return matchFunc.call <b>}</b></span>
+<span id='line391'>  Void consume<b>(</b><b>)</b> <b>{</b> consumeFunc.call <b>}</b></span>
+<span id='line392'>  |->Bool| matchFunc</span>
+<span id='line393'>  |->| consumeFunc</span>
+<span id='line394'>  const Int size</span>
+<span id='line395'><b>}</b></span>
+<span id='line396'></span>
+<span id='line397'>** StrMatch handles matching the start and end</span>
+<span id='line398'>** delimiter and managing multi-line string blocks</span>
+<span id='line399'>internal class StrMatch</span>
+<span id='line400'><b>{</b></span>
+<span id='line401'>  Matcher? start</span>
+<span id='line402'>  Matcher? end</span>
+<span id='line403'>  Int escape</span>
+<span id='line404'>  Bool multiLine</span>
+<span id='line405'><b>}</b></span>
+<span id='line406'></span>
+</pre>
+</div>
+</body>
+</html>

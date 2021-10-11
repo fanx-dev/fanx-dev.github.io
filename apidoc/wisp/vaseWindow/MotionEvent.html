@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseWindow::MotionEvent</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseWindow</a></li><li><a href='MotionEvent.html'>MotionEvent</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseWindow::MotionEvent</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Event.html'>vaseWindow::Event</a>
+    vaseWindow::MotionEvent</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>Mouse event or Touch event</p>
+<dl>
+<dt id='button'>
+button</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> button</code></p>
+
+<p>Mouse button number pressed</p>
+</dd>
+<dt id='cancel'>
+cancel</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> cancel := 5</code></p>
+</dd>
+<dt id='clicked'>
+clicked</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> clicked := 4</code></p>
+</dd>
+<dt id='count'>
+count</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> count</code></p>
+
+<p>Number of mouse clicks.</p>
+</dd>
+<dt id='delta'>
+delta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> delta</code></p>
+
+<p>Delta value of event.  For mouse wheel events this is the amount the mouse wheel has traveled.</p>
+</dd>
+<dt id='deltaX'>
+deltaX</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> deltaX</code></p>
+
+<p>delta x</p>
+</dd>
+<dt id='deltaY'>
+deltaY</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> deltaY</code></p>
+
+<p>delta y</p>
+</dd>
+<dt id='key'>
+key</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Key.html'>Key?</a> key</code></p>
+
+<p>Key code and modifiers.</p>
+</dd>
+<dt id='longPressed'>
+longPressed</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> longPressed := 3</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Int.html'>Int</a> type)</code></p>
+</dd>
+<dt id='moved'>
+moved</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> moved := 2</code></p>
+</dd>
+<dt id='other'>
+other</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> other := 7</code></p>
+</dd>
+<dt id='pointerId'>
+pointerId</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> pointerId := 0</code></p>
+</dd>
+<dt id='pointers'>
+pointers</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='MotionEvent.html'>MotionEvent</a>&gt;?</a> pointers</code></p>
+
+<p>For muilt touch event</p>
+</dd>
+<dt id='pressed'>
+pressed</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> pressed := 0</code></p>
+</dd>
+<dt id='pressure'>
+pressure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float?</a> pressure</code></p>
+
+<p>Current pressure of pointer</p>
+</dd>
+<dt id='relativeX'>
+relativeX</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> relativeX := 0</code></p>
+</dd>
+<dt id='relativeY'>
+relativeY</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> relativeY := 0</code></p>
+</dd>
+<dt id='released'>
+released</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> released := 1</code></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float?</a> size</code></p>
+
+<p>Current size of pointer</p>
+</dd>
+<dt id='speed'>
+speed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float?</a> speed</code></p>
+
+<p>pixel move per millisecond</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='wheel'>
+wheel</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> wheel := 6</code></p>
+</dd>
+<dt id='x'>
+x</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> x := 0</code></p>
+
+<p>X coordinates</p>
+</dd>
+<dt id='y'>
+y</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> y := 0</code></p>
+
+<p>Y coordinates</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cancel'>cancel</a></li><li><a href='#clicked'>clicked</a></li><li><a href='#longPressed'>longPressed</a></li><li><a href='#make'>make</a></li><li><a href='#moved'>moved</a></li><li><a href='#other'>other</a></li><li><a href='#pressed'>pressed</a></li><li><a href='#released'>released</a></li><li><a href='#wheel'>wheel</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#button'>button</a></li><li><a href='#count'>count</a></li><li><a href='#delta'>delta</a></li><li><a href='#deltaX'>deltaX</a></li><li><a href='#deltaY'>deltaY</a></li><li><a href='#key'>key</a></li><li><a href='#pointerId'>pointerId</a></li><li><a href='#pointers'>pointers</a></li><li><a href='#pressure'>pressure</a></li><li><a href='#relativeX'>relativeX</a></li><li><a href='#relativeY'>relativeY</a></li><li><a href='#size'>size</a></li><li><a href='#speed'>speed</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#x'>x</a></li><li><a href='#y'>y</a></li></ul>
+</div>
+</div>
+</body>
+</html>

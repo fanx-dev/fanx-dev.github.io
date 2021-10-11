@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocRenderer</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocRenderer.html'>DocRenderer</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> compilerDoc::DocRenderer</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::DocRenderer</pre>
+<p class='src'>
+<a href='src-DocRenderer.fan.html'>Source</a></p>
+
+<p>DocRenderer is base class for rendering a Doc. See <code><a href='DocRenderer.html#writeDoc'>writeDoc</a></code> for rendering pipeline.</p>
+<dl>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Doc.html'>Doc</a> doc()</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line44'>Source</a></p>
+
+<p>Document to be renderered</p>
+</dd>
+<dt id='env'>
+env</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='DocEnv.html'>DocEnv</a> env()</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line36'>Source</a></p>
+
+<p>Environment with access to model, theme, linking, etc</p>
+</dd>
+<dt id='linkTo'>
+linkTo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocLink.html'>DocLink</a> linkTo(<a href='Doc.html'>Doc</a> target, <a href='../sys/Str.html'>Str?</a> dis := null, <a href='../sys/Str.html'>Str?</a> frag := null)</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line100'>Source</a></p>
+
+<p>Create a DocLink from this renderer doc to the target document.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='DocEnv.html'>DocEnv</a> env, <a href='../web/WebOutStream.html'>WebOutStream</a> out, <a href='Doc.html'>Doc</a> doc)</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line24'>Source</a></p>
+
+<p>All subclasses must implement ctor with env, out, doc params.</p>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../web/WebOutStream.html'>WebOutStream</a> out()</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line40'>Source</a></p>
+
+<p>HTML output stream</p>
+</dd>
+<dt id='resolveFandocLink'>
+resolveFandocLink</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='DocLink.html'>DocLink?</a> resolveFandocLink(<a href='../fandoc/Link.html'>Link</a> elem, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line194'>Source</a></p>
+
+<p>Hook used to map a fandoc link to a doc link</p>
+</dd>
+<dt id='theme'>
+theme</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='DocTheme.html'>DocTheme</a> theme()</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line48'>Source</a></p>
+
+<p>Theme to use for rendering chrome and navigation. This field is initialized from <code><a href='DocEnv.html#theme'>DocEnv.theme</a></code>.</p>
+</dd>
+<dt id='writeContent'>
+writeContent</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> writeContent()</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line72'>Source</a></p>
+
+<p>Subclass hook to render document specific content. See <code><a href='DocRenderer.html#writeDoc'>writeDoc</a></code> for rendering pipeline.</p>
+</dd>
+<dt id='writeDoc'>
+writeDoc</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeDoc()</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line57'>Source</a></p>
+
+<p>Render the <code><a href='DocRenderer.html#doc'>doc</a></code>.  This method delegates to:</p>
+
+<ol style='list-style-type:decimal'>
+<li><code><a href='DocTheme.html#writeStart'>DocTheme.writeStart</a></code></li>
+
+<li><code><a href='DocTheme.html#writeBreadcrumb'>DocTheme.writeBreadcrumb</a></code></li>
+
+<li><code><a href='DocRenderer.html#writeContent'>writeContent</a></code></li>
+
+<li><code><a href='DocTheme.html#writeEnd'>DocTheme.writeEnd</a></code></li>
+</ol>
+</dd>
+<dt id='writeFandoc'>
+writeFandoc</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeFandoc(<a href='DocFandoc.html'>DocFandoc</a> doc)</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line109'>Source</a></p>
+
+<p>Write the given fandoc string as HTML.  This method delegates to <code><a href='DocEnv.html#link'>DocEnv.link</a></code> and <code><a href='DocEnv.html#linkUri'>DocEnv.linkUri</a></code> to resolve links from the current document.</p>
+</dd>
+<dt id='writeLink'>
+writeLink</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeLink(<a href='DocLink.html'>DocLink</a> link)</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line82'>Source</a></p>
+
+<p>Write an <code>&lt;a></code> element for the given link from this renderer document to another document.  See <code><a href='DocEnv.html#linkUri'>DocEnv.linkUri</a></code>.</p>
+</dd>
+<dt id='writeLinkTo'>
+writeLinkTo</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeLinkTo(<a href='Doc.html'>Doc</a> target, <a href='../sys/Str.html'>Str?</a> dis := null, <a href='../sys/Str.html'>Str?</a> frag := null)</code></p>
+<p class='src'>
+<a href='src-DocRenderer.fan.html#line91'>Source</a></p>
+
+<p>Convenience for <code>writeLink(linkTo(target, dis, frag))</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocRenderer.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#doc'>doc</a></li><li><a href='#env'>env</a></li><li><a href='#linkTo'>linkTo</a></li><li><a href='#out'>out</a></li><li><a href='#resolveFandocLink'>resolveFandocLink</a></li><li><a href='#theme'>theme</a></li><li><a href='#writeContent'>writeContent</a></li><li><a href='#writeDoc'>writeDoc</a></li><li><a href='#writeFandoc'>writeFandoc</a></li><li><a href='#writeLink'>writeLink</a></li><li><a href='#writeLinkTo'>writeLinkTo</a></li></ul>
+</div>
+</div>
+</body>
+</html>

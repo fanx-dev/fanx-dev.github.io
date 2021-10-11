@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>math::Matrix</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>math</a></li><li><a href='Matrix.html'>Matrix</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> math::Matrix</h1>
+<pre>math::Matrix</pre>
+<p class='src'>
+<a href='src-Matrix.fan.html'>Source</a></p>
+
+<p>Interface for matrix implementations. A matrix is a rectangular array of numbers.</p>
+<dl>
+<dt id='cofactor'>
+cofactor</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Matrix.html'>Matrix</a> cofactor()</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line52'>Source</a></p>
+
+<p>Compute the cofactor of the matrix. The matrix must be square.</p>
+</dd>
+<dt id='determinant'>
+determinant</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Float.html'>Float</a> determinant()</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line49'>Source</a></p>
+
+<p>Compute the determinant of the matrix. The matrix must be square.</p>
+</dd>
+<dt id='fill'>
+fill</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> fill(<a href='../sys/Float.html'>Float</a> val)</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line31'>Source</a></p>
+
+<p>Set every element in the matrix to the given val.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Float.html'>Float</a> get(<a href='../sys/Int.html'>Int</a> i, <a href='../sys/Int.html'>Int</a> j)</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line23'>Source</a></p>
+
+<p>Get the element at <code>A[i,j]</code>, where <code>i</code> is the row index, and <code>j</code> is column index.</p>
+</dd>
+<dt id='inverse'>
+inverse</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Matrix.html'>Matrix</a> inverse()</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line55'>Source</a></p>
+
+<p>Compute the inverse of the matrix.</p>
+</dd>
+<dt id='isSquare'>
+isSquare</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isSquare()</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html'>Source</a></p>
+
+<p>Return true if the matrix is square.</p>
+</dd>
+<dt id='minus'>
+minus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='Matrix.html'>Matrix</a> minus(<a href='Matrix.html'>Matrix</a> b)</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line43'>Source</a></p>
+
+<p>Computes <code>A - B</code> and returns a new matrix.</p>
+</dd>
+<dt id='mult'>
+mult</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='Matrix.html'>Matrix</a> mult(<a href='Matrix.html'>Matrix</a> b)</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line46'>Source</a></p>
+
+<p>Computes <code>A * B</code> and returns a new matrix.</p>
+</dd>
+<dt id='multScalar'>
+multScalar</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> multScalar(<a href='../sys/Float.html'>Float</a> x)</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line37'>Source</a></p>
+
+<p>Computes <code>x * A</code>.</p>
+</dd>
+<dt id='numCols'>
+numCols</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> numCols()</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html'>Source</a></p>
+
+<p>The number of columns in the matrix.</p>
+</dd>
+<dt id='numRows'>
+numRows</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> numRows()</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html'>Source</a></p>
+
+<p>The number of rows in the matrix.</p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='Matrix.html'>Matrix</a> plus(<a href='Matrix.html'>Matrix</a> b)</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line40'>Source</a></p>
+
+<p>Computes <code>A + B</code> and returns a new matrix.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> set(<a href='../sys/Int.html'>Int</a> i, <a href='../sys/Int.html'>Int</a> j, <a href='../sys/Float.html'>Float</a> val)</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line27'>Source</a></p>
+
+<p>Set the element at <code>A[i,j]</code>, where <code>i</code> is the row index, and <code>j</code> is column index.</p>
+</dd>
+<dt id='transpose'>
+transpose</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Matrix.html'>Matrix</a> transpose()</code></p>
+<p class='src'>
+<a href='src-Matrix.fan.html#line34'>Source</a></p>
+
+<p>Get the transpose of the matrix.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Matrix.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#cofactor'>cofactor</a></li><li><a href='#determinant'>determinant</a></li><li><a href='#fill'>fill</a></li><li><a href='#get'>get</a></li><li><a href='#inverse'>inverse</a></li><li><a href='#isSquare'>isSquare</a></li><li><a href='#minus'>minus</a></li><li><a href='#mult'>mult</a></li><li><a href='#multScalar'>multScalar</a></li><li><a href='#numCols'>numCols</a></li><li><a href='#numRows'>numRows</a></li><li><a href='#plus'>plus</a></li><li><a href='#set'>set</a></li><li><a href='#transpose'>transpose</a></li></ul>
+</div>
+</div>
+</body>
+</html>

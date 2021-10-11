@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CompilerStep</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CompilerStep.html'>CompilerStep</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> compilerx::CompilerStep</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::CompilerStep : <a href='Visitor.html'>compilerx::Visitor</a></pre>
+
+<p>VisitStep represents one discrete task run during the compiler pipeline.  The implementations are found under steps.</p>
+<dl>
+<dt id='bombIfErr'>
+bombIfErr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> bombIfErr()</code></p>
+</dd>
+<dt id='compiler'>
+compiler</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerContext.html'>CompilerContext</a> compiler</code></p>
+</dd>
+<dt id='curMethod'>
+curMethod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> curMethod</code></p>
+</dd>
+<dt id='curType'>
+curType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TypeDef.html'>TypeDef?</a> curType</code></p>
+</dd>
+<dt id='curUnit'>
+curUnit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilationUnit.html'>CompilationUnit?</a> curUnit</code></p>
+</dd>
+<dt id='debug'>
+debug</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> debug(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+</dd>
+<dt id='enterMethodDef'>
+enterMethodDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> enterMethodDef(<a href='MethodDef.html'>MethodDef</a> def)</code></p>
+</dd>
+<dt id='enterTypeDef'>
+enterTypeDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> enterTypeDef(<a href='TypeDef.html'>TypeDef</a> def)</code></p>
+</dd>
+<dt id='enterUnit'>
+enterUnit</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> enterUnit(<a href='CompilationUnit.html'>CompilationUnit</a> unit)</code></p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerErr.html'>CompilerErr</a> err(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Create, log, and return a CompilerErr.</p>
+</dd>
+<dt id='errReport'>
+errReport</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerErr.html'>CompilerErr</a> errReport(<a href='CompilerErr.html'>CompilerErr</a> e)</code></p>
+</dd>
+<dt id='exitMethodDef'>
+exitMethodDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> exitMethodDef(<a href='MethodDef.html'>MethodDef</a> def)</code></p>
+</dd>
+<dt id='exitTypeDef'>
+exitTypeDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> exitTypeDef(<a href='TypeDef.html'>TypeDef</a> def)</code></p>
+</dd>
+<dt id='exitUnit'>
+exitUnit</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> exitUnit(<a href='CompilationUnit.html'>CompilationUnit</a> unit)</code></p>
+</dd>
+<dt id='inStatic'>
+inStatic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> inStatic()</code></p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerLog.html'>CompilerLog</a> log()</code></p>
+
+<p>Convenience for compiler.log</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CompilerContext.html'>CompilerContext</a> compiler)</code></p>
+
+<p>Constructor takes the associated Compiler</p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CNamespace.html'>CNamespace</a> ns()</code></p>
+</dd>
+<dt id='podName'>
+podName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> podName()</code></p>
+
+<p>current pod name</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run the step</p>
+</dd>
+<dt id='walkUnits'>
+walkUnits</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> walkUnits(<a href='VisitDepth.html'>VisitDepth</a> depth)</code></p>
+</dd>
+<dt id='warn'>
+warn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerErr.html'>CompilerErr</a> warn(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Create, log, and return a warning CompilerErr.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bombIfErr'>bombIfErr</a></li><li><a href='#compiler'>compiler</a></li><li><a href='#curMethod'>curMethod</a></li><li><a href='#curType'>curType</a></li><li><a href='#curUnit'>curUnit</a></li><li><a href='#debug'>debug</a></li><li><a href='#enterMethodDef'>enterMethodDef</a></li><li><a href='#enterTypeDef'>enterTypeDef</a></li><li><a href='#enterUnit'>enterUnit</a></li><li><a href='#err'>err</a></li><li><a href='#errReport'>errReport</a></li><li><a href='#exitMethodDef'>exitMethodDef</a></li><li><a href='#exitTypeDef'>exitTypeDef</a></li><li><a href='#exitUnit'>exitUnit</a></li><li><a href='#inStatic'>inStatic</a></li><li><a href='#log'>log</a></li><li><a href='#ns'>ns</a></li><li><a href='#podName'>podName</a></li><li><a href='#run'>run</a></li><li><a href='#walkUnits'>walkUnits</a></li><li><a href='#warn'>warn</a></li></ul>
+</div>
+</div>
+</body>
+</html>

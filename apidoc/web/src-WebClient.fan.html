@@ -1,0 +1,616 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WebClient.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebClient.html'>WebClient</a></li><li><a href='src-WebClient.fan.html'>WebClient.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   24 Dec 08  Brian Frank       Almost Christmas!</span>
+<span id='line7'>//   15 Jan 13  Nicholas Harker   Added SSL Support</span>
+<span id='line8'>//   21 Jan 13  Nicholas Harker   Added Proxy Exclusion Support</span>
+<span id='line9'>//   03 Aug 15  Matthew Giannini  RFC6265</span>
+<span id='line10'>//</span>
+<span id='line11'></span>
+<span id='line12'>using inet</span>
+<span id='line13'></span>
+<span id='line14'>**</span>
+<span id='line15'>** The 'WebClient' class is used to manage client side HTTP requests</span>
+<span id='line16'>** and responses.  The basic lifecycle of WebClient:</span>
+<span id='line17'>**   1. configure request fields such as 'reqUri', 'reqMethod', and 'reqHeaders'</span>
+<span id='line18'>**   2. send request headers via 'writeReq'</span>
+<span id='line19'>**   3. optionally write request body via 'reqOut'</span>
+<span id='line20'>**   4. read response status and headers via 'readRes'</span>
+<span id='line21'>**   5. process response fields such as 'resCode' and 'resHeaders'</span>
+<span id='line22'>**   6. optionally read response body via 'resIn'</span>
+<span id='line23'>**</span>
+<span id='line24'>** Using the low level methods 'writeReq' and 'readRes' enables HTTP</span>
+<span id='line25'>** pipelining <b>(</b>multiple requests and responses on the same TCP socket</span>
+<span id='line26'>** connection<b>)</b>.  There are also a series of convenience methods which</span>
+<span id='line27'>** make common cases easier.</span>
+<span id='line28'>**</span>
+<span id='line29'>** See <b>[</b>pod doc<b>]</b>`pod-doc#webClient` and <b>[</b>examples<b>]</b>`examples::web-client`.</span>
+<span id='line30'>**</span>
+<span id='line31'>class WebClient</span>
+<span id='line32'><b>{</b></span>
+<span id='line33'></span>
+<span id='line34'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line35'>// Constructor</span>
+<span id='line36'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line37'></span>
+<span id='line38'>  **</span>
+<span id='line39'>  ** Construct with optional request URI.</span>
+<span id='line40'>  **</span>
+<span id='line41'>  new make<b>(</b>Uri? reqUri := null<b>)</b></span>
+<span id='line42'>  <b>{</b></span>
+<span id='line43'>    if <b>(</b>reqUri != null<b>)</b> this.reqUri = reqUri</span>
+<span id='line44'></span>
+<span id='line45'>    // default headers</span>
+<span id='line46'>    reqHeaders<b>[</b>"Accept-Encoding"<b>]</b> = "gzip"</span>
+<span id='line47'>  <b>}</b></span>
+<span id='line48'></span>
+<span id='line49'>  ** The `inet::SocketConfig` to use for creating sockets</span>
+<span id='line50'>  SocketConfig socketConfig := SocketConfig.cur</span>
+<span id='line51'></span>
+<span id='line52'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line53'>// Request</span>
+<span id='line54'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line55'></span>
+<span id='line56'>  **</span>
+<span id='line57'>  ** The absolute URI of request.</span>
+<span id='line58'>  **</span>
+<span id='line59'>  Uri reqUri := ``</span>
+<span id='line60'>  <b>{</b></span>
+<span id='line61'>    set</span>
+<span id='line62'>    <b>{</b></span>
+<span id='line63'>      if <b>(</b>!it.isAbs<b>)</b> throw ArgErr<b>(</b>"Request URI not absolute: `$it`"<b>)</b></span>
+<span id='line64'>      if <b>(</b>it.scheme != "http" &amp;&amp; it.scheme != "https"<b>)</b> throw ArgErr<b>(</b>"Request URI is not http or https: `$it`"<b>)</b></span>
+<span id='line65'>      &amp;reqUri = it</span>
+<span id='line66'>    <b>}</b></span>
+<span id='line67'>  <b>}</b></span>
+<span id='line68'></span>
+<span id='line69'>  **</span>
+<span id='line70'>  ** The HTTP method for the request.  Defaults to "GET".</span>
+<span id='line71'>  **</span>
+<span id='line72'>  Str reqMethod := "GET" <b>{</b> set <b>{</b> &amp;reqMethod = it.upper <b>}</b> <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  **</span>
+<span id='line75'>  ** HTTP version to use for request must be 1.0 or 1.1.</span>
+<span id='line76'>  ** Default is 1.1.</span>
+<span id='line77'>  **</span>
+<span id='line78'>  Version reqVersion := ver11</span>
+<span id='line79'></span>
+<span id='line80'>  **</span>
+<span id='line81'>  ** The HTTP headers to use for the next request.  This map uses</span>
+<span id='line82'>  ** case insensitive keys.  The "Host" header is implicitly defined</span>
+<span id='line83'>  ** by 'reqUri' and must not be defined in this map.</span>
+<span id='line84'>  **</span>
+<span id='line85'>  Str:Str reqHeaders := CaseInsensitiveMap&lt;Str,Str><b>(</b><b>)</b> // <b>{</b> caseInsensitive = true <b>}</b></span>
+<span id='line86'></span>
+<span id='line87'>  **</span>
+<span id='line88'>  ** Get the output stream used to write the request body.  This</span>
+<span id='line89'>  ** stream is only available if the request headers included a</span>
+<span id='line90'>  ** "Content-Type" header.  If an explicit "Content-Length" was</span>
+<span id='line91'>  ** specified then this is a fixed length output stream, otherwise</span>
+<span id='line92'>  ** the request is automatically configured to use a chunked</span>
+<span id='line93'>  ** transfer encoding.  This stream should be closed once the</span>
+<span id='line94'>  ** content has been fully written.</span>
+<span id='line95'>  **</span>
+<span id='line96'>  OutStream reqOut<b>(</b><b>)</b></span>
+<span id='line97'>  <b>{</b></span>
+<span id='line98'>    if <b>(</b>reqOutStream == null<b>)</b> throw IOErr<b>(</b>"No output stream for request"<b>)</b></span>
+<span id='line99'>    return reqOutStream</span>
+<span id='line100'>  <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line103'>// Response</span>
+<span id='line104'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line105'></span>
+<span id='line106'>  **</span>
+<span id='line107'>  ** HTTP version returned by response.</span>
+<span id='line108'>  **</span>
+<span id='line109'>  Version resVersion := ver11</span>
+<span id='line110'></span>
+<span id='line111'>  **</span>
+<span id='line112'>  ** HTTP status code returned by response.</span>
+<span id='line113'>  **</span>
+<span id='line114'>  Int resCode</span>
+<span id='line115'></span>
+<span id='line116'>  **</span>
+<span id='line117'>  ** HTTP status reason phrase returned by response.</span>
+<span id='line118'>  **</span>
+<span id='line119'>  Str resPhrase := ""</span>
+<span id='line120'></span>
+<span id='line121'>  **</span>
+<span id='line122'>  ** HTTP headers returned by response.</span>
+<span id='line123'>  **</span>
+<span id='line124'>  Str:Str resHeaders := noHeaders</span>
+<span id='line125'></span>
+<span id='line126'>  **</span>
+<span id='line127'>  ** Get a response header.  If not found and checked</span>
+<span id='line128'>  ** is false then return true, otherwise throw Err.</span>
+<span id='line129'>  **</span>
+<span id='line130'>  Str? resHeader<b>(</b>Str key, Bool checked := true<b>)</b></span>
+<span id='line131'>  <b>{</b></span>
+<span id='line132'>    val := resHeaders<b>[</b>key<b>]</b></span>
+<span id='line133'>    if <b>(</b>val != null || !checked<b>)</b> return val</span>
+<span id='line134'>    throw Err<b>(</b>"Missing HTTP header '$key'"<b>)</b></span>
+<span id='line135'>  <b>}</b></span>
+<span id='line136'></span>
+<span id='line137'>  **</span>
+<span id='line138'>  ** Input stream to read response content.  The input stream</span>
+<span id='line139'>  ** will correctly handle end of stream when the content has been</span>
+<span id='line140'>  ** fully read.  If the "Content-Length" header was specified the</span>
+<span id='line141'>  ** end of stream is based on the fixed number of bytes.  If the</span>
+<span id='line142'>  ** "Transfer-Encoding" header defines a chunked encoding, then</span>
+<span id='line143'>  ** chunks are automatically handled.  If the response has no</span>
+<span id='line144'>  ** content body, then throw IOErr.</span>
+<span id='line145'>  **</span>
+<span id='line146'>  ** The response input stream is automatically configured with</span>
+<span id='line147'>  ** the correct character encoding if one is specified in the</span>
+<span id='line148'>  ** "Content-Type" response header.</span>
+<span id='line149'>  **</span>
+<span id='line150'>  ** Also see convenience methods: `resStr` and `resBuf`.</span>
+<span id='line151'>  **</span>
+<span id='line152'>  InStream resIn<b>(</b><b>)</b></span>
+<span id='line153'>  <b>{</b></span>
+<span id='line154'>    if <b>(</b>resInStream == null<b>)</b> throw IOErr<b>(</b>"No input stream for response $resCode"<b>)</b></span>
+<span id='line155'>    return resInStream</span>
+<span id='line156'>  <b>}</b></span>
+<span id='line157'></span>
+<span id='line158'>  **</span>
+<span id='line159'>  ** Return the entire response back as an in-memory string.</span>
+<span id='line160'>  ** Convenience for 'resIn.readAllStr'.</span>
+<span id='line161'>  **</span>
+<span id='line162'>  Str resStr<b>(</b><b>)</b></span>
+<span id='line163'>  <b>{</b></span>
+<span id='line164'>    return resIn.readAllStr</span>
+<span id='line165'>  <b>}</b></span>
+<span id='line166'></span>
+<span id='line167'>  **</span>
+<span id='line168'>  ** Return the entire response back as an in-memory byte buffer.</span>
+<span id='line169'>  ** Convenience for 'resIn.readAllBuf'.</span>
+<span id='line170'>  **</span>
+<span id='line171'>  Buf resBuf<b>(</b><b>)</b></span>
+<span id='line172'>  <b>{</b></span>
+<span id='line173'>    return resIn.readAllBuf</span>
+<span id='line174'>  <b>}</b></span>
+<span id='line175'></span>
+<span id='line176'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line177'>// Cookies</span>
+<span id='line178'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line179'></span>
+<span id='line180'>  **</span>
+<span id='line181'>  ** Cookies to pass for "Cookie" request header.  If set to an empty</span>
+<span id='line182'>  ** list then the "Cookie" request header is removed.  After a request</span>
+<span id='line183'>  ** has been completed if the "Set-Cookie" response header specified</span>
+<span id='line184'>  ** one or more cookies then this field is automatically updated with</span>
+<span id='line185'>  ** the server specified cookies.</span>
+<span id='line186'>  **</span>
+<span id='line187'>  Cookie<b>[</b><b>]</b> cookies := List.defVal</span>
+<span id='line188'>  <b>{</b></span>
+<span id='line189'>    set</span>
+<span id='line190'>    <b>{</b></span>
+<span id='line191'>      // save field</span>
+<span id='line192'>      &amp;cookies = it</span>
+<span id='line193'></span>
+<span id='line194'>      // set reqHeaders <b>(</b>RFC 6265 § 4.2.1<b>)</b></span>
+<span id='line195'>      if <b>(</b>it.isEmpty<b>)</b> <b>{</b> reqHeaders.remove<b>(</b>"Cookie"<b>)</b>; return <b>}</b></span>
+<span id='line196'>      reqHeaders<b>[</b>"Cookie"<b>]</b> =</span>
+<span id='line197'>        it.size == 1 ?</span>
+<span id='line198'>        it.first.toNameValStr :</span>
+<span id='line199'>        it.join<b>(</b>"; "<b>)</b> |c| <b>{</b> c.toNameValStr <b>}</b></span>
+<span id='line200'>    <b>}</b></span>
+<span id='line201'>  <b>}</b></span>
+<span id='line202'></span>
+<span id='line203'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line204'>// Networking</span>
+<span id='line205'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line206'></span>
+<span id='line207'>  @Deprecated <b>{</b> msg = "Use WebClient.socketConfig to configure sockets" <b>}</b></span>
+<span id='line208'>  once SocketOptions socketOptions<b>(</b><b>)</b></span>
+<span id='line209'>  <b>{</b></span>
+<span id='line210'>    TcpSocket<b>(</b><b>)</b>.options</span>
+<span id='line211'>  <b>}</b></span>
+<span id='line212'></span>
+<span id='line213'>  **</span>
+<span id='line214'>  ** When set to true a 3xx response with a Location header</span>
+<span id='line215'>  ** will automatically update the `reqUri` field and retry the</span>
+<span id='line216'>  ** request using the alternate URI.  Redirects are not followed</span>
+<span id='line217'>  ** if the request has a content body.</span>
+<span id='line218'>  **</span>
+<span id='line219'>  Bool followRedirects := true</span>
+<span id='line220'></span>
+<span id='line221'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line222'>// Proxy Support</span>
+<span id='line223'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line224'></span>
+<span id='line225'>  **</span>
+<span id='line226'>  ** If non-null, then all requests are routed through this</span>
+<span id='line227'>  ** proxy address <b>(</b>host and port<b>)</b>.  Default is configured</span>
+<span id='line228'>  ** in "etc/web/config.props" with the key "proxy".  Proxy</span>
+<span id='line229'>  ** exceptions can be configured with the "proxy.exceptions"</span>
+<span id='line230'>  ** config key as comma separated list of Regex globs.</span>
+<span id='line231'>  **</span>
+<span id='line232'>  Uri? proxy := proxyDef</span>
+<span id='line233'></span>
+<span id='line234'>  private static Uri? proxyDef<b>(</b><b>)</b></span>
+<span id='line235'>  <b>{</b></span>
+<span id='line236'>    try</span>
+<span id='line237'>      return Uri.toUri<b>(</b>WebClient#.pod.config<b>(</b>"proxy"<b>)</b><b>)</b></span>
+<span id='line238'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line239'>      e.trace</span>
+<span id='line240'>    return null</span>
+<span id='line241'>  <b>}</b></span>
+<span id='line242'></span>
+<span id='line243'>  private Bool isProxy<b>(</b>Uri uri<b>)</b></span>
+<span id='line244'>  <b>{</b></span>
+<span id='line245'>    proxy != null &amp;&amp; !proxyExceptions.any |re| <b>{</b> re.matches<b>(</b>uri.host.toStr<b>)</b> <b>}</b></span>
+<span id='line246'>  <b>}</b></span>
+<span id='line247'></span>
+<span id='line248'>  private once Regex<b>[</b><b>]</b> proxyExceptions<b>(</b><b>)</b></span>
+<span id='line249'>  <b>{</b></span>
+<span id='line250'>    try</span>
+<span id='line251'>      return WebClient#.pod.config<b>(</b>"proxy.exceptions"<b>)</b>?.split<b>(</b>','<b>)</b>?.map |tok->Regex| <b>{</b> Regex.glob<b>(</b>tok<b>)</b> <b>}</b> ?: Regex<b>[</b>,<b>]</b></span>
+<span id='line252'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line253'>      e.trace</span>
+<span id='line254'>    return Regex<b>[</b>,<b>]</b></span>
+<span id='line255'>  <b>}</b></span>
+<span id='line256'></span>
+<span id='line257'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line258'>// Authentication</span>
+<span id='line259'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line260'></span>
+<span id='line261'>  **</span>
+<span id='line262'>  ** Authenticate request using HTTP Basic with given username</span>
+<span id='line263'>  ** and password.</span>
+<span id='line264'>  **</span>
+<span id='line265'>  This authBasic<b>(</b>Str username, Str password<b>)</b></span>
+<span id='line266'>  <b>{</b></span>
+<span id='line267'>    enc := "$<b>{</b>username<b>}</b>:$<b>{</b>password<b>}</b>".toBuf.toBase64</span>
+<span id='line268'>    reqHeaders<b>[</b>"Authorization"<b>]</b> = "Basic $<b>{</b>enc<b>}</b>"</span>
+<span id='line269'>    return this</span>
+<span id='line270'>  <b>}</b></span>
+<span id='line271'></span>
+<span id='line272'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line273'>// Get</span>
+<span id='line274'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line275'></span>
+<span id='line276'>  **</span>
+<span id='line277'>  ** Make a GET request and return the response content as</span>
+<span id='line278'>  ** an in-memory string.  The web client is automatically closed.</span>
+<span id='line279'>  ** Throw IOErr is response is not 200.</span>
+<span id='line280'>  **</span>
+<span id='line281'>  Str getStr<b>(</b><b>)</b></span>
+<span id='line282'>  <b>{</b></span>
+<span id='line283'>    try</span>
+<span id='line284'>      return getIn.readAllStr</span>
+<span id='line285'>    finally</span>
+<span id='line286'>      close</span>
+<span id='line287'>  <b>}</b></span>
+<span id='line288'></span>
+<span id='line289'>  **</span>
+<span id='line290'>  ** Make a GET request and return the response content as</span>
+<span id='line291'>  ** an in-memory byte buffer.  The web client is automatically closed.</span>
+<span id='line292'>  ** Throw IOErr is response is not 200.</span>
+<span id='line293'>  **</span>
+<span id='line294'>  Buf getBuf<b>(</b><b>)</b></span>
+<span id='line295'>  <b>{</b></span>
+<span id='line296'>    try</span>
+<span id='line297'>      return getIn.readAllBuf</span>
+<span id='line298'>    finally</span>
+<span id='line299'>      close</span>
+<span id='line300'>  <b>}</b></span>
+<span id='line301'></span>
+<span id='line302'>  **</span>
+<span id='line303'>  ** Make a GET request and return the input stream to the</span>
+<span id='line304'>  ** response or throw IOErr if response is not 200.  It is the</span>
+<span id='line305'>  ** caller's responsibility to close this web client.</span>
+<span id='line306'>  **</span>
+<span id='line307'>  InStream getIn<b>(</b><b>)</b></span>
+<span id='line308'>  <b>{</b></span>
+<span id='line309'>    reqMethod = "GET"</span>
+<span id='line310'>    writeReq</span>
+<span id='line311'>    readRes</span>
+<span id='line312'>    if <b>(</b>resCode != 200<b>)</b> throw IOErr<b>(</b>"Bad HTTP response $resCode $resPhrase"<b>)</b></span>
+<span id='line313'>    return resIn</span>
+<span id='line314'>  <b>}</b></span>
+<span id='line315'></span>
+<span id='line316'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line317'>// Post/Patch</span>
+<span id='line318'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line319'></span>
+<span id='line320'>  **</span>
+<span id='line321'>  ** Convenience for 'writeForm<b>(</b>"POST", form<b>)</b>.readRes'</span>
+<span id='line322'>  **</span>
+<span id='line323'>  This postForm<b>(</b><b>[</b>Str:Str<b>]</b> form<b>)</b></span>
+<span id='line324'>  <b>{</b></span>
+<span id='line325'>    writeForm<b>(</b>"POST", form<b>)</b>.readRes</span>
+<span id='line326'>  <b>}</b></span>
+<span id='line327'></span>
+<span id='line328'>  **</span>
+<span id='line329'>  ** Convenience for 'writeStr<b>(</b>"POST", content<b>)</b>.readRes'</span>
+<span id='line330'>  **</span>
+<span id='line331'>  This postStr<b>(</b>Str content<b>)</b></span>
+<span id='line332'>  <b>{</b></span>
+<span id='line333'>    writeStr<b>(</b>"POST", content<b>)</b>.readRes</span>
+<span id='line334'>  <b>}</b></span>
+<span id='line335'></span>
+<span id='line336'>  **</span>
+<span id='line337'>  ** Convenience for 'writeFile<b>(</b>"POST", file<b>)</b>.readRes'</span>
+<span id='line338'>  **</span>
+<span id='line339'>  This postFile<b>(</b>File file<b>)</b></span>
+<span id='line340'>  <b>{</b></span>
+<span id='line341'>    writeFile<b>(</b>"POST", file<b>)</b>.readRes</span>
+<span id='line342'>  <b>}</b></span>
+<span id='line343'></span>
+<span id='line344'>  **</span>
+<span id='line345'>  ** Make a request with the given HTTP method to the URI with the given form data.</span>
+<span id='line346'>  ** Set the Content-Type to application/x-www-form-urlencoded.</span>
+<span id='line347'>  ** This method does not support the <b>[</b>"Expect" header<b>]</b>`pod-doc#expectContinue` <b>(</b>it</span>
+<span id='line348'>  ** writes all form data before reading response<b>)</b>. Should primarily be used for POST</span>
+<span id='line349'>  ** and PATCH requests.</span>
+<span id='line350'>  **</span>
+<span id='line351'>  This writeForm<b>(</b>Str method, <b>[</b>Str:Str<b>]</b> form<b>)</b></span>
+<span id='line352'>  <b>{</b></span>
+<span id='line353'>    if <b>(</b>reqHeaders<b>[</b>"Expect"<b>]</b> != null<b>)</b> throw UnsupportedErr<b>(</b>"'Expect' header"<b>)</b></span>
+<span id='line354'>    body := Uri.encodeQuery<b>(</b>form<b>)</b></span>
+<span id='line355'>    reqMethod = method</span>
+<span id='line356'>    reqHeaders<b>[</b>"Content-Type"<b>]</b> = "application/x-www-form-urlencoded"</span>
+<span id='line357'>    reqHeaders<b>[</b>"Content-Length"<b>]</b> = body.size.toStr // encoded form is ASCII</span>
+<span id='line358'>    writeReq</span>
+<span id='line359'>    reqOut.print<b>(</b>body<b>)</b>.close</span>
+<span id='line360'>    return this</span>
+<span id='line361'>  <b>}</b></span>
+<span id='line362'></span>
+<span id='line363'>  **</span>
+<span id='line364'>  ** Make a request with the given HTTP method to the URI using UTF-8 encoding of given</span>
+<span id='line365'>  ** string.  If Content-Type is not already set, then set it</span>
+<span id='line366'>  ** to "text/plain; charset=utf-8".  This method does not support the</span>
+<span id='line367'>  ** <b>[</b>"Expect" header<b>]</b>`pod-doc#expectContinue` <b>(</b>it writes full string</span>
+<span id='line368'>  ** before reading response<b>)</b>. Should primarily be used for "POST" and "PATCH"</span>
+<span id='line369'>  ** requests.</span>
+<span id='line370'>  **</span>
+<span id='line371'>  This writeStr<b>(</b>Str method, Str content<b>)</b></span>
+<span id='line372'>  <b>{</b></span>
+<span id='line373'>    if <b>(</b>reqHeaders<b>[</b>"Expect"<b>]</b> != null<b>)</b> throw UnsupportedErr<b>(</b>"'Expect' header"<b>)</b></span>
+<span id='line374'>    body := Buf<b>(</b><b>)</b>.print<b>(</b>content<b>)</b>.flip</span>
+<span id='line375'>    reqMethod = method</span>
+<span id='line376'>    ct := reqHeaders<b>[</b>"Content-Type"<b>]</b></span>
+<span id='line377'>    if <b>(</b>ct == null<b>)</b></span>
+<span id='line378'>      reqHeaders<b>[</b>"Content-Type"<b>]</b> = "text/plain; charset=utf-8"</span>
+<span id='line379'>    reqHeaders<b>[</b>"Content-Length"<b>]</b> = body.size.toStr</span>
+<span id='line380'>    writeReq</span>
+<span id='line381'>    reqOut.writeBuf<b>(</b>body<b>)</b>.close</span>
+<span id='line382'>    return this</span>
+<span id='line383'>  <b>}</b></span>
+<span id='line384'></span>
+<span id='line385'>  **</span>
+<span id='line386'>  ** Write a file using the given HTTP method to the URI.  If Content-Type header is not already</span>
+<span id='line387'>  ** set, then it is set from the file extension's MIME type. This method does</span>
+<span id='line388'>  ** not support the <b>[</b>"Expect" header<b>]</b>`pod-doc#expectContinue` <b>(</b>it</span>
+<span id='line389'>  ** writes full file before reading response<b>)</b>. Should primarily be used for "POST" and</span>
+<span id='line390'>  ** "PATCH" requests.</span>
+<span id='line391'>  **</span>
+<span id='line392'>  This writeFile<b>(</b>Str method, File file<b>)</b></span>
+<span id='line393'>  <b>{</b></span>
+<span id='line394'>    if <b>(</b>reqHeaders<b>[</b>"Expect"<b>]</b> != null<b>)</b> throw UnsupportedErr<b>(</b>"'Expect' header"<b>)</b></span>
+<span id='line395'>    reqMethod = method</span>
+<span id='line396'>    ct := reqHeaders<b>[</b>"Content-Type"<b>]</b></span>
+<span id='line397'>    if <b>(</b>ct == null<b>)</b></span>
+<span id='line398'>      reqHeaders<b>[</b>"Content-Type"<b>]</b> = file.mimeType?.toStr ?: "application/octet-stream"</span>
+<span id='line399'>    if <b>(</b>file.size > 0<b>)</b></span>
+<span id='line400'>      reqHeaders<b>[</b>"Content-Length"<b>]</b> = file.size.toStr</span>
+<span id='line401'>    writeReq</span>
+<span id='line402'>    file.in.pipe<b>(</b>reqOut, file.size<b>)</b></span>
+<span id='line403'>    reqOut.close</span>
+<span id='line404'>    return this</span>
+<span id='line405'>  <b>}</b></span>
+<span id='line406'></span>
+<span id='line407'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line408'>// Service</span>
+<span id='line409'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line410'></span>
+<span id='line411'>  **</span>
+<span id='line412'>  ** Write the request line and request headers.  Once this method</span>
+<span id='line413'>  ** completes the request body may be written via `reqOut`, or the</span>
+<span id='line414'>  ** response may be immediately read via `readRes`.  Throw IOErr</span>
+<span id='line415'>  ** if there is a network or protocol error.  Return this.</span>
+<span id='line416'>  **</span>
+<span id='line417'>  This writeReq<b>(</b><b>)</b></span>
+<span id='line418'>  <b>{</b></span>
+<span id='line419'>    // sanity checks</span>
+<span id='line420'>    if <b>(</b>!reqUri.isAbs || reqUri.scheme == null || reqUri.host == null<b>)</b> throw Err<b>(</b>"reqUri is not absolute: `$reqUri`"<b>)</b></span>
+<span id='line421'>    if <b>(</b>reqHeaders isnot CaseInsensitiveMap<b>)</b> throw Err<b>(</b>"reqHeaders must be case insensitive"<b>)</b></span>
+<span id='line422'>    if <b>(</b>reqHeaders.containsKey<b>(</b>"Host"<b>)</b><b>)</b> throw Err<b>(</b>"reqHeaders must not define 'Host'"<b>)</b></span>
+<span id='line423'></span>
+<span id='line424'>    // connect to the host:port if we aren't already connected</span>
+<span id='line425'>    isHttps := reqUri.scheme == "https"</span>
+<span id='line426'>    defPort := isHttps ? 443 : 80</span>
+<span id='line427'>    usingProxy := isProxy<b>(</b>reqUri<b>)</b></span>
+<span id='line428'>    isTunnel := usingProxy &amp;&amp; isHttps</span>
+<span id='line429'>    if <b>(</b>!isConnected<b>)</b></span>
+<span id='line430'>    <b>{</b></span>
+<span id='line431'>      if <b>(</b>isTunnel<b>)</b> socket = openHttpsTunnel</span>
+<span id='line432'>      else</span>
+<span id='line433'>      <b>{</b></span>
+<span id='line434'>        // make https or http socket</span>
+<span id='line435'>        socket = TcpSocket<b>(</b>socketConfig<b>)</b></span>
+<span id='line436'>        if <b>(</b>isHttps<b>)</b> socket = socket.upgradeTls</span>
+<span id='line437'></span>
+<span id='line438'>        // connect to proxy or directly to request host</span>
+<span id='line439'>        connUri := usingProxy ? proxy : reqUri</span>
+<span id='line440'>        socket.connect<b>(</b>IpAddr<b>(</b>connUri.host<b>)</b>, connUri.port ?: defPort<b>)</b></span>
+<span id='line441'>      <b>}</b></span>
+<span id='line442'>    <b>}</b></span>
+<span id='line443'></span>
+<span id='line444'>    // request uri is absolute if proxy, relative otherwise</span>
+<span id='line445'>    reqPath := <b>(</b>usingProxy ? reqUri : reqUri.relToAuth<b>)</b>.encode</span>
+<span id='line446'></span>
+<span id='line447'>    // host authority header</span>
+<span id='line448'>    host := reqUri.host</span>
+<span id='line449'>    if <b>(</b>reqUri.port != null &amp;&amp; reqUri.port != defPort<b>)</b> host += ":$reqUri.port"</span>
+<span id='line450'></span>
+<span id='line451'>    // figure out if/how we are streaming out content body</span>
+<span id='line452'>    out := socket.out</span>
+<span id='line453'>    reqOutStream = WebUtil.makeContentOutStream<b>(</b>reqHeaders, out<b>)</b></span>
+<span id='line454'></span>
+<span id='line455'>    // send request</span>
+<span id='line456'>    out.print<b>(</b>reqMethod<b>)</b>.print<b>(</b>" "<b>)</b>.print<b>(</b>reqPath<b>)</b></span>
+<span id='line457'>       .print<b>(</b>" HTTP/"<b>)</b>.print<b>(</b>reqVersion<b>)</b>.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line458'>    out.print<b>(</b>"Host: "<b>)</b>.print<b>(</b>host<b>)</b>.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line459'>    WebUtil.writeHeaders<b>(</b>out, reqHeaders<b>)</b></span>
+<span id='line460'>    out.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line461'>    out.flush</span>
+<span id='line462'></span>
+<span id='line463'>    return this</span>
+<span id='line464'>  <b>}</b></span>
+<span id='line465'></span>
+<span id='line466'>  ** Open an https tunnel through our proxy server.</span>
+<span id='line467'>  private TcpSocket openHttpsTunnel<b>(</b><b>)</b></span>
+<span id='line468'>  <b>{</b></span>
+<span id='line469'>    socket = TcpSocket<b>(</b>socketConfig<b>)</b></span>
+<span id='line470'></span>
+<span id='line471'>    // make CONNECT request to proxy server on http port</span>
+<span id='line472'>    socket.connect<b>(</b>IpAddr<b>(</b>proxy.host<b>)</b>, proxy.port ?: 80<b>)</b></span>
+<span id='line473'>    out := socket.out</span>
+<span id='line474'>    out.print<b>(</b>"CONNECT $<b>{</b>reqUri.host<b>}</b>:$<b>{</b>reqUri.port ?: 443<b>}</b> HTTP/$<b>{</b>reqVersion<b>}</b>"<b>)</b>.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line475'>       .print<b>(</b>"Host: $<b>{</b>reqUri.host<b>}</b>:$<b>{</b>reqUri.port ?: 443<b>}</b>"<b>)</b>.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line476'>       .print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line477'>    out.flush</span>
+<span id='line478'></span>
+<span id='line479'>    // expect a 200 response code</span>
+<span id='line480'>    readRes</span>
+<span id='line481'>    if <b>(</b>resCode != 200<b>)</b> throw IOErr<b>(</b>"Could not open tunnel: bad HTTP response $resCode $resPhrase"<b>)</b></span>
+<span id='line482'></span>
+<span id='line483'>    // upgrade to SSL socket now</span>
+<span id='line484'>    return socket.upgradeTls</span>
+<span id='line485'>  <b>}</b></span>
+<span id='line486'></span>
+<span id='line487'>  **</span>
+<span id='line488'>  ** Read the response status line and response headers.  This method</span>
+<span id='line489'>  ** may be called after the request has been written via `writeReq`</span>
+<span id='line490'>  ** and `reqOut`.  Once this method completes the response status and</span>
+<span id='line491'>  ** headers are available.  If there is a response body, it is available</span>
+<span id='line492'>  ** for reading via `resIn`.  Throw IOErr if there is a network or</span>
+<span id='line493'>  ** protocol error.  Return this.</span>
+<span id='line494'>  **</span>
+<span id='line495'>  This readRes<b>(</b><b>)</b></span>
+<span id='line496'>  <b>{</b></span>
+<span id='line497'>    // read response</span>
+<span id='line498'>    if <b>(</b>!isConnected<b>)</b> throw IOErr<b>(</b>"Not connected"<b>)</b></span>
+<span id='line499'>    in := socket.in</span>
+<span id='line500'>    res := ""</span>
+<span id='line501'>    try</span>
+<span id='line502'>    <b>{</b></span>
+<span id='line503'>      // parse status-line</span>
+<span id='line504'>      res = WebUtil.readLine<b>(</b>in<b>)</b></span>
+<span id='line505'>      if <b>(</b>res.startsWith<b>(</b>"HTTP/1.1"<b>)</b><b>)</b> resVersion = ver11</span>
+<span id='line506'>      else if <b>(</b>res.startsWith<b>(</b>"HTTP/1.0"<b>)</b><b>)</b> resVersion = ver10</span>
+<span id='line507'>      else throw Err<b>(</b>"Not HTTP"<b>)</b></span>
+<span id='line508'>      resCode = res<b>[</b>9..11<b>]</b>.toInt</span>
+<span id='line509'>      resPhrase = res<b>[</b>13..-1<b>]</b></span>
+<span id='line510'></span>
+<span id='line511'>      // parse response headers</span>
+<span id='line512'>      setCookies := Cookie<b>[</b>,<b>]</b></span>
+<span id='line513'>      resHeaders = WebUtil.doParseHeaders<b>(</b>in, setCookies<b>)</b></span>
+<span id='line514'>      if <b>(</b>!setCookies.isEmpty<b>)</b> cookies = setCookies</span>
+<span id='line515'>    <b>}</b></span>
+<span id='line516'>    catch <b>(</b>Err e<b>)</b> throw IOErr<b>(</b>"Invalid HTTP response: $res", e<b>)</b></span>
+<span id='line517'></span>
+<span id='line518'>    // check for redirect</span>
+<span id='line519'>    if <b>(</b>checkFollowRedirect<b>)</b> return this</span>
+<span id='line520'></span>
+<span id='line521'>    // if there is response content, then create wrap the raw socket</span>
+<span id='line522'>    // input stream with the appropiate chunked input stream</span>
+<span id='line523'>    resInStream = WebUtil.makeContentInStream<b>(</b>resHeaders, socket.in<b>)</b></span>
+<span id='line524'></span>
+<span id='line525'>    return this</span>
+<span id='line526'>  <b>}</b></span>
+<span id='line527'></span>
+<span id='line528'>  **</span>
+<span id='line529'>  ** If we have a 3xx statu code with a location header,</span>
+<span id='line530'>  ** then check for an automate redirect.</span>
+<span id='line531'>  **</span>
+<span id='line532'>  private Bool checkFollowRedirect<b>(</b><b>)</b></span>
+<span id='line533'>  <b>{</b></span>
+<span id='line534'>    // only redirect on 3xx status code</span>
+<span id='line535'>    if <b>(</b>resCode / 100 != 3<b>)</b> return false</span>
+<span id='line536'></span>
+<span id='line537'>    // must be explicitly configured for redirects</span>
+<span id='line538'>    if <b>(</b>!followRedirects<b>)</b> return false</span>
+<span id='line539'></span>
+<span id='line540'>    // only redirect when there is no request content</span>
+<span id='line541'>    if <b>(</b>reqOutStream != null<b>)</b> return false</span>
+<span id='line542'></span>
+<span id='line543'>    // only redirect if a location header was given</span>
+<span id='line544'>    loc := resHeaders<b>[</b>"Location"<b>]</b></span>
+<span id='line545'>    if <b>(</b>loc == null<b>)</b> return false</span>
+<span id='line546'></span>
+<span id='line547'>    // redirect</span>
+<span id='line548'>    try</span>
+<span id='line549'>    <b>{</b></span>
+<span id='line550'>      ++numRedirects</span>
+<span id='line551'>      close</span>
+<span id='line552'>      newUri := Uri.decode<b>(</b>loc<b>)</b></span>
+<span id='line553'>      if <b>(</b>!newUri.isAbs<b>)</b> newUri = reqUri + newUri</span>
+<span id='line554'>      if <b>(</b>reqUri == newUri &amp;&amp; numRedirects > 20<b>)</b> throw Err<b>(</b>"Cyclical redirect: $newUri"<b>)</b></span>
+<span id='line555'>      reqUri = newUri</span>
+<span id='line556'>      writeReq</span>
+<span id='line557'>      readRes</span>
+<span id='line558'>      return true</span>
+<span id='line559'>    <b>}</b></span>
+<span id='line560'>    finally</span>
+<span id='line561'>    <b>{</b></span>
+<span id='line562'>      --numRedirects</span>
+<span id='line563'>    <b>}</b></span>
+<span id='line564'>  <b>}</b></span>
+<span id='line565'></span>
+<span id='line566'>  **</span>
+<span id='line567'>  ** Return if this web client is currently connected to the remote host.</span>
+<span id='line568'>  **</span>
+<span id='line569'>  Bool isConnected<b>(</b><b>)</b></span>
+<span id='line570'>  <b>{</b></span>
+<span id='line571'>    return socket != null &amp;&amp; socket.isConnected</span>
+<span id='line572'>  <b>}</b></span>
+<span id='line573'></span>
+<span id='line574'>  **</span>
+<span id='line575'>  ** Close the HTTP request and the underlying socket.  Return this.</span>
+<span id='line576'>  **</span>
+<span id='line577'>  This close<b>(</b><b>)</b></span>
+<span id='line578'>  <b>{</b></span>
+<span id='line579'>    if <b>(</b>socket != null<b>)</b> socket.close</span>
+<span id='line580'>    socket = null</span>
+<span id='line581'>    return this</span>
+<span id='line582'>  <b>}</b></span>
+<span id='line583'></span>
+<span id='line584'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line585'>// Fields</span>
+<span id='line586'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line587'></span>
+<span id='line588'>  private static const Version ver10 := Version<b>(</b>"1.0"<b>)</b></span>
+<span id='line589'>  private static const Version ver11 := Version<b>(</b>"1.1"<b>)</b></span>
+<span id='line590'>  private static const <b>[</b>Str:Str<b>]</b> noHeaders := Str:Str<b>[</b>:<b>]</b></span>
+<span id='line591'></span>
+<span id='line592'>  private InStream? resInStream</span>
+<span id='line593'>  private OutStream? reqOutStream</span>
+<span id='line594'>  internal TcpSocket? socket</span>
+<span id='line595'>  private Int numRedirects := 0</span>
+<span id='line596'></span>
+<span id='line597'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocChapterRenderer.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocChapterRenderer.html'>DocChapterRenderer</a></li><li><a href='src-DocChapterRenderer.fan.html'>DocChapterRenderer.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   2 Sep 2011  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using web</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Renders DocChapter documents</span>
+<span id='line13'>**</span>
+<span id='line14'>** Chapter</span>
+<span id='line15'>** =======</span>
+<span id='line16'>**</span>
+<span id='line17'>**   &lt;h1></span>
+<span id='line18'>**    &lt;span><b>{</b>chapter.num<b>}</b>&lt;span> <b>{</b>chapter.title<b>}</b></span>
+<span id='line19'>**   &lt;/h1></span>
+<span id='line20'>**   ... // chapter fandoc</span>
+<span id='line21'>**</span>
+<span id='line22'>** Chapter Nav</span>
+<span id='line23'>** ===========</span>
+<span id='line24'>**</span>
+<span id='line25'>**   &lt;ul class='chapter-nav'></span>
+<span id='line26'>**    &lt;li class='prev'>&lt;a><b>{</b>prev.title<b>}</b>&lt;/a>&lt;/li>  // if available</span>
+<span id='line27'>**    &lt;li class='next'>&lt;a><b>{</b>next.title<b>}</b>&lt;/a>&lt;/li>  // if available</span>
+<span id='line28'>**   &lt;/ul></span>
+<span id='line29'>**</span>
+<span id='line30'>** Table of Contents</span>
+<span id='line31'>** =================</span>
+<span id='line32'>**</span>
+<span id='line33'>**   &lt;h3>&lt;a><b>{</b>pod.name<b>}</b>&lt;/a>&lt;/h3></span>
+<span id='line34'>**   &lt;h4>&lt;a><b>{</b>part.name<b>}</b>&lt;/a>&lt;/h4>  // if available</span>
+<span id='line35'>**   &lt;ol></span>
+<span id='line36'>**    &lt;li>&lt;a><b>{</b>chapter.title<b>}</b>&lt;/a>&lt;/li></span>
+<span id='line37'>**    &lt;li>&lt;a><b>{</b>chapter.title<b>}</b>&lt;/a></span>
+<span id='line38'>**     &lt;ol></span>
+<span id='line39'>**      &lt;li>&lt;a><b>{</b>heading.name<b>}</b>&lt;/a>&lt;/li></span>
+<span id='line40'>**     &lt;/ol></span>
+<span id='line41'>**    &lt;/li></span>
+<span id='line42'>**   &lt;/ol></span>
+<span id='line43'>**</span>
+<span id='line44'>class DocChapterRenderer : DocRenderer</span>
+<span id='line45'><b>{</b></span>
+<span id='line46'>  new make<b>(</b>DocEnv env, WebOutStream out, DocChapter doc<b>)</b></span>
+<span id='line47'>    : super<b>(</b>env, out, doc<b>)</b></span>
+<span id='line48'>  <b>{</b></span>
+<span id='line49'>    this.chapter = doc</span>
+<span id='line50'>  <b>}</b></span>
+<span id='line51'></span>
+<span id='line52'>  ** Chapter document to renderer</span>
+<span id='line53'>  const DocChapter chapter</span>
+<span id='line54'></span>
+<span id='line55'>  override Void writeContent<b>(</b><b>)</b></span>
+<span id='line56'>  <b>{</b></span>
+<span id='line57'>    // content</span>
+<span id='line58'>    out.div<b>(</b>"class='mainSidebar'"<b>)</b></span>
+<span id='line59'>    out.div<b>(</b>"class='main chapter'"<b>)</b></span>
+<span id='line60'>    writeNav</span>
+<span id='line61'>    out.h1.span.w<b>(</b>"$<b>{</b>chapter.num<b>}</b>."<b>)</b>.spanEnd.w<b>(</b>" "<b>)</b>.esc<b>(</b>chapter.title<b>)</b>.h1End</span>
+<span id='line62'>    writeBody</span>
+<span id='line63'>    writeNav</span>
+<span id='line64'>    out.divEnd</span>
+<span id='line65'></span>
+<span id='line66'>    // toc</span>
+<span id='line67'>    out.div<b>(</b>"class='sidebar'"<b>)</b></span>
+<span id='line68'>    writeToc</span>
+<span id='line69'>    out.divEnd</span>
+<span id='line70'>    out.divEnd</span>
+<span id='line71'>  <b>}</b></span>
+<span id='line72'></span>
+<span id='line73'>  ** Write chapter body.</span>
+<span id='line74'>  virtual Void writeBody<b>(</b><b>)</b></span>
+<span id='line75'>  <b>{</b></span>
+<span id='line76'>    writeFandoc<b>(</b>chapter.doc<b>)</b></span>
+<span id='line77'>  <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>  ** Write chapter prev/next navigation.</span>
+<span id='line80'>  virtual Void writeNav<b>(</b><b>)</b></span>
+<span id='line81'>  <b>{</b></span>
+<span id='line82'>    cur := chapter</span>
+<span id='line83'>    out.ul<b>(</b>"class='chapter-nav'"<b>)</b></span>
+<span id='line84'>    if <b>(</b>cur.prev != null<b>)</b></span>
+<span id='line85'>    <b>{</b></span>
+<span id='line86'>      out.li<b>(</b>"class='prev'"<b>)</b></span>
+<span id='line87'>      writeLinkTo<b>(</b>cur.prev, "$<b>{</b>cur.prev.num<b>}</b>. $cur.prev.title"<b>)</b></span>
+<span id='line88'>      out.liEnd</span>
+<span id='line89'>    <b>}</b></span>
+<span id='line90'>    if <b>(</b>cur.next != null<b>)</b></span>
+<span id='line91'>    <b>{</b></span>
+<span id='line92'>      out.li<b>(</b>"class='next'"<b>)</b></span>
+<span id='line93'>      writeLinkTo<b>(</b>cur.next, "$<b>{</b>cur.next.num<b>}</b>. $cur.next.title"<b>)</b></span>
+<span id='line94'>      out.liEnd</span>
+<span id='line95'>    <b>}</b></span>
+<span id='line96'>    out.ulEnd</span>
+<span id='line97'>  <b>}</b></span>
+<span id='line98'></span>
+<span id='line99'>  ** Write out chapter table of contents for pod.</span>
+<span id='line100'>  virtual Void writeToc<b>(</b><b>)</b></span>
+<span id='line101'>  <b>{</b></span>
+<span id='line102'>    // manual index</span>
+<span id='line103'>    out.h3</span>
+<span id='line104'>    writeLinkTo<b>(</b>chapter.pod.index, chapter.pod.name<b>)</b></span>
+<span id='line105'>    out.h3End</span>
+<span id='line106'></span>
+<span id='line107'>    // map chapters into parts</span>
+<span id='line108'>    cur := this.chapter</span>
+<span id='line109'>    map  := OrderedMap&lt;Str,DocChapter<b>[</b><b>]</b>&gt;<b>(</b><b>)</b>//<b>[</b>:<b>]</b> <b>{</b> ordered=true <b>}</b></span>
+<span id='line110'>    last := ""</span>
+<span id='line111'>    chapter.pod.index.toc.each |item|</span>
+<span id='line112'>    <b>{</b></span>
+<span id='line113'>      if <b>(</b>item is Str<b>)</b> last = item</span>
+<span id='line114'>      else</span>
+<span id='line115'>      <b>{</b></span>
+<span id='line116'>        list := map<b>[</b>last<b>]</b> ?: DocChapter<b>[</b>,<b>]</b></span>
+<span id='line117'>        list.add<b>(</b>item<b>)</b></span>
+<span id='line118'>        map<b>[</b>last<b>]</b> = list</span>
+<span id='line119'>      <b>}</b></span>
+<span id='line120'>    <b>}</b></span>
+<span id='line121'></span>
+<span id='line122'>    // write list</span>
+<span id='line123'>    map.each |chapters, part|</span>
+<span id='line124'>    <b>{</b></span>
+<span id='line125'>      // part header if defined</span>
+<span id='line126'>      if <b>(</b>!part.isEmpty<b>)</b></span>
+<span id='line127'>      <b>{</b></span>
+<span id='line128'>        if <b>(</b>chapters.contains<b>(</b>cur<b>)</b><b>)</b></span>
+<span id='line129'>        <b>{</b></span>
+<span id='line130'>          // part header</span>
+<span id='line131'>          out.h4.esc<b>(</b>part<b>)</b>.h4End</span>
+<span id='line132'>        <b>}</b></span>
+<span id='line133'>        else</span>
+<span id='line134'>        <b>{</b></span>
+<span id='line135'>          // skip chapter list if not in same part</span>
+<span id='line136'>          out.h4</span>
+<span id='line137'>          writeLinkTo<b>(</b>chapters.first, part<b>)</b></span>
+<span id='line138'>          out.h4End</span>
+<span id='line139'>          return</span>
+<span id='line140'>        <b>}</b></span>
+<span id='line141'>      <b>}</b></span>
+<span id='line142'></span>
+<span id='line143'>      // chapter lists</span>
+<span id='line144'>      out.ol</span>
+<span id='line145'>      chapters.each |c|</span>
+<span id='line146'>      <b>{</b></span>
+<span id='line147'>        // chapter name</span>
+<span id='line148'>        out.li<b>(</b>"value='$c.num' style='counter-reset:chapter $c.num;'"<b>)</b></span>
+<span id='line149'>        writeLinkTo<b>(</b>c<b>)</b></span>
+<span id='line150'></span>
+<span id='line151'>        // chapter headings</span>
+<span id='line152'>        if <b>(</b>c == cur<b>)</b></span>
+<span id='line153'>        <b>{</b></span>
+<span id='line154'>          out.ol</span>
+<span id='line155'>          c.headings.each |h|</span>
+<span id='line156'>          <b>{</b></span>
+<span id='line157'>            out.li</span>
+<span id='line158'>            writeLinkTo<b>(</b>c, h.title, h.anchorId<b>)</b></span>
+<span id='line159'>            out.liEnd</span>
+<span id='line160'>            if <b>(</b>h.children.size > 0<b>)</b></span>
+<span id='line161'>            <b>{</b></span>
+<span id='line162'>              out.ol</span>
+<span id='line163'>              h.children.each |sh|</span>
+<span id='line164'>              <b>{</b></span>
+<span id='line165'>                out.li</span>
+<span id='line166'>                writeLinkTo<b>(</b>c, sh.title, sh.anchorId<b>)</b></span>
+<span id='line167'>                out.liEnd</span>
+<span id='line168'>              <b>}</b></span>
+<span id='line169'>              out.olEnd</span>
+<span id='line170'>            <b>}</b></span>
+<span id='line171'>          <b>}</b></span>
+<span id='line172'>          out.olEnd</span>
+<span id='line173'>        <b>}</b></span>
+<span id='line174'>        out.liEnd</span>
+<span id='line175'>      <b>}</b></span>
+<span id='line176'>      out.olEnd</span>
+<span id='line177'>    <b>}</b></span>
+<span id='line178'>  <b>}</b></span>
+<span id='line179'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

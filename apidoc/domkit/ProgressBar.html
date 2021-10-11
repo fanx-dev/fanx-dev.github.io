@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::ProgressBar</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='ProgressBar.html'>ProgressBar</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::ProgressBar</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    domkit::ProgressBar</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-ProgressBar.fan.html'>Source</a></p>
+
+<p>ProgressBar visualizes progress of a long running operation</p>
+
+<p>See also: <a href='docDomkit::Controls#progressBar'>docDomkit</a></p>
+<dl>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+<p class='src'>
+<a href='src-ProgressBar.fan.html'>Source</a></p>
+</dd>
+<dt id='max'>
+max</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> max := 100</code></p>
+<p class='src'>
+<a href='src-ProgressBar.fan.html#line35'>Source</a></p>
+
+<p>Max progress value.</p>
+</dd>
+<dt id='min'>
+min</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> min := 0</code></p>
+<p class='src'>
+<a href='src-ProgressBar.fan.html#line25'>Source</a></p>
+
+<p>Min progress value.</p>
+</dd>
+<dt id='onBarColor'>
+onBarColor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onBarColor(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Str.html'>Str</a>,<a href='ProgressBar.html'>ProgressBar</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-ProgressBar.fan.html#line58'>Source</a></p>
+
+<p>Callback to get progress bar color (as CSS color value) when <code><a href='ProgressBar.html#val'>val</a></code> is modified.</p>
+</dd>
+<dt id='onText'>
+onText</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onText(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Str.html'>Str</a>,<a href='ProgressBar.html'>ProgressBar</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-ProgressBar.fan.html#line55'>Source</a></p>
+
+<p>Callback to get progress bar text when <code><a href='ProgressBar.html#val'>val</a></code> is modified.</p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> val := 0</code></p>
+<p class='src'>
+<a href='src-ProgressBar.fan.html#line45'>Source</a></p>
+
+<p>Current progress value.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-ProgressBar.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#max'>max</a></li><li><a href='#min'>min</a></li><li><a href='#onBarColor'>onBarColor</a></li><li><a href='#onText'>onText</a></li><li><a href='#val'>val</a></li></ul>
+</div>
+</div>
+</body>
+</html>

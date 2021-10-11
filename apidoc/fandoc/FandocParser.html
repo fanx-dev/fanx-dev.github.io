@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fandoc::FandocParser</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='FandocParser.html'>FandocParser</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> fandoc::FandocParser</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  fandoc::FandocParser</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-FandocParser.fan.html'>Source</a></p>
+
+<p>FandocParser translate fandoc text into an in-memory representation of the document.</p>
+
+<p>See <a href='index.html#api'>pod doc</a> for usage.</p>
+<dl>
+<dt id='errs'>
+errs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FandocErr.html'>FandocErr</a>&gt;</a> errs := FandocErr[,]</code></p>
+<p class='src'>
+<a href='src-FandocParser.fan.html#line487'>Source</a></p>
+
+<p>List of errors detected</p>
+</dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> main(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> args := Env.cur().args())</code></p>
+<p class='src'>
+<a href='src-FandocParser.fan.html#line474'>Source</a></p>
+</dd>
+<dt id='parse'>
+parse</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Doc.html'>Doc</a> parse(<a href='../sys/Str.html'>Str</a> filename, <a href='../std/InStream.html'>InStream</a> in, <a href='../sys/Bool.html'>Bool</a> close := true)</code></p>
+<p class='src'>
+<a href='src-FandocParser.fan.html#line24'>Source</a></p>
+
+<p>Parse the document from the specified in stream into an in-memory tree structure.  If close is true, the stream is guaranteed to be closed.</p>
+</dd>
+<dt id='parseHeader'>
+parseHeader</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> parseHeader := true</code></p>
+<p class='src'>
+<a href='src-FandocParser.fan.html#line490'>Source</a></p>
+
+<p>If true, then leading lines starting with <code>**</code> are parsed as header</p>
+</dd>
+<dt id='parseStr'>
+parseStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Doc.html'>Doc</a> parseStr(<a href='../sys/Str.html'>Str</a> plaintext)</code></p>
+<p class='src'>
+<a href='src-FandocParser.fan.html#line51'>Source</a></p>
+
+<p>Parse a string into its in-memory document tree structure.</p>
+</dd>
+<dt id='silent'>
+silent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> silent := false</code></p>
+<p class='src'>
+<a href='src-FandocParser.fan.html#line484'>Source</a></p>
+
+<p>If not silent, then errors are dumped to stdout</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-FandocParser.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#main'>main</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#errs'>errs</a></li><li><a href='#parse'>parse</a></li><li><a href='#parseHeader'>parseHeader</a></li><li><a href='#parseStr'>parseStr</a></li><li><a href='#silent'>silent</a></li></ul>
+</div>
+</div>
+</body>
+</html>

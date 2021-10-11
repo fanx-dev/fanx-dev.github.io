@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>BerReader.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='BerReader.html'>BerReader</a></li><li><a href='src-BerReader.fan.html'>BerReader.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   05 Aug 2021 Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using math</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** BerReader decodes ASN.1 objects using the Basic Encoding Rules</span>
+<span id='line13'>**</span>
+<span id='line14'>class BerReader</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'>// Constructor</span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'></span>
+<span id='line21'>  new make<b>(</b>InStream in<b>)</b></span>
+<span id='line22'>  <b>{</b></span>
+<span id='line23'>    this.in = in</span>
+<span id='line24'>  <b>}</b></span>
+<span id='line25'></span>
+<span id='line26'>  private InStream in</span>
+<span id='line27'></span>
+<span id='line28'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line29'>// BerReader</span>
+<span id='line30'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line31'></span>
+<span id='line32'>  Bool close<b>(</b><b>)</b> <b>{</b> in.close <b>}</b></span>
+<span id='line33'></span>
+<span id='line34'>  AsnObj readObj<b>(</b>AsnObj? spec := null<b>)</b> <b>{</b> doReadObj<b>(</b>this.in, spec<b>)</b> <b>}</b></span>
+<span id='line35'></span>
+<span id='line36'>  private AsnObj doReadObj<b>(</b>InStream in, AsnObj? spec<b>)</b></span>
+<span id='line37'>  <b>{</b></span>
+<span id='line38'>    tag := readTag<b>(</b>in<b>)</b></span>
+<span id='line39'>    len := readLen<b>(</b>in<b>)</b></span>
+<span id='line40'>    val := in.readBufFully<b>(</b>null, len<b>)</b></span>
+<span id='line41'>    return tryUniversal<b>(</b>tag, val<b>)</b> ?: AsnBin<b>(</b><b>[</b>tag, AsnTag.univAny<b>]</b>, val<b>)</b>.decode<b>(</b>spec<b>)</b></span>
+<span id='line42'>  <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>  @NoDoc AsnTag readTag<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line45'>  <b>{</b></span>
+<span id='line46'>    // only simple, un-constructed <b>(</b>1-byte<b>)</b> tags are supported right now <b>(</b>id &lt; 31<b>)</b></span>
+<span id='line47'>    octet     := in.read</span>
+<span id='line48'>    classMask := octet.and<b>(</b>0xc0<b>)</b></span>
+<span id='line49'>    cls       := AsnTagClass.vals.find <b>{</b> it.mask == classMask <b>}</b></span>
+<span id='line50'>    id        := octet.and<b>(</b>0x1f<b>)</b></span>
+<span id='line51'>    if <b>(</b>id >= 31<b>)</b> throw UnsupportedErr<b>(</b>"only simple ids supported: $id"<b>)</b></span>
+<span id='line52'>    return AsnTag<b>(</b>cls, id, cls.isUniv ? AsnTagMode.explicit : AsnTagMode.implicit<b>)</b></span>
+<span id='line53'>  <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>  @NoDoc Int readLen<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line56'>  <b>{</b></span>
+<span id='line57'>    octet := in.read</span>
+<span id='line58'>    if <b>(</b>octet.and<b>(</b>0x80<b>)</b> == 0<b>)</b> return octet</span>
+<span id='line59'>    else</span>
+<span id='line60'>    <b>{</b></span>
+<span id='line61'>      // turn off top bit to get number of octets that compose the length</span>
+<span id='line62'>      numOctets := octet.and<b>(</b>0x7f<b>)</b></span>
+<span id='line63'>      len := 0</span>
+<span id='line64'>      while <b>(</b>numOctets > 0<b>)</b></span>
+<span id='line65'>      <b>{</b></span>
+<span id='line66'>        len = len.shiftl<b>(</b>8<b>)</b>.or<b>(</b>in.read<b>)</b></span>
+<span id='line67'>        --numOctets</span>
+<span id='line68'>      <b>}</b></span>
+<span id='line69'>      return len</span>
+<span id='line70'>    <b>}</b></span>
+<span id='line71'>  <b>}</b></span>
+<span id='line72'></span>
+<span id='line73'>  private AsnObj? tryUniversal<b>(</b>AsnTag tag, Buf val<b>)</b></span>
+<span id='line74'>  <b>{</b></span>
+<span id='line75'>    if <b>(</b>!tag.cls.isUniv<b>)</b> return null</span>
+<span id='line76'>    if <b>(</b>tag == AsnTag.univAny<b>)</b> return null</span>
+<span id='line77'></span>
+<span id='line78'>    in := val.in</span>
+<span id='line79'>    switch <b>(</b>tag<b>)</b></span>
+<span id='line80'>    <b>{</b></span>
+<span id='line81'>      case AsnTag.univSeq:     return Asn.seq<b>(</b>readItems<b>(</b>in<b>)</b><b>)</b></span>
+<span id='line82'>      case AsnTag.univBool:    return Asn.bool<b>(</b>readBool<b>(</b>in<b>)</b><b>)</b></span>
+<span id='line83'>      case AsnTag.univInt:     return Asn.int<b>(</b>readInt<b>(</b>in<b>)</b><b>)</b></span>
+<span id='line84'>      case AsnTag.univBits:    return Asn.bits<b>(</b>readBits<b>(</b>in<b>)</b><b>)</b></span>
+<span id='line85'>      case AsnTag.univOcts:    return Asn.octets<b>(</b>readOcts<b>(</b>in<b>)</b><b>)</b></span>
+<span id='line86'>      case AsnTag.univNull:    return Asn.Null</span>
+<span id='line87'>      case AsnTag.univOid:     return Asn.oid<b>(</b>readOid<b>(</b>in<b>)</b><b>)</b></span>
+<span id='line88'>      case AsnTag.univEnum:    return Asn.asnEnum<b>(</b>readInt<b>(</b>in<b>)</b>.toInt<b>)</b></span>
+<span id='line89'>      case AsnTag.univUtf8:</span>
+<span id='line90'>      case AsnTag.univPrintStr:</span>
+<span id='line91'>      case AsnTag.univIa5Str:</span>
+<span id='line92'>      case AsnTag.univVisStr:</span>
+<span id='line93'>        // fall-through</span>
+<span id='line94'>        return Asn.str<b>(</b>readUtf8<b>(</b>in<b>)</b>, tag<b>)</b></span>
+<span id='line95'>      case AsnTag.univUtcTime: return Asn.utc<b>(</b>readUtcTime<b>(</b>in<b>)</b><b>)</b></span>
+<span id='line96'>      case AsnTag.univGenTime: return Asn.genTime<b>(</b>readGenTime<b>(</b>in<b>)</b><b>)</b></span>
+<span id='line97'>      case AsnTag.univSet:     return Asn.set<b>(</b>readItems<b>(</b>in<b>)</b><b>)</b></span>
+<span id='line98'>    <b>}</b></span>
+<span id='line99'>    throw AsnErr<b>(</b>"No reader for universal tag: $<b>{</b>tag<b>}</b>"<b>)</b></span>
+<span id='line100'>  <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line103'>// Bool</span>
+<span id='line104'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line105'></span>
+<span id='line106'>  @NoDoc Bool readBool<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line107'>  <b>{</b></span>
+<span id='line108'>    in.read != 0x00</span>
+<span id='line109'>  <b>}</b></span>
+<span id='line110'></span>
+<span id='line111'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line112'>// Integer</span>
+<span id='line113'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line114'></span>
+<span id='line115'>  @NoDoc BigInt readInt<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line116'>  <b>{</b></span>
+<span id='line117'>    bytes := Buf<b>(</b><b>)</b></span>
+<span id='line118'>    octet := in.read</span>
+<span id='line119'>    if <b>(</b>octet == -1<b>)</b> return BigInt.zero</span>
+<span id='line120'>    while<b>(</b>octet != -1<b>)</b></span>
+<span id='line121'>    <b>{</b></span>
+<span id='line122'>      bytes.write<b>(</b>octet<b>)</b></span>
+<span id='line123'>      octet = in.read</span>
+<span id='line124'>    <b>}</b></span>
+<span id='line125'>    return BigInt<b>(</b>bytes.seek<b>(</b>0<b>)</b><b>)</b></span>
+<span id='line126'>  <b>}</b></span>
+<span id='line127'></span>
+<span id='line128'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line129'>// Bit String</span>
+<span id='line130'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line131'></span>
+<span id='line132'>  @NoDoc Buf readBits<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line133'>  <b>{</b></span>
+<span id='line134'>    // first octet is number of unused bits in last octet</span>
+<span id='line135'>    unused := in.read</span>
+<span id='line136'>    return in.readAllBuf</span>
+<span id='line137'>  <b>}</b></span>
+<span id='line138'></span>
+<span id='line139'>  // OLD WAY: this is actually more "correct" in terms of handling</span>
+<span id='line140'>  // unused bits, but I'm not sure it matters in practice. Here for reference</span>
+<span id='line141'>  // virtual Buf readBits<b>(</b>InStream in<b>)</b></span>
+<span id='line142'>  // <b>{</b></span>
+<span id='line143'>  //    // first octet is number of unused bits in last octet</span>
+<span id='line144'>  //   unused := in.read</span>
+<span id='line145'>  //   buf := StrBuf<b>(</b><b>)</b></span>
+<span id='line146'></span>
+<span id='line147'>  //   octet := in.read</span>
+<span id='line148'>  //   while <b>(</b>octet != null<b>)</b></span>
+<span id='line149'>  //   <b>{</b></span>
+<span id='line150'>  //     buf.add<b>(</b>octet.toRadix<b>(</b>2, 8<b>)</b><b>)</b></span>
+<span id='line151'>  //     octet = in.read</span>
+<span id='line152'>  //   <b>}</b></span>
+<span id='line153'>  //   return buf<b>[</b>0..&lt;<b>(</b>buf.size - unused<b>)</b><b>]</b></span>
+<span id='line154'>  // <b>}</b></span>
+<span id='line155'></span>
+<span id='line156'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line157'>// Bit String</span>
+<span id='line158'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line159'></span>
+<span id='line160'>  @NoDoc Buf readOcts<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line161'>  <b>{</b></span>
+<span id='line162'>    in.readAllBuf</span>
+<span id='line163'>  <b>}</b></span>
+<span id='line164'></span>
+<span id='line165'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line166'>// Object Identifier</span>
+<span id='line167'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line168'></span>
+<span id='line169'>  @NoDoc Int<b>[</b><b>]</b> readOid<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line170'>  <b>{</b></span>
+<span id='line171'>    ids   := Int<b>[</b>,<b>]</b></span>
+<span id='line172'>    octet := in.read</span>
+<span id='line173'>    if <b>(</b>octet == -1<b>)</b> throw AsnErr<b>(</b>"Object Identifier must have at least one octet."<b>)</b></span>
+<span id='line174'>    while <b>(</b>octet != -1<b>)</b></span>
+<span id='line175'>    <b>{</b></span>
+<span id='line176'>      id := 0</span>
+<span id='line177'>      if <b>(</b>octet &lt; 128<b>)</b> id = octet</span>
+<span id='line178'>      else</span>
+<span id='line179'>      <b>{</b></span>
+<span id='line180'>        while<b>(</b>true<b>)</b></span>
+<span id='line181'>        <b>{</b></span>
+<span id='line182'>          // bit 8 is the more bit, so turn it off and shift in the lower 7 bits</span>
+<span id='line183'>          id = id.shiftl<b>(</b>7<b>)</b>.or<b>(</b>octet.and<b>(</b>0x7f<b>)</b><b>)</b></span>
+<span id='line184'></span>
+<span id='line185'>          // if bit 8 is zero this is the last octet for this id</span>
+<span id='line186'>          if <b>(</b>octet.and<b>(</b>0x80<b>)</b> == 0<b>)</b> break</span>
+<span id='line187'></span>
+<span id='line188'>          octet = in.read</span>
+<span id='line189'>          if <b>(</b>octet == -1<b>)</b> throw AsnErr<b>(</b>"Unexpected end of oid: $ids"<b>)</b></span>
+<span id='line190'>        <b>}</b></span>
+<span id='line191'>      <b>}</b></span>
+<span id='line192'></span>
+<span id='line193'>      // special handling for first id.</span>
+<span id='line194'>      if <b>(</b>ids.isEmpty<b>)</b></span>
+<span id='line195'>      <b>{</b></span>
+<span id='line196'>        if <b>(</b>0 &lt;= id &amp;&amp; id &lt;= 39<b>)</b> ids.add<b>(</b>0<b>)</b></span>
+<span id='line197'>        else if <b>(</b>40 &lt;= id &amp;&amp; id &lt;= 79<b>)</b> <b>{</b> ids.add<b>(</b>1<b>)</b>; id -= 40 <b>}</b></span>
+<span id='line198'>        else <b>{</b> ids.add<b>(</b>2<b>)</b>; id -= 80 <b>}</b></span>
+<span id='line199'>      <b>}</b></span>
+<span id='line200'></span>
+<span id='line201'>      ids.add<b>(</b>id<b>)</b></span>
+<span id='line202'>      octet = in.read</span>
+<span id='line203'>    <b>}</b></span>
+<span id='line204'>    return ids</span>
+<span id='line205'>  <b>}</b></span>
+<span id='line206'></span>
+<span id='line207'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line208'>// Strings</span>
+<span id='line209'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line210'></span>
+<span id='line211'>  ** All the currently supported string types are utf-8, or a proper subset <b>(</b>ascii<b>)</b></span>
+<span id='line212'>  @NoDoc Str readUtf8<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line213'>  <b>{</b></span>
+<span id='line214'>    bufToStr<b>(</b>readOcts<b>(</b>in<b>)</b>, Charset.utf8<b>)</b></span>
+<span id='line215'>  <b>}</b></span>
+<span id='line216'></span>
+<span id='line217'>  private static Str bufToStr<b>(</b>Buf buf, Charset charset<b>)</b></span>
+<span id='line218'>  <b>{</b></span>
+<span id='line219'>    buf.charset = charset</span>
+<span id='line220'>    return buf.readAllStr<b>(</b>false<b>)</b></span>
+<span id='line221'>  <b>}</b></span>
+<span id='line222'></span>
+<span id='line223'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line224'>// Timestamps</span>
+<span id='line225'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line226'></span>
+<span id='line227'>  @NoDoc DateTime readUtcTime<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line228'>  <b>{</b></span>
+<span id='line229'>    enc := in.readAllStr</span>
+<span id='line230'>    return DateTime.fromLocale<b>(</b>enc, timePattern<b>(</b>enc, false<b>)</b><b>)</b></span>
+<span id='line231'>  <b>}</b></span>
+<span id='line232'></span>
+<span id='line233'>  @NoDoc DateTime readGenTime<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line234'>  <b>{</b></span>
+<span id='line235'>    enc := in.readAllStr</span>
+<span id='line236'>    return DateTime.fromLocale<b>(</b>enc, timePattern<b>(</b>enc, true<b>)</b><b>)</b></span>
+<span id='line237'>  <b>}</b></span>
+<span id='line238'></span>
+<span id='line239'>  private static Str timePattern<b>(</b>Str enc, Bool forGenTime<b>)</b></span>
+<span id='line240'>  <b>{</b></span>
+<span id='line241'>    pattern := StrBuf<b>(</b><b>)</b></span>
+<span id='line242'>    pattern.add<b>(</b>forGenTime ? "YYYY" : "YY"<b>)</b></span>
+<span id='line243'>    pattern.add<b>(</b>"MMDDhhmm"<b>)</b></span>
+<span id='line244'>    if <b>(</b>pattern.size == enc.size<b>)</b> return pattern.toStr</span>
+<span id='line245'></span>
+<span id='line246'>    // now check all the optional parts</span>
+<span id='line247'>    // pos starts at index of optional seconds</span>
+<span id='line248'>    pos := pattern.size</span>
+<span id='line249'>    if <b>(</b>enc<b>[</b>pos<b>]</b>.isDigit<b>)</b> <b>{</b> pattern.add<b>(</b>"ss"<b>)</b>; pos += 2 <b>}</b></span>
+<span id='line250'>    if <b>(</b>enc.getSafe<b>(</b>pos<b>)</b> == '.'<b>)</b> <b>{</b> pattern.add<b>(</b>".FFF"<b>)</b>; pos += 4 <b>}</b></span>
+<span id='line251'>    switch <b>(</b>enc<b>[</b>-1<b>]</b><b>)</b></span>
+<span id='line252'>    <b>{</b></span>
+<span id='line253'>      case 'Z':</span>
+<span id='line254'>      case '+':</span>
+<span id='line255'>      case '-':</span>
+<span id='line256'>        pattern.add<b>(</b>"z"<b>)</b></span>
+<span id='line257'>    <b>}</b></span>
+<span id='line258'>    return pattern.toStr</span>
+<span id='line259'>  <b>}</b></span>
+<span id='line260'></span>
+<span id='line261'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line262'>// Collections</span>
+<span id='line263'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line264'></span>
+<span id='line265'>  @NoDoc AsnItem<b>[</b><b>]</b> readItems<b>(</b>InStream in := this.in<b>)</b></span>
+<span id='line266'>  <b>{</b></span>
+<span id='line267'>    acc := AsnItem<b>[</b>,<b>]</b></span>
+<span id='line268'>    while <b>(</b>in.peek != -1<b>)</b></span>
+<span id='line269'>    <b>{</b></span>
+<span id='line270'>      val := this.doReadObj<b>(</b>in, null<b>)</b></span>
+<span id='line271'>      acc.add<b>(</b>AsnItem<b>(</b>val<b>)</b><b>)</b></span>
+<span id='line272'>    <b>}</b></span>
+<span id='line273'>    return acc</span>
+<span id='line274'>  <b>}</b></span>
+<span id='line275'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::GenericParameter</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='GenericParameter.html'>GenericParameter</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::GenericParameter</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='ProxyType.html'>compiler::ProxyType</a>
+    compiler::GenericParameter</pre>
+
+<p>GenericParameterType models the generic parameter types sys::V, sys::K, etc.</p>
+<dl>
+<dt id='bound'>
+bound</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> bound()</code></p>
+</dd>
+<dt id='extName'>
+extName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> extName()</code></p>
+</dd>
+<dt id='hasGenericParameter'>
+hasGenericParameter</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> hasGenericParameter()</code></p>
+</dd>
+<dt id='index'>
+index</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> index</code></p>
+</dd>
+<dt id='isNullable'>
+isNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isNullable()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CNamespace.html'>CNamespace</a> ns, <a href='../sys/Str.html'>Str</a> name, <a href='CType.html'>CType</a> parent, <a href='../sys/Int.html'>Int</a> index, <a href='CType.html'>CType</a> bound := ns.objType().toNullable())</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> name()</code></p>
+</dd>
+<dt id='paramName'>
+paramName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> paramName</code></p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> parent</code></p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CPod.html'>CPod</a> pod()</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> qname()</code></p>
+</dd>
+<dt id='raw'>
+raw</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> raw()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bound'>bound</a></li><li><a href='#extName'>extName</a></li><li><a href='#hasGenericParameter'>hasGenericParameter</a></li><li><a href='#index'>index</a></li><li><a href='#isNullable'>isNullable</a></li><li><a href='#name'>name</a></li><li><a href='#paramName'>paramName</a></li><li><a href='#parent'>parent</a></li><li><a href='#pod'>pod</a></li><li><a href='#qname'>qname</a></li><li><a href='#raw'>raw</a></li></ul>
+</div>
+</div>
+</body>
+</html>

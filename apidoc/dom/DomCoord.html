@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::DomCoord</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='DomCoord.html'>DomCoord</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> dom::DomCoord</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::DomCoord</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html'>Source</a></p>
+
+<p>DomCoord models a DOM Coordinate object.</p>
+<dl>
+<dt id='accuracy'>
+accuracy</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> accuracy()</code></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html#line23'>Source</a></p>
+
+<p>Returns a float representing the accuracy of the latitude and longitude properties, expressed in meters.</p>
+</dd>
+<dt id='altitude'>
+altitude</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float?</a> altitude()</code></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html#line27'>Source</a></p>
+
+<p>Returns a float representing the position's altitude in meters, relative to sea level. This value can be <code>null</code> if the implementation cannot provide the data.</p>
+</dd>
+<dt id='altitudeAccuracy'>
+altitudeAccuracy</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float?</a> altitudeAccuracy()</code></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html#line32'>Source</a></p>
+
+<p>Returns a float representing the accuracy of the altitude expressed in meters. This value can be <code>null</code>.</p>
+</dd>
+<dt id='heading'>
+heading</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float?</a> heading()</code></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html#line36'>Source</a></p>
+
+<p>Returns a float representing the direction in which the device is traveling. This value, specified in degrees, indicates how far off from heading true north the device is. 0 degrees represents true north, and the direction is determined clockwise (which means that east is 90 degrees and west is 270 degrees). If speed is 0, heading is NaN. If the device is unable to provide heading information, this value is <code>null</code>.</p>
+</dd>
+<dt id='lat'>
+lat</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> lat()</code></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html'>Source</a></p>
+
+<p>Returns a float representing the position's latitude in decimal degrees.</p>
+</dd>
+<dt id='lng'>
+lng</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> lng()</code></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html'>Source</a></p>
+
+<p>Returns a float representing the position's longitude in decimal degrees.</p>
+</dd>
+<dt id='speed'>
+speed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float?</a> speed()</code></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html#line44'>Source</a></p>
+
+<p>Returns a double representing the velocity of the device in meters per second. This value can be <code>null</code>.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html#line51'>Source</a></p>
+</dd>
+<dt id='ts'>
+ts</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Duration.html'>Duration?</a> ts()</code></p>
+<p class='src'>
+<a href='src-DomCoord.fan.html#line48'>Source</a></p>
+
+<p>Optional timestamp of when this location was retrieved.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DomCoord.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#accuracy'>accuracy</a></li><li><a href='#altitude'>altitude</a></li><li><a href='#altitudeAccuracy'>altitudeAccuracy</a></li><li><a href='#heading'>heading</a></li><li><a href='#lat'>lat</a></li><li><a href='#lng'>lng</a></li><li><a href='#speed'>speed</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#ts'>ts</a></li></ul>
+</div>
+</div>
+</body>
+</html>

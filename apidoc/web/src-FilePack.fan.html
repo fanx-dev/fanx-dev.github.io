@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>FilePack.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='FilePack.html'>FilePack</a></li><li><a href='src-FilePack.fan.html'>FilePack.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2020, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   8 May 2020  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** FilePack is an in-memory cache of multiple text files to service</span>
+<span id='line13'>** static resources via HTTP.  It takes one or more text files and</span>
+<span id='line14'>** creates one compound file.  The result is stored in RAM using GZIP</span>
+<span id='line15'>** compression.  Or you can use the `pack` utility method to store</span>
+<span id='line16'>** the result to your own files/buffers.</span>
+<span id='line17'>**</span>
+<span id='line18'>** The `onGet` method is used to service GET requests for the bundle.</span>
+<span id='line19'>** The Content-Type header is set based on file extension of files bundled.</span>
+<span id='line20'>** It also implictly supports ETag/Last-Modified for 304 optimization.</span>
+<span id='line21'>**</span>
+<span id='line22'>** The core factory is the `makeFiles` constructor.  A suite of utility</span>
+<span id='line23'>** methods is provided for standard bundling of Fantom JavaScrit and CSS</span>
+<span id='line24'>** files.</span>
+<span id='line25'>**</span>
+<span id='line26'>const class FilePack : Weblet</span>
+<span id='line27'><b>{</b></span>
+<span id='line28'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line29'>// Construction</span>
+<span id='line30'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line31'></span>
+<span id='line32'>  ** Construct a bundle for the given list of text files</span>
+<span id='line33'>  static new makeFiles<b>(</b>File<b>[</b><b>]</b> files<b>)</b></span>
+<span id='line34'>  <b>{</b></span>
+<span id='line35'>    // calculate buffer size to avoid resizes assuming 25% gzip compression</span>
+<span id='line36'>    totalSize := 0</span>
+<span id='line37'>    files.each |f| <b>{</b> totalSize += f.size <b>}</b></span>
+<span id='line38'>    buf := Buf<b>(</b>totalSize/4<b>)</b></span>
+<span id='line39'></span>
+<span id='line40'>    // derive mime type from file ext <b>(</b>assume they are all the same<b>)</b></span>
+<span id='line41'>    mimeType := files<b>[</b>0<b>]</b>.mimeType ?: throw Err<b>(</b>"Ext to mimeType: $files.first"<b>)</b></span>
+<span id='line42'></span>
+<span id='line43'>    // write each file to the buffer</span>
+<span id='line44'>    out := Zip.gzipOutStream<b>(</b>buf.out<b>)</b></span>
+<span id='line45'>    pack<b>(</b>files, out<b>)</b>.close</span>
+<span id='line46'>    return make<b>(</b>buf, mimeType<b>)</b></span>
+<span id='line47'>  <b>}</b></span>
+<span id='line48'></span>
+<span id='line49'>  ** Private constructor</span>
+<span id='line50'>  private new make<b>(</b>Buf buf, MimeType mimeType<b>)</b></span>
+<span id='line51'>  <b>{</b></span>
+<span id='line52'>    buf = buf.trim.toImmutable</span>
+<span id='line53'>    this.buf      = buf</span>
+<span id='line54'>    this.etag     = buf.toDigest<b>(</b>"SHA-1"<b>)</b>.toBase64Uri</span>
+<span id='line55'>    this.modified = DateTime.now</span>
+<span id='line56'>    this.mimeType = mimeType</span>
+<span id='line57'>  <b>}</b></span>
+<span id='line58'></span>
+<span id='line59'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line60'>// Identity <b>(</b>NoDoc fields subject to change<b>)</b></span>
+<span id='line61'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line62'></span>
+<span id='line63'>  ** The in-memory file contents in GZIP encoding</span>
+<span id='line64'>  @NoDoc const Buf buf</span>
+<span id='line65'></span>
+<span id='line66'>  ** Entity tag provides a SHA-1 hash for the bundle contents</span>
+<span id='line67'>  @NoDoc const Str etag</span>
+<span id='line68'></span>
+<span id='line69'>  ** Modified time is when bundle was generated</span>
+<span id='line70'>  @NoDoc const DateTime modified</span>
+<span id='line71'></span>
+<span id='line72'>  ** Inferred mime type from file extensions</span>
+<span id='line73'>  @NoDoc const MimeType mimeType</span>
+<span id='line74'></span>
+<span id='line75'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line76'>// Weblet</span>
+<span id='line77'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line78'></span>
+<span id='line79'>  ** Service an HTTP GET request for this bundle file</span>
+<span id='line80'>  override Void onGet<b>(</b><b>)</b></span>
+<span id='line81'>  <b>{</b></span>
+<span id='line82'>    // only process GET requests</span>
+<span id='line83'>    if <b>(</b>res.isDone<b>)</b> return</span>
+<span id='line84'>    if <b>(</b>req.method != "GET"<b>)</b> return res.sendErr<b>(</b>501<b>)</b></span>
+<span id='line85'></span>
+<span id='line86'>    // set identity headers</span>
+<span id='line87'>    res.headers<b>[</b>"ETag"<b>]</b> = etag</span>
+<span id='line88'>    res.headers<b>[</b>"Last-Modified"<b>]</b> = modified.toHttpStr</span>
+<span id='line89'></span>
+<span id='line90'>    // check if we can return a 304 not modified</span>
+<span id='line91'>    if <b>(</b>FileWeblet.doCheckNotModified<b>(</b>req, res, etag, modified<b>)</b><b>)</b> return</span>
+<span id='line92'></span>
+<span id='line93'>    // we only respond using gzip</span>
+<span id='line94'>    res.statusCode = 200</span>
+<span id='line95'>    res.headers<b>[</b>"Content-Encoding"<b>]</b> = "gzip"</span>
+<span id='line96'>    res.headers<b>[</b>"Content-Type"<b>]</b> = mimeType.toStr</span>
+<span id='line97'>    res.headers<b>[</b>"Content-Length"<b>]</b> = buf.size.toStr</span>
+<span id='line98'>    res.out.writeBuf<b>(</b>buf<b>)</b>.close</span>
+<span id='line99'>  <b>}</b></span>
+<span id='line100'></span>
+<span id='line101'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line102'>// File Utils</span>
+<span id='line103'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line104'></span>
+<span id='line105'>  ** Pack multiple text files together and write to the given output</span>
+<span id='line106'>  ** stream.  A trailing newline is automatically added if the file is</span>
+<span id='line107'>  ** missing one.  Empty files are skipped.  The stream is not closed.</span>
+<span id='line108'>  ** Return the given out stream.</span>
+<span id='line109'>  static OutStream pack<b>(</b>File<b>[</b><b>]</b> files, OutStream out<b>)</b></span>
+<span id='line110'>  <b>{</b></span>
+<span id='line111'>    files.each |f| <b>{</b> pipeToPack<b>(</b>f, out<b>)</b> <b>}</b></span>
+<span id='line112'>    return out</span>
+<span id='line113'>  <b>}</b></span>
+<span id='line114'></span>
+<span id='line115'>  ** Pack a file to the given outstream and ensure there is a trailing newline</span>
+<span id='line116'>  private static Void pipeToPack<b>(</b>File f, OutStream out<b>)</b></span>
+<span id='line117'>  <b>{</b></span>
+<span id='line118'>    chunkSize := f.size.min<b>(</b>4096<b>)</b></span>
+<span id='line119'>    if <b>(</b>chunkSize == 0<b>)</b> return // skip empty files</span>
+<span id='line120'>    buf := Buf<b>(</b>chunkSize<b>)</b></span>
+<span id='line121'>    in := f.in<b>(</b>chunkSize<b>)</b></span>
+<span id='line122'>    try</span>
+<span id='line123'>    <b>{</b></span>
+<span id='line124'>      lastIsNewline := false</span>
+<span id='line125'>      while <b>(</b>true<b>)</b></span>
+<span id='line126'>      <b>{</b></span>
+<span id='line127'>        n := in.readBuf<b>(</b>buf.clear, chunkSize<b>)</b></span>
+<span id='line128'>        if <b>(</b>n == -1<b>)</b> break</span>
+<span id='line129'>        if <b>(</b>n > 0<b>)</b> lastIsNewline = buf<b>[</b>-1<b>]</b> == '\n'</span>
+<span id='line130'>        out.writeBuf<b>(</b>buf.flip, buf.remaining<b>)</b></span>
+<span id='line131'>      <b>}</b></span>
+<span id='line132'>      if <b>(</b>!lastIsNewline<b>)</b> out.writeChar<b>(</b>'\n'<b>)</b></span>
+<span id='line133'>    <b>}</b></span>
+<span id='line134'>    finally <b>{</b> in.close <b>}</b></span>
+<span id='line135'>  <b>}</b></span>
+<span id='line136'></span>
+<span id='line137'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line138'>// JavaScript Utils</span>
+<span id='line139'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line140'></span>
+<span id='line141'>  ** Given a set of pods return a list of JavaScript files that</span>
+<span id='line142'>  ** form a complete Fantom application:</span>
+<span id='line143'>  **   - flatten the pods using `sys::Pod.flattenDepends`</span>
+<span id='line144'>  **   - order them by dependencies using `sys::Pod.orderByDepends`</span>
+<span id='line145'>  **   - insert `toEtcJsFiles` immediately after "sys.js"</span>
+<span id='line146'>  static File<b>[</b><b>]</b> toAppJsFiles<b>(</b>Pod<b>[</b><b>]</b> pods<b>)</b></span>
+<span id='line147'>  <b>{</b></span>
+<span id='line148'>    pods = Pod.flattenDepends<b>(</b>pods<b>)</b></span>
+<span id='line149'>    pods = Pod.orderByDepends<b>(</b>pods<b>)</b></span>
+<span id='line150'>    files := toPodJsFiles<b>(</b>pods<b>)</b></span>
+<span id='line151'>    files.insertAll<b>(</b>2, toEtcJsFiles<b>)</b></span>
+<span id='line152'>    return files</span>
+<span id='line153'>  <b>}</b></span>
+<span id='line154'></span>
+<span id='line155'>  ** Get the standard pod JavaScript file or null if no JS code.  The</span>
+<span id='line156'>  ** standard location used by the Fantom JS compiler is "/<b>{</b>pod-name<b>}</b>.js"</span>
+<span id='line157'>  static File? toPodJsFile<b>(</b>Pod pod<b>)</b></span>
+<span id='line158'>  <b>{</b></span>
+<span id='line159'>    pod.file<b>(</b>`/$<b>{</b>pod.name<b>}</b>.js`, false<b>)</b></span>
+<span id='line160'>  <b>}</b></span>
+<span id='line161'></span>
+<span id='line162'>  ** Map a set of pods to "/<b>{</b>name<b>}</b>.js" JavaScript files.</span>
+<span id='line163'>  ** Ignore pods that are missing a JavaScript file.</span>
+<span id='line164'>  ** This method does *not* flatten/order the pods.</span>
+<span id='line165'>  static File<b>[</b><b>]</b> toPodJsFiles<b>(</b>Pod<b>[</b><b>]</b> pods<b>)</b></span>
+<span id='line166'>  <b>{</b></span>
+<span id='line167'>    acc := File<b>[</b>,<b>]</b></span>
+<span id='line168'>    acc.capacity = pods.size</span>
+<span id='line169'>    pods.each |pod|</span>
+<span id='line170'>    <b>{</b></span>
+<span id='line171'>      js := toPodJsFile<b>(</b>pod<b>)</b></span>
+<span id='line172'>      if <b>(</b>js != null<b>)</b> acc.add<b>(</b>js<b>)</b></span>
+<span id='line173'>    <b>}</b></span>
+<span id='line174'>    return acc</span>
+<span id='line175'>  <b>}</b></span>
+<span id='line176'></span>
+<span id='line177'>  ** Return the required sys etc files:</span>
+<span id='line178'>  **  - add `toMimeJsFile`</span>
+<span id='line179'>  **  - add `toUnitsJsFile`</span>
+<span id='line180'>  **  - add `toIndexPropsJsFile`</span>
+<span id='line181'>  static File<b>[</b><b>]</b> toEtcJsFiles<b>(</b><b>)</b></span>
+<span id='line182'>  <b>{</b></span>
+<span id='line183'>    <b>[</b>toMimeJsFile, toUnitsJsFile, toIndexPropsJsFile<b>]</b></span>
+<span id='line184'>  <b>}</b></span>
+<span id='line185'></span>
+<span id='line186'>  ** Compile the mime type database into a Javascript file "mime.js"</span>
+<span id='line187'>  static File toMimeJsFile<b>(</b><b>)</b></span>
+<span id='line188'>  <b>{</b></span>
+<span id='line189'>    buf := Buf<b>(</b>4096<b>)</b></span>
+<span id='line190'>    c := Type.find<b>(</b>"compilerJs::JsExtToMime"<b>)</b>.make</span>
+<span id='line191'>    c->write<b>(</b>buf.out<b>)</b></span>
+<span id='line192'>    return buf.toFile<b>(</b>`mime.js`<b>)</b></span>
+<span id='line193'>  <b>}</b></span>
+<span id='line194'></span>
+<span id='line195'>  ** Compile the unit database into a JavaScript file "unit.js"</span>
+<span id='line196'>  static File toUnitsJsFile<b>(</b><b>)</b></span>
+<span id='line197'>  <b>{</b></span>
+<span id='line198'>    buf := Buf<b>(</b>50_000<b>)</b></span>
+<span id='line199'>    c := Type.find<b>(</b>"compilerJs::JsUnitDatabase"<b>)</b>.make</span>
+<span id='line200'>    c->write<b>(</b>buf.out<b>)</b></span>
+<span id='line201'>    return buf.toFile<b>(</b>`units.js`<b>)</b></span>
+<span id='line202'>  <b>}</b></span>
+<span id='line203'></span>
+<span id='line204'>  ** Compile the timezone database into a JavaScript file "tz.js"</span>
+<span id='line205'>  @Deprecated <b>{</b> msg="tz.js is now included by default in sys.js" <b>}</b></span>
+<span id='line206'>  static File toTimezonesJsFile<b>(</b><b>)</b></span>
+<span id='line207'>  <b>{</b></span>
+<span id='line208'>    // return empty file</span>
+<span id='line209'>    Buf<b>(</b><b>)</b>.toFile<b>(</b>`tz.js`<b>)</b></span>
+<span id='line210'>  <b>}</b></span>
+<span id='line211'></span>
+<span id='line212'>  ** Compile the indexed props database into a JavaScript file "index-props.js"</span>
+<span id='line213'>  static File toIndexPropsJsFile<b>(</b>Pod<b>[</b><b>]</b> pods := Pod.list<b>)</b></span>
+<span id='line214'>  <b>{</b></span>
+<span id='line215'>    buf := Buf<b>(</b>10_000<b>)</b></span>
+<span id='line216'>    c := Type.find<b>(</b>"compilerJs::JsIndexedProps"<b>)</b>.make</span>
+<span id='line217'>    c->write<b>(</b>buf.out, pods<b>)</b></span>
+<span id='line218'>    return buf.toFile<b>(</b>`index-props.js`<b>)</b></span>
+<span id='line219'>  <b>}</b></span>
+<span id='line220'></span>
+<span id='line221'>  ** Compile the locale props into a JavaScript file "<b>{</b>locale<b>}</b>.js"</span>
+<span id='line222'>  static File toLocaleJsFile<b>(</b>Locale locale, Pod<b>[</b><b>]</b> pods := Pod.list<b>)</b></span>
+<span id='line223'>  <b>{</b></span>
+<span id='line224'>    buf := Buf<b>(</b>1024<b>)</b></span>
+<span id='line225'>    m := Slot.findMethod<b>(</b>"compilerJs::JsProps.writeProps"<b>)</b></span>
+<span id='line226'>    path := `locale/$<b>{</b>locale.toStr<b>}</b>.props`</span>
+<span id='line227'>    pods.each |pod| <b>{</b> m.call<b>(</b>buf.out, pod, path, 1sec<b>)</b> <b>}</b></span>
+<span id='line228'>    return buf.toFile<b>(</b>`$<b>{</b>locale<b>}</b>.js`<b>)</b></span>
+<span id='line229'>  <b>}</b></span>
+<span id='line230'></span>
+<span id='line231'>  ** Compile a list of pod JavaScript files into a single unified source</span>
+<span id='line232'>  ** map file.  The list of files passed to this method should match</span>
+<span id='line233'>  ** exactly the list of files used to create the corresponding JavaScript</span>
+<span id='line234'>  ** FilePack.  If the file is the standard pod JS file, then we will include</span>
+<span id='line235'>  ** an offset version of "<b>{</b>pod<b>}</b>.js.map" generated by the JavaScript compiler.</span>
+<span id='line236'>  ** Otherwise if the file is another JavaScript file <b>(</b>such as units.js<b>)</b> then</span>
+<span id='line237'>  ** we just add the appropiate offset.</span>
+<span id='line238'>  **</span>
+<span id='line239'>  ** The 'sourceRoot' option may be passed in to replace "/dev/<b>{</b>podName<b>}</b>"</span>
+<span id='line240'>  ** as the root URI used to fetch source files from the server.</span>
+<span id='line241'>  static File toPodJsMapFile<b>(</b>File<b>[</b><b>]</b> files, <b>[</b>Str:Obj<b>]</b>? options := null<b>)</b></span>
+<span id='line242'>  <b>{</b></span>
+<span id='line243'>    buf := Buf<b>(</b>4 * 1024 * 1024<b>)</b></span>
+<span id='line244'>    m := Slot.findMethod<b>(</b>"compilerJs::SourceMap.pack"<b>)</b></span>
+<span id='line245'>    m.call<b>(</b>files, buf.out, options<b>)</b></span>
+<span id='line246'>    return buf.toFile<b>(</b>`js.map`<b>)</b></span>
+<span id='line247'>  <b>}</b></span>
+<span id='line248'></span>
+<span id='line249'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line250'>// CSS Utils</span>
+<span id='line251'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line252'></span>
+<span id='line253'>  ** Given a set of pods return a list of CSS files that</span>
+<span id='line254'>  ** form a complete Fantom application:</span>
+<span id='line255'>  **   - flatten the pods using `sys::Pod.flattenDepends`</span>
+<span id='line256'>  **   - order them by dependencies using `sys::Pod.orderByDepends`</span>
+<span id='line257'>  **   - return `toPodCssFiles`</span>
+<span id='line258'>  static File<b>[</b><b>]</b> toAppCssFiles<b>(</b>Pod<b>[</b><b>]</b> pods<b>)</b></span>
+<span id='line259'>  <b>{</b></span>
+<span id='line260'>    pods = Pod.flattenDepends<b>(</b>pods<b>)</b></span>
+<span id='line261'>    pods = Pod.orderByDepends<b>(</b>pods<b>)</b></span>
+<span id='line262'>    return toPodCssFiles<b>(</b>pods<b>)</b></span>
+<span id='line263'>  <b>}</b></span>
+<span id='line264'></span>
+<span id='line265'>  ** Map a set of pods to "/res/css/<b>{</b>name<b>}</b>.css" CSS files.</span>
+<span id='line266'>  ** Ignore pods that are missing a CSS file.</span>
+<span id='line267'>  ** This method does *not* flatten/order the pods.</span>
+<span id='line268'>  static File<b>[</b><b>]</b> toPodCssFiles<b>(</b>Pod<b>[</b><b>]</b> pods<b>)</b></span>
+<span id='line269'>  <b>{</b></span>
+<span id='line270'>    acc := File<b>[</b>,<b>]</b></span>
+<span id='line271'>    pods.each |pod|</span>
+<span id='line272'>    <b>{</b></span>
+<span id='line273'>      css := pod.file<b>(</b>`/res/css/$<b>{</b>pod.name<b>}</b>.css`, false<b>)</b></span>
+<span id='line274'>      if <b>(</b>css != null<b>)</b> acc.add<b>(</b>css<b>)</b></span>
+<span id='line275'>    <b>}</b></span>
+<span id='line276'>    return acc</span>
+<span id='line277'>  <b>}</b></span>
+<span id='line278'></span>
+<span id='line279'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line280'>// Main</span>
+<span id='line281'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line282'></span>
+<span id='line283'>  ** Test program</span>
+<span id='line284'>  @NoDoc static Void main<b>(</b>Str<b>[</b><b>]</b> args<b>)</b></span>
+<span id='line285'>  <b>{</b></span>
+<span id='line286'>    pods := args.map |n->Pod| <b>{</b> Pod.find<b>(</b>n<b>)</b> <b>}</b></span>
+<span id='line287'>    mainReport<b>(</b>toAppJsFiles<b>(</b>pods<b>)</b><b>)</b></span>
+<span id='line288'>    mainReport<b>(</b>toAppCssFiles<b>(</b>pods<b>)</b><b>)</b></span>
+<span id='line289'>  <b>}</b></span>
+<span id='line290'></span>
+<span id='line291'>  private static Void mainReport<b>(</b>File<b>[</b><b>]</b> f<b>)</b></span>
+<span id='line292'>  <b>{</b></span>
+<span id='line293'>    b := makeFiles<b>(</b>f<b>)</b></span>
+<span id='line294'>    gzip := b.buf.size.toLocale<b>(</b>"B"<b>)</b></span>
+<span id='line295'>    echo<b>(</b>"$f.first.ext: $f.size files, $gzip, $b.mimeType"<b>)</b></span>
+<span id='line296'>  <b>}</b></span>
+<span id='line297'></span>
+<span id='line298'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

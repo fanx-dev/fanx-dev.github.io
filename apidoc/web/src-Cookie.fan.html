@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Cookie.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='Cookie.html'>Cookie</a></li><li><a href='src-Cookie.fan.html'>Cookie.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   17 Mar 08  Brian Frank  Creation</span>
+<span id='line7'>//   03 Aug 15  Matthew Giannini  RFC6265</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** Cookie models an HTTP cookie used to pass data between the server</span>
+<span id='line12'>** and user agent as defined by <b>[</b>RFC 6265<b>]</b>`http://tools.ietf.org/html/rfc6265`.</span>
+<span id='line13'>**</span>
+<span id='line14'>** See `WebReq.cookies` and `WebRes.cookies`.</span>
+<span id='line15'>**</span>
+<span id='line16'>@Js</span>
+<span id='line17'>const class Cookie</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'></span>
+<span id='line20'>  **</span>
+<span id='line21'>  ** Parse a HTTP cookie header name/value pair. The parsing of the name-value pair</span>
+<span id='line22'>  ** is done according to the algorithm outlined in <b>[</b>§ 5.2<b>]</b>`http://tools.ietf.org/html/rfc6265#section-5.2`</span>
+<span id='line23'>  ** of the RFC.</span>
+<span id='line24'>  **</span>
+<span id='line25'>  ** Throw ParseErr or return null if not formatted correctly.</span>
+<span id='line26'>  **</span>
+<span id='line27'>  static Cookie? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line28'>  <b>{</b></span>
+<span id='line29'>    try</span>
+<span id='line30'>    <b>{</b></span>
+<span id='line31'>      Str? params := null</span>
+<span id='line32'>      semi := s.index<b>(</b>";"<b>)</b></span>
+<span id='line33'>      if <b>(</b>semi != null<b>)</b></span>
+<span id='line34'>      <b>{</b></span>
+<span id='line35'>        params = s<b>[</b>semi+1..-1<b>]</b></span>
+<span id='line36'>        s = s<b>[</b>0..&lt;semi<b>]</b></span>
+<span id='line37'>      <b>}</b></span>
+<span id='line38'></span>
+<span id='line39'>      eq := s.index<b>(</b>"="<b>)</b></span>
+<span id='line40'>      if <b>(</b>eq == null<b>)</b> throw ParseErr<b>(</b>s<b>)</b></span>
+<span id='line41'>      name := s<b>[</b>0..&lt;eq<b>]</b>.trim</span>
+<span id='line42'>      val := s<b>[</b>eq+1..-1<b>]</b>.trim</span>
+<span id='line43'></span>
+<span id='line44'>      if <b>(</b>params == null<b>)</b> return make<b>(</b>name, val<b>)</b></span>
+<span id='line45'></span>
+<span id='line46'>      return make<b>(</b>name, val<b>)</b></span>
+<span id='line47'>      <b>{</b></span>
+<span id='line48'>        p := MimeType.parseParams<b>(</b>params<b>)</b></span>
+<span id='line49'>        it.domain = p<b>[</b>"Domain"<b>]</b></span>
+<span id='line50'>        it.path = p.get<b>(</b>"Path", "/"<b>)</b></span>
+<span id='line51'>      <b>}</b></span>
+<span id='line52'>    <b>}</b></span>
+<span id='line53'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line54'>    <b>{</b></span>
+<span id='line55'>      if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Cookie: $s"<b>)</b></span>
+<span id='line56'>      return null</span>
+<span id='line57'>    <b>}</b></span>
+<span id='line58'>  <b>}</b></span>
+<span id='line59'></span>
+<span id='line60'>  **</span>
+<span id='line61'>  ** Construct a cookie to use for session management.</span>
+<span id='line62'>  ** The following web config properties are used:</span>
+<span id='line63'>  **   - secureSessionCookie: force use of 'Secure' cookie option</span>
+<span id='line64'>  **   - sameSiteSessionCookie: force use of 'SameSite:strict' cookie option</span>
+<span id='line65'>  **</span>
+<span id='line66'>  @NoDoc static Cookie makeSession<b>(</b>Str name, Str val, <b>[</b>Field:Obj?<b>]</b>? overrides := null<b>)</b></span>
+<span id='line67'>  <b>{</b></span>
+<span id='line68'>    pod := Cookie#.pod</span>
+<span id='line69'>    fields := <b>[</b></span>
+<span id='line70'>      #secure: pod.config<b>(</b>"secureSessionCookie", "false"<b>)</b> == "true",</span>
+<span id='line71'>      #sameSite: pod.config<b>(</b>"sameSiteSessionCookie", "strict"<b>)</b>,</span>
+<span id='line72'>      #httpOnly: true</span>
+<span id='line73'>    <b>]</b></span>
+<span id='line74'>    if <b>(</b>overrides != null<b>)</b> overrides.each |v, f| <b>{</b> fields<b>[</b>f<b>]</b> = v <b>}</b></span>
+<span id='line75'>    return Cookie.make<b>(</b>name, val, Field.makeSetFunc<b>(</b>fields<b>)</b><b>)</b></span>
+<span id='line76'>  <b>}</b></span>
+<span id='line77'></span>
+<span id='line78'>  **</span>
+<span id='line79'>  ** Construct with name and value.  The name must be a valid</span>
+<span id='line80'>  ** HTTP token and must not start with "$" <b>(</b>see `WebUtil.isToken`<b>)</b>.</span>
+<span id='line81'>  ** The value string must be an ASCII string within the inclusive</span>
+<span id='line82'>  ** range of 0x20 and 0x7e <b>(</b>see `WebUtil.toQuotedStr`<b>)</b> with the</span>
+<span id='line83'>  ** exception of the semicolon.</span>
+<span id='line84'>  **</span>
+<span id='line85'>  ** Fantom cookies will use quoted string values, however some browsers</span>
+<span id='line86'>  ** such as IE won't parse a quoted string with semicolons correctly,</span>
+<span id='line87'>  ** so we make semicolons illegal.  If you have a value which might</span>
+<span id='line88'>  ** include non-ASCII characters or semicolons, then consider encoding</span>
+<span id='line89'>  ** using something like Base64:</span>
+<span id='line90'>  **</span>
+<span id='line91'>  **   // write response</span>
+<span id='line92'>  **   res.cookies.add<b>(</b>Cookie<b>(</b>"baz", val.toBuf.toBase64<b>)</b><b>)</b></span>
+<span id='line93'>  **</span>
+<span id='line94'>  **   // read from request</span>
+<span id='line95'>  **   val := Buf.fromBase64<b>(</b>req.cookies.get<b>(</b>"baz", ""<b>)</b><b>)</b>.readAllStr</span>
+<span id='line96'>  **</span>
+<span id='line97'>  new make<b>(</b>Str name, Str val, |This|? f := null<b>)</b></span>
+<span id='line98'>  <b>{</b></span>
+<span id='line99'>    if <b>(</b>f != null<b>)</b> f<b>(</b>this<b>)</b></span>
+<span id='line100'>    this.name = name</span>
+<span id='line101'>    this.val = val</span>
+<span id='line102'></span>
+<span id='line103'>    // validate name</span>
+<span id='line104'>    if <b>(</b>!WebUtil.isToken<b>(</b>this.name<b>)</b> || this.name<b>[</b>0<b>]</b> == '$'<b>)</b></span>
+<span id='line105'>      throw ArgErr<b>(</b>"Cookie name has illegal chars: $val"<b>)</b></span>
+<span id='line106'></span>
+<span id='line107'>    // validate value</span>
+<span id='line108'>    if <b>(</b>!this.val.all |Int c->Bool| <b>{</b> return 0x20 &lt;= c &amp;&amp; c &lt;= 0x7e &amp;&amp; c != ';'<b>}</b><b>)</b></span>
+<span id='line109'>      throw ArgErr<b>(</b>"Cookie value has illegal chars: $val"<b>)</b></span>
+<span id='line110'>    if <b>(</b>this.val.size + 32 >= WebUtil.maxTokenSize<b>)</b> // fudge room for quotes &amp; escapes</span>
+<span id='line111'>      throw ArgErr<b>(</b>"Cookie value too big"<b>)</b></span>
+<span id='line112'>  <b>}</b></span>
+<span id='line113'></span>
+<span id='line114'>  **</span>
+<span id='line115'>  ** Name of the cookie.</span>
+<span id='line116'>  **</span>
+<span id='line117'>  const Str name</span>
+<span id='line118'></span>
+<span id='line119'>  **</span>
+<span id='line120'>  ** Value string of the cookie.</span>
+<span id='line121'>  **</span>
+<span id='line122'>  const Str val</span>
+<span id='line123'></span>
+<span id='line124'>  **</span>
+<span id='line125'>  ** Defines the lifetime of the cookie, after the the max-age</span>
+<span id='line126'>  ** elapses the client should discard the cookie.  The duration</span>
+<span id='line127'>  ** is floored to seconds <b>(</b>fractional seconds are truncated<b>)</b>.</span>
+<span id='line128'>  ** If maxAge is null <b>(</b>the default<b>)</b> then the  cookie persists</span>
+<span id='line129'>  ** until the client is shutdown.  If zero is specified, the</span>
+<span id='line130'>  ** cookie is discarded immediately.  Note that many browsers</span>
+<span id='line131'>  ** still don't recognize max-age, so setting max-age also</span>
+<span id='line132'>  ** always includes an expires attribute.</span>
+<span id='line133'>  **</span>
+<span id='line134'>  const Duration? maxAge</span>
+<span id='line135'></span>
+<span id='line136'>  **</span>
+<span id='line137'>  ** Specifies the domain for which the cookie is valid.</span>
+<span id='line138'>  ** An explicit domain must always start with a dot.  If</span>
+<span id='line139'>  ** null <b>(</b>the default<b>)</b> then the cookie only applies to</span>
+<span id='line140'>  ** the server which set it.</span>
+<span id='line141'>  **</span>
+<span id='line142'>  const Str? domain</span>
+<span id='line143'></span>
+<span id='line144'>  **</span>
+<span id='line145'>  ** Specifies the subset of URLs to which the cookie applies.</span>
+<span id='line146'>  ** If set to "/" <b>(</b>the default<b>)</b>, then the cookie applies to all</span>
+<span id='line147'>  ** paths.  If the path is null, it as assumed to be the same</span>
+<span id='line148'>  ** path as the document being described by the header which</span>
+<span id='line149'>  ** contains the cookie.</span>
+<span id='line150'>  **</span>
+<span id='line151'>  const Str? path := "/"</span>
+<span id='line152'></span>
+<span id='line153'>  **</span>
+<span id='line154'>  ** If true, then the client only sends this cookie using a</span>
+<span id='line155'>  ** secure protocol such as HTTPS.  Defaults to false.</span>
+<span id='line156'>  **</span>
+<span id='line157'>  const Bool secure := false</span>
+<span id='line158'></span>
+<span id='line159'>  **</span>
+<span id='line160'>  ** If true, then the cookie is not available to JavaScript.</span>
+<span id='line161'>  ** Defaults to true.</span>
+<span id='line162'>  **</span>
+<span id='line163'>  const Bool httpOnly := true</span>
+<span id='line164'></span>
+<span id='line165'>  **</span>
+<span id='line166'>  ** If this value is non-null, then we add the SameSite attribute to</span>
+<span id='line167'>  ** the cookie. Valid values are</span>
+<span id='line168'>  **   - 'lax'</span>
+<span id='line169'>  **   - 'strict'</span>
+<span id='line170'>  ** By default we set the attribute to 'strict'</span>
+<span id='line171'>  **</span>
+<span id='line172'>  const Str? sameSite := "strict"</span>
+<span id='line173'></span>
+<span id='line174'>  **</span>
+<span id='line175'>  ** Return the cookie formatted as an Set-Cookie HTTP header.</span>
+<span id='line176'>  **</span>
+<span id='line177'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line178'>  <b>{</b></span>
+<span id='line179'>    s := StrBuf<b>(</b>64<b>)</b></span>
+<span id='line180'>    s.add<b>(</b>name<b>)</b>.add<b>(</b>"="<b>)</b>.add<b>(</b>val<b>)</b></span>
+<span id='line181'>    if <b>(</b>maxAge != null<b>)</b></span>
+<span id='line182'>    <b>{</b></span>
+<span id='line183'>      // we need to use Max-Age *and* Expires since many browsers</span>
+<span id='line184'>      // such as Safari and IE still don't recognize max-age</span>
+<span id='line185'>      s.add<b>(</b>";Max-Age="<b>)</b>.add<b>(</b>maxAge.toSec<b>)</b></span>
+<span id='line186'>      if <b>(</b>maxAge.toMillis &lt;= 0<b>)</b></span>
+<span id='line187'>        s.add<b>(</b>";Expires="<b>)</b>.add<b>(</b>"Sat, 01 Jan 2000 00:00:00 GMT"<b>)</b></span>
+<span id='line188'>      else</span>
+<span id='line189'>        s.add<b>(</b>";Expires="<b>)</b>.add<b>(</b><b>(</b>DateTime.nowUtc+maxAge<b>)</b>.toHttpStr<b>)</b></span>
+<span id='line190'>    <b>}</b></span>
+<span id='line191'>    if <b>(</b>domain != null<b>)</b> s.add<b>(</b>";Domain="<b>)</b>.add<b>(</b>domain<b>)</b></span>
+<span id='line192'>    if <b>(</b>path != null<b>)</b> s.add<b>(</b>";Path="<b>)</b>.add<b>(</b>path<b>)</b></span>
+<span id='line193'>    if <b>(</b>secure<b>)</b> s.add<b>(</b>";Secure"<b>)</b></span>
+<span id='line194'>    if <b>(</b>httpOnly<b>)</b> s.add<b>(</b>";HttpOnly"<b>)</b></span>
+<span id='line195'>    if <b>(</b>sameSite != null<b>)</b> s.add<b>(</b>";SameSite=$<b>{</b>sameSite<b>}</b>"<b>)</b></span>
+<span id='line196'>    return s.toStr</span>
+<span id='line197'>  <b>}</b></span>
+<span id='line198'></span>
+<span id='line199'>  internal Str toNameValStr<b>(</b><b>)</b> <b>{</b> "$name=$val" <b>}</b></span>
+<span id='line200'></span>
+<span id='line201'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

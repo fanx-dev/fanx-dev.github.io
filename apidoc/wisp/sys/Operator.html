@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::Operator</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='Operator.html'>Operator</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>facet const class</span> sys::Operator</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  sys::Operator : <a href='Facet.html'>sys::Facet</a></pre>
+
+<p>Used on methods to indicate method may be used an operator. The operator symbol is determined by the method name:</p>
+
+<pre>prefix     symbol    degree
+------     ------    ------
+negate     -a        unary
+increment  ++a       unary
+decrement  --a       unary
+plus       a + b     binary
+minus      a - b     binary
+mult       a * b     binary
+div        a / b     binary
+mod        a % b     binary
+get        a[b]      binary
+set        a[b] = c  ternary
+add        a { b, }</pre>
+
+<p>In the case of binary operators multiple methods may be declared for a given symbol as long as every method starts with correct name, for example "plus" and "plusInt".  For unary/ternary operators there can only be one method and it must be named exactly "negate", "increment", "decrement", or "set".</p>
+
+<p>See <a href='docLang::Methods#operators'>docLang</a> for additional details.</p>
+<dl>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Operator.html'>Operator</a> defVal := ...</code></p>
+
+<p>Singleton for Operator facet.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::Service</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='Service.html'>Service</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual mixin</span> util::Service</h1>
+<pre>util::Service</pre>
+
+<p>Services are used to publish functionality in a VM for use by other software components.  The service registry for the VM is keyed by public types each service implements.</p>
+
+<p>The following table illustrates the service lifecycle:</p>
+
+<pre>Method        isInstalled  isRunning
+-----------   -----------  ----------
+constructed   false        false
+install       true         false
+start         true         true
+stop          true         false
+uninstall     false        false</pre>
+
+<p>While the service is installed, it may be looked up in the registry via <code><a href='Service.html#find'>find</a></code> and <code><a href='Service.html#findAll'>findAll</a></code>.  The running state is used to invoke the <code><a href='Service.html#onStart'>onStart</a></code> and <code><a href='Service.html#onStop'>onStop</a></code> callbacks which gives the service a chance to setup/shutdown its actors and associated resources.</p>
+<dl>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Services are required to implement equality by reference.</p>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Service.html'>Service?</a> find(<a href='../std/Type.html'>Type</a> t, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Find an installed service by type.  If not found and checked is false return null, otherwise throw UnknownServiceErr.  If multiple services are registered for the given type then return the first one registered.</p>
+</dd>
+<dt id='findAll'>
+findAll</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='Service.html'>Service</a>&gt;</a> findAll(<a href='../std/Type.html'>Type</a> t)</code></p>
+
+<p>Find all services installed for the given type.  If no services are found then return an empty list.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Services are required to implement equality by reference.</p>
+</dd>
+<dt id='install'>
+install</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> install()</code></p>
+
+<p>Install this service into the VM's service registry. If already installed, do nothing.  Return this.</p>
+</dd>
+<dt id='isInstalled'>
+isInstalled</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInstalled()</code></p>
+
+<p>Is the service in the installed state. Note this method requires accessing a global hash table, so it should not be heavily polled in a concurrent environment.</p>
+</dd>
+<dt id='isRunning'>
+isRunning</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isRunning()</code></p>
+
+<p>Is the service in the running state. Note this method requires accessing a global hash table, so it should not be heavily polled in a concurrent environment.</p>
+</dd>
+<dt id='list'>
+list</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='Service.html'>Service</a>&gt;</a> list()</code></p>
+
+<p>List all the installed services.</p>
+</dd>
+<dt id='onStart'>
+onStart</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> onStart()</code></p>
+
+<p>Callback when service transitions into running state. If this callback raises an exception, then the service fails to transition to the running state.</p>
+</dd>
+<dt id='onStop'>
+onStop</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> onStop()</code></p>
+
+<p>Callback when service transitions out of the running state. If this callback raises an exception, then the service is still transitioned to the non-running state.</p>
+</dd>
+<dt id='start'>
+start</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> start()</code></p>
+
+<p>Start this service.  If not installed, this method autoamatically calls <code><a href='Service.html#install'>install</a></code>.  If already running, do nothing.  Return this.</p>
+</dd>
+<dt id='stop'>
+stop</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> stop()</code></p>
+
+<p>Stop this service.  If not running, do nothing. Return this.</p>
+</dd>
+<dt id='uninstall'>
+uninstall</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> uninstall()</code></p>
+
+<p>Uninstall this service from the VM's service registry. If the service is running, this method automatically calls <code><a href='Service.html#stop'>stop</a></code>.  If not installed, do nothing.  Return this.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#find'>find</a></li><li><a href='#findAll'>findAll</a></li><li><a href='#list'>list</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#install'>install</a></li><li><a href='#isInstalled'>isInstalled</a></li><li><a href='#isRunning'>isRunning</a></li><li><a href='#onStart'>onStart</a></li><li><a href='#onStop'>onStop</a></li><li><a href='#start'>start</a></li><li><a href='#stop'>stop</a></li><li><a href='#uninstall'>uninstall</a></li></ul>
+</div>
+</div>
+</body>
+</html>

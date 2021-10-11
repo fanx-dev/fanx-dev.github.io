@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SocketOptions.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='SocketOptions.html'>SocketOptions</a></li><li><a href='src-SocketOptions.fan.html'>SocketOptions.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   9 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** SocketOptions groups together all the socket options used to tune a</span>
+<span id='line11'>** TcpSocket, TcpListener, or UdpSocket.  See the options method of each</span>
+<span id='line12'>** of those classes for which options apply.  Accessing an unsupported</span>
+<span id='line13'>** option for a particular socket type will throw UnsupportedErr.</span>
+<span id='line14'>**</span>
+<span id='line15'>final class SocketOptions</span>
+<span id='line16'><b>{</b></span>
+<span id='line17'></span>
+<span id='line18'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line19'>// Construction</span>
+<span id='line20'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line21'></span>
+<span id='line22'>  **</span>
+<span id='line23'>  ** Attach this options instance to the specific socket <b>(</b>we just</span>
+<span id='line24'>  ** use an Obj because everything is dynamically typed<b>)</b></span>
+<span id='line25'>  **</span>
+<span id='line26'>  internal new make<b>(</b>Obj socket<b>)</b></span>
+<span id='line27'>  <b>{</b></span>
+<span id='line28'>    this.socket = socket;</span>
+<span id='line29'>  <b>}</b></span>
+<span id='line30'></span>
+<span id='line31'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line32'>// Copy From</span>
+<span id='line33'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line34'></span>
+<span id='line35'>  **</span>
+<span id='line36'>  ** Set all of this instance's options from the specified options.</span>
+<span id='line37'>  **</span>
+<span id='line38'>  Void copyFrom<b>(</b>SocketOptions options<b>)</b></span>
+<span id='line39'>  <b>{</b></span>
+<span id='line40'>    Type.of<b>(</b>this<b>)</b>.fields.each |Field f|</span>
+<span id='line41'>    <b>{</b></span>
+<span id='line42'>      try</span>
+<span id='line43'>      <b>{</b></span>
+<span id='line44'>        v := f.get<b>(</b>options<b>)</b></span>
+<span id='line45'></span>
+<span id='line46'>        // Setting traffic class to zero is unreliable across OS</span>
+<span id='line47'>        if <b>(</b>v == 0 &amp;&amp; f.name == "trafficClass"<b>)</b> return</span>
+<span id='line48'>        </span>
+<span id='line49'>        f.set<b>(</b>this, v<b>)</b></span>
+<span id='line50'>      <b>}</b></span>
+<span id='line51'>      catch <b>(</b>UnsupportedErr e<b>)</b></span>
+<span id='line52'>        <b>{</b><b>}</b></span>
+<span id='line53'>    <b>}</b></span>
+<span id='line54'>  <b>}</b></span>
+<span id='line55'></span>
+<span id='line56'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line57'>// Streaming Options</span>
+<span id='line58'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line59'></span>
+<span id='line60'>  **</span>
+<span id='line61'>  ** The size in bytes for the sys::InStream buffer.  A value of 0 or</span>
+<span id='line62'>  ** null disables input stream buffing.  This field may only be set before</span>
+<span id='line63'>  ** the socket is connected otherwise Err is thrown.</span>
+<span id='line64'>  **</span>
+<span id='line65'>  Int? inBufferSize</span>
+<span id='line66'>  <b>{</b></span>
+<span id='line67'>    get <b>{</b> return <b>(</b>Int?<b>)</b>wrap |->Obj?| <b>{</b> return socket->getInBufferSize <b>}</b> <b>}</b></span>
+<span id='line68'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setInBufferSize<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line69'>  <b>}</b></span>
+<span id='line70'></span>
+<span id='line71'>  **</span>
+<span id='line72'>  ** The size in bytes for the sys::OutStream buffer.  A value of 0 or</span>
+<span id='line73'>  ** null disables output stream buffing.  This field may only be set before</span>
+<span id='line74'>  ** the socket is connected otherwise Err is thrown.</span>
+<span id='line75'>  **</span>
+<span id='line76'>  Int? outBufferSize</span>
+<span id='line77'>  <b>{</b></span>
+<span id='line78'>    get <b>{</b> return <b>(</b>Int?<b>)</b>wrap |->Obj?| <b>{</b> return socket->getOutBufferSize <b>}</b> <b>}</b></span>
+<span id='line79'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setOutBufferSize<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line80'>  <b>}</b></span>
+<span id='line81'></span>
+<span id='line82'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line83'>// Socket Options</span>
+<span id='line84'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line85'></span>
+<span id='line86'>  **</span>
+<span id='line87'>  ** SO_BROADCAST socket option.</span>
+<span id='line88'>  **</span>
+<span id='line89'>  Bool broadcast</span>
+<span id='line90'>  <b>{</b></span>
+<span id='line91'>    get <b>{</b> return <b>(</b>Bool<b>)</b>wrap |->Obj| <b>{</b> return socket->getBroadcast <b>}</b> <b>}</b></span>
+<span id='line92'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setBroadcast<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line93'>  <b>}</b></span>
+<span id='line94'></span>
+<span id='line95'>  **</span>
+<span id='line96'>  ** SO_KEEPALIVE socket option.</span>
+<span id='line97'>  **</span>
+<span id='line98'>  Bool keepAlive</span>
+<span id='line99'>  <b>{</b></span>
+<span id='line100'>    get <b>{</b> return <b>(</b>Bool<b>)</b>wrap |->Obj| <b>{</b> return socket->getKeepAlive <b>}</b> <b>}</b></span>
+<span id='line101'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setKeepAlive<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line102'>  <b>}</b></span>
+<span id='line103'></span>
+<span id='line104'>  **</span>
+<span id='line105'>  ** SO_RCVBUF option for the size in bytes of the IP stack buffers.</span>
+<span id='line106'>  **</span>
+<span id='line107'>  Int receiveBufferSize</span>
+<span id='line108'>  <b>{</b></span>
+<span id='line109'>    get <b>{</b> return <b>(</b>Int<b>)</b>wrap |->Obj| <b>{</b> return socket->getReceiveBufferSize <b>}</b> <b>}</b></span>
+<span id='line110'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setReceiveBufferSize<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line111'>  <b>}</b></span>
+<span id='line112'></span>
+<span id='line113'>  **</span>
+<span id='line114'>  ** SO_SNDBUF option for the size in bytes of the IP stack buffers.</span>
+<span id='line115'>  **</span>
+<span id='line116'>  Int sendBufferSize</span>
+<span id='line117'>  <b>{</b></span>
+<span id='line118'>    get <b>{</b> return <b>(</b>Int<b>)</b>wrap |->Obj| <b>{</b> return socket->getSendBufferSize <b>}</b> <b>}</b></span>
+<span id='line119'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setSendBufferSize<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line120'>  <b>}</b></span>
+<span id='line121'></span>
+<span id='line122'>  **</span>
+<span id='line123'>  ** SO_REUSEADDR socket option is used to control the time</span>
+<span id='line124'>  ** wait state of a closed socket.</span>
+<span id='line125'>  **</span>
+<span id='line126'>  Bool reuseAddr</span>
+<span id='line127'>  <b>{</b></span>
+<span id='line128'>    get <b>{</b> return <b>(</b>Bool<b>)</b>wrap |->Obj| <b>{</b> return socket->getReuseAddr <b>}</b> <b>}</b></span>
+<span id='line129'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setReuseAddr<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line130'>  <b>}</b></span>
+<span id='line131'></span>
+<span id='line132'>  **</span>
+<span id='line133'>  ** SO_LINGER socket option controls the linger time or set</span>
+<span id='line134'>  ** to null to disable linger.</span>
+<span id='line135'>  **</span>
+<span id='line136'>  Duration? linger</span>
+<span id='line137'>  <b>{</b></span>
+<span id='line138'>    get <b>{</b> return <b>(</b>Duration?<b>)</b>wrap |->Obj?| <b>{</b> return socket->getLinger<b>}</b> <b>}</b></span>
+<span id='line139'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setLinger<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line140'>  <b>}</b></span>
+<span id='line141'></span>
+<span id='line142'>  **</span>
+<span id='line143'>  ** Controls default timeout used by `TcpSocket.connect`.</span>
+<span id='line144'>  ** A null value indicates a system default timeout.</span>
+<span id='line145'>  **</span>
+<span id='line146'>  @Deprecated <b>{</b> msg = "Use SocketConfig.connectTimeout" <b>}</b></span>
+<span id='line147'>  Duration? connectTimeout</span>
+<span id='line148'></span>
+<span id='line149'>  **</span>
+<span id='line150'>  ** SO_TIMEOUT socket option controls the amount of time this socket</span>
+<span id='line151'>  ** will block on a read call before throwing an IOErr timeout exception.</span>
+<span id='line152'>  ** Null is used to indicate an infinite timeout.</span>
+<span id='line153'>  **</span>
+<span id='line154'>  Duration? receiveTimeout</span>
+<span id='line155'>  <b>{</b></span>
+<span id='line156'>    get <b>{</b> return <b>(</b>Duration?<b>)</b>wrap |->Obj?| <b>{</b> return socket->getReceiveTimeout <b>}</b> <b>}</b></span>
+<span id='line157'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setReceiveTimeout<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line158'>  <b>}</b></span>
+<span id='line159'></span>
+<span id='line160'>  **</span>
+<span id='line161'>  ** TCP_NODELAY socket option specifies that send not be delayed</span>
+<span id='line162'>  ** to merge packets <b>(</b>Nagle's algorthm<b>)</b>.</span>
+<span id='line163'>  **</span>
+<span id='line164'>  Bool noDelay</span>
+<span id='line165'>  <b>{</b></span>
+<span id='line166'>    get <b>{</b> return <b>(</b>Bool<b>)</b>wrap |->Obj| <b>{</b> return socket->getNoDelay <b>}</b> <b>}</b></span>
+<span id='line167'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setNoDelay<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line168'>  <b>}</b></span>
+<span id='line169'></span>
+<span id='line170'>  **</span>
+<span id='line171'>  ** The type-of-class byte in the IP packet header.</span>
+<span id='line172'>  **</span>
+<span id='line173'>  ** For IPv4 this value is detailed in RFC 1349 as the following bitset:</span>
+<span id='line174'>  **  - IPTOS_LOWCOST     <b>(</b>0x02<b>)</b></span>
+<span id='line175'>  **  - IPTOS_RELIABILITY <b>(</b>0x04<b>)</b></span>
+<span id='line176'>  **  - IPTOS_THROUGHPUT  <b>(</b>0x08<b>)</b></span>
+<span id='line177'>  **  - IPTOS_LOWDELAY    <b>(</b>0x10<b>)</b></span>
+<span id='line178'>  **</span>
+<span id='line179'>  ** For IPv6 this is the value placed into the sin6_flowinfo header field.</span>
+<span id='line180'>  **</span>
+<span id='line181'>  Int trafficClass</span>
+<span id='line182'>  <b>{</b></span>
+<span id='line183'>    get <b>{</b> return <b>(</b>Int<b>)</b>wrap |->Obj| <b>{</b> return socket->getTrafficClass <b>}</b> <b>}</b></span>
+<span id='line184'>    set <b>{</b> newVal := it; wrap |->| <b>{</b> socket->setTrafficClass<b>(</b>newVal<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line185'>  <b>}</b></span>
+<span id='line186'></span>
+<span id='line187'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line188'>// Wrap</span>
+<span id='line189'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line190'></span>
+<span id='line191'>  internal Obj? wrap<b>(</b>|->Obj?| m<b>)</b></span>
+<span id='line192'>  <b>{</b></span>
+<span id='line193'>    try</span>
+<span id='line194'>    <b>{</b></span>
+<span id='line195'>      return m<b>(</b><b>)</b></span>
+<span id='line196'>    <b>}</b></span>
+<span id='line197'>    catch <b>(</b>UnknownSlotErr e<b>)</b></span>
+<span id='line198'>    <b>{</b></span>
+<span id='line199'>      throw UnsupportedErr<b>(</b>"Option not supported for $<b>{</b>Type.of<b>(</b>socket<b>)</b><b>}</b>"<b>)</b></span>
+<span id='line200'>    <b>}</b></span>
+<span id='line201'>  <b>}</b></span>
+<span id='line202'></span>
+<span id='line203'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line204'>// Fields</span>
+<span id='line205'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line206'></span>
+<span id='line207'>  private Obj socket</span>
+<span id='line208'></span>
+<span id='line209'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

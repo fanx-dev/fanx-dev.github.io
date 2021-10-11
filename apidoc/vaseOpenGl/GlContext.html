@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseOpenGl::GlContext</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseOpenGl</a></li><li><a href='GlContext.html'>GlContext</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> vaseOpenGl::GlContext</h1>
+<pre>vaseOpenGl::GlContext</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>OpenGL graphical context</p>
+<dl>
+<dt id='activeTexture'>
+activeTexture</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> activeTexture(<a href='GlEnum.html'>GlEnum</a> texture)</code></p>
+</dd>
+<dt id='attachShader'>
+attachShader</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> attachShader(<a href='GlProgram.html'>GlProgram</a> program, <a href='GlShader.html'>GlShader</a> shader)</code></p>
+</dd>
+<dt id='bindAttribLocation'>
+bindAttribLocation</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> bindAttribLocation(<a href='GlProgram.html'>GlProgram</a> program, <a href='../sys/Int.html'>Int</a> index, <a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='bindBuffer'>
+bindBuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> bindBuffer(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlBuffer.html'>GlBuffer</a> buffer)</code></p>
+</dd>
+<dt id='bindFramebuffer'>
+bindFramebuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> bindFramebuffer(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlFramebuffer.html'>GlFramebuffer</a> framebuffer)</code></p>
+</dd>
+<dt id='bindRenderbuffer'>
+bindRenderbuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> bindRenderbuffer(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlRenderbuffer.html'>GlRenderbuffer</a> renderbuffer)</code></p>
+</dd>
+<dt id='bindTexture'>
+bindTexture</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> bindTexture(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlTexture.html'>GlTexture?</a> texture)</code></p>
+</dd>
+<dt id='blendColor'>
+blendColor</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> blendColor(<a href='../sys/Float.html'>Float</a> red, <a href='../sys/Float.html'>Float</a> green, <a href='../sys/Float.html'>Float</a> blue, <a href='../sys/Float.html'>Float</a> alpha)</code></p>
+</dd>
+<dt id='blendEquation'>
+blendEquation</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> blendEquation(<a href='GlEnum.html'>GlEnum</a> mode)</code></p>
+</dd>
+<dt id='blendEquationSeparate'>
+blendEquationSeparate</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> blendEquationSeparate(<a href='GlEnum.html'>GlEnum</a> modeRGB, <a href='GlEnum.html'>GlEnum</a> modeAlpha)</code></p>
+</dd>
+<dt id='blendFunc'>
+blendFunc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> blendFunc(<a href='GlEnum.html'>GlEnum</a> sfactor, <a href='GlEnum.html'>GlEnum</a> dfactor)</code></p>
+</dd>
+<dt id='blendFuncSeparate'>
+blendFuncSeparate</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> blendFuncSeparate(<a href='GlEnum.html'>GlEnum</a> srcRGB, <a href='GlEnum.html'>GlEnum</a> dstRGB, <a href='GlEnum.html'>GlEnum</a> srcAlpha, <a href='GlEnum.html'>GlEnum</a> dstAlpha)</code></p>
+</dd>
+<dt id='bufferData'>
+bufferData</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> bufferData(<a href='GlEnum.html'>GlEnum</a> target, <a href='ArrayBuffer.html'>ArrayBuffer</a> data, <a href='GlEnum.html'>GlEnum</a> usage)</code></p>
+</dd>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> clear(<a href='GlEnum.html'>GlEnum</a> mask)</code></p>
+</dd>
+<dt id='clearColor'>
+clearColor</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> clearColor(<a href='../sys/Float.html'>Float</a> red, <a href='../sys/Float.html'>Float</a> green, <a href='../sys/Float.html'>Float</a> blue, <a href='../sys/Float.html'>Float</a> alpha)</code></p>
+</dd>
+<dt id='clearDepth'>
+clearDepth</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> clearDepth(<a href='../sys/Float.html'>Float</a> depth)</code></p>
+</dd>
+<dt id='clearStencil'>
+clearStencil</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> clearStencil(<a href='../sys/Int.html'>Int</a> s)</code></p>
+</dd>
+<dt id='colorMask'>
+colorMask</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> colorMask(<a href='../sys/Bool.html'>Bool</a> red, <a href='../sys/Bool.html'>Bool</a> green, <a href='../sys/Bool.html'>Bool</a> blue, <a href='../sys/Bool.html'>Bool</a> alpha)</code></p>
+</dd>
+<dt id='compileShader'>
+compileShader</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> compileShader(<a href='GlShader.html'>GlShader</a> shader)</code></p>
+</dd>
+<dt id='copyTexImage2D'>
+copyTexImage2D</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> copyTexImage2D(<a href='GlEnum.html'>GlEnum</a> target, <a href='../sys/Int.html'>Int</a> level, <a href='GlEnum.html'>GlEnum</a> internalformat, <a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> width, <a href='../sys/Int.html'>Int</a> height, <a href='../sys/Int.html'>Int</a> border)</code></p>
+</dd>
+<dt id='copyTexSubImage2D'>
+copyTexSubImage2D</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> copyTexSubImage2D(<a href='GlEnum.html'>GlEnum</a> target, <a href='../sys/Int.html'>Int</a> level, <a href='../sys/Int.html'>Int</a> xoffset, <a href='../sys/Int.html'>Int</a> yoffset, <a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> width, <a href='../sys/Int.html'>Int</a> height)</code></p>
+</dd>
+<dt id='createBuffer'>
+createBuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='GlBuffer.html'>GlBuffer</a> createBuffer()</code></p>
+</dd>
+<dt id='createFramebuffer'>
+createFramebuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='GlFramebuffer.html'>GlFramebuffer</a> createFramebuffer()</code></p>
+</dd>
+<dt id='createProgram'>
+createProgram</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='GlProgram.html'>GlProgram</a> createProgram()</code></p>
+</dd>
+<dt id='createRenderbuffer'>
+createRenderbuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='GlRenderbuffer.html'>GlRenderbuffer</a> createRenderbuffer()</code></p>
+</dd>
+<dt id='createShader'>
+createShader</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='GlShader.html'>GlShader</a> createShader(<a href='GlEnum.html'>GlEnum</a> type)</code></p>
+</dd>
+<dt id='createTexture'>
+createTexture</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='GlTexture.html'>GlTexture</a> createTexture()</code></p>
+</dd>
+<dt id='cullFace'>
+cullFace</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> cullFace(<a href='GlEnum.html'>GlEnum</a> mode)</code></p>
+</dd>
+<dt id='deleteBuffer'>
+deleteBuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> deleteBuffer(<a href='GlBuffer.html'>GlBuffer</a> buffer)</code></p>
+</dd>
+<dt id='deleteFramebuffer'>
+deleteFramebuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> deleteFramebuffer(<a href='GlFramebuffer.html'>GlFramebuffer</a> framebuffer)</code></p>
+</dd>
+<dt id='deleteProgram'>
+deleteProgram</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> deleteProgram(<a href='GlProgram.html'>GlProgram</a> program)</code></p>
+</dd>
+<dt id='deleteRenderbuffer'>
+deleteRenderbuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> deleteRenderbuffer(<a href='GlRenderbuffer.html'>GlRenderbuffer</a> renderbuffer)</code></p>
+</dd>
+<dt id='deleteShader'>
+deleteShader</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> deleteShader(<a href='GlShader.html'>GlShader</a> shader)</code></p>
+</dd>
+<dt id='deleteTexture'>
+deleteTexture</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> deleteTexture(<a href='GlTexture.html'>GlTexture</a> texture)</code></p>
+</dd>
+<dt id='depthFunc'>
+depthFunc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> depthFunc(<a href='GlEnum.html'>GlEnum</a> func)</code></p>
+</dd>
+<dt id='depthMask'>
+depthMask</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> depthMask(<a href='../sys/Bool.html'>Bool</a> flag)</code></p>
+</dd>
+<dt id='depthRange'>
+depthRange</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> depthRange(<a href='../sys/Float.html'>Float</a> zNear, <a href='../sys/Float.html'>Float</a> zFar)</code></p>
+</dd>
+<dt id='detachShader'>
+detachShader</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> detachShader(<a href='GlProgram.html'>GlProgram</a> program, <a href='GlShader.html'>GlShader</a> shader)</code></p>
+</dd>
+<dt id='disable'>
+disable</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> disable(<a href='GlEnum.html'>GlEnum</a> cap)</code></p>
+</dd>
+<dt id='disableVertexAttribArray'>
+disableVertexAttribArray</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> disableVertexAttribArray(<a href='../sys/Int.html'>Int</a> index)</code></p>
+</dd>
+<dt id='drawArrays'>
+drawArrays</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> drawArrays(<a href='GlEnum.html'>GlEnum</a> mode, <a href='../sys/Int.html'>Int</a> first, <a href='../sys/Int.html'>Int</a> count)</code></p>
+</dd>
+<dt id='drawElements'>
+drawElements</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> drawElements(<a href='GlEnum.html'>GlEnum</a> mode, <a href='../sys/Int.html'>Int</a> count, <a href='GlEnum.html'>GlEnum</a> type, <a href='../sys/Int.html'>Int</a> offset)</code></p>
+</dd>
+<dt id='enable'>
+enable</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> enable(<a href='GlEnum.html'>GlEnum</a> cap)</code></p>
+</dd>
+<dt id='enableVertexAttribArray'>
+enableVertexAttribArray</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> enableVertexAttribArray(<a href='../sys/Int.html'>Int</a> index)</code></p>
+</dd>
+<dt id='finish'>
+finish</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> finish()</code></p>
+</dd>
+<dt id='flush'>
+flush</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> flush()</code></p>
+</dd>
+<dt id='framebufferRenderbuffer'>
+framebufferRenderbuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> framebufferRenderbuffer(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlEnum.html'>GlEnum</a> attachment, <a href='GlEnum.html'>GlEnum</a> renderbuffertarget, <a href='GlRenderbuffer.html'>GlRenderbuffer</a> renderbuffer)</code></p>
+</dd>
+<dt id='framebufferTexture2D'>
+framebufferTexture2D</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> framebufferTexture2D(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlEnum.html'>GlEnum</a> attachment, <a href='GlEnum.html'>GlEnum</a> textarget, <a href='GlTexture.html'>GlTexture</a> texture, <a href='../sys/Int.html'>Int</a> level)</code></p>
+</dd>
+<dt id='frontFace'>
+frontFace</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> frontFace(<a href='GlEnum.html'>GlEnum</a> mode)</code></p>
+</dd>
+<dt id='generateMipmap'>
+generateMipmap</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> generateMipmap(<a href='GlEnum.html'>GlEnum</a> target)</code></p>
+</dd>
+<dt id='getAttribLocation'>
+getAttribLocation</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> getAttribLocation(<a href='GlProgram.html'>GlProgram</a> program, <a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='getProgramParameter'>
+getProgramParameter</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> getProgramParameter(<a href='GlProgram.html'>GlProgram</a> program, <a href='GlEnum.html'>GlEnum</a> pname)</code></p>
+</dd>
+<dt id='getShaderInfoLog'>
+getShaderInfoLog</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> getShaderInfoLog(<a href='GlShader.html'>GlShader</a> shader)</code></p>
+</dd>
+<dt id='getShaderParameter'>
+getShaderParameter</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> getShaderParameter(<a href='GlShader.html'>GlShader</a> shader, <a href='GlEnum.html'>GlEnum</a> pname)</code></p>
+</dd>
+<dt id='getUniformLocation'>
+getUniformLocation</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='GlUniformLocation.html'>GlUniformLocation</a> getUniformLocation(<a href='GlProgram.html'>GlProgram</a> program, <a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='hint'>
+hint</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> hint(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlEnum.html'>GlEnum</a> mode)</code></p>
+</dd>
+<dt id='isBuffer'>
+isBuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isBuffer(<a href='GlBuffer.html'>GlBuffer</a> buffer)</code></p>
+</dd>
+<dt id='isEnabled'>
+isEnabled</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isEnabled(<a href='GlEnum.html'>GlEnum</a> cap)</code></p>
+</dd>
+<dt id='isFramebuffer'>
+isFramebuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isFramebuffer(<a href='GlFramebuffer.html'>GlFramebuffer</a> framebuffer)</code></p>
+</dd>
+<dt id='isProgram'>
+isProgram</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isProgram(<a href='GlProgram.html'>GlProgram</a> program)</code></p>
+</dd>
+<dt id='isRenderbuffer'>
+isRenderbuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isRenderbuffer(<a href='GlRenderbuffer.html'>GlRenderbuffer</a> renderbuffer)</code></p>
+</dd>
+<dt id='isShader'>
+isShader</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isShader(<a href='GlShader.html'>GlShader</a> shader)</code></p>
+</dd>
+<dt id='isTexture'>
+isTexture</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isTexture(<a href='GlTexture.html'>GlTexture</a> texture)</code></p>
+</dd>
+<dt id='lineWidth'>
+lineWidth</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> lineWidth(<a href='../sys/Float.html'>Float</a> width)</code></p>
+</dd>
+<dt id='linkProgram'>
+linkProgram</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> linkProgram(<a href='GlProgram.html'>GlProgram</a> program)</code></p>
+</dd>
+<dt id='pixelStorei'>
+pixelStorei</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> pixelStorei(<a href='GlEnum.html'>GlEnum</a> pname, <a href='../sys/Int.html'>Int</a> param)</code></p>
+</dd>
+<dt id='polygonOffset'>
+polygonOffset</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> polygonOffset(<a href='../sys/Float.html'>Float</a> factor, <a href='../sys/Float.html'>Float</a> units)</code></p>
+</dd>
+<dt id='renderbufferStorage'>
+renderbufferStorage</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> renderbufferStorage(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlEnum.html'>GlEnum</a> internalformat, <a href='../sys/Int.html'>Int</a> width, <a href='../sys/Int.html'>Int</a> height)</code></p>
+</dd>
+<dt id='sampleCoverage'>
+sampleCoverage</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> sampleCoverage(<a href='../sys/Float.html'>Float</a> value, <a href='../sys/Bool.html'>Bool</a> invert)</code></p>
+</dd>
+<dt id='scissor'>
+scissor</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> scissor(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> width, <a href='../sys/Int.html'>Int</a> height)</code></p>
+</dd>
+<dt id='shaderSource'>
+shaderSource</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> shaderSource(<a href='GlShader.html'>GlShader</a> shader, <a href='../sys/Str.html'>Str</a> source)</code></p>
+</dd>
+<dt id='stencilFunc'>
+stencilFunc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> stencilFunc(<a href='GlEnum.html'>GlEnum</a> func, <a href='../sys/Int.html'>Int</a> ref, <a href='../sys/Int.html'>Int</a> mask)</code></p>
+</dd>
+<dt id='stencilFuncSeparate'>
+stencilFuncSeparate</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> stencilFuncSeparate(<a href='GlEnum.html'>GlEnum</a> face, <a href='GlEnum.html'>GlEnum</a> func, <a href='../sys/Int.html'>Int</a> ref, <a href='../sys/Int.html'>Int</a> mask)</code></p>
+</dd>
+<dt id='stencilMask'>
+stencilMask</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> stencilMask(<a href='../sys/Int.html'>Int</a> mask)</code></p>
+</dd>
+<dt id='stencilMaskSeparate'>
+stencilMaskSeparate</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> stencilMaskSeparate(<a href='GlEnum.html'>GlEnum</a> face, <a href='../sys/Int.html'>Int</a> mask)</code></p>
+</dd>
+<dt id='stencilOp'>
+stencilOp</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> stencilOp(<a href='GlEnum.html'>GlEnum</a> fail, <a href='GlEnum.html'>GlEnum</a> zfail, <a href='GlEnum.html'>GlEnum</a> zpass)</code></p>
+</dd>
+<dt id='stencilOpSeparate'>
+stencilOpSeparate</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> stencilOpSeparate(<a href='GlEnum.html'>GlEnum</a> face, <a href='GlEnum.html'>GlEnum</a> fail, <a href='GlEnum.html'>GlEnum</a> zfail, <a href='GlEnum.html'>GlEnum</a> zpass)</code></p>
+</dd>
+<dt id='texImage2D'>
+texImage2D</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> texImage2D(<a href='GlEnum.html'>GlEnum</a> target, <a href='../sys/Int.html'>Int</a> level, <a href='GlEnum.html'>GlEnum</a> internalformat, <a href='GlEnum.html'>GlEnum</a> format, <a href='GlEnum.html'>GlEnum</a> type, <a href='GlImage.html'>GlImage</a> image)</code></p>
+</dd>
+<dt id='texImage2DBuffer'>
+texImage2DBuffer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> texImage2DBuffer(<a href='GlEnum.html'>GlEnum</a> target, <a href='../sys/Int.html'>Int</a> level, <a href='GlEnum.html'>GlEnum</a> internalformat, <a href='../sys/Int.html'>Int</a> width, <a href='../sys/Int.html'>Int</a> height, <a href='../sys/Int.html'>Int</a> border, <a href='GlEnum.html'>GlEnum</a> format, <a href='GlEnum.html'>GlEnum</a> type, <a href='ArrayBuffer.html'>ArrayBuffer</a> pixels)</code></p>
+</dd>
+<dt id='texParameterf'>
+texParameterf</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> texParameterf(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlEnum.html'>GlEnum</a> pname, <a href='../sys/Float.html'>Float</a> param)</code></p>
+</dd>
+<dt id='texParameteri'>
+texParameteri</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> texParameteri(<a href='GlEnum.html'>GlEnum</a> target, <a href='GlEnum.html'>GlEnum</a> pname, <a href='../sys/Int.html'>Int</a> param)</code></p>
+</dd>
+<dt id='uniform1f'>
+uniform1f</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> uniform1f(<a href='GlUniformLocation.html'>GlUniformLocation</a> location, <a href='../sys/Float.html'>Float</a> x)</code></p>
+</dd>
+<dt id='uniform1i'>
+uniform1i</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> uniform1i(<a href='GlUniformLocation.html'>GlUniformLocation</a> location, <a href='../sys/Int.html'>Int</a> x)</code></p>
+</dd>
+<dt id='uniform2f'>
+uniform2f</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> uniform2f(<a href='GlUniformLocation.html'>GlUniformLocation</a> location, <a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y)</code></p>
+</dd>
+<dt id='uniform2i'>
+uniform2i</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> uniform2i(<a href='GlUniformLocation.html'>GlUniformLocation</a> location, <a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+</dd>
+<dt id='uniform3f'>
+uniform3f</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> uniform3f(<a href='GlUniformLocation.html'>GlUniformLocation</a> location, <a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z)</code></p>
+</dd>
+<dt id='uniform3i'>
+uniform3i</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> uniform3i(<a href='GlUniformLocation.html'>GlUniformLocation</a> location, <a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> z)</code></p>
+</dd>
+<dt id='uniform4f'>
+uniform4f</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> uniform4f(<a href='GlUniformLocation.html'>GlUniformLocation</a> location, <a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z, <a href='../sys/Float.html'>Float</a> w)</code></p>
+</dd>
+<dt id='uniform4i'>
+uniform4i</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> uniform4i(<a href='GlUniformLocation.html'>GlUniformLocation</a> location, <a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> z, <a href='../sys/Int.html'>Int</a> w)</code></p>
+</dd>
+<dt id='uniformMatrix4fv'>
+uniformMatrix4fv</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> uniformMatrix4fv(<a href='GlUniformLocation.html'>GlUniformLocation</a> location, <a href='../sys/Bool.html'>Bool</a> transpose, <a href='ArrayBuffer.html'>ArrayBuffer</a> value)</code></p>
+</dd>
+<dt id='useProgram'>
+useProgram</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> useProgram(<a href='GlProgram.html'>GlProgram</a> program)</code></p>
+</dd>
+<dt id='validateProgram'>
+validateProgram</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> validateProgram(<a href='GlProgram.html'>GlProgram</a> program)</code></p>
+</dd>
+<dt id='vertexAttrib1f'>
+vertexAttrib1f</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> vertexAttrib1f(<a href='../sys/Int.html'>Int</a> indx, <a href='../sys/Float.html'>Float</a> x)</code></p>
+</dd>
+<dt id='vertexAttrib2f'>
+vertexAttrib2f</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> vertexAttrib2f(<a href='../sys/Int.html'>Int</a> indx, <a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y)</code></p>
+</dd>
+<dt id='vertexAttrib3f'>
+vertexAttrib3f</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> vertexAttrib3f(<a href='../sys/Int.html'>Int</a> indx, <a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z)</code></p>
+</dd>
+<dt id='vertexAttrib4f'>
+vertexAttrib4f</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> vertexAttrib4f(<a href='../sys/Int.html'>Int</a> indx, <a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z, <a href='../sys/Float.html'>Float</a> w)</code></p>
+</dd>
+<dt id='vertexAttribPointer'>
+vertexAttribPointer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> vertexAttribPointer(<a href='../sys/Int.html'>Int</a> indx, <a href='../sys/Int.html'>Int</a> size, <a href='GlEnum.html'>GlEnum</a> type, <a href='../sys/Bool.html'>Bool</a> normalized, <a href='../sys/Int.html'>Int</a> stride, <a href='../sys/Int.html'>Int</a> offset)</code></p>
+</dd>
+<dt id='viewport'>
+viewport</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> viewport(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> width, <a href='../sys/Int.html'>Int</a> height)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#activeTexture'>activeTexture</a></li><li><a href='#attachShader'>attachShader</a></li><li><a href='#bindAttribLocation'>bindAttribLocation</a></li><li><a href='#bindBuffer'>bindBuffer</a></li><li><a href='#bindFramebuffer'>bindFramebuffer</a></li><li><a href='#bindRenderbuffer'>bindRenderbuffer</a></li><li><a href='#bindTexture'>bindTexture</a></li><li><a href='#blendColor'>blendColor</a></li><li><a href='#blendEquation'>blendEquation</a></li><li><a href='#blendEquationSeparate'>blendEquationSeparate</a></li><li><a href='#blendFunc'>blendFunc</a></li><li><a href='#blendFuncSeparate'>blendFuncSeparate</a></li><li><a href='#bufferData'>bufferData</a></li><li><a href='#clear'>clear</a></li><li><a href='#clearColor'>clearColor</a></li><li><a href='#clearDepth'>clearDepth</a></li><li><a href='#clearStencil'>clearStencil</a></li><li><a href='#colorMask'>colorMask</a></li><li><a href='#compileShader'>compileShader</a></li><li><a href='#copyTexImage2D'>copyTexImage2D</a></li><li><a href='#copyTexSubImage2D'>copyTexSubImage2D</a></li><li><a href='#createBuffer'>createBuffer</a></li><li><a href='#createFramebuffer'>createFramebuffer</a></li><li><a href='#createProgram'>createProgram</a></li><li><a href='#createRenderbuffer'>createRenderbuffer</a></li><li><a href='#createShader'>createShader</a></li><li><a href='#createTexture'>createTexture</a></li><li><a href='#cullFace'>cullFace</a></li><li><a href='#deleteBuffer'>deleteBuffer</a></li><li><a href='#deleteFramebuffer'>deleteFramebuffer</a></li><li><a href='#deleteProgram'>deleteProgram</a></li><li><a href='#deleteRenderbuffer'>deleteRenderbuffer</a></li><li><a href='#deleteShader'>deleteShader</a></li><li><a href='#deleteTexture'>deleteTexture</a></li><li><a href='#depthFunc'>depthFunc</a></li><li><a href='#depthMask'>depthMask</a></li><li><a href='#depthRange'>depthRange</a></li><li><a href='#detachShader'>detachShader</a></li><li><a href='#disable'>disable</a></li><li><a href='#disableVertexAttribArray'>disableVertexAttribArray</a></li><li><a href='#drawArrays'>drawArrays</a></li><li><a href='#drawElements'>drawElements</a></li><li><a href='#enable'>enable</a></li><li><a href='#enableVertexAttribArray'>enableVertexAttribArray</a></li><li><a href='#finish'>finish</a></li><li><a href='#flush'>flush</a></li><li><a href='#framebufferRenderbuffer'>framebufferRenderbuffer</a></li><li><a href='#framebufferTexture2D'>framebufferTexture2D</a></li><li><a href='#frontFace'>frontFace</a></li><li><a href='#generateMipmap'>generateMipmap</a></li><li><a href='#getAttribLocation'>getAttribLocation</a></li><li><a href='#getProgramParameter'>getProgramParameter</a></li><li><a href='#getShaderInfoLog'>getShaderInfoLog</a></li><li><a href='#getShaderParameter'>getShaderParameter</a></li><li><a href='#getUniformLocation'>getUniformLocation</a></li><li><a href='#hint'>hint</a></li><li><a href='#isBuffer'>isBuffer</a></li><li><a href='#isEnabled'>isEnabled</a></li><li><a href='#isFramebuffer'>isFramebuffer</a></li><li><a href='#isProgram'>isProgram</a></li><li><a href='#isRenderbuffer'>isRenderbuffer</a></li><li><a href='#isShader'>isShader</a></li><li><a href='#isTexture'>isTexture</a></li><li><a href='#lineWidth'>lineWidth</a></li><li><a href='#linkProgram'>linkProgram</a></li><li><a href='#pixelStorei'>pixelStorei</a></li><li><a href='#polygonOffset'>polygonOffset</a></li><li><a href='#renderbufferStorage'>renderbufferStorage</a></li><li><a href='#sampleCoverage'>sampleCoverage</a></li><li><a href='#scissor'>scissor</a></li><li><a href='#shaderSource'>shaderSource</a></li><li><a href='#stencilFunc'>stencilFunc</a></li><li><a href='#stencilFuncSeparate'>stencilFuncSeparate</a></li><li><a href='#stencilMask'>stencilMask</a></li><li><a href='#stencilMaskSeparate'>stencilMaskSeparate</a></li><li><a href='#stencilOp'>stencilOp</a></li><li><a href='#stencilOpSeparate'>stencilOpSeparate</a></li><li><a href='#texImage2D'>texImage2D</a></li><li><a href='#texImage2DBuffer'>texImage2DBuffer</a></li><li><a href='#texParameterf'>texParameterf</a></li><li><a href='#texParameteri'>texParameteri</a></li><li><a href='#uniform1f'>uniform1f</a></li><li><a href='#uniform1i'>uniform1i</a></li><li><a href='#uniform2f'>uniform2f</a></li><li><a href='#uniform2i'>uniform2i</a></li><li><a href='#uniform3f'>uniform3f</a></li><li><a href='#uniform3i'>uniform3i</a></li><li><a href='#uniform4f'>uniform4f</a></li><li><a href='#uniform4i'>uniform4i</a></li><li><a href='#uniformMatrix4fv'>uniformMatrix4fv</a></li><li><a href='#useProgram'>useProgram</a></li><li><a href='#validateProgram'>validateProgram</a></li><li><a href='#vertexAttrib1f'>vertexAttrib1f</a></li><li><a href='#vertexAttrib2f'>vertexAttrib2f</a></li><li><a href='#vertexAttrib3f'>vertexAttrib3f</a></li><li><a href='#vertexAttrib4f'>vertexAttrib4f</a></li><li><a href='#vertexAttribPointer'>vertexAttribPointer</a></li><li><a href='#viewport'>viewport</a></li></ul>
+</div>
+</div>
+</body>
+</html>

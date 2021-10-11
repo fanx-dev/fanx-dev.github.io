@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>syntax::SyntaxRules</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='SyntaxRules.html'>SyntaxRules</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> syntax::SyntaxRules</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  syntax::SyntaxRules</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html'>Source</a></p>
+
+<p>SyntaxRules defines the syntax rules used to parse a specific programming language.</p>
+<dl>
+<dt id='blockCommentEnd'>
+blockCommentEnd</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> blockCommentEnd</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line101'>Source</a></p>
+
+<p>End token for multi-line block comments</p>
+</dd>
+<dt id='blockCommentStart'>
+blockCommentStart</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> blockCommentStart</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line98'>Source</a></p>
+
+<p>Start token for multi-line block comments</p>
+</dd>
+<dt id='blockCommentsNest'>
+blockCommentsNest</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> blockCommentsNest := false</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line104'>Source</a></p>
+
+<p>Can block comments be nested (default is false).</p>
+</dd>
+<dt id='brackets'>
+brackets</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> brackets := &quot;(){}[]&quot;</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line85'>Source</a></p>
+
+<p>Bracket characters defaults to "()[]{}".</p>
+</dd>
+<dt id='comments'>
+comments</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;?</a> comments</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line91'>Source</a></p>
+
+<p>Start tokens for single line comments to end of line (list of strings).</p>
+</dd>
+<dt id='keywords'>
+keywords</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;?</a> keywords</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line88'>Source</a></p>
+
+<p>List of the keywords.</p>
+</dd>
+<dt id='loadForExt'>
+loadForExt</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='SyntaxRules.html'>SyntaxRules?</a> loadForExt(<a href='../sys/Str.html'>Str</a> ext)</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line23'>Source</a></p>
+
+<p>Load syntax rules for given file extension using "etc/syntax/ext.props". If no rules defined for extension return null.</p>
+</dd>
+<dt id='loadForFile'>
+loadForFile</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='SyntaxRules.html'>SyntaxRules?</a> loadForFile(<a href='../std/File.html'>File</a> file, <a href='../sys/Str.html'>Str?</a> firstLine := null)</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line37'>Source</a></p>
+
+<p>Load syntax rules for given file.  If the file has already been parse then pass the first line to avoid re-reading the file to check the "#!" shebang.  First we attempt to map the file extension to rules.  If that fails, then we check the first line to see if defines a "#!" shebang.  Return null if no rules can be determined.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line77'>Source</a></p>
+
+<p>Default constructor with it-block</p>
+</dd>
+<dt id='strs'>
+strs</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='SyntaxStr.html'>SyntaxStr</a>&gt;?</a> strs</code></p>
+<p class='src'>
+<a href='src-SyntaxRules.fan.html#line95'>Source</a></p>
+
+<p>String and character literal styles</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-SyntaxRules.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#loadForExt'>loadForExt</a></li><li><a href='#loadForFile'>loadForFile</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#blockCommentEnd'>blockCommentEnd</a></li><li><a href='#blockCommentStart'>blockCommentStart</a></li><li><a href='#blockCommentsNest'>blockCommentsNest</a></li><li><a href='#brackets'>brackets</a></li><li><a href='#comments'>comments</a></li><li><a href='#keywords'>keywords</a></li><li><a href='#strs'>strs</a></li></ul>
+</div>
+</div>
+</body>
+</html>

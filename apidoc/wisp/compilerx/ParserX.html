@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::ParserX</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='ParserX.html'>ParserX</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::ParserX</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::ParserX</pre>
+
+<p>Parser is responsible for parsing a list of tokens into the abstract syntax tree.  At this point the CompilationUnit, Usings, and TypeDefs are already populated by the ScanForUsingAndTypes step.</p>
+<dl>
+<dt id='block'>
+block</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Block.html'>Block?</a> block()</code></p>
+
+<p>Top level for blocks which must be surrounded by braces</p>
+</dd>
+<dt id='consume'>
+consume</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='TokenVal.html'>TokenVal</a> consume(<a href='Token.html'>Token?</a> kind := null)</code></p>
+
+<p>Consume the current token and return consumed token. If kind is non-null then verify first</p>
+</dd>
+<dt id='consumeId'>
+consumeId</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Str.html'>Str</a> consumeId()</code></p>
+
+<p>Verify current is an identifier, consume it, and return it.</p>
+</dd>
+<dt id='ctype'>
+ctype</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='CType.html'>CType</a> ctype(<a href='../sys/Bool.html'>Bool</a> isTypeRef := false)</code></p>
+
+<p>Type signature:</p>
+
+<pre>&lt;type>      :=  &lt;simpleType> | &lt;listType> | &lt;mapType> | &lt;funcType>
+&lt;listType>  :=  &lt;type> "[]"
+&lt;mapType>   :=  ["["] &lt;type> ":" &lt;type> ["]"]</pre>
+</dd>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='TokenVal.html'>TokenVal?</a> cur</code></p>
+</dd>
+<dt id='curClosure'>
+curClosure</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='ClosureExpr.html'>ClosureExpr?</a> curClosure</code></p>
+</dd>
+<dt id='curSlot'>
+curSlot</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='SlotDef.html'>SlotDef?</a> curSlot</code></p>
+</dd>
+<dt id='curType'>
+curType</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='TypeDef.html'>TypeDef?</a> curType</code></p>
+</dd>
+<dt id='curt'>
+curt</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='Token.html'>Token?</a> curt</code></p>
+</dd>
+<dt id='defGet'>
+defGet</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='MethodDef.html'>MethodDef</a> defGet(<a href='FieldDef.html'>FieldDef</a> f)</code></p>
+</dd>
+<dt id='defSet'>
+defSet</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='MethodDef.html'>MethodDef</a> defSet(<a href='FieldDef.html'>FieldDef</a> f)</code></p>
+</dd>
+<dt id='endLoc'>
+endLoc</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> endLoc(<a href='CNode.html'>CNode</a> node)</code></p>
+
+<p>update loc.len field</p>
+</dd>
+<dt id='endOfStmt'>
+endOfStmt</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Bool.html'>Bool</a> endOfStmt(<a href='../sys/Str.html'>Str?</a> errMsg := ...)</code></p>
+
+<p>Statements can be terminated with a semicolon, end of line or } end of block.   Return true on success.  On failure return false if errMsg is null or log/throw an exception.</p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerErr.html'>CompilerErr</a> err(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+</dd>
+<dt id='expr'>
+expr</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Expr.html'>Expr?</a> expr()</code></p>
+</dd>
+<dt id='funcType'>
+funcType</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='FuncTypeDef.html'>FuncTypeDef</a> funcType(<a href='../sys/Bool.html'>Bool</a> isTypeRef)</code></p>
+
+<p>Method type signature:</p>
+
+<pre>&lt;funcType>       :=  "|" ("->" | &lt;funcTypeSig>) "|"
+&lt;funcTypeSig>    :=  &lt;formals> ["->" &lt;type>]
+&lt;formals>        :=  [&lt;formal> ("," &lt;formal>)*]
+&lt;formal>         :=  &lt;formFull> | &lt;formalInferred> | &lt;formalTypeOnly>
+&lt;formalFull>     :=  &lt;type> &lt;id>
+&lt;formalInferred> :=  &lt;id>
+&lt;formalTypeOnly> :=  &lt;type></pre>
+
+<p>If isTypeRef is true (slot signatures), then we requrie explicit parameter types.</p>
+</dd>
+<dt id='inFieldInit'>
+inFieldInit</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Bool.html'>Bool</a> inFieldInit</code></p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerLog.html'>CompilerLog</a> log</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CompilerLog.html'>CompilerLog</a> log, <a href='../sys/Str.html'>Str</a> code, <a href='CompilationUnit.html'>CompilationUnit</a> unit)</code></p>
+
+<p>Construct the parser for the specified compilation unit.</p>
+</dd>
+<dt id='makeSimple'>
+makeSimple</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ParserX.html'>ParserX</a> makeSimple(<a href='../sys/Str.html'>Str</a> code, <a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> deep := true)</code></p>
+</dd>
+<dt id='numTokens'>
+numTokens</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Int.html'>Int</a> numTokens</code></p>
+</dd>
+<dt id='parse'>
+parse</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> parse()</code></p>
+
+<p>Top level parse a compilation unit:</p>
+
+<pre>&lt;compilationUnit> :=  [&lt;usings>] &lt;typeDef>*</pre>
+</dd>
+<dt id='peek'>
+peek</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='TokenVal.html'>TokenVal?</a> peek</code></p>
+</dd>
+<dt id='peekpeek'>
+peekpeek</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='TokenVal.html'>TokenVal</a> peekpeek()</code></p>
+
+<p>next next token</p>
+</dd>
+<dt id='peekt'>
+peekt</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='Token.html'>Token?</a> peekt</code></p>
+</dd>
+<dt id='pos'>
+pos</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Int.html'>Int</a> pos</code></p>
+</dd>
+<dt id='reset'>
+reset</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> reset(<a href='../sys/Int.html'>Int</a> pos)</code></p>
+
+<p>Reset the current position to the specified tokens index.</p>
+</dd>
+<dt id='suppressErr'>
+suppressErr</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Bool.html'>Bool</a> suppressErr := false</code></p>
+</dd>
+<dt id='tokens'>
+tokens</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='TokenVal.html'>TokenVal</a>&gt;</a> tokens</code></p>
+</dd>
+<dt id='typeDef'>
+typeDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> typeDef()</code></p>
+
+<p>TypeDef:</p>
+
+<pre>&lt;typeDef>      :=  &lt;classDef> | &lt;mixinDef> | &lt;enumDef> | &lt;facetDef>
+
+&lt;classDef>     :=  &lt;classHeader> &lt;classBody>
+&lt;classHeader>  :=  [&lt;doc>] &lt;facets> &lt;typeFlags> "class" [&lt;inheritance>]
+&lt;classFlags>   :=  [&lt;protection>] ["abstract"] ["final"]
+&lt;classBody>    :=  "{" &lt;slotDefs> "}"
+
+&lt;enumDef>      :=  &lt;enumHeader> &lt;enumBody>
+&lt;enumHeader>   :=  [&lt;doc>] &lt;facets> &lt;protection> "enum" [&lt;inheritance>]
+&lt;enumBody>     :=  "{" &lt;enumDefs> &lt;slotDefs> "}"
+
+&lt;facetDef      :=  &lt;facetHeader> &lt;enumBody>
+&lt;facetHeader>  :=  [&lt;doc>] &lt;facets> [&lt;protection>] "facet" "class" &lt;id> [&lt;inheritance>]
+&lt;facetBody>    :=  "{" &lt;slotDefs> "}"
+
+&lt;mixinDef>     :=  &lt;enumHeader> &lt;enumBody>
+&lt;mixinHeader>  :=  [&lt;doc>] &lt;facets> &lt;protection> "mixin" [&lt;inheritance>]
+&lt;mixinBody>    :=  "{" &lt;slotDefs> "}"
+
+&lt;protection>   :=  "public" | "protected" | "private" | "internal"
+&lt;inheritance>  :=  ":" &lt;typeList></pre>
+</dd>
+<dt id='typeRef'>
+typeRef</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='CType.html'>CType</a> typeRef()</code></p>
+
+<p>Parse a type production into a CType and wrap it as AST TypeRef.</p>
+</dd>
+<dt id='unit'>
+unit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilationUnit.html'>CompilationUnit</a> unit</code></p>
+</dd>
+<dt id='verify'>
+verify</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> verify(<a href='Token.html'>Token</a> kind)</code></p>
+
+<p>Check that the current token matches the specified type, but do not consume it.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defGet'>defGet</a></li><li><a href='#defSet'>defSet</a></li><li><a href='#make'>make</a></li><li><a href='#makeSimple'>makeSimple</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#block'>block</a></li><li><a href='#consume'>consume</a></li><li><a href='#consumeId'>consumeId</a></li><li><a href='#ctype'>ctype</a></li><li><a href='#cur'>cur</a></li><li><a href='#curClosure'>curClosure</a></li><li><a href='#curSlot'>curSlot</a></li><li><a href='#curType'>curType</a></li><li><a href='#curt'>curt</a></li><li><a href='#endLoc'>endLoc</a></li><li><a href='#endOfStmt'>endOfStmt</a></li><li><a href='#err'>err</a></li><li><a href='#expr'>expr</a></li><li><a href='#funcType'>funcType</a></li><li><a href='#inFieldInit'>inFieldInit</a></li><li><a href='#log'>log</a></li><li><a href='#numTokens'>numTokens</a></li><li><a href='#parse'>parse</a></li><li><a href='#peek'>peek</a></li><li><a href='#peekpeek'>peekpeek</a></li><li><a href='#peekt'>peekt</a></li><li><a href='#pos'>pos</a></li><li><a href='#reset'>reset</a></li><li><a href='#suppressErr'>suppressErr</a></li><li><a href='#tokens'>tokens</a></li><li><a href='#typeDef'>typeDef</a></li><li><a href='#typeRef'>typeRef</a></li><li><a href='#unit'>unit</a></li><li><a href='#verify'>verify</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inet::TcpListener</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='TcpListener.html'>TcpListener</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> inet::TcpListener</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  inet::TcpListener</pre>
+<p class='src'>
+<a href='src-TcpListener.fan.html'>Source</a></p>
+
+<p>TcpListener is a server socket that listens to a local well known port for incoming TcpSockets.</p>
+<dl>
+<dt id='accept'>
+accept</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TcpSocket.html'>TcpSocket</a> accept()</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line80'>Source</a></p>
+
+<p>Accept the next incoming connection.  This method blocks the calling thread until a new connection is established.  If this listener's receiveTimeout option is configured, then accept will timeout with an IOErr.</p>
+</dd>
+<dt id='bind'>
+bind</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> bind(<a href='IpAddr.html'>IpAddr?</a> addr, <a href='../sys/Int.html'>Int?</a> port, <a href='../sys/Int.html'>Int</a> backlog := 50)</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line72'>Source</a></p>
+
+<p>Bind this listener to the specified local address.  If addr is null then the default IpAddr for the local host is selected.  If port is null an ephemeral port is selected.  Throw IOErr if the port is already bound or the bind fails.  Return this.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line89'>Source</a></p>
+
+<p>Close this server socket.  This method is guaranteed to never throw an IOErr.  Return true if the socket was closed successfully or false if the socket was closed abnormally.</p>
+</dd>
+<dt id='config'>
+config</dt>
+<dd>
+<p class='sig'>
+<code> <a href='SocketConfig.html'>SocketConfig</a> config()</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line39'>Source</a></p>
+
+<p>The <code><a href='SocketConfig.html'>SocketConfig</a></code> being used to configure the server sockets.</p>
+</dd>
+<dt id='isBound'>
+isBound</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isBound()</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line44'>Source</a></p>
+
+<p>Is this socket bound to a local address and port.</p>
+</dd>
+<dt id='isClosed'>
+isClosed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isClosed()</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line49'>Source</a></p>
+
+<p>Is this socket closed.</p>
+</dd>
+<dt id='localAddr'>
+localAddr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='IpAddr.html'>IpAddr?</a> localAddr()</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line58'>Source</a></p>
+
+<p>Get the bound local address or null if unbound.</p>
+</dd>
+<dt id='localPort'>
+localPort</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> localPort()</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line63'>Source</a></p>
+
+<p>Get the bound local port or null if unbound.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='SocketConfig.html'>SocketConfig</a> config := SocketConfig.cur())</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line21'>Source</a></p>
+
+<p>Create a new, unbound TCP server socket. The socket will be configured using the given <code><a href='SocketConfig.html'>socket configuration</a></code>. The following configuration applies to listeners:</p>
+
+<ul>
+<li><code><a href='SocketConfig.html#receiveBufferSize'>SocketConfig.receiveBufferSize</a></code></li>
+
+<li><code><a href='SocketConfig.html#reuseAddr'>SocketConfig.reuseAddr</a></code></li>
+</ul>
+</dd>
+<dt id='options'>
+options</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=&quot;Use SocketConfig&quot; }</code><br /> <a href='SocketOptions.html'>SocketOptions</a> options()</code></p>
+<p class='src'>
+<a href='src-TcpListener.fan.html#line100'>Source</a></p>
+
+<p>Access the SocketOptions used to tune this server socket. The following options apply to TcpListeners:</p>
+
+<ul>
+<li>receiveBufferSize</li>
+
+<li>reuseAddr</li>
+
+<li>receiveTimeout Accessing other option fields will throw UnsupportedErr.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-TcpListener.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#accept'>accept</a></li><li><a href='#bind'>bind</a></li><li><a href='#close'>close</a></li><li><a href='#config'>config</a></li><li><a href='#isBound'>isBound</a></li><li><a href='#isClosed'>isClosed</a></li><li><a href='#localAddr'>localAddr</a></li><li><a href='#localPort'>localPort</a></li><li><a href='#options'>options</a></li></ul>
+</div>
+</div>
+</body>
+</html>

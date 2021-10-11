@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::Win</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Win.html'>Win</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> dom::Win</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::Win</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Win.fan.html'>Source</a></p>
+
+<p>Win models the DOM window object.</p>
+
+<p>See <a href='index.html#win'>pod doc</a> for details.</p>
+<dl>
+<dt id='addStyleRules'>
+addStyleRules</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> addStyleRules(<a href='../sys/Str.html'>Str</a> rules)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line63'>Source</a></p>
+
+<p>Add new CSS style rules to this page.</p>
+</dd>
+<dt id='alert'>
+alert</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> alert(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line66'>Source</a></p>
+
+<p>Display a modal message box with the given text.</p>
+</dd>
+<dt id='clearInterval'>
+clearInterval</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> clearInterval(<a href='../sys/Int.html'>Int</a> intervalId)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line175'>Source</a></p>
+
+<p>Cancels a repeated action which was set up using <code><a href='Win.html#setInterval'>setInterval</a></code>.</p>
+</dd>
+<dt id='clearTimeout'>
+clearTimeout</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> clearTimeout(<a href='../sys/Int.html'>Int</a> timeoutId)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line167'>Source</a></p>
+
+<p>Clears the delay set by <code><a href='Win.html#setTimeout'>setTimeout</a></code>.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Win.html'>Win</a> close()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line52'>Source</a></p>
+
+<p>Close this window.  Only applicable to windows created with <code><a href='Win.html#open'>open</a></code>. Otherwise method has no effect.  Returns this.</p>
+</dd>
+<dt id='confirm'>
+confirm</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> confirm(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line69'>Source</a></p>
+
+<p>Display a confirmation dialog box with the given text. Returns <code>true</code> if <code>ok</code> was selected, <code>false</code> othterwise.</p>
+</dd>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Win.html'>Win</a> cur()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line42'>Source</a></p>
+
+<p>Return the current window instance.</p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Doc.html'>Doc</a> doc()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line60'>Source</a></p>
+
+<p>Return the Doc instance for this window.</p>
+</dd>
+<dt id='eval'>
+eval</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Obj.html'>Obj</a> eval(<a href='../sys/Str.html'>Str</a> js)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line88'>Source</a></p>
+
+<p>Evaluate given JavaScript code.</p>
+</dd>
+<dt id='geoClearWatch'>
+geoClearWatch</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> geoClearWatch(<a href='../sys/Int.html'>Int</a> id)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line193'>Source</a></p>
+
+<p>Unregister location/error monitoring handlers previously installed using <code><a href='Win.html#geoWatchPosition'>geoWatchPosition</a></code>. This feature is only available in secure contexts (HTTPS).</p>
+</dd>
+<dt id='geoCurPosition'>
+geoCurPosition</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> geoCurPosition(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='DomCoord.html'>DomCoord</a>&gt;</a> onSuccess, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Err.html'>Err</a>&gt;?</a> onErr := null, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> opts := null)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line182'>Source</a></p>
+
+<p>Get the the current position of this device. This feature is only available in secure contexts (HTTPS).</p>
+</dd>
+<dt id='geoWatchPosition'>
+geoWatchPosition</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> geoWatchPosition(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='DomCoord.html'>DomCoord</a>&gt;</a> onSuccess, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Err.html'>Err</a>&gt;?</a> onErr := null, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> opts := null)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line186'>Source</a></p>
+
+<p>Register a handler function that will be called automatically each time the position of the device changes. This method returns a watch ID value that then can be used to unregister the handler with the <code><a href='Win.html#geoClearWatch'>geoClearWatch</a></code> method. This feature is only available in secure contexts (HTTPS).</p>
+</dd>
+<dt id='hisBack'>
+hisBack</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> hisBack()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line124'>Source</a></p>
+
+<p>Go to previous page in session history.</p>
+</dd>
+<dt id='hisForward'>
+hisForward</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> hisForward()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line127'>Source</a></p>
+
+<p>Go to next page in the session history.</p>
+</dd>
+<dt id='hisPushState'>
+hisPushState</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> hisPushState(<a href='../sys/Str.html'>Str</a> title, <a href='../std/Uri.html'>Uri</a> uri, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> map)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line131'>Source</a></p>
+
+<p>Push a new history item onto the history stack. Use <code>onpopstate</code> to listen for changes:</p>
+
+<pre>// Event.stash contains state map passed into pushState
+Win.cur.onEvent("popstate", false) |e| { echo("# state: $e.stash") }</pre>
+</dd>
+<dt id='hisReplaceState'>
+hisReplaceState</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> hisReplaceState(<a href='../sys/Str.html'>Str</a> title, <a href='../std/Uri.html'>Uri</a> uri, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> map)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line140'>Source</a></p>
+
+<p>Modify the current history item.</p>
+</dd>
+<dt id='hyperlink'>
+hyperlink</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> hyperlink(<a href='../std/Uri.html'>Uri</a> uri)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line114'>Source</a></p>
+
+<p>Hyperlink to the given Uri in this window.</p>
+</dd>
+<dt id='localStorage'>
+localStorage</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Storage.html'>Storage</a> localStorage()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line205'>Source</a></p>
+
+<p>Return local storage instance for window.</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj</a> log(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line91'>Source</a></p>
+
+<p>Log object to console.</p>
+</dd>
+<dt id='onEvent'>
+onEvent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func</a> onEvent(<a href='../sys/Str.html'>Str</a> type, <a href='../sys/Bool.html'>Bool</a> useCapture, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Event.html'>Event</a>&gt;</a> handler)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line148'>Source</a></p>
+
+<p>Attach an event handler for the given event on this window. Returns callback function instance.</p>
+</dd>
+<dt id='open'>
+open</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Win.html'>Win</a> open(<a href='../std/Uri.html'>Uri</a> uri := `about:blank`, <a href='../sys/Str.html'>Str?</a> winName := null, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> opts := null)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line49'>Source</a></p>
+
+<p>Open a new window. Returns the new window instance.</p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Win.html'>Win?</a> parent()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line79'>Source</a></p>
+
+<p>Returns a reference to the parent of the current window or subframe, or null if this is the top-most window.</p>
+</dd>
+<dt id='reload'>
+reload</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> reload(<a href='../sys/Bool.html'>Bool</a> force := false)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line117'>Source</a></p>
+
+<p>Reload the current page. Use <code>force</code> to bypass browse cache.</p>
+</dd>
+<dt id='removeEvent'>
+removeEvent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> removeEvent(<a href='../sys/Str.html'>Str</a> type, <a href='../sys/Bool.html'>Bool</a> useCapture, <a href='../sys/Func.html'>Func</a> handler)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line152'>Source</a></p>
+
+<p>Remove the given event handler from this window.  If this handler was not registered, this method does nothing.</p>
+</dd>
+<dt id='reqAnimationFrame'>
+reqAnimationFrame</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> reqAnimationFrame(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line156'>Source</a></p>
+
+<p>Request the browser to perform an animation before the next repaint.</p>
+</dd>
+<dt id='screenSize'>
+screenSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../graphics/Size.html'>Size</a> screenSize()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line76'>Source</a></p>
+
+<p>Return the size of the screen in pixels.</p>
+</dd>
+<dt id='scrollBy'>
+scrollBy</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> scrollBy(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line104'>Source</a></p>
+
+<p>Scrolls the document in the window by the given amount.</p>
+</dd>
+<dt id='scrollPos'>
+scrollPos</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../graphics/Point.html'>Point</a> scrollPos()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line98'>Source</a></p>
+
+<p>Return current scroll position of document in this window.</p>
+</dd>
+<dt id='scrollTo'>
+scrollTo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> scrollTo(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line101'>Source</a></p>
+
+<p>Scrolls to a particular set of coordinates in the document.</p>
+</dd>
+<dt id='sessionStorage'>
+sessionStorage</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Storage.html'>Storage</a> sessionStorage()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line202'>Source</a></p>
+
+<p>Return session storage instance for window.</p>
+</dd>
+<dt id='setInterval'>
+setInterval</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> setInterval(<a href='../std/Duration.html'>Duration</a> delay, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line170'>Source</a></p>
+
+<p>Calls a function repeatedly, with a fixed time delay between each call to that function. Returns an intervalId that can be used in <code><a href='Win.html#clearInterval'>clearInterval</a></code>.</p>
+</dd>
+<dt id='setTimeout'>
+setTimeout</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> setTimeout(<a href='../std/Duration.html'>Duration</a> delay, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line163'>Source</a></p>
+
+<p>Call the specified function after a specified delay. Returns a timeoutId that can be used in <code><a href='Win.html#clearTimeout'>clearTimeout</a></code>.</p>
+</dd>
+<dt id='top'>
+top</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Win.html'>Win</a> top()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line83'>Source</a></p>
+
+<p>Returns a reference to the topmost window in the window hierarchy.  If this window is the topmost window, returns self.</p>
+</dd>
+<dt id='uri'>
+uri</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri</a> uri()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line111'>Source</a></p>
+
+<p>Get the Uri for this window.</p>
+</dd>
+<dt id='viewport'>
+viewport</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../graphics/Size.html'>Size</a> viewport()</code></p>
+<p class='src'>
+<a href='src-Win.fan.html#line73'>Source</a></p>
+
+<p>Return the size of the window viewport in pixels.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Win.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cur'>cur</a></li><li><a href='#eval'>eval</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addStyleRules'>addStyleRules</a></li><li><a href='#alert'>alert</a></li><li><a href='#clearInterval'>clearInterval</a></li><li><a href='#clearTimeout'>clearTimeout</a></li><li><a href='#close'>close</a></li><li><a href='#confirm'>confirm</a></li><li><a href='#doc'>doc</a></li><li><a href='#geoClearWatch'>geoClearWatch</a></li><li><a href='#geoCurPosition'>geoCurPosition</a></li><li><a href='#geoWatchPosition'>geoWatchPosition</a></li><li><a href='#hisBack'>hisBack</a></li><li><a href='#hisForward'>hisForward</a></li><li><a href='#hisPushState'>hisPushState</a></li><li><a href='#hisReplaceState'>hisReplaceState</a></li><li><a href='#hyperlink'>hyperlink</a></li><li><a href='#localStorage'>localStorage</a></li><li><a href='#log'>log</a></li><li><a href='#onEvent'>onEvent</a></li><li><a href='#open'>open</a></li><li><a href='#parent'>parent</a></li><li><a href='#reload'>reload</a></li><li><a href='#removeEvent'>removeEvent</a></li><li><a href='#reqAnimationFrame'>reqAnimationFrame</a></li><li><a href='#screenSize'>screenSize</a></li><li><a href='#scrollBy'>scrollBy</a></li><li><a href='#scrollPos'>scrollPos</a></li><li><a href='#scrollTo'>scrollTo</a></li><li><a href='#sessionStorage'>sessionStorage</a></li><li><a href='#setInterval'>setInterval</a></li><li><a href='#setTimeout'>setTimeout</a></li><li><a href='#top'>top</a></li><li><a href='#uri'>uri</a></li><li><a href='#viewport'>viewport</a></li></ul>
+</div>
+</div>
+</body>
+</html>

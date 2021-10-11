@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inet::TcpSocket</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='TcpSocket.html'>TcpSocket</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> inet::TcpSocket</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  inet::TcpSocket</pre>
+<p class='src'>
+<a href='src-TcpSocket.fan.html'>Source</a></p>
+
+<p>TcpSocket manages a TCP/IP endpoint.</p>
+<dl>
+<dt id='bind'>
+bind</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> bind(<a href='IpAddr.html'>IpAddr?</a> addr, <a href='../sys/Int.html'>Int?</a> port)</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line94'>Source</a></p>
+
+<p>Bind this socket to the specified local address.  If addr is null then the default IpAddr for the local host is selected.  If port is null an ephemeral port is selected.  Throw IOErr if the port is already bound or the bind fails.  Return this.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line131'>Source</a></p>
+
+<p>Close this socket and its associated IO streams.  This method is guaranteed to never throw an IOErr.  Return true if the socket was closed successfully or false if the socket was closed abnormally.</p>
+</dd>
+<dt id='config'>
+config</dt>
+<dd>
+<p class='sig'>
+<code> <a href='SocketConfig.html'>SocketConfig</a> config()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line46'>Source</a></p>
+
+<p>Get the <code><a href='SocketConfig.html'>socket configuration</a></code> for this socket.</p>
+</dd>
+<dt id='connect'>
+connect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> connect(<a href='IpAddr.html'>IpAddr</a> addr, <a href='../sys/Int.html'>Int</a> port, <a href='../std/Duration.html'>Duration?</a> timeout := this.config().connectTimeout)</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line102'>Source</a></p>
+
+<p>Connect this socket to the specified address and port.  This method will block until the connection is made.  Throw IOErr if there is a connection error.  If a non-null timeout is specified, then block no longer then the specified timeout before raising an IOErr.  If timeout is null, then a system default is used.  The default timeout is configured via <code><a href='SocketConfig.html#connectTimeout'>SocketConfig.connectTimeout</a></code>.</p>
+</dd>
+<dt id='in'>
+in</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/InStream.html'>InStream</a> in()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line117'>Source</a></p>
+
+<p>Get the input stream used to read data from the socket.  The input stream is automatically buffered according to SocketOptions.inBufferSize. If not connected then throw IOErr.</p>
+</dd>
+<dt id='isBound'>
+isBound</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isBound()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line51'>Source</a></p>
+
+<p>Is this socket bound to a local address and port.</p>
+</dd>
+<dt id='isClosed'>
+isClosed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isClosed()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line61'>Source</a></p>
+
+<p>Is this socket closed.</p>
+</dd>
+<dt id='isConnected'>
+isConnected</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isConnected()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line56'>Source</a></p>
+
+<p>Is this socket connected to the remote host.</p>
+</dd>
+<dt id='localAddr'>
+localAddr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='IpAddr.html'>IpAddr?</a> localAddr()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line70'>Source</a></p>
+
+<p>Get the bound local address or null if unbound.</p>
+</dd>
+<dt id='localPort'>
+localPort</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> localPort()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line75'>Source</a></p>
+
+<p>Get the bound local port or null if unbound.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='SocketConfig.html'>SocketConfig</a> config := SocketConfig.cur())</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html'>Source</a></p>
+
+<p>Make a new unbound, unconnected TCP socket. The socket will be configured using the given <code><a href='SocketConfig.html'>socket configuration</a></code>. The following configuration applies to a TCP socket:</p>
+
+<ul>
+<li><code><a href='SocketConfig.html#inBufferSize'>SocketConfig.inBufferSize</a></code></li>
+
+<li><code><a href='SocketConfig.html#outBufferSize'>SocketConfig.outBufferSize</a></code></li>
+
+<li><code><a href='SocketConfig.html#keepAlive'>SocketConfig.keepAlive</a></code></li>
+
+<li><code><a href='SocketConfig.html#receiveBufferSize'>SocketConfig.receiveBufferSize</a></code></li>
+
+<li><code><a href='SocketConfig.html#sendBufferSize'>SocketConfig.sendBufferSize</a></code></li>
+
+<li><code><a href='SocketConfig.html#reuseAddr'>SocketConfig.reuseAddr</a></code></li>
+
+<li><code><a href='SocketConfig.html#linger'>SocketConfig.linger</a></code></li>
+
+<li><code><a href='SocketConfig.html#receiveTimeout'>SocketConfig.receiveTimeout</a></code></li>
+
+<li><code><a href='SocketConfig.html#noDelay'>SocketConfig.noDelay</a></code></li>
+
+<li><code><a href='SocketConfig.html#trafficClass'>SocketConfig.trafficClass</a></code></li>
+</ul>
+</dd>
+<dt id='options'>
+options</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=&quot;Use SocketConfig&quot; }</code><br /> <a href='SocketOptions.html'>SocketOptions</a> options()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line156'>Source</a></p>
+
+<p>Access the SocketOptions used to tune this socket.  The following options apply to TcpSockets:</p>
+
+<ul>
+<li>inBufferSize</li>
+
+<li>outBufferSize</li>
+
+<li>keepAlive</li>
+
+<li>receiveBufferSize</li>
+
+<li>sendBufferSize</li>
+
+<li>reuseAddr</li>
+
+<li>linger</li>
+
+<li>receiveTimeout</li>
+
+<li>noDelay</li>
+
+<li>trafficClass Accessing other option fields will throw UnsupportedErr.</li>
+</ul>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/OutStream.html'>OutStream</a> out()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line124'>Source</a></p>
+
+<p>Get the output stream used to write data to the socket.  The output stream is automatically buffered according to SocketOptions.outBufferSize If not connected then throw IOErr.</p>
+</dd>
+<dt id='remoteAddr'>
+remoteAddr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='IpAddr.html'>IpAddr?</a> remoteAddr()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line80'>Source</a></p>
+
+<p>Get the remote address or null if not connected.</p>
+</dd>
+<dt id='remotePort'>
+remotePort</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> remotePort()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line85'>Source</a></p>
+
+<p>Get the remote port or null if not connected.</p>
+</dd>
+<dt id='shutdownIn'>
+shutdownIn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> shutdownIn()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line138'>Source</a></p>
+
+<p>Place input stream for socket at "end of stream".  Any data sent to input side of socket is acknowledged and then silently discarded. Raise IOErr if error occurs.</p>
+</dd>
+<dt id='shutdownOut'>
+shutdownOut</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> shutdownOut()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line145'>Source</a></p>
+
+<p>Disables the output stream for this socket. Any previously written data will be sent followed by TCP's normal connection termination sequence.  Raise IOErr if error occurs.</p>
+</dd>
+<dt id='upgradeTls'>
+upgradeTls</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TcpSocket.html'>TcpSocket</a> upgradeTls()</code></p>
+<p class='src'>
+<a href='src-TcpSocket.fan.html#line112'>Source</a></p>
+
+<p>Get a new TCP socket that is upgrade to use TLS.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-TcpSocket.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bind'>bind</a></li><li><a href='#close'>close</a></li><li><a href='#config'>config</a></li><li><a href='#connect'>connect</a></li><li><a href='#in'>in</a></li><li><a href='#isBound'>isBound</a></li><li><a href='#isClosed'>isClosed</a></li><li><a href='#isConnected'>isConnected</a></li><li><a href='#localAddr'>localAddr</a></li><li><a href='#localPort'>localPort</a></li><li><a href='#options'>options</a></li><li><a href='#out'>out</a></li><li><a href='#remoteAddr'>remoteAddr</a></li><li><a href='#remotePort'>remotePort</a></li><li><a href='#shutdownIn'>shutdownIn</a></li><li><a href='#shutdownOut'>shutdownOut</a></li><li><a href='#upgradeTls'>upgradeTls</a></li></ul>
+</div>
+</div>
+</body>
+</html>

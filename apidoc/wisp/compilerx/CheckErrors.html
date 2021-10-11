@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CheckErrors</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CheckErrors.html'>CheckErrors</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::CheckErrors</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerStep.html'>compilerx::CompilerStep</a>
+    compilerx::CheckErrors : <a href='Coerce.html'>compilerx::Coerce</a></pre>
+
+<p>CheckErrors walks the tree of statements and expressions looking for errors the compiler can detect such as invalid type usage.  We attempt to leave all the error reporting to this step, so that we can batch report as many errors as possible.</p>
+
+<p>Since CheckErrors already performs a full tree walk down to each leaf expression, we also do a couple of other AST decorations in this step:</p>
+
+<pre>1) add temp local for field assignments like return ++x
+2) add temp local for returns inside protected region
+3) check for field accessor optimization
+4) check for field storage requirements
+5) add implicit coersions: auto-casts, boxing, to non-nullable
+6) implicit call to toImmutable when assigning to const field
+7) mark ClosureExpr.setsConst</pre>
+<dl>
+<dt id='checkFacet'>
+checkFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> checkFacet(<a href='FacetDef.html'>FacetDef</a> f)</code></p>
+</dd>
+<dt id='checkFacets'>
+checkFacets</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> checkFacets(<a href='../sys/List.html'>List&lt;<a href='FacetDef.html'>FacetDef</a>&gt;?</a> facets)</code></p>
+</dd>
+<dt id='enterFinally'>
+enterFinally</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> enterFinally(<a href='TryStmt.html'>TryStmt</a> stmt)</code></p>
+</dd>
+<dt id='enterStmt'>
+enterStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> enterStmt(<a href='Stmt.html'>Stmt</a> stmt)</code></p>
+</dd>
+<dt id='exitFinally'>
+exitFinally</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> exitFinally(<a href='TryStmt.html'>TryStmt</a> stmt)</code></p>
+</dd>
+<dt id='exitStmt'>
+exitStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> exitStmt(<a href='Stmt.html'>Stmt</a> stmt)</code></p>
+</dd>
+<dt id='isRestrictedName'>
+isRestrictedName</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isRestrictedName(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='isSlotVisible'>
+isSlotVisible</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isSlotVisible(<a href='TypeDef.html'>TypeDef</a> curType, <a href='CSlot.html'>CSlot</a> slot)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CompilerContext.html'>CompilerContext</a> compiler)</code></p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+<dt id='visitExpr'>
+visitExpr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Expr.html'>Expr</a> visitExpr(<a href='Expr.html'>Expr</a> expr)</code></p>
+</dd>
+<dt id='visitFieldDef'>
+visitFieldDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> visitFieldDef(<a href='FieldDef.html'>FieldDef</a> f)</code></p>
+</dd>
+<dt id='visitMethodDef'>
+visitMethodDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> visitMethodDef(<a href='MethodDef.html'>MethodDef</a> m)</code></p>
+</dd>
+<dt id='visitStmt'>
+visitStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='Stmt.html'>Stmt</a>&gt;?</a> visitStmt(<a href='Stmt.html'>Stmt</a> stmt)</code></p>
+</dd>
+<dt id='visitTypeDef'>
+visitTypeDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> visitTypeDef(<a href='TypeDef.html'>TypeDef</a> t)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#isRestrictedName'>isRestrictedName</a></li><li><a href='#isSlotVisible'>isSlotVisible</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#checkFacet'>checkFacet</a></li><li><a href='#checkFacets'>checkFacets</a></li><li><a href='#enterFinally'>enterFinally</a></li><li><a href='#enterStmt'>enterStmt</a></li><li><a href='#exitFinally'>exitFinally</a></li><li><a href='#exitStmt'>exitStmt</a></li><li><a href='#run'>run</a></li><li><a href='#visitExpr'>visitExpr</a></li><li><a href='#visitFieldDef'>visitFieldDef</a></li><li><a href='#visitMethodDef'>visitMethodDef</a></li><li><a href='#visitStmt'>visitStmt</a></li><li><a href='#visitTypeDef'>visitTypeDef</a></li></ul>
+</div>
+</div>
+</body>
+</html>

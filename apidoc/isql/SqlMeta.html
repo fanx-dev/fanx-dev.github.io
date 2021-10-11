@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>isql::SqlMeta</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>isql</a></li><li><a href='SqlMeta.html'>SqlMeta</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> isql::SqlMeta</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  isql::SqlMeta</pre>
+
+<p>SqlMeta provides access to database meta-data</p>
+<dl>
+<dt id='driverName'>
+driverName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> driverName()</code></p>
+
+<p>Name of connection driver to database</p>
+</dd>
+<dt id='driverVersion'>
+driverVersion</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Version.html'>Version</a> driverVersion()</code></p>
+
+<p>Version of of connection driver to database as "major.minor"</p>
+</dd>
+<dt id='driverVersionStr'>
+driverVersionStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> driverVersionStr()</code></p>
+
+<p>Version of of connection driver to database as free-form string</p>
+</dd>
+<dt id='maxColName'>
+maxColName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> maxColName()</code></p>
+
+<p>Max number of chars in column name or null if no known limit</p>
+</dd>
+<dt id='maxTableName'>
+maxTableName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> maxTableName()</code></p>
+
+<p>Max number of chars in table name or null if no known limit</p>
+</dd>
+<dt id='productName'>
+productName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> productName()</code></p>
+
+<p>Name of database product</p>
+</dd>
+<dt id='productVersion'>
+productVersion</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Version.html'>Version</a> productVersion()</code></p>
+
+<p>Product version of database as "major.minor"</p>
+</dd>
+<dt id='productVersionStr'>
+productVersionStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> productVersionStr()</code></p>
+
+<p>Product version of database as free-form string</p>
+</dd>
+<dt id='tableExists'>
+tableExists</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> tableExists(<a href='../sys/Str.html'>Str</a> tableName)</code></p>
+
+<p>Does the specified table exist in the database?</p>
+</dd>
+<dt id='tableMeta'>
+tableMeta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Col.html'>Col</a>&gt;</a> tableMeta(<a href='../sys/Str.html'>Str</a> tableName)</code></p>
+
+<p>Get a column meta-data for for the specified table as a prototype row instance.</p>
+</dd>
+<dt id='tables'>
+tables</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> tables()</code></p>
+
+<p>List the tables in the database.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#driverName'>driverName</a></li><li><a href='#driverVersion'>driverVersion</a></li><li><a href='#driverVersionStr'>driverVersionStr</a></li><li><a href='#maxColName'>maxColName</a></li><li><a href='#maxTableName'>maxTableName</a></li><li><a href='#productName'>productName</a></li><li><a href='#productVersion'>productVersion</a></li><li><a href='#productVersionStr'>productVersionStr</a></li><li><a href='#tableExists'>tableExists</a></li><li><a href='#tableMeta'>tableMeta</a></li><li><a href='#tables'>tables</a></li></ul>
+</div>
+</div>
+</body>
+</html>

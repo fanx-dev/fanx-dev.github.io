@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Button.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Button.html'>Button</a></li><li><a href='src-Button.fan.html'>Button.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2014, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Dec 2014  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'>using graphics</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** Button is a widget that invokes an action when pressed.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#button`,</span>
+<span id='line16'>** `ToggleButton`, `ListButton`</span>
+<span id='line17'>**</span>
+<span id='line18'>@Js class Button : Elem</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line21'>  <b>{</b></span>
+<span id='line22'>    this.style.addClass<b>(</b>"domkit-control domkit-control-button domkit-Button"<b>)</b></span>
+<span id='line23'>    this->tabIndex = 0</span>
+<span id='line24'>    this.onEvent<b>(</b>"mousedown", false<b>)</b> |e|</span>
+<span id='line25'>    <b>{</b></span>
+<span id='line26'>      e.stop</span>
+<span id='line27'>      if <b>(</b>!enabled<b>)</b> return</span>
+<span id='line28'>      this._event = e</span>
+<span id='line29'>      mouseDown = true</span>
+<span id='line30'>      doMouseDown</span>
+<span id='line31'>    <b>}</b></span>
+<span id='line32'>    this.onEvent<b>(</b>"mouseup", false<b>)</b> |e|</span>
+<span id='line33'>    <b>{</b></span>
+<span id='line34'>      if <b>(</b>!enabled<b>)</b> return</span>
+<span id='line35'>      this._event = e</span>
+<span id='line36'>      doMouseUp</span>
+<span id='line37'>      if <b>(</b>mouseDown<b>)</b></span>
+<span id='line38'>      <b>{</b></span>
+<span id='line39'>        fireAction<b>(</b>e<b>)</b></span>
+<span id='line40'>        if <b>(</b>cbPopup != null<b>)</b> openPopup</span>
+<span id='line41'>      <b>}</b></span>
+<span id='line42'>      mouseDown = false</span>
+<span id='line43'>    <b>}</b></span>
+<span id='line44'>    this.onEvent<b>(</b>"mouseleave", false<b>)</b> |e|</span>
+<span id='line45'>    <b>{</b></span>
+<span id='line46'>      if <b>(</b>!mouseDown<b>)</b> return</span>
+<span id='line47'>      this._event = e</span>
+<span id='line48'>      doMouseUp</span>
+<span id='line49'>      mouseDown = false</span>
+<span id='line50'>    <b>}</b></span>
+<span id='line51'>    this.onEvent<b>(</b>"keydown", false<b>)</b> |e|</span>
+<span id='line52'>    <b>{</b></span>
+<span id='line53'>      if <b>(</b>!enabled<b>)</b> return</span>
+<span id='line54'>      this._event = e</span>
+<span id='line55'>      if <b>(</b>e.key == Key.space || <b>(</b>this is ListButton &amp;&amp; e.key == Key.down<b>)</b><b>)</b></span>
+<span id='line56'>      <b>{</b></span>
+<span id='line57'>        doMouseDown</span>
+<span id='line58'>        if <b>(</b>cbPopup == null<b>)</b> Win.cur.setTimeout<b>(</b>100ms<b>)</b> |->| <b>{</b> fireAction<b>(</b>e<b>)</b>; doMouseUp <b>}</b></span>
+<span id='line59'>        else</span>
+<span id='line60'>        <b>{</b></span>
+<span id='line61'>          if <b>(</b>popup?.isOpen == true<b>)</b> popup.close</span>
+<span id='line62'>          else openPopup</span>
+<span id='line63'>        <b>}</b></span>
+<span id='line64'>      <b>}</b></span>
+<span id='line65'>    <b>}</b></span>
+<span id='line66'>  <b>}</b></span>
+<span id='line67'></span>
+<span id='line68'>  ** Callback when button action is invoked.</span>
+<span id='line69'>  Void onAction<b>(</b>|This| f<b>)</b> <b>{</b> this.cbAction = f <b>}</b></span>
+<span id='line70'></span>
+<span id='line71'>  ** Callback to create Popup to display when button is pressed.</span>
+<span id='line72'>  Void onPopup<b>(</b>|Button->Popup| f<b>)</b> <b>{</b> this.cbPopup = f <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  ** Offset to apply to default origin for `onPopup`.</span>
+<span id='line75'>  @NoDoc Point popupOffset := Point.defVal</span>
+<span id='line76'></span>
+<span id='line77'>// TODO: how should this work?</span>
+<span id='line78'>// TODO: something like onLazyPopup work better?</span>
+<span id='line79'>  ** Remove existing popup callback.</span>
+<span id='line80'>  @NoDoc Void removeOnPopup<b>(</b><b>)</b> <b>{</b> this.cbPopup = null <b>}</b></span>
+<span id='line81'></span>
+<span id='line82'>  ** Programmatically open popup, or do nothing if no popup defined.</span>
+<span id='line83'>  Void openPopup<b>(</b><b>)</b></span>
+<span id='line84'>  <b>{</b></span>
+<span id='line85'>    if <b>(</b>cbPopup == null<b>)</b> return</span>
+<span id='line86'>    if <b>(</b>popup?.isOpen == true<b>)</b> return</span>
+<span id='line87'></span>
+<span id='line88'>    x := pagePos.x + popupOffset.x</span>
+<span id='line89'>    y := pagePos.y + popupOffset.y + size.h.toInt</span>
+<span id='line90'>    w := size.w.toInt</span>
+<span id='line91'></span>
+<span id='line92'>    if <b>(</b>isCombo<b>)</b></span>
+<span id='line93'>    <b>{</b></span>
+<span id='line94'>      // stretch popup to fit combo</span>
+<span id='line95'>      combo := this.parent</span>
+<span id='line96'>      x = combo.pagePos.x</span>
+<span id='line97'>      w = combo.size.w.toInt</span>
+<span id='line98'>    <b>}</b></span>
+<span id='line99'></span>
+<span id='line100'>    showDown</span>
+<span id='line101'>    popup = cbPopup<b>(</b>this<b>)</b></span>
+<span id='line102'></span>
+<span id='line103'>    // adjust popup origin if haligned</span>
+<span id='line104'>    switch <b>(</b>popup.halign<b>)</b></span>
+<span id='line105'>    <b>{</b></span>
+<span id='line106'>      case Align.center: x += w / 2</span>
+<span id='line107'>      case Align.right:  x += w</span>
+<span id='line108'>    <b>}</b></span>
+<span id='line109'></span>
+<span id='line110'>    // use internal _onClose to keep onClose available for use</span>
+<span id='line111'>    popup._onClose</span>
+<span id='line112'>    <b>{</b></span>
+<span id='line113'>      showUp</span>
+<span id='line114'>      if <b>(</b>isCombo<b>)</b> <b>(</b><b>(</b>Combo<b>)</b>this.parent<b>)</b>.field.focus</span>
+<span id='line115'>      else this.focus</span>
+<span id='line116'>    <b>}</b></span>
+<span id='line117'></span>
+<span id='line118'>    // limit width to button size if not explicity set</span>
+<span id='line119'>    if <b>(</b>popup.style.effective<b>(</b>"min-width"<b>)</b> == null<b>)</b></span>
+<span id='line120'>      popup.style->minWidth = "$<b>{</b>w<b>}</b>px"</span>
+<span id='line121'></span>
+<span id='line122'>    popup.open<b>(</b>x, y<b>)</b></span>
+<span id='line123'>  <b>}</b></span>
+<span id='line124'></span>
+<span id='line125'>  override Bool? enabled</span>
+<span id='line126'>  <b>{</b></span>
+<span id='line127'>    get <b>{</b> !style.hasClass<b>(</b>"disabled"<b>)</b> <b>}</b></span>
+<span id='line128'>    set</span>
+<span id='line129'>    <b>{</b></span>
+<span id='line130'>      if <b>(</b>it<b>)</b></span>
+<span id='line131'>      <b>{</b></span>
+<span id='line132'>        style.removeClass<b>(</b>"disabled"<b>)</b></span>
+<span id='line133'>        this->tabIndex = 0</span>
+<span id='line134'>      <b>}</b></span>
+<span id='line135'>      else</span>
+<span id='line136'>      <b>{</b></span>
+<span id='line137'>        style.addClass<b>(</b>"disabled"<b>)</b></span>
+<span id='line138'>        this->tabIndex = -1</span>
+<span id='line139'>      <b>}</b></span>
+<span id='line140'>    <b>}</b></span>
+<span id='line141'>  <b>}</b></span>
+<span id='line142'></span>
+<span id='line143'>  // internal use only</span>
+<span id='line144'>  internal Bool isCombo := false</span>
+<span id='line145'></span>
+<span id='line146'>  internal Void showDown<b>(</b><b>)</b> <b>{</b> style.addClass<b>(</b>"down"<b>)</b> <b>}</b></span>
+<span id='line147'>  internal Void showUp<b>(</b><b>)</b>   <b>{</b> style.removeClass<b>(</b>"down"<b>)</b> <b>}</b></span>
+<span id='line148'>  internal virtual Void doMouseDown<b>(</b><b>)</b> <b>{</b> showDown <b>}</b></span>
+<span id='line149'>  internal virtual Void doMouseUp<b>(</b><b>)</b>   <b>{</b> showUp <b>}</b></span>
+<span id='line150'>  internal Bool mouseDown := false</span>
+<span id='line151'></span>
+<span id='line152'>  private Void fireAction<b>(</b>Event e<b>)</b></span>
+<span id='line153'>  <b>{</b></span>
+<span id='line154'>    cbAction?.call<b>(</b>this<b>)</b></span>
+<span id='line155'>  <b>}</b></span>
+<span id='line156'></span>
+<span id='line157'>  // TODO: not sure how this works yet</span>
+<span id='line158'>  @NoDoc Event? _event</span>
+<span id='line159'></span>
+<span id='line160'>  private Popup? popup   := null</span>
+<span id='line161'>  private Func? cbAction := null</span>
+<span id='line162'>  private Func? cbPopup  := null</span>
+<span id='line163'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::JdkTask</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='JdkTask.html'>JdkTask</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> build::JdkTask</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Task.html'>build::Task</a>
+    build::JdkTask</pre>
+
+<p>Java Developer Kit task provides a common set of environment variables for the Java environment.</p>
+<dl>
+<dt id='jarExe'>
+jarExe</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> jarExe</code></p>
+
+<p>Jar (Java Archive) executable: {jdkBinDir}/jar</p>
+</dd>
+<dt id='javaExe'>
+javaExe</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> javaExe</code></p>
+
+<p>Java runtime executable: {jdkBinDir}/java</p>
+</dd>
+<dt id='javacExe'>
+javacExe</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> javacExe</code></p>
+
+<p>Javac compiler executable: {jdkBinDir}/javac</p>
+</dd>
+<dt id='jdkBinDir'>
+jdkBinDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File</a> jdkBinDir</code></p>
+
+<p>JDK bin for executables: {jdkHomeDir}/bin/</p>
+</dd>
+<dt id='jdkHomeDir'>
+jdkHomeDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File</a> jdkHomeDir</code></p>
+
+<p>Home directory for jdk installation configured via config prop <code>jdkHome</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='BuildScript.html'>BuildScript</a> script)</code></p>
+
+<p>Initialize the JDK environment fields.</p>
+</dd>
+<dt id='rtJar'>
+rtJar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File</a> rtJar</code></p>
+
+<p>Standard runtime library jar file: {jdkHomeDir}/jre/lib/rt.jar</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run not implemented</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#jarExe'>jarExe</a></li><li><a href='#javaExe'>javaExe</a></li><li><a href='#javacExe'>javacExe</a></li><li><a href='#jdkBinDir'>jdkBinDir</a></li><li><a href='#jdkHomeDir'>jdkHomeDir</a></li><li><a href='#rtJar'>rtJar</a></li><li><a href='#run'>run</a></li></ul>
+</div>
+</div>
+</body>
+</html>

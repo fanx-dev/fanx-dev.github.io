@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerxJs::JsMethod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerxJs</a></li><li><a href='JsMethod.html'>JsMethod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerxJs::JsMethod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='JsNode.html'>compilerxJs::JsNode</a>
+    <a href='JsSlot.html'>compilerxJs::JsSlot</a>
+      compilerxJs::JsMethod</pre>
+
+<p>JsMethod</p>
+<dl>
+<dt id='code'>
+code</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsBlock.html'>JsBlock?</a> code</code></p>
+</dd>
+<dt id='ctorChain'>
+ctorChain</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsExpr.html'>JsExpr?</a> ctorChain</code></p>
+</dd>
+<dt id='hasClosure'>
+hasClosure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasClosure</code></p>
+</dd>
+<dt id='isAsync'>
+isAsync</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isAsync</code></p>
+</dd>
+<dt id='isFieldAccessor'>
+isFieldAccessor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFieldAccessor()</code></p>
+</dd>
+<dt id='isGetter'>
+isGetter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isGetter</code></p>
+</dd>
+<dt id='isInstanceCtor'>
+isInstanceCtor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInstanceCtor</code></p>
+</dd>
+<dt id='isNoPeer'>
+isNoPeer</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNoPeer</code></p>
+</dd>
+<dt id='isSetter'>
+isSetter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSetter</code></p>
+</dd>
+<dt id='isStaticInit'>
+isStaticInit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStaticInit</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='JsCompilerSupport.html'>JsCompilerSupport</a> s, <a href='../compilerx/MethodDef.html'>MethodDef</a> m, <a href='../sys/Bool.html'>Bool</a> jsNative := false)</code></p>
+</dd>
+<dt id='node'>
+node</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compilerx/MethodDef.html'>MethodDef?</a> node()</code></p>
+</dd>
+<dt id='params'>
+params</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='JsMethodParam.html'>JsMethodParam</a>&gt;</a> params</code></p>
+</dd>
+<dt id='parentPeer'>
+parentPeer</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsTypeRef.html'>JsTypeRef?</a> parentPeer</code></p>
+</dd>
+<dt id='ret'>
+ret</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsTypeRef.html'>JsTypeRef</a> ret</code></p>
+</dd>
+<dt id='sig'>
+sig</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> sig(<a href='../sys/List.html'>List&lt;<a href='JsMethodParam.html'>JsMethodParam</a>&gt;</a> pars)</code></p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> write(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writeMethod'>
+writeMethod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeMethod(<a href='JsWriter.html'>JsWriter</a> out, <a href='../sys/Str.html'>Str</a> methName, <a href='../sys/List.html'>List&lt;<a href='JsMethodParam.html'>JsMethodParam</a>&gt;</a> methParams)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#code'>code</a></li><li><a href='#ctorChain'>ctorChain</a></li><li><a href='#hasClosure'>hasClosure</a></li><li><a href='#isAsync'>isAsync</a></li><li><a href='#isFieldAccessor'>isFieldAccessor</a></li><li><a href='#isGetter'>isGetter</a></li><li><a href='#isInstanceCtor'>isInstanceCtor</a></li><li><a href='#isNoPeer'>isNoPeer</a></li><li><a href='#isSetter'>isSetter</a></li><li><a href='#isStaticInit'>isStaticInit</a></li><li><a href='#node'>node</a></li><li><a href='#params'>params</a></li><li><a href='#parentPeer'>parentPeer</a></li><li><a href='#ret'>ret</a></li><li><a href='#sig'>sig</a></li><li><a href='#write'>write</a></li><li><a href='#writeMethod'>writeMethod</a></li></ul>
+</div>
+</div>
+</body>
+</html>

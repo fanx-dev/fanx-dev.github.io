@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::TimeZone</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='TimeZone.html'>TimeZone</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> std::TimeZone</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::TimeZone</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>TimeZone represents a region's offset from UTC and its daylight savings time rules.  TimeZones are historical - UTC offset and DST rules may change depending on the year.  The Fantom implementation of historical time zones is optimized to handle only year boundaries (so some historical changes which don't occur on year boundaries may not be 100% accurate).</p>
+
+<p>The Fantom time zone database and naming model is based on the <a href='http://www.twinsun.com/tz/tz-link.htm'>ZoneInfo database</a> used by UNIX and Java (also known as the Olson database).  All time zones have both a simple <code><a href='TimeZone.html#name'>name</a></code> and a <code><a href='TimeZone.html#fullName'>fullName</a></code>.  The <code>fullName</code> is the full identifier used in the zoneinfo database such as "America/New_York".  The simple name is the city name only such as "New_York".</p>
+
+<p>Use <code><a href='TimeZone.html#cur'>cur</a></code> to get current default timezone for VM.</p>
+
+<p>Also see <a href='docLang::DateTime'>docLang</a>.</p>
+<dl>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='TimeZone.html'>TimeZone</a> cur()</code></p>
+
+<p>Get the current default TimeZone of the VM.  The default timezone is configured by the Java or .NET runtime or it can be manually configured in "etc/sys/config.props" with the key "timezone" and any value accepted by <code><a href='TimeZone.html#fromStr'>fromStr</a></code>.  Once Fantom is booted, the default timezone cannot be changed.</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='TimeZone.html'>TimeZone</a> defVal := utc</code></p>
+
+<p>Default value is UTC.</p>
+</dd>
+<dt id='dstAbbr'>
+dstAbbr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> dstAbbr(<a href='../sys/Int.html'>Int</a> year)</code></p>
+
+<p>Get the abbreviated name during daylight savings time or null if daylight savings time not observed.</p>
+</dd>
+<dt id='dstOffset'>
+dstOffset</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Duration.html'>Duration?</a> dstOffset(<a href='../sys/Int.html'>Int</a> year)</code></p>
+
+<p>Get the duration of time which will be added to local standard time to get wall time during daylight savings time (often 1hr). If daylight savings time is not observed then return null.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+</dd>
+<dt id='fromGmtOffset'>
+fromGmtOffset</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='TimeZone.html'>TimeZone</a> fromGmtOffset(<a href='../sys/Int.html'>Int</a> offset)</code></p>
+
+<p>Get generic GMT offset where offset is in seconds</p>
+</dd>
+<dt id='fromName'>
+fromName</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='TimeZone.html'>TimeZone?</a> fromName(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='TimeZone.html'>TimeZone?</a> fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Find a time zone by name from the built-in database:</p>
+
+<ol style='list-style-type:decimal'>
+<li>First check for simple name like "New_York" or the zoneinfo full name "America/New_York"</li>
+
+<li>Attempt to match against timezone aliases, if a match is found return the canonical TimeZone instance</li>
+
+<li>If no matches are found and checked is false then return null, otherwise throw ParseErr.</li>
+</ol>
+
+<p>Also see:</p>
+
+<ul>
+<li><a href='docLang::DateTime#timeZone'>TimeZone database</a></li>
+
+<li><a href='docLang::DateTime#timeZoneAliases'>TimeZone aliases</a></li>
+</ul>
+</dd>
+<dt id='fullName'>
+fullName</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> fullName</code></p>
+
+<p>Get the full name of this time zone as defined by the zoneinfo database.  These names are formatted as "contintent/location" where location is a major city within the time zone region. Examples of full names are "America/New_York" and "Europe/London".</p>
+</dd>
+<dt id='listFullNames'>
+listFullNames</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> listFullNames()</code></p>
+
+<p>List all zoneinfo (Olson database) full names of the time zones available in the local time zone database. This list is the full names only such as "America/New_York" and "Europe/London".</p>
+</dd>
+<dt id='listNames'>
+listNames</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> listNames()</code></p>
+
+<p>List the names of all the time zones available in the local time zone database.  This database is stored in "{home}/lib/timezone.ftz" as a binary file.  This list contains only the simple names such as "New_York" and "London".</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name</code></p>
+
+<p>Get the identifier of this time zone in the time zone database.  Name is the city name portion of the zoneinfo <code><a href='TimeZone.html#fullName'>fullName</a></code> identifier such as "New_York" or "London".</p>
+</dd>
+<dt id='offset'>
+offset</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Duration.html'>Duration</a> offset(<a href='../sys/Int.html'>Int</a> year := 0)</code></p>
+
+<p>Get the duration of time added to UTC to compute standard time in this time zone.  The offset is independent of daylight savings time - during daylight savings the actual offset is this value plus <code><a href='TimeZone.html#dstOffset'>dstOffset</a></code>.</p>
+</dd>
+<dt id='rel'>
+rel</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='TimeZone.html'>TimeZone</a> rel := ...</code></p>
+
+<p>Relative time zone instance is "Etc/Rel".  The relative timezone has a zero offset like UTC, but is used to normalize by time of day versus absolute time.  See <code><a href='DateTime.html#toRel'>DateTime.toRel</a></code> and <a href='docLang::DateTime#relTimeZone'>docLang</a>.</p>
+</dd>
+<dt id='stdAbbr'>
+stdAbbr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> stdAbbr(<a href='../sys/Int.html'>Int</a> year)</code></p>
+
+<p>Get the abbreviated name during standard time.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return <code><a href='TimeZone.html#name'>name</a></code>.</p>
+</dd>
+<dt id='utc'>
+utc</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='TimeZone.html'>TimeZone</a> utc := ...</code></p>
+
+<p>UTC time zone instance is "Etc/Utc".</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cur'>cur</a></li><li><a href='#defVal'>defVal</a></li><li><a href='#fromGmtOffset'>fromGmtOffset</a></li><li><a href='#fromName'>fromName</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#listFullNames'>listFullNames</a></li><li><a href='#listNames'>listNames</a></li><li><a href='#rel'>rel</a></li><li><a href='#utc'>utc</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dstAbbr'>dstAbbr</a></li><li><a href='#dstOffset'>dstOffset</a></li><li><a href='#equals'>equals</a></li><li><a href='#fullName'>fullName</a></li><li><a href='#name'>name</a></li><li><a href='#offset'>offset</a></li><li><a href='#stdAbbr'>stdAbbr</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

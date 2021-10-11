@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJava::DasmType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJava</a></li><li><a href='DasmType.html'>DasmType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerJava::DasmType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerJava::DasmType</pre>
+
+<p>DasmType models a type within a field or method descriptor</p>
+<dl>
+<dt id='isArray'>
+isArray</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isArray()</code></p>
+
+<p>Is this an array type</p>
+</dd>
+<dt id='isPrimitive'>
+isPrimitive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPrimitive()</code></p>
+
+<p>Is this a primitive type</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Str.html'>Str</a> sig)</code></p>
+</dd>
+<dt id='rank'>
+rank</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> rank</code></p>
+
+<p>If array, what is its rank (or zero if not an array)</p>
+</dd>
+<dt id='sig'>
+sig</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> sig</code></p>
+
+<p>Java signature such as "Ljava/lang/String;" or "I"</p>
+</dd>
+<dt id='toComponentType'>
+toComponentType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DasmType.html'>DasmType</a> toComponentType()</code></p>
+
+<p>Get array's component type</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#isArray'>isArray</a></li><li><a href='#isPrimitive'>isPrimitive</a></li><li><a href='#rank'>rank</a></li><li><a href='#sig'>sig</a></li><li><a href='#toComponentType'>toComponentType</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

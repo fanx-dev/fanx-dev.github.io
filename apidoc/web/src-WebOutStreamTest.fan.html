@@ -1,0 +1,566 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WebOutStreamTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='src-WebOutStreamTest.fan.html'>WebOutStreamTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2006, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Jun 06  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** WebOutStreamTest</span>
+<span id='line11'>**</span>
+<span id='line12'>class WebOutStreamTest : Test</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line16'>// General</span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'></span>
+<span id='line19'>  Void testGeneral<b>(</b><b>)</b></span>
+<span id='line20'>  <b>{</b></span>
+<span id='line21'>    buf := StrBuf<b>(</b><b>)</b></span>
+<span id='line22'>    out := WebOutStream<b>(</b>buf.out<b>)</b></span>
+<span id='line23'></span>
+<span id='line24'>    out.w<b>(</b>"foo"<b>)</b></span>
+<span id='line25'>    verifyOut<b>(</b>buf, "foo"<b>)</b></span>
+<span id='line26'></span>
+<span id='line27'>    out.w<b>(</b>4<b>)</b></span>
+<span id='line28'>    verifyOut<b>(</b>buf, "4"<b>)</b></span>
+<span id='line29'></span>
+<span id='line30'>    out.w<b>(</b>null<b>)</b></span>
+<span id='line31'>    verifyOut<b>(</b>buf, "null"<b>)</b></span>
+<span id='line32'></span>
+<span id='line33'>    out.tab</span>
+<span id='line34'>    verifyOut<b>(</b>buf, "  "<b>)</b></span>
+<span id='line35'>    out.tab<b>(</b>5<b>)</b></span>
+<span id='line36'>    verifyOut<b>(</b>buf, "     "<b>)</b></span>
+<span id='line37'></span>
+<span id='line38'>    // TODO</span>
+<span id='line39'>    // out.nl</span>
+<span id='line40'>    // out.docType</span>
+<span id='line41'>  <b>}</b></span>
+<span id='line42'></span>
+<span id='line43'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line44'>// Xml</span>
+<span id='line45'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line46'></span>
+<span id='line47'>  Void testXml<b>(</b><b>)</b></span>
+<span id='line48'>  <b>{</b></span>
+<span id='line49'>    buf := Buf.make</span>
+<span id='line50'>    out := WebOutStream<b>(</b>buf.out<b>)</b></span>
+<span id='line51'></span>
+<span id='line52'>    out.prolog</span>
+<span id='line53'>    verifyOut<b>(</b>buf, "&lt;?xml version='1.0' encoding='UTF-8'?>"<b>)</b></span>
+<span id='line54'></span>
+<span id='line55'>    out.tag<b>(</b>"bar"<b>)</b></span>
+<span id='line56'>    verifyOut<b>(</b>buf, "&lt;bar>"<b>)</b></span>
+<span id='line57'></span>
+<span id='line58'>    out.tag<b>(</b>"bar", "foo='zoo'"<b>)</b></span>
+<span id='line59'>    verifyOut<b>(</b>buf, "&lt;bar foo='zoo'>"<b>)</b></span>
+<span id='line60'></span>
+<span id='line61'>    out.tag<b>(</b>"bar", "foo='zoo'", true<b>)</b></span>
+<span id='line62'>    verifyOut<b>(</b>buf, "&lt;bar foo='zoo' />"<b>)</b></span>
+<span id='line63'></span>
+<span id='line64'>    out.tag<b>(</b>"bar", null, true<b>)</b></span>
+<span id='line65'>    verifyOut<b>(</b>buf, "&lt;bar />"<b>)</b></span>
+<span id='line66'></span>
+<span id='line67'>    out.tagEnd<b>(</b>"bar"<b>)</b></span>
+<span id='line68'>    verifyOut<b>(</b>buf, "&lt;/bar>"<b>)</b></span>
+<span id='line69'>  <b>}</b></span>
+<span id='line70'></span>
+<span id='line71'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line72'>// Html markup</span>
+<span id='line73'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line74'></span>
+<span id='line75'>  Void testHtml<b>(</b><b>)</b></span>
+<span id='line76'>  <b>{</b></span>
+<span id='line77'>    buf := Buf.make</span>
+<span id='line78'>    out := WebOutStream<b>(</b>buf.out<b>)</b></span>
+<span id='line79'></span>
+<span id='line80'>    out.html</span>
+<span id='line81'>    verifyOut<b>(</b>buf, "&lt;html xmlns='http://www.w3.org/1999/xhtml'>"<b>)</b></span>
+<span id='line82'>    out.htmlEnd</span>
+<span id='line83'>    verifyOut<b>(</b>buf, "&lt;/html>"<b>)</b></span>
+<span id='line84'></span>
+<span id='line85'>    out.head</span>
+<span id='line86'>    verifyOut<b>(</b>buf, "&lt;head>"<b>)</b></span>
+<span id='line87'>    out.headEnd</span>
+<span id='line88'>    verifyOut<b>(</b>buf, "&lt;/head>"<b>)</b></span>
+<span id='line89'></span>
+<span id='line90'>    out.title.w<b>(</b>"Test"<b>)</b>.titleEnd</span>
+<span id='line91'>    verifyOut<b>(</b>buf, "&lt;title>Test&lt;/title>"<b>)</b></span>
+<span id='line92'></span>
+<span id='line93'>    out.includeCss<b>(</b>`foo.css`<b>)</b></span>
+<span id='line94'>    verifyOut<b>(</b>buf, "&lt;link rel='stylesheet' type='text/css' href='foo.css' />"<b>)</b></span>
+<span id='line95'>    out.includeCss<b>(</b>`foo.css?a=foo&amp;b=<b>[</b>bar<b>]</b>`<b>)</b></span>
+<span id='line96'>    verifyOut<b>(</b>buf, "&lt;link rel='stylesheet' type='text/css' href='foo.css?a=foo&amp;amp;b=%5Bbar%5D' />"<b>)</b></span>
+<span id='line97'>    out.includeCss<b>(</b>`foo.css`<b>)</b></span>
+<span id='line98'>    verifyOut<b>(</b>buf, null<b>)</b></span>
+<span id='line99'></span>
+<span id='line100'>    out.includeJs<b>(</b>`foo.js`<b>)</b></span>
+<span id='line101'>    verifyOut<b>(</b>buf, "&lt;script type='text/javascript' src='foo.js'>&lt;/script>"<b>)</b></span>
+<span id='line102'>    out.includeJs<b>(</b>`foo.js?a=foo&amp;b=<b>[</b>bar<b>]</b>`<b>)</b></span>
+<span id='line103'>    verifyOut<b>(</b>buf, "&lt;script type='text/javascript' src='foo.js?a=foo&amp;amp;b=%5Bbar%5D'>&lt;/script>"<b>)</b></span>
+<span id='line104'>    out.includeJs<b>(</b>`foo.js`<b>)</b></span>
+<span id='line105'>    verifyOut<b>(</b>buf, null<b>)</b></span>
+<span id='line106'></span>
+<span id='line107'>    out.atom<b>(</b>`foo.xml`<b>)</b></span>
+<span id='line108'>    verifyOut<b>(</b>buf, "&lt;link rel='alternate' type='application/atom+xml' href='foo.xml' />"<b>)</b></span>
+<span id='line109'>    out.atom<b>(</b>`foo.xml?a=foo&amp;b=<b>[</b>bar<b>]</b>`<b>)</b></span>
+<span id='line110'>    verifyOut<b>(</b>buf, "&lt;link rel='alternate' type='application/atom+xml' href='foo.xml?a=foo&amp;amp;b=%5Bbar%5D' />"<b>)</b></span>
+<span id='line111'>    out.atom<b>(</b>`foo.xml`, "title='bar'"<b>)</b></span>
+<span id='line112'>    verifyOut<b>(</b>buf, "&lt;link rel='alternate' type='application/atom+xml' href='foo.xml' title='bar' />"<b>)</b></span>
+<span id='line113'></span>
+<span id='line114'>    out.rss<b>(</b>`foo.xml`<b>)</b></span>
+<span id='line115'>    verifyOut<b>(</b>buf, "&lt;link rel='alternate' type='application/rss+xml' href='foo.xml' />"<b>)</b></span>
+<span id='line116'>    out.rss<b>(</b>`foo.xml?a=foo&amp;b=<b>[</b>bar<b>]</b>`<b>)</b></span>
+<span id='line117'>    verifyOut<b>(</b>buf, "&lt;link rel='alternate' type='application/rss+xml' href='foo.xml?a=foo&amp;amp;b=%5Bbar%5D' />"<b>)</b></span>
+<span id='line118'>    out.rss<b>(</b>`foo.xml`, "title='bar'"<b>)</b></span>
+<span id='line119'>    verifyOut<b>(</b>buf, "&lt;link rel='alternate' type='application/rss+xml' href='foo.xml' title='bar' />"<b>)</b></span>
+<span id='line120'></span>
+<span id='line121'>    out.favIcon<b>(</b>`fav.png`<b>)</b></span>
+<span id='line122'>    verifyOut<b>(</b>buf, "&lt;link rel='icon' href='fav.png' />"<b>)</b></span>
+<span id='line123'>    out.favIcon<b>(</b>`fav.png`, "type='image/png'"<b>)</b></span>
+<span id='line124'>    verifyOut<b>(</b>buf, "&lt;link rel='icon' href='fav.png' type='image/png' />"<b>)</b></span>
+<span id='line125'></span>
+<span id='line126'>    out.style</span>
+<span id='line127'>    verifyOut<b>(</b>buf, "&lt;style type='text/css'>"<b>)</b></span>
+<span id='line128'>    out.style<b>(</b>null<b>)</b></span>
+<span id='line129'>    verifyOut<b>(</b>buf, "&lt;style>"<b>)</b></span>
+<span id='line130'>    out.styleEnd</span>
+<span id='line131'>    verifyOut<b>(</b>buf, "&lt;/style>"<b>)</b></span>
+<span id='line132'></span>
+<span id='line133'>    out.script</span>
+<span id='line134'>    verifyOut<b>(</b>buf, "&lt;script type='text/javascript'>"<b>)</b></span>
+<span id='line135'>    out.script<b>(</b>null<b>)</b></span>
+<span id='line136'>    verifyOut<b>(</b>buf, "&lt;script>"<b>)</b></span>
+<span id='line137'>    out.scriptEnd</span>
+<span id='line138'>    verifyOut<b>(</b>buf, "&lt;/script>"<b>)</b></span>
+<span id='line139'></span>
+<span id='line140'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line141'>    // General</span>
+<span id='line142'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line143'></span>
+<span id='line144'>    out.body</span>
+<span id='line145'>    verifyOut<b>(</b>buf, "&lt;body>"<b>)</b></span>
+<span id='line146'>    out.body<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line147'>    verifyOut<b>(</b>buf, "&lt;body class='foo'>"<b>)</b></span>
+<span id='line148'>    out.bodyEnd</span>
+<span id='line149'>    verifyOut<b>(</b>buf, "&lt;/body>"<b>)</b></span>
+<span id='line150'></span>
+<span id='line151'>    out.h1.w<b>(</b>"foo"<b>)</b>.h1End</span>
+<span id='line152'>    verifyOut<b>(</b>buf, "&lt;h1>foo&lt;/h1>"<b>)</b></span>
+<span id='line153'>    out.h1<b>(</b>"class='bar'"<b>)</b>.w<b>(</b>"bar"<b>)</b>.h1End</span>
+<span id='line154'>    verifyOut<b>(</b>buf, "&lt;h1 class='bar'>bar&lt;/h1>"<b>)</b></span>
+<span id='line155'></span>
+<span id='line156'>    out.h2.w<b>(</b>"foo"<b>)</b>.h2End</span>
+<span id='line157'>    verifyOut<b>(</b>buf, "&lt;h2>foo&lt;/h2>"<b>)</b></span>
+<span id='line158'>    out.h2<b>(</b>"class='bar'"<b>)</b>.w<b>(</b>"bar"<b>)</b>.h2End</span>
+<span id='line159'>    verifyOut<b>(</b>buf, "&lt;h2 class='bar'>bar&lt;/h2>"<b>)</b></span>
+<span id='line160'></span>
+<span id='line161'>    out.h3.w<b>(</b>"foo"<b>)</b>.h3End</span>
+<span id='line162'>    verifyOut<b>(</b>buf, "&lt;h3>foo&lt;/h3>"<b>)</b></span>
+<span id='line163'>    out.h3<b>(</b>"class='bar'"<b>)</b>.w<b>(</b>"bar"<b>)</b>.h3End</span>
+<span id='line164'>    verifyOut<b>(</b>buf, "&lt;h3 class='bar'>bar&lt;/h3>"<b>)</b></span>
+<span id='line165'></span>
+<span id='line166'>    out.h4.w<b>(</b>"foo"<b>)</b>.h4End</span>
+<span id='line167'>    verifyOut<b>(</b>buf, "&lt;h4>foo&lt;/h4>"<b>)</b></span>
+<span id='line168'>    out.h4<b>(</b>"class='bar'"<b>)</b>.w<b>(</b>"bar"<b>)</b>.h4End</span>
+<span id='line169'>    verifyOut<b>(</b>buf, "&lt;h4 class='bar'>bar&lt;/h4>"<b>)</b></span>
+<span id='line170'></span>
+<span id='line171'>    out.h5.w<b>(</b>"foo"<b>)</b>.h5End</span>
+<span id='line172'>    verifyOut<b>(</b>buf, "&lt;h5>foo&lt;/h5>"<b>)</b></span>
+<span id='line173'>    out.h5<b>(</b>"class='bar'"<b>)</b>.w<b>(</b>"bar"<b>)</b>.h5End</span>
+<span id='line174'>    verifyOut<b>(</b>buf, "&lt;h5 class='bar'>bar&lt;/h5>"<b>)</b></span>
+<span id='line175'></span>
+<span id='line176'>    out.h6.w<b>(</b>"foo"<b>)</b>.h6End</span>
+<span id='line177'>    verifyOut<b>(</b>buf, "&lt;h6>foo&lt;/h6>"<b>)</b></span>
+<span id='line178'>    out.h6<b>(</b>"class='bar'"<b>)</b>.w<b>(</b>"bar"<b>)</b>.h6End</span>
+<span id='line179'>    verifyOut<b>(</b>buf, "&lt;h6 class='bar'>bar&lt;/h6>"<b>)</b></span>
+<span id='line180'></span>
+<span id='line181'>    out.div</span>
+<span id='line182'>    verifyOut<b>(</b>buf, "&lt;div>"<b>)</b></span>
+<span id='line183'>    out.div<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line184'>    verifyOut<b>(</b>buf, "&lt;div class='foo'>"<b>)</b></span>
+<span id='line185'>    out.divEnd</span>
+<span id='line186'>    verifyOut<b>(</b>buf, "&lt;/div>"<b>)</b></span>
+<span id='line187'></span>
+<span id='line188'>    out.span</span>
+<span id='line189'>    verifyOut<b>(</b>buf, "&lt;span>"<b>)</b></span>
+<span id='line190'>    out.span<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line191'>    verifyOut<b>(</b>buf, "&lt;span class='foo'>"<b>)</b></span>
+<span id='line192'>    out.spanEnd</span>
+<span id='line193'>    verifyOut<b>(</b>buf, "&lt;/span>"<b>)</b></span>
+<span id='line194'></span>
+<span id='line195'>    out.p</span>
+<span id='line196'>    verifyOut<b>(</b>buf, "&lt;p>"<b>)</b></span>
+<span id='line197'>    out.p<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line198'>    verifyOut<b>(</b>buf, "&lt;p class='foo'>"<b>)</b></span>
+<span id='line199'>    out.pEnd</span>
+<span id='line200'>    verifyOut<b>(</b>buf, "&lt;/p>"<b>)</b></span>
+<span id='line201'></span>
+<span id='line202'>    out.b</span>
+<span id='line203'>    verifyOut<b>(</b>buf, "&lt;b>"<b>)</b></span>
+<span id='line204'>    out.b<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line205'>    verifyOut<b>(</b>buf, "&lt;b class='foo'>"<b>)</b></span>
+<span id='line206'>    out.bEnd</span>
+<span id='line207'>    verifyOut<b>(</b>buf, "&lt;/b>"<b>)</b></span>
+<span id='line208'></span>
+<span id='line209'>    out.i</span>
+<span id='line210'>    verifyOut<b>(</b>buf, "&lt;i>"<b>)</b></span>
+<span id='line211'>    out.i<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line212'>    verifyOut<b>(</b>buf, "&lt;i class='foo'>"<b>)</b></span>
+<span id='line213'>    out.iEnd</span>
+<span id='line214'>    verifyOut<b>(</b>buf, "&lt;/i>"<b>)</b></span>
+<span id='line215'></span>
+<span id='line216'>    out.em</span>
+<span id='line217'>    verifyOut<b>(</b>buf, "&lt;em>"<b>)</b></span>
+<span id='line218'>    out.em<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line219'>    verifyOut<b>(</b>buf, "&lt;em class='foo'>"<b>)</b></span>
+<span id='line220'>    out.emEnd</span>
+<span id='line221'>    verifyOut<b>(</b>buf, "&lt;/em>"<b>)</b></span>
+<span id='line222'></span>
+<span id='line223'>    out.pre</span>
+<span id='line224'>    verifyOut<b>(</b>buf, "&lt;pre>"<b>)</b></span>
+<span id='line225'>    out.pre<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line226'>    verifyOut<b>(</b>buf, "&lt;pre class='foo'>"<b>)</b></span>
+<span id='line227'>    out.preEnd</span>
+<span id='line228'>    verifyOut<b>(</b>buf, "&lt;/pre>"<b>)</b></span>
+<span id='line229'></span>
+<span id='line230'>    out.code</span>
+<span id='line231'>    verifyOut<b>(</b>buf, "&lt;code>"<b>)</b></span>
+<span id='line232'>    out.code<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line233'>    verifyOut<b>(</b>buf, "&lt;code class='foo'>"<b>)</b></span>
+<span id='line234'>    out.codeEnd</span>
+<span id='line235'>    verifyOut<b>(</b>buf, "&lt;/code>"<b>)</b></span>
+<span id='line236'></span>
+<span id='line237'>    out.hr</span>
+<span id='line238'>    verifyOut<b>(</b>buf, "&lt;hr />"<b>)</b></span>
+<span id='line239'>    out.hr<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line240'>    verifyOut<b>(</b>buf, "&lt;hr class='foo' />"<b>)</b></span>
+<span id='line241'></span>
+<span id='line242'>    out.br</span>
+<span id='line243'>    verifyOut<b>(</b>buf, "&lt;br />"<b>)</b></span>
+<span id='line244'></span>
+<span id='line245'>    out.a<b>(</b>`#`<b>)</b></span>
+<span id='line246'>    verifyOut<b>(</b>buf, "&lt;a href='#'>"<b>)</b></span>
+<span id='line247'>    out.a<b>(</b>`/foo?a=foo&amp;b=<b>[</b>bar<b>]</b>`<b>)</b></span>
+<span id='line248'>    verifyOut<b>(</b>buf, "&lt;a href='/foo?a=foo&amp;amp;b=%5Bbar%5D'>"<b>)</b></span>
+<span id='line249'>    out.aEnd</span>
+<span id='line250'>    verifyOut<b>(</b>buf, "&lt;/a>"<b>)</b></span>
+<span id='line251'></span>
+<span id='line252'>    out.img<b>(</b>`foo.png`<b>)</b></span>
+<span id='line253'>    verifyOut<b>(</b>buf, "&lt;img src='foo.png' />"<b>)</b></span>
+<span id='line254'>    out.img<b>(</b>`foo.png?a=foo&amp;b=<b>[</b>bar<b>]</b>`<b>)</b></span>
+<span id='line255'>    verifyOut<b>(</b>buf, "&lt;img src='foo.png?a=foo&amp;amp;b=%5Bbar%5D' />"<b>)</b></span>
+<span id='line256'>    out.img<b>(</b>`foo.png`, "alt='bar'"<b>)</b></span>
+<span id='line257'>    verifyOut<b>(</b>buf, "&lt;img src='foo.png' alt='bar' />"<b>)</b></span>
+<span id='line258'>    out.img<b>(</b>`foo.png`, "alt='bar' class='foo'"<b>)</b></span>
+<span id='line259'>    verifyOut<b>(</b>buf, "&lt;img src='foo.png' alt='bar' class='foo' />"<b>)</b></span>
+<span id='line260'>    out.img<b>(</b>`foo.png`, "class='foo'"<b>)</b></span>
+<span id='line261'>    verifyOut<b>(</b>buf, "&lt;img src='foo.png' class='foo' />"<b>)</b></span>
+<span id='line262'></span>
+<span id='line263'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line264'>    // Table</span>
+<span id='line265'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line266'></span>
+<span id='line267'>    out.table</span>
+<span id='line268'>    verifyOut<b>(</b>buf, "&lt;table>"<b>)</b></span>
+<span id='line269'>    out.table<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line270'>    verifyOut<b>(</b>buf, "&lt;table class='foo'>"<b>)</b></span>
+<span id='line271'>    out.tableEnd</span>
+<span id='line272'>    verifyOut<b>(</b>buf, "&lt;/table>"<b>)</b></span>
+<span id='line273'></span>
+<span id='line274'>    out.thead</span>
+<span id='line275'>    verifyOut<b>(</b>buf, "&lt;thead>"<b>)</b></span>
+<span id='line276'>    out.thead<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line277'>    verifyOut<b>(</b>buf, "&lt;thead class='foo'>"<b>)</b></span>
+<span id='line278'>    out.theadEnd</span>
+<span id='line279'>    verifyOut<b>(</b>buf, "&lt;/thead>"<b>)</b></span>
+<span id='line280'></span>
+<span id='line281'>    out.tbody</span>
+<span id='line282'>    verifyOut<b>(</b>buf, "&lt;tbody>"<b>)</b></span>
+<span id='line283'>    out.tbody<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line284'>    verifyOut<b>(</b>buf, "&lt;tbody class='foo'>"<b>)</b></span>
+<span id='line285'>    out.tbodyEnd</span>
+<span id='line286'>    verifyOut<b>(</b>buf, "&lt;/tbody>"<b>)</b></span>
+<span id='line287'></span>
+<span id='line288'>    out.tfoot</span>
+<span id='line289'>    verifyOut<b>(</b>buf, "&lt;tfoot>"<b>)</b></span>
+<span id='line290'>    out.tfoot<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line291'>    verifyOut<b>(</b>buf, "&lt;tfoot class='foo'>"<b>)</b></span>
+<span id='line292'>    out.tfootEnd</span>
+<span id='line293'>    verifyOut<b>(</b>buf, "&lt;/tfoot>"<b>)</b></span>
+<span id='line294'></span>
+<span id='line295'>    out.tr</span>
+<span id='line296'>    verifyOut<b>(</b>buf, "&lt;tr>"<b>)</b></span>
+<span id='line297'>    out.tr<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line298'>    verifyOut<b>(</b>buf, "&lt;tr class='foo'>"<b>)</b></span>
+<span id='line299'>    out.trEnd</span>
+<span id='line300'>    verifyOut<b>(</b>buf, "&lt;/tr>"<b>)</b></span>
+<span id='line301'></span>
+<span id='line302'>    out.th</span>
+<span id='line303'>    verifyOut<b>(</b>buf, "&lt;th>"<b>)</b></span>
+<span id='line304'>    out.th<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line305'>    verifyOut<b>(</b>buf, "&lt;th class='foo'>"<b>)</b></span>
+<span id='line306'>    out.thEnd</span>
+<span id='line307'>    verifyOut<b>(</b>buf, "&lt;/th>"<b>)</b></span>
+<span id='line308'></span>
+<span id='line309'>    out.td</span>
+<span id='line310'>    verifyOut<b>(</b>buf, "&lt;td>"<b>)</b></span>
+<span id='line311'>    out.td<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line312'>    verifyOut<b>(</b>buf, "&lt;td class='foo'>"<b>)</b></span>
+<span id='line313'>    out.tdEnd</span>
+<span id='line314'>    verifyOut<b>(</b>buf, "&lt;/td>"<b>)</b></span>
+<span id='line315'></span>
+<span id='line316'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line317'>    // Lists</span>
+<span id='line318'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line319'></span>
+<span id='line320'>    out.ul</span>
+<span id='line321'>    verifyOut<b>(</b>buf, "&lt;ul>"<b>)</b></span>
+<span id='line322'>    out.ul<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line323'>    verifyOut<b>(</b>buf, "&lt;ul class='foo'>"<b>)</b></span>
+<span id='line324'>    out.ulEnd</span>
+<span id='line325'>    verifyOut<b>(</b>buf, "&lt;/ul>"<b>)</b></span>
+<span id='line326'></span>
+<span id='line327'>    out.ol</span>
+<span id='line328'>    verifyOut<b>(</b>buf, "&lt;ol>"<b>)</b></span>
+<span id='line329'>    out.ol<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line330'>    verifyOut<b>(</b>buf, "&lt;ol class='foo'>"<b>)</b></span>
+<span id='line331'>    out.olEnd</span>
+<span id='line332'>    verifyOut<b>(</b>buf, "&lt;/ol>"<b>)</b></span>
+<span id='line333'></span>
+<span id='line334'>    out.li</span>
+<span id='line335'>    verifyOut<b>(</b>buf, "&lt;li>"<b>)</b></span>
+<span id='line336'>    out.li<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line337'>    verifyOut<b>(</b>buf, "&lt;li class='foo'>"<b>)</b></span>
+<span id='line338'>    out.liEnd</span>
+<span id='line339'>    verifyOut<b>(</b>buf, "&lt;/li>"<b>)</b></span>
+<span id='line340'></span>
+<span id='line341'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line342'>    // Dictionary</span>
+<span id='line343'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line344'></span>
+<span id='line345'>    out.dl</span>
+<span id='line346'>    verifyOut<b>(</b>buf, "&lt;dl>"<b>)</b></span>
+<span id='line347'>    out.dl<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line348'>    verifyOut<b>(</b>buf, "&lt;dl class='foo'>"<b>)</b></span>
+<span id='line349'>    out.dlEnd</span>
+<span id='line350'>    verifyOut<b>(</b>buf, "&lt;/dl>"<b>)</b></span>
+<span id='line351'></span>
+<span id='line352'>    out.dt</span>
+<span id='line353'>    verifyOut<b>(</b>buf, "&lt;dt>"<b>)</b></span>
+<span id='line354'>    out.dt<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line355'>    verifyOut<b>(</b>buf, "&lt;dt class='foo'>"<b>)</b></span>
+<span id='line356'>    out.dtEnd</span>
+<span id='line357'>    verifyOut<b>(</b>buf, "&lt;/dt>"<b>)</b></span>
+<span id='line358'></span>
+<span id='line359'>    out.dd</span>
+<span id='line360'>    verifyOut<b>(</b>buf, "&lt;dd>"<b>)</b></span>
+<span id='line361'>    out.dd<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line362'>    verifyOut<b>(</b>buf, "&lt;dd class='foo'>"<b>)</b></span>
+<span id='line363'>    out.ddEnd</span>
+<span id='line364'>    verifyOut<b>(</b>buf, "&lt;/dd>"<b>)</b></span>
+<span id='line365'></span>
+<span id='line366'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line367'>    // Form</span>
+<span id='line368'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line369'></span>
+<span id='line370'>    out.form</span>
+<span id='line371'>    verifyOut<b>(</b>buf, "&lt;form>"<b>)</b></span>
+<span id='line372'>    out.form<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line373'>    verifyOut<b>(</b>buf, "&lt;form class='foo'>"<b>)</b></span>
+<span id='line374'>    out.formEnd</span>
+<span id='line375'>    verifyOut<b>(</b>buf, "&lt;/form>"<b>)</b></span>
+<span id='line376'></span>
+<span id='line377'>    out.label</span>
+<span id='line378'>    verifyOut<b>(</b>buf, "&lt;label>"<b>)</b></span>
+<span id='line379'>    out.label<b>(</b>"for='foo'"<b>)</b></span>
+<span id='line380'>    verifyOut<b>(</b>buf, "&lt;label for='foo'>"<b>)</b></span>
+<span id='line381'>    out.labelEnd</span>
+<span id='line382'>    verifyOut<b>(</b>buf, "&lt;/label>"<b>)</b></span>
+<span id='line383'></span>
+<span id='line384'>    out.input</span>
+<span id='line385'>    verifyOut<b>(</b>buf, "&lt;input />"<b>)</b></span>
+<span id='line386'>    out.input<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line387'>    verifyOut<b>(</b>buf, "&lt;input class='foo' />"<b>)</b></span>
+<span id='line388'></span>
+<span id='line389'>    out.textField</span>
+<span id='line390'>    verifyOut<b>(</b>buf, "&lt;input type='text' />"<b>)</b></span>
+<span id='line391'>    out.textField<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line392'>    verifyOut<b>(</b>buf, "&lt;input type='text' class='foo' />"<b>)</b></span>
+<span id='line393'></span>
+<span id='line394'>    out.password</span>
+<span id='line395'>    verifyOut<b>(</b>buf, "&lt;input type='password' />"<b>)</b></span>
+<span id='line396'>    out.password<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line397'>    verifyOut<b>(</b>buf, "&lt;input type='password' class='foo' />"<b>)</b></span>
+<span id='line398'></span>
+<span id='line399'>    out.hidden</span>
+<span id='line400'>    verifyOut<b>(</b>buf, "&lt;input type='hidden' />"<b>)</b></span>
+<span id='line401'>    out.hidden<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line402'>    verifyOut<b>(</b>buf, "&lt;input type='hidden' class='foo' />"<b>)</b></span>
+<span id='line403'></span>
+<span id='line404'>    out.button</span>
+<span id='line405'>    verifyOut<b>(</b>buf, "&lt;input type='button' />"<b>)</b></span>
+<span id='line406'>    out.button<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line407'>    verifyOut<b>(</b>buf, "&lt;input type='button' class='foo' />"<b>)</b></span>
+<span id='line408'></span>
+<span id='line409'>    out.checkbox</span>
+<span id='line410'>    verifyOut<b>(</b>buf, "&lt;input type='checkbox' />"<b>)</b></span>
+<span id='line411'>    out.checkbox<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line412'>    verifyOut<b>(</b>buf, "&lt;input type='checkbox' class='foo' />"<b>)</b></span>
+<span id='line413'></span>
+<span id='line414'>    out.radio</span>
+<span id='line415'>    verifyOut<b>(</b>buf, "&lt;input type='radio' />"<b>)</b></span>
+<span id='line416'>    out.radio<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line417'>    verifyOut<b>(</b>buf, "&lt;input type='radio' class='foo' />"<b>)</b></span>
+<span id='line418'></span>
+<span id='line419'>    out.submit</span>
+<span id='line420'>    verifyOut<b>(</b>buf, "&lt;input type='submit' />"<b>)</b></span>
+<span id='line421'>    out.submit<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line422'>    verifyOut<b>(</b>buf, "&lt;input type='submit' class='foo' />"<b>)</b></span>
+<span id='line423'></span>
+<span id='line424'>    out.select</span>
+<span id='line425'>    verifyOut<b>(</b>buf, "&lt;select>"<b>)</b></span>
+<span id='line426'>    out.select<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line427'>    verifyOut<b>(</b>buf, "&lt;select class='foo'>"<b>)</b></span>
+<span id='line428'>    out.selectEnd</span>
+<span id='line429'>    verifyOut<b>(</b>buf, "&lt;/select>"<b>)</b></span>
+<span id='line430'></span>
+<span id='line431'>    out.option</span>
+<span id='line432'>    verifyOut<b>(</b>buf, "&lt;option>"<b>)</b></span>
+<span id='line433'>    out.option<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line434'>    verifyOut<b>(</b>buf, "&lt;option class='foo'>"<b>)</b></span>
+<span id='line435'>    out.optionEnd</span>
+<span id='line436'>    verifyOut<b>(</b>buf, "&lt;/option>"<b>)</b></span>
+<span id='line437'></span>
+<span id='line438'>    out.textArea</span>
+<span id='line439'>    verifyOut<b>(</b>buf, "&lt;textarea>"<b>)</b></span>
+<span id='line440'>    out.textArea<b>(</b>"rows='20' cols='50'"<b>)</b></span>
+<span id='line441'>    verifyOut<b>(</b>buf, "&lt;textarea rows='20' cols='50'>"<b>)</b></span>
+<span id='line442'>    out.textAreaEnd</span>
+<span id='line443'>    verifyOut<b>(</b>buf, "&lt;/textarea>"<b>)</b></span>
+<span id='line444'></span>
+<span id='line445'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line446'>    // HTML5</span>
+<span id='line447'>    //////////////////////////////////////////////////////////////////////////</span>
+<span id='line448'></span>
+<span id='line449'>    out.header</span>
+<span id='line450'>    verifyOut<b>(</b>buf, "&lt;header>"<b>)</b></span>
+<span id='line451'>    out.header<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line452'>    verifyOut<b>(</b>buf, "&lt;header class='foo'>"<b>)</b></span>
+<span id='line453'>    out.headerEnd</span>
+<span id='line454'>    verifyOut<b>(</b>buf, "&lt;/header>"<b>)</b></span>
+<span id='line455'></span>
+<span id='line456'>    out.footer</span>
+<span id='line457'>    verifyOut<b>(</b>buf, "&lt;footer>"<b>)</b></span>
+<span id='line458'>    out.footer<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line459'>    verifyOut<b>(</b>buf, "&lt;footer class='foo'>"<b>)</b></span>
+<span id='line460'>    out.footerEnd</span>
+<span id='line461'>    verifyOut<b>(</b>buf, "&lt;/footer>"<b>)</b></span>
+<span id='line462'></span>
+<span id='line463'>    out.nav</span>
+<span id='line464'>    verifyOut<b>(</b>buf, "&lt;nav>"<b>)</b></span>
+<span id='line465'>    out.nav<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line466'>    verifyOut<b>(</b>buf, "&lt;nav class='foo'>"<b>)</b></span>
+<span id='line467'>    out.navEnd</span>
+<span id='line468'>    verifyOut<b>(</b>buf, "&lt;/nav>"<b>)</b></span>
+<span id='line469'></span>
+<span id='line470'>    out.section</span>
+<span id='line471'>    verifyOut<b>(</b>buf, "&lt;section>"<b>)</b></span>
+<span id='line472'>    out.section<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line473'>    verifyOut<b>(</b>buf, "&lt;section class='foo'>"<b>)</b></span>
+<span id='line474'>    out.sectionEnd</span>
+<span id='line475'>    verifyOut<b>(</b>buf, "&lt;/section>"<b>)</b></span>
+<span id='line476'></span>
+<span id='line477'>    out.article</span>
+<span id='line478'>    verifyOut<b>(</b>buf, "&lt;article>"<b>)</b></span>
+<span id='line479'>    out.article<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line480'>    verifyOut<b>(</b>buf, "&lt;article class='foo'>"<b>)</b></span>
+<span id='line481'>    out.articleEnd</span>
+<span id='line482'>    verifyOut<b>(</b>buf, "&lt;/article>"<b>)</b></span>
+<span id='line483'></span>
+<span id='line484'>    out.aside</span>
+<span id='line485'>    verifyOut<b>(</b>buf, "&lt;aside>"<b>)</b></span>
+<span id='line486'>    out.aside<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line487'>    verifyOut<b>(</b>buf, "&lt;aside class='foo'>"<b>)</b></span>
+<span id='line488'>    out.asideEnd</span>
+<span id='line489'>    verifyOut<b>(</b>buf, "&lt;/aside>"<b>)</b></span>
+<span id='line490'>  <b>}</b></span>
+<span id='line491'></span>
+<span id='line492'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line493'>// Xml</span>
+<span id='line494'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line495'></span>
+<span id='line496'>  Void testEsc<b>(</b><b>)</b></span>
+<span id='line497'>  <b>{</b></span>
+<span id='line498'>    verifyEsc<b>(</b>null, "null"<b>)</b></span>
+<span id='line499'>    verifyEsc<b>(</b>56, "56"<b>)</b></span>
+<span id='line500'>    verifyEsc<b>(</b>"", ""<b>)</b></span>
+<span id='line501'>    verifyEsc<b>(</b>"x", "x"<b>)</b></span>
+<span id='line502'>    verifyEsc<b>(</b>"!@^%<b>(</b><b>)</b>", "!@^%<b>(</b><b>)</b>"<b>)</b></span>
+<span id='line503'>    verifyEsc<b>(</b>"x>", "x>"<b>)</b></span>
+<span id='line504'>    verifyEsc<b>(</b>"x>\u01bc", "x>\u01bc"<b>)</b></span>
+<span id='line505'>    verifyEsc<b>(</b>">", "&amp;gt;"<b>)</b></span>
+<span id='line506'>    verifyEsc<b>(</b>"<b>]</b>&gt;", "<b>]</b>&amp;gt;"<b>)</b></span>
+<span id='line507'>    verifyEsc<b>(</b>"&lt;>&amp;\"'", "&amp;lt;>&amp;amp;&amp;quot;&amp;#39;"<b>)</b></span>
+<span id='line508'>    verifyEsc<b>(</b>"foo&amp;", "foo&amp;amp;"<b>)</b></span>
+<span id='line509'>    verifyEsc<b>(</b>"foo&amp;bar", "foo&amp;amp;bar"<b>)</b></span>
+<span id='line510'>    verifyEsc<b>(</b>"&amp;bar", "&amp;amp;bar"<b>)</b></span>
+<span id='line511'>  <b>}</b></span>
+<span id='line512'></span>
+<span id='line513'>  Void verifyEsc<b>(</b>Obj? input, Str match<b>)</b></span>
+<span id='line514'>  <b>{</b></span>
+<span id='line515'>    buf := Buf<b>(</b><b>)</b></span>
+<span id='line516'>    out := WebOutStream<b>(</b>buf.out<b>)</b></span>
+<span id='line517'>    out.esc<b>(</b>input<b>)</b></span>
+<span id='line518'>    verifyEq<b>(</b>buf.flip.readAllStr, match<b>)</b></span>
+<span id='line519'></span>
+<span id='line520'>    sb  := StrBuf<b>(</b><b>)</b></span>
+<span id='line521'>    out = WebOutStream<b>(</b>sb.out<b>)</b></span>
+<span id='line522'>    out.esc<b>(</b>input<b>)</b></span>
+<span id='line523'>    verifyEq<b>(</b>sb.toStr, match<b>)</b></span>
+<span id='line524'>  <b>}</b></span>
+<span id='line525'></span>
+<span id='line526'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line527'>// verifyOut</span>
+<span id='line528'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line529'></span>
+<span id='line530'>  Void verifyOut<b>(</b>Obj bufOrStrBuf, Str? match<b>)</b></span>
+<span id='line531'>  <b>{</b></span>
+<span id='line532'>    if <b>(</b>bufOrStrBuf is Buf<b>)</b></span>
+<span id='line533'>    <b>{</b></span>
+<span id='line534'>      buf := <b>(</b>Buf<b>)</b>bufOrStrBuf</span>
+<span id='line535'>      buf.flip</span>
+<span id='line536'>      verifyEq<b>(</b>buf.readLine, match<b>)</b></span>
+<span id='line537'>      buf.clear</span>
+<span id='line538'>    <b>}</b></span>
+<span id='line539'>    else</span>
+<span id='line540'>    <b>{</b></span>
+<span id='line541'>      buf := <b>(</b>StrBuf<b>)</b>bufOrStrBuf</span>
+<span id='line542'>      verifyEq<b>(</b>buf.toStr, match<b>)</b></span>
+<span id='line543'>      buf.clear</span>
+<span id='line544'>    <b>}</b></span>
+<span id='line545'>  <b>}</b></span>
+<span id='line546'></span>
+<span id='line547'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

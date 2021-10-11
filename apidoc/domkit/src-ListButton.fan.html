@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>ListButton.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='ListButton.html'>ListButton</a></li><li><a href='src-ListButton.fan.html'>ListButton.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   17 Feb 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'>using graphics</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** ListButton allows user selection of an item in a list by</span>
+<span id='line14'>** showing a listbox popup on button press.</span>
+<span id='line15'>**</span>
+<span id='line16'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#listButton`,</span>
+<span id='line17'>** `Button`, `ToggleButton`</span>
+<span id='line18'>**</span>
+<span id='line19'>@Js class ListButton : Button</span>
+<span id='line20'><b>{</b></span>
+<span id='line21'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line22'>  <b>{</b></span>
+<span id='line23'>    this.style.addClass<b>(</b>"domkit-ListButton disclosure-list"<b>)</b></span>
+<span id='line24'>    this.sel = ListButtonSelection<b>(</b>this<b>)</b></span>
+<span id='line25'>    this.onPopup <b>{</b> makeListbox <b>}</b></span>
+<span id='line26'>    this.update</span>
+<span id='line27'></span>
+<span id='line28'>    // shift to align text</span>
+<span id='line29'>    this.popupOffset = Point<b>(</b>-12, 0<b>)</b></span>
+<span id='line30'>  <b>}</b></span>
+<span id='line31'></span>
+<span id='line32'>  ** The current list items.</span>
+<span id='line33'>  Obj<b>[</b><b>]</b> items := List.defVal</span>
+<span id='line34'>  <b>{</b></span>
+<span id='line35'>    set</span>
+<span id='line36'>    <b>{</b></span>
+<span id='line37'>      &amp;items = it</span>
+<span id='line38'>      sel.index = it.size==0 ? null : 0</span>
+<span id='line39'>      update</span>
+<span id='line40'>    <b>}</b></span>
+<span id='line41'>  <b>}</b></span>
+<span id='line42'></span>
+<span id='line43'>  ** Selection for list.</span>
+<span id='line44'>  Selection sel <b>{</b> private set <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  ** Callback when selected item has changed.</span>
+<span id='line47'>  Void onSelect<b>(</b>|This| f<b>)</b> <b>{</b> this.cbSelect = f <b>}</b></span>
+<span id='line48'></span>
+<span id='line49'>  ** Callback to create an 'Elem' representation for a given list</span>
+<span id='line50'>  ** item.  If function does not return an 'Elem' instance, one will</span>
+<span id='line51'>  ** be created using 'toStr' of value.</span>
+<span id='line52'>  Void onElem<b>(</b>|Obj->Obj| f<b>)</b></span>
+<span id='line53'>  <b>{</b></span>
+<span id='line54'>    this.cbElem = f</span>
+<span id='line55'>    update</span>
+<span id='line56'>  <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>  ** Update button content.</span>
+<span id='line59'>  internal Void update<b>(</b><b>)</b></span>
+<span id='line60'>  <b>{</b></span>
+<span id='line61'>    if <b>(</b>isCombo<b>)</b> return</span>
+<span id='line62'>    this.removeAll</span>
+<span id='line63'>    if <b>(</b>items.size == 0 || sel.item == null<b>)</b> this.add<b>(</b>Elem <b>{</b> it.text = "\u200b" <b>}</b><b>)</b></span>
+<span id='line64'>    else this.add<b>(</b>makeElem<b>(</b>sel.item<b>)</b><b>)</b></span>
+<span id='line65'>  <b>}</b></span>
+<span id='line66'></span>
+<span id='line67'>  ** Fire select event.</span>
+<span id='line68'>  internal Void fireSelect<b>(</b><b>)</b> <b>{</b> cbSelect?.call<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line69'></span>
+<span id='line70'>  ** Build listbox.</span>
+<span id='line71'>  private Popup makeListbox<b>(</b><b>)</b></span>
+<span id='line72'>  <b>{</b></span>
+<span id='line73'>    this.find = ""</span>
+<span id='line74'>    this.menu = Menu <b>{</b><b>}</b></span>
+<span id='line75'>    items.each |item,i|</span>
+<span id='line76'>    <b>{</b></span>
+<span id='line77'>      elem := makeElem<b>(</b>item<b>)</b></span>
+<span id='line78'>      menu.add<b>(</b>MenuItem <b>{</b></span>
+<span id='line79'>        if <b>(</b>!isCombo<b>)</b></span>
+<span id='line80'>        <b>{</b></span>
+<span id='line81'>          it.style.addClass<b>(</b>"domkit-ListButton-MenuItem"<b>)</b></span>
+<span id='line82'>          if <b>(</b>sel.index == i<b>)</b> it.style.addClass<b>(</b>"sel"<b>)</b></span>
+<span id='line83'>        <b>}</b></span>
+<span id='line84'>        it.add<b>(</b>elem<b>)</b></span>
+<span id='line85'>        it.onAction <b>{</b> sel.index=i; fireSelect <b>}</b></span>
+<span id='line86'>      <b>}</b><b>)</b></span>
+<span id='line87'></span>
+<span id='line88'>      // TODO: temp hook to mark list items as disabled</span>
+<span id='line89'>      if <b>(</b>elem.style.hasClass<b>(</b>"disabled"<b>)</b><b>)</b> menu.lastChild.enabled = false</span>
+<span id='line90'>    <b>}</b></span>
+<span id='line91'>    menu.select<b>(</b>sel.index<b>)</b></span>
+<span id='line92'>    menu.onCustomKeyDown = |Event e| <b>{</b> onMenuKeyDown<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line93'>    return menu</span>
+<span id='line94'>  <b>}</b></span>
+<span id='line95'></span>
+<span id='line96'>  private Elem makeElem<b>(</b>Obj item<b>)</b></span>
+<span id='line97'>  <b>{</b></span>
+<span id='line98'>    v := cbElem == null ? item.toStr : cbElem<b>(</b>item<b>)</b></span>
+<span id='line99'>    return v is Elem ? v : Elem <b>{</b> it.text=v.toStr <b>}</b></span>
+<span id='line100'>  <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>  private Void onMenuKeyDown<b>(</b>Event e<b>)</b></span>
+<span id='line103'>  <b>{</b></span>
+<span id='line104'>    if <b>(</b>e.key.code.isAlphaNum<b>)</b></span>
+<span id='line105'>    <b>{</b></span>
+<span id='line106'>      find += e.key.code.toChar.lower</span>
+<span id='line107'>      ix := items.findIndex |i| <b>{</b> i.toStr.lower.startsWith<b>(</b>find<b>)</b> <b>}</b></span>
+<span id='line108'>      if <b>(</b>ix != -1<b>)</b> menu.select<b>(</b>ix<b>)</b></span>
+<span id='line109'>    <b>}</b></span>
+<span id='line110'>  <b>}</b></span>
+<span id='line111'></span>
+<span id='line112'>  private Func? cbSelect := null</span>
+<span id='line113'>  private Func? cbElem   := null</span>
+<span id='line114'></span>
+<span id='line115'>  private Str find := ""  // onPopup</span>
+<span id='line116'>  private Menu? menu      // onPopup</span>
+<span id='line117'><b>}</b></span>
+<span id='line118'></span>
+<span id='line119'>**************************************************************************</span>
+<span id='line120'>** ListButtonSelection</span>
+<span id='line121'>**************************************************************************</span>
+<span id='line122'></span>
+<span id='line123'>@Js internal class ListButtonSelection : IndexSelection</span>
+<span id='line124'><b>{</b></span>
+<span id='line125'>  new make<b>(</b>ListButton button<b>)</b> <b>{</b> this.button = button <b>}</b></span>
+<span id='line126'>  override Int max<b>(</b><b>)</b> <b>{</b> button.items.size <b>}</b></span>
+<span id='line127'>  override Obj toItem<b>(</b>Int index<b>)</b> <b>{</b> button.items<b>[</b>index<b>]</b> <b>}</b></span>
+<span id='line128'>  override Int? toIndex<b>(</b>Obj item<b>)</b> <b>{</b> button.items.findIndex |i| <b>{</b> i == item <b>}</b><b>}</b></span>
+<span id='line129'>  override Void onUpdate<b>(</b>Int<b>[</b><b>]</b> oldIndexes, Int<b>[</b><b>]</b> newIndexes<b>)</b> <b>{</b> button.update <b>}</b></span>
+<span id='line130'>  private ListButton button</span>
+<span id='line131'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

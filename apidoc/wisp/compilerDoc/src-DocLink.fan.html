@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocLink.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocLink.html'>DocLink</a></li><li><a href='src-DocLink.fan.html'>DocLink.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   15 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//   21 Dec 11  Brian Frank  Major redesign</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>using web</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** DocLink models a link between two documents.</span>
+<span id='line14'>**</span>
+<span id='line15'>** The following link formats are built-in:</span>
+<span id='line16'>**</span>
+<span id='line17'>**    Format             Display     Links To</span>
+<span id='line18'>**    ------             -------     --------</span>
+<span id='line19'>**    pod::index         pod         absolute link to pod index</span>
+<span id='line20'>**    pod::pod-doc       pod         absolute link to pod doc chapter</span>
+<span id='line21'>**    pod::Type          Type        absolute link to type qname</span>
+<span id='line22'>**    pod::Types.slot    Type.slot   absolute link to slot qname</span>
+<span id='line23'>**    pod::Chapter       Chapter     absolute link to book chapter</span>
+<span id='line24'>**    pod::Chapter#frag  Chapter     absolute link to book chapter anchor</span>
+<span id='line25'>**    Type               Type        pod relative link to type</span>
+<span id='line26'>**    Type.slot          Type.slot   pod relative link to slot</span>
+<span id='line27'>**    slot               slot        type relative link to slot</span>
+<span id='line28'>**    Chapter            Chapter     pod relative link to book chapter</span>
+<span id='line29'>**    Chapter#frag       Chapter     pod relative link to chapter anchor</span>
+<span id='line30'>**    #frag              heading     chapter relative link to anchor</span>
+<span id='line31'>**</span>
+<span id='line32'>const class DocLink</span>
+<span id='line33'><b>{</b></span>
+<span id='line34'>  ** Construct with from doc, dis text, target document,</span>
+<span id='line35'>  ** and optional fragment identifier</span>
+<span id='line36'>  new make<b>(</b>Doc from, Doc target, Str dis := target.docName, Str? frag := null<b>)</b></span>
+<span id='line37'>  <b>{</b></span>
+<span id='line38'>    this.from   = from</span>
+<span id='line39'>    this.target = target</span>
+<span id='line40'>    this.dis    = dis</span>
+<span id='line41'>    this.frag   = frag</span>
+<span id='line42'>  <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>  ** Construct an absolute link such as "https://foo/"</span>
+<span id='line45'>  new makeAbsUri<b>(</b>Doc from, Uri uri, Str dis<b>)</b></span>
+<span id='line46'>  <b>{</b></span>
+<span id='line47'>    this.from   = from    // not really used</span>
+<span id='line48'>    this.target = from    // not really used</span>
+<span id='line49'>    this.absUri = uri</span>
+<span id='line50'>    this.dis    = dis</span>
+<span id='line51'>  <b>}</b></span>
+<span id='line52'></span>
+<span id='line53'>  ** Document we are linking from</span>
+<span id='line54'>  const Doc from</span>
+<span id='line55'></span>
+<span id='line56'>  ** Target document</span>
+<span id='line57'>  const Doc target</span>
+<span id='line58'></span>
+<span id='line59'>  ** Display text for the anchor</span>
+<span id='line60'>  const Str dis</span>
+<span id='line61'></span>
+<span id='line62'>  ** Optional fragment in the link document</span>
+<span id='line63'>  const Str? frag</span>
+<span id='line64'></span>
+<span id='line65'>  ** If link resolves to an absolute URI</span>
+<span id='line66'>  const Uri? absUri</span>
+<span id='line67'></span>
+<span id='line68'>  ** Debug string representation</span>
+<span id='line69'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line70'>  <b>{</b></span>
+<span id='line71'>    "<b>[</b>$dis<b>]</b> $from.docName -> $target.docName" + <b>(</b>frag == null ? "" : "#$frag"<b>)</b></span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

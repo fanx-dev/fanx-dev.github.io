@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::CodeAsm</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='CodeAsm.html'>CodeAsm</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::CodeAsm</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    compiler::CodeAsm</pre>
+
+<p>CodeAsm is used to assemble the fcode instructions of an Expr or Block.</p>
+<dl>
+<dt id='block'>
+block</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> block(<a href='Block.html'>Block</a> block)</code></p>
+</dd>
+<dt id='code'>
+code</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> code</code></p>
+</dd>
+<dt id='curMethod'>
+curMethod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> curMethod</code></p>
+</dd>
+<dt id='errCount'>
+errCount</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> errCount</code></p>
+</dd>
+<dt id='errTable'>
+errTable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> errTable</code></p>
+</dd>
+<dt id='expr'>
+expr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> expr(<a href='Expr.html'>Expr</a> expr)</code></p>
+</dd>
+<dt id='finishCode'>
+finishCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> finishCode()</code></p>
+
+<p>Finish writing out the exception handling table</p>
+</dd>
+<dt id='finishErrTable'>
+finishErrTable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> finishErrTable()</code></p>
+
+<p>Finish writing out the exception handling table</p>
+</dd>
+<dt id='finishLines'>
+finishLines</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> finishLines()</code></p>
+
+<p>Finish writing out the line number table</p>
+</dd>
+<dt id='fpod'>
+fpod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FPod.html'>FPod</a> fpod</code></p>
+</dd>
+<dt id='lastLine'>
+lastLine</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> lastLine := -1</code></p>
+</dd>
+<dt id='lastOffset'>
+lastOffset</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> lastOffset := -1</code></p>
+</dd>
+<dt id='lineCount'>
+lineCount</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> lineCount</code></p>
+</dd>
+<dt id='lines'>
+lines</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> lines</code></p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Loc.html'>Loc</a> loc</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler, <a href='Loc.html'>Loc</a> loc, <a href='FPod.html'>FPod</a> fpod, <a href='MethodDef.html'>MethodDef?</a> curMethod)</code></p>
+</dd>
+<dt id='op'>
+op</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> op(<a href='FOp.html'>FOp</a> op, <a href='../sys/Int.html'>Int?</a> arg := null)</code></p>
+
+<p>Append a opcode with option two byte argument.</p>
+</dd>
+<dt id='opType'>
+opType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> opType(<a href='FOp.html'>FOp</a> opcode, <a href='CType.html'>CType</a> arg)</code></p>
+
+<p>Append a opcode with a type argument.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#block'>block</a></li><li><a href='#code'>code</a></li><li><a href='#curMethod'>curMethod</a></li><li><a href='#errCount'>errCount</a></li><li><a href='#errTable'>errTable</a></li><li><a href='#expr'>expr</a></li><li><a href='#finishCode'>finishCode</a></li><li><a href='#finishErrTable'>finishErrTable</a></li><li><a href='#finishLines'>finishLines</a></li><li><a href='#fpod'>fpod</a></li><li><a href='#lastLine'>lastLine</a></li><li><a href='#lastOffset'>lastOffset</a></li><li><a href='#lineCount'>lineCount</a></li><li><a href='#lines'>lines</a></li><li><a href='#loc'>loc</a></li><li><a href='#op'>op</a></li><li><a href='#opType'>opType</a></li></ul>
+</div>
+</div>
+</body>
+</html>

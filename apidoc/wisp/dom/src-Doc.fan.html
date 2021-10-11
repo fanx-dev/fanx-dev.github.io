@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Doc.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Doc.html'>Doc</a></li><li><a href='src-Doc.fan.html'>Doc.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2009, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   8 Jan 09  Andy Frank  Creation</span>
+<span id='line7'>//   8 Jul 09   Andy Frank  Split webappClient into sys/dom</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>using web</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** Doc models the DOM document object.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See <b>[</b>pod doc<b>]</b>`pod-doc#doc` for details.</span>
+<span id='line16'>**</span>
+<span id='line17'>@Js</span>
+<span id='line18'>class Doc</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'></span>
+<span id='line21'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line22'>// Constructors</span>
+<span id='line23'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line24'></span>
+<span id='line25'>  ** Private ctor.</span>
+<span id='line26'>  private new make<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line29'>// Meta</span>
+<span id='line30'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line31'></span>
+<span id='line32'>  ** The title of this document.</span>
+<span id='line33'>  native Str title</span>
+<span id='line34'></span>
+<span id='line35'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line36'>// Elements</span>
+<span id='line37'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line38'></span>
+<span id='line39'>  ** Get the head element.</span>
+<span id='line40'>  native Elem head<b>(</b><b>)</b></span>
+<span id='line41'></span>
+<span id='line42'>  ** Get the body element.</span>
+<span id='line43'>  native Elem body<b>(</b><b>)</b></span>
+<span id='line44'></span>
+<span id='line45'>  ** Get the currently focused element, or 'null' for none.</span>
+<span id='line46'>  native Elem? activeElem<b>(</b><b>)</b></span>
+<span id='line47'></span>
+<span id='line48'>  **</span>
+<span id='line49'>  ** Get the element with this 'id', or 'null' if no</span>
+<span id='line50'>  ** element is found with this 'id'.</span>
+<span id='line51'>  **</span>
+<span id='line52'>  native Elem? elemById<b>(</b>Str id<b>)</b></span>
+<span id='line53'></span>
+<span id='line54'>  **</span>
+<span id='line55'>  ** Create a new element with the given tag name.  If the</span>
+<span id='line56'>  ** attrib map is specified, set the new elements attributes</span>
+<span id='line57'>  ** to the given values. Optionally a namespace for the</span>
+<span id='line58'>  ** element can be specified with 'ns'.</span>
+<span id='line59'>  **</span>
+<span id='line60'>  native Elem createElem<b>(</b>Str tagName, <b>[</b>Str:Str<b>]</b>? attrib := null, Uri? ns := null<b>)</b></span>
+<span id='line61'></span>
+<span id='line62'>  ** Create a document fragment.</span>
+<span id='line63'>  @NoDoc native Elem createFrag<b>(</b><b>)</b></span>
+<span id='line64'></span>
+<span id='line65'>  **</span>
+<span id='line66'>  ** Returns the first element within the document <b>(</b>using depth-first</span>
+<span id='line67'>  ** pre-order traversal of the document's nodes<b>)</b> that matches the</span>
+<span id='line68'>  ** specified group of selectors, or null if none found.</span>
+<span id='line69'>  **</span>
+<span id='line70'>  native Elem? querySelector<b>(</b>Str selectors<b>)</b></span>
+<span id='line71'></span>
+<span id='line72'>  **</span>
+<span id='line73'>  ** Returns a list of the elements within the document <b>(</b>using</span>
+<span id='line74'>  ** depth-first pre-order traversal of the document's nodes<b>)</b> that</span>
+<span id='line75'>  ** match the specified group of selectors.</span>
+<span id='line76'>  **</span>
+<span id='line77'>  native Elem<b>[</b><b>]</b> querySelectorAll<b>(</b>Str selectors<b>)</b></span>
+<span id='line78'></span>
+<span id='line79'>  **</span>
+<span id='line80'>  ** Invoke `querySelectorAll` but use given 'type' when wrapping</span>
+<span id='line81'>  ** native DOM nodes. See `Elem.fromNative` for more details.</span>
+<span id='line82'>  **</span>
+<span id='line83'>  @NoDoc native Elem<b>[</b><b>]</b> querySelectorAllType<b>(</b>Str selectors, Type type<b>)</b></span>
+<span id='line84'></span>
+<span id='line85'>  **</span>
+<span id='line86'>  ** Render the given image to an offscreen &lt;canvas> element and</span>
+<span id='line87'>  ** export the contents to a data URI of type 'image/png'.</span>
+<span id='line88'>  **</span>
+<span id='line89'>  @NoDoc native Str exportPng<b>(</b>Elem img<b>)</b></span>
+<span id='line90'></span>
+<span id='line91'>  **</span>
+<span id='line92'>  ** Render the given image to an offscreen &lt;canvas> element and</span>
+<span id='line93'>  ** export the contents to a data URI of type 'image/jpeg'. The</span>
+<span id='line94'>  ** image quality can be configured by specifying a number</span>
+<span id='line95'>  ** between '0f' and '1f' for 'quality'.  If 'quality' is null</span>
+<span id='line96'>  ** the default value will be used.</span>
+<span id='line97'>  **</span>
+<span id='line98'>  @NoDoc native Str exportJpg<b>(</b>Elem img, Float? quality<b>)</b></span>
+<span id='line99'></span>
+<span id='line100'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line101'>// Events</span>
+<span id='line102'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line103'></span>
+<span id='line104'>  ** Attach an event handler for the given event on this document.</span>
+<span id='line105'>  ** Returns callback function instance.</span>
+<span id='line106'>  native Func onEvent<b>(</b>Str type, Bool useCapture, |Event e| handler<b>)</b></span>
+<span id='line107'></span>
+<span id='line108'>  ** Remove the given event handler from this document.  If this</span>
+<span id='line109'>  ** handler was not registered, this method does nothing.</span>
+<span id='line110'>  native Void removeEvent<b>(</b>Str type, Bool useCapture, Func handler<b>)</b></span>
+<span id='line111'></span>
+<span id='line112'>  ** When a HTML document has been switched to 'designMode', the document</span>
+<span id='line113'>  ** object exposes the 'exec' method which allows one to run commands to</span>
+<span id='line114'>  ** manipulate the contents of the editable region.</span>
+<span id='line115'>  **   - 'name': the command name to execute</span>
+<span id='line116'>  **   - 'defUi': flag to indicate if default user interface is shown</span>
+<span id='line117'>  **   - 'val': optional value for commands that take an argument</span>
+<span id='line118'>  native Bool exec<b>(</b>Str name, Bool defUi := false, Obj? val := null<b>)</b></span>
+<span id='line119'></span>
+<span id='line120'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line121'>// Writing</span>
+<span id='line122'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line123'></span>
+<span id='line124'>  **</span>
+<span id='line125'>  ** Return a WebOutStream for writing content into this</span>
+<span id='line126'>  ** document. You should call 'close' on the stream when</span>
+<span id='line127'>  ** done writing to notify browser load is complete.</span>
+<span id='line128'>  **</span>
+<span id='line129'>  native WebOutStream out<b>(</b><b>)</b></span>
+<span id='line130'></span>
+<span id='line131'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line132'>// Cookies</span>
+<span id='line133'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line134'></span>
+<span id='line135'>  **</span>
+<span id='line136'>  ** Map of cookie values keyed by cookie name.  The</span>
+<span id='line137'>  ** cookies map is readonly and case insensitive.</span>
+<span id='line138'>  **</span>
+<span id='line139'>  Str:Str cookies<b>(</b><b>)</b></span>
+<span id='line140'>  <b>{</b></span>
+<span id='line141'>    try</span>
+<span id='line142'>      return MimeType.parseParams<b>(</b>getCookiesStr<b>)</b>.ro</span>
+<span id='line143'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line144'>      e.trace</span>
+<span id='line145'>    return Str:Str<b>[</b>:<b>]</b>.ro</span>
+<span id='line146'>  <b>}</b></span>
+<span id='line147'></span>
+<span id='line148'>  **</span>
+<span id='line149'>  ** Add a cookie to this session.</span>
+<span id='line150'>  **</span>
+<span id='line151'>  native Void addCookie<b>(</b>Cookie c<b>)</b></span>
+<span id='line152'></span>
+<span id='line153'>  private native Str getCookiesStr<b>(</b><b>)</b></span>
+<span id='line154'></span>
+<span id='line155'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

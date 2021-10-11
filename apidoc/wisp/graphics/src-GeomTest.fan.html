@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>GeomTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='src-GeomTest.fan.html'>GeomTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   9 Jul 2008  Brian Frank  Creation <b>(</b>gfx version<b>)</b></span>
+<span id='line7'>//  12 May 2016  Brian Frank  SVG/CSS changes</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** GeomTest</span>
+<span id='line12'>**</span>
+<span id='line13'>@Js</span>
+<span id='line14'>class GeomTest : Test</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'>// Spilt</span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'></span>
+<span id='line21'>  Void testSplit<b>(</b><b>)</b></span>
+<span id='line22'>  <b>{</b></span>
+<span id='line23'>    verifyEq<b>(</b>GeomUtil.split<b>(</b>"a"<b>)</b>, <b>[</b>"a"<b>]</b><b>)</b></span>
+<span id='line24'>    verifyEq<b>(</b>GeomUtil.split<b>(</b>"a,b"<b>)</b>, <b>[</b>"a","b"<b>]</b><b>)</b></span>
+<span id='line25'>    verifyEq<b>(</b>GeomUtil.split<b>(</b>"a b"<b>)</b>, <b>[</b>"a", "b"<b>]</b><b>)</b></span>
+<span id='line26'>    verifyEq<b>(</b>GeomUtil.split<b>(</b>"a, b"<b>)</b>, <b>[</b>"a", "b"<b>]</b><b>)</b></span>
+<span id='line27'>    verifyEq<b>(</b>GeomUtil.split<b>(</b>"a  b"<b>)</b>, <b>[</b>"a", "b"<b>]</b><b>)</b></span>
+<span id='line28'>  <b>}</b></span>
+<span id='line29'></span>
+<span id='line30'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line31'>// Point</span>
+<span id='line32'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line33'></span>
+<span id='line34'>  Void testPoint<b>(</b><b>)</b></span>
+<span id='line35'>  <b>{</b></span>
+<span id='line36'>    verifyEq<b>(</b>Point.defVal, Point<b>(</b>0, 0<b>)</b><b>)</b></span>
+<span id='line37'>    verifyEq<b>(</b>Point#.make, Point<b>(</b>0, 0<b>)</b><b>)</b></span>
+<span id='line38'></span>
+<span id='line39'>    verifyEq<b>(</b>Point<b>(</b>3, 4<b>)</b>, Point<b>(</b>3, 4<b>)</b><b>)</b></span>
+<span id='line40'>    verifyEq<b>(</b>Point<b>(</b>3, 4<b>)</b>, Point<b>(</b>3f, 4f<b>)</b><b>)</b></span>
+<span id='line41'>    verifyEq<b>(</b>Point<b>(</b>3.5f, 4.5f<b>)</b>, Point<b>(</b>3.5f, 4.5f<b>)</b><b>)</b></span>
+<span id='line42'>    verifyNotEq<b>(</b>Point<b>(</b>3, 9<b>)</b>, Point<b>(</b>3, 4<b>)</b><b>)</b></span>
+<span id='line43'>    verifyNotEq<b>(</b>Point<b>(</b>9, 4<b>)</b>, Point<b>(</b>3, 4<b>)</b><b>)</b></span>
+<span id='line44'></span>
+<span id='line45'>    verifyEq<b>(</b>Point<b>(</b>2, 3<b>)</b>.toStr, "2 3"<b>)</b></span>
+<span id='line46'>    verifyEq<b>(</b>Point<b>(</b>2.5f, 0.4f<b>)</b>.toStr, "2.5 0.4"<b>)</b></span>
+<span id='line47'></span>
+<span id='line48'>    verifyEq<b>(</b>Point.fromStr<b>(</b>"4,-2"<b>)</b>, Point<b>(</b>4, -2<b>)</b><b>)</b></span>
+<span id='line49'>    verifyEq<b>(</b>Point.fromStr<b>(</b>"33 , 44"<b>)</b>, Point<b>(</b>33, 44<b>)</b><b>)</b></span>
+<span id='line50'>    verifyEq<b>(</b>Point.fromStr<b>(</b>"x,-2", false<b>)</b>, null<b>)</b></span>
+<span id='line51'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Point.fromStr<b>(</b>"x,-2"<b>)</b> <b>}</b></span>
+<span id='line52'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Point.fromStr<b>(</b>"x,-2", true<b>)</b> <b>}</b></span>
+<span id='line53'></span>
+<span id='line54'>    verifySer<b>(</b>Point<b>(</b>0, 1<b>)</b><b>)</b></span>
+<span id='line55'>    verifySer<b>(</b>Point<b>(</b>-99, -505<b>)</b><b>)</b></span>
+<span id='line56'>  <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line59'>// Size</span>
+<span id='line60'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line61'></span>
+<span id='line62'>  Void testSize<b>(</b><b>)</b></span>
+<span id='line63'>  <b>{</b></span>
+<span id='line64'>    verifyEq<b>(</b>Size.defVal, Size<b>(</b>0, 0<b>)</b><b>)</b></span>
+<span id='line65'>    verifyEq<b>(</b>Size#.make, Size<b>(</b>0, 0<b>)</b><b>)</b></span>
+<span id='line66'></span>
+<span id='line67'>    verifyEq<b>(</b>Size<b>(</b>3, 4<b>)</b>, Size<b>(</b>3, 4<b>)</b><b>)</b></span>
+<span id='line68'>    verifyEq<b>(</b>Size<b>(</b>3, 4<b>)</b>, Size<b>(</b>3f, 4f<b>)</b><b>)</b></span>
+<span id='line69'>    verifyEq<b>(</b>Size<b>(</b>3.5f, 4.5f<b>)</b>, Size<b>(</b>3.5f, 4.5f<b>)</b><b>)</b></span>
+<span id='line70'>    verifyNotEq<b>(</b>Size<b>(</b>3, 9<b>)</b>, Size<b>(</b>3, 4<b>)</b><b>)</b></span>
+<span id='line71'>    verifyNotEq<b>(</b>Size<b>(</b>9, 4<b>)</b>, Size<b>(</b>3, 4<b>)</b><b>)</b></span>
+<span id='line72'></span>
+<span id='line73'>    verifyEq<b>(</b>Size<b>(</b>2, 3<b>)</b>.toStr, "2 3"<b>)</b></span>
+<span id='line74'>    verifyEq<b>(</b>Size<b>(</b>2.5f, 0.4f<b>)</b>.toStr, "2.5 0.4"<b>)</b></span>
+<span id='line75'></span>
+<span id='line76'>    verifyEq<b>(</b>Size.fromStr<b>(</b>"4,-2"<b>)</b>, Size<b>(</b>4, -2<b>)</b><b>)</b></span>
+<span id='line77'>    verifyEq<b>(</b>Size.fromStr<b>(</b>"-33 , 60"<b>)</b>, Size<b>(</b>-33, 60<b>)</b><b>)</b></span>
+<span id='line78'>    verifyEq<b>(</b>Size.fromStr<b>(</b>"x,-2", false<b>)</b>, null<b>)</b></span>
+<span id='line79'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Size.fromStr<b>(</b>"x,-2"<b>)</b> <b>}</b></span>
+<span id='line80'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Size.fromStr<b>(</b>"x,-2", true<b>)</b> <b>}</b></span>
+<span id='line81'></span>
+<span id='line82'>    verifySer<b>(</b>Size<b>(</b>0, 1<b>)</b><b>)</b></span>
+<span id='line83'>    verifySer<b>(</b>Size<b>(</b>-99, -505<b>)</b><b>)</b></span>
+<span id='line84'>  <b>}</b></span>
+<span id='line85'></span>
+<span id='line86'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line87'>// Rect</span>
+<span id='line88'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line89'></span>
+<span id='line90'>  Void testRect<b>(</b><b>)</b></span>
+<span id='line91'>  <b>{</b></span>
+<span id='line92'>    verifyEq<b>(</b>Rect.defVal, Rect<b>(</b>0, 0, 0, 0<b>)</b><b>)</b></span>
+<span id='line93'>    verifyEq<b>(</b>Rect#.make, Rect<b>(</b>0, 0, 0, 0<b>)</b><b>)</b></span>
+<span id='line94'></span>
+<span id='line95'>    r := Rect<b>(</b>1.2f, 2f, 3.5f, 4f<b>)</b></span>
+<span id='line96'>    verifyEq<b>(</b>r.x, 1.2f<b>)</b></span>
+<span id='line97'>    verifyEq<b>(</b>r.y, 2f<b>)</b></span>
+<span id='line98'>    verifyEq<b>(</b>r.w, 3.5f<b>)</b></span>
+<span id='line99'>    verifyEq<b>(</b>r.h, 4f<b>)</b></span>
+<span id='line100'></span>
+<span id='line101'>    verifyEq<b>(</b>Rect<b>(</b>1, 2, 3, 4<b>)</b>, Rect<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line102'>    verifyEq<b>(</b>Rect<b>(</b>1, 2, 3, 4<b>)</b>, Rect<b>(</b>1f, 2f, 3f, 4f<b>)</b><b>)</b></span>
+<span id='line103'>    verifyNotEq<b>(</b>Rect<b>(</b>0, 2, 3, 4<b>)</b>, Rect<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line104'>    verifyNotEq<b>(</b>Rect<b>(</b>1, 0, 3, 4<b>)</b>, Rect<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line105'>    verifyNotEq<b>(</b>Rect<b>(</b>1, 2, 0, 4<b>)</b>, Rect<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line106'>    verifyNotEq<b>(</b>Rect<b>(</b>1, 2, 3, 0<b>)</b>, Rect<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line107'></span>
+<span id='line108'>    verifyEq<b>(</b>Rect<b>(</b>1, 2, 3, 4<b>)</b>.toStr, "1 2 3 4"<b>)</b></span>
+<span id='line109'>    verifyEq<b>(</b>Rect<b>(</b>1.5f, 2.5f, 3f, 4.2f<b>)</b>.toStr, "1.5 2.5 3 4.2"<b>)</b></span>
+<span id='line110'></span>
+<span id='line111'>    // contains</span>
+<span id='line112'>    r = Rect<b>(</b>2,2,6,6<b>)</b></span>
+<span id='line113'>    verify<b>(</b>r.contains<b>(</b>Point<b>(</b>4,4<b>)</b><b>)</b><b>)</b></span>
+<span id='line114'>    verify<b>(</b>r.contains<b>(</b>Point<b>(</b>2,4<b>)</b><b>)</b><b>)</b></span>
+<span id='line115'>    verify<b>(</b>r.contains<b>(</b>Point<b>(</b>4,2<b>)</b><b>)</b><b>)</b></span>
+<span id='line116'>    verify<b>(</b>r.contains<b>(</b>Point<b>(</b>2,2<b>)</b><b>)</b><b>)</b></span>
+<span id='line117'>    verify<b>(</b>r.contains<b>(</b>Point<b>(</b>8,8<b>)</b><b>)</b><b>)</b></span>
+<span id='line118'>    verify<b>(</b>!r.contains<b>(</b>Point<b>(</b>1,1<b>)</b><b>)</b><b>)</b></span>
+<span id='line119'>    verify<b>(</b>!r.contains<b>(</b>Point<b>(</b>2,9<b>)</b><b>)</b><b>)</b></span>
+<span id='line120'>    verify<b>(</b>!r.contains<b>(</b>Point<b>(</b>1,5<b>)</b><b>)</b><b>)</b></span>
+<span id='line121'></span>
+<span id='line122'>    // intersection</span>
+<span id='line123'>    verifyIntersection<b>(</b>Rect<b>(</b>0, 5, 10, 10<b>)</b>, Rect<b>(</b>5, 10, 15, 10<b>)</b>, Rect<b>(</b>5, 10, 5, 5<b>)</b><b>)</b></span>
+<span id='line124'>    verifyIntersection<b>(</b>Rect<b>(</b>0, 5, 15, 15<b>)</b>, Rect<b>(</b>5, 10, 20, 5<b>)</b>, Rect<b>(</b>5, 10, 10, 5<b>)</b><b>)</b></span>
+<span id='line125'>    verifyIntersection<b>(</b>Rect<b>(</b>10, 0, 5, 20<b>)</b>, Rect<b>(</b>5, 10, 20, 5<b>)</b>, Rect<b>(</b>10, 10, 5, 5<b>)</b><b>)</b></span>
+<span id='line126'>    verifyIntersection<b>(</b>Rect<b>(</b>0, 0, 20, 20<b>)</b>, Rect<b>(</b>5, 5, 5, 10<b>)</b>, Rect<b>(</b>5, 5, 5, 10<b>)</b><b>)</b></span>
+<span id='line127'>    verifyIntersection<b>(</b>Rect<b>(</b>0, 0, 15, 10<b>)</b>, Rect<b>(</b>0, 5, 15, 15<b>)</b>, Rect<b>(</b>0, 5, 15, 5<b>)</b><b>)</b></span>
+<span id='line128'>    verifyIntersection<b>(</b>Rect<b>(</b>0, 0, 5, 5<b>)</b>, Rect<b>(</b>10, 10, 5, 5<b>)</b>, Rect.defVal<b>)</b></span>
+<span id='line129'>    verifyIntersection<b>(</b>Rect<b>(</b>5, 5, 5, 5<b>)</b>, Rect<b>(</b>0, 10, 15, 5<b>)</b>, Rect.defVal<b>)</b></span>
+<span id='line130'>    verifyIntersection<b>(</b>Rect<b>(</b>0, 0, 15, 5<b>)</b>, Rect<b>(</b>0, 5, 15, 15<b>)</b>, Rect.defVal<b>)</b></span>
+<span id='line131'></span>
+<span id='line132'>    // union</span>
+<span id='line133'>    verifyUnion<b>(</b>Rect<b>(</b>0, 0, 5, 5<b>)</b>, Rect<b>(</b>10, 15, 10, 5<b>)</b>, Rect<b>(</b>0, 0, 20, 20<b>)</b><b>)</b></span>
+<span id='line134'>    verifyUnion<b>(</b>Rect<b>(</b>10, 5, 5, 20<b>)</b>, Rect<b>(</b>0, 10, 25, 5<b>)</b>, Rect<b>(</b>0, 5, 25, 20<b>)</b><b>)</b></span>
+<span id='line135'>    verifyUnion<b>(</b>Rect<b>(</b>0, 10, 10, 5<b>)</b>, Rect<b>(</b>5, 20, 15, 5<b>)</b>, Rect<b>(</b>0, 10, 20, 15<b>)</b><b>)</b></span>
+<span id='line136'>    verifyUnion<b>(</b>Rect<b>(</b>5, 10, 5, 5<b>)</b>, Rect<b>(</b>15, 5, 5, 20<b>)</b>, Rect<b>(</b>5, 5, 15, 20<b>)</b><b>)</b></span>
+<span id='line137'></span>
+<span id='line138'>    verifyEq<b>(</b>Rect.fromStr<b>(</b>"3,4,5,6"<b>)</b>, Rect<b>(</b>3,4,5,6<b>)</b><b>)</b></span>
+<span id='line139'>    verifyEq<b>(</b>Rect.fromStr<b>(</b>"-1 , -2, -3  , -4"<b>)</b>, Rect<b>(</b>-1,-2,-3,-4<b>)</b><b>)</b></span>
+<span id='line140'>    verifyEq<b>(</b>Rect.fromStr<b>(</b>"3,4,5", false<b>)</b>, null<b>)</b></span>
+<span id='line141'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Rect.fromStr<b>(</b>"3,4,x,6"<b>)</b> <b>}</b></span>
+<span id='line142'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Rect.fromStr<b>(</b>"", true<b>)</b> <b>}</b></span>
+<span id='line143'></span>
+<span id='line144'>    verifySer<b>(</b>Rect<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line145'>    verifySer<b>(</b>Rect<b>(</b>-1, 2, -3, 4<b>)</b><b>)</b></span>
+<span id='line146'>  <b>}</b></span>
+<span id='line147'></span>
+<span id='line148'>  Void verifyIntersection<b>(</b>Rect a, Rect b, Rect r<b>)</b></span>
+<span id='line149'>  <b>{</b></span>
+<span id='line150'>    verifyEq<b>(</b>a.intersection<b>(</b>b<b>)</b>, r<b>)</b></span>
+<span id='line151'>    verifyEq<b>(</b>b.intersection<b>(</b>a<b>)</b>, r<b>)</b></span>
+<span id='line152'>    verifyEq<b>(</b>a.intersects<b>(</b>b<b>)</b>, r != Rect.defVal<b>)</b></span>
+<span id='line153'>    verifyEq<b>(</b>b.intersects<b>(</b>a<b>)</b>, r != Rect.defVal<b>)</b></span>
+<span id='line154'>  <b>}</b></span>
+<span id='line155'></span>
+<span id='line156'>  Void verifyUnion<b>(</b>Rect a, Rect b, Rect r<b>)</b></span>
+<span id='line157'>  <b>{</b></span>
+<span id='line158'>    verifyEq<b>(</b>a.union<b>(</b>a<b>)</b>, a<b>)</b></span>
+<span id='line159'>    verifyEq<b>(</b>a.union<b>(</b>b<b>)</b>, r<b>)</b></span>
+<span id='line160'>    verifyEq<b>(</b>b.union<b>(</b>a<b>)</b>, r<b>)</b></span>
+<span id='line161'>    verifyEq<b>(</b>a.intersects<b>(</b>r<b>)</b>, true<b>)</b>; verifyEq<b>(</b>r.intersects<b>(</b>a<b>)</b>, true<b>)</b></span>
+<span id='line162'>    verifyEq<b>(</b>b.intersects<b>(</b>r<b>)</b>, true<b>)</b>; verifyEq<b>(</b>r.intersects<b>(</b>b<b>)</b>, true<b>)</b></span>
+<span id='line163'>    verifyEq<b>(</b>r.intersects<b>(</b>r<b>)</b>, true<b>)</b></span>
+<span id='line164'>  <b>}</b></span>
+<span id='line165'></span>
+<span id='line166'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line167'>// Insets</span>
+<span id='line168'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line169'></span>
+<span id='line170'>  Void testInsets<b>(</b><b>)</b></span>
+<span id='line171'>  <b>{</b></span>
+<span id='line172'>    verifyEq<b>(</b>Insets<b>(</b>1, 2, 3, 4<b>)</b>, Insets<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line173'>    verifyEq<b>(</b>Insets<b>(</b>1, 2, 3, 4<b>)</b>, Insets<b>(</b>1f, 2f, 3f, 4f<b>)</b><b>)</b></span>
+<span id='line174'>    verifyEq<b>(</b>Insets<b>(</b>1, 2, 3, 4<b>)</b>.top,    1f<b>)</b></span>
+<span id='line175'>    verifyEq<b>(</b>Insets<b>(</b>1, 2, 3, 4<b>)</b>.right,  2f<b>)</b></span>
+<span id='line176'>    verifyEq<b>(</b>Insets<b>(</b>1, 2, 3, 4<b>)</b>.bottom, 3f<b>)</b></span>
+<span id='line177'>    verifyEq<b>(</b>Insets<b>(</b>1, 2, 3, 4<b>)</b>.left,   4f<b>)</b></span>
+<span id='line178'>    verifyEq<b>(</b>Insets<b>(</b>1, 2, 3, 4<b>)</b>.toSize, Size<b>(</b>6,4<b>)</b><b>)</b></span>
+<span id='line179'>    verifyNotEq<b>(</b>Insets<b>(</b>0, 2, 3, 4<b>)</b>, Insets<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line180'>    verifyNotEq<b>(</b>Insets<b>(</b>1, 0, 3, 4<b>)</b>, Insets<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line181'>    verifyNotEq<b>(</b>Insets<b>(</b>1, 2, 0, 4<b>)</b>, Insets<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line182'>    verifyNotEq<b>(</b>Insets<b>(</b>1, 2, 3, 0<b>)</b>, Insets<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line183'></span>
+<span id='line184'>    verifyEq<b>(</b>Insets<b>(</b>1<b>)</b>, Insets<b>(</b>1,1,1,1<b>)</b><b>)</b></span>
+<span id='line185'>    verifyEq<b>(</b>Insets<b>(</b>1,2<b>)</b>, Insets<b>(</b>1,2,1,2<b>)</b><b>)</b></span>
+<span id='line186'>    verifyEq<b>(</b>Insets<b>(</b>1,2,3<b>)</b>, Insets<b>(</b>1,2,3,2<b>)</b><b>)</b></span>
+<span id='line187'></span>
+<span id='line188'>    verifyEq<b>(</b>Insets<b>(</b>7<b>)</b>.toStr, "7"<b>)</b></span>
+<span id='line189'>    verifyEq<b>(</b>Insets<b>(</b>7.5f<b>)</b>.toStr, "7.5"<b>)</b></span>
+<span id='line190'>    verifyEq<b>(</b>Insets<b>(</b>1.5f, 2.5f, 3f, 4.2f<b>)</b>.toStr, "1.5 2.5 3 4.2"<b>)</b></span>
+<span id='line191'></span>
+<span id='line192'>    verifyEq<b>(</b>Insets.fromStr<b>(</b>"3,4,5,6"<b>)</b>, Insets<b>(</b>3,4,5,6<b>)</b><b>)</b></span>
+<span id='line193'>    verifyEq<b>(</b>Insets.fromStr<b>(</b>"10"<b>)</b>, Insets<b>(</b>10,10,10,10<b>)</b><b>)</b></span>
+<span id='line194'>    verifyEq<b>(</b>Insets.fromStr<b>(</b>"-1 , -2, -3  , -4"<b>)</b>, Insets<b>(</b>-1,-2,-3,-4<b>)</b><b>)</b></span>
+<span id='line195'>    verifyEq<b>(</b>Insets.fromStr<b>(</b>"3,4"<b>)</b>, Insets<b>(</b>3, 4<b>)</b><b>)</b></span>
+<span id='line196'>    verifyEq<b>(</b>Insets.fromStr<b>(</b>"3,4,5"<b>)</b>, Insets<b>(</b>3, 4, 5<b>)</b><b>)</b></span>
+<span id='line197'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Insets.fromStr<b>(</b>"3,4,x,6"<b>)</b> <b>}</b></span>
+<span id='line198'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Insets.fromStr<b>(</b>"", true<b>)</b> <b>}</b></span>
+<span id='line199'></span>
+<span id='line200'>    verifySer<b>(</b>Insets<b>(</b>1, 2, 3, 4<b>)</b><b>)</b></span>
+<span id='line201'>    verifySer<b>(</b>Insets<b>(</b>-1, 2, -3, 4<b>)</b><b>)</b></span>
+<span id='line202'>  <b>}</b></span>
+<span id='line203'></span>
+<span id='line204'>  Void verifySer<b>(</b>Obj obj<b>)</b></span>
+<span id='line205'>  <b>{</b></span>
+<span id='line206'>    //echo<b>(</b>"-- " + Buf.make.writeObj<b>(</b>obj<b>)</b>.flip.readAllStr<b>)</b></span>
+<span id='line207'>    x := Buf.make <b>{</b> out.writeObj<b>(</b>obj<b>)</b> <b>}</b>.flip.in.readObj</span>
+<span id='line208'>    verifyEq<b>(</b>obj, x<b>)</b></span>
+<span id='line209'>  <b>}</b></span>
+<span id='line210'></span>
+<span id='line211'></span>
+<span id='line212'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

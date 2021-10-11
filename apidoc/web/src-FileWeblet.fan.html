@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>FileWeblet.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='FileWeblet.html'>FileWeblet</a></li><li><a href='src-FileWeblet.fan.html'>FileWeblet.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   28 Jul 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** FileWeblet is used to service an HTTP request on a `sys::File`.</span>
+<span id='line11'>** It handles all the dirty details for cache control, compression,</span>
+<span id='line12'>** modification time, ETags, etc.</span>
+<span id='line13'>**</span>
+<span id='line14'>** Default implementation uses gzip encoding if gzip is supported</span>
+<span id='line15'>** by the client and the file's MIME type has a "text" media type.</span>
+<span id='line16'>**</span>
+<span id='line17'>** Current implementation supports ETags and Modification time</span>
+<span id='line18'>** for cache validation.  It does not specify any cache control</span>
+<span id='line19'>** directives.</span>
+<span id='line20'>**</span>
+<span id='line21'>class FileWeblet : Weblet</span>
+<span id='line22'><b>{</b></span>
+<span id='line23'></span>
+<span id='line24'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line25'>// Constructor</span>
+<span id='line26'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line27'></span>
+<span id='line28'>  **</span>
+<span id='line29'>  ** Constructor with file to service.</span>
+<span id='line30'>  **</span>
+<span id='line31'>  new make<b>(</b>File file<b>)</b></span>
+<span id='line32'>  <b>{</b></span>
+<span id='line33'>    if <b>(</b>file.isDir<b>)</b> throw ArgErr<b>(</b>"FileWeblet cannot process dir"<b>)</b></span>
+<span id='line34'>    this.file = file</span>
+<span id='line35'>  <b>}</b></span>
+<span id='line36'></span>
+<span id='line37'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line38'>// Access</span>
+<span id='line39'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line40'></span>
+<span id='line41'>  **</span>
+<span id='line42'>  ** The file being serviced by this FileWeblet.</span>
+<span id='line43'>  **</span>
+<span id='line44'>  const File file</span>
+<span id='line45'></span>
+<span id='line46'>  **</span>
+<span id='line47'>  ** Get the modified time of the file floored to 1 second</span>
+<span id='line48'>  ** which is the most precise that HTTP can deal with.</span>
+<span id='line49'>  **</span>
+<span id='line50'>  virtual DateTime modified<b>(</b><b>)</b></span>
+<span id='line51'>  <b>{</b></span>
+<span id='line52'>    return DateTime.fromTimePoint<b>(</b>file.modified<b>)</b>.floor<b>(</b>1sec<b>)</b></span>
+<span id='line53'>  <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>  **</span>
+<span id='line56'>  ** Compute the ETag for the file being serviced which uniquely</span>
+<span id='line57'>  ** identifies the file version.  The default implementation is</span>
+<span id='line58'>  ** a hash of the modified time and the file size.  The result</span>
+<span id='line59'>  ** of this method must conform to the ETag syntax and be</span>
+<span id='line60'>  ** wrapped in quotes.</span>
+<span id='line61'>  **</span>
+<span id='line62'>  virtual Str etag<b>(</b><b>)</b></span>
+<span id='line63'>  <b>{</b></span>
+<span id='line64'>    return "\"" + file.size.toHex + "-" + file.modified.toMillis.toHex + "\""</span>
+<span id='line65'>  <b>}</b></span>
+<span id='line66'></span>
+<span id='line67'>  **</span>
+<span id='line68'>  ** Checks if the file being served is under the given directory.</span>
+<span id='line69'>  ** If it is not, a 404 response is immediately sent, short-circuiting</span>
+<span id='line70'>  ** any further attempts to serve the file.</span>
+<span id='line71'>  **</span>
+<span id='line72'>  **   FileWeblet<b>(</b>file<b>)</b>.checkUnderDir<b>(</b>dir<b>)</b>.onService</span>
+<span id='line73'>  **</span>
+<span id='line74'>  This checkUnderDir<b>(</b>File dir<b>)</b></span>
+<span id='line75'>  <b>{</b></span>
+<span id='line76'>    if <b>(</b>!dir.isDir<b>)</b> throw ArgErr<b>(</b>"Not a directory: $dir"<b>)</b></span>
+<span id='line77'>    if <b>(</b>!file.normalize.pathStr.startsWith<b>(</b>dir.normalize.pathStr<b>)</b><b>)</b> res.sendErr<b>(</b>404<b>)</b></span>
+<span id='line78'>    return this</span>
+<span id='line79'>  <b>}</b></span>
+<span id='line80'></span>
+<span id='line81'>  **</span>
+<span id='line82'>  ** Extra response headers to add for all 3xx and 2xx responses</span>
+<span id='line83'>  **</span>
+<span id='line84'>  <b>[</b>Str:Str<b>]</b>? extraResHeaders</span>
+<span id='line85'></span>
+<span id='line86'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line87'>// Weblet</span>
+<span id='line88'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line89'></span>
+<span id='line90'>  override Void onService<b>(</b><b>)</b></span>
+<span id='line91'>  <b>{</b></span>
+<span id='line92'>    if <b>(</b>res.isDone<b>)</b> return</span>
+<span id='line93'>    Weblet.super.onService</span>
+<span id='line94'>  <b>}</b></span>
+<span id='line95'></span>
+<span id='line96'>  **</span>
+<span id='line97'>  ** Handle GET request for the file.</span>
+<span id='line98'>  **</span>
+<span id='line99'>  override Void onGet<b>(</b><b>)</b></span>
+<span id='line100'>  <b>{</b></span>
+<span id='line101'>    // if file doesn't exist</span>
+<span id='line102'>    if <b>(</b>!file.exists<b>)</b> <b>{</b> res.sendErr<b>(</b>404<b>)</b>; return <b>}</b></span>
+<span id='line103'></span>
+<span id='line104'>    // set identity headers</span>
+<span id='line105'>    res.headers<b>[</b>"ETag"<b>]</b> = etag</span>
+<span id='line106'>    res.headers<b>[</b>"Last-Modified"<b>]</b> = modified.toHttpStr</span>
+<span id='line107'></span>
+<span id='line108'>    // extra headers</span>
+<span id='line109'>    if <b>(</b>extraResHeaders != null<b>)</b></span>
+<span id='line110'>      res.headers.setAll<b>(</b>extraResHeaders<b>)</b></span>
+<span id='line111'></span>
+<span id='line112'>    // check if we can return a 304 not modified</span>
+<span id='line113'>    if <b>(</b>checkNotModified<b>)</b> return</span>
+<span id='line114'></span>
+<span id='line115'>    // MIME type</span>
+<span id='line116'>    mime := file.mimeType</span>
+<span id='line117'>    if <b>(</b>mime != null<b>)</b> res.headers<b>[</b>"Content-Type"<b>]</b> = mime.toStr</span>
+<span id='line118'></span>
+<span id='line119'>    // check if client supports gzip and file has text/* MIME type</span>
+<span id='line120'>    // and if so send the file using gzip compression <b>(</b>we don't</span>
+<span id='line121'>    // know content length in this case<b>)</b></span>
+<span id='line122'>    ae := req.headers<b>[</b>"Accept-Encoding"<b>]</b> ?: ""</span>
+<span id='line123'>    if <b>(</b>isGzipFile<b>(</b>file<b>)</b> &amp;&amp; WebUtil.parseQVals<b>(</b>ae<b>)</b><b>[</b>"gzip"<b>]</b> > 0f<b>)</b></span>
+<span id='line124'>    <b>{</b></span>
+<span id='line125'>      res.statusCode = 200</span>
+<span id='line126'>      res.headers<b>[</b>"Content-Encoding"<b>]</b> = "gzip"</span>
+<span id='line127'>      out := Zip.gzipOutStream<b>(</b>res.out<b>)</b></span>
+<span id='line128'>      file.in.pipe<b>(</b>out, file.size<b>)</b></span>
+<span id='line129'>      out.close</span>
+<span id='line130'>      return</span>
+<span id='line131'>    <b>}</b></span>
+<span id='line132'></span>
+<span id='line133'>    // service a normal 200 with no compression</span>
+<span id='line134'>    res.statusCode = 200</span>
+<span id='line135'>    res.headers<b>[</b>"Content-Length"<b>]</b> = file.size.toStr</span>
+<span id='line136'>    file.in.pipe<b>(</b>res.out, file.size<b>)</b></span>
+<span id='line137'>  <b>}</b></span>
+<span id='line138'></span>
+<span id='line139'>  **</span>
+<span id='line140'>  ** Returns true if the file should be gzipped.</span>
+<span id='line141'>  **</span>
+<span id='line142'>  private static Bool isGzipFile<b>(</b>File file<b>)</b></span>
+<span id='line143'>  <b>{</b></span>
+<span id='line144'>    mime := file.mimeType</span>
+<span id='line145'>    if <b>(</b>mime == null<b>)</b> return false</span>
+<span id='line146'>    if <b>(</b>mime.mediaType == "text"<b>)</b> return true</span>
+<span id='line147'>    if <b>(</b>mime.mediaType == "application"<b>)</b></span>
+<span id='line148'>    <b>{</b></span>
+<span id='line149'>      if <b>(</b>mime.subType == "json"<b>)</b> return true</span>
+<span id='line150'>    <b>}</b></span>
+<span id='line151'>    if <b>(</b>mime.mediaType == "image"<b>)</b></span>
+<span id='line152'>    <b>{</b></span>
+<span id='line153'>      if <b>(</b>mime.subType == "svg+xml"<b>)</b> return true</span>
+<span id='line154'>    <b>}</b></span>
+<span id='line155'>    return false</span>
+<span id='line156'>  <b>}</b></span>
+<span id='line157'></span>
+<span id='line158'>  **</span>
+<span id='line159'>  ** Check if the request passed headers indicating it has</span>
+<span id='line160'>  ** cached version of the file.  If the file has not been</span>
+<span id='line161'>  ** modified, then service the request as 304 and return</span>
+<span id='line162'>  ** true.  This method supports ETag "If-None-Match" and</span>
+<span id='line163'>  ** "If-Modified-Since" modification time.</span>
+<span id='line164'>  **</span>
+<span id='line165'>  virtual protected Bool checkNotModified<b>(</b><b>)</b></span>
+<span id='line166'>  <b>{</b></span>
+<span id='line167'>    doCheckNotModified<b>(</b>req, res, etag, modified<b>)</b></span>
+<span id='line168'>  <b>}</b></span>
+<span id='line169'></span>
+<span id='line170'>  **</span>
+<span id='line171'>  ** Utility for standard check modified logic</span>
+<span id='line172'>  **</span>
+<span id='line173'>  internal static Bool doCheckNotModified<b>(</b>WebReq req, WebRes res, Str etag, DateTime modified<b>)</b></span>
+<span id='line174'>  <b>{</b></span>
+<span id='line175'>    // check If-Match-None</span>
+<span id='line176'>    matchNone := req.headers<b>[</b>"If-None-Match"<b>]</b></span>
+<span id='line177'>    if <b>(</b>matchNone != null<b>)</b></span>
+<span id='line178'>    <b>{</b></span>
+<span id='line179'>      match := WebUtil.parseList<b>(</b>matchNone<b>)</b>.any |Str s->Bool|</span>
+<span id='line180'>      <b>{</b></span>
+<span id='line181'>        return s == etag || s == "*"</span>
+<span id='line182'>      <b>}</b></span>
+<span id='line183'>      if <b>(</b>match<b>)</b></span>
+<span id='line184'>      <b>{</b></span>
+<span id='line185'>        res.statusCode = 304</span>
+<span id='line186'>        return true</span>
+<span id='line187'>      <b>}</b></span>
+<span id='line188'>    <b>}</b></span>
+<span id='line189'></span>
+<span id='line190'>    // check If-Modified-Since</span>
+<span id='line191'>    since := req.headers<b>[</b>"If-Modified-Since"<b>]</b></span>
+<span id='line192'>    if <b>(</b>since != null<b>)</b></span>
+<span id='line193'>    <b>{</b></span>
+<span id='line194'>      sinceTime := DateTime.fromHttpStr<b>(</b>since, false<b>)</b></span>
+<span id='line195'>      if <b>(</b>modified == sinceTime<b>)</b></span>
+<span id='line196'>      <b>{</b></span>
+<span id='line197'>        res.statusCode = 304</span>
+<span id='line198'>        return true</span>
+<span id='line199'>      <b>}</b></span>
+<span id='line200'>    <b>}</b></span>
+<span id='line201'></span>
+<span id='line202'>    // gotta do it the hard way</span>
+<span id='line203'>    return false</span>
+<span id='line204'>  <b>}</b></span>
+<span id='line205'></span>
+<span id='line206'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

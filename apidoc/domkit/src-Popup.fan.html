@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Popup.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Popup.html'>Popup</a></li><li><a href='src-Popup.fan.html'>Popup.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   17 Feb 2015  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using dom</span>
+<span id='line11'>using graphics</span>
+<span id='line12'></span>
+<span id='line13'>**</span>
+<span id='line14'>** Popup window which can be closed clicking outside of element.</span>
+<span id='line15'>**</span>
+<span id='line16'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Modals#popup`</span>
+<span id='line17'>**</span>
+<span id='line18'>@Js class Popup : Elem</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line21'>  <b>{</b></span>
+<span id='line22'>    this.uid = nextId.getAndIncrement</span>
+<span id='line23'>    this.style.addClass<b>(</b>"domkit-Popup"<b>)</b></span>
+<span id='line24'>    this.onEvent<b>(</b>"keydown", false<b>)</b> |e| <b>{</b> if <b>(</b>e.key == Key.esc<b>)</b> close <b>}</b></span>
+<span id='line25'>    this->tabIndex = 0</span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  ** Where to align Popup relative to open<b>(</b>x,y<b>)</b>:</span>
+<span id='line29'>  **  - Align.left: align left edge popup to <b>(</b>x,y<b>)</b></span>
+<span id='line30'>  **  - Align.center: center popup with <b>(</b>x,y<b>)</b></span>
+<span id='line31'>  **  - Align.right: align right edge of popup to <b>(</b>x,y<b>)</b></span>
+<span id='line32'>  Align halign := Align.left</span>
+<span id='line33'></span>
+<span id='line34'>  ** Return 'true' if this popup currently open.</span>
+<span id='line35'>  Bool isOpen <b>{</b> private set <b>}</b></span>
+<span id='line36'></span>
+<span id='line37'>  ** Open this popup in the current Window. If popup is already</span>
+<span id='line38'>  ** open this method does nothing. This method always invokes</span>
+<span id='line39'>  ** `fitBounds` to verify popup does not overflow viewport.</span>
+<span id='line40'>  Void open<b>(</b>Float x, Float y<b>)</b></span>
+<span id='line41'>  <b>{</b></span>
+<span id='line42'>    if <b>(</b>isOpen<b>)</b> return</span>
+<span id='line43'></span>
+<span id='line44'>    this.openPos = Point<b>(</b>x, y<b>)</b></span>
+<span id='line45'></span>
+<span id='line46'>    this.style.setAll<b>(</b><b>[</b></span>
+<span id='line47'>      "left": "$<b>{</b>x<b>}</b>px",</span>
+<span id='line48'>      "top":  "$<b>{</b>y<b>}</b>px",</span>
+<span id='line49'>      "-webkit-transform": "scale<b>(</b>1<b>)</b>",</span>
+<span id='line50'>      "opacity": "0.0"</span>
+<span id='line51'>    <b>]</b><b>)</b></span>
+<span id='line52'></span>
+<span id='line53'>    body := Win.cur.doc.body</span>
+<span id='line54'>    body.add<b>(</b>Elem <b>{</b></span>
+<span id='line55'>      it.id = "domkitPopup-mask-$uid"</span>
+<span id='line56'>      it.style.addClass<b>(</b>"domkit-Popup-mask"<b>)</b></span>
+<span id='line57'>      it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
+<span id='line58'>        if <b>(</b>e.target == this || this.containsChild<b>(</b>e.target<b>)</b><b>)</b> return</span>
+<span id='line59'>        close</span>
+<span id='line60'>      <b>}</b></span>
+<span id='line61'>      it.add<b>(</b>this<b>)</b></span>
+<span id='line62'>    <b>}</b><b>)</b></span>
+<span id='line63'></span>
+<span id='line64'>    fitBounds</span>
+<span id='line65'>    onBeforeOpen</span>
+<span id='line66'></span>
+<span id='line67'>    this.transition<b>(</b><b>[</b></span>
+<span id='line68'>      "opacity": "1"</span>
+<span id='line69'>    <b>]</b>, null, 100ms<b>)</b> <b>{</b> this.focus; fireOpen<b>(</b>null<b>)</b> <b>}</b></span>
+<span id='line70'>  <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>  ** Close this popup. If popup is already closed</span>
+<span id='line73'>  ** this method does nothing.</span>
+<span id='line74'>  Void close<b>(</b><b>)</b></span>
+<span id='line75'>  <b>{</b></span>
+<span id='line76'>    this.transition<b>(</b><b>[</b>"transform": "scale<b>(</b>0.75<b>)</b>", "opacity": "0"<b>]</b>, null, 100ms<b>)</b></span>
+<span id='line77'>    <b>{</b></span>
+<span id='line78'>      mask := Win.cur.doc.elemById<b>(</b>"domkitPopup-mask-$uid"<b>)</b></span>
+<span id='line79'>      mask?.parent?.remove<b>(</b>mask<b>)</b></span>
+<span id='line80'>      fireClose<b>(</b>null<b>)</b></span>
+<span id='line81'>    <b>}</b></span>
+<span id='line82'>  <b>}</b></span>
+<span id='line83'></span>
+<span id='line84'>  **</span>
+<span id='line85'>  ** Fit popup with current window bounds. This may move the origin of</span>
+<span id='line86'>  ** where popup is opened, or modify the width or height, or both.</span>
+<span id='line87'>  **</span>
+<span id='line88'>  ** This method is called automatically by `open`.  For content that</span>
+<span id='line89'>  ** is asynchronusly loaded after popup is visible, and that may modify</span>
+<span id='line90'>  ** the initial size, it is good practice to invoke this method to</span>
+<span id='line91'>  ** verify content does not overflow the viewport.</span>
+<span id='line92'>  **</span>
+<span id='line93'>  ** If popup is not open, this method does nothing.</span>
+<span id='line94'>  **</span>
+<span id='line95'>  Void fitBounds<b>(</b><b>)</b></span>
+<span id='line96'>  <b>{</b></span>
+<span id='line97'>    // isOpen may not be set yet, so check if mounted.</span>
+<span id='line98'>    if <b>(</b>this.parent == null<b>)</b> return</span>
+<span id='line99'></span>
+<span id='line100'>    x  := openPos.x</span>
+<span id='line101'>    y  := openPos.y</span>
+<span id='line102'>    sz := this.size</span>
+<span id='line103'></span>
+<span id='line104'>    // shift halign if needed</span>
+<span id='line105'>    switch <b>(</b>halign<b>)</b></span>
+<span id='line106'>    <b>{</b></span>
+<span id='line107'>      case Align.center: x = gutter.max<b>(</b>x - <b>(</b>sz.w.toInt / 2<b>)</b><b>)</b>; this.style->left = "$<b>{</b>x<b>}</b>px"</span>
+<span id='line108'>      case Align.right:  x = gutter.max<b>(</b>x - sz.w.toInt<b>)</b>;       this.style->left = "$<b>{</b>x<b>}</b>px"</span>
+<span id='line109'>    <b>}</b></span>
+<span id='line110'></span>
+<span id='line111'>    // adjust if outside viewport</span>
+<span id='line112'>    vp := Win.cur.viewport</span>
+<span id='line113'>    if <b>(</b>sz.w + gutter + gutter > vp.w<b>)</b> this.style->width  = "$<b>{</b>vp.w-gutter-gutter<b>}</b>px"</span>
+<span id='line114'>    if <b>(</b>sz.h + gutter + gutter > vp.h<b>)</b> this.style->height = "$<b>{</b>vp.h-gutter-gutter<b>}</b>px"</span>
+<span id='line115'></span>
+<span id='line116'>    // refresh size</span>
+<span id='line117'>    sz = this.size</span>
+<span id='line118'>    if <b>(</b><b>(</b>x + sz.w + gutter<b>)</b> > vp.w<b>)</b> this.style->left = "$<b>{</b>vp.w-sz.w-gutter<b>}</b>px"</span>
+<span id='line119'>    if <b>(</b><b>(</b>y + sz.h + gutter<b>)</b> > vp.h<b>)</b> this.style->top  = "$<b>{</b>vp.h-sz.h-gutter<b>}</b>px"</span>
+<span id='line120'>  <b>}</b></span>
+<span id='line121'></span>
+<span id='line122'>  ** Protected sub-class callback invoked directly before popup is visible.</span>
+<span id='line123'>  protected virtual Void onBeforeOpen<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line124'></span>
+<span id='line125'>  ** Callback when popup is opened.</span>
+<span id='line126'>  Void onOpen<b>(</b>|This| f<b>)</b> <b>{</b> cbOpen = f <b>}</b></span>
+<span id='line127'></span>
+<span id='line128'>  ** Callback when popup is closed.</span>
+<span id='line129'>  Void onClose<b>(</b>|This| f<b>)</b> <b>{</b> cbClose = f <b>}</b></span>
+<span id='line130'></span>
+<span id='line131'>  ** Internal callback when popup is closed.</span>
+<span id='line132'>  internal Void _onClose<b>(</b>|This| f<b>)</b> <b>{</b> _cbClose = f <b>}</b></span>
+<span id='line133'></span>
+<span id='line134'>  private Void fireOpen<b>(</b>Event? e<b>)</b>  <b>{</b> cbOpen?.call<b>(</b>this<b>)</b>; isOpen=true  <b>}</b></span>
+<span id='line135'>  private Void fireClose<b>(</b>Event? e<b>)</b></span>
+<span id='line136'>  <b>{</b></span>
+<span id='line137'>    _cbClose?.call<b>(</b>this<b>)</b></span>
+<span id='line138'>    cbClose?.call<b>(</b>this<b>)</b></span>
+<span id='line139'>    isOpen = false</span>
+<span id='line140'>  <b>}</b></span>
+<span id='line141'></span>
+<span id='line142'>  private const Int uid</span>
+<span id='line143'>  private static const AtomicInt nextId := AtomicInt<b>(</b>0<b>)</b></span>
+<span id='line144'>  private static const Float gutter := 12f</span>
+<span id='line145'>  private Point? openPos</span>
+<span id='line146'>  private Func? cbOpen</span>
+<span id='line147'>  private Func? cbClose</span>
+<span id='line148'>  private Func? _cbClose</span>
+<span id='line149'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

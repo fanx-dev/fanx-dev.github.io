@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Elem.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Elem.html'>Elem</a></li><li><a href='src-Elem.fan.html'>Elem.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2009, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   8 Jan 09  Andy Frank  Creation</span>
+<span id='line7'>//   8 Jul 09   Andy Frank  Split webappClient into sys/dom</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>using graphics</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** Elem models a DOM element object.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See <b>[</b>pod doc<b>]</b>`pod-doc#elem` for details.</span>
+<span id='line16'>**</span>
+<span id='line17'>@Js</span>
+<span id='line18'>class Elem</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'></span>
+<span id='line21'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line22'>// Constructors</span>
+<span id='line23'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line24'></span>
+<span id='line25'>  ** Create a new Elem in the current Doc. Optionally</span>
+<span id='line26'>  ** a namespace can be specified with 'ns'.</span>
+<span id='line27'>  new make<b>(</b>Str tagName := "div", Uri? ns := null<b>)</b> <b>{</b> _make<b>(</b>tagName, ns<b>)</b> <b>}</b></span>
+<span id='line28'></span>
+<span id='line29'>  private native Void _make<b>(</b>Str tagName, Uri? ns<b>)</b></span>
+<span id='line30'></span>
+<span id='line31'>  **</span>
+<span id='line32'>  ** Create an `Elem` instance from a native JavaScript DOM object.</span>
+<span id='line33'>  ** The 'type' may be specified to create a subclass instance of</span>
+<span id='line34'>  ** Elem.  Note if the native instance has already been mapped</span>
+<span id='line35'>  ** to Fantom, the existing instance is returned and 'type' will</span>
+<span id='line36'>  ** have no effect.</span>
+<span id='line37'>  **</span>
+<span id='line38'>  static native Elem fromNative<b>(</b>Obj elem, Type type := Elem#<b>)</b></span>
+<span id='line39'></span>
+<span id='line40'>  ** Create an `Elem` instance from a HTML string.</span>
+<span id='line41'>  ** This is equivlaent</span>
+<span id='line42'>  **   elem := Elem <b>{</b> it.html=html <b>}</b>.firstChild</span>
+<span id='line43'>  static Elem fromHtml<b>(</b>Str html<b>)</b></span>
+<span id='line44'>  <b>{</b></span>
+<span id='line45'>    Elem <b>{</b> it.html=html <b>}</b>.firstChild</span>
+<span id='line46'>  <b>}</b></span>
+<span id='line47'></span>
+<span id='line48'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line49'>// Accessors</span>
+<span id='line50'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line51'></span>
+<span id='line52'>  ** The namespace URI of this element.</span>
+<span id='line53'>  native Uri ns<b>(</b><b>)</b></span>
+<span id='line54'></span>
+<span id='line55'>  ** Get the tag name for this element.</span>
+<span id='line56'>  native Str tagName<b>(</b><b>)</b></span>
+<span id='line57'></span>
+<span id='line58'>  ** The id for this element. Returns 'null' if id is not defined.</span>
+<span id='line59'>  Str? id</span>
+<span id='line60'>  <b>{</b></span>
+<span id='line61'>    // use attr so we get 'null' if not defined</span>
+<span id='line62'>    get <b>{</b> attr<b>(</b>"id"<b>)</b> <b>}</b></span>
+<span id='line63'>    set <b>{</b> setAttr<b>(</b>"id", it<b>)</b> <b>}</b></span>
+<span id='line64'>  <b>}</b></span>
+<span id='line65'></span>
+<span id='line66'>  ** Get the Style instance for this element.</span>
+<span id='line67'>  native Style style<b>(</b><b>)</b></span>
+<span id='line68'></span>
+<span id='line69'>  ** Text content contained in this element.</span>
+<span id='line70'>  native Str text</span>
+<span id='line71'></span>
+<span id='line72'>  ** The HTML markup contained in this element.</span>
+<span id='line73'>  native Str html</span>
+<span id='line74'></span>
+<span id='line75'>  ** The enabled attribute for this element, or null if one</span>
+<span id='line76'>  ** not applicable.  This is typically only valid for form</span>
+<span id='line77'>  ** elements.</span>
+<span id='line78'>  virtual native Bool? enabled</span>
+<span id='line79'></span>
+<span id='line80'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line81'>// Attributes</span>
+<span id='line82'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line83'></span>
+<span id='line84'>  ** Get 'name:value' map of all attributes.</span>
+<span id='line85'>  native Str:Str attrs<b>(</b><b>)</b></span>
+<span id='line86'></span>
+<span id='line87'>  ** Get the given HTML attribute value for this element.</span>
+<span id='line88'>  ** Returns 'null' if attribute not defined.</span>
+<span id='line89'>  native Str? attr<b>(</b>Str name<b>)</b></span>
+<span id='line90'></span>
+<span id='line91'>  ** Set the given HTML attribute value for this element. If 'val'</span>
+<span id='line92'>  ** is 'null' the attribute is removed <b>(</b>see `removeAttr`<b>)</b>.</span>
+<span id='line93'>  ** Optionally a namespace can be specified with 'ns'.</span>
+<span id='line94'>  native This setAttr<b>(</b>Str name, Str? val, Uri? ns := null<b>)</b></span>
+<span id='line95'></span>
+<span id='line96'>  ** Remove the given HTML attribute from this element.</span>
+<span id='line97'>  native This removeAttr<b>(</b>Str name<b>)</b></span>
+<span id='line98'></span>
+<span id='line99'>  ** Convenience for `attr`.</span>
+<span id='line100'>  @Operator Obj? get<b>(</b>Str name<b>)</b> <b>{</b> attr<b>(</b>name<b>)</b> <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>  ** Conveneince for `setAttr`.</span>
+<span id='line103'>  @Operator Void set<b>(</b>Str name, Str? val<b>)</b> <b>{</b> setAttr<b>(</b>name, val<b>)</b> <b>}</b></span>
+<span id='line104'></span>
+<span id='line105'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line106'>// Properties</span>
+<span id='line107'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line108'></span>
+<span id='line109'>  ** Get the given DOM property value for this element.</span>
+<span id='line110'>  ** Returns 'null' if property does not exist.</span>
+<span id='line111'>  native Obj? prop<b>(</b>Str name<b>)</b></span>
+<span id='line112'></span>
+<span id='line113'>  ** Set the given DOM properity value for this element.</span>
+<span id='line114'>  native This setProp<b>(</b>Str name, Obj? val<b>)</b></span>
+<span id='line115'></span>
+<span id='line116'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line117'>// FFI</span>
+<span id='line118'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line119'></span>
+<span id='line120'>  **</span>
+<span id='line121'>  ** The 'trap' operator will behave slightly differently based</span>
+<span id='line122'>  ** on the namespace of the element.</span>
+<span id='line123'>  **</span>
+<span id='line124'>  ** For HTML elements, 'trap' works as a convenience for `prop`</span>
+<span id='line125'>  ** and `setProp`:</span>
+<span id='line126'>  **</span>
+<span id='line127'>  **   div := Elem<b>(</b>"div"<b>)</b></span>
+<span id='line128'>  **   div->tabIndex = 0   // equivalent to div.setProp<b>(</b>"tabIndex", 0<b>)</b></span>
+<span id='line129'>  **</span>
+<span id='line130'>  ** For SVG elements <b>(</b>where `ns` is '`http://www.w3.org/2000/svg`'<b>)</b>,</span>
+<span id='line131'>  ** 'trap' routes to `attr` and `setAttr`:</span>
+<span id='line132'>  **</span>
+<span id='line133'>  **   svg := Svg.line<b>(</b>0, 0, 10, 10<b>)</b></span>
+<span id='line134'>  **   svg->x1 = 5      // equivalent to svg.setAttr<b>(</b>"x1", "5"<b>)</b></span>
+<span id='line135'>  **   svg->y1 = 5      // equivalent to svg.setAttr<b>(</b>"y1", "5"<b>)</b></span>
+<span id='line136'>  **   svg->x2 == "10"  // equivalent to svg.attr<b>(</b>"x2"<b>)</b></span>
+<span id='line137'>  **</span>
+<span id='line138'>  native override Obj? trap<b>(</b>Str name, Obj?<b>[</b><b>]</b>? args := null<b>)</b></span>
+<span id='line139'></span>
+<span id='line140'>  ** Invoke the given native DOM function with optional arguments.</span>
+<span id='line141'>  native Obj? invoke<b>(</b>Str name, Obj?<b>[</b><b>]</b>? args := null<b>)</b></span>
+<span id='line142'></span>
+<span id='line143'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line144'>// Layout</span>
+<span id='line145'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line146'></span>
+<span id='line147'>  ** Position of element relative to its parent in pixels.</span>
+<span id='line148'>  native Point pos</span>
+<span id='line149'></span>
+<span id='line150'>  ** Position of element relative to the whole document.</span>
+<span id='line151'>  native Point pagePos<b>(</b><b>)</b></span>
+<span id='line152'></span>
+<span id='line153'>  ** Given a page position, return 'p' relative to this element.</span>
+<span id='line154'>  Point relPos<b>(</b>Point p<b>)</b></span>
+<span id='line155'>  <b>{</b></span>
+<span id='line156'>    pp := this.pagePos</span>
+<span id='line157'>    return Point<b>(</b>p.x - pp.x, p.y - pp.y<b>)</b></span>
+<span id='line158'>  <b>}</b></span>
+<span id='line159'></span>
+<span id='line160'>  ** Size of element in pixels.</span>
+<span id='line161'>  native Size size</span>
+<span id='line162'></span>
+<span id='line163'>  // ** Position and size of this widget relative to its parent, both</span>
+<span id='line164'>  // ** measured in pixels.</span>
+<span id='line165'>  // Rect bounds</span>
+<span id='line166'>  // <b>{</b></span>
+<span id='line167'>  //   // TODO</span>
+<span id='line168'>  //   get <b>{</b> return Rect<b>(</b>pos.x, pos.y, size.w, size.h<b>)</b> <b>}</b> //.makePosSize<b>(</b>pos, size<b>)</b> <b>}</b></span>
+<span id='line169'>  //   set <b>{</b> pos = Pos<b>(</b>it.pos.x, it.pos.y<b>)</b> /*it.pos*/; size = it.size <b>}</b></span>
+<span id='line170'>  // <b>}</b></span>
+<span id='line171'></span>
+<span id='line172'>  ** Top left scroll position of element.</span>
+<span id='line173'>  native Point scrollPos</span>
+<span id='line174'></span>
+<span id='line175'>  ** Scrollable size of element.</span>
+<span id='line176'>  native Size scrollSize<b>(</b><b>)</b></span>
+<span id='line177'></span>
+<span id='line178'>  ** Scroll parent container so this Elem is visible to user. If</span>
+<span id='line179'>  ** 'alignToTop' is 'true' <b>(</b>the default value<b>)</b>, the top of Elem</span>
+<span id='line180'>  ** is aligned to top of the visible area.  If 'false', the bottom</span>
+<span id='line181'>  ** of Elem is aligned to bottom of the visible area.</span>
+<span id='line182'>  native This scrollIntoView<b>(</b>Bool alignToTop := true<b>)</b></span>
+<span id='line183'></span>
+<span id='line184'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line185'>// Tree</span>
+<span id='line186'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line187'></span>
+<span id='line188'>  ** Get the parent Elem of this element, or null if</span>
+<span id='line189'>  ** this element has no parent.</span>
+<span id='line190'>  native Elem? parent<b>(</b><b>)</b></span>
+<span id='line191'></span>
+<span id='line192'>  ** Return 'true' if `children` is non-zero, 'false' otherwise.</span>
+<span id='line193'>  native Bool hasChildren<b>(</b><b>)</b></span>
+<span id='line194'></span>
+<span id='line195'>  ** Get the child nodes of this element.</span>
+<span id='line196'>  native Elem<b>[</b><b>]</b> children<b>(</b><b>)</b></span>
+<span id='line197'></span>
+<span id='line198'>  ** Get the first child node of this element, or null</span>
+<span id='line199'>  ** if this element has no children.</span>
+<span id='line200'>  native Elem? firstChild<b>(</b><b>)</b></span>
+<span id='line201'></span>
+<span id='line202'>  ** Get the last child node of this element, or null</span>
+<span id='line203'>  ** if this element has no children.</span>
+<span id='line204'>  native Elem? lastChild<b>(</b><b>)</b></span>
+<span id='line205'></span>
+<span id='line206'>  ** Get the previous sibling to this element, or null</span>
+<span id='line207'>  ** if this is the first element under its parent.</span>
+<span id='line208'>  native Elem? prevSibling<b>(</b><b>)</b></span>
+<span id='line209'></span>
+<span id='line210'>  ** Get the next sibling to this element, or null if</span>
+<span id='line211'>  ** this is the last element under its parent.</span>
+<span id='line212'>  native Elem? nextSibling<b>(</b><b>)</b></span>
+<span id='line213'></span>
+<span id='line214'>  ** Return 'true' if given element is a descendant of this</span>
+<span id='line215'>  ** node, or 'false' if not.</span>
+<span id='line216'>  native Bool containsChild<b>(</b>Elem elem<b>)</b></span>
+<span id='line217'></span>
+<span id='line218'>  ** Returns the first element that is a descendant of this</span>
+<span id='line219'>  ** element on which it is invoked that matches the specified</span>
+<span id='line220'>  ** group of selectors.</span>
+<span id='line221'>  native Elem? querySelector<b>(</b>Str selectors<b>)</b></span>
+<span id='line222'></span>
+<span id='line223'>  ** Returns a list of all elements descended from this element</span>
+<span id='line224'>  ** on which it is invoked that match the specified group of</span>
+<span id='line225'>  ** CSS selectors.</span>
+<span id='line226'>  native Elem<b>[</b><b>]</b> querySelectorAll<b>(</b>Str selectors<b>)</b></span>
+<span id='line227'></span>
+<span id='line228'>  ** Return a duplicate of this node.</span>
+<span id='line229'>  native Elem clone<b>(</b>Bool deep := true<b>)</b></span>
+<span id='line230'></span>
+<span id='line231'>  ** Add a new element as a child to this element. Return this.</span>
+<span id='line232'>  @Operator virtual This add<b>(</b>Elem child<b>)</b></span>
+<span id='line233'>  <b>{</b></span>
+<span id='line234'>    addChild<b>(</b>child<b>)</b></span>
+<span id='line235'>    onAdd<b>(</b>child<b>)</b></span>
+<span id='line236'>    child.onParent<b>(</b>this<b>)</b></span>
+<span id='line237'>    return this</span>
+<span id='line238'>  <b>}</b></span>
+<span id='line239'></span>
+<span id='line240'>  ** Insert a new element as a child to this element before the</span>
+<span id='line241'>  ** specified reference element.  The reference element must</span>
+<span id='line242'>  ** be a child of this element. Returns this.</span>
+<span id='line243'>  virtual This insertBefore<b>(</b>Elem child, Elem ref<b>)</b></span>
+<span id='line244'>  <b>{</b></span>
+<span id='line245'>    insertChildBefore<b>(</b>child, ref<b>)</b></span>
+<span id='line246'>    onAdd<b>(</b>child<b>)</b></span>
+<span id='line247'>    child.onParent<b>(</b>this<b>)</b></span>
+<span id='line248'>    return this</span>
+<span id='line249'>  <b>}</b></span>
+<span id='line250'></span>
+<span id='line251'>  ** Replace existing child node with a new child.  Returns this.</span>
+<span id='line252'>  virtual This replace<b>(</b>Elem oldChild, Elem newChild<b>)</b></span>
+<span id='line253'>  <b>{</b></span>
+<span id='line254'>    replaceChild<b>(</b>oldChild, newChild<b>)</b></span>
+<span id='line255'>    oldChild.onUnparent<b>(</b>this<b>)</b></span>
+<span id='line256'>    onRemove<b>(</b>oldChild<b>)</b></span>
+<span id='line257'>    onAdd<b>(</b>newChild<b>)</b></span>
+<span id='line258'>    newChild.onParent<b>(</b>this<b>)</b></span>
+<span id='line259'>    return this</span>
+<span id='line260'>  <b>}</b></span>
+<span id='line261'></span>
+<span id='line262'>  ** Remove a child element from this element. Return this.</span>
+<span id='line263'>  virtual This remove<b>(</b>Elem child<b>)</b></span>
+<span id='line264'>  <b>{</b></span>
+<span id='line265'>    removeChild<b>(</b>child<b>)</b></span>
+<span id='line266'>    child.onUnparent<b>(</b>this<b>)</b></span>
+<span id='line267'>    onRemove<b>(</b>child<b>)</b></span>
+<span id='line268'>    return this</span>
+<span id='line269'>  <b>}</b></span>
+<span id='line270'></span>
+<span id='line271'>  ** Add all elements to this element.  Returns this.</span>
+<span id='line272'>  This addAll<b>(</b>Elem<b>[</b><b>]</b> elems<b>)</b></span>
+<span id='line273'>  <b>{</b></span>
+<span id='line274'>    elems.each |e| <b>{</b> add<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line275'>    return this</span>
+<span id='line276'>  <b>}</b></span>
+<span id='line277'></span>
+<span id='line278'>  ** Remove all children from this element. Returns this.</span>
+<span id='line279'>  This removeAll<b>(</b><b>)</b></span>
+<span id='line280'>  <b>{</b></span>
+<span id='line281'>    children.each |kid| <b>{</b> remove<b>(</b>kid<b>)</b> <b>}</b></span>
+<span id='line282'>    return this</span>
+<span id='line283'>  <b>}</b></span>
+<span id='line284'></span>
+<span id='line285'>  ** Add a new element as a child to this element.</span>
+<span id='line286'>  @NoDoc protected native Void addChild<b>(</b>Elem child<b>)</b></span>
+<span id='line287'></span>
+<span id='line288'>  ** Insert a new element as a child to this element before given node.</span>
+<span id='line289'>  @NoDoc protected native Void insertChildBefore<b>(</b>Elem child, Elem ref<b>)</b></span>
+<span id='line290'></span>
+<span id='line291'>  ** Replace an existing child element with new element.</span>
+<span id='line292'>  @NoDoc protected native Void replaceChild<b>(</b>Elem oldChild, Elem newChild<b>)</b></span>
+<span id='line293'></span>
+<span id='line294'>  ** Remove a child element from this element.</span>
+<span id='line295'>  @NoDoc protected native Void removeChild<b>(</b>Elem child<b>)</b></span>
+<span id='line296'></span>
+<span id='line297'>  ** Callback when this element is added to a parent.</span>
+<span id='line298'>  @NoDoc protected virtual Void onParent<b>(</b>Elem parent<b>)</b> <b>{</b><b>}</b></span>
+<span id='line299'></span>
+<span id='line300'>  ** Callback when this element is removed from a parent.</span>
+<span id='line301'>  @NoDoc protected virtual Void onUnparent<b>(</b>Elem parent<b>)</b> <b>{</b><b>}</b></span>
+<span id='line302'></span>
+<span id='line303'>  ** Callback when a child element is added.</span>
+<span id='line304'>  @NoDoc protected virtual Void onAdd<b>(</b>Elem child<b>)</b> <b>{</b><b>}</b></span>
+<span id='line305'></span>
+<span id='line306'>  ** Callback when a child element is removed.</span>
+<span id='line307'>  @NoDoc protected virtual Void onRemove<b>(</b>Elem child<b>)</b> <b>{</b><b>}</b></span>
+<span id='line308'></span>
+<span id='line309'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line310'>// Events</span>
+<span id='line311'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line312'></span>
+<span id='line313'>  ** Return true if this elem has focus.</span>
+<span id='line314'>  virtual native Bool hasFocus<b>(</b><b>)</b></span>
+<span id='line315'></span>
+<span id='line316'>  ** Request keyboard focus on this elem.</span>
+<span id='line317'>  virtual native Void focus<b>(</b><b>)</b></span>
+<span id='line318'></span>
+<span id='line319'>  ** Remove focus from this elem.</span>
+<span id='line320'>  virtual native Void blur<b>(</b><b>)</b></span>
+<span id='line321'></span>
+<span id='line322'>  ** Attach an event handler for the given event on this element.</span>
+<span id='line323'>  ** Returns callback function instance.</span>
+<span id='line324'>  native Func onEvent<b>(</b>Str type, Bool useCapture, |Event e| handler<b>)</b></span>
+<span id='line325'></span>
+<span id='line326'>  ** Remove the given event handler from this element.  If this</span>
+<span id='line327'>  ** handler was not registered, this method does nothing.</span>
+<span id='line328'>  native Void removeEvent<b>(</b>Str type, Bool useCapture, Func handler<b>)</b></span>
+<span id='line329'></span>
+<span id='line330'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line331'>// Animation</span>
+<span id='line332'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line333'></span>
+<span id='line334'>  **</span>
+<span id='line335'>  ** Transition a set of CSS properties.</span>
+<span id='line336'>  **</span>
+<span id='line337'>  **   transition<b>(</b><b>[</b>"opacity": "0.5"<b>]</b>, null, 1sec<b>)</b> <b>{</b> echo<b>(</b>"done!"<b>)</b> <b>}</b></span>
+<span id='line338'>  **   transition<b>(</b><b>[</b>"opacity": "0.5"<b>]</b>, <b>[</b>"transition-delay": 500ms<b>]</b>, 1sec<b>)</b> <b>{</b> echo<b>(</b>"done!"<b>)</b> <b>}</b></span>
+<span id='line339'>  **</span>
+<span id='line340'>  Void transition<b>(</b><b>[</b>Str:Obj<b>]</b> props, <b>[</b>Str:Obj<b>]</b>? opts, Duration dur, |Elem|? onComplete := null<b>)</b></span>
+<span id='line341'>  <b>{</b></span>
+<span id='line342'>    // force layout</span>
+<span id='line343'>    x := this.size</span>
+<span id='line344'></span>
+<span id='line345'>    // set options</span>
+<span id='line346'>    style := this.style</span>
+<span id='line347'>    if <b>(</b>opts != null<b>)</b> style.setAll<b>(</b>opts<b>)</b></span>
+<span id='line348'></span>
+<span id='line349'>    // set props and duration</span>
+<span id='line350'>    style->transitionDuration = dur</span>
+<span id='line351'>    style->transitionProperty = Style.toVendors<b>(</b>props.keys<b>)</b>.join<b>(</b>", "<b>)</b></span>
+<span id='line352'></span>
+<span id='line353'>    // set propery targets</span>
+<span id='line354'>    props.each |val,prop| <b>{</b> style<b>[</b>prop<b>]</b> = val <b>}</b></span>
+<span id='line355'></span>
+<span id='line356'>    // invoke complete callback func</span>
+<span id='line357'>    if <b>(</b>onComplete != null<b>)</b></span>
+<span id='line358'>      Win.cur.setTimeout<b>(</b>dur<b>)</b> <b>{</b> onComplete<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line359'>  <b>}</b></span>
+<span id='line360'></span>
+<span id='line361'>  **</span>
+<span id='line362'>  ** Start an animation on this element using the given key frames.</span>
+<span id='line363'>  **</span>
+<span id='line364'>  **   frames := KeyFrames<b>(</b><b>[</b></span>
+<span id='line365'>  **     KeyFrame<b>(</b>"0%",   <b>[</b>"transform": "scale<b>(</b>1<b>)</b>"<b>]</b><b>)</b>,</span>
+<span id='line366'>  **     KeyFrame<b>(</b>"50%",  <b>[</b>"transform": "scale<b>(</b>1.1<b>)</b>"<b>]</b><b>)</b>,</span>
+<span id='line367'>  **     KeyFrame<b>(</b>"100%", <b>[</b>"transform": "scale<b>(</b>1<b>)</b>"<b>]</b><b>)</b>,</span>
+<span id='line368'>  **   <b>]</b><b>)</b></span>
+<span id='line369'>  **</span>
+<span id='line370'>  **   animate<b>(</b>frames, null, 5sec<b>)</b></span>
+<span id='line371'>  **   animate<b>(</b>frames, <b>[</b>"animation-iteration-count":"infinite"<b>]</b>, 1sec<b>)</b></span>
+<span id='line372'>  **</span>
+<span id='line373'>  Void animateStart<b>(</b>KeyFrames frames, <b>[</b>Str:Obj<b>]</b>? opts, Duration dur<b>)</b></span>
+<span id='line374'>  <b>{</b></span>
+<span id='line375'>    if <b>(</b>opts != null<b>)</b> style.setAll<b>(</b>opts<b>)</b></span>
+<span id='line376'>    style->animationName = frames.name</span>
+<span id='line377'>    style->animationDuration = dur</span>
+<span id='line378'>  <b>}</b></span>
+<span id='line379'></span>
+<span id='line380'>  ** Stop the current animation on this element, or do nothing</span>
+<span id='line381'>  ** if no animation in progress.</span>
+<span id='line382'>  Void animateStop<b>(</b><b>)</b></span>
+<span id='line383'>  <b>{</b></span>
+<span id='line384'>    style->animation = null</span>
+<span id='line385'>  <b>}</b></span>
+<span id='line386'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

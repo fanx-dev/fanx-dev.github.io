@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WebSocket.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebSocket.html'>WebSocket</a></li><li><a href='src-WebSocket.fan.html'>WebSocket.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   11 Aug 15  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using inet</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** WebSocket is used for both client and server web socket messaging.</span>
+<span id='line14'>** Current implementation only supports basic non-fragmented text or</span>
+<span id='line15'>** binary messages.</span>
+<span id='line16'>**</span>
+<span id='line17'>class WebSocket</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'></span>
+<span id='line20'>  **</span>
+<span id='line21'>  ** Open a client connection.  The URI must have a "ws" or "wss" scheme.</span>
+<span id='line22'>  ** The 'headers' parameter defines additional HTTP headers to include</span>
+<span id='line23'>  ** in the connection request.</span>
+<span id='line24'>  **</span>
+<span id='line25'>  static WebSocket openClient<b>(</b>Uri uri, <b>[</b>Str:Str<b>]</b>? headers := null<b>)</b></span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    // check scheme</span>
+<span id='line28'>    scheme := uri.scheme</span>
+<span id='line29'>    if <b>(</b>scheme != "ws" &amp;&amp; scheme != "wss"<b>)</b> throw ArgErr<b>(</b>"Unsupported scheme: $scheme"<b>)</b></span>
+<span id='line30'></span>
+<span id='line31'>    // send handshake request</span>
+<span id='line32'>    httpUri := <b>(</b>"http" + uri.toStr<b>[</b>2..-1<b>]</b><b>)</b>.toUri</span>
+<span id='line33'>    key := Buf.random<b>(</b>16<b>)</b>.toBase64</span>
+<span id='line34'>    c := WebClient<b>(</b>httpUri<b>)</b></span>
+<span id='line35'>    c.reqMethod = "GET"</span>
+<span id='line36'>    c.reqHeaders<b>[</b>"Upgrade"<b>]</b> = "websocket"</span>
+<span id='line37'>    c.reqHeaders<b>[</b>"Connection"<b>]</b> = "Upgrade"</span>
+<span id='line38'>    c.reqHeaders<b>[</b>"Sec-WebSocket-Key"<b>]</b> = key</span>
+<span id='line39'>    c.reqHeaders<b>[</b>"Sec-WebSocket-Version"<b>]</b> = "13"</span>
+<span id='line40'>    if <b>(</b>headers != null<b>)</b> c.reqHeaders.addAll<b>(</b>headers<b>)</b></span>
+<span id='line41'>    c.writeReq</span>
+<span id='line42'></span>
+<span id='line43'>    // read handshake response</span>
+<span id='line44'>    c.readRes</span>
+<span id='line45'>    if <b>(</b>c.resCode != 101<b>)</b> throw err<b>(</b>"Bad HTTP response $c.resCode $c.resPhrase"<b>)</b></span>
+<span id='line46'>    checkHeader<b>(</b>c.resHeaders, "Upgrade", "websocket"<b>)</b></span>
+<span id='line47'>    checkHeader<b>(</b>c.resHeaders, "Connection", "upgrade"<b>)</b></span>
+<span id='line48'>    digest := checkHeader<b>(</b>c.resHeaders, "Sec-WebSocket-Accept", null<b>)</b></span>
+<span id='line49'>    if <b>(</b>secDigest<b>(</b>key<b>)</b> != digest<b>)</b> throw err<b>(</b>"Mismatch Sec-WebSocket-Accept"<b>)</b></span>
+<span id='line50'></span>
+<span id='line51'>    // we are connected!</span>
+<span id='line52'>    return make<b>(</b>c.socket, true<b>)</b></span>
+<span id='line53'>  <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>  **</span>
+<span id='line56'>  ** Upgrade a server request to a WebSocket.  Raise IOErr is there is any</span>
+<span id='line57'>  ** problems during the handshake in which case the calling WebMod should</span>
+<span id='line58'>  ** return a 400 response.</span>
+<span id='line59'>  **</span>
+<span id='line60'>  ** Note: once this method completes, the socket is now owned by the</span>
+<span id='line61'>  ** WebSocket instance and not the web server <b>(</b>wisp<b>)</b>; it must be explicitly</span>
+<span id='line62'>  ** closed to prevent a file handle leak.</span>
+<span id='line63'>  **</span>
+<span id='line64'>  static WebSocket openServer<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line65'>  <b>{</b></span>
+<span id='line66'>    // validate request</span>
+<span id='line67'>    if <b>(</b>req.method != "GET"<b>)</b> throw err<b>(</b>"Invalid method"<b>)</b></span>
+<span id='line68'>    checkHeader<b>(</b>req.headers, "Upgrade", "websocket"<b>)</b></span>
+<span id='line69'>    checkHeader<b>(</b>req.headers, "Connection", "upgrade"<b>)</b></span>
+<span id='line70'>    key := checkHeader<b>(</b>req.headers, "Sec-WebSocket-Key", null<b>)</b></span>
+<span id='line71'></span>
+<span id='line72'>    // send upgrade response</span>
+<span id='line73'>    res.headers<b>[</b>"Upgrade"<b>]</b> = "websocket"</span>
+<span id='line74'>    res.headers<b>[</b>"Connection"<b>]</b> = "Upgrade"</span>
+<span id='line75'>    res.headers<b>[</b>"Sec-WebSocket-Accept"<b>]</b> = secDigest<b>(</b>key<b>)</b></span>
+<span id='line76'></span>
+<span id='line77'>    // take ownership of the underlying socket</span>
+<span id='line78'>    socket := res.upgrade<b>(</b>101<b>)</b></span>
+<span id='line79'></span>
+<span id='line80'>    // connected, return WebSocket</span>
+<span id='line81'>    return make<b>(</b>socket, false<b>)</b></span>
+<span id='line82'>  <b>}</b></span>
+<span id='line83'></span>
+<span id='line84'>  private static Str checkHeader<b>(</b><b>[</b>Str:Str<b>]</b> headers, Str name, Str? expected<b>)</b></span>
+<span id='line85'>  <b>{</b></span>
+<span id='line86'>    val := headers<b>[</b>name<b>]</b> ?: throw err<b>(</b>"Missing $name header"<b>)</b></span>
+<span id='line87'>    if <b>(</b>expected != null &amp;&amp; val.indexIgnoreCase<b>(</b>expected<b>)</b> == null<b>)</b></span>
+<span id='line88'>      throw err<b>(</b>"Invalid $name header: $val"<b>)</b></span>
+<span id='line89'>    return val</span>
+<span id='line90'>  <b>}</b></span>
+<span id='line91'></span>
+<span id='line92'>  **</span>
+<span id='line93'>  ** Private constructor</span>
+<span id='line94'>  **</span>
+<span id='line95'>  private new make<b>(</b>TcpSocket socket, Bool maskOnSend<b>)</b></span>
+<span id='line96'>  <b>{</b></span>
+<span id='line97'>    this.socket = socket</span>
+<span id='line98'>    this.maskOnSend = maskOnSend</span>
+<span id='line99'>  <b>}</b></span>
+<span id='line100'></span>
+<span id='line101'>  **</span>
+<span id='line102'>  ** Access to socket options for this request.</span>
+<span id='line103'>  **</span>
+<span id='line104'>  @Deprecated <b>{</b> msg = "Socket should be configured using SocketConfig" <b>}</b></span>
+<span id='line105'>  SocketOptions socketOptions<b>(</b><b>)</b> <b>{</b> socket.options <b>}</b></span>
+<span id='line106'></span>
+<span id='line107'>  **</span>
+<span id='line108'>  ** Return true if this socket has been closed</span>
+<span id='line109'>  **</span>
+<span id='line110'>  Bool isClosed<b>(</b><b>)</b> <b>{</b> closed <b>}</b></span>
+<span id='line111'></span>
+<span id='line112'>  **</span>
+<span id='line113'>  ** Receive a message which is returned as either a Str or Buf.</span>
+<span id='line114'>  ** Raise IOErr if socket has error or is closed.</span>
+<span id='line115'>  **</span>
+<span id='line116'>  Obj? receive<b>(</b><b>)</b></span>
+<span id='line117'>  <b>{</b></span>
+<span id='line118'>    receiveBuf<b>(</b>null<b>)</b></span>
+<span id='line119'>  <b>}</b></span>
+<span id='line120'></span>
+<span id='line121'>  **</span>
+<span id='line122'>  ** Receive Buf message into given buffer.</span>
+<span id='line123'>  ** Raise IOErr if socket has error or is closed.</span>
+<span id='line124'>  **</span>
+<span id='line125'>  @NoDoc Obj? receiveBuf<b>(</b>Buf? buf<b>)</b></span>
+<span id='line126'>  <b>{</b></span>
+<span id='line127'>    while <b>(</b>true<b>)</b></span>
+<span id='line128'>    <b>{</b></span>
+<span id='line129'>      msg := doReceive<b>(</b>buf<b>)</b></span>
+<span id='line130'>      if <b>(</b>msg === receiveAgain<b>)</b> continue</span>
+<span id='line131'>      return msg</span>
+<span id='line132'>    <b>}</b></span>
+<span id='line133'>    throw Err<b>(</b><b>)</b></span>
+<span id='line134'>  <b>}</b></span>
+<span id='line135'></span>
+<span id='line136'>  private Obj? doReceive<b>(</b>Buf? payload<b>)</b></span>
+<span id='line137'>  <b>{</b></span>
+<span id='line138'>    // check if we have a frame or at end of stream</span>
+<span id='line139'>    in := socket.in</span>
+<span id='line140'>    firstByte := in.readU1</span>
+<span id='line141'></span>
+<span id='line142'>    // first byte indicates final frag, and opcode</span>
+<span id='line143'>    byte := firstByte</span>
+<span id='line144'>    fin := byte.and<b>(</b>0x80<b>)</b> > 0</span>
+<span id='line145'>    op := byte.and<b>(</b>0x0f<b>)</b></span>
+<span id='line146'></span>
+<span id='line147'>    // second byte is mask, and length</span>
+<span id='line148'>    byte = in.readU1</span>
+<span id='line149'>    masked := byte.and<b>(</b>0x80<b>)</b> > 0</span>
+<span id='line150'>    len := byte.and<b>(</b>0x7F<b>)</b></span>
+<span id='line151'></span>
+<span id='line152'>    // if len is 126 or 127, it len is next 2 or 8 bytes</span>
+<span id='line153'>    if <b>(</b>len == 126<b>)</b> len = in.readU2</span>
+<span id='line154'>    else if <b>(</b>len == 127<b>)</b> len = in.readS8</span>
+<span id='line155'></span>
+<span id='line156'>    // if payload is masked, get 32-bit masking key</span>
+<span id='line157'>    maskKey := masked ? in.readBufFully<b>(</b>null, 4<b>)</b> : null</span>
+<span id='line158'></span>
+<span id='line159'>    // read payload data</span>
+<span id='line160'>    payload = in.readBufFully<b>(</b>payload, len<b>)</b></span>
+<span id='line161'></span>
+<span id='line162'>    // if masked, then unmask it</span>
+<span id='line163'>    if <b>(</b>masked<b>)</b></span>
+<span id='line164'>      for <b>(</b>i := 0; i&lt;len; ++i<b>)</b></span>
+<span id='line165'>        payload<b>[</b>i<b>]</b> = payload<b>[</b>i<b>]</b>.xor<b>(</b>maskKey<b>[</b>i.mod<b>(</b>4<b>)</b><b>]</b><b>)</b></span>
+<span id='line166'></span>
+<span id='line167'>    // handle control messages and receive again,</span>
+<span id='line168'>    // otherwise return the payload data</span>
+<span id='line169'>    switch <b>(</b>op<b>)</b></span>
+<span id='line170'>    <b>{</b></span>
+<span id='line171'>      case opClose:  close; throw IOErr<b>(</b>"WebSocket closed"<b>)</b></span>
+<span id='line172'>      case opPing:   pong<b>(</b>payload<b>)</b>; return receiveAgain</span>
+<span id='line173'>      case opPong:   return receiveAgain</span>
+<span id='line174'>      case opText:   return payload.readAllStr</span>
+<span id='line175'>      case opBinary: return payload</span>
+<span id='line176'>    <b>}</b></span>
+<span id='line177'>    throw Err<b>(</b>"Unsuppored opcode: $op"<b>)</b></span>
+<span id='line178'>  <b>}</b></span>
+<span id='line179'></span>
+<span id='line180'>  **</span>
+<span id='line181'>  ** Send a message which must be either a Str of Buf.  Bufs are</span>
+<span id='line182'>  ** sent using their full contents irrelevant of their current position.</span>
+<span id='line183'>  **</span>
+<span id='line184'>  Void send<b>(</b>Obj msg<b>)</b></span>
+<span id='line185'>  <b>{</b></span>
+<span id='line186'>    // turn msg into payload Buf</span>
+<span id='line187'>    binary := msg is Buf</span>
+<span id='line188'>    op  := binary ? opBinary : opText</span>
+<span id='line189'>    payload := binary ? <b>(</b>Buf<b>)</b>msg : Buf<b>(</b><b>)</b>.print<b>(</b><b>(</b>Str<b>)</b>msg<b>)</b></span>
+<span id='line190'></span>
+<span id='line191'>    // route to common send implementation</span>
+<span id='line192'>    doSend<b>(</b>op, payload<b>)</b></span>
+<span id='line193'>  <b>}</b></span>
+<span id='line194'></span>
+<span id='line195'>  **</span>
+<span id='line196'>  ** Send a ping message</span>
+<span id='line197'>  **</span>
+<span id='line198'>  @NoDoc Void ping<b>(</b><b>)</b></span>
+<span id='line199'>  <b>{</b></span>
+<span id='line200'>    doSend<b>(</b>opPing, Buf<b>(</b><b>)</b>.print<b>(</b>"ping $Int.random.toHex"<b>)</b><b>)</b></span>
+<span id='line201'>  <b>}</b></span>
+<span id='line202'></span>
+<span id='line203'>  **</span>
+<span id='line204'>  ** Send a pong message</span>
+<span id='line205'>  **</span>
+<span id='line206'>  private Void pong<b>(</b>Buf echo<b>)</b></span>
+<span id='line207'>  <b>{</b></span>
+<span id='line208'>    doSend<b>(</b>opPong, echo<b>)</b></span>
+<span id='line209'>  <b>}</b></span>
+<span id='line210'></span>
+<span id='line211'>  private Void doSend<b>(</b>Int op, Buf payload<b>)</b></span>
+<span id='line212'>  <b>{</b></span>
+<span id='line213'>    // check closed flag</span>
+<span id='line214'>    if <b>(</b>closed<b>)</b> throw IOErr<b>(</b>"WebSocket closed"<b>)</b></span>
+<span id='line215'></span>
+<span id='line216'>    // compute intermediate variables</span>
+<span id='line217'>    len := payload.size</span>
+<span id='line218'>    maskKey := Buf.random<b>(</b>4<b>)</b></span>
+<span id='line219'>    out  := socket.out</span>
+<span id='line220'></span>
+<span id='line221'>    // finish + opcode byte</span>
+<span id='line222'>    out.write<b>(</b>0x80.or<b>(</b>op<b>)</b><b>)</b></span>
+<span id='line223'></span>
+<span id='line224'>    // masked bit + len</span>
+<span id='line225'>    mask := maskOnSend ? 0x80 : 0x0</span>
+<span id='line226'>    if <b>(</b>len &lt; 126<b>)</b></span>
+<span id='line227'>      out.write<b>(</b>mask.or<b>(</b>len<b>)</b><b>)</b></span>
+<span id='line228'>    else if <b>(</b>len &lt; 0xffff<b>)</b></span>
+<span id='line229'>      out.write<b>(</b>mask.or<b>(</b>126<b>)</b><b>)</b>.writeI2<b>(</b>len<b>)</b></span>
+<span id='line230'>    else</span>
+<span id='line231'>      out.write<b>(</b>mask.or<b>(</b>127<b>)</b><b>)</b>.writeI8<b>(</b>len<b>)</b></span>
+<span id='line232'></span>
+<span id='line233'>    if <b>(</b>maskOnSend<b>)</b></span>
+<span id='line234'>    <b>{</b></span>
+<span id='line235'>      // masked payload</span>
+<span id='line236'>      out.writeBuf<b>(</b>maskKey<b>)</b></span>
+<span id='line237'>      for <b>(</b>i := 0; i&lt;len; ++i<b>)</b></span>
+<span id='line238'>        out.write<b>(</b>payload<b>[</b>i<b>]</b>.xor<b>(</b>maskKey<b>[</b>i.mod<b>(</b>4<b>)</b><b>]</b><b>)</b><b>)</b></span>
+<span id='line239'>    <b>}</b></span>
+<span id='line240'>    else</span>
+<span id='line241'>    <b>{</b></span>
+<span id='line242'>      // unmasked payload</span>
+<span id='line243'>      if <b>(</b>!payload.isImmutable<b>)</b> payload.seek<b>(</b>0<b>)</b></span>
+<span id='line244'>      out.writeBuf<b>(</b>payload<b>)</b></span>
+<span id='line245'>    <b>}</b></span>
+<span id='line246'></span>
+<span id='line247'>    out.flush</span>
+<span id='line248'>  <b>}</b></span>
+<span id='line249'></span>
+<span id='line250'>  **</span>
+<span id='line251'>  ** Close the web socket</span>
+<span id='line252'>  **</span>
+<span id='line253'>  Bool close<b>(</b><b>)</b></span>
+<span id='line254'>  <b>{</b></span>
+<span id='line255'>    if <b>(</b>closed<b>)</b> return false</span>
+<span id='line256'>    try</span>
+<span id='line257'>      doSend<b>(</b>opClose, Buf<b>(</b><b>)</b><b>)</b></span>
+<span id='line258'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line259'>      <b>{</b><b>}</b></span>
+<span id='line260'>    this.closed = true</span>
+<span id='line261'>    return socket.close</span>
+<span id='line262'>  <b>}</b></span>
+<span id='line263'></span>
+<span id='line264'>  private static Err err<b>(</b>Str msg<b>)</b></span>
+<span id='line265'>  <b>{</b></span>
+<span id='line266'>    IOErr<b>(</b>msg<b>)</b></span>
+<span id='line267'>  <b>}</b></span>
+<span id='line268'></span>
+<span id='line269'>  private static Str secDigest<b>(</b>Str key<b>)</b></span>
+<span id='line270'>  <b>{</b></span>
+<span id='line271'>    Buf<b>(</b><b>)</b>.print<b>(</b>key<b>)</b>.print<b>(</b>"258EAFA5-E914-47DA-95CA-C5AB0DC85B11"<b>)</b>.toDigest<b>(</b>"SHA-1"<b>)</b>.toBase64</span>
+<span id='line272'>  <b>}</b></span>
+<span id='line273'></span>
+<span id='line274'>  private static const Int opContinue := 0x0</span>
+<span id='line275'>  private static const Int opText     := 0x1</span>
+<span id='line276'>  private static const Int opBinary   := 0x2</span>
+<span id='line277'>  private static const Int opClose    := 0x8</span>
+<span id='line278'>  private static const Int opPing     := 0x9</span>
+<span id='line279'>  private static const Int opPong     := 0xA</span>
+<span id='line280'></span>
+<span id='line281'>  private static const List receiveAgain := <b>[</b> "receiveAgain" <b>]</b></span>
+<span id='line282'></span>
+<span id='line283'>  private TcpSocket socket</span>
+<span id='line284'>  private Bool maskOnSend</span>
+<span id='line285'>  private Bool closed</span>
+<span id='line286'><b>}</b></span>
+<span id='line287'></span>
+</pre>
+</div>
+</body>
+</html>

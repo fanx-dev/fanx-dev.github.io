@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::Coord</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='Coord.html'>Coord</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::Coord</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGui::Coord</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>A Point</p>
+<dl>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return if obj is same Point value.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Coord.html'>Coord?</a> fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse from string.  If invalid and checked is true then throw ParseErr otherwise return null.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return hash of x and y.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y)</code></p>
+
+<p>Construct with x, y.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> set(<a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y)</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return <code>"x,y"</code></p>
+</dd>
+<dt id='translate'>
+translate</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Coord.html'>Coord</a> translate(<a href='Coord.html'>Coord</a> t)</code></p>
+
+<p>Return <code>x+tx, y+ty</code></p>
+</dd>
+<dt id='x'>
+x</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> x</code></p>
+</dd>
+<dt id='y'>
+y</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> y</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#set'>set</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#translate'>translate</a></li><li><a href='#x'>x</a></li><li><a href='#y'>y</a></li></ul>
+</div>
+</div>
+</body>
+</html>

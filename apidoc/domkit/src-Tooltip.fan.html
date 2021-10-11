@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Tooltip.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Tooltip.html'>Tooltip</a></li><li><a href='src-Tooltip.fan.html'>Tooltip.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   8 Sep 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using dom</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** Tooltip displays a small popup when the mouse hovers over the</span>
+<span id='line14'>** bound node element, and is dismissed when the mouse moves out.</span>
+<span id='line15'>**</span>
+<span id='line16'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#tooltip`</span>
+<span id='line17'>**</span>
+<span id='line18'>@Js class Tooltip : Elem</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line21'>  <b>{</b></span>
+<span id='line22'>    this.style.addClass<b>(</b>"domkit-Popup"<b>)</b></span>
+<span id='line23'>    this.style->zIndex = 2000</span>
+<span id='line24'>    // this.onEvent<b>(</b>EventType.mouseEnter, false<b>)</b> <b>{</b> inTooltip=true;  check <b>}</b></span>
+<span id='line25'>    // this.onEvent<b>(</b>"mouseleave", false<b>)</b> <b>{</b> inTooltip=false; check <b>}</b></span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  ** Time mouse must be over bound node before opening the</span>
+<span id='line29'>  ** Tooltip. If 'null' the Tooltip is displayed immediatly.</span>
+<span id='line30'>  Duration? delay := 750ms</span>
+<span id='line31'></span>
+<span id='line32'>  ** Bind this tooltip the given node.</span>
+<span id='line33'>  Void bind<b>(</b>Elem node<b>)</b></span>
+<span id='line34'>  <b>{</b></span>
+<span id='line35'>    if <b>(</b>this.node != null<b>)</b> throw ArgErr<b>(</b>"Tooltip already bound to $this.node"<b>)</b></span>
+<span id='line36'>    this.node = node</span>
+<span id='line37'>    node.onEvent<b>(</b>"mouseenter", false<b>)</b> <b>{</b> inNode=true;  check <b>}</b></span>
+<span id='line38'>    node.onEvent<b>(</b>"mouseleave", false<b>)</b> <b>{</b> inNode=false; check <b>}</b></span>
+<span id='line39'>  <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  ** Check if tooltip should be opened or closed.</span>
+<span id='line42'>  private Void check<b>(</b><b>)</b></span>
+<span id='line43'>  <b>{</b></span>
+<span id='line44'>    if <b>(</b>inNode<b>)</b> // || inTooltip<b>)</b></span>
+<span id='line45'>    <b>{</b></span>
+<span id='line46'>      // open</span>
+<span id='line47'>      if <b>(</b>delay == null<b>)</b></span>
+<span id='line48'>      <b>{</b></span>
+<span id='line49'>        if <b>(</b>isOpen<b>)</b> return</span>
+<span id='line50'>        open</span>
+<span id='line51'>      <b>}</b></span>
+<span id='line52'>      else</span>
+<span id='line53'>      <b>{</b></span>
+<span id='line54'>        if <b>(</b>isOpen<b>)</b> return</span>
+<span id='line55'>        if <b>(</b>timerId != null<b>)</b> return</span>
+<span id='line56'>        timerId = Win.cur.setTimeout<b>(</b>delay<b>)</b> <b>{</b> this.open <b>}</b></span>
+<span id='line57'>      <b>}</b></span>
+<span id='line58'>    <b>}</b></span>
+<span id='line59'>    else</span>
+<span id='line60'>    <b>{</b></span>
+<span id='line61'>      // close</span>
+<span id='line62'>      if <b>(</b>isOpen<b>)</b> <b>{</b> close; return <b>}</b></span>
+<span id='line63'>      if <b>(</b>timerId != null<b>)</b> <b>{</b> Win.cur.clearTimeout<b>(</b>timerId<b>)</b>; timerId=null <b>}</b></span>
+<span id='line64'>    <b>}</b></span>
+<span id='line65'>  <b>}</b></span>
+<span id='line66'></span>
+<span id='line67'>  ** Is Tooltip open.</span>
+<span id='line68'>  private Bool isOpen<b>(</b><b>)</b> <b>{</b> parent != null <b>}</b></span>
+<span id='line69'></span>
+<span id='line70'>  ** Open tooltip over bound parent node.</span>
+<span id='line71'>  private Void open<b>(</b><b>)</b></span>
+<span id='line72'>  <b>{</b></span>
+<span id='line73'>    this.timerId = null</span>
+<span id='line74'></span>
+<span id='line75'>    x := node.pagePos.x</span>
+<span id='line76'>    y := node.pagePos.y + node.size.h + 1</span>
+<span id='line77'></span>
+<span id='line78'>    this.style->left = "$<b>{</b>x<b>}</b>px"</span>
+<span id='line79'>    this.style->top  = "$<b>{</b>y<b>}</b>px"</span>
+<span id='line80'>    this.style->opacity = "0"</span>
+<span id='line81'></span>
+<span id='line82'>    Win.cur.doc.body.add<b>(</b>this<b>)</b></span>
+<span id='line83'></span>
+<span id='line84'>    // adjust if outside viewport</span>
+<span id='line85'>    sz := this.size</span>
+<span id='line86'>    vp := Win.cur.viewport</span>
+<span id='line87'>    if <b>(</b>sz.w + gutter + gutter > vp.w<b>)</b> this.style->width  = "$<b>{</b>vp.w-gutter-gutter<b>}</b>px"</span>
+<span id='line88'>    if <b>(</b>sz.h + gutter + gutter > vp.h<b>)</b> this.style->height = "$<b>{</b>vp.h-gutter-gutter<b>}</b>px"</span>
+<span id='line89'></span>
+<span id='line90'>    // refresh size</span>
+<span id='line91'>    sz = this.size</span>
+<span id='line92'>    if <b>(</b><b>(</b>x + sz.w + gutter<b>)</b> > vp.w<b>)</b> this.style->left = "$<b>{</b>vp.w-sz.w-gutter<b>}</b>px"</span>
+<span id='line93'>    if <b>(</b><b>(</b>y + sz.h + gutter<b>)</b> > vp.h<b>)</b> this.style->top  = "$<b>{</b>vp.h-sz.h-gutter<b>}</b>px"</span>
+<span id='line94'></span>
+<span id='line95'>    this.transition<b>(</b><b>[</b>"opacity": "1"<b>]</b>, null, 100ms<b>)</b></span>
+<span id='line96'>  <b>}</b></span>
+<span id='line97'></span>
+<span id='line98'>  ** Close this tooltip.</span>
+<span id='line99'>  @NoDoc Void close<b>(</b><b>)</b></span>
+<span id='line100'>  <b>{</b></span>
+<span id='line101'>    this.transition<b>(</b><b>[</b>"opacity":"0"<b>]</b>, null, 100ms<b>)</b> <b>{</b></span>
+<span id='line102'>      this.parent?.remove<b>(</b>this<b>)</b></span>
+<span id='line103'>    <b>}</b></span>
+<span id='line104'>  <b>}</b></span>
+<span id='line105'></span>
+<span id='line106'>  private static const Int gutter := 12</span>
+<span id='line107'></span>
+<span id='line108'>  private Elem? node                // parent elem</span>
+<span id='line109'>  private Int? timerId              // open delay timer</span>
+<span id='line110'>  private Bool inNode    := false   // is mouse inside parent node</span>
+<span id='line111'>  private Bool inTooltip := false   // is mouse inside tooltip</span>
+<span id='line112'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::ButtonGroup</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='ButtonGroup.html'>ButtonGroup</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> domkit::ButtonGroup</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  domkit::ButtonGroup</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-ButtonGroup.fan.html'>Source</a></p>
+
+<p>ButtonGroup groups a set of toggle or radio buttons and handles making sure only one button in group is selected at a time.</p>
+
+<p>See also: <a href='docDomkit::Controls#buttonGroup'>docDomkit</a>, <code><a href='ToggleButton.html'>ToggleButton</a></code>, <code><a href='RadioButton.html'>RadioButton</a></code></p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> add(<a href='../dom/Elem.html'>Elem</a> button)</code></p>
+<p class='src'>
+<a href='src-ButtonGroup.fan.html#line26'>Source</a></p>
+
+<p>Convenience to add a button to <code><a href='ButtonGroup.html#buttons'>buttons</a></code>.</p>
+</dd>
+<dt id='buttons'>
+buttons</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../dom/Elem.html'>Elem</a>&gt;</a> buttons := Elem[,]</code></p>
+<p class='src'>
+<a href='src-ButtonGroup.fan.html'>Source</a></p>
+
+<p>Buttons in this group.</p>
+</dd>
+<dt id='enabled'>
+enabled</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> enabled := true</code></p>
+<p class='src'>
+<a href='src-ButtonGroup.fan.html#line39'>Source</a></p>
+
+<p>Set enabled state for this button group.</p>
+</dd>
+<dt id='inheritEnabled'>
+inheritEnabled</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> inheritEnabled := true</code></p>
+<p class='src'>
+<a href='src-ButtonGroup.fan.html#line34'>Source</a></p>
+
+<p>If <code>true</code>, child buttons will inherit the <code><a href='ButtonGroup.html#enabled'>enabled</a></code> state of this <code>ButtonGroup</code>.  If <code>false</code> buttons can be enabled or disabled independent of group.</p>
+</dd>
+<dt id='onBeforeSelect'>
+onBeforeSelect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onBeforeSelect(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='ButtonGroup.html'>ButtonGroup</a>,<a href='../sys/Int.html'>Int</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-ButtonGroup.fan.html#line62'>Source</a></p>
+
+<p>Callback before a selection changes.  Return <code>true</code> to select the new button (default), or <code>false</code> to keep the currently selected button.</p>
+</dd>
+<dt id='onSelect'>
+onSelect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onSelect(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-ButtonGroup.fan.html#line70'>Source</a></p>
+
+<p>Callback when selection in group has changed.</p>
+</dd>
+<dt id='selIndex'>
+selIndex</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> selIndex := null</code></p>
+<p class='src'>
+<a href='src-ButtonGroup.fan.html#line49'>Source</a></p>
+
+<p>Index of selected button, or <code>null</code> if none selected.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-ButtonGroup.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#buttons'>buttons</a></li><li><a href='#enabled'>enabled</a></li><li><a href='#inheritEnabled'>inheritEnabled</a></li><li><a href='#onBeforeSelect'>onBeforeSelect</a></li><li><a href='#onSelect'>onSelect</a></li><li><a href='#selIndex'>selIndex</a></li></ul>
+</div>
+</div>
+</body>
+</html>

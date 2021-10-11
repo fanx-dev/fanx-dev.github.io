@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::JVal</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='JVal.html'>JVal</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> util::JVal</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  util::JVal</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>JSON Object</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/This.html'>This</a> add(<a href='../sys/Obj.html'>Obj?</a> elem)</code></p>
+</dd>
+<dt id='asBool'>
+asBool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> asBool()</code></p>
+</dd>
+<dt id='asFloat'>
+asFloat</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> asFloat()</code></p>
+</dd>
+<dt id='asInt'>
+asInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> asInt()</code></p>
+</dd>
+<dt id='asList'>
+asList</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;</a> asList()</code></p>
+</dd>
+<dt id='asMap'>
+asMap</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> asMap()</code></p>
+</dd>
+<dt id='asNull'>
+asNull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> asNull()</code></p>
+</dd>
+<dt id='asStr'>
+asStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> asStr()</code></p>
+</dd>
+<dt id='asVal'>
+asVal</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='JVal.html'>JVal</a> asVal(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='JVal.html'>JVal</a> get(<a href='../sys/Str.html'>Str</a> name, <a href='JVal.html'>JVal</a> defVal := JVal.&lt;ctor>(null))</code></p>
+</dd>
+<dt id='getAt'>
+getAt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JVal.html'>JVal</a> getAt(<a href='../sys/Int.html'>Int</a> i)</code></p>
+</dd>
+<dt id='isBool'>
+isBool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isBool()</code></p>
+</dd>
+<dt id='isFloat'>
+isFloat</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFloat()</code></p>
+</dd>
+<dt id='isInt'>
+isInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInt()</code></p>
+</dd>
+<dt id='isList'>
+isList</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isList()</code></p>
+</dd>
+<dt id='isMap'>
+isMap</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isMap()</code></p>
+</dd>
+<dt id='isNull'>
+isNull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNull()</code></p>
+</dd>
+<dt id='isNum'>
+isNum</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNum()</code></p>
+</dd>
+<dt id='isStr'>
+isStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStr()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+</dd>
+<dt id='makeList'>
+makeList</dt>
+<dd>
+<p class='sig'>
+<code>new makeList()</code></p>
+</dd>
+<dt id='makeMap'>
+makeMap</dt>
+<dd>
+<p class='sig'>
+<code>new makeMap()</code></p>
+</dd>
+<dt id='obj'>
+obj</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> obj</code></p>
+</dd>
+<dt id='readJson'>
+readJson</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='JVal.html'>JVal</a> readJson(<a href='../sys/Str.html'>Str</a> str)</code></p>
+
+<p>parse object from JSON string</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/This.html'>This</a> set(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Obj.html'>Obj?</a> elem)</code></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> size()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='trap'>
+trap</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj?</a> trap(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> args := null)</code></p>
+</dd>
+<dt id='writeJson'>
+writeJson</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> writeJson(<a href='../sys/Bool.html'>Bool</a> std := true, <a href='../sys/Bool.html'>Bool</a> escapeUnicode := false)</code></p>
+
+<p>writes objects in JSON string @std nonstandard will omit the quotation of object key</p>
+</dd>
+<dt id='xpath'>
+xpath</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JVal.html'>JVal</a> xpath(<a href='../sys/Str.html'>Str</a> path)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#asVal'>asVal</a></li><li><a href='#make'>make</a></li><li><a href='#makeList'>makeList</a></li><li><a href='#makeMap'>makeMap</a></li><li><a href='#readJson'>readJson</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#asBool'>asBool</a></li><li><a href='#asFloat'>asFloat</a></li><li><a href='#asInt'>asInt</a></li><li><a href='#asList'>asList</a></li><li><a href='#asMap'>asMap</a></li><li><a href='#asNull'>asNull</a></li><li><a href='#asStr'>asStr</a></li><li><a href='#get'>get</a></li><li><a href='#getAt'>getAt</a></li><li><a href='#isBool'>isBool</a></li><li><a href='#isFloat'>isFloat</a></li><li><a href='#isInt'>isInt</a></li><li><a href='#isList'>isList</a></li><li><a href='#isMap'>isMap</a></li><li><a href='#isNull'>isNull</a></li><li><a href='#isNum'>isNum</a></li><li><a href='#isStr'>isStr</a></li><li><a href='#obj'>obj</a></li><li><a href='#set'>set</a></li><li><a href='#size'>size</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#trap'>trap</a></li><li><a href='#writeJson'>writeJson</a></li><li><a href='#xpath'>xpath</a></li></ul>
+</div>
+</div>
+</body>
+</html>

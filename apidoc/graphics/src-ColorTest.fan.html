@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>ColorTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='src-ColorTest.fan.html'>ColorTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   16 Jun 2008  Brian Frank  Creation</span>
+<span id='line7'>//   12 May 2016  Brian Frank  SVG/CSS changes</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** ColorTest</span>
+<span id='line12'>**</span>
+<span id='line13'>@Js</span>
+<span id='line14'>class ColorTest : Test</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>  Void testMake<b>(</b><b>)</b></span>
+<span id='line18'>  <b>{</b></span>
+<span id='line19'>    c := Color<b>(</b>0xaabbcc<b>)</b></span>
+<span id='line20'>    verifyEq<b>(</b>c.a,  1.0f<b>)</b></span>
+<span id='line21'>    verifyEq<b>(</b>c.rgb,  0xaabbcc<b>)</b></span>
+<span id='line22'>    verifyEq<b>(</b>c.toHexStr, "#abc"<b>)</b></span>
+<span id='line23'>    verifyColor<b>(</b>c, 0xaa, 0xbb, 0xcc, 1.0f, "#abc"<b>)</b></span>
+<span id='line24'></span>
+<span id='line25'>    c = Color<b>(</b>0x123456<b>)</b></span>
+<span id='line26'>    verifyEq<b>(</b>c.a,  1.0f<b>)</b></span>
+<span id='line27'>    verifyEq<b>(</b>c.rgb,  0x123456<b>)</b></span>
+<span id='line28'>    verifyEq<b>(</b>c.toHexStr, "#123456"<b>)</b></span>
+<span id='line29'>    verifyColor<b>(</b>c, 0x12, 0x34, 0x56, 1.0f, "#123456"<b>)</b></span>
+<span id='line30'></span>
+<span id='line31'>    c = Color<b>(</b>0xbbccdd, 0.5f<b>)</b></span>
+<span id='line32'>    verifyEq<b>(</b>c.rgb,  0xbbccdd<b>)</b></span>
+<span id='line33'>    verifyEq<b>(</b>c.a, 0.5f<b>)</b></span>
+<span id='line34'>    verifyEq<b>(</b>c.toHexStr, "#bbccdd7f"<b>)</b></span>
+<span id='line35'>    verifyColor<b>(</b>c, 0xbb, 0xcc, 0xdd, 0.5f, "rgba<b>(</b>187,204,221,0.5<b>)</b>"<b>)</b></span>
+<span id='line36'></span>
+<span id='line37'>    c = Color.makeRgb<b>(</b>1, 2, 3, 0.4f<b>)</b></span>
+<span id='line38'>    verifyEq<b>(</b>c.rgb, 0x010203<b>)</b></span>
+<span id='line39'>    verifyEq<b>(</b>c.a, 0.4f<b>)</b></span>
+<span id='line40'>    verifyEq<b>(</b>c.toHexStr, "#01020366"<b>)</b></span>
+<span id='line41'>    verifyColor<b>(</b>c, 1, 2, 3, 0.4f, "rgba<b>(</b>1,2,3,0.4<b>)</b>"<b>)</b></span>
+<span id='line42'></span>
+<span id='line43'>    c = Color.makeRgb<b>(</b>0x33, 0x22, 0x11<b>)</b></span>
+<span id='line44'>    verifyEq<b>(</b>c.rgb, 0x332211<b>)</b></span>
+<span id='line45'>    verifyEq<b>(</b>c.a,  1.0f<b>)</b></span>
+<span id='line46'>    verifyColor<b>(</b>c, 0x33, 0x22, 0x11, 1.0f, "#321"<b>)</b></span>
+<span id='line47'></span>
+<span id='line48'>    verifySame<b>(</b>Color.fromStr<b>(</b>"transparent"<b>)</b>, Color.transparent<b>)</b></span>
+<span id='line49'>    verifyEq<b>(</b>Color.transparent.isTransparent, true<b>)</b></span>
+<span id='line50'>    verifyEq<b>(</b>Color.transparent.a, 0f<b>)</b></span>
+<span id='line51'>    verifyEq<b>(</b>Color<b>(</b>"red"<b>)</b>.isTransparent, false<b>)</b></span>
+<span id='line52'>  <b>}</b></span>
+<span id='line53'></span>
+<span id='line54'>  Void verifyColor<b>(</b>Color c, Int r, Int g, Int b, Float a, Str s<b>)</b></span>
+<span id='line55'>  <b>{</b></span>
+<span id='line56'>    verifyEq<b>(</b>c.r, r<b>)</b></span>
+<span id='line57'>    verifyEq<b>(</b>c.g, g<b>)</b></span>
+<span id='line58'>    verifyEq<b>(</b>c.b, b<b>)</b></span>
+<span id='line59'>    verifyEq<b>(</b>c.a, a<b>)</b></span>
+<span id='line60'>    verifyEq<b>(</b>c.toStr, s<b>)</b></span>
+<span id='line61'>    verifyEq<b>(</b>c, Color.fromStr<b>(</b>c.toStr<b>)</b><b>)</b></span>
+<span id='line62'>    verifyEq<b>(</b>c, Buf<b>(</b><b>)</b> <b>{</b> out.writeObj<b>(</b>c<b>)</b> <b>}</b>.flip.in.readObj<b>)</b></span>
+<span id='line63'>    verifyEq<b>(</b>c, Color.makeRgb<b>(</b>r, g, b, a<b>)</b><b>)</b></span>
+<span id='line64'>  <b>}</b></span>
+<span id='line65'></span>
+<span id='line66'>  Void testFromStr<b>(</b><b>)</b></span>
+<span id='line67'>  <b>{</b></span>
+<span id='line68'>    // named colors</span>
+<span id='line69'>    verifyFromStr<b>(</b>"red", Color<b>(</b>0xff0000<b>)</b><b>)</b></span>
+<span id='line70'>    verifyFromStr<b>(</b>"DeepPink", Color<b>(</b>0xff1493<b>)</b><b>)</b></span>
+<span id='line71'>    verifyFromStr<b>(</b>"LIME", Color<b>(</b>0x00ff00<b>)</b><b>)</b></span>
+<span id='line72'></span>
+<span id='line73'>    // #RGB</span>
+<span id='line74'>    verifyFromStr<b>(</b>"#abc", Color<b>(</b>0xaabbcc<b>)</b><b>)</b></span>
+<span id='line75'>    verifyFromStr<b>(</b>"#023", Color<b>(</b>0x002233<b>)</b><b>)</b></span>
+<span id='line76'>    verifyFromStr<b>(</b>"#345", Color<b>(</b>0x334455<b>)</b><b>)</b></span>
+<span id='line77'></span>
+<span id='line78'>    // #RGBA</span>
+<span id='line79'>    verifyFromStr<b>(</b>"#a7b3", Color<b>(</b>0xaa77bb, 0.2f<b>)</b><b>)</b></span>
+<span id='line80'>    verifyFromStr<b>(</b>"#30CF", Color<b>(</b>0x3300cc<b>)</b><b>)</b></span>
+<span id='line81'></span>
+<span id='line82'>    // #RRGGBB</span>
+<span id='line83'>    verifyFromStr<b>(</b>"#a4b5c6", Color<b>(</b>0xa4b5c6<b>)</b><b>)</b></span>
+<span id='line84'></span>
+<span id='line85'>    // #RRGGBBAA</span>
+<span id='line86'>    verifyFromStr<b>(</b>"#dea4b540", Color<b>(</b>0xdea4b5, 0.251f<b>)</b><b>)</b></span>
+<span id='line87'>    verifyFromStr<b>(</b>"#12345678", Color<b>(</b>0x123456, GeomUtil.formatFloat<b>(</b>120f/255f<b>)</b>.toFloat<b>)</b><b>)</b></span>
+<span id='line88'></span>
+<span id='line89'>    // rgb<b>(</b><b>)</b> - CSS4 allows comma or space</span>
+<span id='line90'>    verifyFromStr<b>(</b>"rgb<b>(</b>10, 20, 30<b>)</b>", Color<b>(</b>0x0a141e, 1.0f<b>)</b><b>)</b></span>
+<span id='line91'>    verifyFromStr<b>(</b>"rgb<b>(</b>10 20 30<b>)</b>", Color<b>(</b>0x0a141e, 1.0f<b>)</b><b>)</b></span>
+<span id='line92'>    verifyFromStr<b>(</b>"rgb<b>(</b>10%, 20%, 30%<b>)</b>", Color<b>(</b>0x19334c, 1.0f<b>)</b><b>)</b></span>
+<span id='line93'>    verifyFromStr<b>(</b>"rgb<b>(</b>10%  20%  30%<b>)</b>", Color<b>(</b>0x19334c, 1.0f<b>)</b><b>)</b></span>
+<span id='line94'></span>
+<span id='line95'>    // rgba<b>(</b><b>)</b> - CSS4 allows alpha in rgb and uses rgba as deprecated</span>
+<span id='line96'>    verifyFromStr<b>(</b>"rgb<b>(</b>10 , 20 , 30 , 0.5<b>)</b>", Color<b>(</b>0x0a141e, 0.5f<b>)</b><b>)</b></span>
+<span id='line97'>    verifyFromStr<b>(</b>"rgb<b>(</b>10  20  30  50%<b>)</b>", Color<b>(</b>0x0a141e, 0.5f<b>)</b><b>)</b></span>
+<span id='line98'>    verifyFromStr<b>(</b>"rgb<b>(</b>50% 0% 100% 25%<b>)</b>", Color<b>(</b>0x7f00ff, 0.25f<b>)</b><b>)</b></span>
+<span id='line99'>    verifyFromStr<b>(</b>"rgb<b>(</b>50%, 0%, 100%, 0.25<b>)</b>", Color<b>(</b>0x7f00ff, 0.25f<b>)</b><b>)</b></span>
+<span id='line100'>    verifyFromStr<b>(</b>"rgba<b>(</b>10 , 20 , 30 , 0.5<b>)</b>", Color<b>(</b>0x0a141e, 0.5f<b>)</b><b>)</b></span>
+<span id='line101'>    verifyFromStr<b>(</b>"rgba<b>(</b>10  20  30  50%<b>)</b>", Color<b>(</b>0x0a141e, 0.5f<b>)</b><b>)</b></span>
+<span id='line102'>    verifyFromStr<b>(</b>"rgba<b>(</b>50% 0% 100% 25%<b>)</b>", Color<b>(</b>0x7f00ff, 0.25f<b>)</b><b>)</b></span>
+<span id='line103'>    verifyFromStr<b>(</b>"rgba<b>(</b>50%, 0%, 100%, 0.25<b>)</b>", Color<b>(</b>0x7f00ff, 0.25f<b>)</b><b>)</b></span>
+<span id='line104'></span>
+<span id='line105'>    // hsl<b>(</b><b>)</b></span>
+<span id='line106'>    verifyFromStr<b>(</b>"hsl<b>(</b>120deg 50% 0.75<b>)</b>", Color.makeHsl<b>(</b>120f, 0.5f, 0.75f, 1.0f<b>)</b><b>)</b></span>
+<span id='line107'>    verifyFromStr<b>(</b>"hsl<b>(</b>700, 0.2, 0.3, 0.4<b>)</b>", Color.makeHsl<b>(</b>340f, 0.2f, 0.3f, 0.4f<b>)</b><b>)</b></span>
+<span id='line108'>    verifyFromStr<b>(</b>"hsl<b>(</b>0deg  0.8  70%<b>)</b>", Color.makeHsl<b>(</b>0f, 0.8f, 0.7f, 1f<b>)</b><b>)</b></span>
+<span id='line109'>    verifyFromStr<b>(</b>"hsl<b>(</b>0deg  0.8  70%  50%<b>)</b>", Color.makeHsl<b>(</b>0f, 0.8f, 0.7f, 0.5f<b>)</b><b>)</b></span>
+<span id='line110'></span>
+<span id='line111'>    // hsla<b>(</b><b>)</b></span>
+<span id='line112'>    verifyFromStr<b>(</b>"hsla<b>(</b>120deg 50% 0.75<b>)</b>", Color.makeHsl<b>(</b>120f, 0.5f, 0.75f, 1.0f<b>)</b><b>)</b></span>
+<span id='line113'>    verifyFromStr<b>(</b>"hsla<b>(</b>700, 0.2, 0.3, 0.4<b>)</b>", Color.makeHsl<b>(</b>340f, 0.2f, 0.3f, 0.4f<b>)</b><b>)</b></span>
+<span id='line114'>    verifyFromStr<b>(</b>"hsla<b>(</b>0deg  0.8  70%  50%<b>)</b>", Color.makeHsl<b>(</b>0f, 0.8f, 0.7f, 0.5f<b>)</b><b>)</b></span>
+<span id='line115'></span>
+<span id='line116'>    // errors</span>
+<span id='line117'>    verifyEq<b>(</b>Color.fromStr<b>(</b>"#bc", false<b>)</b>, null<b>)</b></span>
+<span id='line118'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Color.fromStr<b>(</b>"abc"<b>)</b> <b>}</b></span>
+<span id='line119'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Color.fromStr<b>(</b>"#xyz", true<b>)</b> <b>}</b></span>
+<span id='line120'>  <b>}</b></span>
+<span id='line121'></span>
+<span id='line122'>  Void verifyFromStr<b>(</b>Str s, Color e<b>)</b></span>
+<span id='line123'>  <b>{</b></span>
+<span id='line124'>    a := Color.fromStr<b>(</b>s<b>)</b></span>
+<span id='line125'>    // echo<b>(</b>"-- $s\n   $a\n   $e"<b>)</b></span>
+<span id='line126'>    verifyEq<b>(</b>a, e<b>)</b></span>
+<span id='line127'></span>
+<span id='line128'>    list := Color.listFromStr<b>(</b>"$s,$s , $s"<b>)</b></span>
+<span id='line129'>    verifyEq<b>(</b>list.size, 3<b>)</b></span>
+<span id='line130'>    verifyEq<b>(</b>list<b>[</b>0<b>]</b>, e<b>)</b></span>
+<span id='line131'>    verifyEq<b>(</b>list<b>[</b>1<b>]</b>, e<b>)</b></span>
+<span id='line132'>    verifyEq<b>(</b>list<b>[</b>2<b>]</b>, e<b>)</b></span>
+<span id='line133'>  <b>}</b></span>
+<span id='line134'></span>
+<span id='line135'>  Void testListFromStr<b>(</b><b>)</b></span>
+<span id='line136'>  <b>{</b></span>
+<span id='line137'>    verifyEq<b>(</b>Color.listFromStr<b>(</b>"#abc, red, rgb<b>(</b>128, 0, 0<b>)</b>"<b>)</b>,</span>
+<span id='line138'>             Color<b>[</b>Color<b>(</b>"#abc"<b>)</b>, Color<b>(</b>"red"<b>)</b>, Color<b>(</b>"rgb<b>(</b>128, 0, 0<b>)</b>"<b>)</b><b>]</b><b>)</b></span>
+<span id='line139'>    verifyEq<b>(</b>Color.listFromStr<b>(</b>"rgba<b>(</b>128, 0, 0, 50%<b>)</b>, #abc, rgb<b>(</b>128, 0, 0<b>)</b>"<b>)</b>,</span>
+<span id='line140'>             Color<b>[</b>Color<b>(</b>"rgba<b>(</b>128, 0, 0, 50%<b>)</b>"<b>)</b>, Color<b>(</b>"#abc"<b>)</b>, Color<b>(</b>"rgb<b>(</b>128, 0, 0<b>)</b>"<b>)</b><b>]</b><b>)</b></span>
+<span id='line141'>  <b>}</b></span>
+<span id='line142'></span>
+<span id='line143'>  Void testEquals<b>(</b><b>)</b></span>
+<span id='line144'>  <b>{</b></span>
+<span id='line145'>    verifyEq<b>(</b>Color<b>(</b>0xaabbcc<b>)</b>, Color<b>(</b>0xaabbcc<b>)</b><b>)</b></span>
+<span id='line146'>    verifyEq<b>(</b>Color<b>(</b>0xaabbcc, 0.5f<b>)</b>, Color<b>(</b>0xaabbcc, 0.5f<b>)</b><b>)</b></span>
+<span id='line147'>    verifyNotEq<b>(</b>Color<b>(</b>0xaa0bcc<b>)</b>, Color<b>(</b>0xaabbcc<b>)</b><b>)</b></span>
+<span id='line148'>    verifyNotEq<b>(</b>Color<b>(</b>0xaabbcc, 1.0f<b>)</b>, Color<b>(</b>0xaabbcc, 0.9f<b>)</b><b>)</b></span>
+<span id='line149'>  <b>}</b></span>
+<span id='line150'></span>
+<span id='line151'>  Void testHsl<b>(</b><b>)</b></span>
+<span id='line152'>  <b>{</b></span>
+<span id='line153'>    verifyHsl<b>(</b>0x000000, 0f,   0f, 0f<b>)</b></span>
+<span id='line154'>    verifyHsl<b>(</b>0xffffff, 0f,   0f, 1f<b>)</b></span>
+<span id='line155'>    verifyHsl<b>(</b>0xff0000, 0f,   1f, 1f<b>)</b></span>
+<span id='line156'>    verifyHsl<b>(</b>0x00ff00, 120f, 1f, 1f<b>)</b></span>
+<span id='line157'>    verifyHsl<b>(</b>0x0000ff, 240f, 1f, 1f<b>)</b></span>
+<span id='line158'>    verifyHsl<b>(</b>0xffff00, 60f,  1f, 1f<b>)</b></span>
+<span id='line159'>    verifyHsl<b>(</b>0x00ffff, 180f, 1f, 1f<b>)</b></span>
+<span id='line160'>    verifyHsl<b>(</b>0xff00ff, 300f, 1f, 1f<b>)</b></span>
+<span id='line161'>    verifyHsl<b>(</b>0x6496c8, 210f, 0.5f,  0.78f<b>)</b></span>
+<span id='line162'>    verifyHsl<b>(</b>0x32c850, 132f, 0.75f, 0.78f<b>)</b></span>
+<span id='line163'>    verifyHsl<b>(</b>Color<b>(</b>"hsl<b>(</b>240 0.4 1<b>)</b>"<b>)</b>, 240f, 0.4f, 1f<b>)</b></span>
+<span id='line164'>  <b>}</b></span>
+<span id='line165'></span>
+<span id='line166'>  Void verifyHsl<b>(</b>Obj obj, Float h, Float s, Float l<b>)</b></span>
+<span id='line167'>  <b>{</b></span>
+<span id='line168'>    c := obj as Color ?: Color.make<b>(</b>obj<b>)</b></span>
+<span id='line169'>    verify<b>(</b>c.h.approx<b>(</b>h, 0.1f<b>)</b><b>)</b></span>
+<span id='line170'>    verify<b>(</b>c.s.approx<b>(</b>s, 0.01f<b>)</b><b>)</b></span>
+<span id='line171'>    verify<b>(</b>c.l.approx<b>(</b>l, 0.01f<b>)</b><b>)</b></span>
+<span id='line172'>    verifyEq<b>(</b>c, Color.makeHsl<b>(</b>c.h, c.s, c.l<b>)</b><b>)</b></span>
+<span id='line173'>  <b>}</b></span>
+<span id='line174'></span>
+<span id='line175'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line176'>// Interpolate RGB</span>
+<span id='line177'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line178'></span>
+<span id='line179'>  Void testInterpolateRgb<b>(</b><b>)</b></span>
+<span id='line180'>  <b>{</b></span>
+<span id='line181'>    a := Color<b>(</b>"#123"<b>)</b></span>
+<span id='line182'>    b := Color<b>(</b>"#cba"<b>)</b></span>
+<span id='line183'>    verifyInterpolateRgb<b>(</b>a, b, -1f,   "rgb<b>(</b>0 0 0<b>)</b>"<b>)</b></span>
+<span id='line184'>    verifyInterpolateRgb<b>(</b>a, b, -0.2f, "rgb<b>(</b>0 3 27<b>)</b>"<b>)</b></span>
+<span id='line185'>    verifyInterpolateRgb<b>(</b>a, b, 0f,    "rgb<b>(</b>17 34 51<b>)</b>"<b>)</b></span>
+<span id='line186'>    verifyInterpolateRgb<b>(</b>a, b, 0.25f, "rgb<b>(</b>63 72 80<b>)</b>"<b>)</b></span>
+<span id='line187'>    verifyInterpolateRgb<b>(</b>a, b, 0.5f,  "rgb<b>(</b>110 110 110<b>)</b>"<b>)</b></span>
+<span id='line188'>    verifyInterpolateRgb<b>(</b>a, b, 0.75f, "rgb<b>(</b>157 148 140<b>)</b>"<b>)</b></span>
+<span id='line189'>    verifyInterpolateRgb<b>(</b>a, b, 1.0f,  "rgb<b>(</b>204 187 170<b>)</b>"<b>)</b></span>
+<span id='line190'>    verifyInterpolateRgb<b>(</b>a, b, 1.2f,  "rgb<b>(</b>241 217 193<b>)</b>"<b>)</b></span>
+<span id='line191'>    verifyInterpolateRgb<b>(</b>a, b, 2f,    "rgb<b>(</b>255 255 255<b>)</b>"<b>)</b></span>
+<span id='line192'></span>
+<span id='line193'>    a = Color<b>(</b>"rgba<b>(</b>200 70 30 0.9<b>)</b>"<b>)</b></span>
+<span id='line194'>    b = Color<b>(</b>"rgba<b>(</b>250 20 90 0.1<b>)</b>"<b>)</b></span>
+<span id='line195'>    verifyInterpolateRgb<b>(</b>a, b, -1f,   "rgba<b>(</b>150 120 0 1.0<b>)</b>"<b>)</b></span>
+<span id='line196'>    verifyInterpolateRgb<b>(</b>a, b, -0.2f, "rgba<b>(</b>190 80 18 1.0<b>)</b>"<b>)</b></span>
+<span id='line197'>    verifyInterpolateRgb<b>(</b>a, b, 0f,    "rgba<b>(</b>200 70 30 0.9<b>)</b>"<b>)</b></span>
+<span id='line198'>    verifyInterpolateRgb<b>(</b>a, b, 0.25f, "rgba<b>(</b>212 57 45 0.7<b>)</b>"<b>)</b></span>
+<span id='line199'>    verifyInterpolateRgb<b>(</b>a, b, 0.5f,  "rgba<b>(</b>225 45 60 0.5<b>)</b>"<b>)</b></span>
+<span id='line200'>    verifyInterpolateRgb<b>(</b>a, b, 0.75f, "rgba<b>(</b>237 32 75 0.3<b>)</b>"<b>)</b></span>
+<span id='line201'>    verifyInterpolateRgb<b>(</b>a, b, 1.0f,  "rgba<b>(</b>250 20 90 0.1<b>)</b>"<b>)</b></span>
+<span id='line202'>    verifyInterpolateRgb<b>(</b>a, b, 1.2f,  "rgba<b>(</b>255 10 102 0.0<b>)</b>"<b>)</b></span>
+<span id='line203'>    verifyInterpolateRgb<b>(</b>a, b, 2f,    "rgba<b>(</b>255 0 150 0.0<b>)</b>"<b>)</b></span>
+<span id='line204'>  <b>}</b></span>
+<span id='line205'></span>
+<span id='line206'>  Void verifyInterpolateRgb<b>(</b>Color a, Color b, Float t, Str expected<b>)</b></span>
+<span id='line207'>  <b>{</b></span>
+<span id='line208'>    x := Color.interpolateRgb<b>(</b>a, b, t<b>)</b></span>
+<span id='line209'>    //echo<b>(</b>"-- $a, $b  $t => $x ?= $expected => " + <b>(</b>x == Color<b>(</b>expected<b>)</b><b>)</b><b>)</b></span>
+<span id='line210'>    verifyRbgEq<b>(</b>x, Color<b>(</b>expected<b>)</b><b>)</b></span>
+<span id='line211'>  <b>}</b></span>
+<span id='line212'></span>
+<span id='line213'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line214'>// Interpolote HSL</span>
+<span id='line215'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line216'></span>
+<span id='line217'>  Void testInterpolateHsl<b>(</b><b>)</b></span>
+<span id='line218'>  <b>{</b></span>
+<span id='line219'>    a := Color<b>(</b>"hsl<b>(</b>200 0.5 0.9<b>)</b>"<b>)</b></span>
+<span id='line220'>    b := Color<b>(</b>"hsl<b>(</b>20 1 0.1<b>)</b>"<b>)</b></span>
+<span id='line221'>    verifyInterpolateHsl<b>(</b>a, b, -1f,   "hsl<b>(</b>360 0 1<b>)</b>"<b>)</b></span>
+<span id='line222'>    verifyInterpolateHsl<b>(</b>a, b, -0.2f, "hsl<b>(</b>236 0.4 1<b>)</b>"<b>)</b></span>
+<span id='line223'>    verifyInterpolateHsl<b>(</b>a, b, 0f,    "hsl<b>(</b>200 0.5 0.9<b>)</b>"<b>)</b></span>
+<span id='line224'>    verifyInterpolateHsl<b>(</b>a, b, 0.25f, "hsl<b>(</b>155 0.625 0.7<b>)</b>"<b>)</b></span>
+<span id='line225'>    verifyInterpolateHsl<b>(</b>a, b, 0.5f,  "hsl<b>(</b>110 0.75 0.5<b>)</b>"<b>)</b></span>
+<span id='line226'>    verifyInterpolateHsl<b>(</b>a, b, 0.75f, "hsl<b>(</b>65 0.875 0.3<b>)</b>"<b>)</b></span>
+<span id='line227'>    verifyInterpolateHsl<b>(</b>a, b, 1.0f,  "hsl<b>(</b>20 1 0.1<b>)</b>"<b>)</b></span>
+<span id='line228'>    verifyInterpolateHsl<b>(</b>a, b, 1.2f,  "hsl<b>(</b>0 1 0<b>)</b>"<b>)</b></span>
+<span id='line229'>    verifyInterpolateHsl<b>(</b>a, b, 2f,    "hsl<b>(</b>0 1 0<b>)</b>"<b>)</b></span>
+<span id='line230'>  <b>}</b></span>
+<span id='line231'></span>
+<span id='line232'>  Void verifyInterpolateHsl<b>(</b>Color a, Color b, Float t, Str expected<b>)</b></span>
+<span id='line233'>  <b>{</b></span>
+<span id='line234'>    r := Color.interpolateHsl<b>(</b>a, b, t<b>)</b></span>
+<span id='line235'>    e := Color<b>(</b>expected<b>)</b></span>
+<span id='line236'>    //echo<b>(</b>"-- $t"<b>)</b></span>
+<span id='line237'>    //echo<b>(</b>"   $<b>{</b>hslStr<b>(</b>r<b>)</b><b>}</b> // result"<b>)</b></span>
+<span id='line238'>    //echo<b>(</b>"   $<b>{</b>hslStr<b>(</b>e<b>)</b><b>}</b> // expected"<b>)</b></span>
+<span id='line239'>    verifyHslEq<b>(</b>r, e<b>)</b></span>
+<span id='line240'>  <b>}</b></span>
+<span id='line241'></span>
+<span id='line242'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line243'>// Utils</span>
+<span id='line244'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line245'></span>
+<span id='line246'>  static Str hslStr<b>(</b>Color c<b>)</b></span>
+<span id='line247'>  <b>{</b></span>
+<span id='line248'>    "hsl<b>(</b>" + GeomUtil.formatFloat<b>(</b>c.h<b>)</b> + " " +</span>
+<span id='line249'>             GeomUtil.formatFloat<b>(</b>c.s<b>)</b> + " " +</span>
+<span id='line250'>             GeomUtil.formatFloat<b>(</b>c.l<b>)</b> + " " +</span>
+<span id='line251'>             GeomUtil.formatFloat<b>(</b>c.a<b>)</b> + "<b>)</b>"</span>
+<span id='line252'>  <b>}</b></span>
+<span id='line253'></span>
+<span id='line254'>  Void verifyRbgEq<b>(</b>Color a, Color b<b>)</b></span>
+<span id='line255'>  <b>{</b></span>
+<span id='line256'>    verifyEq<b>(</b>a.r, b.r<b>)</b></span>
+<span id='line257'>    verifyEq<b>(</b>a.g, b.g<b>)</b></span>
+<span id='line258'>    verifyEq<b>(</b>a.b, b.b<b>)</b></span>
+<span id='line259'>    verify<b>(</b>a.a.approx<b>(</b>b.a<b>)</b><b>)</b></span>
+<span id='line260'>  <b>}</b></span>
+<span id='line261'></span>
+<span id='line262'>  Void verifyHslEq<b>(</b>Color a, Color b<b>)</b></span>
+<span id='line263'>  <b>{</b></span>
+<span id='line264'>    verify<b>(</b>a.h.approx<b>(</b>b.h, 2f<b>)</b><b>)</b></span>
+<span id='line265'>    verify<b>(</b>a.s.approx<b>(</b>b.s, 0.05f<b>)</b><b>)</b></span>
+<span id='line266'>    verify<b>(</b>a.l.approx<b>(</b>b.l, 0.05f<b>)</b><b>)</b></span>
+<span id='line267'>    verify<b>(</b>a.a.approx<b>(</b>b.a<b>)</b><b>)</b></span>
+<span id='line268'>  <b>}</b></span>
+<span id='line269'></span>
+<span id='line270'><b>}</b></span>
+<span id='line271'></span>
+</pre>
+</div>
+</body>
+</html>

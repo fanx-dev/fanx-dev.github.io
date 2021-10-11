@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::TypeRef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='TypeRef.html'>TypeRef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::TypeRef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    compiler::TypeRef : <a href='CType.html'>compiler::CType</a></pre>
+
+<p>TypeRef models a type reference such as an extends clause or a method parameter.  Really it is just an AST node wrapper for a CType that let's us keep track of the source code Loc.</p>
+<dl>
+<dt id='base'>
+base</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType?</a> base()</code></p>
+</dd>
+<dt id='deref'>
+deref</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> deref()</code></p>
+</dd>
+<dt id='extName'>
+extName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> extName()</code></p>
+</dd>
+<dt id='facet'>
+facet</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CFacet.html'>CFacet?</a> facet(<a href='../sys/Str.html'>Str</a> qname)</code></p>
+</dd>
+<dt id='field'>
+field</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CField.html'>CField?</a> field(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='fits'>
+fits</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> fits(<a href='CType.html'>CType</a> that)</code></p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> flags()</code></p>
+</dd>
+<dt id='hasGenericParameter'>
+hasGenericParameter</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> hasGenericParameter()</code></p>
+</dd>
+<dt id='inferredAs'>
+inferredAs</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> inferredAs()</code></p>
+</dd>
+<dt id='isForeign'>
+isForeign</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isForeign()</code></p>
+</dd>
+<dt id='isGeneric'>
+isGeneric</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isGeneric()</code></p>
+</dd>
+<dt id='isNullable'>
+isNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isNullable()</code></p>
+</dd>
+<dt id='isParameterized'>
+isParameterized</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isParameterized()</code></p>
+</dd>
+<dt id='isVal'>
+isVal</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isVal()</code></p>
+</dd>
+<dt id='isValid'>
+isValid</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isValid()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='CType.html'>CType</a> t)</code></p>
+</dd>
+<dt id='method'>
+method</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CMethod.html'>CMethod?</a> method(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='mixins'>
+mixins</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> mixins()</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> name()</code></p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CNamespace.html'>CNamespace</a> ns()</code></p>
+</dd>
+<dt id='operators'>
+operators</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='COperators.html'>COperators</a> operators()</code></p>
+</dd>
+<dt id='parameterizeThis'>
+parameterizeThis</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> parameterizeThis(<a href='CType.html'>CType</a> thisType)</code></p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CPod.html'>CPod</a> pod()</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> qname()</code></p>
+</dd>
+<dt id='raw'>
+raw</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> raw()</code></p>
+</dd>
+<dt id='slot'>
+slot</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CSlot.html'>CSlot?</a> slot(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='slots'>
+slots</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CSlot.html'>CSlot</a>&gt;</a> slots()</code></p>
+</dd>
+<dt id='t'>
+t</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> t { private set }</code></p>
+</dd>
+<dt id='toListOf'>
+toListOf</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> toListOf()</code></p>
+</dd>
+<dt id='toNonNullable'>
+toNonNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> toNonNullable()</code></p>
+</dd>
+<dt id='toNullable'>
+toNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> toNullable()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#base'>base</a></li><li><a href='#deref'>deref</a></li><li><a href='#extName'>extName</a></li><li><a href='#facet'>facet</a></li><li><a href='#field'>field</a></li><li><a href='#fits'>fits</a></li><li><a href='#flags'>flags</a></li><li><a href='#hasGenericParameter'>hasGenericParameter</a></li><li><a href='#inferredAs'>inferredAs</a></li><li><a href='#isForeign'>isForeign</a></li><li><a href='#isGeneric'>isGeneric</a></li><li><a href='#isNullable'>isNullable</a></li><li><a href='#isParameterized'>isParameterized</a></li><li><a href='#isVal'>isVal</a></li><li><a href='#isValid'>isValid</a></li><li><a href='#method'>method</a></li><li><a href='#mixins'>mixins</a></li><li><a href='#name'>name</a></li><li><a href='#ns'>ns</a></li><li><a href='#operators'>operators</a></li><li><a href='#parameterizeThis'>parameterizeThis</a></li><li><a href='#pod'>pod</a></li><li><a href='#print'>print</a></li><li><a href='#qname'>qname</a></li><li><a href='#raw'>raw</a></li><li><a href='#slot'>slot</a></li><li><a href='#slots'>slots</a></li><li><a href='#t'>t</a></li><li><a href='#toListOf'>toListOf</a></li><li><a href='#toNonNullable'>toNonNullable</a></li><li><a href='#toNullable'>toNullable</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>JavaTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='src-JavaTest.fan.html'>JavaTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2017, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   15 May 2017  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>class JavaTest : Test</span>
+<span id='line10'><b>{</b></span>
+<span id='line11'>  Void testElemBasics<b>(</b><b>)</b></span>
+<span id='line12'>  <b>{</b></span>
+<span id='line13'>    elem := Elem <b>{</b><b>}</b></span>
+<span id='line14'>    verifyEq<b>(</b>elem.ns, `http://www.w3.org/1999/xhtml`<b>)</b></span>
+<span id='line15'>    verifyEq<b>(</b>elem.tagName, "div"<b>)</b></span>
+<span id='line16'>    verifyAttrProp<b>(</b>elem, "id", null, ""<b>)</b>  // to match js behavoir</span>
+<span id='line17'>    verifyAttrProp<b>(</b>elem, "name", null<b>)</b></span>
+<span id='line18'>    verifyEq<b>(</b>elem.text,  ""<b>)</b></span>
+<span id='line19'></span>
+<span id='line20'>    elem.id = "foo"</span>
+<span id='line21'>    elem.text = "yabba dabba"</span>
+<span id='line22'>    verifyAttrProp<b>(</b>elem, "id", "foo"<b>)</b></span>
+<span id='line23'>    verifyEq<b>(</b>elem.text, "yabba dabba"<b>)</b></span>
+<span id='line24'></span>
+<span id='line25'>    a := Elem <b>{</b><b>}</b></span>
+<span id='line26'>    b := Elem <b>{</b><b>}</b></span>
+<span id='line27'>    c := Elem <b>{</b><b>}</b></span>
+<span id='line28'>    d := Elem <b>{</b><b>}</b></span>
+<span id='line29'>    e := Elem <b>{</b><b>}</b></span>
+<span id='line30'></span>
+<span id='line31'>    verifyEq<b>(</b>a.parent, null<b>)</b></span>
+<span id='line32'>    verifyEq<b>(</b>elem.hasChildren, false<b>)</b></span>
+<span id='line33'>    elem.add<b>(</b>a<b>)</b></span>
+<span id='line34'>    verifyEq<b>(</b>elem.hasChildren, true<b>)</b></span>
+<span id='line35'>    verifyEq<b>(</b>elem.children.size, 1<b>)</b></span>
+<span id='line36'>    verifyEq<b>(</b>a.parent, elem<b>)</b></span>
+<span id='line37'>    elem.add<b>(</b>b<b>)</b>; verifyEq<b>(</b>elem.children.size, 2<b>)</b></span>
+<span id='line38'>    elem.add<b>(</b>c<b>)</b>; verifyEq<b>(</b>elem.children.size, 3<b>)</b></span>
+<span id='line39'></span>
+<span id='line40'>    verifyEq<b>(</b>elem.firstChild, a<b>)</b></span>
+<span id='line41'>    verifyEq<b>(</b>elem.lastChild,  c<b>)</b></span>
+<span id='line42'>    verifyEq<b>(</b>elem.containsChild<b>(</b>b<b>)</b>, true<b>)</b></span>
+<span id='line43'>    verifyEq<b>(</b>a.prevSibling, null<b>)</b></span>
+<span id='line44'>    verifyEq<b>(</b>b.prevSibling, a<b>)</b></span>
+<span id='line45'>    verifyEq<b>(</b>b.nextSibling, c<b>)</b></span>
+<span id='line46'>    verifyEq<b>(</b>c.nextSibling, null<b>)</b></span>
+<span id='line47'></span>
+<span id='line48'>    elem.insertBefore<b>(</b>d, c<b>)</b></span>
+<span id='line49'>    verifyEq<b>(</b>elem.children<b>[</b>2<b>]</b>, d<b>)</b></span>
+<span id='line50'></span>
+<span id='line51'>    elem.replace<b>(</b>d, e<b>)</b></span>
+<span id='line52'>    verifyEq<b>(</b>elem.children<b>[</b>2<b>]</b>, e<b>)</b></span>
+<span id='line53'>    verifyEq<b>(</b>d.parent, null<b>)</b></span>
+<span id='line54'>    verifyEq<b>(</b>elem.children.contains<b>(</b>d<b>)</b>, false<b>)</b></span>
+<span id='line55'></span>
+<span id='line56'>    elem.remove<b>(</b>a<b>)</b></span>
+<span id='line57'>    verifyEq<b>(</b>a.parent, null<b>)</b></span>
+<span id='line58'>    verifyEq<b>(</b>elem.children.contains<b>(</b>a<b>)</b>, false<b>)</b></span>
+<span id='line59'>  <b>}</b></span>
+<span id='line60'></span>
+<span id='line61'>  Void testAttrs<b>(</b><b>)</b></span>
+<span id='line62'>  <b>{</b></span>
+<span id='line63'>    elem := Elem <b>{</b><b>}</b></span>
+<span id='line64'></span>
+<span id='line65'>    // java setAttr will always also set the prop</span>
+<span id='line66'>    verifyEq<b>(</b>elem.attrs.size, 0<b>)</b></span>
+<span id='line67'>    verifyAttrProp<b>(</b>elem, "foo", null<b>)</b></span>
+<span id='line68'>    elem<b>[</b>"foo"<b>]</b> = "bar"</span>
+<span id='line69'>    verifyAttrProp<b>(</b>elem, "foo", "bar"<b>)</b></span>
+<span id='line70'></span>
+<span id='line71'>    // java setProp will always also set the attr</span>
+<span id='line72'>    elem->bar = false</span>
+<span id='line73'>    elem->zoo = 12</span>
+<span id='line74'>    verifyAttrProp<b>(</b>elem, "bar", "false", false<b>)</b></span>
+<span id='line75'>    verifyAttrProp<b>(</b>elem, "zoo", "12", 12<b>)</b></span>
+<span id='line76'></span>
+<span id='line77'>    attrs := elem.attrs</span>
+<span id='line78'>    verifyEq<b>(</b>attrs.size, 3<b>)</b></span>
+<span id='line79'>    verifyAttrProp<b>(</b>elem, "foo", "bar"<b>)</b></span>
+<span id='line80'>    verifyAttrProp<b>(</b>elem, "bar", "false", false<b>)</b></span>
+<span id='line81'>    verifyAttrProp<b>(</b>elem, "zoo", "12", 12<b>)</b></span>
+<span id='line82'></span>
+<span id='line83'>    // TODO: how do we handle camel case????</span>
+<span id='line84'>    // elem->fooBar = "ok"</span>
+<span id='line85'>    // verifyEq<b>(</b>elem->fooBar, "ok"<b>)</b></span>
+<span id='line86'>    // verifyEq<b>(</b>elem<b>[</b>"foo-bar"<b>]</b>, "ok"<b>)</b></span>
+<span id='line87'>    // verifyEq<b>(</b>elem.get<b>(</b>"foo-bar"<b>)</b>, "ok"<b>)</b></span>
+<span id='line88'>    //</span>
+<span id='line89'>    // elem.set<b>(</b>"foo-bar", "ko"<b>)</b></span>
+<span id='line90'>    // verifyEq<b>(</b>elem->fooBar, "ko"<b>)</b></span>
+<span id='line91'>    // verifyEq<b>(</b>elem<b>[</b>"foo-bar"<b>]</b>, "ko"<b>)</b></span>
+<span id='line92'>    //</span>
+<span id='line93'>    // elem->fooBar = "xx"</span>
+<span id='line94'>    // verifyEq<b>(</b>elem->fooBar, "xx"<b>)</b></span>
+<span id='line95'>    // verifyEq<b>(</b>elem<b>[</b>"foo-bar"<b>]</b>, "xx"<b>)</b></span>
+<span id='line96'>    //</span>
+<span id='line97'>    // elem->_foo_bazPaw = "5"</span>
+<span id='line98'>    // verifyEq<b>(</b>elem->_foo_bazPaw, "5"<b>)</b></span>
+<span id='line99'>    // verifyEq<b>(</b>elem<b>[</b>"_foo_baz-paw"<b>]</b>, "5"<b>)</b></span>
+<span id='line100'>  <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>  Void testStyleBasics<b>(</b><b>)</b></span>
+<span id='line103'>  <b>{</b></span>
+<span id='line104'>    elem := Elem <b>{</b><b>}</b></span>
+<span id='line105'>    s := elem.style</span>
+<span id='line106'>    verifyEq<b>(</b>s.classes.size, 0<b>)</b></span>
+<span id='line107'></span>
+<span id='line108'>    s.addClass<b>(</b>"foo"<b>)</b></span>
+<span id='line109'>    verifyEq<b>(</b>s.classes.size, 1<b>)</b></span>
+<span id='line110'>    verifyEq<b>(</b>s.hasClass<b>(</b>"foo"<b>)</b>, true<b>)</b></span>
+<span id='line111'>    verifyEq<b>(</b>s.hasClass<b>(</b>"bar"<b>)</b>, false<b>)</b></span>
+<span id='line112'></span>
+<span id='line113'>    s.addClass<b>(</b>"bar cool"<b>)</b></span>
+<span id='line114'>    verifyEq<b>(</b>s.classes.size, 3<b>)</b></span>
+<span id='line115'>    verifyEq<b>(</b>s.hasClass<b>(</b>"foo"<b>)</b>,  true<b>)</b></span>
+<span id='line116'>    verifyEq<b>(</b>s.hasClass<b>(</b>"bar"<b>)</b>,  true<b>)</b></span>
+<span id='line117'>    verifyEq<b>(</b>s.hasClass<b>(</b>"cool"<b>)</b>, true<b>)</b></span>
+<span id='line118'></span>
+<span id='line119'>    s.removeClass<b>(</b>"bar"<b>)</b></span>
+<span id='line120'>    verifyEq<b>(</b>s.classes.size, 2<b>)</b></span>
+<span id='line121'>    verifyEq<b>(</b>s.hasClass<b>(</b>"foo"<b>)</b>,  true<b>)</b></span>
+<span id='line122'>    verifyEq<b>(</b>s.hasClass<b>(</b>"bar"<b>)</b>,  false<b>)</b></span>
+<span id='line123'>    verifyEq<b>(</b>s.hasClass<b>(</b>"cool"<b>)</b>, true<b>)</b></span>
+<span id='line124'></span>
+<span id='line125'>    s.removeClass<b>(</b>"nada"<b>)</b></span>
+<span id='line126'>    verifyEq<b>(</b>s.classes.size, 2<b>)</b></span>
+<span id='line127'></span>
+<span id='line128'>    verifyEq<b>(</b>s->background, null<b>)</b></span>
+<span id='line129'>    s->background = "#eee"</span>
+<span id='line130'>    verifyEq<b>(</b>s->background, "#eee"<b>)</b></span>
+<span id='line131'>  <b>}</b></span>
+<span id='line132'></span>
+<span id='line133'>  Void testClassAttr<b>(</b><b>)</b></span>
+<span id='line134'>  <b>{</b></span>
+<span id='line135'>    // test class handling via xxxAttr methods</span>
+<span id='line136'>    elem := Elem <b>{</b><b>}</b></span>
+<span id='line137'>    verifyEq<b>(</b>elem.attrs.size, 0<b>)</b></span>
+<span id='line138'>    verifyEq<b>(</b>elem.attr<b>(</b>"class"<b>)</b>, null<b>)</b></span>
+<span id='line139'></span>
+<span id='line140'>    // add a class</span>
+<span id='line141'>    elem.style.addClass<b>(</b>"foo"<b>)</b></span>
+<span id='line142'>    verifyEq<b>(</b>elem.style.hasClass<b>(</b>"foo"<b>)</b>, true<b>)</b></span>
+<span id='line143'>    verifyEq<b>(</b>elem.attr<b>(</b>"class"<b>)</b>, "foo"<b>)</b></span>
+<span id='line144'>    verifyEq<b>(</b>elem.attrs.size, 1<b>)</b></span>
+<span id='line145'></span>
+<span id='line146'>    // should replace classes</span>
+<span id='line147'>    elem.setAttr<b>(</b>"class", "bar zar"<b>)</b></span>
+<span id='line148'>    verifyEq<b>(</b>elem.style.hasClass<b>(</b>"foo"<b>)</b>, false<b>)</b></span>
+<span id='line149'>    verifyEq<b>(</b>elem.style.hasClass<b>(</b>"bar"<b>)</b>, true<b>)</b></span>
+<span id='line150'>    verifyEq<b>(</b>elem.style.hasClass<b>(</b>"zar"<b>)</b>, true<b>)</b></span>
+<span id='line151'>    verifyEq<b>(</b>elem.attr<b>(</b>"class"<b>)</b>, "bar zar"<b>)</b></span>
+<span id='line152'></span>
+<span id='line153'>    // should remove all classes</span>
+<span id='line154'>    elem.removeAttr<b>(</b>"class"<b>)</b></span>
+<span id='line155'>    verifyEq<b>(</b>elem.style.classes.size, 0<b>)</b></span>
+<span id='line156'>    verifyEq<b>(</b>elem.attr<b>(</b>"class"<b>)</b>, null<b>)</b></span>
+<span id='line157'>  <b>}</b></span>
+<span id='line158'></span>
+<span id='line159'>  Void testQuerySelector<b>(</b><b>)</b></span>
+<span id='line160'>  <b>{</b></span>
+<span id='line161'>    Elem? root</span>
+<span id='line162'>    Elem? a</span>
+<span id='line163'>    Elem? b</span>
+<span id='line164'></span>
+<span id='line165'>    root = Elem <b>{</b></span>
+<span id='line166'>      it.setAttr<b>(</b>"foo", "notme"<b>)</b></span>
+<span id='line167'>      a = Elem <b>{</b> it.setAttr<b>(</b>"foo", "bar"<b>)</b> <b>}</b>,</span>
+<span id='line168'>      b = Elem <b>{</b> it.setAttr<b>(</b>"foo", "bar"<b>)</b> <b>}</b>,</span>
+<span id='line169'>    <b>}</b></span>
+<span id='line170'></span>
+<span id='line171'>    m := root.querySelectorAll<b>(</b>"<b>[</b>foo<b>]</b>"<b>)</b></span>
+<span id='line172'>    verifyEq<b>(</b>m.size, 2<b>)</b></span>
+<span id='line173'>    verifySame<b>(</b>m<b>[</b>0<b>]</b>, a<b>)</b></span>
+<span id='line174'>    verifySame<b>(</b>m<b>[</b>1<b>]</b>, b<b>)</b></span>
+<span id='line175'></span>
+<span id='line176'>    verifySame<b>(</b>root.querySelector<b>(</b>"<b>[</b>foo<b>]</b>"<b>)</b>, a<b>)</b></span>
+<span id='line177'>  <b>}</b></span>
+<span id='line178'></span>
+<span id='line179'>  Void testSvg<b>(</b><b>)</b></span>
+<span id='line180'>  <b>{</b></span>
+<span id='line181'>    a := Svg.line<b>(</b>0, 0, 10, 10<b>)</b></span>
+<span id='line182'>    verifyEq<b>(</b>a.ns, `http://www.w3.org/2000/svg`<b>)</b></span>
+<span id='line183'>    verifyEq<b>(</b>a.tagName, "line"<b>)</b></span>
+<span id='line184'></span>
+<span id='line185'>    // svg prop routes to attr</span>
+<span id='line186'>    verifyEq<b>(</b>a->x1, "0"<b>)</b></span>
+<span id='line187'>    verifyEq<b>(</b>a->y1, "0"<b>)</b></span>
+<span id='line188'>    verifyEq<b>(</b>a->x2, "10"<b>)</b></span>
+<span id='line189'>    verifyEq<b>(</b>a->y2, "10"<b>)</b></span>
+<span id='line190'></span>
+<span id='line191'>    // svg setProp routes to setAttr</span>
+<span id='line192'>    a->x1 = 5</span>
+<span id='line193'>    a->y1 = 5</span>
+<span id='line194'>    verifyEq<b>(</b>a->x1, "5"<b>)</b></span>
+<span id='line195'>    verifyEq<b>(</b>a->y1, "5"<b>)</b></span>
+<span id='line196'>  <b>}</b></span>
+<span id='line197'></span>
+<span id='line198'>  private Void verifyAttrProp<b>(</b>Elem elem, Str name, Str? attrVal, Obj? propVal := null<b>)</b></span>
+<span id='line199'>  <b>{</b></span>
+<span id='line200'>    verifyAttr<b>(</b>elem, name, attrVal<b>)</b></span>
+<span id='line201'>    verifyProp<b>(</b>elem, name, propVal ?: attrVal<b>)</b></span>
+<span id='line202'>  <b>}</b></span>
+<span id='line203'></span>
+<span id='line204'>  private Void verifyAttr<b>(</b>Elem elem, Str name, Str? val<b>)</b></span>
+<span id='line205'>  <b>{</b></span>
+<span id='line206'>    // echo<b>(</b>"# $elem a<b>[</b>$name<b>]</b>: " + elem.attr<b>(</b>name<b>)</b> + "/" + elem.get<b>(</b>name<b>)</b><b>)</b></span>
+<span id='line207'>    verifyEq<b>(</b>elem.attr<b>(</b>name<b>)</b>, val<b>)</b></span>
+<span id='line208'>    verifyEq<b>(</b>elem.get<b>(</b>name<b>)</b>,  val<b>)</b></span>
+<span id='line209'>    verifyEq<b>(</b>elem<b>[</b>name<b>]</b>,      val<b>)</b></span>
+<span id='line210'>  <b>}</b></span>
+<span id='line211'></span>
+<span id='line212'>  private Void verifyProp<b>(</b>Elem elem, Str name, Obj? val<b>)</b></span>
+<span id='line213'>  <b>{</b></span>
+<span id='line214'>    // echo<b>(</b>"# $elem p<b>[</b>$name<b>]</b>: " + elem.prop<b>(</b>name<b>)</b> + "/" + elem.trap<b>(</b>name<b>)</b><b>)</b></span>
+<span id='line215'>    verifyEq<b>(</b>elem.prop<b>(</b>name<b>)</b>, val<b>)</b></span>
+<span id='line216'>    verifyEq<b>(</b>elem.trap<b>(</b>name<b>)</b>, val<b>)</b></span>
+<span id='line217'>  <b>}</b></span>
+<span id='line218'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

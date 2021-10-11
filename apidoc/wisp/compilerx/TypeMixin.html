@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::TypeMixin</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='TypeMixin.html'>TypeMixin</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> compilerx::TypeMixin</h1>
+<pre>compilerx::TypeMixin</pre>
+
+<p>Share Code between TypeRef and TypeDef</p>
+<dl>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> flags()</code></p>
+
+<p>Get the flags bitmask.</p>
+</dd>
+<dt id='isAbstract'>
+isAbstract</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isAbstract()</code></p>
+
+<p>Return if this Type is abstract and cannot be instantiated.  This method will always return true if the type is a mixin.</p>
+</dd>
+<dt id='isBool'>
+isBool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isBool()</code></p>
+</dd>
+<dt id='isBuf'>
+isBuf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isBuf()</code></p>
+</dd>
+<dt id='isClass'>
+isClass</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isClass()</code></p>
+
+<p>Return if this Type is a class (as opposed to enum or mixin)</p>
+</dd>
+<dt id='isConst'>
+isConst</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isConst()</code></p>
+
+<p>Return if this Type is const and immutable.</p>
+</dd>
+<dt id='isConstFieldType'>
+isConstFieldType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isConstFieldType()</code></p>
+
+<p>Is this type ok to use as a const field?  Any const type fine, plus we allow Obj, List, Map, Buf, and Func since they will implicitly have toImmutable called on them.</p>
+</dd>
+<dt id='isDecimal'>
+isDecimal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isDecimal()</code></p>
+</dd>
+<dt id='isEnum'>
+isEnum</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEnum()</code></p>
+
+<p>Return if this Type is an sys::Enum</p>
+</dd>
+<dt id='isError'>
+isError</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isError()</code></p>
+</dd>
+<dt id='isFacet'>
+isFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFacet()</code></p>
+
+<p>Return if this Type is an sys::Facet</p>
+</dd>
+<dt id='isFinal'>
+isFinal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFinal()</code></p>
+
+<p>Return if this Type is final and cannot be subclassed.</p>
+</dd>
+<dt id='isFloat'>
+isFloat</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFloat()</code></p>
+</dd>
+<dt id='isInt'>
+isInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInt()</code></p>
+</dd>
+<dt id='isInternal'>
+isInternal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInternal()</code></p>
+
+<p>Is this an internally scoped class</p>
+</dd>
+<dt id='isList'>
+isList</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isList()</code></p>
+</dd>
+<dt id='isMap'>
+isMap</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isMap()</code></p>
+</dd>
+<dt id='isMixin'>
+isMixin</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isMixin()</code></p>
+
+<p>Return if this Type is a mixin type and cannot be instantiated.</p>
+</dd>
+<dt id='isNative'>
+isNative</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNative()</code></p>
+
+<p>Is the entire class implemented in native code?</p>
+</dd>
+<dt id='isNothing'>
+isNothing</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNothing()</code></p>
+</dd>
+<dt id='isObj'>
+isObj</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isObj()</code></p>
+</dd>
+<dt id='isPublic'>
+isPublic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPublic()</code></p>
+
+<p>Is this a public scoped class</p>
+</dd>
+<dt id='isRange'>
+isRange</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isRange()</code></p>
+</dd>
+<dt id='isStr'>
+isStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStr()</code></p>
+</dd>
+<dt id='isSynthetic'>
+isSynthetic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSynthetic()</code></p>
+
+<p>Is this a compiler generated synthetic class</p>
+</dd>
+<dt id='isThis'>
+isThis</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isThis()</code></p>
+</dd>
+<dt id='isType'>
+isType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isType()</code></p>
+</dd>
+<dt id='isTypeErasure'>
+isTypeErasure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isTypeErasure()</code></p>
+</dd>
+<dt id='isValid'>
+isValid</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isValid()</code></p>
+
+<p>Is this a valid type usable anywhere (such as local var)</p>
+</dd>
+<dt id='isVoid'>
+isVoid</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isVoid()</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> qname()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#flags'>flags</a></li><li><a href='#isAbstract'>isAbstract</a></li><li><a href='#isBool'>isBool</a></li><li><a href='#isBuf'>isBuf</a></li><li><a href='#isClass'>isClass</a></li><li><a href='#isConst'>isConst</a></li><li><a href='#isConstFieldType'>isConstFieldType</a></li><li><a href='#isDecimal'>isDecimal</a></li><li><a href='#isEnum'>isEnum</a></li><li><a href='#isError'>isError</a></li><li><a href='#isFacet'>isFacet</a></li><li><a href='#isFinal'>isFinal</a></li><li><a href='#isFloat'>isFloat</a></li><li><a href='#isInt'>isInt</a></li><li><a href='#isInternal'>isInternal</a></li><li><a href='#isList'>isList</a></li><li><a href='#isMap'>isMap</a></li><li><a href='#isMixin'>isMixin</a></li><li><a href='#isNative'>isNative</a></li><li><a href='#isNothing'>isNothing</a></li><li><a href='#isObj'>isObj</a></li><li><a href='#isPublic'>isPublic</a></li><li><a href='#isRange'>isRange</a></li><li><a href='#isStr'>isStr</a></li><li><a href='#isSynthetic'>isSynthetic</a></li><li><a href='#isThis'>isThis</a></li><li><a href='#isType'>isType</a></li><li><a href='#isTypeErasure'>isTypeErasure</a></li><li><a href='#isValid'>isValid</a></li><li><a href='#isVoid'>isVoid</a></li><li><a href='#qname'>qname</a></li></ul>
+</div>
+</div>
+</body>
+</html>

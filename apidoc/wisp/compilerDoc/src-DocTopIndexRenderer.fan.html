@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocTopIndexRenderer.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocTopIndexRenderer.html'>DocTopIndexRenderer</a></li><li><a href='src-DocTopIndexRenderer.fan.html'>DocTopIndexRenderer.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   13 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using web</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Renders the index of a pod's documents</span>
+<span id='line13'>**</span>
+<span id='line14'>class DocTopIndexRenderer : DocRenderer</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'>  new make<b>(</b>DocEnv env, WebOutStream out, DocTopIndex doc<b>)</b></span>
+<span id='line17'>    : super<b>(</b>env, out, doc<b>)</b></span>
+<span id='line18'>  <b>{</b></span>
+<span id='line19'>    this.index = doc</span>
+<span id='line20'>  <b>}</b></span>
+<span id='line21'></span>
+<span id='line22'>  ** Pod index to render</span>
+<span id='line23'>  const DocTopIndex index</span>
+<span id='line24'></span>
+<span id='line25'>  ** Write the content for a top index.  Default</span>
+<span id='line26'>  ** organizes pods into manuals and APIs.</span>
+<span id='line27'>  override Void writeContent<b>(</b><b>)</b></span>
+<span id='line28'>  <b>{</b></span>
+<span id='line29'>    // start</span>
+<span id='line30'>    out.div<b>(</b>"class='index'"<b>)</b></span>
+<span id='line31'></span>
+<span id='line32'>    // manuals</span>
+<span id='line33'>    /*</span>
+<span id='line34'>    out.div<b>(</b>"class='manuals'"<b>)</b></span>
+<span id='line35'>    out.h2.w<b>(</b>"Manuals"<b>)</b>.h2End</span>
+<span id='line36'>    writeManuals<b>(</b>index.pods.findAll |p| <b>{</b> p.isManual <b>}</b><b>)</b></span>
+<span id='line37'>    out.divEnd</span>
+<span id='line38'>    */</span>
+<span id='line39'>    </span>
+<span id='line40'>    // apis</span>
+<span id='line41'>    out.div<b>(</b>"class='apis'"<b>)</b></span>
+<span id='line42'>    out.h2.w<b>(</b>"APIs"<b>)</b>.h2End</span>
+<span id='line43'>    writeApis<b>(</b>index.pods.findAll |p| <b>{</b> !p.isManual <b>}</b><b>)</b></span>
+<span id='line44'>    out.divEnd</span>
+<span id='line45'></span>
+<span id='line46'>    // end</span>
+<span id='line47'>    out.divEnd</span>
+<span id='line48'>  <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  ** Write manuals table of pod name/links along with</span>
+<span id='line51'>  ** shortcut chapter links.</span>
+<span id='line52'>  virtual Void writeManuals<b>(</b>DocPod<b>[</b><b>]</b> pods<b>)</b></span>
+<span id='line53'>  <b>{</b></span>
+<span id='line54'>    out.table</span>
+<span id='line55'>    index := <b>(</b>DocTopIndex<b>)</b>this.doc</span>
+<span id='line56'>    pods.each |pod|</span>
+<span id='line57'>    <b>{</b></span>
+<span id='line58'>      out.tr</span>
+<span id='line59'>        out.td; writeLinkTo<b>(</b>pod.index, pod.name<b>)</b>; out.tdEnd</span>
+<span id='line60'>        out.td.w<b>(</b>pod.summary<b>)</b></span>
+<span id='line61'>        out.div</span>
+<span id='line62'>        pod.chapters.each |ch,i|</span>
+<span id='line63'>        <b>{</b></span>
+<span id='line64'>          if <b>(</b>i > 0<b>)</b> out.w<b>(</b>" &amp;ndash; "<b>)</b></span>
+<span id='line65'>          writeLinkTo<b>(</b>ch<b>)</b></span>
+<span id='line66'>        <b>}</b></span>
+<span id='line67'>        out.divEnd</span>
+<span id='line68'>        out.tdEnd</span>
+<span id='line69'>     out.trEnd</span>
+<span id='line70'>    <b>}</b></span>
+<span id='line71'>    out.tableEnd</span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  ** Write API table of pod name/link and summaries.</span>
+<span id='line75'>  virtual Void writeApis<b>(</b>DocPod<b>[</b><b>]</b> pods<b>)</b></span>
+<span id='line76'>  <b>{</b></span>
+<span id='line77'>    out.table</span>
+<span id='line78'>    index := <b>(</b>DocTopIndex<b>)</b>this.doc</span>
+<span id='line79'>    sorted := pods.dup.sort |a,b| <b>{</b> a.name &lt;=> b.name <b>}</b></span>
+<span id='line80'>    sorted.each |pod|</span>
+<span id='line81'>    <b>{</b></span>
+<span id='line82'>      out.tr</span>
+<span id='line83'>      out.td; writeLinkTo<b>(</b>pod.index, pod.name<b>)</b>; out.tdEnd</span>
+<span id='line84'>      out.td.w<b>(</b>pod.summary<b>)</b>.tdEnd</span>
+<span id='line85'>      out.trEnd</span>
+<span id='line86'>    <b>}</b></span>
+<span id='line87'>    out.tableEnd</span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'><b>}</b></span>
+<span id='line90'></span>
+</pre>
+</div>
+</body>
+</html>

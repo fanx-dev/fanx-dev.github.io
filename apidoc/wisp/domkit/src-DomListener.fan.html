@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DomListener.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='DomListener.html'>DomListener</a></li><li><a href='src-DomListener.fan.html'>DomListener.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   8 Mar 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using dom</span>
+<span id='line11'>using graphics</span>
+<span id='line12'></span>
+<span id='line13'>**</span>
+<span id='line14'>** DomListener monitors the DOM and invokes callbacks when modifications occur.</span>
+<span id='line15'>**</span>
+<span id='line16'>** DomListener works by registering a global</span>
+<span id='line17'>** <b>[</b>MutationObserver<b>]</b>`dom::MutationObserver` on the 'body' tag and collects</span>
+<span id='line18'>** all 'childList' events for his subtree.  All mutation events are queued and</span>
+<span id='line19'>** processed on a <b>[</b>reqAnimationFrame<b>]</b>`dom::Win.reqAnimationFrame`.  Registered</span>
+<span id='line20'>** nodes are held with weak references, and will be garbage collected when out</span>
+<span id='line21'>** of scope.</span>
+<span id='line22'>**</span>
+<span id='line23'>@Js class DomListener</span>
+<span id='line24'><b>{</b></span>
+<span id='line25'>  static DomListener cur<b>(</b><b>)</b></span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    r := Actor.locals<b>[</b>"domkit.DomListener"<b>]</b> as DomListener</span>
+<span id='line28'>    if <b>(</b>r == null<b>)</b> Actor.locals<b>[</b>"domkit.DomListener"<b>]</b> = r = DomListener<b>(</b><b>)</b></span>
+<span id='line29'>    return r</span>
+<span id='line30'>  <b>}</b></span>
+<span id='line31'></span>
+<span id='line32'>  ** Private ctor.</span>
+<span id='line33'>  private new make<b>(</b><b>)</b></span>
+<span id='line34'>  <b>{</b></span>
+<span id='line35'>    this.observer = MutationObserver<b>(</b><b>)</b> |recs| <b>{</b> checkMutations.addAll<b>(</b>recs<b>)</b> <b>}</b></span>
+<span id='line36'>    this.observer.observe<b>(</b>Win.cur.doc.body, <b>[</b>"childList":true, "subtree":true<b>]</b><b>)</b></span>
+<span id='line37'>    reqCheck</span>
+<span id='line38'>  <b>}</b></span>
+<span id='line39'></span>
+<span id='line40'>  ** Request callback when target node is mounted into document.</span>
+<span id='line41'>  Void onMount<b>(</b>Elem target, |Elem| f<b>)</b></span>
+<span id='line42'>  <b>{</b></span>
+<span id='line43'>    DomState state := map.get<b>(</b>target<b>)</b> ?: DomState<b>(</b><b>)</b></span>
+<span id='line44'>    state.onMount = f</span>
+<span id='line45'>    map.set<b>(</b>target, state<b>)</b></span>
+<span id='line46'>  <b>}</b></span>
+<span id='line47'></span>
+<span id='line48'>  ** Request callback when target node is unmounted from document.</span>
+<span id='line49'>  Void onUnmount<b>(</b>Elem target, |Elem| f<b>)</b></span>
+<span id='line50'>  <b>{</b></span>
+<span id='line51'>    DomState state := map.get<b>(</b>target<b>)</b> ?: DomState<b>(</b><b>)</b></span>
+<span id='line52'>    state.onUnmount = f</span>
+<span id='line53'>    map.set<b>(</b>target, state<b>)</b></span>
+<span id='line54'>  <b>}</b></span>
+<span id='line55'></span>
+<span id='line56'>  ** Request callback when target node size has changed.</span>
+<span id='line57'>  Void onResize<b>(</b>Elem target, |Elem| f<b>)</b></span>
+<span id='line58'>  <b>{</b></span>
+<span id='line59'>    DomState state := map.get<b>(</b>target<b>)</b> ?: DomState<b>(</b><b>)</b></span>
+<span id='line60'>    state.onResize = f</span>
+<span id='line61'>    map.set<b>(</b>target, state<b>)</b></span>
+<span id='line62'>  <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  ** Request check callback.</span>
+<span id='line65'>  private Void reqCheck<b>(</b><b>)</b></span>
+<span id='line66'>  <b>{</b></span>
+<span id='line67'>    Win.cur.reqAnimationFrame |->| <b>{</b> onCheck <b>}</b></span>
+<span id='line68'>  <b>}</b></span>
+<span id='line69'></span>
+<span id='line70'>  ** Callback to check elements.</span>
+<span id='line71'>  private Void onCheck<b>(</b><b>)</b></span>
+<span id='line72'>  <b>{</b></span>
+<span id='line73'>    try</span>
+<span id='line74'>    <b>{</b></span>
+<span id='line75'>      // throttle checks</span>
+<span id='line76'>      nowTicks := Duration.nowTicks</span>
+<span id='line77'>      if <b>(</b>lastTicks != null &amp;&amp; nowTicks-lastTicks &lt; checkFreq<b>)</b> return</span>
+<span id='line78'>      this.lastTicks = nowTicks</span>
+<span id='line79'></span>
+<span id='line80'>      // debug</span>
+<span id='line81'>      // start := Duration.now</span>
+<span id='line82'></span>
+<span id='line83'>      // check mount/unmount</span>
+<span id='line84'>      checkMutations.each |r,i|</span>
+<span id='line85'>      <b>{</b></span>
+<span id='line86'>        checkState.clear</span>
+<span id='line87'>        r.added.each |e| <b>{</b> findRegNodes<b>(</b>e, checkState<b>)</b> <b>}</b></span>
+<span id='line88'>        checkState.each |e|</span>
+<span id='line89'>        <b>{</b></span>
+<span id='line90'>          DomState s := map<b>[</b>e<b>]</b></span>
+<span id='line91'>          s.fireMount<b>(</b>e<b>)</b></span>
+<span id='line92'>          mounted<b>[</b>e.hash<b>]</b> = e</span>
+<span id='line93'>        <b>}</b></span>
+<span id='line94'></span>
+<span id='line95'>        checkState.clear</span>
+<span id='line96'>        r.removed.each |e| <b>{</b> findRegNodes<b>(</b>e, checkState<b>)</b> <b>}</b></span>
+<span id='line97'>        checkState.each |e|</span>
+<span id='line98'>        <b>{</b></span>
+<span id='line99'>          DomState s := map<b>[</b>e<b>]</b></span>
+<span id='line100'>          s.fireUnmount<b>(</b>e<b>)</b></span>
+<span id='line101'>          mounted.remove<b>(</b>e.hash<b>)</b></span>
+<span id='line102'>        <b>}</b></span>
+<span id='line103'>      <b>}</b></span>
+<span id='line104'></span>
+<span id='line105'>      // make sure we cleanup refs</span>
+<span id='line106'>      checkMutations.clear</span>
+<span id='line107'>      checkState.clear</span>
+<span id='line108'></span>
+<span id='line109'>      // check for resize events</span>
+<span id='line110'>      mounted.each |e|</span>
+<span id='line111'>      <b>{</b></span>
+<span id='line112'>        DomState s := map<b>[</b>e<b>]</b></span>
+<span id='line113'>        if <b>(</b>s.onResize != null<b>)</b></span>
+<span id='line114'>        <b>{</b></span>
+<span id='line115'>          s.newSize = e.size</span>
+<span id='line116'>          if <b>(</b>s.lastSize == null<b>)</b> s.lastSize = s.newSize</span>
+<span id='line117'>          if <b>(</b>s.lastSize != s.newSize<b>)</b> s.fireResize<b>(</b>e<b>)</b></span>
+<span id='line118'>          s.lastSize = s.newSize</span>
+<span id='line119'>        <b>}</b></span>
+<span id='line120'>      <b>}</b></span>
+<span id='line121'></span>
+<span id='line122'>      // debug</span>
+<span id='line123'>      // dur := Duration.now - start</span>
+<span id='line124'>      // echo<b>(</b>"# DomListener.onCheck <b>[</b>$<b>{</b>dur.toMillis<b>}</b>ms<b>]</b>"<b>)</b></span>
+<span id='line125'>    <b>}</b></span>
+<span id='line126'>    catch <b>(</b>Err err<b>)</b> <b>{</b> err.trace <b>}</b></span>
+<span id='line127'>    finally</span>
+<span id='line128'>    <b>{</b></span>
+<span id='line129'>      reqCheck</span>
+<span id='line130'>    <b>}</b></span>
+<span id='line131'>  <b>}</b></span>
+<span id='line132'></span>
+<span id='line133'>  ** Walk subtree to find all registered nodes.</span>
+<span id='line134'>  private Void findRegNodes<b>(</b>Elem elem, Elem<b>[</b><b>]</b> list<b>)</b></span>
+<span id='line135'>  <b>{</b></span>
+<span id='line136'>    if <b>(</b>map.has<b>(</b>elem<b>)</b><b>)</b> list.add<b>(</b>elem<b>)</b></span>
+<span id='line137'>    elem.children.each |c| <b>{</b> findRegNodes<b>(</b>c, list<b>)</b> <b>}</b></span>
+<span id='line138'>  <b>}</b></span>
+<span id='line139'></span>
+<span id='line140'>  private Int checkFreq := 1sec.toNanos</span>
+<span id='line141'>  private Int? lastTicks</span>
+<span id='line142'></span>
+<span id='line143'>  private MutationObserver observer</span>
+<span id='line144'>  private WeakMap map := WeakMap<b>(</b><b>)</b></span>
+<span id='line145'>  private Int:Elem mounted := <b>[</b>:<b>]</b></span>
+<span id='line146'></span>
+<span id='line147'>  private MutationRec<b>[</b><b>]</b> checkMutations := <b>[</b>,<b>]</b></span>
+<span id='line148'>  private Elem<b>[</b><b>]</b> checkState := <b>[</b>,<b>]</b></span>
+<span id='line149'><b>}</b></span>
+<span id='line150'></span>
+<span id='line151'>**************************************************************************</span>
+<span id='line152'>** DomState</span>
+<span id='line153'>**************************************************************************</span>
+<span id='line154'></span>
+<span id='line155'>@Js internal class DomState</span>
+<span id='line156'><b>{</b></span>
+<span id='line157'>  Func? onMount   := null</span>
+<span id='line158'>  Func? onUnmount := null</span>
+<span id='line159'>  Func? onResize  := null</span>
+<span id='line160'></span>
+<span id='line161'>  Size? lastSize</span>
+<span id='line162'>  Size? newSize</span>
+<span id='line163'></span>
+<span id='line164'>  Void fireMount<b>(</b>Elem elem<b>)</b></span>
+<span id='line165'>  <b>{</b></span>
+<span id='line166'>    if <b>(</b>mounted<b>)</b> return</span>
+<span id='line167'>    mounted = true</span>
+<span id='line168'>    unmounted = false</span>
+<span id='line169'>    try <b>{</b> onMount?.call<b>(</b>elem<b>)</b> <b>}</b></span>
+<span id='line170'>    catch <b>(</b>Err err<b>)</b> <b>{</b> err.trace <b>}</b></span>
+<span id='line171'>  <b>}</b></span>
+<span id='line172'></span>
+<span id='line173'>  Void fireUnmount<b>(</b>Elem elem<b>)</b></span>
+<span id='line174'>  <b>{</b></span>
+<span id='line175'>    if <b>(</b>unmounted<b>)</b> return</span>
+<span id='line176'>    mounted = false</span>
+<span id='line177'>    unmounted = true</span>
+<span id='line178'>    try <b>{</b> onUnmount?.call<b>(</b>elem<b>)</b> <b>}</b></span>
+<span id='line179'>    catch <b>(</b>Err err<b>)</b> <b>{</b> err.trace <b>}</b></span>
+<span id='line180'>  <b>}</b></span>
+<span id='line181'></span>
+<span id='line182'>  Void fireResize<b>(</b>Elem elem<b>)</b></span>
+<span id='line183'>  <b>{</b></span>
+<span id='line184'>    try <b>{</b> onResize?.call<b>(</b>elem<b>)</b> <b>}</b></span>
+<span id='line185'>    catch <b>(</b>Err err<b>)</b> <b>{</b> err.trace <b>}</b></span>
+<span id='line186'>  <b>}</b></span>
+<span id='line187'></span>
+<span id='line188'>  private Bool mounted   := false</span>
+<span id='line189'>  private Bool unmounted := true</span>
+<span id='line190'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

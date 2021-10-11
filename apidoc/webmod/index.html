@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>webmod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>webmod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>pod</span> webmod</h1>
+<p>
+Standard library of WebMods</p>
+<h2>Classes</h2>
+<table>
+<tr>
+<td><a href='FileMod.html'>FileMod</a></td>
+<td>
+<p>FileMod is a web module which publishes a file or directory.</p>
+</td>
+</tr>
+<tr>
+<td><a href='LogMod.html'>LogMod</a></td>
+<td>
+<p>LogMod is used log requests according to the W3C extended log file format.</p>
+</td>
+</tr>
+<tr>
+<td><a href='PipelineMod.html'>PipelineMod</a></td>
+<td>
+<p>PipelineMod routes seriallly through a list of sub-WebMods.</p>
+</td>
+</tr>
+<tr>
+<td><a href='RouteMod.html'>RouteMod</a></td>
+<td>
+<p>RouteMod routes a level of the URI path to sub-WebMods.</p>
+</td>
+</tr>
+</table>
+</div>
+<div class='sidebar'>
+<h3>All Types</h3>
+<ul>
+<li><a href='FileMod.html'>FileMod</a></li><li><a href='LogMod.html'>LogMod</a></li><li><a href='PipelineMod.html'>PipelineMod</a></li><li><a href='RouteMod.html'>RouteMod</a></li></ul>
+</div>
+</div>
+<div class='mainSidebar'>
+<div class='main pod-doc' id='pod-doc'>
+
+<h2 id='overview'>Overview</h2>
+
+<p>The <a href='index.html'>webmod</a> pod defines a library for web modules which may be composed together:</p>
+
+<ul>
+<li><a href='index.html#file'>FileMod</a>: publish static files</li>
+
+<li><a href='index.html#route'>RouteMap</a>: route to a sub-module based on a URI path name</li>
+
+<li><a href='index.html#pipeline'>PipelineMod</a>: run through a serial list of sub-modules</li>
+
+<li><a href='index.html#log'>LogMod</a>: logs using W3C extended log format</li>
+</ul>
+
+<h2 id='file'>FileMod</h2>
+
+<p><code><a href='FileMod.html'>FileMod</a></code> is a simple way to publish static files under a base URI.  FileMod may be used with a single file or with a directory.  If using FileMod with a directory, then any request which maps to a directory which does not end in slash is redirected to include a trailing slash.  Requests to directories are mapped to "index.html" in that directory.</p>
+
+<p>Let's assume we have the following file structure:</p>
+
+<pre>pub/
+  index.html
+  alpha.html
+  icon.png
+  foo/
+    index.html
+    beta.html</pre>
+
+<p>Let's assume this top level route mapping:</p>
+
+<pre>RouteMod
+{
+  routes =
+  [
+    "favicon.ico": FileMod { file=`pub/icon.png`.toFile },
+    "stuff":       FileMod { file=`pub/`.toFile }
+  ]
+}</pre>
+
+<p>Single file modules map directly to the file:</p>
+
+<pre>/favicon.ico     =>  pub/icon.png
+/favicon.ico?q   =>  pub/icon.png  // queries ignored
+/favicon.ico/foo =>  404           // deeper paths return 404</pre>
+
+<p>Directories map files based on <code><a href='../web/WebReq.html#modRel'>WebReq.modRel</a></code>:</p>
+
+<pre>/stuff                =>  redirect /stuff/
+/stuff/               =>  /stuff/index.html
+/stuff/index.html     =>  /stuff/index.html
+/stuff/alpha.html     =>  /stuff/alpha.html
+/stuff/foo            =>  redirect /stuff/foo/
+/stuff/foo/           =>  /stuff/foo/index.html
+/stuff/foo/beta.html  =>  /stuff/foo/beta.html</pre>
+
+<h2 id='route'>RouteMod</h2>
+
+<p><code><a href='RouteMod.html'>RouteMod</a></code> is a composition module used to route path names in a URI to sub-modules.  RouteMod maps the first path name in <code><a href='../web/WebReq.html#modRel'>WebReq.modRel</a></code> to a sub module via the <code>routes</code> map.  If <code>modRel</code> is the empty path, then RouteMod will route to the name "index".</p>
+
+<p>Example configuration with nested routes:</p>
+
+<pre>root =  RouteMod
+{
+  routes =
+  [
+    "index": top,
+    "foo":   foo,
+    "bar":   RouteMod
+    {
+      routes =
+      [
+        "index": bar,
+        "alpha": alpha,
+      ]
+    }
+  ]
+}</pre>
+
+<p>Request uri to module mappings:</p>
+
+<pre>/             =>  top
+/index/       =>  top
+/index/x      =>  top
+/foo          =>  foo
+/foo/index    =>  foo
+/foo/a/b      =>  foo
+/bar          =>  bar
+/bar/         =>  bar
+/bar/alpha    =>  alpha
+/bar/alpha/x  =>  alpha</pre>
+
+<h2 id='pipeline'>PipelineMod</h2>
+
+<p><code><a href='PipelineMod.html'>PipelineMod</a></code> is a composition module used to run a request through a series of sub-modules.  The lifecycle of a PipelineMod request:</p>
+
+<ol style='list-style-type:decimal'>
+<li>Call each module in <code>before</code></li>
+
+<li>Call each module in <code>steps</code> as long as <code>WebRes.isDone</code> returns false</li>
+
+<li>Call each module in <code>after</code></li>
+</ol>
+
+<p>The before, steps, and after lists are processed in their declaration order. Every module declared in before and after is called for every request regardless of the <code>WebRes.isDone</code> state.  But the modules declared steps are only processed as long as <code>WebRes.isDone</code> is false.</p>
+
+<h2 id='log'>LogMod</h2>
+
+<p><code><a href='LogMod.html'>LogMod</a></code> class is used to generate a server log file for all HTTP requests in the <a href='http://www.w3.org/TR/WD-logfile.html'>W3C Extended Log File Format</a>.  Logging is best done a step in the <code><a href='PipelineMod.html#after'>PipelineMod.after</a></code>.  See <code><a href='../util/FileLogger.html'>FileLogger</a></code> to configure datetime patterns for your log files.</p>
+
+<p>The <code>fields</code> property configures the format of the log records. It is a string of field names separated by a space.  The following field names are supported:</p>
+
+<ul>
+<li><strong>date</strong>: UTC date as DD-MM-YYYY</li>
+
+<li><strong>time</strong>: UTC time as hh:mm:ss</li>
+
+<li><strong>c-ip</strong>: the numeric IP address of the remote client socket</li>
+
+<li><strong>c-port</strong>: the IP port of the remote client socket</li>
+
+<li><strong>cs-method</strong>: the request method such as GET</li>
+
+<li><strong>cs-uri</strong>: the encoded request uri (path and query)</li>
+
+<li><strong>cs-uri-stem</strong>: the encoded path of the request uri</li>
+
+<li><strong>cs-uri-query</strong>: the encoded query of the request uri</li>
+
+<li><strong>sc-status</strong>: the return status code</li>
+
+<li><strong>time-taken</strong>: the time taken to process request in milliseconds</li>
+
+<li><strong>cs(HeaderName)</strong>: request header value such <code>User-Agent</code></li>
+</ul>
+
+<p>If any unknown fields are specified or not available then "-" is logged. The default format is:</p>
+
+<pre>date time c-ip cs(X-Real-IP) cs-method cs-uri-stem cs-uri-query
+sc-status time-taken cs(User-Agent) cs(Referer)</pre>
+
+<p>Example log record with this format:</p>
+
+<pre>2011-02-25 03:22:45 0:0:0:0:0:0:0:1 - GET /doc - 200 247
+  "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Chrome/8.0.552.237 Safari/534.10"
+  "http://localhost/tag"</pre>
+</div>
+<div class='sidebar'>
+<h3>Contents</h3>
+<ul>
+<li><a href='#overview'>Overview</a></li><li><a href='#file'>FileMod</a></li><li><a href='#route'>RouteMod</a></li><li><a href='#pipeline'>PipelineMod</a></li><li><a href='#log'>LogMod</a></li></ul>
+</div>
+</div>
+</body>
+</html>

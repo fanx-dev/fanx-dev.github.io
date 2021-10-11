@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::PodDef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='PodDef.html'>PodDef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::PodDef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compilerx::Node</a>
+    compilerx::PodDef : <a href='CPod.html'>compilerx::CPod</a></pre>
+
+<p>PodDef models the pod being compiled.</p>
+<dl>
+<dt id='addTypeDef'>
+addTypeDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> addTypeDef(<a href='TypeDef.html'>TypeDef</a> t)</code></p>
+
+<p>Add a synthetic type</p>
+</dd>
+<dt id='closures'>
+closures</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='ClosureExpr.html'>ClosureExpr</a>&gt;?</a> closures := ClosureExpr[,]</code></p>
+</dd>
+<dt id='compileJs'>
+compileJs</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> compileJs</code></p>
+</dd>
+<dt id='depends'>
+depends</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='../std/Depend.html'>Depend</a>&gt;</a> depends := Depend[,]</code></p>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/File.html'>File?</a> file()</code></p>
+</dd>
+<dt id='index'>
+index</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> index := Map&lt;Str,Obj>[:]</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='meta'>
+meta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> meta := Map&lt;Str,Str>[:]</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual const override <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='resolveType'>
+resolveType</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CTypeDef.html'>CTypeDef?</a> resolveType(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked)</code></p>
+</dd>
+<dt id='resolvedDepends'>
+resolvedDepends</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CPod.html'>CPod</a>&gt;?</a> resolvedDepends</code></p>
+
+<p>Map of dependencies keyed by pod name set in ResolveDepends.</p>
+</dd>
+<dt id='summary'>
+summary</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> summary</code></p>
+</dd>
+<dt id='typeDefs'>
+typeDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='TypeDef.html'>TypeDef</a>&gt;</a> typeDefs</code></p>
+</dd>
+<dt id='types'>
+types</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CTypeDef.html'>CTypeDef</a>&gt;</a> types := CTypeDef[,] { private set }</code></p>
+</dd>
+<dt id='updateCompilationUnit'>
+updateCompilationUnit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> updateCompilationUnit(<a href='CompilationUnit.html'>CompilationUnit?</a> unit, <a href='CompilationUnit.html'>CompilationUnit?</a> old, <a href='CompilerLog.html'>CompilerLog</a> log)</code></p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/Version.html'>Version</a> version := Version.&lt;ctor>(&quot;1.0&quot;)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addTypeDef'>addTypeDef</a></li><li><a href='#closures'>closures</a></li><li><a href='#compileJs'>compileJs</a></li><li><a href='#depends'>depends</a></li><li><a href='#file'>file</a></li><li><a href='#index'>index</a></li><li><a href='#meta'>meta</a></li><li><a href='#name'>name</a></li><li><a href='#print'>print</a></li><li><a href='#resolveType'>resolveType</a></li><li><a href='#resolvedDepends'>resolvedDepends</a></li><li><a href='#summary'>summary</a></li><li><a href='#typeDefs'>typeDefs</a></li><li><a href='#types'>types</a></li><li><a href='#updateCompilationUnit'>updateCompilationUnit</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

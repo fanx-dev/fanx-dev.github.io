@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>AsnObj.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnObj.html'>AsnObj</a></li><li><a href='src-AsnObj.fan.html'>AsnObj.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   05 Aug 2021 Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using math</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** A tagged ASN.1 value</span>
+<span id='line13'>**</span>
+<span id='line14'>const class AsnObj</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'>// Constructor</span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'></span>
+<span id='line21'>  protected new make<b>(</b>AsnTag<b>[</b><b>]</b> tags, Obj? val<b>)</b></span>
+<span id='line22'>  <b>{</b></span>
+<span id='line23'>    idx := tags.findIndex |tag| <b>{</b> tag.cls.isUniv <b>}</b></span>
+<span id='line24'>    if <b>(</b>idx == -1<b>)</b> throw ArgErr<b>(</b>"No UNIVERSAL tag specified"<b>)</b></span>
+<span id='line25'>    if <b>(</b>idx != tags.size - 1<b>)</b> throw ArgErr<b>(</b>"UNIVERSAL tag must be last: $<b>{</b>idx<b>}</b> != $<b>{</b>tags.size-1<b>}</b>"<b>)</b></span>
+<span id='line26'>    this.tags = tags</span>
+<span id='line27'>    this.val  = val</span>
+<span id='line28'>  <b>}</b></span>
+<span id='line29'></span>
+<span id='line30'>  ** The tags for this object.</span>
+<span id='line31'>  const AsnTag<b>[</b><b>]</b> tags</span>
+<span id='line32'></span>
+<span id='line33'>  ** The value for this object.</span>
+<span id='line34'>  const Obj? val</span>
+<span id='line35'></span>
+<span id='line36'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line37'>// Value</span>
+<span id='line38'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line39'></span>
+<span id='line40'>  ** Get the value as a `sys::Bool`</span>
+<span id='line41'>  Bool bool<b>(</b><b>)</b> <b>{</b> val <b>}</b></span>
+<span id='line42'></span>
+<span id='line43'>  ** Is this object's universal tag a 'Boolean'</span>
+<span id='line44'>  Bool isBool<b>(</b><b>)</b> <b>{</b> univTag == AsnTag.univBool <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  ** Get the value as an `sys::Int`. If the value is a `math::BigInt` you may lose</span>
+<span id='line47'>  ** both precision and sign. Use `bigInt` to get the value explicitly</span>
+<span id='line48'>  ** as a `math::BigInt`.</span>
+<span id='line49'>  Int int<b>(</b><b>)</b></span>
+<span id='line50'>  <b>{</b></span>
+<span id='line51'>    if <b>(</b>val is BigInt<b>)</b> return <b>(</b><b>(</b>BigInt<b>)</b>val<b>)</b>.toInt</span>
+<span id='line52'>    return val</span>
+<span id='line53'>  <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>  ** Is this object's universal tag an 'Integer'</span>
+<span id='line56'>  Bool isInt<b>(</b><b>)</b> <b>{</b> univTag == AsnTag.univInt <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>  ** Get the value as a `math::BigInt`.</span>
+<span id='line59'>  BigInt bigInt<b>(</b><b>)</b></span>
+<span id='line60'>  <b>{</b></span>
+<span id='line61'>    if <b>(</b>val is Int<b>)</b> return BigInt.makeInt<b>(</b>val<b>)</b></span>
+<span id='line62'>    return val</span>
+<span id='line63'>  <b>}</b></span>
+<span id='line64'></span>
+<span id='line65'>  ** Get any of the  binary values as a `sys::Buf`. The Buf will be a safe copy</span>
+<span id='line66'>  ** that can be modified. Throws `AsnErr` if the value is not a binary value.</span>
+<span id='line67'>  virtual Buf buf<b>(</b><b>)</b> <b>{</b> throw AsnErr<b>(</b>"Not a binary type: $<b>{</b>this.typeof<b>}</b>"<b>)</b> <b>}</b></span>
+<span id='line68'></span>
+<span id='line69'>  ** Is this object's universal tag an 'Octet String'</span>
+<span id='line70'>  Bool isOcts<b>(</b><b>)</b> <b>{</b> univTag == AsnTag.univOcts <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>  ** Is this an ASN.1 'Null' value</span>
+<span id='line73'>  Bool isNull<b>(</b><b>)</b> <b>{</b> val == null &amp;&amp; univTag == AsnTag.univNull <b>}</b></span>
+<span id='line74'></span>
+<span id='line75'>  ** Get this object as an `AsnOid`</span>
+<span id='line76'>  AsnOid oid<b>(</b><b>)</b> <b>{</b> this <b>}</b></span>
+<span id='line77'></span>
+<span id='line78'>  ** Is this object's universal tag an 'Object Identifier'</span>
+<span id='line79'>  Bool isOid<b>(</b><b>)</b> <b>{</b> univTag == AsnTag.univOid <b>}</b></span>
+<span id='line80'></span>
+<span id='line81'>  ** Get the value as a `sys::Str`</span>
+<span id='line82'>  Str str<b>(</b><b>)</b> <b>{</b> val <b>}</b></span>
+<span id='line83'></span>
+<span id='line84'>  ** Get the value as a `sys::DateTime` timestamp</span>
+<span id='line85'>  DateTime ts<b>(</b><b>)</b> <b>{</b> val <b>}</b></span>
+<span id='line86'></span>
+<span id='line87'>  ** Get this object as an `AsnColl`</span>
+<span id='line88'>  AsnColl coll<b>(</b><b>)</b> <b>{</b> this <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>  ** Get this object as an `AsnSeq`</span>
+<span id='line91'>  AsnSeq seq<b>(</b><b>)</b> <b>{</b> this <b>}</b></span>
+<span id='line92'></span>
+<span id='line93'>  @NoDoc virtual Bool isAny<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line94'></span>
+<span id='line95'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line96'>// Tagging</span>
+<span id='line97'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line98'></span>
+<span id='line99'>  ** Push a tag to the front of the tag chain for this value. Returns</span>
+<span id='line100'>  ** a new instance of this object with the current value.</span>
+<span id='line101'>  **</span>
+<span id='line102'>  **   AsnObj.int<b>(</b>123<b>)</b>.tag<b>(</b>AsnTag.implicit<b>(</b>TagClass.context, 0<b>)</b><b>)</b></span>
+<span id='line103'>  **     => <b>[</b>0<b>]</b> IMPLICIT <b>[</b>UNIVERSAL 2<b>]</b></span>
+<span id='line104'>  **   AsnObj.int<b>(</b>123<b>)</b>.tag<b>(</b>AsnTag.explicit<b>(</b>TagClass.app, 1<b>)</b><b>)</b></span>
+<span id='line105'>  **     => <b>[</b>APPLICATION 1<b>]</b> EXPLICIT <b>[</b>UNIVERSAL 2<b>]</b></span>
+<span id='line106'>  virtual AsnObj push<b>(</b>AsnTag tag<b>)</b></span>
+<span id='line107'>  <b>{</b></span>
+<span id='line108'>    this.typeof.method<b>(</b>"make"<b>)</b>.call<b>(</b><b>[</b>tag<b>]</b>.addAll<b>(</b>this.tags<b>)</b>, this.val<b>)</b></span>
+<span id='line109'>  <b>}</b></span>
+<span id='line110'></span>
+<span id='line111'>  ** Apply rules for 'EXPLICIT' and 'IMPLICIT' tags to obtain</span>
+<span id='line112'>  ** the set of effective tags for encoding this object.</span>
+<span id='line113'>  AsnTag<b>[</b><b>]</b> effectiveTags<b>(</b><b>)</b></span>
+<span id='line114'>  <b>{</b></span>
+<span id='line115'>    acc := AsnTag<b>[</b>,<b>]</b></span>
+<span id='line116'>    AsnTag? prev := null</span>
+<span id='line117'>    tags.each |tag|</span>
+<span id='line118'>    <b>{</b></span>
+<span id='line119'>      if <b>(</b>prev == null<b>)</b> acc.add<b>(</b>tag<b>)</b></span>
+<span id='line120'>      else if <b>(</b>prev.mode === AsnTagMode.explicit<b>)</b> acc.add<b>(</b>tag<b>)</b></span>
+<span id='line121'>      prev = tag</span>
+<span id='line122'>    <b>}</b></span>
+<span id='line123'>    return acc</span>
+<span id='line124'>  <b>}</b></span>
+<span id='line125'></span>
+<span id='line126'>  ** Get the single effective tag for this object. Throws an error</span>
+<span id='line127'>  ** if there are multiple effective tags</span>
+<span id='line128'>  AsnTag tag<b>(</b><b>)</b></span>
+<span id='line129'>  <b>{</b></span>
+<span id='line130'>    etags := this.effectiveTags</span>
+<span id='line131'>    if <b>(</b>etags.size > 1<b>)</b> throw AsnErr<b>(</b>"Multiple effective tags: $etags"<b>)</b></span>
+<span id='line132'>    return etags.first</span>
+<span id='line133'>  <b>}</b></span>
+<span id='line134'></span>
+<span id='line135'>  ** Get the univ tag for this object</span>
+<span id='line136'>  AsnTag univTag<b>(</b><b>)</b> <b>{</b> tags.last <b>}</b></span>
+<span id='line137'></span>
+<span id='line138'>  ** Is this a primitive type?</span>
+<span id='line139'>  Bool isPrimitive<b>(</b><b>)</b></span>
+<span id='line140'>  <b>{</b></span>
+<span id='line141'>    switch <b>(</b>univTag<b>)</b></span>
+<span id='line142'>    <b>{</b></span>
+<span id='line143'>      case AsnTag.univSeq:</span>
+<span id='line144'>      case AsnTag.univSet:</span>
+<span id='line145'>        return false</span>
+<span id='line146'>      default:</span>
+<span id='line147'>        return true</span>
+<span id='line148'>    <b>}</b></span>
+<span id='line149'>  <b>}</b></span>
+<span id='line150'></span>
+<span id='line151'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line152'>// Obj</span>
+<span id='line153'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line154'></span>
+<span id='line155'>  final override Int hash<b>(</b><b>)</b></span>
+<span id='line156'>  <b>{</b></span>
+<span id='line157'>    res := 31 + tags.hash</span>
+<span id='line158'>    res = <b>(</b>res * 31<b>)</b> + valHash</span>
+<span id='line159'>    return res</span>
+<span id='line160'>  <b>}</b></span>
+<span id='line161'></span>
+<span id='line162'>  protected virtual Int valHash<b>(</b><b>)</b> <b>{</b> val?.hash ?: 0<b>}</b></span>
+<span id='line163'></span>
+<span id='line164'>  final override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line165'>  <b>{</b></span>
+<span id='line166'>    if <b>(</b>this === obj<b>)</b> return true</span>
+<span id='line167'>    that := obj as AsnObj</span>
+<span id='line168'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line169'></span>
+<span id='line170'>    // for objects, tag equality is strict</span>
+<span id='line171'>    these := this.tags</span>
+<span id='line172'>    those := that.tags</span>
+<span id='line173'>    if <b>(</b>these.size != those.size<b>)</b> return false</span>
+<span id='line174'>    eq := these.all |t,i| <b>{</b> t.strictEquals<b>(</b>those<b>[</b>i<b>]</b><b>)</b> <b>}</b></span>
+<span id='line175'>    if <b>(</b>!eq<b>)</b> return false</span>
+<span id='line176'></span>
+<span id='line177'>    return valEquals<b>(</b>that<b>)</b></span>
+<span id='line178'>  <b>}</b></span>
+<span id='line179'></span>
+<span id='line180'>  protected virtual Bool valEquals<b>(</b>AsnObj that<b>)</b> <b>{</b> this.val == that.val <b>}</b></span>
+<span id='line181'></span>
+<span id='line182'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line183'>  <b>{</b></span>
+<span id='line184'>    "$<b>{</b>tags<b>}</b> $<b>{</b>valStr<b>}</b>"</span>
+<span id='line185'>  <b>}</b></span>
+<span id='line186'></span>
+<span id='line187'>  protected virtual Str valStr<b>(</b><b>)</b> <b>{</b> "$<b>{</b>val<b>}</b>" <b>}</b></span>
+<span id='line188'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

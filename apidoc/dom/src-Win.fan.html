@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Win.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Win.html'>Win</a></li><li><a href='src-Win.fan.html'>Win.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2009, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   8 Jan 09  Andy Frank  Creation</span>
+<span id='line7'>//   8 Jul 09  Andy Frank  Split webappClient into sys/dom</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>using graphics</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** Win models the DOM window object.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See <b>[</b>pod doc<b>]</b>`pod-doc#win` for details.</span>
+<span id='line16'>**</span>
+<span id='line17'>@Js</span>
+<span id='line18'>class Win</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'></span>
+<span id='line21'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line22'>// Constrcutor</span>
+<span id='line23'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line24'></span>
+<span id='line25'>  ** Private ctor.</span>
+<span id='line26'>  private new make<b>(</b><b>)</b></span>
+<span id='line27'>  <b>{</b></span>
+<span id='line28'>    ua := userAgent</span>
+<span id='line29'></span>
+<span id='line30'>    this.isMac     = ua.contains<b>(</b>"Mac OS X"<b>)</b></span>
+<span id='line31'>    this.isWindows = ua.contains<b>(</b>"Windows"<b>)</b></span>
+<span id='line32'>    this.isLinux   = ua.contains<b>(</b>"Linux"<b>)</b></span>
+<span id='line33'></span>
+<span id='line34'>    this.isWebkit  = ua.contains<b>(</b>"AppleWebKit/"<b>)</b></span>
+<span id='line35'>    this.isChrome  = ua.contains<b>(</b>"Chrome/"<b>)</b></span>
+<span id='line36'>    this.isSafari  = ua.contains<b>(</b>"Safari/"<b>)</b> &amp;&amp; ua.contains<b>(</b>"Version/"<b>)</b></span>
+<span id='line37'>    this.isFirefox = ua.contains<b>(</b>"Firefox/"<b>)</b></span>
+<span id='line38'>    this.isIE      = ua.contains<b>(</b>"MSIE"<b>)</b> || ua.contains<b>(</b>"Trident/"<b>)</b></span>
+<span id='line39'>    this.isEdge    = ua.contains<b>(</b>"Edge/"<b>)</b></span>
+<span id='line40'>  <b>}</b></span>
+<span id='line41'></span>
+<span id='line42'>  ** Return the current window instance.</span>
+<span id='line43'>  static native Win cur<b>(</b><b>)</b></span>
+<span id='line44'></span>
+<span id='line45'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line46'>// Secondary Windows</span>
+<span id='line47'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line48'></span>
+<span id='line49'>  ** Open a new window. Returns the new window instance.</span>
+<span id='line50'>  native Win open<b>(</b>Uri uri := `about:blank`, Str? winName := null, <b>[</b>Str:Str<b>]</b>? opts := null<b>)</b></span>
+<span id='line51'></span>
+<span id='line52'>  ** Close this window.  Only applicable to windows created with</span>
+<span id='line53'>  ** `open`. Otherwise method has no effect.  Returns this.</span>
+<span id='line54'>  native Win close<b>(</b><b>)</b></span>
+<span id='line55'></span>
+<span id='line56'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line57'>// Access</span>
+<span id='line58'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line59'></span>
+<span id='line60'>  ** Return the Doc instance for this window.</span>
+<span id='line61'>  native Doc doc<b>(</b><b>)</b></span>
+<span id='line62'></span>
+<span id='line63'>  ** Add new CSS style rules to this page.</span>
+<span id='line64'>  native Void addStyleRules<b>(</b>Str rules<b>)</b></span>
+<span id='line65'></span>
+<span id='line66'>  ** Display a modal message box with the given text.</span>
+<span id='line67'>  native Void alert<b>(</b>Obj obj<b>)</b></span>
+<span id='line68'></span>
+<span id='line69'>  ** Display a confirmation dialog box with the given text.</span>
+<span id='line70'>  ** Returns 'true' if 'ok' was selected, 'false' othterwise.</span>
+<span id='line71'>  native Bool confirm<b>(</b>Obj obj<b>)</b></span>
+<span id='line72'></span>
+<span id='line73'>  ** Return the size of the window viewport in pixels.</span>
+<span id='line74'>  native Size viewport<b>(</b><b>)</b></span>
+<span id='line75'></span>
+<span id='line76'>  ** Return the size of the screen in pixels.</span>
+<span id='line77'>  native Size screenSize<b>(</b><b>)</b></span>
+<span id='line78'></span>
+<span id='line79'>  ** Returns a reference to the parent of the current window</span>
+<span id='line80'>  ** or subframe, or null if this is the top-most window.</span>
+<span id='line81'>  native Win? parent<b>(</b><b>)</b></span>
+<span id='line82'></span>
+<span id='line83'>  ** Returns a reference to the topmost window in the window</span>
+<span id='line84'>  ** hierarchy.  If this window is the topmost window, returns</span>
+<span id='line85'>  ** self.</span>
+<span id='line86'>  native Win top<b>(</b><b>)</b></span>
+<span id='line87'></span>
+<span id='line88'>  ** Evaluate given JavaScript code.</span>
+<span id='line89'>  static native Obj eval<b>(</b>Str js<b>)</b></span>
+<span id='line90'></span>
+<span id='line91'>  ** Log object to console.</span>
+<span id='line92'>  native Obj log<b>(</b>Obj obj<b>)</b></span>
+<span id='line93'></span>
+<span id='line94'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line95'>// Scrolling</span>
+<span id='line96'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line97'></span>
+<span id='line98'>  ** Return current scroll position of document in this window.</span>
+<span id='line99'>  native Point scrollPos<b>(</b><b>)</b></span>
+<span id='line100'></span>
+<span id='line101'>  ** Scrolls to a particular set of coordinates in the document.</span>
+<span id='line102'>  native This scrollTo<b>(</b>Int x, Int y<b>)</b></span>
+<span id='line103'></span>
+<span id='line104'>  ** Scrolls the document in the window by the given amount.</span>
+<span id='line105'>  native This scrollBy<b>(</b>Int x, Int y<b>)</b></span>
+<span id='line106'></span>
+<span id='line107'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line108'>// Uri</span>
+<span id='line109'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line110'></span>
+<span id='line111'>  ** Get the Uri for this window.</span>
+<span id='line112'>  native Uri uri<b>(</b><b>)</b></span>
+<span id='line113'></span>
+<span id='line114'>  ** Hyperlink to the given Uri in this window.</span>
+<span id='line115'>  native Void hyperlink<b>(</b>Uri uri<b>)</b></span>
+<span id='line116'></span>
+<span id='line117'>  ** Reload the current page. Use 'force' to bypass browse cache.</span>
+<span id='line118'>  native Void reload<b>(</b>Bool force := false<b>)</b></span>
+<span id='line119'></span>
+<span id='line120'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line121'>// History</span>
+<span id='line122'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line123'></span>
+<span id='line124'>  ** Go to previous page in session history.</span>
+<span id='line125'>  native Void hisBack<b>(</b><b>)</b></span>
+<span id='line126'></span>
+<span id='line127'>  ** Go to next page in the session history.</span>
+<span id='line128'>  native Void hisForward<b>(</b><b>)</b></span>
+<span id='line129'></span>
+<span id='line130'>  **</span>
+<span id='line131'>  ** Push a new history item onto the history stack. Use 'onpopstate'</span>
+<span id='line132'>  ** to listen for changes:</span>
+<span id='line133'>  **</span>
+<span id='line134'>  **   // Event.stash contains state map passed into pushState</span>
+<span id='line135'>  **   Win.cur.onEvent<b>(</b>"popstate", false<b>)</b> |e| <b>{</b> echo<b>(</b>"# state: $e.stash"<b>)</b> <b>}</b></span>
+<span id='line136'>  **</span>
+<span id='line137'>  native Void hisPushState<b>(</b>Str title, Uri uri, <b>[</b>Str:Obj<b>]</b> map<b>)</b></span>
+<span id='line138'></span>
+<span id='line139'>  **</span>
+<span id='line140'>  ** Modify the current history item.</span>
+<span id='line141'>  **</span>
+<span id='line142'>  native Void hisReplaceState<b>(</b>Str title, Uri uri, <b>[</b>Str:Obj<b>]</b> map<b>)</b></span>
+<span id='line143'></span>
+<span id='line144'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line145'>// Events</span>
+<span id='line146'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line147'></span>
+<span id='line148'>  ** Attach an event handler for the given event on this window.</span>
+<span id='line149'>  ** Returns callback function instance.</span>
+<span id='line150'>  native Func onEvent<b>(</b>Str type, Bool useCapture, |Event e| handler<b>)</b></span>
+<span id='line151'></span>
+<span id='line152'>  ** Remove the given event handler from this window.  If this</span>
+<span id='line153'>  ** handler was not registered, this method does nothing.</span>
+<span id='line154'>  native Void removeEvent<b>(</b>Str type, Bool useCapture, Func handler<b>)</b></span>
+<span id='line155'></span>
+<span id='line156'>  ** Request the browser to perform an animation before the next repaint.</span>
+<span id='line157'>  native Void reqAnimationFrame<b>(</b>|This| f<b>)</b></span>
+<span id='line158'></span>
+<span id='line159'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line160'>// Timers</span>
+<span id='line161'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line162'></span>
+<span id='line163'>  ** Call the specified function after a specified delay. Returns</span>
+<span id='line164'>  ** a timeoutId that can be used in `clearTimeout`.</span>
+<span id='line165'>  native Int setTimeout<b>(</b>Duration delay, |This win| f<b>)</b></span>
+<span id='line166'></span>
+<span id='line167'>  ** Clears the delay set by `setTimeout`.</span>
+<span id='line168'>  native Void clearTimeout<b>(</b>Int timeoutId<b>)</b></span>
+<span id='line169'></span>
+<span id='line170'>  ** Calls a function repeatedly, with a fixed time delay between</span>
+<span id='line171'>  ** each call to that function. Returns an intervalId that can be</span>
+<span id='line172'>  ** used in `clearInterval`.</span>
+<span id='line173'>  native Int setInterval<b>(</b>Duration delay, |This win| f<b>)</b></span>
+<span id='line174'></span>
+<span id='line175'>  ** Cancels a repeated action which was set up using `setInterval`.</span>
+<span id='line176'>  native Void clearInterval<b>(</b>Int intervalId<b>)</b></span>
+<span id='line177'></span>
+<span id='line178'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line179'>// Geolocation</span>
+<span id='line180'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line181'></span>
+<span id='line182'>  ** Get the the current position of this device. This feature</span>
+<span id='line183'>  ** is only available in secure contexts <b>(</b>HTTPS<b>)</b>.</span>
+<span id='line184'>  native Void geoCurPosition<b>(</b>|DomCoord| onSuccess, |Err|? onErr := null, <b>[</b>Str:Obj<b>]</b>? opts := null<b>)</b></span>
+<span id='line185'></span>
+<span id='line186'>  ** Register a handler function that will be called automatically each</span>
+<span id='line187'>  ** time the position of the device changes. This method returns a watch</span>
+<span id='line188'>  ** ID value that then can be used to unregister the handler with the</span>
+<span id='line189'>  ** `geoClearWatch` method. This feature is only available in secure</span>
+<span id='line190'>  ** contexts <b>(</b>HTTPS<b>)</b>.</span>
+<span id='line191'>  native Int geoWatchPosition<b>(</b>|DomCoord| onSuccess, |Err|? onErr := null, <b>[</b>Str:Obj<b>]</b>? opts := null<b>)</b></span>
+<span id='line192'></span>
+<span id='line193'>  ** Unregister location/error monitoring handlers previously installed</span>
+<span id='line194'>  ** using `geoWatchPosition`. This feature is only available in secure</span>
+<span id='line195'>  ** contexts <b>(</b>HTTPS<b>)</b>.</span>
+<span id='line196'>  native Void geoClearWatch<b>(</b>Int id<b>)</b></span>
+<span id='line197'></span>
+<span id='line198'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line199'>// Storage</span>
+<span id='line200'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line201'></span>
+<span id='line202'>  ** Return session storage instance for window.</span>
+<span id='line203'>  native Storage sessionStorage<b>(</b><b>)</b></span>
+<span id='line204'></span>
+<span id='line205'>  ** Return local storage instance for window.</span>
+<span id='line206'>  native Storage localStorage<b>(</b><b>)</b></span>
+<span id='line207'></span>
+<span id='line208'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line209'>// UA</span>
+<span id='line210'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line211'></span>
+<span id='line212'>  ** Get the browser user agent string.</span>
+<span id='line213'>  @NoDoc native Str userAgent<b>(</b><b>)</b></span>
+<span id='line214'></span>
+<span id='line215'>  @NoDoc const Bool isMac</span>
+<span id='line216'>  @NoDoc const Bool isWindows</span>
+<span id='line217'>  @NoDoc const Bool isLinux</span>
+<span id='line218'></span>
+<span id='line219'>  @NoDoc const Bool isWebkit</span>
+<span id='line220'>  @NoDoc const Bool isChrome</span>
+<span id='line221'>  @NoDoc const Bool isSafari</span>
+<span id='line222'>  @NoDoc const Bool isFirefox</span>
+<span id='line223'>  @NoDoc const Bool isIE</span>
+<span id='line224'>  @NoDoc const Bool isEdge</span>
+<span id='line225'></span>
+<span id='line226'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line227'>// Diagnostics</span>
+<span id='line228'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line229'></span>
+<span id='line230'>  ** Poll for a browser dependent map of diagnostics name/value pairs</span>
+<span id='line231'>  ** for current state of JsVM and DOM.</span>
+<span id='line232'>  @NoDoc native Str:Obj diagnostics<b>(</b><b>)</b></span>
+<span id='line233'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

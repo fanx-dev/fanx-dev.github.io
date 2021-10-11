@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>LogMod.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>webmod</a></li><li><a href='LogMod.html'>LogMod</a></li><li><a href='src-LogMod.fan.html'>LogMod.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   8 Apr 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using web</span>
+<span id='line10'>using util</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** LogMod is used log requests according to the W3C extended log file format.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See <b>[</b>pod doc<b>]</b>`pod-doc#log`</span>
+<span id='line16'>**</span>
+<span id='line17'>const class LogMod : WebMod</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'></span>
+<span id='line20'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line21'>// Construction</span>
+<span id='line22'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line23'></span>
+<span id='line24'>  **</span>
+<span id='line25'>  ** Constructor with it-block.</span>
+<span id='line26'>  **</span>
+<span id='line27'>  new make<b>(</b>|This|? f := null<b>)</b></span>
+<span id='line28'>  <b>{</b></span>
+<span id='line29'>    if <b>(</b>f != null<b>)</b> f.call<b>(</b>this<b>)</b></span>
+<span id='line30'>    logger = FileLogger</span>
+<span id='line31'>    <b>{</b></span>
+<span id='line32'>      it.dir      = this.dir</span>
+<span id='line33'>      it.filename = this.filename</span>
+<span id='line34'>      it.onOpen   = |out| <b>{</b> onOpen<b>(</b>out<b>)</b> <b>}</b></span>
+<span id='line35'>    <b>}</b></span>
+<span id='line36'>  <b>}</b></span>
+<span id='line37'></span>
+<span id='line38'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line39'>// Fields</span>
+<span id='line40'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line41'></span>
+<span id='line42'>  **</span>
+<span id='line43'>  ** Directory used to store log file<b>(</b>s<b>)</b>.</span>
+<span id='line44'>  **</span>
+<span id='line45'>  const File dir := noDir</span>
+<span id='line46'>  private static const File noDir := File<b>(</b>`no-dir-configured`<b>)</b></span>
+<span id='line47'></span>
+<span id='line48'>  **</span>
+<span id='line49'>  ** Log filename pattern.  The name may contain a pattern between</span>
+<span id='line50'>  ** '<b>{</b><b>}</b>' using the pattern format of `sys::DateTime.toLocale`.  For</span>
+<span id='line51'>  ** example to maintain a log file per month, use a filename such</span>
+<span id='line52'>  ** as "web-<b>{</b>YYYY-MM<b>}</b>.log".</span>
+<span id='line53'>  **</span>
+<span id='line54'>  const Str filename := ""</span>
+<span id='line55'></span>
+<span id='line56'>  **</span>
+<span id='line57'>  ** Format of the log records as a string of #Fields names.</span>
+<span id='line58'>  ** See <b>[</b>pod doc<b>]</b>`pod-doc#log`</span>
+<span id='line59'>  **</span>
+<span id='line60'>  const Str fields := "date time c-ip cs<b>(</b>X-Real-IP<b>)</b> cs-method cs-uri-stem cs-uri-query sc-status time-taken cs<b>(</b>User-Agent<b>)</b> cs<b>(</b>Referer<b>)</b>"</span>
+<span id='line61'></span>
+<span id='line62'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line63'>// Lifecycle</span>
+<span id='line64'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line65'></span>
+<span id='line66'>  private Void onOpen<b>(</b>OutStream out<b>)</b></span>
+<span id='line67'>  <b>{</b></span>
+<span id='line68'>    // write prefix</span>
+<span id='line69'>    out.printLine<b>(</b>"#Remark =========================================================================="<b>)</b></span>
+<span id='line70'>    out.printLine<b>(</b>"#Remark " + DateTime.now.toLocale<b>)</b></span>
+<span id='line71'>    out.printLine<b>(</b>"#Version 1.0"<b>)</b></span>
+<span id='line72'>    out.printLine<b>(</b>"#Software $<b>{</b>Type.of<b>(</b>this<b>)</b><b>}</b> $<b>{</b>Pod.of<b>(</b>this<b>)</b>.version<b>}</b>"<b>)</b></span>
+<span id='line73'>    out.printLine<b>(</b>"#Start-Date " + DateTime.nowUtc.toLocale<b>(</b>"YYYY-MM-DD hh:mm:ss"<b>)</b><b>)</b></span>
+<span id='line74'>    out.printLine<b>(</b>"#Fields $fields"<b>)</b></span>
+<span id='line75'>  <b>}</b></span>
+<span id='line76'></span>
+<span id='line77'>  override Void onStop<b>(</b><b>)</b></span>
+<span id='line78'>  <b>{</b></span>
+<span id='line79'>    logger.stop</span>
+<span id='line80'>  <b>}</b></span>
+<span id='line81'></span>
+<span id='line82'>  override Void onService<b>(</b><b>)</b></span>
+<span id='line83'>  <b>{</b></span>
+<span id='line84'>    try</span>
+<span id='line85'>    <b>{</b></span>
+<span id='line86'>      s := StrBuf<b>(</b>256<b>)</b></span>
+<span id='line87'>      fields.split.each |Str field, Int i|</span>
+<span id='line88'>      <b>{</b></span>
+<span id='line89'>        if <b>(</b>i != 0<b>)</b> s.add<b>(</b>" "<b>)</b></span>
+<span id='line90'></span>
+<span id='line91'>        // lookup format method for field</span>
+<span id='line92'>        m := formatters<b>[</b>field<b>]</b></span>
+<span id='line93'>        if <b>(</b>m != null<b>)</b></span>
+<span id='line94'>        <b>{</b></span>
+<span id='line95'>          s.add<b>(</b>m.call<b>(</b>req, res<b>)</b><b>)</b></span>
+<span id='line96'>          return;</span>
+<span id='line97'>        <b>}</b></span>
+<span id='line98'></span>
+<span id='line99'>        // cs<b>(</b>HeaderName<b>)</b></span>
+<span id='line100'>        if <b>(</b>field.startsWith<b>(</b>"cs<b>(</b>"<b>)</b><b>)</b></span>
+<span id='line101'>        <b>{</b></span>
+<span id='line102'>          s.add<b>(</b>formatCsHeader<b>(</b>req, field<b>[</b>3..-2<b>]</b><b>)</b><b>)</b></span>
+<span id='line103'>          return</span>
+<span id='line104'>        <b>}</b></span>
+<span id='line105'></span>
+<span id='line106'>        // unknown field name</span>
+<span id='line107'>        s.add<b>(</b>"-"<b>)</b></span>
+<span id='line108'>      <b>}</b></span>
+<span id='line109'></span>
+<span id='line110'>      logger.writeStr<b>(</b>s.toStr<b>)</b></span>
+<span id='line111'>    <b>}</b></span>
+<span id='line112'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line113'>    <b>{</b></span>
+<span id='line114'>      logger.writeStr<b>(</b>"# $e"<b>)</b></span>
+<span id='line115'>    <b>}</b></span>
+<span id='line116'>  <b>}</b></span>
+<span id='line117'></span>
+<span id='line118'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line119'>// Formatters</span>
+<span id='line120'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line121'></span>
+<span id='line122'>  internal static const <b>[</b>Str:Method<b>]</b> formatters :=</span>
+<span id='line123'>  <b>[</b></span>
+<span id='line124'>    "date":         #formatDate,</span>
+<span id='line125'>    "time":         #formatTime,</span>
+<span id='line126'>    "c-ip":         #formatCIp,</span>
+<span id='line127'>    "c-port":       #formatCPort,</span>
+<span id='line128'>    "cs-method":    #formatCsMethod,</span>
+<span id='line129'>    "cs-uri":       #formatCsUri,</span>
+<span id='line130'>    "cs-uri-stem":  #formatCsUriStem,</span>
+<span id='line131'>    "cs-uri-query": #formatCsUriQuery,</span>
+<span id='line132'>    "sc-status":    #formatScStatus,</span>
+<span id='line133'>    "time-taken":   #formatTimeTaken,</span>
+<span id='line134'>  <b>]</b></span>
+<span id='line135'></span>
+<span id='line136'>  internal static Str formatDate<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line137'>  <b>{</b></span>
+<span id='line138'>    return DateTime.nowUtc.toLocale<b>(</b>"YYYY-MM-DD"<b>)</b></span>
+<span id='line139'>  <b>}</b></span>
+<span id='line140'></span>
+<span id='line141'>  internal static Str formatTime<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line142'>  <b>{</b></span>
+<span id='line143'>    return DateTime.nowUtc.toLocale<b>(</b>"hh:mm:ss"<b>)</b></span>
+<span id='line144'>  <b>}</b></span>
+<span id='line145'></span>
+<span id='line146'>  internal static Str formatCIp<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line147'>  <b>{</b></span>
+<span id='line148'>    return req.remoteAddr.numeric</span>
+<span id='line149'>  <b>}</b></span>
+<span id='line150'></span>
+<span id='line151'>  internal static Str formatCPort<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line152'>  <b>{</b></span>
+<span id='line153'>    return req.remotePort.toStr</span>
+<span id='line154'>  <b>}</b></span>
+<span id='line155'></span>
+<span id='line156'>  internal static Str formatCsMethod<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line157'>  <b>{</b></span>
+<span id='line158'>    return req.method</span>
+<span id='line159'>  <b>}</b></span>
+<span id='line160'></span>
+<span id='line161'>  internal static Str formatCsUri<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line162'>  <b>{</b></span>
+<span id='line163'>    return req.uri.encode</span>
+<span id='line164'>  <b>}</b></span>
+<span id='line165'></span>
+<span id='line166'>  internal static Str formatCsUriStem<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line167'>  <b>{</b></span>
+<span id='line168'>    return req.uri.pathOnly.encode</span>
+<span id='line169'>  <b>}</b></span>
+<span id='line170'></span>
+<span id='line171'>  internal static Str formatCsUriQuery<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line172'>  <b>{</b></span>
+<span id='line173'>    if <b>(</b>req.uri.query.isEmpty<b>)</b> return "-"</span>
+<span id='line174'>    return Uri.encodeQuery<b>(</b>req.uri.query<b>)</b></span>
+<span id='line175'>  <b>}</b></span>
+<span id='line176'></span>
+<span id='line177'>  internal static Str formatScStatus<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line178'>  <b>{</b></span>
+<span id='line179'>    return res.statusCode.toStr</span>
+<span id='line180'>  <b>}</b></span>
+<span id='line181'></span>
+<span id='line182'>  internal static Str formatTimeTaken<b>(</b>WebReq req, WebRes res<b>)</b></span>
+<span id='line183'>  <b>{</b></span>
+<span id='line184'>    d := Duration.now - req.stash<b>[</b>"web.startTime"<b>]</b></span>
+<span id='line185'>    return d.toMillis.toStr</span>
+<span id='line186'>  <b>}</b></span>
+<span id='line187'></span>
+<span id='line188'>  internal static Str formatCsHeader<b>(</b>WebReq req, Str headerName<b>)</b></span>
+<span id='line189'>  <b>{</b></span>
+<span id='line190'>    s := req.headers<b>[</b>headerName<b>]</b></span>
+<span id='line191'>    if <b>(</b>s == null || s.isEmpty<b>)</b> return "-"</span>
+<span id='line192'>    return "\"" + s.replace<b>(</b>"\"", "\"\""<b>)</b> + "\""</span>
+<span id='line193'>  <b>}</b></span>
+<span id='line194'></span>
+<span id='line195'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line196'>// Fields</span>
+<span id='line197'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line198'></span>
+<span id='line199'>  private const FileLogger logger</span>
+<span id='line200'></span>
+<span id='line201'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

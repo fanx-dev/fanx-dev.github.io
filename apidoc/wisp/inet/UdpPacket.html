@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inet::UdpPacket</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='UdpPacket.html'>UdpPacket</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> inet::UdpPacket</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  inet::UdpPacket</pre>
+<p class='src'>
+<a href='src-UdpPacket.fan.html'>Source</a></p>
+
+<p>UdpPacket encapsulates an IpAddr, port, and payload of bytes to send or receive from a UdpSocket.</p>
+<dl>
+<dt id='addr'>
+addr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='IpAddr.html'>IpAddr?</a> addr := null</code></p>
+<p class='src'>
+<a href='src-UdpPacket.fan.html#line35'>Source</a></p>
+
+<p>The send or receive IpAddr.  Defaults to null.</p>
+</dd>
+<dt id='data'>
+data</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf?</a> data := null</code></p>
+<p class='src'>
+<a href='src-UdpPacket.fan.html#line45'>Source</a></p>
+
+<p>The payload to send or received.  Defaults to null. The data buffer must always be a memory backed buffer.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='IpAddr.html'>IpAddr?</a> addr := null, <a href='../sys/Int.html'>Int?</a> port := null, <a href='../std/Buf.html'>Buf?</a> data := null)</code></p>
+<p class='src'>
+<a href='src-UdpPacket.fan.html#line21'>Source</a></p>
+
+<p>Construct a new UdpPacket.</p>
+</dd>
+<dt id='port'>
+port</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> port := null</code></p>
+<p class='src'>
+<a href='src-UdpPacket.fan.html#line40'>Source</a></p>
+
+<p>The send or receive port number.  Defaults to null.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-UdpPacket.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addr'>addr</a></li><li><a href='#data'>data</a></li><li><a href='#port'>port</a></li></ul>
+</div>
+</div>
+</body>
+</html>

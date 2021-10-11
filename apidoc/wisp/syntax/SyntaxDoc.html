@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>syntax::SyntaxDoc</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='SyntaxDoc.html'>SyntaxDoc</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> syntax::SyntaxDoc</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  syntax::SyntaxDoc</pre>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html'>Source</a></p>
+
+<p>SyntaxDoc models a full document as a series of SyntaxLines.</p>
+<dl>
+<dt id='eachLine'>
+eachLine</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> eachLine(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='SyntaxLine.html'>SyntaxLine</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line36'>Source</a></p>
+
+<p>Iterate each line of the document.</p>
+</dd>
+<dt id='parse'>
+parse</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='SyntaxDoc.html'>SyntaxDoc</a> parse(<a href='SyntaxRules.html'>SyntaxRules</a> rules, <a href='../std/InStream.html'>InStream</a> in)</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html'>Source</a></p>
+
+<p>Parse an input stream into a document using given rules. The input stream is guaranteed to be closed.</p>
+</dd>
+<dt id='rules'>
+rules</dt>
+<dd>
+<p class='sig'>
+<code> <a href='SyntaxRules.html'>SyntaxRules</a> rules { private set }</code></p>
+<p class='src'>
+<a href='src-SyntaxModel.fan.html#line33'>Source</a></p>
+
+<p>Rules used to parse this document.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-SyntaxModel.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#parse'>parse</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#eachLine'>eachLine</a></li><li><a href='#rules'>rules</a></li></ul>
+</div>
+</div>
+</body>
+</html>

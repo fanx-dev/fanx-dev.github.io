@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocErrHandler</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocErrHandler.html'>DocErrHandler</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerDoc::DocErrHandler</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::DocErrHandler</pre>
+<p class='src'>
+<a href='src-DocErrHandler.fan.html#line37'>Source</a></p>
+
+<p>DocErrHandler is responsible for handling errors encountered during doc compilation including broken links and fandoc format errors.</p>
+<dl>
+<dt id='errs'>
+errs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='DocErr.html'>DocErr</a>&gt;</a> errs := DocErr[,]</code></p>
+<p class='src'>
+<a href='src-DocErrHandler.fan.html#line44'>Source</a></p>
+
+<p>Accumulated list of errors reported</p>
+</dd>
+<dt id='onErr'>
+onErr</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onErr(<a href='DocErr.html'>DocErr</a> err)</code></p>
+<p class='src'>
+<a href='src-DocErrHandler.fan.html#line47'>Source</a></p>
+
+<p>Handle a documentation error.  Default implementation logs it to stdout and stores it in <code><a href='DocErrHandler.html#errs'>errs</a></code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocErrHandler.fan.html#line37'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#errs'>errs</a></li><li><a href='#onErr'>onErr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

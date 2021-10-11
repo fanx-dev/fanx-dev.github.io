@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseWindow::NFont</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseWindow</a></li><li><a href='NFont.html'>NFont</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> vaseWindow::NFont</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../vaseGraphics/Font.html'>vaseGraphics::Font</a>
+    vaseWindow::NFont</pre>
+<dl>
+<dt id='ascent'>
+ascent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> ascent()</code></p>
+
+<p>Get ascent of this font which is the distance in pixels from baseline to top of chars, not including any leading area.</p>
+</dd>
+<dt id='descent'>
+descent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> descent()</code></p>
+
+<p>Get descent of this font which is the distance in pixels from baseline to bottom of chars, not including any leading area.</p>
+</dd>
+<dt id='dispose'>
+dispose</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> dispose()</code></p>
+
+<p>Free any operating system resources used by this font. Dispose is required if this color has been used in an operation such as FWT onPaint which allocated a system resource to represent this instance.</p>
+</dd>
+<dt id='finalize'>
+finalize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> finalize()</code></p>
+</dd>
+<dt id='handle'>
+handle</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> handle</code></p>
+</dd>
+<dt id='height'>
+height</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> height()</code></p>
+
+<p>Get height of this font which is the pixels is the sum of ascent, descent, and leading.</p>
+</dd>
+<dt id='leading'>
+leading</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> leading()</code></p>
+
+<p>Get leading of this font which is the distance in pixels above the ascent which may include accents and other marks.</p>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='width'>
+width</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> width(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Get the width of the string in pixels when painted with this font.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#privateMake'>privateMake</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#ascent'>ascent</a></li><li><a href='#descent'>descent</a></li><li><a href='#dispose'>dispose</a></li><li><a href='#finalize'>finalize</a></li><li><a href='#handle'>handle</a></li><li><a href='#height'>height</a></li><li><a href='#leading'>leading</a></li><li><a href='#width'>width</a></li></ul>
+</div>
+</div>
+</body>
+</html>

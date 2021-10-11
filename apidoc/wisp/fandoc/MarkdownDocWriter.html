@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fandoc::MarkdownDocWriter</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='MarkdownDocWriter.html'>MarkdownDocWriter</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> fandoc::MarkdownDocWriter</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  fandoc::MarkdownDocWriter : <a href='DocWriter.html'>fandoc::DocWriter</a></pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html'>Source</a></p>
+
+<p>MarkdownDocWriter outputs a fandoc model to <a href='http://daringfireball.net/projects/markdown/'>Markdown</a></p>
+<dl>
+<dt id='docEnd'>
+docEnd</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> docEnd(<a href='Doc.html'>Doc</a> doc)</code></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html#line41'>Source</a></p>
+</dd>
+<dt id='docStart'>
+docStart</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> docStart(<a href='Doc.html'>Doc</a> doc)</code></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html#line37'>Source</a></p>
+</dd>
+<dt id='elemEnd'>
+elemEnd</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> elemEnd(<a href='DocElem.html'>DocElem</a> elem)</code></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html#line111'>Source</a></p>
+</dd>
+<dt id='elemStart'>
+elemStart</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> elemStart(<a href='DocElem.html'>DocElem</a> elem)</code></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html#line46'>Source</a></p>
+</dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> main(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> args := Env.cur().args())</code></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html#line206'>Source</a></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html'>Source</a></p>
+</dd>
+<dt id='onImage'>
+onImage</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Image.html'>Image</a>&gt;?</a> onImage := null</code></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html#line30'>Source</a></p>
+
+<p>Callback to perform image link resolution and checking</p>
+</dd>
+<dt id='onLink'>
+onLink</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Link.html'>Link</a>&gt;?</a> onLink := null</code></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html#line26'>Source</a></p>
+
+<p>Callback to perform link resolution and checking for every Link element</p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> text(<a href='DocText.html'>DocText</a> text)</code></p>
+<p class='src'>
+<a href='src-MarkdownDocWriter.fan.html#line152'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-MarkdownDocWriter.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#main'>main</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#docEnd'>docEnd</a></li><li><a href='#docStart'>docStart</a></li><li><a href='#elemEnd'>elemEnd</a></li><li><a href='#elemStart'>elemStart</a></li><li><a href='#onImage'>onImage</a></li><li><a href='#onLink'>onLink</a></li><li><a href='#text'>text</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::ShortcutExpr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='ShortcutExpr.html'>ShortcutExpr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::ShortcutExpr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compilerx::Node</a>
+    <a href='Expr.html'>compilerx::Expr</a>
+      <a href='NameExpr.html'>compilerx::NameExpr</a>
+        <a href='CallExpr.html'>compilerx::CallExpr</a>
+          compilerx::ShortcutExpr</pre>
+
+<p>ShortcutExpr is used for operator expressions which are a shortcut to a method call:</p>
+
+<pre>a + b     =>  a.plus(b)
+a - b     =>  a.minus(b)
+a * b     =>  a.mult(b)
+a / b     =>  a.div(b)
+a % b     =>  a.mod(b)
+a[b]      =>  a.get(b)
+a[b] = c  =>  a.set(b, c)
+-a        =>  a.negate()
+++a, a++  =>  a.increment()
+--a, a--  =>  a.decrement()
+a == b    =>  a.equals(b)
+a != b    =>  ! a.equals(b)
+a &lt;=>     =>  a.compare(b)
+a > b     =>  a.compare(b) > 0
+a >= b    =>  a.compare(b) >= 0
+a &lt; b     =>  a.compare(b) &lt; 0
+a &lt;= b    =>  a.compare(b) &lt;= 0</pre>
+<dl>
+<dt id='assignRequiresTempVar'>
+assignRequiresTempVar</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> assignRequiresTempVar()</code></p>
+</dd>
+<dt id='assignTarget'>
+assignTarget</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj?</a> assignTarget()</code></p>
+</dd>
+<dt id='isAssign'>
+isAssign</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isAssign()</code></p>
+</dd>
+<dt id='isAssignable'>
+isAssignable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isAssignable()</code></p>
+</dd>
+<dt id='isCompare'>
+isCompare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isCompare()</code></p>
+</dd>
+<dt id='isPostfixLeave'>
+isPostfixLeave</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPostfixLeave := false</code></p>
+</dd>
+<dt id='isStmt'>
+isStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isStmt()</code></p>
+</dd>
+<dt id='isStrConcat'>
+isStrConcat</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStrConcat()</code></p>
+</dd>
+<dt id='makeBinary'>
+makeBinary</dt>
+<dd>
+<p class='sig'>
+<code>new makeBinary(<a href='Expr.html'>Expr</a> lhs, <a href='Token.html'>Token</a> opToken, <a href='Expr.html'>Expr</a> rhs)</code></p>
+</dd>
+<dt id='makeFrom'>
+makeFrom</dt>
+<dd>
+<p class='sig'>
+<code>new makeFrom(<a href='ShortcutExpr.html'>ShortcutExpr</a> from)</code></p>
+</dd>
+<dt id='makeGet'>
+makeGet</dt>
+<dd>
+<p class='sig'>
+<code>new makeGet(<a href='Loc.html'>Loc</a> loc, <a href='Expr.html'>Expr</a> target, <a href='Expr.html'>Expr</a> index)</code></p>
+</dd>
+<dt id='makeUnary'>
+makeUnary</dt>
+<dd>
+<p class='sig'>
+<code>new makeUnary(<a href='Loc.html'>Loc</a> loc, <a href='Token.html'>Token</a> opToken, <a href='Expr.html'>Expr</a> operand)</code></p>
+</dd>
+<dt id='op'>
+op</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ShortcutOp.html'>ShortcutOp</a> op</code></p>
+</dd>
+<dt id='opToken'>
+opToken</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Token.html'>Token</a> opToken</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='tempVar'>
+tempVar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodVar.html'>MethodVar?</a> tempVar</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#makeBinary'>makeBinary</a></li><li><a href='#makeFrom'>makeFrom</a></li><li><a href='#makeGet'>makeGet</a></li><li><a href='#makeUnary'>makeUnary</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#assignRequiresTempVar'>assignRequiresTempVar</a></li><li><a href='#assignTarget'>assignTarget</a></li><li><a href='#isAssign'>isAssign</a></li><li><a href='#isAssignable'>isAssignable</a></li><li><a href='#isCompare'>isCompare</a></li><li><a href='#isPostfixLeave'>isPostfixLeave</a></li><li><a href='#isStmt'>isStmt</a></li><li><a href='#isStrConcat'>isStrConcat</a></li><li><a href='#op'>op</a></li><li><a href='#opToken'>opToken</a></li><li><a href='#print'>print</a></li><li><a href='#tempVar'>tempVar</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

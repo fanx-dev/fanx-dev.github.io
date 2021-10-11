@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fmake::BuildCpp</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fmake</a></li><li><a href='BuildCpp.html'>BuildCpp</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> fmake::BuildCpp</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  fmake::BuildCpp</pre>
+<dl>
+<dt id='allDirs'>
+allDirs</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;</a> allDirs(<a href='../std/Uri.html'>Uri</a> scriptDir, <a href='../std/Uri.html'>Uri</a> dir)</code></p>
+</dd>
+<dt id='applayDepends'>
+applayDepends</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> applayDepends()</code></p>
+</dd>
+<dt id='debug'>
+debug</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> debug := &quot;release&quot;</code></p>
+
+<p>is debug mode</p>
+</dd>
+<dt id='defines'>
+defines</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> defines := Str[,]</code></p>
+
+<p>List of macro define</p>
+</dd>
+<dt id='depends'>
+depends</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Depend.html'>Depend</a>&gt;</a> depends := Depend[,]</code></p>
+
+<p>lib depends</p>
+</dd>
+<dt id='dump'>
+dump</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> dump()</code></p>
+</dd>
+<dt id='extConfigs'>
+extConfigs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> extConfigs := Map&lt;Str,Str>[:]</code></p>
+
+<p>ext compiler options</p>
+</dd>
+<dt id='fatal'>
+fatal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Err.html'>Err</a> fatal(<a href='../sys/Str.html'>Str</a> msg, <a href='../sys/Err.html'>Err?</a> err := null)</code></p>
+
+<p>Log an error and return a FatalBuildErr instance</p>
+</dd>
+<dt id='incDirs'>
+incDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;</a> incDirs := Uri[,]</code></p>
+
+<p>List of include</p>
+</dd>
+<dt id='includeDir'>
+includeDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri?</a> includeDir</code></p>
+
+<p>self public include to install</p>
+</dd>
+<dt id='libDirs'>
+libDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;</a> libDirs := Uri[,]</code></p>
+
+<p>List of lib dir</p>
+</dd>
+<dt id='libs'>
+libs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> libs := Str[,]</code></p>
+
+<p>List of ext librarie to link in</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Log.html'>Log</a> log := Log.get(&quot;fmake&quot;)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> name</code></p>
+
+<p>lib name</p>
+</dd>
+<dt id='outDir'>
+outDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri?</a> outDir</code></p>
+
+<p>output file dir</p>
+</dd>
+<dt id='outType'>
+outType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TargetType.html'>TargetType?</a> outType</code></p>
+
+<p>Output target type</p>
+</dd>
+<dt id='parse'>
+parse</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> parse(<a href='../std/Uri.html'>Uri</a> scriptFile)</code></p>
+</dd>
+<dt id='resDirs'>
+resDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;</a> resDirs := Uri[,]</code></p>
+
+<p>List of resource</p>
+</dd>
+<dt id='scriptDir'>
+scriptDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri?</a> scriptDir</code></p>
+
+<p>make file location</p>
+</dd>
+<dt id='sources'>
+sources</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;</a> sources := Uri[,]</code></p>
+
+<p>List of source files or directories to compile</p>
+</dd>
+<dt id='summary'>
+summary</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> summary</code></p>
+
+<p>description of pod</p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Version.html'>Version</a> version := Version.&lt;ctor>(&quot;1.0&quot;)</code></p>
+
+<p>lib depends</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#allDirs'>allDirs</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#applayDepends'>applayDepends</a></li><li><a href='#debug'>debug</a></li><li><a href='#defines'>defines</a></li><li><a href='#depends'>depends</a></li><li><a href='#dump'>dump</a></li><li><a href='#extConfigs'>extConfigs</a></li><li><a href='#fatal'>fatal</a></li><li><a href='#incDirs'>incDirs</a></li><li><a href='#includeDir'>includeDir</a></li><li><a href='#libDirs'>libDirs</a></li><li><a href='#libs'>libs</a></li><li><a href='#log'>log</a></li><li><a href='#name'>name</a></li><li><a href='#outDir'>outDir</a></li><li><a href='#outType'>outType</a></li><li><a href='#parse'>parse</a></li><li><a href='#resDirs'>resDirs</a></li><li><a href='#scriptDir'>scriptDir</a></li><li><a href='#sources'>sources</a></li><li><a href='#summary'>summary</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

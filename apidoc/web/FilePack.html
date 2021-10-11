@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::FilePack</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='FilePack.html'>FilePack</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> web::FilePack</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  web::FilePack : <a href='Weblet.html'>web::Weblet</a></pre>
+<p class='src'>
+<a href='src-FilePack.fan.html'>Source</a></p>
+
+<p>FilePack is an in-memory cache of multiple text files to service static resources via HTTP.  It takes one or more text files and creates one compound file.  The result is stored in RAM using GZIP compression.  Or you can use the <code><a href='FilePack.html#pack'>pack</a></code> utility method to store the result to your own files/buffers.</p>
+
+<p>The <code><a href='FilePack.html#onGet'>onGet</a></code> method is used to service GET requests for the bundle. The Content-Type header is set based on file extension of files bundled. It also implictly supports ETag/Last-Modified for 304 optimization.</p>
+
+<p>The core factory is the <code><a href='FilePack.html#makeFiles'>makeFiles</a></code> constructor.  A suite of utility methods is provided for standard bundling of Fantom JavaScrit and CSS files.</p>
+<dl>
+<dt id='makeFiles'>
+makeFiles</dt>
+<dd>
+<p class='sig'>
+<code>static new makeFiles(<a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> files)</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line32'>Source</a></p>
+
+<p>Construct a bundle for the given list of text files</p>
+</dd>
+<dt id='onGet'>
+onGet</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onGet()</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line79'>Source</a></p>
+
+<p>Service an HTTP GET request for this bundle file</p>
+</dd>
+<dt id='pack'>
+pack</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/OutStream.html'>OutStream</a> pack(<a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> files, <a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line105'>Source</a></p>
+
+<p>Pack multiple text files together and write to the given output stream.  A trailing newline is automatically added if the file is missing one.  Empty files are skipped.  The stream is not closed. Return the given out stream.</p>
+</dd>
+<dt id='toAppCssFiles'>
+toAppCssFiles</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> toAppCssFiles(<a href='../sys/List.html'>List&lt;<a href='../std/Pod.html'>Pod</a>&gt;</a> pods)</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line253'>Source</a></p>
+
+<p>Given a set of pods return a list of CSS files that form a complete Fantom application:</p>
+
+<ul>
+<li>flatten the pods using <a href='sys::Pod.flattenDepends'>sys::Pod.flattenDepends</a></li>
+
+<li>order them by dependencies using <a href='sys::Pod.orderByDepends'>sys::Pod.orderByDepends</a></li>
+
+<li>return <code><a href='FilePack.html#toPodCssFiles'>toPodCssFiles</a></code></li>
+</ul>
+</dd>
+<dt id='toAppJsFiles'>
+toAppJsFiles</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> toAppJsFiles(<a href='../sys/List.html'>List&lt;<a href='../std/Pod.html'>Pod</a>&gt;</a> pods)</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line141'>Source</a></p>
+
+<p>Given a set of pods return a list of JavaScript files that form a complete Fantom application:</p>
+
+<ul>
+<li>flatten the pods using <a href='sys::Pod.flattenDepends'>sys::Pod.flattenDepends</a></li>
+
+<li>order them by dependencies using <a href='sys::Pod.orderByDepends'>sys::Pod.orderByDepends</a></li>
+
+<li>insert <code><a href='FilePack.html#toEtcJsFiles'>toEtcJsFiles</a></code> immediately after "sys.js"</li>
+</ul>
+</dd>
+<dt id='toEtcJsFiles'>
+toEtcJsFiles</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> toEtcJsFiles()</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line177'>Source</a></p>
+
+<p>Return the required sys etc files:</p>
+
+<ul>
+<li>add <code><a href='FilePack.html#toMimeJsFile'>toMimeJsFile</a></code></li>
+
+<li>add <code><a href='FilePack.html#toUnitsJsFile'>toUnitsJsFile</a></code></li>
+
+<li>add <code><a href='FilePack.html#toIndexPropsJsFile'>toIndexPropsJsFile</a></code></li>
+</ul>
+</dd>
+<dt id='toIndexPropsJsFile'>
+toIndexPropsJsFile</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/File.html'>File</a> toIndexPropsJsFile(<a href='../sys/List.html'>List&lt;<a href='../std/Pod.html'>Pod</a>&gt;</a> pods := Pod.list())</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line212'>Source</a></p>
+
+<p>Compile the indexed props database into a JavaScript file "index-props.js"</p>
+</dd>
+<dt id='toLocaleJsFile'>
+toLocaleJsFile</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/File.html'>File</a> toLocaleJsFile(<a href='../std/Locale.html'>Locale</a> locale, <a href='../sys/List.html'>List&lt;<a href='../std/Pod.html'>Pod</a>&gt;</a> pods := Pod.list())</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line221'>Source</a></p>
+
+<p>Compile the locale props into a JavaScript file "{locale}.js"</p>
+</dd>
+<dt id='toMimeJsFile'>
+toMimeJsFile</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/File.html'>File</a> toMimeJsFile()</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line186'>Source</a></p>
+
+<p>Compile the mime type database into a Javascript file "mime.js"</p>
+</dd>
+<dt id='toPodCssFiles'>
+toPodCssFiles</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> toPodCssFiles(<a href='../sys/List.html'>List&lt;<a href='../std/Pod.html'>Pod</a>&gt;</a> pods)</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line265'>Source</a></p>
+
+<p>Map a set of pods to "/res/css/{name}.css" CSS files. Ignore pods that are missing a CSS file. This method does <em>not</em> flatten/order the pods.</p>
+</dd>
+<dt id='toPodJsFile'>
+toPodJsFile</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/File.html'>File?</a> toPodJsFile(<a href='../std/Pod.html'>Pod</a> pod)</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line155'>Source</a></p>
+
+<p>Get the standard pod JavaScript file or null if no JS code.  The standard location used by the Fantom JS compiler is "/{pod-name}.js"</p>
+</dd>
+<dt id='toPodJsFiles'>
+toPodJsFiles</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> toPodJsFiles(<a href='../sys/List.html'>List&lt;<a href='../std/Pod.html'>Pod</a>&gt;</a> pods)</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line162'>Source</a></p>
+
+<p>Map a set of pods to "/{name}.js" JavaScript files. Ignore pods that are missing a JavaScript file. This method does <em>not</em> flatten/order the pods.</p>
+</dd>
+<dt id='toPodJsMapFile'>
+toPodJsMapFile</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/File.html'>File</a> toPodJsMapFile(<a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> files, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line231'>Source</a></p>
+
+<p>Compile a list of pod JavaScript files into a single unified source map file.  The list of files passed to this method should match exactly the list of files used to create the corresponding JavaScript FilePack.  If the file is the standard pod JS file, then we will include an offset version of "{pod}.js.map" generated by the JavaScript compiler. Otherwise if the file is another JavaScript file (such as units.js) then we just add the appropiate offset.</p>
+
+<p>The <code>sourceRoot</code> option may be passed in to replace "/dev/{podName}" as the root URI used to fetch source files from the server.</p>
+</dd>
+<dt id='toTimezonesJsFile'>
+toTimezonesJsFile</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=... }</code><br />static <a href='../std/File.html'>File</a> toTimezonesJsFile()</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line204'>Source</a></p>
+
+<p>Compile the timezone database into a JavaScript file "tz.js"</p>
+</dd>
+<dt id='toUnitsJsFile'>
+toUnitsJsFile</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/File.html'>File</a> toUnitsJsFile()</code></p>
+<p class='src'>
+<a href='src-FilePack.fan.html#line195'>Source</a></p>
+
+<p>Compile the unit database into a JavaScript file "unit.js"</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-FilePack.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#makeFiles'>makeFiles</a></li><li><a href='#pack'>pack</a></li><li><a href='#toAppCssFiles'>toAppCssFiles</a></li><li><a href='#toAppJsFiles'>toAppJsFiles</a></li><li><a href='#toEtcJsFiles'>toEtcJsFiles</a></li><li><a href='#toIndexPropsJsFile'>toIndexPropsJsFile</a></li><li><a href='#toLocaleJsFile'>toLocaleJsFile</a></li><li><a href='#toMimeJsFile'>toMimeJsFile</a></li><li><a href='#toPodCssFiles'>toPodCssFiles</a></li><li><a href='#toPodJsFile'>toPodJsFile</a></li><li><a href='#toPodJsFiles'>toPodJsFiles</a></li><li><a href='#toPodJsMapFile'>toPodJsMapFile</a></li><li><a href='#toTimezonesJsFile'>toTimezonesJsFile</a></li><li><a href='#toUnitsJsFile'>toUnitsJsFile</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#onGet'>onGet</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseWindow::Toolkit</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseWindow</a></li><li><a href='Toolkit.html'>Toolkit</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> vaseWindow::Toolkit</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseWindow::Toolkit</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/NoPeer.html'>NoPeer</a></code><br /></p>
+
+<p>Window Toolkit</p>
+<dl>
+<dt id='callLater'>
+callLater</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> callLater(<a href='../sys/Int.html'>Int</a> delay, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;</a> f)</code></p>
+
+<p>call on UI thread. delay on millisecond</p>
+</dd>
+<dt id='clipboard'>
+clipboard</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Clipboard.html'>Clipboard</a> clipboard()</code></p>
+
+<p>Reference to the system clipboard for data transfer.</p>
+</dd>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Toolkit.html'>Toolkit</a> cur()</code></p>
+
+<p>get current instance</p>
+</dd>
+<dt id='density'>
+density</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Float.html'>Float</a> density()</code></p>
+
+<p>density base on 320 dpi</p>
+</dd>
+<dt id='dpi'>
+dpi</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Int.html'>Int</a> dpi()</code></p>
+
+<p>return the current devices DPI(dot per inch)</p>
+</dd>
+<dt id='loadResFile'>
+loadResFile</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Obj.html'>Obj</a> loadResFile(<a href='../sys/Str.html'>Str</a> pod, <a href='../std/Uri.html'>Uri</a> uri)</code></p>
+
+<p>Look up a resource file in pod</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>current Env name one of "HTML5","SWT","AWT","Android"</p>
+</dd>
+<dt id='openUri'>
+openUri</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> openUri(<a href='../std/Uri.html'>Uri</a> uri, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> options := null)</code></p>
+</dd>
+<dt id='resFilePath'>
+resFilePath</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> resFilePath(<a href='../sys/Str.html'>Str</a> pod, <a href='../sys/Str.html'>Str</a> uri)</code></p>
+</dd>
+<dt id='window'>
+window</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Window.html'>Window?</a> window(<a href='View.html'>View?</a> view := null)</code></p>
+
+<p>get or make window</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cur'>cur</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#callLater'>callLater</a></li><li><a href='#clipboard'>clipboard</a></li><li><a href='#density'>density</a></li><li><a href='#dpi'>dpi</a></li><li><a href='#loadResFile'>loadResFile</a></li><li><a href='#name'>name</a></li><li><a href='#openUri'>openUri</a></li><li><a href='#resFilePath'>resFilePath</a></li><li><a href='#window'>window</a></li></ul>
+</div>
+</div>
+</body>
+</html>

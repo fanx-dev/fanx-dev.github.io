@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>pod</span> compilerDoc</h1>
+<p>
+Compiler to model and generate API docs</p>
+<h2>Mixins</h2>
+<table>
+<tr>
+<td><a href='DocCrawler.html'>DocCrawler</a></td>
+<td>
+<p>DocCrawler provides an interface to implement by search engine crawlers when crawling a specific document via <code><a href='Doc.html#onCrawl'>Doc.onCrawl</a></code>.</p>
+</td>
+</tr>
+</table>
+<h2>Classes</h2>
+<table>
+<tr>
+<td><a href='Doc.html'>Doc</a></td>
+<td>
+<p>Doc is the base class for document types.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocChapter.html'>DocChapter</a></td>
+<td>
+<p>DocChapter models a fandoc "chapter" in a manual like docLang</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocChapterRenderer.html'>DocChapterRenderer</a></td>
+<td>
+<p>Renders DocChapter documents</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocEnv.html'>DocEnv</a></td>
+<td>
+<p>DocEnv is the centralized glue class for managing documentation modeling and rendering</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocErrHandler.html'>DocErrHandler</a></td>
+<td>
+<p>DocErrHandler is responsible for handling errors encountered during doc compilation including broken links and fandoc format errors.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocFacet.html'>DocFacet</a></td>
+<td>
+<p>DocFacet models the documentation of a <code><a href='../sys/Facet.html'>Facet</a></code> on a type or slot.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocFandoc.html'>DocFandoc</a></td>
+<td>
+<p>Wrapper for Fandoc string for a chapter, type, or slot</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocField.html'>DocField</a></td>
+<td>
+<p>DocField models the documentation of a <a href='sys::Field'>sys::Field</a>.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocFlags.html'>DocFlags</a></td>
+<td>
+<p>DocFlags models the flags used to annotate types and slots</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocHeading.html'>DocHeading</a></td>
+<td>
+<p>DocHeader models a heading in a table of contents for pod/chapter.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocLink.html'>DocLink</a></td>
+<td>
+<p>DocLink models a link between two documents.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocLoc.html'>DocLoc</a></td>
+<td>
+<p>DocLoc models a filename / linenumber</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocMethod.html'>DocMethod</a></td>
+<td>
+<p>DocMethod models the documentation of a <a href='sys::Method'>sys::Method</a>.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocParam.html'>DocParam</a></td>
+<td>
+<p>DocParam models the documentation of a <a href='sys::Param'>sys::Param</a></p>
+</td>
+</tr>
+<tr>
+<td><a href='DocPod.html'>DocPod</a></td>
+<td>
+<p>DocPod models the documentation of a <a href='sys::Pod'>sys::Pod</a>.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocPodIndex.html'>DocPodIndex</a></td>
+<td>
+<p>DocPodIndex represents the index document of a DocPod.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocPodIndexRenderer.html'>DocPodIndexRenderer</a></td>
+<td>
+<p>Renders the index of a pod's documents.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocRenderer.html'>DocRenderer</a></td>
+<td>
+<p>DocRenderer is base class for rendering a Doc.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocRes.html'>DocRes</a></td>
+<td>
+<p>DocRes models a resource file within a pod.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocSlot.html'>DocSlot</a></td>
+<td>
+<p>DocSlot models the documentation of a <a href='sys::Slot'>sys::Slot</a>.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocSpace.html'>DocSpace</a></td>
+<td>
+<p>DocSpace manages a namespace of documents.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocSrc.html'>DocSrc</a></td>
+<td>
+<p>DocSrc models a page of source code for display.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocSrcRenderer.html'>DocSrcRenderer</a></td>
+<td>
+<p>Renders DocSrc documents.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocTheme.html'>DocTheme</a></td>
+<td>
+<p>DocTheme is responsible for providing the common chrome, styling, and breadcrumb across different DocRenderers.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocTopIndex.html'>DocTopIndex</a></td>
+<td>
+<p>DocTopIndex models the top-level index</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocTopIndexRenderer.html'>DocTopIndexRenderer</a></td>
+<td>
+<p>Renders the index of a pod's documents</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocType.html'>DocType</a></td>
+<td>
+<p>DocType models the documentation of a <a href='sys::Type'>sys::Type</a>.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocTypeRef.html'>DocTypeRef</a></td>
+<td>
+<p>DocTypeRef models a type reference in a type or slot signature.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocTypeRenderer.html'>DocTypeRenderer</a></td>
+<td>
+<p>Renders DocType documents</p>
+</td>
+</tr>
+</table>
+<h2>Errs</h2>
+<table>
+<tr>
+<td><a href='DocErr.html'>DocErr</a></td>
+<td>
+<p>DocErr models errors and their locations during doc compilation.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnknownDocErr.html'>UnknownDocErr</a></td>
+<td>
+<p>UnknownDocErr is raised when resolving a non-existent document.</p>
+</td>
+</tr>
+</table>
+</div>
+<div class='sidebar'>
+<h3>All Types</h3>
+<ul>
+<li><a href='Doc.html'>Doc</a></li><li><a href='DocChapter.html'>DocChapter</a></li><li><a href='DocChapterRenderer.html'>DocChapterRenderer</a></li><li><a href='DocCrawler.html'>DocCrawler</a></li><li><a href='DocEnv.html'>DocEnv</a></li><li><a href='DocErr.html'>DocErr</a></li><li><a href='DocErrHandler.html'>DocErrHandler</a></li><li><a href='DocFacet.html'>DocFacet</a></li><li><a href='DocFandoc.html'>DocFandoc</a></li><li><a href='DocField.html'>DocField</a></li><li><a href='DocFlags.html'>DocFlags</a></li><li><a href='DocHeading.html'>DocHeading</a></li><li><a href='DocLink.html'>DocLink</a></li><li><a href='DocLoc.html'>DocLoc</a></li><li><a href='DocMethod.html'>DocMethod</a></li><li><a href='DocParam.html'>DocParam</a></li><li><a href='DocPod.html'>DocPod</a></li><li><a href='DocPodIndex.html'>DocPodIndex</a></li><li><a href='DocPodIndexRenderer.html'>DocPodIndexRenderer</a></li><li><a href='DocRenderer.html'>DocRenderer</a></li><li><a href='DocRes.html'>DocRes</a></li><li><a href='DocSlot.html'>DocSlot</a></li><li><a href='DocSpace.html'>DocSpace</a></li><li><a href='DocSrc.html'>DocSrc</a></li><li><a href='DocSrcRenderer.html'>DocSrcRenderer</a></li><li><a href='DocTheme.html'>DocTheme</a></li><li><a href='DocTopIndex.html'>DocTopIndex</a></li><li><a href='DocTopIndexRenderer.html'>DocTopIndexRenderer</a></li><li><a href='DocType.html'>DocType</a></li><li><a href='DocTypeRef.html'>DocTypeRef</a></li><li><a href='DocTypeRenderer.html'>DocTypeRenderer</a></li><li><a href='UnknownDocErr.html'>UnknownDocErr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

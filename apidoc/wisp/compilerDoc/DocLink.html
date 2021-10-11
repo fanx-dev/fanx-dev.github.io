@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocLink</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocLink.html'>DocLink</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerDoc::DocLink</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::DocLink</pre>
+<p class='src'>
+<a href='src-DocLink.fan.html'>Source</a></p>
+
+<p>DocLink models a link between two documents.</p>
+
+<p>The following link formats are built-in:</p>
+
+<pre>Format             Display     Links To
+------             -------     --------
+pod::index         pod         absolute link to pod index
+pod::pod-doc       pod         absolute link to pod doc chapter
+pod::Type          Type        absolute link to type qname
+pod::Types.slot    Type.slot   absolute link to slot qname
+pod::Chapter       Chapter     absolute link to book chapter
+pod::Chapter#frag  Chapter     absolute link to book chapter anchor
+Type               Type        pod relative link to type
+Type.slot          Type.slot   pod relative link to slot
+slot               slot        type relative link to slot
+Chapter            Chapter     pod relative link to book chapter
+Chapter#frag       Chapter     pod relative link to chapter anchor
+#frag              heading     chapter relative link to anchor</pre>
+<dl>
+<dt id='absUri'>
+absUri</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Uri.html'>Uri?</a> absUri</code></p>
+<p class='src'>
+<a href='src-DocLink.fan.html#line65'>Source</a></p>
+
+<p>If link resolves to an absolute URI</p>
+</dd>
+<dt id='dis'>
+dis</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> dis</code></p>
+<p class='src'>
+<a href='src-DocLink.fan.html#line59'>Source</a></p>
+
+<p>Display text for the anchor</p>
+</dd>
+<dt id='frag'>
+frag</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> frag</code></p>
+<p class='src'>
+<a href='src-DocLink.fan.html#line62'>Source</a></p>
+
+<p>Optional fragment in the link document</p>
+</dd>
+<dt id='from'>
+from</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='Doc.html'>Doc</a> from</code></p>
+<p class='src'>
+<a href='src-DocLink.fan.html#line53'>Source</a></p>
+
+<p>Document we are linking from</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Doc.html'>Doc</a> from, <a href='Doc.html'>Doc</a> target, <a href='../sys/Str.html'>Str</a> dis := target.docName(), <a href='../sys/Str.html'>Str?</a> frag := null)</code></p>
+<p class='src'>
+<a href='src-DocLink.fan.html#line34'>Source</a></p>
+
+<p>Construct with from doc, dis text, target document, and optional fragment identifier</p>
+</dd>
+<dt id='makeAbsUri'>
+makeAbsUri</dt>
+<dd>
+<p class='sig'>
+<code>new makeAbsUri(<a href='Doc.html'>Doc</a> from, <a href='../std/Uri.html'>Uri</a> uri, <a href='../sys/Str.html'>Str</a> dis)</code></p>
+<p class='src'>
+<a href='src-DocLink.fan.html#line44'>Source</a></p>
+
+<p>Construct an absolute link such as "https://foo/"</p>
+</dd>
+<dt id='target'>
+target</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='Doc.html'>Doc</a> target</code></p>
+<p class='src'>
+<a href='src-DocLink.fan.html#line56'>Source</a></p>
+
+<p>Target document</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-DocLink.fan.html#line68'>Source</a></p>
+
+<p>Debug string representation</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocLink.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeAbsUri'>makeAbsUri</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#absUri'>absUri</a></li><li><a href='#dis'>dis</a></li><li><a href='#frag'>frag</a></li><li><a href='#from'>from</a></li><li><a href='#target'>target</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

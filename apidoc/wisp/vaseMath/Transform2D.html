@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseMath::Transform2D</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseMath</a></li><li><a href='Transform2D.html'>Transform2D</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> vaseMath::Transform2D</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseMath::Transform2D</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>AffineTransform. This matrix is a transpose of java.awt.geom.AffineTransform.</p>
+
+<pre>m00 m10 0</pre>
+
+<pre>(x1, y1, 1) = (x y 1)  *   m01 m11 0
+                           m02 m12 1</pre>
+
+<p>But the awt/swt Transform like this:</p>
+
+<pre>[ x']   [  m00  m01  m02  ] [ x ]   [ m00x + m01y + m02 ]
+[ y'] = [  m10  m11  m12  ] [ y ] = [ m10x + m11y + m12 ]
+[ 1 ]   [   0    0    1   ] [ 1 ]   [         1         ]</pre>
+
+<p>Don't like Transform2D, The Transform3D using the second way.</p>
+<dl>
+<dt id='clone'>
+clone</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Transform2D.html'>Transform2D</a> clone()</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> get(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+</dd>
+<dt id='makeRotate'>
+makeRotate</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeRotate(<a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> thta)</code></p>
+
+<p>roate at x,y with thta radians</p>
+</dd>
+<dt id='makeScale'>
+makeScale</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeScale(<a href='../sys/Float.html'>Float</a> x0, <a href='../sys/Float.html'>Float</a> y0, <a href='../sys/Float.html'>Float</a> sx, <a href='../sys/Float.html'>Float</a> sy)</code></p>
+
+<p>scale at x0,y0 point</p>
+</dd>
+<dt id='makeShear'>
+makeShear</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeShear(<a href='../sys/Float.html'>Float</a> b, <a href='../sys/Float.html'>Float</a> d)</code></p>
+
+<p>shear</p>
+</dd>
+<dt id='makeSymmetry'>
+makeSymmetry</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeSymmetry(<a href='../sys/Float.html'>Float</a> a, <a href='../sys/Float.html'>Float</a> b, <a href='../sys/Float.html'>Float</a> d, <a href='../sys/Float.html'>Float</a> e)</code></p>
+
+<p>symmetry is a mirror inversion</p>
+</dd>
+<dt id='makeTranslate'>
+makeTranslate</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeTranslate(<a href='../sys/Float.html'>Float</a> tx, <a href='../sys/Float.html'>Float</a> ty)</code></p>
+
+<p>translate</p>
+</dd>
+<dt id='matrix'>
+matrix</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Matrix.html'>Matrix</a> matrix := Matrix.makeIndentity(3)</code></p>
+</dd>
+<dt id='mult'>
+mult</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> mult(<a href='Transform2D.html'>Transform2D</a> t)</code></p>
+</dd>
+<dt id='rotate'>
+rotate</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> rotate(<a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> thta)</code></p>
+</dd>
+<dt id='scale'>
+scale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> scale(<a href='../sys/Float.html'>Float</a> x0, <a href='../sys/Float.html'>Float</a> y0, <a href='../sys/Float.html'>Float</a> sx, <a href='../sys/Float.html'>Float</a> sy)</code></p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> set(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Float.html'>Float</a> val)</code></p>
+</dd>
+<dt id='shear'>
+shear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> shear(<a href='../sys/Float.html'>Float</a> b, <a href='../sys/Float.html'>Float</a> d)</code></p>
+</dd>
+<dt id='symmetry'>
+symmetry</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> symmetry(<a href='../sys/Float.html'>Float</a> a, <a href='../sys/Float.html'>Float</a> b, <a href='../sys/Float.html'>Float</a> d, <a href='../sys/Float.html'>Float</a> e)</code></p>
+</dd>
+<dt id='transform'>
+transform</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> transform(<a href='../sys/List.html'>List&lt;<a href='../sys/Float.html'>Float</a>&gt;</a> xy)</code></p>
+
+<p>transform the coordinate using current matrix. x: xy[0], y:[1]. The result will rewrite the list</p>
+</dd>
+<dt id='translate'>
+translate</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> translate(<a href='../sys/Float.html'>Float</a> tx, <a href='../sys/Float.html'>Float</a> ty)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#makeRotate'>makeRotate</a></li><li><a href='#makeScale'>makeScale</a></li><li><a href='#makeShear'>makeShear</a></li><li><a href='#makeSymmetry'>makeSymmetry</a></li><li><a href='#makeTranslate'>makeTranslate</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#clone'>clone</a></li><li><a href='#get'>get</a></li><li><a href='#matrix'>matrix</a></li><li><a href='#mult'>mult</a></li><li><a href='#rotate'>rotate</a></li><li><a href='#scale'>scale</a></li><li><a href='#set'>set</a></li><li><a href='#shear'>shear</a></li><li><a href='#symmetry'>symmetry</a></li><li><a href='#transform'>transform</a></li><li><a href='#translate'>translate</a></li></ul>
+</div>
+</div>
+</body>
+</html>

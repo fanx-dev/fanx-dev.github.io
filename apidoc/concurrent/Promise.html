@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>concurrent::Promise</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>concurrent</a></li><li><a href='Promise.html'>Promise</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual mixin</span> concurrent::Promise</h1>
+<pre>concurrent::Promise</pre>
+<dl>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Err.html'>Err?</a> err()</code></p>
+</dd>
+<dt id='isDone'>
+isDone</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isDone()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static new make()</code></p>
+</dd>
+<dt id='result'>
+result</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='PromiseT.html'>Promise^T?</a> result()</code></p>
+</dd>
+<dt id='then'>
+then</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> then(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='PromiseT.html'>Promise^T?</a>,<a href='../sys/Err.html'>Err?</a>&gt;</a> f)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#err'>err</a></li><li><a href='#isDone'>isDone</a></li><li><a href='#result'>result</a></li><li><a href='#then'>then</a></li></ul>
+</div>
+</div>
+</body>
+</html>

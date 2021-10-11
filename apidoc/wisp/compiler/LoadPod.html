@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::LoadPod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='LoadPod.html'>LoadPod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::LoadPod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    <a href='CompilerStep.html'>compiler::CompilerStep</a>
+      compiler::LoadPod</pre>
+
+<p>LoadPod is used to immediately load the pod which has just been successfully compiled into Compiler.fpod.  This step is only used with script compiles.</p>
+<dl>
+<dt id='load'>
+load</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Pod.html'>Pod</a> load()</code></p>
+
+<p>Run the step and return loaded Pod instance</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler)</code></p>
+
+<p>Constructor takes the associated Compiler</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Not used, use load instead</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#load'>load</a></li><li><a href='#run'>run</a></li></ul>
+</div>
+</div>
+</body>
+</html>

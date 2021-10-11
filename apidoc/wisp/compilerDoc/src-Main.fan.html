@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Main.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='Main.html'>Main</a></li><li><a href='src-Main.fan.html'>Main.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   13 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using util</span>
+<span id='line10'>using web</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** Main</span>
+<span id='line14'>**</span>
+<span id='line15'>@NoDoc</span>
+<span id='line16'>class Main : AbstractMain</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'></span>
+<span id='line19'>  @Opt <b>{</b> help = "Generate docs for every installed pods" <b>}</b></span>
+<span id='line20'>  Bool all</span>
+<span id='line21'></span>
+<span id='line22'>  @Opt <b>{</b> help = "Generation docs for Fantom core pods" <b>}</b></span>
+<span id='line23'>  Bool allCore</span>
+<span id='line24'></span>
+<span id='line25'>  @Arg <b>{</b> help = "Name of pods to compile <b>(</b>does not update index<b>)</b>" <b>}</b></span>
+<span id='line26'>  Str<b>[</b><b>]</b> pods := <b>[</b>,<b>]</b></span>
+<span id='line27'></span>
+<span id='line28'>  @Opt <b>{</b> help = "Delete outDir" <b>}</b></span>
+<span id='line29'>  Bool clean</span>
+<span id='line30'></span>
+<span id='line31'>  @Opt <b>{</b> help = "Output dir for doc files" <b>}</b></span>
+<span id='line32'>  File outDir := Env.cur.workDir + `doc/`</span>
+<span id='line33'></span>
+<span id='line34'>  DocEnv env := DefaultDocEnv<b>(</b><b>)</b></span>
+<span id='line35'></span>
+<span id='line36'>  DocSpace<b>[</b><b>]</b> spaces := DocSpace<b>[</b>,<b>]</b></span>
+<span id='line37'></span>
+<span id='line38'>  override Int run<b>(</b><b>)</b></span>
+<span id='line39'>  <b>{</b></span>
+<span id='line40'>    // ensure outDir is a directory</span>
+<span id='line41'>    if <b>(</b>!outDir.isDir<b>)</b> outDir = outDir.uri.plusSlash.toFile</span>
+<span id='line42'></span>
+<span id='line43'>    // clean if specified</span>
+<span id='line44'>    if <b>(</b>clean<b>)</b></span>
+<span id='line45'>    <b>{</b></span>
+<span id='line46'>      echo<b>(</b>"Delete <b>[</b>$outDir<b>]</b>"<b>)</b></span>
+<span id='line47'>      outDir.delete</span>
+<span id='line48'>    <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>    // get space to doc based on arguments</span>
+<span id='line51'>    spaces = DocSpace<b>[</b>,<b>]</b></span>
+<span id='line52'>    isAll := all || allCore</span>
+<span id='line53'>    podNames := isAll ? Env.cur.findAllPodNames : this.pods</span>
+<span id='line54'>    podNames.each |podName|</span>
+<span id='line55'>    <b>{</b></span>
+<span id='line56'>      DocPod pod := env.space<b>(</b>podName<b>)</b></span>
+<span id='line57'>      if <b>(</b>isAll<b>)</b> if <b>(</b>pod.meta<b>[</b>"pod.docApi"<b>]</b> == "false"<b>)</b> return</span>
+<span id='line58'>      if <b>(</b>allCore<b>)</b> if <b>(</b>!<b>(</b>pod.meta<b>[</b>"proj.name"<b>]</b> ?: ""<b>)</b>.startsWith<b>(</b>"Fantom "<b>)</b><b>)</b> return</span>
+<span id='line59'>      spaces.add<b>(</b>pod<b>)</b></span>
+<span id='line60'>    <b>}</b></span>
+<span id='line61'></span>
+<span id='line62'>    // sort spaces</span>
+<span id='line63'>    if <b>(</b>isAll<b>)</b></span>
+<span id='line64'>    <b>{</b></span>
+<span id='line65'>      spaces.sort</span>
+<span id='line66'>      spaces.moveTo<b>(</b>spaces.find |p| <b>{</b> p.spaceName == "docIntro" <b>}</b>, 0<b>)</b></span>
+<span id='line67'>      spaces.moveTo<b>(</b>spaces.find |p| <b>{</b> p.spaceName == "docLang" <b>}</b>, 1<b>)</b></span>
+<span id='line68'>    <b>}</b></span>
+<span id='line69'></span>
+<span id='line70'>    // write the documents</span>
+<span id='line71'>    if <b>(</b>isAll<b>)</b> writeTopIndex<b>(</b>env, DocTopIndex <b>{</b> it.spaces = this.spaces <b>}</b><b>)</b></span>
+<span id='line72'>    spaces.each |space| <b>{</b> writeSpace<b>(</b>env, space<b>)</b> <b>}</b></span>
+<span id='line73'>    return 0</span>
+<span id='line74'>  <b>}</b></span>
+<span id='line75'></span>
+<span id='line76'>  virtual Void writeTopIndex<b>(</b>DocEnv env, DocTopIndex doc<b>)</b></span>
+<span id='line77'>  <b>{</b></span>
+<span id='line78'>    echo<b>(</b>"Writing top-level index and css ..."<b>)</b></span>
+<span id='line79'></span>
+<span id='line80'>    // index.html</span>
+<span id='line81'>    file := outDir + `index.html`</span>
+<span id='line82'>    out := WebOutStream<b>(</b>file.out<b>)</b></span>
+<span id='line83'>    env.render<b>(</b>out, doc<b>)</b></span>
+<span id='line84'>    out.close</span>
+<span id='line85'></span>
+<span id='line86'>    // style.css</span>
+<span id='line87'>    Main#.pod.file<b>(</b>`/res/style.css`<b>)</b>.copyInto<b>(</b>outDir, <b>[</b>"overwrite":true<b>]</b><b>)</b></span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>  virtual Void writeSpace<b>(</b>DocEnv env, DocSpace space<b>)</b></span>
+<span id='line91'>  <b>{</b></span>
+<span id='line92'>    echo<b>(</b>"Writing '$space.spaceName' ..."<b>)</b></span>
+<span id='line93'>    spaceDir := outDir + `$space.spaceName/`</span>
+<span id='line94'>    space.eachDoc |doc|</span>
+<span id='line95'>    <b>{</b></span>
+<span id='line96'>      if <b>(</b>doc.docName == "pod-doc"<b>)</b> return</span>
+<span id='line97'>      if <b>(</b>doc is DocRes<b>)</b></span>
+<span id='line98'>        writeRes<b>(</b>env, spaceDir, doc<b>)</b></span>
+<span id='line99'>      else</span>
+<span id='line100'>        writeDoc<b>(</b>env, spaceDir, doc<b>)</b></span>
+<span id='line101'>    <b>}</b></span>
+<span id='line102'>  <b>}</b></span>
+<span id='line103'></span>
+<span id='line104'>  virtual Void writeRes<b>(</b>DocEnv env, File dir, DocRes res<b>)</b></span>
+<span id='line105'>  <b>{</b></span>
+<span id='line106'>    zip := Zip.open<b>(</b>res.pod.file<b>)</b></span>
+<span id='line107'>    try</span>
+<span id='line108'>      zip.contents<b>[</b>res.uri<b>]</b>.copyInto<b>(</b>dir, <b>[</b>"overwrite":true<b>]</b><b>)</b></span>
+<span id='line109'>    finally</span>
+<span id='line110'>      zip.close</span>
+<span id='line111'>  <b>}</b></span>
+<span id='line112'></span>
+<span id='line113'>  virtual Void writeDoc<b>(</b>DocEnv env, File dir, Doc doc<b>)</b></span>
+<span id='line114'>  <b>{</b></span>
+<span id='line115'>    file := dir + `$<b>{</b>doc.docName<b>}</b>.html`</span>
+<span id='line116'>    out := WebOutStream<b>(</b>file.out<b>)</b></span>
+<span id='line117'>    env.render<b>(</b>out, doc<b>)</b></span>
+<span id='line118'>    out.close</span>
+<span id='line119'>  <b>}</b></span>
+<span id='line120'><b>}</b></span>
+<span id='line121'></span>
+</pre>
+</div>
+</body>
+</html>

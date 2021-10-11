@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocFacet.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocFacet.html'>DocFacet</a></li><li><a href='src-DocFacet.fan.html'>DocFacet.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   11 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** DocFacet models the documentation of a `sys::Facet` on a type or slot.</span>
+<span id='line11'>**</span>
+<span id='line12'>const class DocFacet</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>  ** Constructor</span>
+<span id='line16'>  internal new make<b>(</b>DocTypeRef type, <b>[</b>Str:Str<b>]</b> fields<b>)</b></span>
+<span id='line17'>  <b>{</b></span>
+<span id='line18'>    this.type   = type</span>
+<span id='line19'>    this.fields = fields</span>
+<span id='line20'>  <b>}</b></span>
+<span id='line21'></span>
+<span id='line22'>  ** Type of the facet definition</span>
+<span id='line23'>  const DocTypeRef type</span>
+<span id='line24'></span>
+<span id='line25'>  ** Map of name:expr pairs for field definitions</span>
+<span id='line26'>  const <b>[</b>Str:Str<b>]</b> fields</span>
+<span id='line27'></span>
+<span id='line28'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line29'>  <b>{</b></span>
+<span id='line30'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line31'>    s.add<b>(</b>"@"<b>)</b>.add<b>(</b>type<b>)</b></span>
+<span id='line32'>    if <b>(</b>!fields.isEmpty<b>)</b></span>
+<span id='line33'>    <b>{</b></span>
+<span id='line34'>      s.add<b>(</b>" <b>{</b>"<b>)</b></span>
+<span id='line35'>      fields.each |v, n| <b>{</b> s.add<b>(</b>" $n=$v;"<b>)</b> <b>}</b></span>
+<span id='line36'>      s.add<b>(</b>" <b>}</b>"<b>)</b></span>
+<span id='line37'>    <b>}</b></span>
+<span id='line38'>    return s.toStr</span>
+<span id='line39'>  <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  internal static const <b>[</b>Str:Str<b>]</b> noFields := <b>[</b>:<b>]</b></span>
+<span id='line42'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Decimal</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Decimal.html'>Decimal</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>struct const class</span> std::Decimal</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Num.html'>sys::Num</a>
+    std::Decimal</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Decimal is used to represent a decimal floating point more precisely than a Float.  Decimal is the preferred numeric type for financial applications.</p>
+<dl>
+<dt id='abs'>
+abs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Decimal.html'>Decimal</a> abs()</code></p>
+
+<p>Return the absolute value of this decimal.  If this value is positive then return this, otherwise return the negation.</p>
+</dd>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> compare(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>Compare based on decimal value, scale is not considered for equality (unlike <code><a href='Decimal.html#equals'>equals</a></code>).</p>
+</dd>
+<dt id='decrement'>
+decrement</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> decrement()</code></p>
+
+<p>Decrement by one.  Shortcut is --a or a--.</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Decimal.html'>Decimal</a> defVal</code></p>
+
+<p>Default value is 0.</p>
+</dd>
+<dt id='div'>
+div</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> div(<a href='Decimal.html'>Decimal</a> b)</code></p>
+
+<p>Divide this by b.  Shortcut is a/b.</p>
+</dd>
+<dt id='divFloat'>
+divFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> divFloat(<a href='../sys/Float.html'>Float</a> b)</code></p>
+
+<p>Divide this by b.  Shortcut is a/b.</p>
+</dd>
+<dt id='divInt'>
+divInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> divInt(<a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Divide this by b.  Shortcut is a/b.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return true if same decimal with same scale.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a Str into a Decimal.  If invalid format and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return platform specific hashcode.</p>
+</dd>
+<dt id='increment'>
+increment</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> increment()</code></p>
+
+<p>Increment by one.  Shortcut is ++a or a++.</p>
+</dd>
+<dt id='max'>
+max</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Decimal.html'>Decimal</a> max(<a href='Decimal.html'>Decimal</a> that)</code></p>
+
+<p>Return the larger of this and the specified Decimal values.</p>
+</dd>
+<dt id='min'>
+min</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Decimal.html'>Decimal</a> min(<a href='Decimal.html'>Decimal</a> that)</code></p>
+
+<p>Return the smaller of this and the specified Decimal values.</p>
+</dd>
+<dt id='minus'>
+minus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> minus(<a href='Decimal.html'>Decimal</a> b)</code></p>
+
+<p>Subtract b from this.  Shortcut is a-b.</p>
+</dd>
+<dt id='minusFloat'>
+minusFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> minusFloat(<a href='../sys/Float.html'>Float</a> b)</code></p>
+
+<p>Subtract b from this.  Shortcut is a-b.</p>
+</dd>
+<dt id='minusInt'>
+minusInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> minusInt(<a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Subtract b from this.  Shortcut is a-b.</p>
+</dd>
+<dt id='mod'>
+mod</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> mod(<a href='Decimal.html'>Decimal</a> b)</code></p>
+
+<p>Return remainder of this divided by b.  Shortcut is a%b.</p>
+</dd>
+<dt id='modFloat'>
+modFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> modFloat(<a href='../sys/Float.html'>Float</a> b)</code></p>
+
+<p>Return remainder of this divided by b.  Shortcut is a%b.</p>
+</dd>
+<dt id='modInt'>
+modInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> modInt(<a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Return remainder of this divided by b.  Shortcut is a%b.</p>
+</dd>
+<dt id='mult'>
+mult</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> mult(<a href='Decimal.html'>Decimal</a> b)</code></p>
+
+<p>Multiply this with b.  Shortcut is a*b.</p>
+</dd>
+<dt id='multFloat'>
+multFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> multFloat(<a href='../sys/Float.html'>Float</a> b)</code></p>
+
+<p>Multiply this with b.  Shortcut is a*b.</p>
+</dd>
+<dt id='multInt'>
+multInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> multInt(<a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Multiply this with b.  Shortcut is a*b.</p>
+</dd>
+<dt id='negate'>
+negate</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> negate()</code></p>
+
+<p>Negative of this.  Shortcut is -a.</p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> plus(<a href='Decimal.html'>Decimal</a> b)</code></p>
+
+<p>Add this with b.  Shortcut is a+b.</p>
+</dd>
+<dt id='plusFloat'>
+plusFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> plusFloat(<a href='../sys/Float.html'>Float</a> b)</code></p>
+
+<p>Add this with b.  Shortcut is a+b.</p>
+</dd>
+<dt id='plusInt'>
+plusInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Decimal.html'>Decimal</a> plusInt(<a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Add this with b.  Shortcut is a+b.</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toCode()</code></p>
+
+<p>Get this Decimal as a Fantom code literal.</p>
+</dd>
+<dt id='toDecimal'>
+toDecimal</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='Decimal.html'>Decimal</a> toDecimal(<a href='../sys/Num.html'>Num</a> f)</code></p>
+</dd>
+<dt id='toFloat'>
+toFloat</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Float.html'>Float</a> toFloat()</code></p>
+
+<p>Convert this number to a Float.</p>
+</dd>
+<dt id='toInt'>
+toInt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> toInt()</code></p>
+
+<p>Convert this number to an Int.</p>
+</dd>
+<dt id='toLocale'>
+toLocale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toLocale(<a href='../sys/Str.html'>Str?</a> pattern := null)</code></p>
+
+<p>Format this decimal number for the current locale. If pattern is null, then the locale's default pattern is used. See <a href='Float.toLocale'>Float.toLocale</a> for pattern language and examples.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Get string representation.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#toDecimal'>toDecimal</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#abs'>abs</a></li><li><a href='#compare'>compare</a></li><li><a href='#decrement'>decrement</a></li><li><a href='#div'>div</a></li><li><a href='#divFloat'>divFloat</a></li><li><a href='#divInt'>divInt</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#increment'>increment</a></li><li><a href='#max'>max</a></li><li><a href='#min'>min</a></li><li><a href='#minus'>minus</a></li><li><a href='#minusFloat'>minusFloat</a></li><li><a href='#minusInt'>minusInt</a></li><li><a href='#mod'>mod</a></li><li><a href='#modFloat'>modFloat</a></li><li><a href='#modInt'>modInt</a></li><li><a href='#mult'>mult</a></li><li><a href='#multFloat'>multFloat</a></li><li><a href='#multInt'>multInt</a></li><li><a href='#negate'>negate</a></li><li><a href='#plus'>plus</a></li><li><a href='#plusFloat'>plusFloat</a></li><li><a href='#plusInt'>plusInt</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toFloat'>toFloat</a></li><li><a href='#toInt'>toInt</a></li><li><a href='#toLocale'>toLocale</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

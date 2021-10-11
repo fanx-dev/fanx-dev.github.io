@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::LogLevel</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='LogLevel.html'>LogLevel</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> std::LogLevel</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    std::LogLevel</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>LogLevel provides a set of discrete levels used to customize logging. See <a href='docLang::Logging'>docLang::Logging</a> for details.</p>
+<ul>
+<li><a href='#debug'>debug</a></li><li><a href='#info'>info</a></li><li><a href='#warn'>warn</a></li><li><a href='#err'>err</a></li><li><a href='#silent'>silent</a></li></ul>
+<dl>
+<dt id='debug'>
+debug</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='LogLevel.html'>LogLevel</a> debug := ...</code></p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='LogLevel.html'>LogLevel</a> err := ...</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the LogLevel instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='info'>
+info</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='LogLevel.html'>LogLevel</a> info := ...</code></p>
+</dd>
+<dt id='silent'>
+silent</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='LogLevel.html'>LogLevel</a> silent := ...</code></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='LogLevel.html'>LogLevel</a>&gt;</a> vals := ...</code></p>
+
+<p>List of LogLevel values indexed by ordinal</p>
+</dd>
+<dt id='warn'>
+warn</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='LogLevel.html'>LogLevel</a> warn := ...</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#debug'>debug</a></li><li><a href='#err'>err</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#info'>info</a></li><li><a href='#silent'>silent</a></li><li><a href='#vals'>vals</a></li><li><a href='#warn'>warn</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::LinkedList</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='LinkedList.html'>LinkedList</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> std::LinkedList</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::LinkedList</pre>
+
+<p>Doubly-linked list implementation</p>
+<dl>
+<dt id='_size'>
+_size</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Int.html'>Int</a> _size := 0</code></p>
+</dd>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> add(<a href='LinkedElem.html'>LinkedElem</a> e)</code></p>
+
+<p>Add the specified item to the end of the list</p>
+</dd>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> clear()</code></p>
+
+<p>Remove all items from the list and set size to 0</p>
+</dd>
+<dt id='first'>
+first</dt>
+<dd>
+<p class='sig'>
+<code> <a href='LinkedElem.html'>LinkedElem?</a> first()</code></p>
+
+<p>Return the first item, or if empty return null.</p>
+</dd>
+<dt id='head'>
+head</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='LinkedElem.html'>LinkedElem?</a> head</code></p>
+</dd>
+<dt id='insertBefore'>
+insertBefore</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> insertBefore(<a href='LinkedElem.html'>LinkedElem</a> e, <a href='LinkedElem.html'>LinkedElem?</a> other := null)</code></p>
+
+<p>Insert the item before specified item</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>size is 0</p>
+</dd>
+<dt id='last'>
+last</dt>
+<dd>
+<p class='sig'>
+<code> <a href='LinkedElem.html'>LinkedElem?</a> last()</code></p>
+
+<p>Return the last item, or if empty return null.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+</dd>
+<dt id='poll'>
+poll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='LinkedElem.html'>LinkedElem?</a> poll()</code></p>
+
+<p>Remove the first item</p>
+</dd>
+<dt id='pop'>
+pop</dt>
+<dd>
+<p class='sig'>
+<code> <a href='LinkedElem.html'>LinkedElem?</a> pop()</code></p>
+
+<p>Remove the last item</p>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> remove(<a href='LinkedElem.html'>LinkedElem?</a> e)</code></p>
+
+<p>Remove the item in list if item is null do nothing.</p>
+</dd>
+<dt id='removeFirst'>
+removeFirst</dt>
+<dd>
+<p class='sig'>
+<code> <a href='LinkedElem.html'>LinkedElem?</a> removeFirst()</code></p>
+
+<p>Remove the first item</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> size()</code></p>
+
+<p>The number of items in the list.</p>
+</dd>
+<dt id='tail'>
+tail</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='LinkedElem.html'>LinkedElem?</a> tail</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return a string representation the list.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#_size'>_size</a></li><li><a href='#add'>add</a></li><li><a href='#clear'>clear</a></li><li><a href='#first'>first</a></li><li><a href='#head'>head</a></li><li><a href='#insertBefore'>insertBefore</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#last'>last</a></li><li><a href='#poll'>poll</a></li><li><a href='#pop'>pop</a></li><li><a href='#remove'>remove</a></li><li><a href='#removeFirst'>removeFirst</a></li><li><a href='#size'>size</a></li><li><a href='#tail'>tail</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::WebUtil</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebUtil.html'>WebUtil</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> web::WebUtil</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  web::WebUtil</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html'>Source</a></p>
+
+<p>WebUtil encapsulates several useful utility web methods. Also see <a href='sys::MimeType'>sys::MimeType</a> and its utility methods.</p>
+<dl>
+<dt id='fromQuotedStr'>
+fromQuotedStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> fromQuotedStr(<a href='../sys/Str.html'>Str</a> s)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line80'>Source</a></p>
+
+<p>Decode a HTTP quoted string according to RFC 2616 Section 2.2. The given string must be wrapped in quotes.  See <code><a href='WebUtil.html#toQuotedStr'>toQuotedStr</a></code>.</p>
+</dd>
+<dt id='headersToCharset'>
+headersToCharset</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/Charset.html'>Charset</a> headersToCharset(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> headers)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line235'>Source</a></p>
+
+<p>Given a set of HTTP headers map Content-Type to its charset or default to UTF-8.</p>
+</dd>
+<dt id='isToken'>
+isToken</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isToken(<a href='../sys/Str.html'>Str</a> s)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line22'>Source</a></p>
+
+<p>Return if the specified string is a valid HTTP token production which is any ASCII character which is not a control char or a separator.  The separators characters are:</p>
+
+<pre>"(" | ")" | "&lt;" | ">" | "@" |
+"," | ";" | ":" | "\" | &lt;"> |
+"/" | "[" | "]" | "?" | "=" |
+"{" | "}" | SP | HT</pre>
+</dd>
+<dt id='isTokenChar'>
+isTokenChar</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isTokenChar(<a href='../sys/Int.html'>Int</a> c)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line37'>Source</a></p>
+
+<p>Return if given char unicode point is allowable within the HTTP token production.  See <code><a href='WebUtil.html#isToken'>isToken</a></code>.</p>
+</dd>
+<dt id='jsMain'>
+jsMain</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=&quot;use WebOutStream.initJs&quot; }</code><br />static <a href='../sys/Void.html'>Void</a> jsMain(<a href='../std/OutStream.html'>OutStream</a> out, <a href='../sys/Str.html'>Str</a> main, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> env := null)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line424'>Source</a></p>
+
+<p>Generate the method invocation code used to boostrap into JavaScript from a webpage.  This <em>must</em> be called inside the <code>&lt;head></code> tag for the page.  The main method will be invoked using the <code>onLoad</code> DOM event.</p>
+
+<p>The <code>main</code> argument can be either a type or method.  If no method is specified, <code>main</code> is used.  If the method is not static, a new instance of type is created:</p>
+
+<pre>"foo::Instance"     =>  Instance().main()
+"foo::Instance.bar" =>  Instance().bar()
+"foo::Static"       =>  Static.main()
+"foo::Static.bar"   =>  Static.bar()</pre>
+
+<p>If <code>env</code> is specified, then vars will be added to and available from <a href='sys::Env.vars'>sys::Env.vars</a> on client-side.</p>
+</dd>
+<dt id='makeChunkedInStream'>
+makeChunkedInStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/InStream.html'>InStream</a> makeChunkedInStream(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line348'>Source</a></p>
+
+<p>Wrap the given input stream to read bytes using a HTTP chunked transfer encoding.  The wrapped streams provides a contiguous stream of bytes until the last chunk is read. Closing the wrapper stream does not close the underlying stream.</p>
+</dd>
+<dt id='makeChunkedOutStream'>
+makeChunkedOutStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/OutStream.html'>OutStream</a> makeChunkedOutStream(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line370'>Source</a></p>
+
+<p>Wrap the given output stream to write bytes using a HTTP chunked transfer encoding.  Closing the wrapper stream terminates the chunking, but does not close the underlying stream.</p>
+</dd>
+<dt id='makeContentInStream'>
+makeContentInStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/InStream.html'>InStream</a> makeContentInStream(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> headers, <a href='../std/InStream.html'>InStream</a> in)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line252'>Source</a></p>
+
+<p>Given a set of headers, wrap the specified input stream to read the content body:</p>
+
+<ol style='list-style-type:decimal'>
+<li>If Content-Encoding is <code>gzip</code> then wrap via <a href='sys::Zip.gzipInStream'>sys::Zip.gzipInStream</a></li>
+
+<li>If Content-Length then <code><a href='WebUtil.html#makeFixedInStream'>makeFixedInStream</a></code></li>
+
+<li>If Transfer-Encoding is chunked then <code><a href='WebUtil.html#makeChunkedInStream'>makeChunkedInStream</a></code></li>
+
+<li>If Content-Type assume non-pipelined connection and return <code>in</code> directly</li>
+</ol>
+
+<p>If a stream is returned, then it is automatically configured with the correct content encoding based on the Content-Type.</p>
+</dd>
+<dt id='makeContentOutStream'>
+makeContentOutStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/OutStream.html'>OutStream?</a> makeContentOutStream(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> headers, <a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line303'>Source</a></p>
+
+<p>Given a set of headers, wrap the specified output stream to write the content body:</p>
+
+<ol style='list-style-type:decimal'>
+<li>If Content-Length then <code><a href='WebUtil.html#makeFixedOutStream'>makeFixedOutStream</a></code></li>
+
+<li>If Content-Type then set Transfer-Encoding header to chunked and return <code><a href='WebUtil.html#makeChunkedOutStream'>makeChunkedOutStream</a></code></li>
+
+<li>Assume no content and return null</li>
+</ol>
+
+<p>If a stream is returned, then it is automatically configured with the correct content encoding based on the Content-Type.</p>
+</dd>
+<dt id='makeFixedInStream'>
+makeFixedInStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/InStream.html'>InStream</a> makeFixedInStream(<a href='../std/InStream.html'>InStream</a> in, <a href='../sys/Int.html'>Int</a> fixed)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line337'>Source</a></p>
+
+<p>Wrap the given input stream to read a fixed number of bytes. Once <code>fixed</code> bytes have been read from the underlying input stream, the wrapped stream will return end-of-stream.  Closing the wrapper stream does not close the underlying stream.</p>
+</dd>
+<dt id='makeFixedOutStream'>
+makeFixedOutStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/OutStream.html'>OutStream</a> makeFixedOutStream(<a href='../std/OutStream.html'>OutStream</a> out, <a href='../sys/Int.html'>Int</a> fixed)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line359'>Source</a></p>
+
+<p>Wrap the given output stream to write a fixed number of bytes. Once <code>fixed</code> bytes have been written, attempting to further bytes will throw IOErr.  Closing the wrapper stream does not close the underlying stream.</p>
+</dd>
+<dt id='parseHeaders'>
+parseHeaders</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> parseHeaders(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line104'>Source</a></p>
+
+<p>Parse a series of HTTP headers according to RFC 2616 section 4.2.  The final CRLF which terminates headers is consumed with the stream positioned immediately following.  The headers are returned as a <a href='sys::Map.caseInsensitive'>case insensitive</a> map. Throw ParseErr if headers are malformed.</p>
+</dd>
+<dt id='parseList'>
+parseList</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> parseList(<a href='../sys/Str.html'>Str</a> s)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line95'>Source</a></p>
+
+<p>Parse a list of comma separated tokens.  Any leading or trailing whitespace is trimmed from the list of tokens.</p>
+</dd>
+<dt id='parseMultiPart'>
+parseMultiPart</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> parseMultiPart(<a href='../std/InStream.html'>InStream</a> in, <a href='../sys/Str.html'>Str</a> boundary, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a>,<a href='../std/InStream.html'>InStream</a>&gt;</a> cb)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line398'>Source</a></p>
+
+<p>Parse a multipart/form-data input stream.  For each part in the stream call the given callback function with the part's headers and an input stream used to read the part's body.  Each callback must completely drain the input stream to prepare for the next part.  Also see <code><a href='WebReq.html#parseMultiPartForm'>WebReq.parseMultiPartForm</a></code>.</p>
+</dd>
+<dt id='parseQVals'>
+parseQVals</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Float.html'>Float</a>&gt;</a> parseQVals(<a href='../sys/Str.html'>Str</a> s)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line186'>Source</a></p>
+
+<p>Given an HTTP header that uses q values, return a map of name/q-value pairs.  This map has a def value of 0.</p>
+
+<p>Example:</p>
+
+<pre>compress,gzip              =>  ["compress":1f, "gzip":1f]
+compress;q=0.5,gzip;q=0.0  =>  ["compress":0.5f, "gzip":0.0f]</pre>
+</dd>
+<dt id='toQuotedStr'>
+toQuotedStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> toQuotedStr(<a href='../sys/Str.html'>Str</a> s)</code></p>
+<p class='src'>
+<a href='src-WebUtil.fan.html#line59'>Source</a></p>
+
+<p>Return the specified string as a HTTP quoted string according to RFC 2616 Section 2.2.  The result is wrapped in quotes.  Throw ArgErr if any character is outside of the ASCII range of 0x20 to 0x7e.  The quote char itself is backslash escaped. See <code><a href='WebUtil.html#fromQuotedStr'>fromQuotedStr</a></code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-WebUtil.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromQuotedStr'>fromQuotedStr</a></li><li><a href='#headersToCharset'>headersToCharset</a></li><li><a href='#isToken'>isToken</a></li><li><a href='#isTokenChar'>isTokenChar</a></li><li><a href='#jsMain'>jsMain</a></li><li><a href='#makeChunkedInStream'>makeChunkedInStream</a></li><li><a href='#makeChunkedOutStream'>makeChunkedOutStream</a></li><li><a href='#makeContentInStream'>makeContentInStream</a></li><li><a href='#makeContentOutStream'>makeContentOutStream</a></li><li><a href='#makeFixedInStream'>makeFixedInStream</a></li><li><a href='#makeFixedOutStream'>makeFixedOutStream</a></li><li><a href='#parseHeaders'>parseHeaders</a></li><li><a href='#parseList'>parseList</a></li><li><a href='#parseMultiPart'>parseMultiPart</a></li><li><a href='#parseQVals'>parseQVals</a></li><li><a href='#toQuotedStr'>toQuotedStr</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

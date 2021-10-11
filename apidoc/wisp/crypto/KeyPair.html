@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>crypto::KeyPair</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>crypto</a></li><li><a href='KeyPair.html'>KeyPair</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const mixin</span> crypto::KeyPair</h1>
+<pre>crypto::KeyPair</pre>
+
+<p>A KeyPair contains a <code><a href='PrivKey.html'>private key</a></code> and its corresponding <code><a href='PubKey.html'>public key</a></code> in an asymmetric key pair.</p>
+<dl>
+<dt id='algorithm'>
+algorithm</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> algorithm()</code></p>
+
+<p>Get the key pair algorithm</p>
+</dd>
+<dt id='priv'>
+priv</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='PrivKey.html'>PrivKey</a> priv()</code></p>
+
+<p>The private key for this pair.</p>
+</dd>
+<dt id='pub'>
+pub</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='PubKey.html'>PubKey</a> pub()</code></p>
+
+<p>The public key for this pair.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#algorithm'>algorithm</a></li><li><a href='#priv'>priv</a></li><li><a href='#pub'>pub</a></li></ul>
+</div>
+</div>
+</body>
+</html>

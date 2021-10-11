@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Style.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Style.html'>Style</a></li><li><a href='src-Style.fan.html'>Style.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2014, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Dec 2014  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Style models CSS style properties for an Elem.</span>
+<span id='line13'>**</span>
+<span id='line14'>@Js class Style</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'>  ** Private ctor.</span>
+<span id='line17'>  private new make<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line18'></span>
+<span id='line19'>  ** The CSS classes for this element.</span>
+<span id='line20'>  native Str<b>[</b><b>]</b> classes</span>
+<span id='line21'></span>
+<span id='line22'>  ** Return true if this element has the given CSS class name,</span>
+<span id='line23'>  ** or false if it does not.</span>
+<span id='line24'>  native Bool hasClass<b>(</b>Str name<b>)</b></span>
+<span id='line25'></span>
+<span id='line26'>  ** Add the given CSS class name to this element.  If this</span>
+<span id='line27'>  ** element already contains the given class name, then this</span>
+<span id='line28'>  ** method does nothing. Returns this.</span>
+<span id='line29'>  native This addClass<b>(</b>Str name<b>)</b></span>
+<span id='line30'></span>
+<span id='line31'>  ** Remove the given CSS class name to this element. If this</span>
+<span id='line32'>  ** element does not have the given class name, this method</span>
+<span id='line33'>  ** does nothing. Returns this.</span>
+<span id='line34'>  native This removeClass<b>(</b>Str name<b>)</b></span>
+<span id='line35'></span>
+<span id='line36'>  **</span>
+<span id='line37'>  ** Toggle the presence of the given CSS class name based on</span>
+<span id='line38'>  ** the 'cond' argument:</span>
+<span id='line39'>  **   - 'null': remove class if present, or add if missing</span>
+<span id='line40'>  **   - 'true': always add class <b>(</b>see `addClass`<b>)</b></span>
+<span id='line41'>  **   - 'false': always remove class<b>(</b>see `removeClass`<b>)</b></span>
+<span id='line42'>  **</span>
+<span id='line43'>  This toggleClass<b>(</b>Str name, Bool? cond := null<b>)</b></span>
+<span id='line44'>  <b>{</b></span>
+<span id='line45'>    if <b>(</b>cond?.not ?: hasClass<b>(</b>name<b>)</b><b>)</b> removeClass<b>(</b>name<b>)</b></span>
+<span id='line46'>    else addClass<b>(</b>name<b>)</b></span>
+<span id='line47'>    return this</span>
+<span id='line48'>  <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  **</span>
+<span id='line51'>  ** Add a psuedo-class CSS definietion to this element. A new</span>
+<span id='line52'>  ** class name is auto-generated and used to prefix 'name',</span>
+<span id='line53'>  ** 'name' must start with the ':' character.  Returns the</span>
+<span id='line54'>  ** generated class name.</span>
+<span id='line55'>  **</span>
+<span id='line56'>  **   style.addPseudoClass<b>(</b>":hover", "background: #eee"<b>)</b></span>
+<span id='line57'>  **</span>
+<span id='line58'>  Str addPseudoClass<b>(</b>Str name, Str css<b>)</b></span>
+<span id='line59'>  <b>{</b></span>
+<span id='line60'>    if <b>(</b>!name.startsWith<b>(</b>":"<b>)</b><b>)</b></span>
+<span id='line61'>      throw ArgErr<b>(</b>"Pseudo-class name must start with ':'"<b>)</b></span>
+<span id='line62'></span>
+<span id='line63'>    key := "$name/$css"</span>
+<span id='line64'>    cls := pseudoCache<b>[</b>key<b>]</b></span>
+<span id='line65'>    if <b>(</b>cls == null<b>)</b></span>
+<span id='line66'>    <b>{</b></span>
+<span id='line67'>      cls = "dom-style-autogen-$counter.getAndIncrement"</span>
+<span id='line68'>      Win.cur.doc.head.add<b>(</b>Elem<b>(</b>"style"<b>)</b> <b>{</b></span>
+<span id='line69'>        it->type = "text/css"</span>
+<span id='line70'>        it.text  = ".$<b>{</b>cls<b>}</b>$<b>{</b>name<b>}</b> <b>{</b> $css <b>}</b>"</span>
+<span id='line71'>      <b>}</b><b>)</b></span>
+<span id='line72'>      pseudoCache<b>[</b>key<b>]</b> = cls</span>
+<span id='line73'>    <b>}</b></span>
+<span id='line74'></span>
+<span id='line75'>    addClass<b>(</b>cls<b>)</b></span>
+<span id='line76'>    return cls</span>
+<span id='line77'>  <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>  ** Clear all style declarations.</span>
+<span id='line80'>  native This clear<b>(</b><b>)</b></span>
+<span id='line81'></span>
+<span id='line82'>  ** Get the computed property value.</span>
+<span id='line83'>  native Obj? computed<b>(</b>Str name<b>)</b></span>
+<span id='line84'></span>
+<span id='line85'>  **</span>
+<span id='line86'>  ** Get the effetive style property value, which is the most</span>
+<span id='line87'>  ** specific style or CSS rule in effect on this node. Returns</span>
+<span id='line88'>  ** 'null' if no rule in effect for given property.</span>
+<span id='line89'>  **</span>
+<span id='line90'>  ** This method is restricted to stylesheets that have originated</span>
+<span id='line91'>  ** from the same domain as the document. Any rules that may be</span>
+<span id='line92'>  ** applied from an external sheet will not be included.</span>
+<span id='line93'>  **</span>
+<span id='line94'>  native Obj? effective<b>(</b>Str name<b>)</b></span>
+<span id='line95'></span>
+<span id='line96'>  ** Get the given property value.</span>
+<span id='line97'>  **   color := style<b>[</b>"color"<b>]</b></span>
+<span id='line98'>  @Operator native Obj? get<b>(</b>Str name<b>)</b></span>
+<span id='line99'></span>
+<span id='line100'>  ** Set the given propery value.  If 'val' is null this</span>
+<span id='line101'>  ** property is removed.</span>
+<span id='line102'>  **   style<b>[</b>"color"<b>]</b> = "#f00"</span>
+<span id='line103'>  @Operator This set<b>(</b>Str name, Obj? val<b>)</b></span>
+<span id='line104'>  <b>{</b></span>
+<span id='line105'>    if <b>(</b>val == null<b>)</b> <b>{</b> setProp<b>(</b>name, null<b>)</b>; return this <b>}</b></span>
+<span id='line106'></span>
+<span id='line107'>    sval := ""</span>
+<span id='line108'>    switch <b>(</b>val.typeof<b>)</b></span>
+<span id='line109'>    <b>{</b></span>
+<span id='line110'>      case Duration#: sval = "$<b>{</b>val->toMillis<b>}</b>ms"</span>
+<span id='line111'>      default:        sval = val.toStr</span>
+<span id='line112'>    <b>}</b></span>
+<span id='line113'></span>
+<span id='line114'>    if <b>(</b>vendor.containsKey<b>(</b>name<b>)</b><b>)</b></span>
+<span id='line115'>    <b>{</b></span>
+<span id='line116'>      setProp<b>(</b>"-webkit-$name", sval<b>)</b></span>
+<span id='line117'>      setProp<b>(</b>   "-moz-$name", sval<b>)</b></span>
+<span id='line118'>      setProp<b>(</b>    "-ms-$name", sval<b>)</b></span>
+<span id='line119'>    <b>}</b></span>
+<span id='line120'></span>
+<span id='line121'>    if <b>(</b>vendorVals.any |v| <b>{</b> sval.startsWith<b>(</b>v<b>)</b> <b>}</b><b>)</b></span>
+<span id='line122'>    <b>{</b></span>
+<span id='line123'>      setProp<b>(</b>name, "-webkit-$sval"<b>)</b></span>
+<span id='line124'>      setProp<b>(</b>name,    "-moz-$sval"<b>)</b></span>
+<span id='line125'>      setProp<b>(</b>name,     "-ms-$sval"<b>)</b></span>
+<span id='line126'>    <b>}</b></span>
+<span id='line127'></span>
+<span id='line128'>    setProp<b>(</b>name, sval<b>)</b></span>
+<span id='line129'>    return this</span>
+<span id='line130'>  <b>}</b></span>
+<span id='line131'></span>
+<span id='line132'>  ** Set all the given property values.</span>
+<span id='line133'>  **   style.setAll<b>(</b><b>[</b>"color":"#f00", "font-weight":"bold"<b>]</b><b>)</b></span>
+<span id='line134'>  This setAll<b>(</b><b>[</b>Str:Obj?<b>]</b> map<b>)</b></span>
+<span id='line135'>  <b>{</b></span>
+<span id='line136'>    map.each |v,n| <b>{</b> set<b>(</b>n,v<b>)</b> <b>}</b></span>
+<span id='line137'>    return this</span>
+<span id='line138'>  <b>}</b></span>
+<span id='line139'></span>
+<span id='line140'>  ** Set properties via CSS text.</span>
+<span id='line141'>  **   style.setCss<b>(</b>"color: #f00; font-weight: bold;"<b>)</b></span>
+<span id='line142'>  This setCss<b>(</b>Str css<b>)</b></span>
+<span id='line143'>  <b>{</b></span>
+<span id='line144'>    css.split<b>(</b>';'<b>)</b>.each |s|</span>
+<span id='line145'>    <b>{</b></span>
+<span id='line146'>      if <b>(</b>s.isEmpty<b>)</b> return</span>
+<span id='line147'>      i := s.index<b>(</b>":"<b>)</b></span>
+<span id='line148'>      n := s<b>[</b>0..&lt;i<b>]</b>.trim</span>
+<span id='line149'>      v := s<b>[</b>i+1..-1<b>]</b>.trim</span>
+<span id='line150'>      set<b>(</b>n, v<b>)</b></span>
+<span id='line151'>    <b>}</b></span>
+<span id='line152'>    return this</span>
+<span id='line153'>  <b>}</b></span>
+<span id='line154'></span>
+<span id='line155'>  **</span>
+<span id='line156'>  ** Get or set an attribute.  Attribute names should be specifed</span>
+<span id='line157'>  ** in camel case:</span>
+<span id='line158'>  **    style->backgroundColor == style<b>[</b>"background-color"<b>]</b></span>
+<span id='line159'>  **</span>
+<span id='line160'>  override Obj? trap<b>(</b>Str name, Obj?<b>[</b><b>]</b>? args := null<b>)</b></span>
+<span id='line161'>  <b>{</b></span>
+<span id='line162'>    name = fromCamel<b>(</b>name<b>)</b></span>
+<span id='line163'>    if <b>(</b>args == null || args.isEmpty<b>)</b> return get<b>(</b>name<b>)</b></span>
+<span id='line164'>    set<b>(</b>name, args.first<b>)</b></span>
+<span id='line165'>    return null</span>
+<span id='line166'>  <b>}</b></span>
+<span id='line167'></span>
+<span id='line168'>  ** Set CSS property.</span>
+<span id='line169'>  private native Void setProp<b>(</b>Str name, Str? val<b>)</b></span>
+<span id='line170'></span>
+<span id='line171'>  ** Convert camel case to hyphen notation.</span>
+<span id='line172'>  private Str fromCamel<b>(</b>Str s<b>)</b></span>
+<span id='line173'>  <b>{</b></span>
+<span id='line174'>    h := StrBuf<b>(</b><b>)</b></span>
+<span id='line175'>    s.each |ch|</span>
+<span id='line176'>    <b>{</b></span>
+<span id='line177'>      if <b>(</b>ch.isUpper<b>)</b> h.addChar<b>(</b>'-'<b>)</b>.addChar<b>(</b>ch.lower<b>)</b></span>
+<span id='line178'>      else h.addChar<b>(</b>ch<b>)</b></span>
+<span id='line179'>    <b>}</b></span>
+<span id='line180'>    return h.toStr</span>
+<span id='line181'>  <b>}</b></span>
+<span id='line182'></span>
+<span id='line183'>  ** Convenience for `toVendor` on a list.</span>
+<span id='line184'>  static internal Str<b>[</b><b>]</b> toVendors<b>(</b>Str<b>[</b><b>]</b> names<b>)</b></span>
+<span id='line185'>  <b>{</b></span>
+<span id='line186'>    acc := Str<b>[</b>,<b>]</b></span>
+<span id='line187'>    names.each |n| <b>{</b> acc.addAll<b>(</b>toVendor<b>(</b>n<b>)</b><b>)</b> <b>}</b></span>
+<span id='line188'>    return acc</span>
+<span id='line189'>  <b>}</b></span>
+<span id='line190'></span>
+<span id='line191'>  ** Break out standard CSS property into required vendor prefixes.</span>
+<span id='line192'>  static internal Str<b>[</b><b>]</b> toVendor<b>(</b>Str name<b>)</b></span>
+<span id='line193'>  <b>{</b></span>
+<span id='line194'>    if <b>(</b>vendor.containsKey<b>(</b>name<b>)</b><b>)</b></span>
+<span id='line195'>    <b>{</b></span>
+<span id='line196'>      // 14-Aug-2015: Safari 8.0.7 chokes on foreign vendor prefixes when</span>
+<span id='line197'>      // a transition animatation is used directly in the 'style' attr</span>
+<span id='line198'>      w := Win.cur</span>
+<span id='line199'>      if <b>(</b>w.isWebkit<b>)</b>  return <b>[</b>"-webkit-$name"<b>]</b></span>
+<span id='line200'>      if <b>(</b>w.isFirefox<b>)</b> return <b>[</b>   "-moz-$name", name<b>]</b></span>
+<span id='line201'>      if <b>(</b>w.isIE<b>)</b>      return <b>[</b>    "-ms-$name", name<b>]</b></span>
+<span id='line202'>    <b>}</b></span>
+<span id='line203'>    return <b>[</b>name<b>]</b></span>
+<span id='line204'>  <b>}</b></span>
+<span id='line205'></span>
+<span id='line206'>  ** Property names that require vendor prefixes.</span>
+<span id='line207'>  private const static Str:Str<b>[</b><b>]</b> vendor := <b>[</b>:<b>]</b>.setList<b>(</b><b>[</b></span>
+<span id='line208'>    "align-content",</span>
+<span id='line209'>    "align-items",</span>
+<span id='line210'>    "animation",</span>
+<span id='line211'>    "animation-delay",</span>
+<span id='line212'>    "animation-direction",</span>
+<span id='line213'>    "animation-duration",</span>
+<span id='line214'>    "animation-iteration-count",</span>
+<span id='line215'>    "animation-name",</span>
+<span id='line216'>    "animation-play-state",</span>
+<span id='line217'>    "animation-timing-function",</span>
+<span id='line218'>    "animation-fill-mode",</span>
+<span id='line219'>    "flex",</span>
+<span id='line220'>    "flex-direction",</span>
+<span id='line221'>    "flex-wrap",</span>
+<span id='line222'>    "justify-content",</span>
+<span id='line223'>    "transform",</span>
+<span id='line224'>    "user-select",</span>
+<span id='line225'>  <b>]</b><b>)</b></span>
+<span id='line226'></span>
+<span id='line227'>  ** Property values that require vendor prefixes.</span>
+<span id='line228'>  private const static Str<b>[</b><b>]</b> vendorVals := <b>[</b></span>
+<span id='line229'>    "linear-gradient"</span>
+<span id='line230'>  <b>]</b></span>
+<span id='line231'></span>
+<span id='line232'>  private static const AtomicInt counter := AtomicInt<b>(</b>0<b>)</b></span>
+<span id='line233'>  private static Str:Str pseudoCache<b>(</b><b>)</b> <b>{</b> <b>(</b>pseudoCacheRef.val as Unsafe<b>)</b>.val <b>}</b></span>
+<span id='line234'>  private static const AtomicRef pseudoCacheRef := AtomicRef<b>(</b>Unsafe<b>(</b>Str:Str<b>[</b>:<b>]</b><b>)</b><b>)</b></span>
+<span id='line235'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>graphics::FontStyle</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='FontStyle.html'>FontStyle</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> graphics::FontStyle</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    graphics::FontStyle</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+<p class='src'>
+<a href='src-Font.fan.html#line342'>Source</a></p>
+
+<p>Font style property values: normal, italic, oblique</p>
+<ul>
+<li><a href='#normal'>normal</a></li><li><a href='#italic'>italic</a></li><li><a href='#oblique'>oblique</a></li></ul>
+<dl>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line344'>Source</a></p>
+
+<p>Return the FontStyle instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='isNormal'>
+isNormal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNormal()</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line348'>Source</a></p>
+
+<p>Is this the normal value</p>
+</dd>
+<dt id='italic'>
+italic</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontStyle.html'>FontStyle</a> italic := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line346'>Source</a></p>
+</dd>
+<dt id='normal'>
+normal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontStyle.html'>FontStyle</a> normal := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line346'>Source</a></p>
+</dd>
+<dt id='oblique'>
+oblique</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontStyle.html'>FontStyle</a> oblique := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line346'>Source</a></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='FontStyle.html'>FontStyle</a>&gt;</a> vals := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line344'>Source</a></p>
+
+<p>List of FontStyle values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Font.fan.html#line342'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li><li><a href='#italic'>italic</a></li><li><a href='#normal'>normal</a></li><li><a href='#oblique'>oblique</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#isNormal'>isNormal</a></li></ul>
+</div>
+</div>
+</body>
+</html>

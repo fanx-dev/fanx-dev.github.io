@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::Err</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='Err.html'>Err</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> sys::Err</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  sys::Err</pre>
+
+<p>Err is the base class of all exceptions.</p>
+<dl>
+<dt id='cause'>
+cause</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Err.html'>Err?</a> cause()</code></p>
+
+<p>Get the underyling cause exception or null.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Str.html'>Str</a> msg := &quot;&quot;, <a href='Err.html'>Err?</a> cause := null)</code></p>
+
+<p>Construct with specified error message and optional root cause.</p>
+</dd>
+<dt id='msg'>
+msg</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> msg()</code></p>
+
+<p>Get the string message passed to the contructor or empty string if a message is not available.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Str.html'>Str</a> toStr()</code></p>
+
+<p>Return the qualified type name and optional message.</p>
+</dd>
+<dt id='trace'>
+trace</dt>
+<dd>
+<p class='sig'>
+<code> <a href='This.html'>This</a> trace()</code></p>
+
+<p>Dump the stack trace of this exception to the specified output stream (or <code>Env.cur.out</code> by default).  Return this.</p>
+
+<p>The options may be used to specify the format of the output:</p>
+
+<ul>
+<li>"maxDepth": Int specifies how many methods in each
+<pre>exception of chain to include.  If unspecified the
+default is configured from the "errTraceMaxDepth" prop
+in etc/sys/config.props.</pre>
+</li>
+</ul>
+</dd>
+<dt id='traceToStr'>
+traceToStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> traceToStr()</code></p>
+
+<p>Dump the stack trace of this exception to a Str.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#cause'>cause</a></li><li><a href='#msg'>msg</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#trace'>trace</a></li><li><a href='#traceToStr'>traceToStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

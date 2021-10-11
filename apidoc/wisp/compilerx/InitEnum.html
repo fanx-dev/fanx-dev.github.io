@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::InitEnum</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='InitEnum.html'>InitEnum</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::InitEnum</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerStep.html'>compilerx::CompilerStep</a>
+    compilerx::InitEnum</pre>
+
+<p>InitEnum is used to auto-generate EnumDefs into abstract syntax tree representation of the fields and method.</p>
+<dl>
+<dt id='addCtor'>
+addCtor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> addCtor(<a href='Loc.html'>Loc</a> loc)</code></p>
+
+<p>Add constructor or enhance existing constructor.</p>
+</dd>
+<dt id='addFromStr'>
+addFromStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> addFromStr(<a href='Loc.html'>Loc</a> loc)</code></p>
+
+<p>Add fromStr method.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CompilerContext.html'>CompilerContext</a> compiler)</code></p>
+</dd>
+<dt id='makeField'>
+makeField</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FieldDef.html'>FieldDef</a> makeField(<a href='EnumDef.html'>EnumDef</a> def)</code></p>
+
+<p>Make enum value field:  public static final Foo name = make(ord, name)</p>
+</dd>
+<dt id='makeValsField'>
+makeValsField</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FieldDef.html'>FieldDef</a> makeValsField(<a href='Loc.html'>Loc</a> loc)</code></p>
+
+<p>Make vals field: List of Enum values</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+<dt id='visitTypeDef'>
+visitTypeDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> visitTypeDef(<a href='TypeDef.html'>TypeDef</a> t)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addCtor'>addCtor</a></li><li><a href='#addFromStr'>addFromStr</a></li><li><a href='#makeField'>makeField</a></li><li><a href='#makeValsField'>makeValsField</a></li><li><a href='#run'>run</a></li><li><a href='#visitTypeDef'>visitTypeDef</a></li></ul>
+</div>
+</div>
+</body>
+</html>

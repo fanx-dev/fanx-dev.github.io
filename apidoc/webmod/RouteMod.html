@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>webmod::RouteMod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>webmod</a></li><li><a href='RouteMod.html'>RouteMod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> webmod::RouteMod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../web/WebMod.html'>web::WebMod</a>
+    webmod::RouteMod</pre>
+<p class='src'>
+<a href='src-RouteMod.fan.html'>Source</a></p>
+
+<p>RouteMod routes a level of the URI path to sub-WebMods.</p>
+
+<p>See <a href='index.html#route'>pod doc</a></p>
+<dl>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f)</code></p>
+<p class='src'>
+<a href='src-RouteMod.fan.html'>Source</a></p>
+
+<p>Constructor with it-block.</p>
+</dd>
+<dt id='onService'>
+onService</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onService()</code></p>
+<p class='src'>
+<a href='src-RouteMod.fan.html#line33'>Source</a></p>
+</dd>
+<dt id='onStart'>
+onStart</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onStart()</code></p>
+<p class='src'>
+<a href='src-RouteMod.fan.html#line49'>Source</a></p>
+
+<p>Call <code>onStart</code> on sub-mods.</p>
+</dd>
+<dt id='onStop'>
+onStop</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onStop()</code></p>
+<p class='src'>
+<a href='src-RouteMod.fan.html#line54'>Source</a></p>
+
+<p>Call <code>onStop</code> on sub-mods.</p>
+</dd>
+<dt id='routes'>
+routes</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../web/WebMod.html'>WebMod</a>&gt;</a> routes := Map&lt;Str,WebMod>[:]</code></p>
+<p class='src'>
+<a href='src-RouteMod.fan.html#line28'>Source</a></p>
+
+<p>Map of URI path names to sub-WebMods.  The name "index" is used for requests to the RouteMod itself.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-RouteMod.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#onService'>onService</a></li><li><a href='#onStart'>onStart</a></li><li><a href='#onStop'>onStop</a></li><li><a href='#routes'>routes</a></li></ul>
+</div>
+</div>
+</body>
+</html>

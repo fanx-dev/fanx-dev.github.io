@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>concurrent::Actor</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>concurrent</a></li><li><a href='Actor.html'>Actor</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> concurrent::Actor</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  concurrent::Actor</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/JsNative.html'>JsNative</a></code><br /></p>
+
+<p>Actor is a worker who processes messages asynchronously.</p>
+
+<p>See <a href='docLang::Actors'>docLang::Actors</a> and <a href='https://fantom.org/doc/examples/concurrent-actors'>examples</a>.</p>
+<dl>
+<dt id='idleMsg'>
+idleMsg</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../std/Unsafe.html'>Unsafe&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;</a> idleMsg := Unsafe&lt;Obj?>.&lt;ctor>(&quot;_idle_&quot;)</code></p>
+</dd>
+<dt id='locals'>
+locals</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> locals()</code></p>
+
+<p>Return the map of "global" variables visibile only to the current actor (similar to how thread locals work in Java).  These variables are keyed by a string name - by convention use a dotted notation beginning with your pod name to avoid naming collisions.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='ActorPool.html'>ActorPool</a> pool := ActorPool.defVal(), <a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> receive := null)</code></p>
+
+<p>Create an actor whose execution is controlled by the given ActorPool. If receive is non-null, then it is used to process messages sent to this actor.  If receive is specified then it must be an immutable function (it cannot capture state from the calling thread), otherwise NotImmutableErr is thrown.  If receive is null, then you must subclass Actor and override the <code><a href='Actor.html#receive'>receive</a></code> method.</p>
+</dd>
+<dt id='makeCoalescing'>
+makeCoalescing</dt>
+<dd>
+<p class='sig'>
+<code>new makeCoalescing(<a href='ActorPool.html'>ActorPool</a> pool, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> toKey, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='../sys/Obj.html'>Obj?</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> coalesce, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> receive := null)</code></p>
+
+<p>Create an actor with a coalescing message loop.  This constructor follows the same semantics as <code><a href='Actor.html#make'>make</a></code>, but has the ability to coalesce the messages pending in the thread's message queue.  Coalesced messages are merged into a single pending message with a shared Future.</p>
+
+<p>The <code>toKey</code> function is used to derive a key for each message, or if null then the message itself is used as the key.  If the <code>toKey</code> function returns null, then the message is not considered for coalescing. Internally messages are indexed by key for efficient coalescing.</p>
+
+<p>If an incoming message has the same key as a pending message in the queue, then the <code>coalesce</code> function is called to coalesce the messages into a new merged message.  If <code>coalesce</code> function itself is null, then we use the incoming message (last one wins).  The coalesced message occupies the same position in the queue as the original and reuses the original message's Future instance.</p>
+
+<p>Both the <code>toKey</code> and <code>coalesce</code> functions are called while holding an internal lock on the queue.  So the functions must be efficient and never attempt to interact with other actors.</p>
+</dd>
+<dt id='pool'>
+pool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ActorPool.html'>ActorPool</a> pool()</code></p>
+
+<p>The pool used to control execution of this actor.</p>
+</dd>
+<dt id='receive'>
+receive</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Obj.html'>Obj?</a> receive(<a href='../sys/Obj.html'>Obj?</a> msg)</code></p>
+
+<p>The receive behavior for this actor is handled by overriding this method or by passing a function to the constructor.  Return the result made available by the Future.  If an exception is raised by this method, then it is raised by <code>Future.get</code>.</p>
+</dd>
+<dt id='send'>
+send</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Future.html'>Future</a> send(<a href='../sys/Obj.html'>Obj?</a> msg)</code></p>
+
+<p>Asynchronously send a message to this actor for processing. If msg is not immutable, then NotImmutableErr is thrown. Throw Err if this actor's pool has been stopped.  Return a future which may be used to obtain the result once it the actor has processed the message.  If the message is coalesced then this method returns the original message's future reference. Also see <code><a href='Actor.html#sendLater'>sendLater</a></code> and <code><a href='Actor.html#sendWhenComplete'>sendWhenComplete</a></code>.</p>
+</dd>
+<dt id='sendLater'>
+sendLater</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Future.html'>Future</a> sendLater(<a href='../std/Duration.html'>Duration</a> d, <a href='../sys/Obj.html'>Obj?</a> msg)</code></p>
+
+<p>Schedule a message for delivery after the specified period of duration has elapsed.  Once the period has elapsed the message is appended to the end of this actor's queue.  Accuracy of scheduling is dependent on thread coordination and pending messages in the queue. Scheduled messages are not guaranteed to be processed if the actor's pool is stopped.  Scheduled messages are never coalesced. Also see <code><a href='Actor.html#send'>send</a></code> and <code><a href='Actor.html#sendWhenComplete'>sendWhenComplete</a></code>.</p>
+</dd>
+<dt id='sendWhenComplete'>
+sendWhenComplete</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Future.html'>Future</a> sendWhenComplete(<a href='Future.html'>Future</a> f, <a href='../sys/Obj.html'>Obj?</a> msg)</code></p>
+
+<p>Schedule a message for delivery after the given future has completed. Completion may be due to the future returning a result, throwing an exception, or cancellation.  Send-when-complete messages are never coalesced.  The given future must be an actor based future.  Also see <code><a href='Actor.html#send'>send</a></code> and <code><a href='Actor.html#sendLater'>sendLater</a></code>.</p>
+</dd>
+<dt id='sleep'>
+sleep</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> sleep(<a href='../std/Duration.html'>Duration</a> duration)</code></p>
+
+<p>Put the currently executing actor thread to sleep for the specified period.  If the thread is interrupted for any reason while sleeping, then InterruptedErr is thrown.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#idleMsg'>idleMsg</a></li><li><a href='#locals'>locals</a></li><li><a href='#make'>make</a></li><li><a href='#makeCoalescing'>makeCoalescing</a></li><li><a href='#sleep'>sleep</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#pool'>pool</a></li><li><a href='#receive'>receive</a></li><li><a href='#send'>send</a></li><li><a href='#sendLater'>sendLater</a></li><li><a href='#sendWhenComplete'>sendWhenComplete</a></li></ul>
+</div>
+</div>
+</body>
+</html>

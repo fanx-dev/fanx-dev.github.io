@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::ComplexLiteral</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='ComplexLiteral.html'>ComplexLiteral</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::ComplexLiteral</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    <a href='Expr.html'>compiler::Expr</a>
+      compiler::ComplexLiteral</pre>
+
+<p>ComplexLiteral is used to model a serialized complex object declared in facets.  It is only used in facets, in all other code complex literals are parsed as it-block ClosureExprs.</p>
+<dl>
+<dt id='doToStr'>
+doToStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> doToStr(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Str.html'>Str</a>,<a href='Expr.html'>Expr</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='CType.html'>CType</a> ctype)</code></p>
+</dd>
+<dt id='names'>
+names</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> names</code></p>
+</dd>
+<dt id='serialize'>
+serialize</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> serialize()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Expr.html'>Expr</a>&gt;</a> vals</code></p>
+</dd>
+<dt id='walkChildren'>
+walkChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> walkChildren(<a href='Visitor.html'>Visitor</a> v)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#doToStr'>doToStr</a></li><li><a href='#names'>names</a></li><li><a href='#serialize'>serialize</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#vals'>vals</a></li><li><a href='#walkChildren'>walkChildren</a></li></ul>
+</div>
+</div>
+</body>
+</html>

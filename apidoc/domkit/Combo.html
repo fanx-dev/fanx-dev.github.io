@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::Combo</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Combo.html'>Combo</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::Combo</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    domkit::Combo</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Combo.fan.html'>Source</a></p>
+
+<p>Combo combines a TextField and ListButton into a single widget that allows a user to select from a list or manually enter a value.</p>
+
+<p>See also: <a href='docDomkit::Controls#combo'>docDomkit</a></p>
+<dl>
+<dt id='enabled'>
+enabled</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool?</a> enabled</code></p>
+<p class='src'>
+<a href='src-Combo.fan.html#line68'>Source</a></p>
+</dd>
+<dt id='field'>
+field</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TextField.html'>TextField</a> field { private set }</code></p>
+<p class='src'>
+<a href='src-Combo.fan.html#line50'>Source</a></p>
+
+<p>TextField component of Combo.</p>
+</dd>
+<dt id='items'>
+items</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> items</code></p>
+<p class='src'>
+<a href='src-Combo.fan.html#line53'>Source</a></p>
+
+<p>The current list items for Combo.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-Combo.fan.html'>Source</a></p>
+</dd>
+<dt id='onElem'>
+onElem</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onElem(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Combo.fan.html#line60'>Source</a></p>
+
+<p>Callback to create an <code>Elem</code> representation for a given list item.  If function does not return an <code>Elem</code> instance, one will be created using <code>toStr</code> of value.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Combo.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#enabled'>enabled</a></li><li><a href='#field'>field</a></li><li><a href='#items'>items</a></li><li><a href='#onElem'>onElem</a></li></ul>
+</div>
+</div>
+</body>
+</html>

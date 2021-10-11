@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>TextField.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='TextField.html'>TextField</a></li><li><a href='src-TextField.fan.html'>TextField.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2014, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   21 Dec 2014  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Text field input element.</span>
+<span id='line13'>**</span>
+<span id='line14'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#textField`</span>
+<span id='line15'>**</span>
+<span id='line16'>@Js class TextField : Elem</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  new make<b>(</b><b>)</b> : super<b>(</b>"input"<b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    this.set<b>(</b>"type", "text"<b>)</b></span>
+<span id='line21'>    this.style.addClass<b>(</b>"domkit-control domkit-control-text domkit-TextField"<b>)</b></span>
+<span id='line22'>    this.onEvent<b>(</b>"input", false<b>)</b> |e|</span>
+<span id='line23'>    <b>{</b></span>
+<span id='line24'>      checkUpdate</span>
+<span id='line25'>      fireModify<b>(</b>e<b>)</b></span>
+<span id='line26'>    <b>}</b></span>
+<span id='line27'>    this.onEvent<b>(</b>"keydown", false<b>)</b> |e|</span>
+<span id='line28'>    <b>{</b></span>
+<span id='line29'>      if <b>(</b>e.key == Key.enter<b>)</b> fireAction<b>(</b>e<b>)</b></span>
+<span id='line30'>    <b>}</b></span>
+<span id='line31'>  <b>}</b></span>
+<span id='line32'></span>
+<span id='line33'>  ** Preferred width of field in columns, or 'null' for default.</span>
+<span id='line34'>  Int? cols</span>
+<span id='line35'>  <b>{</b></span>
+<span id='line36'>    get <b>{</b> this->size <b>}</b></span>
+<span id='line37'>    set <b>{</b> this->size = it <b>}</b></span>
+<span id='line38'>  <b>}</b></span>
+<span id='line39'></span>
+<span id='line40'>  ** Hint that is displayed in the field before a user enters a</span>
+<span id='line41'>  ** value that describes the expected input, or 'null' for no</span>
+<span id='line42'>  ** placeholder text.</span>
+<span id='line43'>  Str? placeholder</span>
+<span id='line44'>  <b>{</b></span>
+<span id='line45'>    get <b>{</b> this->placeholder <b>}</b></span>
+<span id='line46'>    set <b>{</b> this->placeholder = it <b>}</b></span>
+<span id='line47'>  <b>}</b></span>
+<span id='line48'></span>
+<span id='line49'>  ** Set to 'true' to set field to readonly mode.</span>
+<span id='line50'>  Bool ro</span>
+<span id='line51'>  <b>{</b></span>
+<span id='line52'>    get <b>{</b> this.prop<b>(</b>"readOnly"<b>)</b> <b>}</b></span>
+<span id='line53'>    set <b>{</b> this.setProp<b>(</b>"readOnly", it<b>)</b> <b>}</b></span>
+<span id='line54'>  <b>}</b></span>
+<span id='line55'></span>
+<span id='line56'>  ** Set to 'true' to mask characters inputed into field.</span>
+<span id='line57'>  Bool password</span>
+<span id='line58'>  <b>{</b></span>
+<span id='line59'>    get <b>{</b> this->type == "password" <b>}</b></span>
+<span id='line60'>    set <b>{</b> this->type = it ? "password" : "text" <b>}</b></span>
+<span id='line61'>  <b>}</b></span>
+<span id='line62'></span>
+<span id='line63'>  ** Value of text field.</span>
+<span id='line64'>  Str val</span>
+<span id='line65'>  <b>{</b></span>
+<span id='line66'>    get <b>{</b> this->value <b>}</b></span>
+<span id='line67'>    set <b>{</b> this->value = it; checkUpdate <b>}</b></span>
+<span id='line68'>  <b>}</b></span>
+<span id='line69'></span>
+<span id='line70'>  ** Callback when value is modified by user.</span>
+<span id='line71'>  Void onModify<b>(</b>|This| f<b>)</b> <b>{</b> this.cbModify = f <b>}</b></span>
+<span id='line72'></span>
+<span id='line73'>  ** Callback when 'enter' key is pressed.</span>
+<span id='line74'>  Void onAction<b>(</b>|This| f<b>)</b> <b>{</b> this.cbAction = f <b>}</b></span>
+<span id='line75'></span>
+<span id='line76'>  ** Select given range of text</span>
+<span id='line77'>  Void select<b>(</b>Int start, Int end<b>)</b></span>
+<span id='line78'>  <b>{</b></span>
+<span id='line79'>    setProp<b>(</b>"selectionStart", start<b>)</b></span>
+<span id='line80'>    setProp<b>(</b>"selectionEnd", end<b>)</b></span>
+<span id='line81'>  <b>}</b></span>
+<span id='line82'></span>
+<span id='line83'>  internal Void fireAction<b>(</b>Event? e<b>)</b> <b>{</b> cbAction?.call<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line84'>  private Func? cbAction := null</span>
+<span id='line85'></span>
+<span id='line86'>  internal Void fireModify<b>(</b>Event? e<b>)</b> <b>{</b> cbModify?.call<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line87'>  private Func? cbModify := null</span>
+<span id='line88'></span>
+<span id='line89'>  // framework use only</span>
+<span id='line90'>  private Void checkUpdate<b>(</b><b>)</b></span>
+<span id='line91'>  <b>{</b></span>
+<span id='line92'>    if <b>(</b>parent is Combo<b>)</b> <b>(</b><b>(</b>Combo<b>)</b>parent<b>)</b>.update<b>(</b>val.trim<b>)</b></span>
+<span id='line93'>  <b>}</b></span>
+<span id='line94'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

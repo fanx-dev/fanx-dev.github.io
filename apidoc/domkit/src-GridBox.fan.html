@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>GridBox.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='GridBox.html'>GridBox</a></li><li><a href='src-GridBox.fan.html'>GridBox.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   15 Feb 2015  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** GridBox lays its children out in a two dimensional grid.</span>
+<span id='line13'>**</span>
+<span id='line14'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Layout#gridBox`</span>
+<span id='line15'>**</span>
+<span id='line16'>@Js class GridBox : Box</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  new make<b>(</b><b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    this.table = Elem<b>(</b>"table"<b>)</b></span>
+<span id='line21'>    this.tbody = Elem<b>(</b>"tbody"<b>)</b></span>
+<span id='line22'>    table.add<b>(</b>tbody<b>)</b></span>
+<span id='line23'></span>
+<span id='line24'>    this.style.addClass<b>(</b>"domkit-GridBox"<b>)</b></span>
+<span id='line25'>    this.add<b>(</b>table<b>)</b></span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  ** How grid content is aligned horizontally against left-over</span>
+<span id='line29'>  ** space. Valid values are 'left', 'right', 'center', or 'fill'.</span>
+<span id='line30'>  Align halign := Align.left</span>
+<span id='line31'>  <b>{</b></span>
+<span id='line32'>    set</span>
+<span id='line33'>    <b>{</b></span>
+<span id='line34'>      switch <b>(</b>&amp;halign = it<b>)</b></span>
+<span id='line35'>      <b>{</b></span>
+<span id='line36'>        case Align.left:   table.style->margin = null</span>
+<span id='line37'>        case Align.center: table.style->margin = "0 auto"</span>
+<span id='line38'>        case Align.right:  table.style->margin = "0 0 0 auto"</span>
+<span id='line39'>        case Align.fill:   table.style->width  = "100%"</span>
+<span id='line40'>      <b>}</b></span>
+<span id='line41'>    <b>}</b></span>
+<span id='line42'>  <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>  **</span>
+<span id='line45'>  ** Set style for cells. Valid values for 'col' and 'row':</span>
+<span id='line46'>  **  - Specific index <b>(</b>0, 1, 2, etc<b>)</b></span>
+<span id='line47'>  **  - Range of indexes <b>(</b>0..4, 7..&lt;8, etc<b>)</b></span>
+<span id='line48'>  **  - "*":    apply to all row or columns</span>
+<span id='line49'>  **  - "even": apply only to even row or columns indexes</span>
+<span id='line50'>  **  - "odd":  apply only to odd row or column indexes</span>
+<span id='line51'>  **</span>
+<span id='line52'>  This cellStyle<b>(</b>Obj col, Obj row, Str style<b>)</b></span>
+<span id='line53'>  <b>{</b></span>
+<span id='line54'>    if <b>(</b>col is Range &amp;&amp; row is Range<b>)</b></span>
+<span id='line55'>    <b>{</b></span>
+<span id='line56'>      <b>(</b><b>(</b>Range<b>)</b>row<b>)</b>.each |r| <b>{</b></span>
+<span id='line57'>        <b>(</b><b>(</b>Range<b>)</b>col<b>)</b>.each |c| <b>{</b></span>
+<span id='line58'>          cstyleMap<b>[</b>"$c:$r"<b>]</b> = style</span>
+<span id='line59'>        <b>}</b></span>
+<span id='line60'>      <b>}</b></span>
+<span id='line61'>    <b>}</b></span>
+<span id='line62'>    else if <b>(</b>col is Range<b>)</b> <b>(</b><b>(</b>Range<b>)</b>col<b>)</b>.each |c| <b>{</b> cstyleMap<b>[</b>"$c:$row"<b>]</b> = style <b>}</b></span>
+<span id='line63'>    else if <b>(</b>row is Range<b>)</b> <b>(</b><b>(</b>Range<b>)</b>row<b>)</b>.each |r| <b>{</b> cstyleMap<b>[</b>"$col:$r"<b>]</b> = style <b>}</b></span>
+<span id='line64'>    else cstyleMap<b>[</b>"$col:$row"<b>]</b> = style</span>
+<span id='line65'>    if <b>(</b>!init<b>)</b> updateCellStyle</span>
+<span id='line66'>    return this</span>
+<span id='line67'>  <b>}</b></span>
+<span id='line68'></span>
+<span id='line69'>  ** The number of rows in this GridBox.</span>
+<span id='line70'>  Int numRows<b>(</b><b>)</b> <b>{</b> tbody.children.size <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>  ** Add a new row to grid.</span>
+<span id='line73'>  This addRow<b>(</b>Elem?<b>[</b><b>]</b> cells, Int<b>[</b><b>]</b> colspan := List.defVal<b>)</b></span>
+<span id='line74'>  <b>{</b></span>
+<span id='line75'>    _addRow<b>(</b>null, cells, colspan<b>)</b></span>
+<span id='line76'>  <b>}</b></span>
+<span id='line77'></span>
+<span id='line78'>  ** Insert row before given index.</span>
+<span id='line79'>  This insertRowBefore<b>(</b>Int index, Elem?<b>[</b><b>]</b> cells, Int<b>[</b><b>]</b> colspan := List.defVal<b>)</b></span>
+<span id='line80'>  <b>{</b></span>
+<span id='line81'>    _addRow<b>(</b>index, cells, colspan<b>)</b></span>
+<span id='line82'>  <b>}</b></span>
+<span id='line83'></span>
+<span id='line84'>  ** Add a new row to grid.</span>
+<span id='line85'>  private This _addRow<b>(</b>Int? at, Elem?<b>[</b><b>]</b> cells, Int<b>[</b><b>]</b> colspan := List.defVal<b>)</b></span>
+<span id='line86'>  <b>{</b></span>
+<span id='line87'>    r  := tbody.children.size</span>
+<span id='line88'>    cx := 0</span>
+<span id='line89'>    tr := Elem<b>(</b>"tr"<b>)</b></span>
+<span id='line90'></span>
+<span id='line91'>    cells.each |elem,c|</span>
+<span id='line92'>    <b>{</b></span>
+<span id='line93'>      td := Elem<b>(</b>"td"<b>)</b></span>
+<span id='line94'>      cs := colspan.getSafe<b>(</b>c<b>)</b></span>
+<span id='line95'>      if <b>(</b>cs != null<b>)</b> td<b>[</b>"colspan"<b>]</b> = cs.toStr</span>
+<span id='line96'>      applyCellStyle<b>(</b>c+cx, r, td<b>)</b></span>
+<span id='line97'>      if <b>(</b>elem != null<b>)</b> td.add<b>(</b>elem<b>)</b></span>
+<span id='line98'>      cx += cs==null ? 0 : cs-1</span>
+<span id='line99'>      tr.add<b>(</b>td<b>)</b></span>
+<span id='line100'>    <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>    if <b>(</b>at == null<b>)</b> tbody.add<b>(</b>tr<b>)</b></span>
+<span id='line103'>    else tbody.insertBefore<b>(</b>tr, tbody.children<b>[</b>at<b>]</b><b>)</b></span>
+<span id='line104'></span>
+<span id='line105'>    init = false</span>
+<span id='line106'>    return this</span>
+<span id='line107'>  <b>}</b></span>
+<span id='line108'></span>
+<span id='line109'>  ** Return the row index that this child exists under, or</span>
+<span id='line110'>  ** 'null' if child was not found in this GridBox.</span>
+<span id='line111'>  Int? rowIndexOf<b>(</b>Elem child<b>)</b></span>
+<span id='line112'>  <b>{</b></span>
+<span id='line113'>    tbody.children.findIndex |row|</span>
+<span id='line114'>    <b>{</b></span>
+<span id='line115'>      row.containsChild<b>(</b>child<b>)</b></span>
+<span id='line116'>    <b>}</b></span>
+<span id='line117'>  <b>}</b></span>
+<span id='line118'></span>
+<span id='line119'>  ** Remove the row of cells at given index.</span>
+<span id='line120'>  This removeRow<b>(</b>Int index<b>)</b></span>
+<span id='line121'>  <b>{</b></span>
+<span id='line122'>    row := tbody.children.getSafe<b>(</b>index<b>)</b></span>
+<span id='line123'>    if <b>(</b>row != null<b>)</b> tbody.removeChild<b>(</b>row<b>)</b></span>
+<span id='line124'>    return this</span>
+<span id='line125'>  <b>}</b></span>
+<span id='line126'></span>
+<span id='line127'>  ** Remove all rows of cells for this GridBox.</span>
+<span id='line128'>  This removeAllRows<b>(</b><b>)</b></span>
+<span id='line129'>  <b>{</b></span>
+<span id='line130'>    tbody.removeAll</span>
+<span id='line131'>    return this</span>
+<span id='line132'>  <b>}</b></span>
+<span id='line133'></span>
+<span id='line134'>  ** Update cell styles on existing children.</span>
+<span id='line135'>  private Void updateCellStyle<b>(</b><b>)</b></span>
+<span id='line136'>  <b>{</b></span>
+<span id='line137'>    tbody.children.each |tr,r|</span>
+<span id='line138'>    <b>{</b></span>
+<span id='line139'>      tr.children.each |td,c| <b>{</b> applyCellStyle<b>(</b>c, r, td<b>)</b> <b>}</b></span>
+<span id='line140'>    <b>}</b></span>
+<span id='line141'>  <b>}</b></span>
+<span id='line142'></span>
+<span id='line143'>  ** Find all styles to apply this to cell.</span>
+<span id='line144'>  private Void applyCellStyle<b>(</b>Int c, Int r, Elem td<b>)</b></span>
+<span id='line145'>  <b>{</b></span>
+<span id='line146'>    // all</span>
+<span id='line147'>    setCellStyle<b>(</b>"*:*", td<b>)</b></span>
+<span id='line148'></span>
+<span id='line149'>    // even/odd</span>
+<span id='line150'>    calt := c.isOdd ? "odd" : "even"</span>
+<span id='line151'>    ralt := r.isOdd ? "odd" : "even"</span>
+<span id='line152'>    setCellStyle<b>(</b>"*:$ralt",   td<b>)</b></span>
+<span id='line153'>    setCellStyle<b>(</b>"$calt:*",   td<b>)</b></span>
+<span id='line154'>    setCellStyle<b>(</b>"$calt:$ralt", td<b>)</b></span>
+<span id='line155'></span>
+<span id='line156'>    // row index</span>
+<span id='line157'>    setCellStyle<b>(</b>"*:$r",   td<b>)</b></span>
+<span id='line158'>    setCellStyle<b>(</b>"$calt:$r", td<b>)</b></span>
+<span id='line159'></span>
+<span id='line160'>    // col index</span>
+<span id='line161'>    setCellStyle<b>(</b>"$c:*",  td<b>)</b></span>
+<span id='line162'>    setCellStyle<b>(</b>"$c:$ralt", td<b>)</b></span>
+<span id='line163'></span>
+<span id='line164'>    // cell index</span>
+<span id='line165'>    setCellStyle<b>(</b>"$c:$r", td<b>)</b></span>
+<span id='line166'>  <b>}</b></span>
+<span id='line167'></span>
+<span id='line168'>  ** Set cell style key on element.</span>
+<span id='line169'>  private Void setCellStyle<b>(</b>Str key, Elem td<b>)</b></span>
+<span id='line170'>  <b>{</b></span>
+<span id='line171'>    s := cstyleMap<b>[</b>key<b>]</b></span>
+<span id='line172'>    if <b>(</b>s != null<b>)</b> td.style.setCss<b>(</b>s<b>)</b></span>
+<span id='line173'>  <b>}</b></span>
+<span id='line174'></span>
+<span id='line175'>  private Elem table</span>
+<span id='line176'>  private Elem tbody</span>
+<span id='line177'>  private Bool init := true</span>
+<span id='line178'>  private Str:Str cstyleMap := <b>[</b>:<b>]</b></span>
+<span id='line179'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

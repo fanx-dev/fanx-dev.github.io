@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::Serializable</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='Serializable.html'>Serializable</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>facet const class</span> sys::Serializable</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  sys::Serializable : <a href='Facet.html'>sys::Facet</a></pre>
+<p class='facets'>
+<code class='sig'>@<a href='FacetMeta.html'>FacetMeta</a> { inherited=true }</code><br /><code class='sig'>@<a href='Serializable.html'>Serializable</a></code><br /></p>
+
+<p>Serializable is a facet used to annotate types which can be serialized. Objects are serialized via <a href='sys::OutStream.writeObj'>sys::OutStream.writeObj</a> and deserialized via <a href='sys::InStream.readObj'>sys::InStream.readObj</a>.</p>
+
+<p>See the <a href='docLang::Serialization'>Serialization Doc</a> for details.</p>
+<dl>
+<dt id='collection'>
+collection</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='Bool.html'>Bool</a> collection := false</code></p>
+
+<p>Collections are serializabled with a collection of child objects using the following  rules where <code>Item</code> is the item type:</p>
+
+<ul>
+<li>Provide an <code>add(Item)</code> method to add child items during <code>readObj</code></li>
+
+<li>Provide an <code>each(|Item| f)</code> method to iterate children item during <code>writeObj</code></li>
+</ul>
+</dd>
+<dt id='simple'>
+simple</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='Bool.html'>Bool</a> simple := false</code></p>
+
+<p>Simples are serialized atomically via a customized string representation using the following rules:</p>
+
+<ul>
+<li>Override <code><a href='Obj.html#toStr'>Obj.toStr</a></code> to return a suitable string representation of the object.</li>
+
+<li>Must declare a static method called <code>fromStr</code> which takes one <code>Str</code> parameter and returns an instance of the declaring type.  The <code>fromStr</code> method may contain additional parameters if they declare defaults.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#collection'>collection</a></li><li><a href='#simple'>simple</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>wisp::WispSessionStore</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>wisp</a></li><li><a href='WispSessionStore.html'>WispSessionStore</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const mixin</span> wisp::WispSessionStore</h1>
+<pre>wisp::WispSessionStore</pre>
+<p class='src'>
+<a href='src-WispSessionStore.fan.html'>Source</a></p>
+
+<p>Pluggable hooks for Wisp session storage.</p>
+<dl>
+<dt id='delete'>
+delete</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> delete(<a href='../sys/Str.html'>Str</a> id)</code></p>
+<p class='src'>
+<a href='src-WispSessionStore.fan.html#line33'>Source</a></p>
+
+<p>Delete any resources used by the given session id</p>
+</dd>
+<dt id='load'>
+load</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> load(<a href='../sys/Str.html'>Str</a> id)</code></p>
+<p class='src'>
+<a href='src-WispSessionStore.fan.html#line26'>Source</a></p>
+
+<p>Load the session map for the given id, or if it doesn't exist then create a new one.</p>
+</dd>
+<dt id='onStart'>
+onStart</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onStart()</code></p>
+<p class='src'>
+<a href='src-WispSessionStore.fan.html'>Source</a></p>
+
+<p>Callback when WispService is started</p>
+</dd>
+<dt id='onStop'>
+onStop</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onStop()</code></p>
+<p class='src'>
+<a href='src-WispSessionStore.fan.html#line23'>Source</a></p>
+
+<p>Callback when WispService is stopped</p>
+</dd>
+<dt id='save'>
+save</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> save(<a href='../sys/Str.html'>Str</a> id, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> map)</code></p>
+<p class='src'>
+<a href='src-WispSessionStore.fan.html#line30'>Source</a></p>
+
+<p>Save the given session map by session id.</p>
+</dd>
+<dt id='service'>
+service</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='WispService.html'>WispService</a> service()</code></p>
+<p class='src'>
+<a href='src-WispSessionStore.fan.html'>Source</a></p>
+
+<p>Parent web service</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-WispSessionStore.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#delete'>delete</a></li><li><a href='#load'>load</a></li><li><a href='#onStart'>onStart</a></li><li><a href='#onStop'>onStop</a></li><li><a href='#save'>save</a></li><li><a href='#service'>service</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fandoc</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>pod</span> fandoc</h1>
+<p>
+Fandoc parser and DOM</p>
+<h2>Mixins</h2>
+<table>
+<tr>
+<td><a href='DocWriter.html'>DocWriter</a></td>
+<td>
+<p>DocWriter is used to output a fandoc model using a series of callbacks.</p>
+</td>
+</tr>
+</table>
+<h2>Classes</h2>
+<table>
+<tr>
+<td><a href='BlockQuote.html'>BlockQuote</a></td>
+<td>
+<p>BlockQuote models a block of quoted text.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Code.html'>Code</a></td>
+<td>
+<p>Code is inline code</p>
+</td>
+</tr>
+<tr>
+<td><a href='Doc.html'>Doc</a></td>
+<td>
+<p>Doc models the top level node of a fandoc document.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocElem.html'>DocElem</a></td>
+<td>
+<p>DocElem is a container node which models a branch of the doc tree.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocNode.html'>DocNode</a></td>
+<td>
+<p>DocNode is the base class for nodes in a fandoc model.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DocText.html'>DocText</a></td>
+<td>
+<p>DocText segment.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Emphasis.html'>Emphasis</a></td>
+<td>
+<p>Emphasis is italic text</p>
+</td>
+</tr>
+<tr>
+<td><a href='FandocDocWriter.html'>FandocDocWriter</a></td>
+<td>
+<p>FandocDocWriter outputs a fandoc model to plain text fandoc format</p>
+</td>
+</tr>
+<tr>
+<td><a href='FandocParser.html'>FandocParser</a></td>
+<td>
+<p>FandocParser translate fandoc text into an in-memory representation of the document.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Heading.html'>Heading</a></td>
+<td>
+<p>Heading</p>
+</td>
+</tr>
+<tr>
+<td><a href='Hr.html'>Hr</a></td>
+<td>
+<p>Hr models a horizontal rule.</p>
+</td>
+</tr>
+<tr>
+<td><a href='HtmlDocWriter.html'>HtmlDocWriter</a></td>
+<td>
+<p>HtmlDocWriter outputs a fandoc model to XHTML</p>
+</td>
+</tr>
+<tr>
+<td><a href='Image.html'>Image</a></td>
+<td>
+<p>Image is a reference to an image file</p>
+</td>
+</tr>
+<tr>
+<td><a href='Link.html'>Link</a></td>
+<td>
+<p>Link is a hyperlink.</p>
+</td>
+</tr>
+<tr>
+<td><a href='ListItem.html'>ListItem</a></td>
+<td>
+<p>ListItem is an item in an OrderedList and UnorderedList.</p>
+</td>
+</tr>
+<tr>
+<td><a href='MarkdownDocWriter.html'>MarkdownDocWriter</a></td>
+<td>
+<p>MarkdownDocWriter outputs a fandoc model to <a href='http://daringfireball.net/projects/markdown/'>Markdown</a></p>
+</td>
+</tr>
+<tr>
+<td><a href='OrderedList.html'>OrderedList</a></td>
+<td>
+<p>OrderedList models a numbered list</p>
+</td>
+</tr>
+<tr>
+<td><a href='Para.html'>Para</a></td>
+<td>
+<p>Para models a paragraph of text.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Pre.html'>Pre</a></td>
+<td>
+<p>Pre models a pre-formated code block.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Strong.html'>Strong</a></td>
+<td>
+<p>Strong is bold text</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnorderedList.html'>UnorderedList</a></td>
+<td>
+<p>UnorderedList models a bullet list</p>
+</td>
+</tr>
+</table>
+<h2>Enums</h2>
+<table>
+<tr>
+<td><a href='DocNodeId.html'>DocNodeId</a></td>
+<td>
+<p>DocNodeId</p>
+</td>
+</tr>
+<tr>
+<td><a href='OrderedListStyle.html'>OrderedListStyle</a></td>
+<td>
+<p>OrderedListStyle</p>
+</td>
+</tr>
+</table>
+<h2>Errs</h2>
+<table>
+<tr>
+<td><a href='FandocErr.html'>FandocErr</a></td>
+<td>
+<p>FandocErr</p>
+</td>
+</tr>
+</table>
+</div>
+<div class='sidebar'>
+<h3>All Types</h3>
+<ul>
+<li><a href='BlockQuote.html'>BlockQuote</a></li><li><a href='Code.html'>Code</a></li><li><a href='Doc.html'>Doc</a></li><li><a href='DocElem.html'>DocElem</a></li><li><a href='DocNode.html'>DocNode</a></li><li><a href='DocNodeId.html'>DocNodeId</a></li><li><a href='DocText.html'>DocText</a></li><li><a href='DocWriter.html'>DocWriter</a></li><li><a href='Emphasis.html'>Emphasis</a></li><li><a href='FandocDocWriter.html'>FandocDocWriter</a></li><li><a href='FandocErr.html'>FandocErr</a></li><li><a href='FandocParser.html'>FandocParser</a></li><li><a href='Heading.html'>Heading</a></li><li><a href='Hr.html'>Hr</a></li><li><a href='HtmlDocWriter.html'>HtmlDocWriter</a></li><li><a href='Image.html'>Image</a></li><li><a href='Link.html'>Link</a></li><li><a href='ListItem.html'>ListItem</a></li><li><a href='MarkdownDocWriter.html'>MarkdownDocWriter</a></li><li><a href='OrderedList.html'>OrderedList</a></li><li><a href='OrderedListStyle.html'>OrderedListStyle</a></li><li><a href='Para.html'>Para</a></li><li><a href='Pre.html'>Pre</a></li><li><a href='Strong.html'>Strong</a></li><li><a href='UnorderedList.html'>UnorderedList</a></li></ul>
+</div>
+</div>
+<div class='mainSidebar'>
+<div class='main pod-doc' id='pod-doc'>
+
+<h2 id='overview'>Overview</h2>
+
+<p>Fandoc is documentation format written in plaintext similiar to <a href='http://daringfireball.net/projects/markdown/'>Markdown</a>.  Fandoc is the format used for:</p>
+
+<ul>
+<li>Fantom source code documentation via the <code>**</code> <a href='docLang::CompilationUnits#comments'>comment</a></li>
+
+<li>All the documentation manuals (including this document itself)</li>
+
+<li>Comments on fantom.org discussion groups</li>
+</ul>
+
+<p>You can use the <a href='index.html#api'>fandoc APIs</a> to parse fandoc plaintext into a document object model and generate HTML.</p>
+
+<h2 id='header'>Header</h2>
+
+<p>The begining of a Fandoc document may be prefixed with a header block.  The header block includes a series of lines which begin with <code>**</code>.  If the line includes a colon, then it is added a key/value pair to <code><a href='Doc.html#meta'>Doc.meta</a></code>.  For example, we use the following header in the standard documentation:</p>
+
+<pre>**************************************************************************
+** title:      Fandoc
+** author:     Brian Frank
+** created:    10 Apr 08
+** copyright:  Copyright (c) 2008, Brian Frank and Andy Frank
+** license:    Licensed under the Academic Free License version 3.0
+**************************************************************************
+</pre>
+
+<h2 id='inline'>Inline Formatting</h2>
+
+<pre>- Inline code: 'FandocParser'
+- Strong: **foo bar**
+- Emphasis: *foo bar*
+- Strong+Emphasis: ** *foo bar* **
+- Hyperlink: `https://fantom.org/`
+- Hyperlink: [Fantom Home Page]`https://fantom.org/`
+</pre>
+
+<ul>
+<li>Code inline: <code>FandocParser</code></li>
+
+<li>Strong: <strong>foo bar</strong></li>
+
+<li>Emphasis: <em>foo bar</em></li>
+
+<li>Strong+Emphasis: <strong> <em>foo bar</em> </strong></li>
+
+<li>Hyperlink: <a href='https://fantom.org/'>https://fantom.org/</a></li>
+
+<li>Hyperlink: <a href='https://fantom.org/'>Fantom Home Page</a></li>
+</ul>
+
+<h2 id='p'>Paragraphs</h2>
+
+<p>Paragraphs are separated by a blank line:</p>
+
+<pre>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+nisi ut aliquip ex ea commodo consequat.
+</pre>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+<h2 id='pre'>Preformatted</h2>
+
+<p>When documenting a programming language, you tend to include lots of code snippets.  Anything indented two or more spaces is considered preformatted (like the pre tag in HTML).  Preformatted code cannot start with a dash/space, number/dot/space, or letter/dot/space otherwise it considerded a list:</p>
+
+<pre>Examples:
+  "abcd"[0..2]   => "abc"
+  "abcd"[3..3]   => "d"
+  "abcd"[-2..-1] => "cd"
+</pre>
+
+<p>Examples:</p>
+
+<pre>"abcd"[0..2]   => "abc"
+"abcd"[3..3]   => "d"
+"abcd"[-2..-1] => "cd"</pre>
+
+<p>You can also denote a block of text as preformatted by wrapping it with the special tokens <code>pre></code> and <code>&lt;pre</code>:</p>
+
+<pre>pre>
+- No markup
+- I mean it!
+&lt;pre
+</pre>
+
+<pre>- No markup
+- I mean it!
+</pre>
+
+<p>Blocks annotated with the <code>pre></code> token are trimmed based on the line with the left most margin.</p>
+
+<h2 id='ul'>Unordered List</h2>
+
+<p>Unordered lists use a dash followed by a space.  Use indentation to indicate list hierarchy (two or more spaces):</p>
+
+<pre>- item 1
+- item 2
+- item 3
+   - sub 3a
+   - sub 3b
+- item 4
+</pre>
+
+<ul>
+<li>item 1</li>
+
+<li>item 2</li>
+
+<li>item 3
+<ul>
+<li>sub 3a</li>
+
+<li>sub 3b</li>
+</ul>
+</li>
+
+<li>item 4</li>
+</ul>
+
+<h2 id='ol'>Ordered List</h2>
+
+<p>Ordered lists use an identifier followed by a dot and space.  The identifier can be a number, letter, or roman numeral (lower or upper case).  Use indentation to indicate list hierarchy (two or more spaces):</p>
+
+<pre>I. Chapter I
+  1. Section 1
+  2. Section 2
+    a. Subsection a
+    b. Subsection b
+II. Chapter II
+  A. Section A
+  B. Section B
+    i. Subsection i
+    ii.Subsection ii
+</pre>
+
+<ol style='list-style-type:upper-roman'>
+<li>Chapter I
+<ol style='list-style-type:decimal'>
+<li>Section 1</li>
+
+<li>Section 2
+<ol style='list-style-type:lower-alpha'>
+<li>Subsection a</li>
+
+<li>Subsection b</li>
+</ol>
+</li>
+</ol>
+</li>
+
+<li>Chapter II
+<ol style='list-style-type:upper-alpha'>
+<li>Section A</li>
+
+<li>Section B
+<ol style='list-style-type:lower-roman'>
+<li>Subsection i</li>
+
+<li>Subsection ii</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+<h2 id='hr'>Horizontal Rules</h2>
+
+<p>Horizontal rules start with <code>---</code>, and must be preceded by a blank line:</p>
+
+<pre>Above the rule
+
+---
+
+Below the rule
+</pre>
+
+<p>Above the rule</p>
+
+<hr/>
+
+<p>Below the rule</p>
+
+<h2 id='blockQuotes'>Block Quotes</h2>
+
+<p>Block quotes start the first line (or every line) of the paragraph with the ">" character followed by a space:</p>
+
+<pre>> Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+nisi ut aliquip ex ea commodo consequat.
+</pre>
+
+<blockquote>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</blockquote>
+
+<h2 id='images'>Images</h2>
+
+<p>Images use the same syntax as a hyperlink with anchor text, but are prefixed with a bang:</p>
+
+<pre>![fan logo]`https://fantom.org/pod/fantomws/res/img/fantom.png`
+</pre>
+
+<p><img src='https://fantom.org/pod/fantomws/res/img/fantom.png' alt='fan logo'/></p>
+
+<p>You can set an explicit size for the image as follows:</p>
+
+<pre>![fan logo][80x18]`https://fantom.org/pod/fantomws/res/img/fantom.png`
+</pre>
+
+<p><img src='https://fantom.org/pod/fantomws/res/img/fantom.png' alt='fan logo' width='80' height='18'/></p>
+
+<p>You can make an image a link as follows with no spaces between the brackets:</p>
+
+<pre>[![alt]`https://fantom.org/pod/fantomws/res/img/fantom.png`]`https://fantom.org/`
+</pre>
+
+<p><a href='https://fantom.org/'><img src='https://fantom.org/pod/fantomws/res/img/fantom.png' alt='alt'/></a></p>
+
+<h2 id='headings'>Headings</h2>
+
+<p>Headings are a title line followed by an "underline".  Documentation should define an anchor id for each heading:</p>
+
+<pre>Ex Heading 1 [#h1]
+##################
+
+Ex Heading 2 [#h2]
+******************
+
+Ex Heading 3 [#h3]
+==================
+
+Ex Heading 4 [#h4]
+------------------
+</pre>
+
+<h1 id='h1'>Ex Heading 1</h1>
+
+<h2 id='h2'>Ex Heading 2</h2>
+
+<h3 id='h3'>Ex Heading 3</h3>
+
+<h4 id='h4'>Ex Heading 4</h4>
+
+<p>Note: By convention top level sections of a chapter use heading level 2. Heading level 1 is reserved for the chapter title.</p>
+
+<h2 id='hyperlinks'>Hyperlinks</h2>
+
+<p>The <a href='../compilerDoc/index.html'>compilerDoc</a> pod is used to compile API or stand-alone documentation.  It allows you to use abstract uris to create cross reference hyperlinks.  During the compilation these uris are translated into relative links to the appropiate HTML files.  Hyperlinks to types and slots are automatically formatted as inline code.</p>
+
+<pre>**APIs:**
+- `sys::index`: pod index
+- `web::pod-doc`: pod documentation
+- `sys::Str`: API for type
+- `sys::Str.getRange`: API for slot
+- `Int`: API for type (internal to pod)
+- `Int.toHex` API for slot (internal to pod)
+- [now]`sys::Duration.now` API with achor text
+
+**Manuals:**
+- `docLang::index`: pod index
+- `docLang::Closures`: chapter
+- `docLang::Closures#syntax`: anchor within chapter
+- `Env`: chapter (internal to pod)
+- `Env#index`: anchor within chapter (internal to pod)
+</pre>
+
+<p><strong>APIs:</strong></p>
+
+<ul>
+<li><a href='../sys/index.html'>sys</a>: pod index</li>
+
+<li><a href='../web/index.html'>Web</a>: pod documentation</li>
+
+<li><code><a href='../sys/Str.html'>Str</a></code>: API for type</li>
+
+<li><code><a href='../sys/Str.html#getRange'>Str.getRange</a></code>: API for slot</li>
+
+<li><code><a href='../sys/Int.html'>Int</a></code>: API for type (internal to pod)</li>
+
+<li><code><a href='../sys/Int.html#toHex'>Int.toHex</a></code> API for slot (internal to pod)</li>
+
+<li><a href='sys::Duration.now'>now</a> API with achor text</li>
+</ul>
+
+<p><strong>Manuals:</strong></p>
+
+<ul>
+<li><a href='docLang::index'>docLang::index</a>: pod index</li>
+
+<li><a href='docLang::Closures'>docLang::Closures</a>: chapter</li>
+
+<li><a href='docLang::Closures#syntax'>docLang::Closures#syntax</a>: anchor within chapter</li>
+
+<li><a href='docLang::Env'>Env</a>: chapter (internal to pod)</li>
+
+<li><a href='docLang::Env#index'>Env#index</a>: anchor within chapter (internal to pod)</li>
+</ul>
+
+<h2 id='api'>Fandoc API</h2>
+
+<p>The <code><a href='FandocParser.html'>FandocParser</a></code> class is used to parse fandoc plaintext into a document object model.  The <code><a href='DocNode.html'>DocNode</a></code> is the base class of all nodes in the document tree.  The tree is organized as subclasses of <code><a href='DocElem.html'>DocElems</a></code>.  The leaves of the tree which contain the actual text content are <code><a href='DocText.html'>DocText</a></code>.</p>
+
+<p>Once a tree has been parsed into a DOM, you can translate into alternate formats via the <code><a href='DocWriter.html'>DocWriter</a></code> class.  You can use <code><a href='HtmlDocWriter.html'>HtmlDocWriter</a></code> to translate to XHTML:</p>
+
+<pre>// parse into document tree
+doc := FandocParser.make.parseStr("you want to do *what*!")
+
+// write as html snippet (we don't write the
+// document itself, just its children)
+doc.writeChildren(HtmlDocWriter.make)
+
+// outputs
+&lt;p>you want to do &lt;em>what&lt;/em>!&lt;/p>
+
+// write as full html document with head/body tags
+doc.write(HtmlDocWriter.make)
+
+// outputs
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+&lt;html>
+&lt;head>
+  &lt;meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+&lt;/head>
+&lt;body>
+&lt;p>you want to do &lt;em>what&lt;/em>!&lt;/p>
+&lt;/body></pre>
+</div>
+<div class='sidebar'>
+<h3>Contents</h3>
+<ul>
+<li><a href='#overview'>Overview</a></li><li><a href='#header'>Header</a></li><li><a href='#inline'>Inline Formatting</a></li><li><a href='#p'>Paragraphs</a></li><li><a href='#pre'>Preformatted</a></li><li><a href='#ul'>Unordered List</a></li><li><a href='#ol'>Ordered List</a></li><li><a href='#hr'>Horizontal Rules</a></li><li><a href='#blockQuotes'>Block Quotes</a></li><li><a href='#images'>Images</a></li><li><a href='#headings'>Headings</a></li><li><a href='#h1'>Ex Heading 1</a><ul>
+<li><a href='#h2'>Ex Heading 2</a><ul>
+<li><a href='#h3'>Ex Heading 3</a><ul>
+<li><a href='#h4'>Ex Heading 4</a></li></ul>
+</li></ul>
+</li><li><a href='#hyperlinks'>Hyperlinks</a></li><li><a href='#api'>Fandoc API</a></li></ul>
+</li></ul>
+</div>
+</div>
+</body>
+</html>

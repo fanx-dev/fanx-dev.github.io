@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::ClosureExpr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='ClosureExpr.html'>ClosureExpr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::ClosureExpr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compilerx::Node</a>
+    <a href='Expr.html'>compilerx::Expr</a>
+      compilerx::ClosureExpr</pre>
+
+<p>ClosureExpr is an "inlined anonymous method" which closes over it's lexical scope.  ClosureExpr is placed into the AST by the parser with the code field containing the method implementation.  In InitClosures we remap a ClosureExpr to an anonymous class TypeDef which extends Func.  The function implementation is moved to the anonymous class's doCall() method.  However we leave ClosureExpr in the AST in it's original location with a substitute expression. The substitute expr just creates an instance of the anonymous class. But by leaving the ClosureExpr in the tree, we can keep track of the original lexical scope of the closure.</p>
+<dl>
+<dt id='call'>
+call</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> call</code></p>
+</dd>
+<dt id='cls'>
+cls</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TypeDef.html'>TypeDef?</a> cls</code></p>
+</dd>
+<dt id='code'>
+code</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Block.html'>Block?</a> code</code></p>
+</dd>
+<dt id='collapseExprAndParams'>
+collapseExprAndParams</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> collapseExprAndParams(<a href='MethodDef.html'>MethodDef</a> m, <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> addParams)</code></p>
+</dd>
+<dt id='collapseExprAndReturn'>
+collapseExprAndReturn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> collapseExprAndReturn(<a href='MethodDef.html'>MethodDef</a> m)</code></p>
+</dd>
+<dt id='doCall'>
+doCall</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> doCall</code></p>
+</dd>
+<dt id='enclosingClosure'>
+enclosingClosure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ClosureExpr.html'>ClosureExpr?</a> enclosingClosure</code></p>
+</dd>
+<dt id='enclosingSlot'>
+enclosingSlot</dt>
+<dd>
+<p class='sig'>
+<code> <a href='SlotDef.html'>SlotDef</a> enclosingSlot</code></p>
+</dd>
+<dt id='enclosingType'>
+enclosingType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TypeDef.html'>TypeDef</a> enclosingType</code></p>
+</dd>
+<dt id='enclosingVars'>
+enclosingVars</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='MethodVar.html'>MethodVar</a>&gt;?</a> enclosingVars</code></p>
+</dd>
+<dt id='followCtorType'>
+followCtorType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType?</a> followCtorType</code></p>
+</dd>
+<dt id='getChildren'>
+getChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> getChildren(<a href='../sys/List.html'>List&lt;<a href='CNode.html'>CNode</a>&gt;</a> list, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options)</code></p>
+</dd>
+<dt id='isDefiniteAssign'>
+isDefiniteAssign</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isDefiniteAssign(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='Expr.html'>Expr</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='isItBlock'>
+isItBlock</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isItBlock</code></p>
+</dd>
+<dt id='itType'>
+itType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType?</a> itType</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='TypeDef.html'>TypeDef</a> enclosingType, <a href='SlotDef.html'>SlotDef</a> enclosingSlot, <a href='ClosureExpr.html'>ClosureExpr?</a> enclosingClosure, <a href='FuncTypeDef.html'>FuncTypeDef</a> signature, <a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='outerThisField'>
+outerThisField</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CField.html'>CField</a> outerThisField()</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='setInferredSignature'>
+setInferredSignature</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setInferredSignature(<a href='CType.html'>CType</a> t, <a href='CNamespace.html'>CNamespace</a> ns)</code></p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FuncTypeDef.html'>FuncTypeDef</a> signature</code></p>
+</dd>
+<dt id='substitute'>
+substitute</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr?</a> substitute</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='toWith'>
+toWith</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr</a> toWith(<a href='Expr.html'>Expr</a> target, <a href='CMethod.html'>CMethod</a> with, <a href='CNamespace.html'>CNamespace</a> ns)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#call'>call</a></li><li><a href='#cls'>cls</a></li><li><a href='#code'>code</a></li><li><a href='#collapseExprAndParams'>collapseExprAndParams</a></li><li><a href='#collapseExprAndReturn'>collapseExprAndReturn</a></li><li><a href='#doCall'>doCall</a></li><li><a href='#enclosingClosure'>enclosingClosure</a></li><li><a href='#enclosingSlot'>enclosingSlot</a></li><li><a href='#enclosingType'>enclosingType</a></li><li><a href='#enclosingVars'>enclosingVars</a></li><li><a href='#followCtorType'>followCtorType</a></li><li><a href='#getChildren'>getChildren</a></li><li><a href='#isDefiniteAssign'>isDefiniteAssign</a></li><li><a href='#isItBlock'>isItBlock</a></li><li><a href='#itType'>itType</a></li><li><a href='#name'>name</a></li><li><a href='#outerThisField'>outerThisField</a></li><li><a href='#print'>print</a></li><li><a href='#setInferredSignature'>setInferredSignature</a></li><li><a href='#signature'>signature</a></li><li><a href='#substitute'>substitute</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#toWith'>toWith</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::Gesture</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='Gesture.html'>Gesture</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::Gesture</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGui::Gesture</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<dl>
+<dt id='currentState'>
+currentState</dt>
+<dd>
+<p class='sig'>
+<code> <a href='GestureState.html'>GestureState</a> currentState := defaultState { private set }</code></p>
+</dd>
+<dt id='defaultState'>
+defaultState</dt>
+<dd>
+<p class='sig'>
+<code> <a href='GestureState.html'>GestureState</a> defaultState := NoneState.&lt;ctor>(this)</code></p>
+</dd>
+<dt id='doubleClickTimeLimt'>
+doubleClickTimeLimt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> doubleClickTimeLimt := 150</code></p>
+</dd>
+<dt id='firstTouchTime'>
+firstTouchTime</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> firstTouchTime := 0</code></p>
+</dd>
+<dt id='history'>
+history</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a>&gt;</a> history := MotionEvent[,]</code></p>
+</dd>
+<dt id='lastTouchTime'>
+lastTouchTime</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> lastTouchTime := 0</code></p>
+</dd>
+<dt id='longPressTimeLimit'>
+longPressTimeLimit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> longPressTimeLimit := 600</code></p>
+</dd>
+<dt id='onEvent'>
+onEvent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onEvent(<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+</dd>
+<dt id='onFinished'>
+onFinished</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onFinished(<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+</dd>
+<dt id='onGestureEvent'>
+onGestureEvent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onGestureEvent := EventListeners.&lt;ctor>()</code></p>
+</dd>
+<dt id='setCurrentState'>
+setCurrentState</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setCurrentState(<a href='GestureState.html'>GestureState</a> newState, <a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+</dd>
+<dt id='shortPressTimeLimit'>
+shortPressTimeLimit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> shortPressTimeLimit := 150</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#currentState'>currentState</a></li><li><a href='#defaultState'>defaultState</a></li><li><a href='#doubleClickTimeLimt'>doubleClickTimeLimt</a></li><li><a href='#firstTouchTime'>firstTouchTime</a></li><li><a href='#history'>history</a></li><li><a href='#lastTouchTime'>lastTouchTime</a></li><li><a href='#longPressTimeLimit'>longPressTimeLimit</a></li><li><a href='#onEvent'>onEvent</a></li><li><a href='#onFinished'>onFinished</a></li><li><a href='#onGestureEvent'>onGestureEvent</a></li><li><a href='#setCurrentState'>setCurrentState</a></li><li><a href='#shortPressTimeLimit'>shortPressTimeLimit</a></li></ul>
+</div>
+</div>
+</body>
+</html>

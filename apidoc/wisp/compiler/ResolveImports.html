@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::ResolveImports</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='ResolveImports.html'>ResolveImports</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::ResolveImports</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    <a href='CompilerStep.html'>compiler::CompilerStep</a>
+      compiler::ResolveImports</pre>
+
+<p>ResolveImports maps every Using node in each CompilationUnit to a pod and ensures that it exists and that no imports are duplicated.  Then we create a map for all the types which are imported into the CompilationUnit so that the Parser can quickly distinguish between a type identifier and other identifiers.  The results of this step populate Using.resolvedXXX and CompilationUnit.importedTypes.</p>
+<dl>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler)</code></p>
+
+<p>Constructor takes the associated Compiler</p>
+</dd>
+<dt id='resolvePod'>
+resolvePod</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CPod.html'>CPod?</a> resolvePod(<a href='CompilerSupport.html'>CompilerSupport</a> cs, <a href='../sys/Str.html'>Str</a> podName, <a href='Loc.html'>Loc</a> loc)</code></p>
+
+<p>Resolve a pod name into its CPod representation.  If pod cannot be resolved then log an error and return null.</p>
+</dd>
+<dt id='resolveQualified'>
+resolveQualified</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> resolveQualified(<a href='CompilerSupport.html'>CompilerSupport</a> cs, <a href='../sys/Str.html'>Str</a> podName, <a href='../sys/Str.html'>Str</a> typeName, <a href='Loc.html'>Loc</a> loc)</code></p>
+
+<p>Resolve a fully qualified type name into its CType representation. This may be a TypeDef within the compilation units or could be an imported type.  If the type name cannot be resolved then we log an error and return null.</p>
+</dd>
+<dt id='resolved'>
+resolved</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CPod.html'>CPod</a>&gt;</a> resolved := Map&lt;Str,CPod>[:]</code></p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run the step</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#resolvePod'>resolvePod</a></li><li><a href='#resolveQualified'>resolveQualified</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#resolved'>resolved</a></li><li><a href='#run'>run</a></li></ul>
+</div>
+</div>
+</body>
+</html>

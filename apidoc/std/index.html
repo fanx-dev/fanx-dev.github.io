@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>pod</span> std</h1>
+<p>
+system std lib</p>
+<h2>Mixins</h2>
+<table>
+<tr>
+<td><a href='Math.html'>Math</a></td>
+<td></td>
+</tr>
+</table>
+<h2>Classes</h2>
+<table>
+<tr>
+<td><a href='AtomicBool.html'>AtomicBool</a></td>
+<td>
+<p>AtomicBool is used to manage a boolean variable shared between actor/threads with atomic updates.</p>
+</td>
+</tr>
+<tr>
+<td><a href='AtomicInt.html'>AtomicInt</a></td>
+<td>
+<p>AtomicInt is used to manage an integer variable shared between actor/threads with atomic updates.</p>
+</td>
+</tr>
+<tr>
+<td><a href='AtomicRef.html'>AtomicRef</a></td>
+<td>
+<p>AtomicRef is used to manage a object reference shared between actor/threads with atomic updates.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Buf.html'>Buf</a></td>
+<td>
+<p>Buf is used to model a block of bytes with random access.</p>
+</td>
+</tr>
+<tr>
+<td><a href='BufCrypto.html'>BufCrypto</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='Cache.html'>Cache</a></td>
+<td>
+<p>The Least Recently Used Cache</p>
+</td>
+</tr>
+<tr>
+<td><a href='CaseInsensitiveMap.html'>CaseInsensitiveMap</a></td>
+<td>
+<p>case insensitive map</p>
+</td>
+</tr>
+<tr>
+<td><a href='Charset.html'>Charset</a></td>
+<td>
+<p>Charset represents a specific character encoding used to decode bytes to Unicode characters, and encode Unicode characters to bytes.</p>
+</td>
+</tr>
+<tr>
+<td><a href='ConcurrentMap.html'>ConcurrentMap</a></td>
+<td>
+<p>ConcurrentMap is a Fantom wrapper around Java's ConcurrentHashMap.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Date.html'>Date</a></td>
+<td>
+<p>Date represents a day in time independent of a timezone.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DateTime.html'>DateTime</a></td>
+<td>
+<p>DateTime represents an absolute instance in time.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Decimal.html'>Decimal</a></td>
+<td>
+<p>Decimal is used to represent a decimal floating point more precisely than a Float.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Depend.html'>Depend</a></td>
+<td>
+<p>Depend models a dependency as a pod name and a version constraint.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Duration.html'>Duration</a></td>
+<td>
+<p>Duration represents a relative duration of time with nanosecond precision.</p>
+</td>
+</tr>
+<tr>
+<td><a href='DurationExtF.html'>DurationExtF</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='DurationExtI.html'>DurationExtI</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='Env.html'>Env</a></td>
+<td>
+<p>Env defines a pluggable class used to boot and manage a Fantom runtime environment.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Extension.html'>Extension</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='Field.html'>Field</a></td>
+<td>
+<p>Field is a slot which models the ability to get and set a value.</p>
+</td>
+</tr>
+<tr>
+<td><a href='File.html'>File</a></td>
+<td>
+<p>File is used to represent a Uri path to a file or directory.</p>
+</td>
+</tr>
+<tr>
+<td><a href='FileStore.html'>FileStore</a></td>
+<td>
+<p>FileStore represents the storage pool, device, partition, or volume used to store files.</p>
+</td>
+</tr>
+<tr>
+<td><a href='InStream.html'>InStream</a></td>
+<td>
+<p>InStream is used to read binary and text stream based input.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Lazy.html'>Lazy</a></td>
+<td>
+<p>call initial when val is null</p>
+</td>
+</tr>
+<tr>
+<td><a href='LinkedElem.html'>LinkedElem</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='LinkedList.html'>LinkedList</a></td>
+<td>
+<p>Doubly-linked list implementation</p>
+</td>
+</tr>
+<tr>
+<td><a href='ListExt.html'>ListExt</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='Locale.html'>Locale</a></td>
+<td>
+<p>Locale models a cultural language and region/country.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Log.html'>Log</a></td>
+<td>
+<p>Log provides a simple, but standardized mechanism for logging.</p>
+</td>
+</tr>
+<tr>
+<td><a href='LogRec.html'>LogRec</a></td>
+<td>
+<p>LogRec all the information of a single logging event.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Map.html'>Map</a></td>
+<td>
+<p>Map is a hash map of key/value pairs.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Method.html'>Method</a></td>
+<td>
+<p>Method models a function with a formal parameter list and return value (or Void if no return).</p>
+</td>
+</tr>
+<tr>
+<td><a href='MimeType.html'>MimeType</a></td>
+<td>
+<p>MimeType represents the parsed value of a Content-Type header per RFC 2045 section 5.1.</p>
+</td>
+</tr>
+<tr>
+<td><a href='NioBuf.html'>NioBuf</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='OrderedMap.html'>OrderedMap</a></td>
+<td>
+<p>the map maintains the order in which key/value pairs are added to the map.</p>
+</td>
+</tr>
+<tr>
+<td><a href='OutStream.html'>OutStream</a></td>
+<td>
+<p>OutStream is used to write binary and text data to an output stream.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Param.html'>Param</a></td>
+<td>
+<p>Param represents one parameter definition of a Func (or Method).</p>
+</td>
+</tr>
+<tr>
+<td><a href='Pod.html'>Pod</a></td>
+<td>
+<p>Pod represents a module of Types.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Process.html'>Process</a></td>
+<td>
+<p>Process manages spawning external OS processes.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Regex.html'>Regex</a></td>
+<td>
+<p>Regex represents a regular expression.</p>
+</td>
+</tr>
+<tr>
+<td><a href='RegexMatcher.html'>RegexMatcher</a></td>
+<td>
+<p>RegexMatcher is used to matching operations on a regular expression.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Set.html'>Set</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='Slot.html'>Slot</a></td>
+<td>
+<p>Slot represents a member field or method on a Type.</p>
+</td>
+</tr>
+<tr>
+<td><a href='StrExt.html'>StrExt</a></td>
+<td>
+<p>Str Extension</p>
+</td>
+</tr>
+<tr>
+<td><a href='Test.html'>Test</a></td>
+<td>
+<p>Test is the base for Fantom unit tests.</p>
+</td>
+</tr>
+<tr>
+<td><a href='TimeOfDay.html'>TimeOfDay</a></td>
+<td>
+<p>Time represents a time of day independent of a specific date or timezone.</p>
+</td>
+</tr>
+<tr>
+<td><a href='TimePoint.html'>TimePoint</a></td>
+<td>
+<p>TimePoint represents an absolute instance in time.</p>
+</td>
+</tr>
+<tr>
+<td><a href='TimeZone.html'>TimeZone</a></td>
+<td>
+<p>TimeZone represents a region's offset from UTC and its daylight savings time rules.</p>
+</td>
+</tr>
+<tr>
+<td><a href='TreeMap.html'>TreeMap</a></td>
+<td>
+<p>AVL Tree (named after inventors Adelson-Velsky and Landis) is an balanced binary tree.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Tuple.html'>Tuple</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='Type.html'>Type</a></td>
+<td>
+<p>Type defines the contract of an Obj by the slots its supports.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Unsafe.html'>Unsafe</a></td>
+<td>
+<p>Unsafe is used to wrap a non-const mutable objects so that it can be passed as an immutable reference.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Uri.html'>Uri</a></td>
+<td>
+<p>Uri is used to immutably represent a Universal Resource Identifier according to <a href='http://tools.ietf.org/html/rfc3986'>RFC 3986</a>.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UriScheme.html'>UriScheme</a></td>
+<td>
+<p>UriSchemes are registered to handle a specific Uri scheme such as "file" or "http".</p>
+</td>
+</tr>
+<tr>
+<td><a href='Uuid.html'>Uuid</a></td>
+<td>
+<p>Universally Unique Identifier.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Version.html'>Version</a></td>
+<td>
+<p>Version is defined as a list of decimal digits separated by the dot.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Zip.html'>Zip</a></td>
+<td>
+<p>Zip is used to read/write compressed zip files and streams.</p>
+</td>
+</tr>
+</table>
+<h2>Enums</h2>
+<table>
+<tr>
+<td><a href='Endian.html'>Endian</a></td>
+<td>
+<p>Byte ordering.</p>
+</td>
+</tr>
+<tr>
+<td><a href='LogLevel.html'>LogLevel</a></td>
+<td>
+<p>LogLevel provides a set of discrete levels used to customize logging.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Month.html'>Month</a></td>
+<td>
+<p>Enum for twelve months of the year.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Weekday.html'>Weekday</a></td>
+<td>
+<p>Enum for seven days of the week.</p>
+</td>
+</tr>
+</table>
+</div>
+<div class='sidebar'>
+<h3>All Types</h3>
+<ul>
+<li><a href='AtomicBool.html'>AtomicBool</a></li><li><a href='AtomicInt.html'>AtomicInt</a></li><li><a href='AtomicRef.html'>AtomicRef</a></li><li><a href='Buf.html'>Buf</a></li><li><a href='BufCrypto.html'>BufCrypto</a></li><li><a href='Cache.html'>Cache</a></li><li><a href='CaseInsensitiveMap.html'>CaseInsensitiveMap</a></li><li><a href='Charset.html'>Charset</a></li><li><a href='ConcurrentMap.html'>ConcurrentMap</a></li><li><a href='Date.html'>Date</a></li><li><a href='DateTime.html'>DateTime</a></li><li><a href='Decimal.html'>Decimal</a></li><li><a href='Depend.html'>Depend</a></li><li><a href='Duration.html'>Duration</a></li><li><a href='DurationExtF.html'>DurationExtF</a></li><li><a href='DurationExtI.html'>DurationExtI</a></li><li><a href='Endian.html'>Endian</a></li><li><a href='Env.html'>Env</a></li><li><a href='Extension.html'>Extension</a></li><li><a href='Field.html'>Field</a></li><li><a href='File.html'>File</a></li><li><a href='FileStore.html'>FileStore</a></li><li><a href='InStream.html'>InStream</a></li><li><a href='Lazy.html'>Lazy</a></li><li><a href='LinkedElem.html'>LinkedElem</a></li><li><a href='LinkedList.html'>LinkedList</a></li><li><a href='ListExt.html'>ListExt</a></li><li><a href='Locale.html'>Locale</a></li><li><a href='Log.html'>Log</a></li><li><a href='LogLevel.html'>LogLevel</a></li><li><a href='LogRec.html'>LogRec</a></li><li><a href='Map.html'>Map</a></li><li><a href='Math.html'>Math</a></li><li><a href='Method.html'>Method</a></li><li><a href='MimeType.html'>MimeType</a></li><li><a href='Month.html'>Month</a></li><li><a href='NioBuf.html'>NioBuf</a></li><li><a href='OrderedMap.html'>OrderedMap</a></li><li><a href='OutStream.html'>OutStream</a></li><li><a href='Param.html'>Param</a></li><li><a href='Pod.html'>Pod</a></li><li><a href='Process.html'>Process</a></li><li><a href='Regex.html'>Regex</a></li><li><a href='RegexMatcher.html'>RegexMatcher</a></li><li><a href='Set.html'>Set</a></li><li><a href='Slot.html'>Slot</a></li><li><a href='StrExt.html'>StrExt</a></li><li><a href='Test.html'>Test</a></li><li><a href='TimeOfDay.html'>TimeOfDay</a></li><li><a href='TimePoint.html'>TimePoint</a></li><li><a href='TimeZone.html'>TimeZone</a></li><li><a href='TreeMap.html'>TreeMap</a></li><li><a href='Tuple.html'>Tuple</a></li><li><a href='Type.html'>Type</a></li><li><a href='Unsafe.html'>Unsafe</a></li><li><a href='Uri.html'>Uri</a></li><li><a href='UriScheme.html'>UriScheme</a></li><li><a href='Uuid.html'>Uuid</a></li><li><a href='Version.html'>Version</a></li><li><a href='Weekday.html'>Weekday</a></li><li><a href='Zip.html'>Zip</a></li></ul>
+</div>
+</div>
+</body>
+</html>

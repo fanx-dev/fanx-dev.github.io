@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>pod</span> sys</h1>
+<p>
+system core lib</p>
+<h2>Mixins</h2>
+<table>
+<tr>
+<td><a href='Facet.html'>Facet</a></td>
+<td>
+<p>Facet is a mixin includes into every facet type.</p>
+</td>
+</tr>
+</table>
+<h2>Classes</h2>
+<table>
+<tr>
+<td><a href='Array.html'>Array</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='Bool.html'>Bool</a></td>
+<td>
+<p>Bool represents a boolean condition of true or false.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Enum.html'>Enum</a></td>
+<td>
+<p>Enum is the base class for enum classes defined using the <code>enum</code> keyword.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Err.html'>Err</a></td>
+<td>
+<p>Err is the base class of all exceptions.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Float.html'>Float</a></td>
+<td>
+<p>Float is used to represent a 64-bit floating point number.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Func.html'>Func</a></td>
+<td>
+<p>Func models an executable function.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Int.html'>Int</a></td>
+<td>
+<p>Int is used to represent a signed 64-bit integer.</p>
+</td>
+</tr>
+<tr>
+<td><a href='List.html'>List</a></td>
+<td>
+<p>List represents an liner sequence of Objects indexed by an Int.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Num.html'>Num</a></td>
+<td>
+<p>Num is the base class for number classes: <code><a href='Int.html'>Int</a></code>, <code><a href='Float.html'>Float</a></code>, and <a href='Decimal'>Decimal</a>.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Obj.html'>Obj</a></td>
+<td>
+<p>Obj is the root class of all classes.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Range.html'>Range</a></td>
+<td>
+<p>Range represents a contiguous range of integers from start to end.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Str.html'>Str</a></td>
+<td>
+<p>Str represents a sequence of Unicode characters.</p>
+</td>
+</tr>
+<tr>
+<td><a href='StrBuf.html'>StrBuf</a></td>
+<td>
+<p>StrBuf is a mutable sequence of Int characters.</p>
+</td>
+</tr>
+<tr>
+<td><a href='This.html'>This</a></td>
+<td>
+<p>This represents a method return type which is always <a href='docLang::Methods#thisReturns'>this type</a>.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Void.html'>Void</a></td>
+<td>
+<p>Void is used to represent the absence of a return value in a Method.</p>
+</td>
+</tr>
+</table>
+<h2>Facets</h2>
+<table>
+<tr>
+<td><a href='Deprecated.html'>Deprecated</a></td>
+<td>
+<p>Indicates that a type or slot is obsolete</p>
+</td>
+</tr>
+<tr>
+<td><a href='Extern.html'>Extern</a></td>
+<td>
+<p>extern link symbol</p>
+</td>
+</tr>
+<tr>
+<td><a href='FacetMeta.html'>FacetMeta</a></td>
+<td>
+<p>Facet meta-data applied to facet classes.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Js.html'>Js</a></td>
+<td>
+<p>Used to annoate types which should be compiled into JavaScript.</p>
+</td>
+</tr>
+<tr>
+<td><a href='JsNative.html'>JsNative</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='NoDoc.html'>NoDoc</a></td>
+<td>
+<p>This facet is used on public types and slots to indicate they should not be documented with automated tools such as <a href='../fandoc/index.html'>Fandoc</a>.</p>
+</td>
+</tr>
+<tr>
+<td><a href='NoJs.html'>NoJs</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='NoPeer.html'>NoPeer</a></td>
+<td>
+<p>to indicate the native class do not emit peer field</p>
+</td>
+</tr>
+<tr>
+<td><a href='Operator.html'>Operator</a></td>
+<td>
+<p>Used on methods to indicate method may be used an operator.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Serializable.html'>Serializable</a></td>
+<td>
+<p>Serializable is a facet used to annotate types which can be serialized.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Transient.html'>Transient</a></td>
+<td>
+<p>Transient is a facet used to annotate fields which should not be serialized inside a <code><a href='Serializable.html'>Serializable</a></code> type.</p>
+</td>
+</tr>
+</table>
+<h2>Errs</h2>
+<table>
+<tr>
+<td><a href='ArgErr.html'>ArgErr</a></td>
+<td>
+<p>ArgErr indicates an invalid argument was passed.</p>
+</td>
+</tr>
+<tr>
+<td><a href='AssertErr.html'>AssertErr</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='CancelledErr.html'>CancelledErr</a></td>
+<td>
+<p>CancelledErr indicates that an operation was cancelled before it complete normally.</p>
+</td>
+</tr>
+<tr>
+<td><a href='CastErr.html'>CastErr</a></td>
+<td>
+<p>CastErr is a runtime exception raised when invalid cast is performed.</p>
+</td>
+</tr>
+<tr>
+<td><a href='ConstErr.html'>ConstErr</a></td>
+<td>
+<p>ConstErr indicates an attempt to set a const field after the object has been constructed.</p>
+</td>
+</tr>
+<tr>
+<td><a href='FieldNotSetErr.html'>FieldNotSetErr</a></td>
+<td>
+<p>FieldNotSetErr indicates a non-nullable field was not set by the constructor it-block.</p>
+</td>
+</tr>
+<tr>
+<td><a href='IOErr.html'>IOErr</a></td>
+<td>
+<p>IOErr indicates an input/output error typically associated with a file system or socket.</p>
+</td>
+</tr>
+<tr>
+<td><a href='IndexErr.html'>IndexErr</a></td>
+<td>
+<p>IndexErr indicates an attempt to access an invalid index in a List.</p>
+</td>
+</tr>
+<tr>
+<td><a href='InterruptedErr.html'>InterruptedErr</a></td>
+<td>
+<p>InterruptedErr indicates that a thread is interrupted from its normal execution.</p>
+</td>
+</tr>
+<tr>
+<td><a href='NameErr.html'>NameErr</a></td>
+<td>
+<p>NameErr indicates an attempt use an invalid name.</p>
+</td>
+</tr>
+<tr>
+<td><a href='NotImmutableErr.html'>NotImmutableErr</a></td>
+<td>
+<p>NotImmutableErr indicates using a mutable Obj where an immutable Obj is required.</p>
+</td>
+</tr>
+<tr>
+<td><a href='NullErr.html'>NullErr</a></td>
+<td>
+<p>NullErr is a runtime exception raised when using a null reference or when null is passed for a method argument which must be non-null.</p>
+</td>
+</tr>
+<tr>
+<td><a href='ParseErr.html'>ParseErr</a></td>
+<td>
+<p>ParseErr indicates an invalid string format which cannot be parsed.</p>
+</td>
+</tr>
+<tr>
+<td><a href='ReadonlyErr.html'>ReadonlyErr</a></td>
+<td>
+<p>ReadonlyErr indicates an attempt to modify a readonly instance; it is commonly used with List and Map.</p>
+</td>
+</tr>
+<tr>
+<td><a href='TimeoutErr.html'>TimeoutErr</a></td>
+<td>
+<p>TimeoutErr indicates that a blocking operation timed out before normal completion.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnknownFacetErr.html'>UnknownFacetErr</a></td>
+<td>
+<p>UnknownFacetErr indicates an attempt to access a undefined facet.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnknownKeyErr.html'>UnknownKeyErr</a></td>
+<td>
+<p>UnknownKeyErr indicates an attempt lookup non-existent key.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnknownPodErr.html'>UnknownPodErr</a></td>
+<td>
+<p>UnknownPodErr indicates an attempt to access a non-existent pod.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnknownServiceErr.html'>UnknownServiceErr</a></td>
+<td>
+<p>UnknownServiceErr indicates an attempt to lookup an service not installed.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnknownSlotErr.html'>UnknownSlotErr</a></td>
+<td>
+<p>UnknownSlotErr indicates an attempt to access a non-existent slot.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnknownTypeErr.html'>UnknownTypeErr</a></td>
+<td>
+<p>UnknownTypeErr indicates an attempt to access a non-existent type.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnresolvedErr.html'>UnresolvedErr</a></td>
+<td>
+<p>UnresolvedErr indicates the failure to resolve a Uri to a resource.</p>
+</td>
+</tr>
+<tr>
+<td><a href='UnsupportedErr.html'>UnsupportedErr</a></td>
+<td>
+<p>UnsupportedErr indicates a feature which isn't supported.</p>
+</td>
+</tr>
+</table>
+</div>
+<div class='sidebar'>
+<h3>All Types</h3>
+<ul>
+<li><a href='ArgErr.html'>ArgErr</a></li><li><a href='Array.html'>Array</a></li><li><a href='AssertErr.html'>AssertErr</a></li><li><a href='Bool.html'>Bool</a></li><li><a href='CancelledErr.html'>CancelledErr</a></li><li><a href='CastErr.html'>CastErr</a></li><li><a href='ConstErr.html'>ConstErr</a></li><li><a href='Deprecated.html'>Deprecated</a></li><li><a href='Enum.html'>Enum</a></li><li><a href='Err.html'>Err</a></li><li><a href='Extern.html'>Extern</a></li><li><a href='Facet.html'>Facet</a></li><li><a href='FacetMeta.html'>FacetMeta</a></li><li><a href='FieldNotSetErr.html'>FieldNotSetErr</a></li><li><a href='Float.html'>Float</a></li><li><a href='Func.html'>Func</a></li><li><a href='IOErr.html'>IOErr</a></li><li><a href='IndexErr.html'>IndexErr</a></li><li><a href='Int.html'>Int</a></li><li><a href='InterruptedErr.html'>InterruptedErr</a></li><li><a href='Js.html'>Js</a></li><li><a href='JsNative.html'>JsNative</a></li><li><a href='List.html'>List</a></li><li><a href='NameErr.html'>NameErr</a></li><li><a href='NoDoc.html'>NoDoc</a></li><li><a href='NoJs.html'>NoJs</a></li><li><a href='NoPeer.html'>NoPeer</a></li><li><a href='NotImmutableErr.html'>NotImmutableErr</a></li><li><a href='NullErr.html'>NullErr</a></li><li><a href='Num.html'>Num</a></li><li><a href='Obj.html'>Obj</a></li><li><a href='Operator.html'>Operator</a></li><li><a href='ParseErr.html'>ParseErr</a></li><li><a href='Range.html'>Range</a></li><li><a href='ReadonlyErr.html'>ReadonlyErr</a></li><li><a href='Serializable.html'>Serializable</a></li><li><a href='Str.html'>Str</a></li><li><a href='StrBuf.html'>StrBuf</a></li><li><a href='This.html'>This</a></li><li><a href='TimeoutErr.html'>TimeoutErr</a></li><li><a href='Transient.html'>Transient</a></li><li><a href='UnknownFacetErr.html'>UnknownFacetErr</a></li><li><a href='UnknownKeyErr.html'>UnknownKeyErr</a></li><li><a href='UnknownPodErr.html'>UnknownPodErr</a></li><li><a href='UnknownServiceErr.html'>UnknownServiceErr</a></li><li><a href='UnknownSlotErr.html'>UnknownSlotErr</a></li><li><a href='UnknownTypeErr.html'>UnknownTypeErr</a></li><li><a href='UnresolvedErr.html'>UnresolvedErr</a></li><li><a href='UnsupportedErr.html'>UnsupportedErr</a></li><li><a href='Void.html'>Void</a></li></ul>
+</div>
+</div>
+</body>
+</html>

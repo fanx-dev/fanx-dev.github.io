@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::Macro</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='Macro.html'>Macro</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> util::Macro</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  util::Macro</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>Macro provides a way to replace macro expressions within a pattern using a pluggable implementation for the macro resolution. See <code><a href='Macro.html#apply'>apply</a></code> for macro syntax.</p>
+<dl>
+<dt id='apply'>
+apply</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> apply(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> resolve)</code></p>
+
+<p>The <code><a href='Macro.html#pattern'>pattern</a></code> text is scanned for keys delimited by <code>{{</code> and <code>}}</code>. The text between the delimiters is the key. The supplied callback is invoked to resolve the key and the macro is replaced with that value in the text. Returns the resulting Str after the macro has been applied. Throws <code><a href='../sys/ParseErr.html'>ParseErr</a></code> if the pattern contains invalid macros.</p>
+
+<pre>Macro("{{hello}} {{world}}!").apply { it.upper } => HELLO WORLD!
+Macro("{{notTerminated").apply { it.upper } => ParseErr</pre>
+
+<p>No lexical restriction is placed on the macro keys. The callback is entirely reponsible for validating keys. For example, all the following are perfectly acceptable keys as far as parsing the macro goes:</p>
+
+<ul>
+<li><code>{{}}</code>      - empty key</li>
+
+<li><code>{{  }}</code>    - all white space</li>
+
+<li><code>{{ foo }}</code> - leading and trailing white space</li>
+</ul>
+</dd>
+<dt id='keys'>
+keys</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> keys()</code></p>
+
+<p>Get a list of all the macro keys in the order they appear in the macro <code><a href='Macro.html#pattern'>pattern</a></code>. Duplicates are not removed.</p>
+
+<pre>Macro("{{hello}} {{world}}! Good-bye {{world}}").keys
+   => ["hello", "world", "world"]</pre>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Str.html'>Str</a> pattern)</code></p>
+
+<p>Create a macro for the given pattern.</p>
+</dd>
+<dt id='pattern'>
+pattern</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> pattern</code></p>
+
+<p>The unresolved macro pattern</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#apply'>apply</a></li><li><a href='#keys'>keys</a></li><li><a href='#pattern'>pattern</a></li></ul>
+</div>
+</div>
+</body>
+</html>

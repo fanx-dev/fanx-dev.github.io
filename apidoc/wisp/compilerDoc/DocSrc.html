@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocSrc</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocSrc.html'>DocSrc</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerDoc::DocSrc</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Doc.html'>compilerDoc::Doc</a>
+    compilerDoc::DocSrc</pre>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line86'>Source</a></p>
+
+<p>DocSrc models a page of source code for display.</p>
+<dl>
+<dt id='breadcrumb'>
+breadcrumb</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> breadcrumb()</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line112'>Source</a></p>
+
+<p>Breadcrumb name is the filename</p>
+</dd>
+<dt id='docName'>
+docName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> docName()</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line106'>Source</a></p>
+
+<p>Document name under space is "src-{filename}"</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocPod.html'>DocPod</a> pod</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line97'>Source</a></p>
+
+<p>Pod which contains the source file</p>
+</dd>
+<dt id='renderer'>
+renderer</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/Type.html'>Type</a> renderer()</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line115'>Source</a></p>
+
+<p>Default renderer is <code><a href='DocSrcRenderer.html'>DocSrcRenderer</a></code></p>
+</dd>
+<dt id='space'>
+space</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='DocSpace.html'>DocSpace</a> space()</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line103'>Source</a></p>
+
+<p>The space for this doc is <code><a href='DocSrc.html#pod'>pod</a></code></p>
+</dd>
+<dt id='title'>
+title</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> title()</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line109'>Source</a></p>
+
+<p>Title is the filename</p>
+</dd>
+<dt id='uri'>
+uri</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Uri.html'>Uri</a> uri</code></p>
+<p class='src'>
+<a href='src-DocMisc.fan.html#line100'>Source</a></p>
+
+<p>Uri of the source file inside the pod</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocMisc.fan.html#line86'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#breadcrumb'>breadcrumb</a></li><li><a href='#docName'>docName</a></li><li><a href='#pod'>pod</a></li><li><a href='#renderer'>renderer</a></li><li><a href='#space'>space</a></li><li><a href='#title'>title</a></li><li><a href='#uri'>uri</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>slanRecord::Context</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>slanRecord</a></li><li><a href='Context.html'>Context</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> slanRecord::Context</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  slanRecord::Context</pre>
+
+<p>session and manager</p>
+<dl>
+<dt id='checkTable'>
+checkTable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> checkTable(<a href='../std/Type.html'>Type</a> table)</code></p>
+
+<p>check the object table is fit to database table</p>
+</dd>
+<dt id='checkTableT'>
+checkTableT</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> checkTableT(<a href='TableDef.html'>TableDef</a> table)</code></p>
+
+<p>check the object table is fit to database table</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> close()</code></p>
+</dd>
+<dt id='conn'>
+conn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../isql/SqlConn.html'>SqlConn?</a> conn</code></p>
+
+<p>Get the connection to this database for the current thread.</p>
+</dd>
+<dt id='count'>
+count</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> count(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>count by example</p>
+</dd>
+<dt id='createTable'>
+createTable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> createTable(<a href='../std/Type.html'>Type</a> table)</code></p>
+</dd>
+<dt id='createTableT'>
+createTableT</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> createTableT(<a href='TableDef.html'>TableDef</a> table)</code></p>
+</dd>
+<dt id='deleteByExample'>
+deleteByExample</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> deleteByExample(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>delete by example</p>
+</dd>
+<dt id='deleteById'>
+deleteById</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> deleteById(<a href='../std/Type.html'>Type</a> table, <a href='../sys/Obj.html'>Obj</a> id)</code></p>
+
+<p>delete by id</p>
+</dd>
+<dt id='deleteByIdT'>
+deleteByIdT</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> deleteByIdT(<a href='TableDef.html'>TableDef</a> table, <a href='../sys/Obj.html'>Obj</a> id)</code></p>
+</dd>
+<dt id='dropTable'>
+dropTable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> dropTable(<a href='../std/Type.html'>Type</a> table)</code></p>
+</dd>
+<dt id='dropTableT'>
+dropTableT</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> dropTableT(<a href='TableDef.html'>TableDef</a> table)</code></p>
+</dd>
+<dt id='execute'>
+execute</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> execute(<a href='../sys/Str.html'>Str</a> sql, <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;?</a> params)</code></p>
+
+<p>execute raw sql</p>
+</dd>
+<dt id='exist'>
+exist</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> exist(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>exist by example, this operate noCache</p>
+</dd>
+<dt id='findById'>
+findById</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Obj.html'>Obj?</a> findById(<a href='../std/Type.html'>Type</a> type, <a href='../sys/Obj.html'>Obj</a> id)</code></p>
+</dd>
+<dt id='findByIdT'>
+findByIdT</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Obj.html'>Obj?</a> findByIdT(<a href='TableDef.html'>TableDef</a> table, <a href='../sys/Obj.html'>Obj</a> id)</code></p>
+</dd>
+<dt id='getTable'>
+getTable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TableDef.html'>TableDef</a> getTable(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+</dd>
+<dt id='insert'>
+insert</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> insert(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>insert this obj to database</p>
+</dd>
+<dt id='list'>
+list</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> list(<a href='../sys/Obj.html'>Obj</a> obj, <a href='../sys/Str.html'>Str</a> orderby := &quot;&quot;, <a href='../sys/Int.html'>Int</a> offset := 0, <a href='../sys/Int.html'>Int</a> limit := 50)</code></p>
+
+<p>select by example</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../isql/SqlConn.html'>SqlConn</a> conn)</code></p>
+
+<p>constructor</p>
+</dd>
+<dt id='one'>
+one</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> one(<a href='../sys/Obj.html'>Obj</a> obj, <a href='../sys/Str.html'>Str</a> orderby := &quot;&quot;, <a href='../sys/Int.html'>Int</a> offset := 0)</code></p>
+
+<p>select by example and get the first one</p>
+</dd>
+<dt id='query'>
+query</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> query(<a href='../sys/Str.html'>Str</a> sql, <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;?</a> params, <a href='../std/Type.html'>Type?</a> type := null, <a href='../sys/Int.html'>Int</a> offset := 0, <a href='../sys/Int.html'>Int</a> limit := 50)</code></p>
+
+<p>query by raw sql</p>
+</dd>
+<dt id='queryT'>
+queryT</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> queryT(<a href='../sys/Str.html'>Str</a> sql, <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;?</a> params, <a href='TableDef.html'>TableDef?</a> table := null, <a href='../sys/Int.html'>Int</a> offset := 0, <a href='../sys/Int.html'>Int</a> limit := 50)</code></p>
+</dd>
+<dt id='save'>
+save</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> save(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>update or insert</p>
+</dd>
+<dt id='select'>
+select</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> select(<a href='../std/Type.html'>Type</a> type, <a href='../sys/Str.html'>Str</a> where, <a href='../sys/Int.html'>Int</a> offset := 0, <a href='../sys/Int.html'>Int</a> limit := 50)</code></p>
+
+<p>query by condition</p>
+</dd>
+<dt id='selectT'>
+selectT</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> selectT(<a href='TableDef.html'>TableDef</a> table, <a href='../sys/Str.html'>Str</a> where, <a href='../sys/Int.html'>Int</a> offset := 0, <a href='../sys/Int.html'>Int</a> limit := 50)</code></p>
+</dd>
+<dt id='tableExists'>
+tableExists</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> tableExists(<a href='../std/Type.html'>Type</a> table)</code></p>
+</dd>
+<dt id='tableExistsT'>
+tableExistsT</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> tableExistsT(<a href='TableDef.html'>TableDef</a> table)</code></p>
+</dd>
+<dt id='toTable'>
+toTable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TableDef.html'>TableDef</a> toTable(<a href='../std/Type.html'>Type</a> t)</code></p>
+</dd>
+<dt id='trans'>
+trans</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> trans(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+
+<p>transaction , if error will auto roolback</p>
+</dd>
+<dt id='updateByCondition'>
+updateByCondition</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> updateByCondition(<a href='../sys/Obj.html'>Obj</a> obj, <a href='../sys/Str.html'>Str</a> condition)</code></p>
+</dd>
+<dt id='updateByExample'>
+updateByExample</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> updateByExample(<a href='../sys/Obj.html'>Obj</a> obj, <a href='../sys/Obj.html'>Obj</a> where)</code></p>
+</dd>
+<dt id='updateById'>
+updateById</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> updateById(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>update by id</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#checkTable'>checkTable</a></li><li><a href='#checkTableT'>checkTableT</a></li><li><a href='#close'>close</a></li><li><a href='#conn'>conn</a></li><li><a href='#count'>count</a></li><li><a href='#createTable'>createTable</a></li><li><a href='#createTableT'>createTableT</a></li><li><a href='#deleteByExample'>deleteByExample</a></li><li><a href='#deleteById'>deleteById</a></li><li><a href='#deleteByIdT'>deleteByIdT</a></li><li><a href='#dropTable'>dropTable</a></li><li><a href='#dropTableT'>dropTableT</a></li><li><a href='#execute'>execute</a></li><li><a href='#exist'>exist</a></li><li><a href='#findById'>findById</a></li><li><a href='#findByIdT'>findByIdT</a></li><li><a href='#getTable'>getTable</a></li><li><a href='#insert'>insert</a></li><li><a href='#list'>list</a></li><li><a href='#one'>one</a></li><li><a href='#query'>query</a></li><li><a href='#queryT'>queryT</a></li><li><a href='#save'>save</a></li><li><a href='#select'>select</a></li><li><a href='#selectT'>selectT</a></li><li><a href='#tableExists'>tableExists</a></li><li><a href='#tableExistsT'>tableExistsT</a></li><li><a href='#toTable'>toTable</a></li><li><a href='#trans'>trans</a></li><li><a href='#updateByCondition'>updateByCondition</a></li><li><a href='#updateByExample'>updateByExample</a></li><li><a href='#updateById'>updateById</a></li></ul>
+</div>
+</div>
+</body>
+</html>

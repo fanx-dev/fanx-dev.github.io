@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>TcpSocketTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='src-TcpSocketTest.fan.html'>TcpSocketTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   9 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>class TcpSocketTest : Test</span>
+<span id='line10'><b>{</b></span>
+<span id='line11'></span>
+<span id='line12'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line13'>// Make</span>
+<span id='line14'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line15'></span>
+<span id='line16'>  Void testMake<b>(</b><b>)</b></span>
+<span id='line17'>  <b>{</b></span>
+<span id='line18'>    s := TcpSocket.make</span>
+<span id='line19'>    verifyEq<b>(</b>s.isBound, false<b>)</b></span>
+<span id='line20'>    verifyEq<b>(</b>s.isConnected, false<b>)</b></span>
+<span id='line21'>    verifyEq<b>(</b>s.isClosed, false<b>)</b></span>
+<span id='line22'>    verifyEq<b>(</b>s.localAddr, null<b>)</b></span>
+<span id='line23'>    verifyEq<b>(</b>s.localPort, null<b>)</b></span>
+<span id='line24'>    verifyEq<b>(</b>s.remoteAddr, null<b>)</b></span>
+<span id='line25'>    verifyEq<b>(</b>s.remotePort, null<b>)</b></span>
+<span id='line26'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.in <b>}</b></span>
+<span id='line27'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.out <b>}</b></span>
+<span id='line28'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.shutdownIn <b>}</b></span>
+<span id='line29'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.shutdownOut <b>}</b></span>
+<span id='line30'>    s.close</span>
+<span id='line31'>  <b>}</b></span>
+<span id='line32'></span>
+<span id='line33'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line34'>// Bind</span>
+<span id='line35'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line36'></span>
+<span id='line37'>  Void testBind<b>(</b><b>)</b></span>
+<span id='line38'>  <b>{</b></span>
+<span id='line39'>    verifyBind<b>(</b>null, null<b>)</b></span>
+<span id='line40'>    verifyBind<b>(</b>IpAddr.local, null<b>)</b></span>
+<span id='line41'>    port := <b>(</b>1200..9999<b>)</b>.random</span>
+<span id='line42'>    verifyBind<b>(</b>null, port<b>)</b></span>
+<span id='line43'>    verifyBind<b>(</b>IpAddr.local, port<b>)</b></span>
+<span id='line44'>  <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  Void verifyBind<b>(</b>IpAddr? addr, Int? port<b>)</b></span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    s := TcpSocket.make</span>
+<span id='line49'>    verifySame<b>(</b>s.bind<b>(</b>addr, port<b>)</b>, s<b>)</b></span>
+<span id='line50'></span>
+<span id='line51'>    // state</span>
+<span id='line52'>    verifyEq<b>(</b>s.isBound, true<b>)</b></span>
+<span id='line53'>    verifyEq<b>(</b>s.isConnected, false<b>)</b></span>
+<span id='line54'>    verifyEq<b>(</b>s.isClosed, false<b>)</b></span>
+<span id='line55'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.in <b>}</b></span>
+<span id='line56'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.out <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>    // local address</span>
+<span id='line59'>    if <b>(</b>addr == null<b>)</b></span>
+<span id='line60'>      verify<b>(</b>s.localAddr != null<b>)</b></span>
+<span id='line61'>    else</span>
+<span id='line62'>      verifyEq<b>(</b>s.localAddr, addr<b>)</b></span>
+<span id='line63'></span>
+<span id='line64'>    // local port</span>
+<span id='line65'>    if <b>(</b>port == null<b>)</b></span>
+<span id='line66'>      verify<b>(</b>s.localPort > 0<b>)</b></span>
+<span id='line67'>    else</span>
+<span id='line68'>      verifyEq<b>(</b>s.localPort, port<b>)</b></span>
+<span id='line69'></span>
+<span id='line70'>    // null remote</span>
+<span id='line71'>    verifyEq<b>(</b>s.remoteAddr, null<b>)</b></span>
+<span id='line72'>    verifyEq<b>(</b>s.remotePort, null<b>)</b></span>
+<span id='line73'></span>
+<span id='line74'>    // duplicate port</span>
+<span id='line75'>    /* On Windows7 this doesn't fail?</span>
+<span id='line76'>    x := TcpSocket.make</span>
+<span id='line77'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> x.bind<b>(</b>null, s.localPort<b>)</b> <b>}</b></span>
+<span id='line78'>    x.close</span>
+<span id='line79'>    */</span>
+<span id='line80'></span>
+<span id='line81'>    // cleanup</span>
+<span id='line82'>    s.close</span>
+<span id='line83'></span>
+<span id='line84'>    verifyEq<b>(</b>s.isClosed, true<b>)</b></span>
+<span id='line85'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.in <b>}</b></span>
+<span id='line86'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.out <b>}</b></span>
+<span id='line87'>  <b>}</b></span>
+<span id='line88'></span>
+<span id='line89'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line90'>// Connection Failures</span>
+<span id='line91'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line92'></span>
+<span id='line93'>  Void testConnectFailures<b>(</b><b>)</b></span>
+<span id='line94'>  <b>{</b></span>
+<span id='line95'>    // local, invalid port</span>
+<span id='line96'>    s := TcpSocket.make</span>
+<span id='line97'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.connect<b>(</b>IpAddr.local, 1969<b>)</b> <b>}</b></span>
+<span id='line98'>    verifyEq<b>(</b>s.isConnected, false<b>)</b></span>
+<span id='line99'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.in <b>}</b></span>
+<span id='line100'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.out <b>}</b></span>
+<span id='line101'>    s.close</span>
+<span id='line102'></span>
+<span id='line103'>    // invalid host</span>
+<span id='line104'>    t1 := Duration.now</span>
+<span id='line105'>    s = TcpSocket.make</span>
+<span id='line106'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.connect<b>(</b>IpAddr<b>(</b>"1.1.1.1"<b>)</b>, 1969, 100ms<b>)</b> <b>}</b></span>
+<span id='line107'>    t2 := Duration.now</span>
+<span id='line108'>    verifyEq<b>(</b>s.isConnected, false<b>)</b></span>
+<span id='line109'>    verify<b>(</b>80ms &lt; t2-t1 &amp;&amp; t2-t1 &lt; 150ms<b>)</b></span>
+<span id='line110'>    s.close</span>
+<span id='line111'></span>
+<span id='line112'>    verifyEq<b>(</b>s.isClosed, true<b>)</b></span>
+<span id='line113'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.in <b>}</b></span>
+<span id='line114'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.out <b>}</b></span>
+<span id='line115'>  <b>}</b></span>
+<span id='line116'></span>
+<span id='line117'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line118'>// Connect</span>
+<span id='line119'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line120'></span>
+<span id='line121'>  Void testConnectHttp<b>(</b><b>)</b></span>
+<span id='line122'>  <b>{</b></span>
+<span id='line123'>    doTestConnectHttp<b>(</b>null<b>)</b></span>
+<span id='line124'>    doTestConnectHttp<b>(</b>30sec<b>)</b></span>
+<span id='line125'>  <b>}</b></span>
+<span id='line126'></span>
+<span id='line127'>  Void doTestConnectHttp<b>(</b>Duration? timeout<b>)</b></span>
+<span id='line128'>  <b>{</b></span>
+<span id='line129'>    // connect to www server</span>
+<span id='line130'>    s := TcpSocket<b>(</b><b>)</b>.connect<b>(</b>IpAddr<b>(</b>"fantom.org"<b>)</b>, 80, timeout<b>)</b></span>
+<span id='line131'></span>
+<span id='line132'>    // verify connetion state</span>
+<span id='line133'>    verifyEq<b>(</b>s.isBound, true<b>)</b></span>
+<span id='line134'>    verifyEq<b>(</b>s.isConnected, true<b>)</b></span>
+<span id='line135'>    verifyEq<b>(</b>s.isClosed, false<b>)</b></span>
+<span id='line136'>    verify<b>(</b><b>(</b>Obj?<b>)</b>s.in != null<b>)</b></span>
+<span id='line137'>    verify<b>(</b><b>(</b>Obj?<b>)</b>s.out != null<b>)</b></span>
+<span id='line138'>    verifyErr<b>(</b>Err#<b>)</b> <b>{</b> s.options.inBufferSize = 16 <b>}</b></span>
+<span id='line139'>    verifyErr<b>(</b>Err#<b>)</b> <b>{</b> s.options.outBufferSize = 16 <b>}</b></span>
+<span id='line140'></span>
+<span id='line141'>    // send very simple request line</span>
+<span id='line142'>    s.out.print<b>(</b>"GET / HTTP/1.0\r\n\r\n"<b>)</b>.flush</span>
+<span id='line143'></span>
+<span id='line144'>    // read first response line</span>
+<span id='line145'>    res := s.in.readLine</span>
+<span id='line146'>    verify<b>(</b>res.startsWith<b>(</b>"HTTP/"<b>)</b><b>)</b></span>
+<span id='line147'></span>
+<span id='line148'>    // cleanup</span>
+<span id='line149'>    s.close</span>
+<span id='line150'>    verifyEq<b>(</b>s.isClosed, true<b>)</b></span>
+<span id='line151'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.in <b>}</b></span>
+<span id='line152'>    verifyErr<b>(</b>IOErr#<b>)</b> <b>{</b> s.out <b>}</b></span>
+<span id='line153'>  <b>}</b></span>
+<span id='line154'></span>
+<span id='line155'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line156'>// Fork</span>
+<span id='line157'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line158'></span>
+<span id='line159'>  /* TODO - remove when we finalize that TcpSocket should be const</span>
+<span id='line160'>  Void testFork<b>(</b><b>)</b></span>
+<span id='line161'>  <b>{</b></span>
+<span id='line162'>    // verify duplicate name</span>
+<span id='line163'>    verifyErr<b>(</b>ArgErr#<b>)</b></span>
+<span id='line164'>    <b>{</b></span>
+<span id='line165'>       x := TcpSocket<b>(</b><b>)</b>.connect<b>(</b>IpAddr<b>(</b>"fantom.org"<b>)</b>, 80<b>)</b></span>
+<span id='line166'>       x.fork<b>(</b>Thread.current.name, &amp;runFork<b>(</b>x.localPort, x.remoteAddr.numeric<b>)</b><b>)</b></span>
+<span id='line167'>    <b>}</b></span>
+<span id='line168'></span>
+<span id='line169'>    // verify non-const method</span>
+<span id='line170'>    verifyErr<b>(</b>NotImmutableErr#<b>)</b></span>
+<span id='line171'>    <b>{</b></span>
+<span id='line172'>       x := TcpSocket<b>(</b><b>)</b>.connect<b>(</b>IpAddr<b>(</b>"fantom.org"<b>)</b>, 80<b>)</b></span>
+<span id='line173'>       x.fork<b>(</b>null<b>)</b> |TcpSocket s| <b>{</b> fail <b>}</b></span>
+<span id='line174'>    <b>}</b></span>
+<span id='line175'></span>
+<span id='line176'>    // connect to www server</span>
+<span id='line177'>    s := TcpSocket<b>(</b><b>)</b>.connect<b>(</b>IpAddr<b>(</b>"fantom.org"<b>)</b>, 80<b>)</b></span>
+<span id='line178'>    so := s.options</span>
+<span id='line179'></span>
+<span id='line180'>    // fork</span>
+<span id='line181'>    t := s.fork<b>(</b>null, &amp;runFork<b>(</b>s.localPort, s.remoteAddr.numeric<b>)</b><b>)</b></span>
+<span id='line182'></span>
+<span id='line183'>    // verify that all methods on s now throw UnsupportedErr</span>
+<span id='line184'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.isBound <b>}</b></span>
+<span id='line185'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.isConnected <b>}</b></span>
+<span id='line186'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.isClosed <b>}</b></span>
+<span id='line187'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.localAddr <b>}</b></span>
+<span id='line188'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.localPort <b>}</b></span>
+<span id='line189'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.remoteAddr <b>}</b></span>
+<span id='line190'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.remotePort  <b>}</b></span>
+<span id='line191'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.bind<b>(</b>null, null<b>)</b> <b>}</b></span>
+<span id='line192'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.connect<b>(</b>null, null<b>)</b> <b>}</b></span>
+<span id='line193'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.in <b>}</b></span>
+<span id='line194'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.out <b>}</b></span>
+<span id='line195'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.close <b>}</b></span>
+<span id='line196'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.fork<b>(</b>null, null<b>)</b> <b>}</b></span>
+<span id='line197'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> s.options <b>}</b></span>
+<span id='line198'></span>
+<span id='line199'>    // verify that all socket options now throw UnsupportedErr</span>
+<span id='line200'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.inBufferSize<b>)</b> <b>}</b></span>
+<span id='line201'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.inBufferSize = 100<b>}</b></span>
+<span id='line202'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.outBufferSize<b>)</b> <b>}</b></span>
+<span id='line203'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.outBufferSize = 100<b>}</b></span>
+<span id='line204'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.keepAlive<b>)</b> <b>}</b></span>
+<span id='line205'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.keepAlive = false <b>}</b></span>
+<span id='line206'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.receiveBufferSize<b>)</b> <b>}</b></span>
+<span id='line207'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.receiveBufferSize = 10<b>}</b></span>
+<span id='line208'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.sendBufferSize<b>)</b> <b>}</b></span>
+<span id='line209'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.sendBufferSize = 10<b>}</b></span>
+<span id='line210'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.linger<b>)</b> <b>}</b></span>
+<span id='line211'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.linger = null <b>}</b></span>
+<span id='line212'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.receiveTimeout<b>)</b> <b>}</b></span>
+<span id='line213'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.receiveTimeout = null <b>}</b></span>
+<span id='line214'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.noDelay<b>)</b> <b>}</b></span>
+<span id='line215'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.noDelay = false <b>}</b></span>
+<span id='line216'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.trafficClass<b>)</b> <b>}</b></span>
+<span id='line217'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.trafficClass = 0 <b>}</b></span>
+<span id='line218'></span>
+<span id='line219'>    // join and verify response</span>
+<span id='line220'>    verifyEq<b>(</b>t.join, "HTTP/1.1 200 OK"<b>)</b></span>
+<span id='line221'>  <b>}</b></span>
+<span id='line222'></span>
+<span id='line223'>  static Obj runFork<b>(</b>Int localPort, Str remoteAddr, TcpSocket s<b>)</b></span>
+<span id='line224'>  <b>{</b></span>
+<span id='line225'>    // verify state of new detached socket</span>
+<span id='line226'>    if <b>(</b>s.localPort != localPort<b>)</b> return null</span>
+<span id='line227'>    if <b>(</b>s.remoteAddr.numeric != remoteAddr<b>)</b> return null</span>
+<span id='line228'>    if <b>(</b>s.remotePort != 80<b>)</b> return null</span>
+<span id='line229'></span>
+<span id='line230'>    // send very simple request line</span>
+<span id='line231'>    s.out.print<b>(</b>"GET / HTTP/1.0\n\r\n\r"<b>)</b>.flush</span>
+<span id='line232'></span>
+<span id='line233'>    // read first response line</span>
+<span id='line234'>    res := s.in.readLine</span>
+<span id='line235'></span>
+<span id='line236'>    // cleanup and return response</span>
+<span id='line237'>    s.close</span>
+<span id='line238'>    return res</span>
+<span id='line239'>  <b>}</b></span>
+<span id='line240'>  */</span>
+<span id='line241'></span>
+<span id='line242'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line243'>// Options</span>
+<span id='line244'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line245'></span>
+<span id='line246'>  Void testOptions<b>(</b><b>)</b></span>
+<span id='line247'>  <b>{</b></span>
+<span id='line248'>    s := TcpSocket.make</span>
+<span id='line249'>    so := s.options</span>
+<span id='line250'></span>
+<span id='line251'>    in := so.inBufferSize</span>
+<span id='line252'>    so.inBufferSize = in*2</span>
+<span id='line253'>    verifyEq<b>(</b>so.inBufferSize, in*2<b>)</b></span>
+<span id='line254'></span>
+<span id='line255'>    out := so.outBufferSize</span>
+<span id='line256'>    so.outBufferSize = in*2+1</span>
+<span id='line257'>    verifyEq<b>(</b>so.outBufferSize, in*2+1<b>)</b></span>
+<span id='line258'></span>
+<span id='line259'>    keepAlive := so.keepAlive</span>
+<span id='line260'>    so.keepAlive = !keepAlive</span>
+<span id='line261'>    verifyEq<b>(</b>so.keepAlive, !keepAlive<b>)</b></span>
+<span id='line262'></span>
+<span id='line263'>    receive := so.receiveBufferSize</span>
+<span id='line264'>    so.receiveBufferSize = receive*2</span>
+<span id='line265'>    verifyEq<b>(</b>so.receiveBufferSize, receive*2<b>)</b></span>
+<span id='line266'></span>
+<span id='line267'>    send := so.sendBufferSize</span>
+<span id='line268'>    so.sendBufferSize = send*4</span>
+<span id='line269'>    verifyEq<b>(</b>so.sendBufferSize, send*4<b>)</b></span>
+<span id='line270'></span>
+<span id='line271'>    reuse := so.reuseAddr</span>
+<span id='line272'>    so.reuseAddr = !reuse</span>
+<span id='line273'>    verifyEq<b>(</b>so.reuseAddr, !reuse<b>)</b></span>
+<span id='line274'></span>
+<span id='line275'>    so.linger = 2sec</span>
+<span id='line276'>    verifyEq<b>(</b>so.linger, 2sec<b>)</b></span>
+<span id='line277'>    so.linger = null</span>
+<span id='line278'>    verifyEq<b>(</b>so.linger, null<b>)</b></span>
+<span id='line279'></span>
+<span id='line280'>    so.receiveTimeout = 100ms</span>
+<span id='line281'>    verifyEq<b>(</b>so.receiveTimeout, 100ms<b>)</b></span>
+<span id='line282'>    so.receiveTimeout = null</span>
+<span id='line283'>    verifyEq<b>(</b>so.receiveTimeout, null<b>)</b></span>
+<span id='line284'></span>
+<span id='line285'>    verifyEq<b>(</b>so.noDelay, true<b>)</b> // should default to false</span>
+<span id='line286'>    so.noDelay = false</span>
+<span id='line287'>    verifyEq<b>(</b>so.noDelay, false<b>)</b></span>
+<span id='line288'></span>
+<span id='line289'>    tc := so.trafficClass</span>
+<span id='line290'>    so.trafficClass = 0x6</span>
+<span id='line291'>    verifyEq<b>(</b>so.trafficClass, 0x6<b>)</b></span>
+<span id='line292'></span>
+<span id='line293'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> echo<b>(</b>so.broadcast<b>)</b> <b>}</b></span>
+<span id='line294'>    verifyErr<b>(</b>UnsupportedErr#<b>)</b> <b>{</b> so.broadcast = false <b>}</b></span>
+<span id='line295'></span>
+<span id='line296'>    xo := TcpSocket<b>(</b><b>)</b>.options</span>
+<span id='line297'>    xo.copyFrom<b>(</b>so<b>)</b></span>
+<span id='line298'>    verifyEq<b>(</b>xo.inBufferSize, so.inBufferSize<b>)</b></span>
+<span id='line299'>    verifyEq<b>(</b>xo.outBufferSize, so.outBufferSize<b>)</b></span>
+<span id='line300'>    verifyEq<b>(</b>xo.keepAlive, so.keepAlive<b>)</b></span>
+<span id='line301'>    verifyEq<b>(</b>xo.receiveBufferSize, so.receiveBufferSize<b>)</b></span>
+<span id='line302'>    verifyEq<b>(</b>xo.sendBufferSize, so.sendBufferSize<b>)</b></span>
+<span id='line303'>    verifyEq<b>(</b>xo.reuseAddr, so.reuseAddr<b>)</b></span>
+<span id='line304'>    verifyEq<b>(</b>xo.linger, so.linger<b>)</b></span>
+<span id='line305'>    verifyEq<b>(</b>xo.receiveTimeout, so.receiveTimeout<b>)</b></span>
+<span id='line306'>    verifyEq<b>(</b>xo.noDelay, so.noDelay<b>)</b></span>
+<span id='line307'>    verifyEq<b>(</b>xo.trafficClass, so.trafficClass<b>)</b></span>
+<span id='line308'></span>
+<span id='line309'>    s.close</span>
+<span id='line310'>  <b>}</b></span>
+<span id='line311'></span>
+<span id='line312'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line313'>// Utils</span>
+<span id='line314'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line315'></span>
+<span id='line316'>  /*</span>
+<span id='line317'>  Void dump<b>(</b>TcpSocket s<b>)</b></span>
+<span id='line318'>  <b>{</b></span>
+<span id='line319'>    echo<b>(</b>"---------"<b>)</b></span>
+<span id='line320'>    echo<b>(</b>"bound      = $s.isBound"<b>)</b></span>
+<span id='line321'>    echo<b>(</b>"connected  = $s.isConnected"<b>)</b></span>
+<span id='line322'>    echo<b>(</b>"closed     = $s.isClosed"<b>)</b></span>
+<span id='line323'>    echo<b>(</b>"localAddr  = $s.localAddr"<b>)</b></span>
+<span id='line324'>    echo<b>(</b>"localPort  = $s.localPort"<b>)</b></span>
+<span id='line325'>    echo<b>(</b>"remoteAddr = $s.remoteAddr"<b>)</b></span>
+<span id='line326'>    echo<b>(</b>"remotePort = $s.remotePort"<b>)</b></span>
+<span id='line327'>    echo<b>(</b>"keepAlive  = $s.options.keepAlive"<b>)</b></span>
+<span id='line328'>    echo<b>(</b>"receive    = $s.options.receiveBufferSize"<b>)</b></span>
+<span id='line329'>    echo<b>(</b>"send       = $s.options.sendBufferSize"<b>)</b></span>
+<span id='line330'>    echo<b>(</b>"reuseAddr  = $s.options.reuseAddr"<b>)</b></span>
+<span id='line331'>    echo<b>(</b>"linger     = $s.options.linger"<b>)</b></span>
+<span id='line332'>    echo<b>(</b>"timeout    = $s.options.receiveTimeout"<b>)</b></span>
+<span id='line333'>    echo<b>(</b>"noDelay    = $s.options.noDelay"<b>)</b></span>
+<span id='line334'>    echo<b>(</b>"trafficCls = 0x$s.options.trafficClass.toHex"<b>)</b></span>
+<span id='line335'>  <b>}</b></span>
+<span id='line336'>  */</span>
+<span id='line337'></span>
+<span id='line338'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

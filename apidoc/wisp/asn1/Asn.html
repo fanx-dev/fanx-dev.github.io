@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>asn1::Asn</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='Asn.html'>Asn</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> asn1::Asn</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  asn1::Asn</pre>
+<p class='src'>
+<a href='src-Asn.fan.html'>Source</a></p>
+
+<p>Asn provides utilities for creating <code><a href='AsnObj.html'>AsnObj</a></code>.</p>
+<dl>
+<dt id='Null'>
+Null</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnObj.html'>AsnObj</a> Null := AsnObj.&lt;ctor>([AsnTag.univNull], null)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line45'>Source</a></p>
+
+<p>Singleton for universal <code>Null</code></p>
+</dd>
+<dt id='asnEnum'>
+asnEnum</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObj.html'>AsnObj</a> asnEnum(<a href='../sys/Int.html'>Int</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line59'>Source</a></p>
+
+<p>Convenience to create a universal <code>Enumerated</code> value</p>
+</dd>
+<dt id='bits'>
+bits</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObj.html'>AsnObj</a> bits(<a href='../std/Buf.html'>Buf</a> bits)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line35'>Source</a></p>
+
+<p>Convenience to create a universal <code>Bit String</code></p>
+
+<p>See <code><a href='AsnObjBuilder.html#bits'>AsnObjBuilder.bits</a></code></p>
+</dd>
+<dt id='bool'>
+bool</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObj.html'>AsnObj</a> bool(<a href='../sys/Bool.html'>Bool</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line27'>Source</a></p>
+
+<p>Convenience to create a universal <code>Boolean</code></p>
+</dd>
+<dt id='genTime'>
+genTime</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObj.html'>AsnObj</a> genTime(<a href='../std/DateTime.html'>DateTime</a> ts)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line75'>Source</a></p>
+
+<p>Convenience to create a universal GeneralizedTime</p>
+</dd>
+<dt id='int'>
+int</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObj.html'>AsnObj</a> int(<a href='../sys/Obj.html'>Obj</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line30'>Source</a></p>
+
+<p>Convenience to create a universal <code>Integer</code>.</p>
+
+<p>See <code><a href='AsnObjBuilder.html#int'>AsnObjBuilder.int</a></code></p>
+</dd>
+<dt id='octets'>
+octets</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObj.html'>AsnObj</a> octets(<a href='../sys/Obj.html'>Obj</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line40'>Source</a></p>
+
+<p>Convenience to create a universal <code>Octet String</code></p>
+
+<p>See <code><a href='AsnObjBuilder.html#octets'>AsnObjBuilder.octets</a></code></p>
+</dd>
+<dt id='oid'>
+oid</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnOid.html'>AsnOid</a> oid(<a href='../sys/Obj.html'>Obj</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line48'>Source</a></p>
+
+<p>Create an ASN.1 <code>Object Identifier</code> value (OID).</p>
+
+<p>See <code><a href='AsnObjBuilder.html#oid'>AsnObjBuilder.oid</a></code></p>
+</dd>
+<dt id='seq'>
+seq</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnSeq.html'>AsnSeq</a> seq(<a href='../sys/Obj.html'>Obj</a> items)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line78'>Source</a></p>
+
+<p>Convenience to create a universal <code>SEQUENCE</code></p>
+
+<p>See <code><a href='AsnObjBuilder.html#seq'>AsnObjBuilder.seq</a></code></p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnSet.html'>AsnSet</a> set(<a href='../sys/Obj.html'>Obj</a> items)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line83'>Source</a></p>
+
+<p>Convenience to create a universal <code>SET</code></p>
+
+<p>The <code>items</code> parameter may be any of the values accepted by <code><a href='Asn.html#seq'>seq</a></code>.</p>
+</dd>
+<dt id='str'>
+str</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObj.html'>AsnObj</a> str(<a href='../sys/Str.html'>Str</a> val, <a href='AsnTag.html'>AsnTag</a> univ)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line65'>Source</a></p>
+
+<p>Convenience to create one of the ASN.1 string types.</p>
+
+<p>See <code><a href='AsnObjBuilder.html#str'>AsnObjBuilder.str</a></code></p>
+
+<p>See <code><a href='Asn.html#utf8'>utf8</a></code> to easily create UTF-8 strings.</p>
+</dd>
+<dt id='tag'>
+tag</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObjBuilder.html'>AsnObjBuilder</a> tag(<a href='AsnTag.html'>AsnTag?</a> tag)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line23'>Source</a></p>
+
+<p>Create an <code><a href='AsnObjBuilder.html'>object builder</a></code> and add the given tag if it is not null.</p>
+</dd>
+<dt id='utc'>
+utc</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObj.html'>AsnObj</a> utc(<a href='../std/DateTime.html'>DateTime</a> ts)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line72'>Source</a></p>
+
+<p>Convenience to create a universal <code>UTCTime</code></p>
+</dd>
+<dt id='utf8'>
+utf8</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnObj.html'>AsnObj</a> utf8(<a href='../sys/Str.html'>Str</a> val)</code></p>
+<p class='src'>
+<a href='src-Asn.fan.html#line62'>Source</a></p>
+
+<p>Convenience to create a universal <code>Utf8String</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Asn.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#Null'>Null</a></li><li><a href='#asnEnum'>asnEnum</a></li><li><a href='#bits'>bits</a></li><li><a href='#bool'>bool</a></li><li><a href='#genTime'>genTime</a></li><li><a href='#int'>int</a></li><li><a href='#octets'>octets</a></li><li><a href='#oid'>oid</a></li><li><a href='#seq'>seq</a></li><li><a href='#set'>set</a></li><li><a href='#str'>str</a></li><li><a href='#tag'>tag</a></li><li><a href='#utc'>utc</a></li><li><a href='#utf8'>utf8</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>MimeUtil.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>email</a></li><li><a href='MimeUtil.html'>MimeUtil</a></li><li><a href='src-MimeUtil.fan.html'>MimeUtil.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   14 May 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using inet</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Utilities to deal with all the idiosyncrasies of MIME.</span>
+<span id='line13'>**</span>
+<span id='line14'>class MimeUtil</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>  **</span>
+<span id='line18'>  ** Encode the specified text into a "encoded word" according to</span>
+<span id='line19'>  ** RFC 2047.  If text is pure ASCII, then it is returned as is.</span>
+<span id='line20'>  ** Otherwise encode using UTF-8 Base64.</span>
+<span id='line21'>  **</span>
+<span id='line22'>  static Str toEncodedWord<b>(</b>Str text<b>)</b></span>
+<span id='line23'>  <b>{</b></span>
+<span id='line24'>    if <b>(</b>text.isAscii<b>)</b> return text</span>
+<span id='line25'>    return "=?UTF-8?B?" + Buf<b>(</b><b>)</b>.print<b>(</b>text<b>)</b>.toBase64 + "?="</span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  **</span>
+<span id='line29'>  ** Return the addr-spec or "local@domain" part of an email</span>
+<span id='line30'>  ** address string.  The result is always returned as "&lt;addr>".</span>
+<span id='line31'>  ** The addresses may be formatted with or without a display name:</span>
+<span id='line32'>  **</span>
+<span id='line33'>  **   bob@acme.com                =>  &lt;bob@acme.com></span>
+<span id='line34'>  **   Bob Smith &lt;bob@acme.com>    =>  &lt;bob@acme.com></span>
+<span id='line35'>  **   "Bob Smith" &lt;bob@acme.com>  =>  &lt;bob@acme.com></span>
+<span id='line36'>  **</span>
+<span id='line37'>  static Str toAddrSpec<b>(</b>Str addr<b>)</b></span>
+<span id='line38'>  <b>{</b></span>
+<span id='line39'>    addr = addr.trim</span>
+<span id='line40'>    lt := addr.index<b>(</b>"&lt;"<b>)</b></span>
+<span id='line41'>    gt := addr.index<b>(</b>">"<b>)</b></span>
+<span id='line42'>    if <b>(</b>lt != null &amp;&amp; gt != null<b>)</b> return addr<b>[</b>lt..gt<b>]</b></span>
+<span id='line43'>    return "&lt;$addr>"</span>
+<span id='line44'>  <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  **</span>
+<span id='line47'>  ** Write a MIME header formatted as "name: body\r\n".</span>
+<span id='line48'>  ** NOTE: hook to potentially fold header lines over 1000 here</span>
+<span id='line49'>  **</span>
+<span id='line50'>  internal static Void encodeHeader<b>(</b>OutStream out, Str name, Str val<b>)</b></span>
+<span id='line51'>  <b>{</b></span>
+<span id='line52'>    out.print<b>(</b>name<b>)</b>.print<b>(</b>": "<b>)</b>.print<b>(</b>val<b>)</b>.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line53'>  <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

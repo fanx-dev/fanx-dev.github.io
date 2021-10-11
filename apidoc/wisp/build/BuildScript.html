@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::BuildScript</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='BuildScript.html'>BuildScript</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> build::BuildScript</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  build::BuildScript</pre>
+
+<p>BuildScript is the base class for build scripts - it manages the command line interface, argument parsing, environment, and target execution.</p>
+
+<p>See <a href='docTools::Build'>docTools::Build</a> for details.</p>
+<dl>
+<dt id='applyMacros'>
+applyMacros</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> applyMacros(<a href='../sys/Str.html'>Str</a> pattern, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> macros := this.configs())</code></p>
+
+<p>Apply a set of macro substitutions to the given pattern. Substitution keys are indicated in the pattern using "@{key}" and replaced by definition in macros map.  If a substitution key is undefined then raise an exception.  The <code><a href='BuildScript.html#configs'>configs</a></code> method is used for default macro key/value map.</p>
+</dd>
+<dt id='config'>
+config</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> config(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Str.html'>Str?</a> def := null)</code></p>
+
+<p>Get a config property using the following rules:</p>
+
+<ol style='list-style-type:decimal'>
+<li><a href='sys::Env.vars'>sys::Env.vars</a> with <code>FAN_BUILD_$name.upper</code></li>
+
+<li><a href='sys::Env.config'>sys::Env.config</a> for build pod</li>
+
+<li>fallback to <code>def</code> parameter</li>
+</ol>
+</dd>
+<dt id='configDir'>
+configDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File?</a> configDir(<a href='../sys/Str.html'>Str</a> name, <a href='../std/File.html'>File?</a> def := null)</code></p>
+
+<p>Get a <code><a href='BuildScript.html#config'>config</a></code> prop which identifies a directory. If the prop isn't configured or doesn't map to a valid directory, then return def.</p>
+</dd>
+<dt id='configs'>
+configs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> configs()</code></p>
+
+<p>Get the key/value map of config props which are loaded from "etc/build/config.props".</p>
+</dd>
+<dt id='devHomeDir'>
+devHomeDir</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/File.html'>File</a> devHomeDir := Main.devHomeDir</code></p>
+
+<p>Home directory of development installation.  By default this value is initialized by <code>devHome</code> config prop, otherwise <a href='sys::Env.homeDir'>sys::Env.homeDir</a> is used.</p>
+</dd>
+<dt id='dumpEnv'>
+dumpEnv</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> dumpEnv()</code></p>
+
+<p>Dump script environment for debug.</p>
+</dd>
+<dt id='fatal'>
+fatal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FatalBuildErr.html'>FatalBuildErr</a> fatal(<a href='../sys/Str.html'>Str</a> msg, <a href='../sys/Err.html'>Err?</a> err := null)</code></p>
+
+<p>Log an error and return a FatalBuildErr instance</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BuildLog.html'>BuildLog</a> log := BuildLog.&lt;ctor>()</code></p>
+
+<p>Log used for error reporting and tracing</p>
+</dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> main(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> args := Env.cur().args())</code></p>
+
+<p>Run the script with the specified arguments. Return 0 on success or -1 on failure.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+</dd>
+<dt id='scriptDir'>
+scriptDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File</a> scriptDir { private set }</code></p>
+
+<p>The directory containing the this script</p>
+</dd>
+<dt id='scriptFile'>
+scriptFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File</a> scriptFile { protected set }</code></p>
+
+<p>The source file of this script</p>
+</dd>
+<dt id='target'>
+target</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TargetMethod.html'>TargetMethod?</a> target(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Lookup a target by name.  If not found and checked is false return null, otherwise throw an exception.</p>
+</dd>
+<dt id='targets'>
+targets</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='TargetMethod.html'>TargetMethod</a>&gt;</a> targets()</code></p>
+
+<p>Get the list of published targets for this script.  The first target should be the default.  The list of targets is defined by all the methods with the <code><a href='Target.html'>Target</a></code> facet.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return this script's source file path.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#applyMacros'>applyMacros</a></li><li><a href='#config'>config</a></li><li><a href='#configDir'>configDir</a></li><li><a href='#configs'>configs</a></li><li><a href='#devHomeDir'>devHomeDir</a></li><li><a href='#dumpEnv'>dumpEnv</a></li><li><a href='#fatal'>fatal</a></li><li><a href='#log'>log</a></li><li><a href='#main'>main</a></li><li><a href='#scriptDir'>scriptDir</a></li><li><a href='#scriptFile'>scriptFile</a></li><li><a href='#target'>target</a></li><li><a href='#targets'>targets</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

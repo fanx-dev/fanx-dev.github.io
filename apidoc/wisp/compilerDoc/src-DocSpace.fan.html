@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocSpace.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocSpace.html'>DocSpace</a></li><li><a href='src-DocSpace.fan.html'>DocSpace.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   20 Dec 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** DocSpace manages a namespace of documents.  All documentation</span>
+<span id='line11'>** is organized into a two level namespace of "spaceName/docName".</span>
+<span id='line12'>**</span>
+<span id='line13'>const abstract class DocSpace</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'>  **</span>
+<span id='line16'>  ** Get the name of this space which is unique with the environment.</span>
+<span id='line17'>  **</span>
+<span id='line18'>  abstract Str spaceName<b>(</b><b>)</b></span>
+<span id='line19'></span>
+<span id='line20'>  **</span>
+<span id='line21'>  ** String to use for this space in the breadcrumb.</span>
+<span id='line22'>  ** By default this is the `spaceName`.</span>
+<span id='line23'>  **</span>
+<span id='line24'>  virtual Str breadcrumb<b>(</b><b>)</b> <b>{</b> spaceName <b>}</b></span>
+<span id='line25'></span>
+<span id='line26'>  **</span>
+<span id='line27'>  ** Lookup the document in this space.  If not found</span>
+<span id='line28'>  ** raise `UnknownDocErr` or return null based on checked flag.</span>
+<span id='line29'>  **</span>
+<span id='line30'>  abstract Doc? doc<b>(</b>Str docName, Bool checked := true<b>)</b></span>
+<span id='line31'></span>
+<span id='line32'>  **</span>
+<span id='line33'>  ** Iterate all the documents in this space.</span>
+<span id='line34'>  **</span>
+<span id='line35'>  abstract Void eachDoc<b>(</b>|Doc| f<b>)</b></span>
+<span id='line36'></span>
+<span id='line37'>  **</span>
+<span id='line38'>  ** Return spaceName by default</span>
+<span id='line39'>  **</span>
+<span id='line40'>  override Str toStr<b>(</b><b>)</b> <b>{</b> spaceName <b>}</b></span>
+<span id='line41'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

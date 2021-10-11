@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseClient::HttpReq</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseClient</a></li><li><a href='HttpReq.html'>HttpReq</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> vaseClient::HttpReq</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseClient::HttpReq</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>HttpReq models the request side of an XMLHttpRequest instance.</p>
+
+<p>See <a href='pod-doc#xhr'>pod doc</a> for details.</p>
+<dl>
+<dt id='decoder'>
+decoder</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='../std/InStream.html'>InStream</a>&gt;?</a> decoder</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../concurrent/Promise.html'>Promise&lt;<a href='HttpRes.html'>HttpRes</a>&gt;</a> get()</code></p>
+
+<p>Convenience for <code>send("GET", "", c)</code>.</p>
+</dd>
+<dt id='headers'>
+headers</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> headers := Map&lt;Str,Str>[:]</code></p>
+
+<p>The request headers to send.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+
+<p>Create a new HttpReq instance.</p>
+</dd>
+<dt id='onProgress'>
+onProgress</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onProgress(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Int.html'>Int</a>,<a href='../sys/Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Optional callback to track progress of request transfers, where <code>loaded</code> is the number of bytes that have been transferred, and <code>total</code> is the total number of bytes to be transferred.</p>
+
+<p>For <code>GET</code> requests, the progress will track the response being downloaded to the browser.  For <code>PUT</code> and <code>POST</code> requests, the progress will track the content being uploaded to the server.</p>
+
+<p>Note this callback is only invoked when <code>lengthComputable</code> is <code>true</code> on the underlying progress events.</p>
+</dd>
+<dt id='post'>
+post</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../concurrent/Promise.html'>Promise&lt;<a href='HttpRes.html'>HttpRes</a>&gt;</a> post(<a href='../sys/Obj.html'>Obj</a> content)</code></p>
+
+<p>Convenience for <code>send("POST", content, c)</code>.</p>
+</dd>
+<dt id='postForm'>
+postForm</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../concurrent/Promise.html'>Promise&lt;<a href='HttpRes.html'>HttpRes</a>&gt;</a> postForm(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> form)</code></p>
+
+<p>Post the <code>form</code> map as a HTML form submission.  Formats the map into a valid url-encoded content string, and sets <code>Content-Type</code> header to <code>application/x-www-form-urlencoded</code>.</p>
+</dd>
+<dt id='postMultipart'>
+postMultipart</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../concurrent/Promise.html'>Promise&lt;<a href='HttpRes.html'>HttpRes</a>&gt;</a> postMultipart(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> form)</code></p>
+
+<p>Post by multipart protocol. The form value is Str or File type.</p>
+</dd>
+<dt id='send'>
+send</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../concurrent/Promise.html'>Promise&lt;<a href='HttpRes.html'>HttpRes</a>&gt;</a> send(<a href='../sys/Str.html'>Str</a> method, <a href='../sys/Obj.html'>Obj?</a> content)</code></p>
+
+<p>Send a request with the given content using the given HTTP method (case does not matter).  After receiving the response, call the given closure with the resulting HttpRes object.</p>
+</dd>
+<dt id='timeout'>
+timeout</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> timeout := 10000</code></p>
+</dd>
+<dt id='uri'>
+uri</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri</a> uri := `#`</code></p>
+
+<p>The Uri to send the request.</p>
+</dd>
+<dt id='useCache'>
+useCache</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> useCache := false</code></p>
+
+<p>invalide in JS runtime</p>
+</dd>
+<dt id='withCredentials'>
+withCredentials</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> withCredentials := false</code></p>
+
+<p>Indicates whether or not cross-site <code>Access-Control</code> requests should be made using credentials such as cookies, authorization headers or TLS client certificates. Setting <code>withCredentials</code> has no effect on same-site requests. The default is <code>false</code>.</p>
+
+<p>Requests from a different domain cannot set cookie values  for their own domain unless <code>withCredentials</code> is set to <code>true</code> before making the request. The third-party cookies obtained by setting <code>withCredentials</code> to <code>true</code> will still honor same-origin policy and hence can not be accessed by the requesting script through <a href='Doc.cookies'>Doc.cookies</a> or from response headers.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#decoder'>decoder</a></li><li><a href='#get'>get</a></li><li><a href='#headers'>headers</a></li><li><a href='#onProgress'>onProgress</a></li><li><a href='#post'>post</a></li><li><a href='#postForm'>postForm</a></li><li><a href='#postMultipart'>postMultipart</a></li><li><a href='#send'>send</a></li><li><a href='#timeout'>timeout</a></li><li><a href='#uri'>uri</a></li><li><a href='#useCache'>useCache</a></li><li><a href='#withCredentials'>withCredentials</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inet::SocketOptions</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='SocketOptions.html'>SocketOptions</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> inet::SocketOptions</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  inet::SocketOptions</pre>
+<p class='src'>
+<a href='src-SocketOptions.fan.html'>Source</a></p>
+
+<p>SocketOptions groups together all the socket options used to tune a TcpSocket, TcpListener, or UdpSocket.  See the options method of each of those classes for which options apply.  Accessing an unsupported option for a particular socket type will throw UnsupportedErr.</p>
+<dl>
+<dt id='broadcast'>
+broadcast</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> broadcast</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line87'>Source</a></p>
+
+<p>SO_BROADCAST socket option.</p>
+</dd>
+<dt id='connectTimeout'>
+connectTimeout</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=&quot;Use SocketConfig.connectTimeout&quot; }</code><br /> <a href='../std/Duration.html'>Duration?</a> connectTimeout</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line143'>Source</a></p>
+
+<p>Controls default timeout used by <code><a href='TcpSocket.html#connect'>TcpSocket.connect</a></code>. A null value indicates a system default timeout.</p>
+</dd>
+<dt id='copyFrom'>
+copyFrom</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> copyFrom(<a href='SocketOptions.html'>SocketOptions</a> options)</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line36'>Source</a></p>
+
+<p>Set all of this instance's options from the specified options.</p>
+</dd>
+<dt id='inBufferSize'>
+inBufferSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> inBufferSize</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line61'>Source</a></p>
+
+<p>The size in bytes for the sys::InStream buffer.  A value of 0 or null disables input stream buffing.  This field may only be set before the socket is connected otherwise Err is thrown.</p>
+</dd>
+<dt id='keepAlive'>
+keepAlive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> keepAlive</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line96'>Source</a></p>
+
+<p>SO_KEEPALIVE socket option.</p>
+</dd>
+<dt id='linger'>
+linger</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Duration.html'>Duration?</a> linger</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line133'>Source</a></p>
+
+<p>SO_LINGER socket option controls the linger time or set to null to disable linger.</p>
+</dd>
+<dt id='noDelay'>
+noDelay</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> noDelay</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line161'>Source</a></p>
+
+<p>TCP_NODELAY socket option specifies that send not be delayed to merge packets (Nagle's algorthm).</p>
+</dd>
+<dt id='outBufferSize'>
+outBufferSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> outBufferSize</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line72'>Source</a></p>
+
+<p>The size in bytes for the sys::OutStream buffer.  A value of 0 or null disables output stream buffing.  This field may only be set before the socket is connected otherwise Err is thrown.</p>
+</dd>
+<dt id='receiveBufferSize'>
+receiveBufferSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> receiveBufferSize</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line105'>Source</a></p>
+
+<p>SO_RCVBUF option for the size in bytes of the IP stack buffers.</p>
+</dd>
+<dt id='receiveTimeout'>
+receiveTimeout</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Duration.html'>Duration?</a> receiveTimeout</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line150'>Source</a></p>
+
+<p>SO_TIMEOUT socket option controls the amount of time this socket will block on a read call before throwing an IOErr timeout exception. Null is used to indicate an infinite timeout.</p>
+</dd>
+<dt id='reuseAddr'>
+reuseAddr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> reuseAddr</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line123'>Source</a></p>
+
+<p>SO_REUSEADDR socket option is used to control the time wait state of a closed socket.</p>
+</dd>
+<dt id='sendBufferSize'>
+sendBufferSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> sendBufferSize</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line114'>Source</a></p>
+
+<p>SO_SNDBUF option for the size in bytes of the IP stack buffers.</p>
+</dd>
+<dt id='trafficClass'>
+trafficClass</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> trafficClass</code></p>
+<p class='src'>
+<a href='src-SocketOptions.fan.html#line171'>Source</a></p>
+
+<p>The type-of-class byte in the IP packet header.</p>
+
+<p>For IPv4 this value is detailed in RFC 1349 as the following bitset:</p>
+
+<ul>
+<li>IPTOS_LOWCOST     (0x02)</li>
+
+<li>IPTOS_RELIABILITY (0x04)</li>
+
+<li>IPTOS_THROUGHPUT  (0x08)</li>
+
+<li>IPTOS_LOWDELAY    (0x10)</li>
+</ul>
+
+<p>For IPv6 this is the value placed into the sin6_flowinfo header field.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-SocketOptions.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#broadcast'>broadcast</a></li><li><a href='#connectTimeout'>connectTimeout</a></li><li><a href='#copyFrom'>copyFrom</a></li><li><a href='#inBufferSize'>inBufferSize</a></li><li><a href='#keepAlive'>keepAlive</a></li><li><a href='#linger'>linger</a></li><li><a href='#noDelay'>noDelay</a></li><li><a href='#outBufferSize'>outBufferSize</a></li><li><a href='#receiveBufferSize'>receiveBufferSize</a></li><li><a href='#receiveTimeout'>receiveTimeout</a></li><li><a href='#reuseAddr'>reuseAddr</a></li><li><a href='#sendBufferSize'>sendBufferSize</a></li><li><a href='#trafficClass'>trafficClass</a></li></ul>
+</div>
+</div>
+</body>
+</html>

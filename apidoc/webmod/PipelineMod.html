@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>webmod::PipelineMod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>webmod</a></li><li><a href='PipelineMod.html'>PipelineMod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> webmod::PipelineMod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../web/WebMod.html'>web::WebMod</a>
+    webmod::PipelineMod</pre>
+<p class='src'>
+<a href='src-PipelineMod.fan.html'>Source</a></p>
+
+<p>PipelineMod routes seriallly through a list of sub-WebMods.</p>
+
+<p>See <a href='index.html#pipeline'>pod doc</a></p>
+<dl>
+<dt id='after'>
+after</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='../web/WebMod.html'>WebMod</a>&gt;</a> after := WebMod[,]</code></p>
+<p class='src'>
+<a href='src-PipelineMod.fan.html#line40'>Source</a></p>
+
+<p>Steps to run serially regardless of <code>WebRes.isDone</code> after every request.</p>
+</dd>
+<dt id='before'>
+before</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='../web/WebMod.html'>WebMod</a>&gt;</a> before := WebMod[,]</code></p>
+<p class='src'>
+<a href='src-PipelineMod.fan.html#line29'>Source</a></p>
+
+<p>Steps to run serially regardless of <code>WebRes.isDone</code> before every request.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f)</code></p>
+<p class='src'>
+<a href='src-PipelineMod.fan.html'>Source</a></p>
+
+<p>Constructor with it-block.</p>
+</dd>
+<dt id='onService'>
+onService</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onService()</code></p>
+<p class='src'>
+<a href='src-PipelineMod.fan.html#line66'>Source</a></p>
+
+<p>Service the pipeline.</p>
+</dd>
+<dt id='onStart'>
+onStart</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onStart()</code></p>
+<p class='src'>
+<a href='src-PipelineMod.fan.html#line46'>Source</a></p>
+
+<p>Call <code>onStart</code> on sub-mods.</p>
+</dd>
+<dt id='onStop'>
+onStop</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onStop()</code></p>
+<p class='src'>
+<a href='src-PipelineMod.fan.html#line56'>Source</a></p>
+
+<p>Call <code>onStop</code> on sub-mods.</p>
+</dd>
+<dt id='steps'>
+steps</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='../web/WebMod.html'>WebMod</a>&gt;</a> steps := WebMod[,]</code></p>
+<p class='src'>
+<a href='src-PipelineMod.fan.html#line35'>Source</a></p>
+
+<p>Steps to run serially until <code>WebRes.isDone</code> returns true.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-PipelineMod.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#after'>after</a></li><li><a href='#before'>before</a></li><li><a href='#onService'>onService</a></li><li><a href='#onStart'>onStart</a></li><li><a href='#onStop'>onStop</a></li><li><a href='#steps'>steps</a></li></ul>
+</div>
+</div>
+</body>
+</html>

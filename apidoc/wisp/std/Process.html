@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Process</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Process.html'>Process</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> std::Process</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Process</pre>
+
+<p>Process manages spawning external OS processes.</p>
+<dl>
+<dt id='command'>
+command</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> command</code></p>
+
+<p>Command argument list used to launch process. The first item is the executable itself, then rest are the parameters.</p>
+</dd>
+<dt id='dir'>
+dir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='File.html'>File?</a> dir</code></p>
+
+<p>Working directory of process.</p>
+</dd>
+<dt id='env'>
+env</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> env()</code></p>
+
+<p>Environment variables to pass to new process as a mutable map of string key/value pairs.  This map is initialized with the current process environment.</p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code> <a href='OutStream.html'>OutStream?</a> err := Env.cur().err</code></p>
+
+<p>The output stream used to sink the process stderr. Default is to send to <code><a href='Env.html#err'>Env.err</a></code>.  If set to null, then output is silently consumed like /dev/null.  Note this field is ignored if <code><a href='Process.html#mergeErr'>mergeErr</a></code> is set true, in which case stderr goes to the stream configured via <code>out</code>.</p>
+</dd>
+<dt id='in'>
+in</dt>
+<dd>
+<p class='sig'>
+<code> <a href='InStream.html'>InStream?</a> in := null</code></p>
+
+<p>The input stream used to source the process stdin. If null, then the new process will block if it attempts to read stdin.  Default is null.</p>
+</dd>
+<dt id='join'>
+join</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> join()</code></p>
+
+<p>Wait for this process to exit and return the exit code. This method may only be called once after <code>run</code>.</p>
+</dd>
+<dt id='kill'>
+kill</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> kill()</code></p>
+
+<p>Kill this process.  Returns this.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> cmd := Str[,], <a href='File.html'>File?</a> dir := null)</code></p>
+
+<p>Construct a Process instanced used to launch an external OS process with the specified command arguments. The first item in the <code>cmd</code> list is the executable itself, then rest are the parameters.</p>
+</dd>
+<dt id='mergeErr'>
+mergeErr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> mergeErr := true</code></p>
+
+<p>If true, then stderr is redirected to the output stream configured via the <code>out</code> field, and the <code>err</code> field is ignored.  The default is true.</p>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code> <a href='OutStream.html'>OutStream?</a> out := Env.cur().out</code></p>
+
+<p>The output stream used to sink the process stdout. Default is to send to <code><a href='Env.html#out'>Env.out</a></code>.  If set to null, then output is silently consumed like /dev/null.</p>
+</dd>
+<dt id='outToIn'>
+outToIn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='OutStream.html'>OutStream</a> outToIn()</code></p>
+
+<p>Returns the output stream connected to the normal input of the subprocess</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> run()</code></p>
+
+<p>Spawn this process.  See <code><a href='Process.html#join'>join</a></code> to wait until the process finished and to get the exit code.  Return this.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#command'>command</a></li><li><a href='#dir'>dir</a></li><li><a href='#env'>env</a></li><li><a href='#err'>err</a></li><li><a href='#in'>in</a></li><li><a href='#join'>join</a></li><li><a href='#kill'>kill</a></li><li><a href='#mergeErr'>mergeErr</a></li><li><a href='#out'>out</a></li><li><a href='#outToIn'>outToIn</a></li><li><a href='#run'>run</a></li></ul>
+</div>
+</div>
+</body>
+</html>

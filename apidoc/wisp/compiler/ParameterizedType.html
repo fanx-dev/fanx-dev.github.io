@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::ParameterizedType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='ParameterizedType.html'>ParameterizedType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::ParameterizedType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='ProxyType.html'>compiler::ProxyType</a>
+    compiler::ParameterizedType</pre>
+
+<p>common parameterized type for user define generic type ref</p>
+<dl>
+<dt id='base'>
+base</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType?</a> base()</code></p>
+</dd>
+<dt id='create'>
+create</dt>
+<dd>
+<p class='sig'>
+<code>static new create(<a href='CType.html'>CType</a> baseType, <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> params := [,])</code></p>
+</dd>
+<dt id='defaultParameterized'>
+defaultParameterized</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> defaultParameterized { private set }</code></p>
+</dd>
+<dt id='doParameterize'>
+doParameterize</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CType.html'>CType</a> doParameterize(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='extName'>
+extName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> extName()</code></p>
+</dd>
+<dt id='fits'>
+fits</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> fits(<a href='CType.html'>CType</a> ty)</code></p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> flags()</code></p>
+</dd>
+<dt id='genericArgs'>
+genericArgs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> genericArgs</code></p>
+</dd>
+<dt id='hasGenericParameter'>
+hasGenericParameter</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> hasGenericParameter</code></p>
+</dd>
+<dt id='isNullable'>
+isNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isNullable()</code></p>
+</dd>
+<dt id='isParameterized'>
+isParameterized</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isParameterized()</code></p>
+</dd>
+<dt id='isVal'>
+isVal</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isVal()</code></p>
+</dd>
+<dt id='isValid'>
+isValid</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isValid()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CType.html'>CType</a> baseType, <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> params, <a href='../sys/Bool.html'>Bool</a> defaultParameterized)</code></p>
+</dd>
+<dt id='mixins'>
+mixins</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> mixins()</code></p>
+</dd>
+<dt id='operators'>
+operators</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='COperators.html'>COperators</a> operators()</code></p>
+</dd>
+<dt id='slots'>
+slots</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CSlot.html'>CSlot</a>&gt;</a> slots()</code></p>
+</dd>
+<dt id='toListOf'>
+toListOf</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> toListOf()</code></p>
+</dd>
+<dt id='toNonNullable'>
+toNonNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> toNonNullable()</code></p>
+</dd>
+<dt id='toNullable'>
+toNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> toNullable()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#create'>create</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#base'>base</a></li><li><a href='#defaultParameterized'>defaultParameterized</a></li><li><a href='#doParameterize'>doParameterize</a></li><li><a href='#extName'>extName</a></li><li><a href='#fits'>fits</a></li><li><a href='#flags'>flags</a></li><li><a href='#genericArgs'>genericArgs</a></li><li><a href='#hasGenericParameter'>hasGenericParameter</a></li><li><a href='#isNullable'>isNullable</a></li><li><a href='#isParameterized'>isParameterized</a></li><li><a href='#isVal'>isVal</a></li><li><a href='#isValid'>isValid</a></li><li><a href='#mixins'>mixins</a></li><li><a href='#operators'>operators</a></li><li><a href='#slots'>slots</a></li><li><a href='#toListOf'>toListOf</a></li><li><a href='#toNonNullable'>toNonNullable</a></li><li><a href='#toNullable'>toNullable</a></li></ul>
+</div>
+</div>
+</body>
+</html>

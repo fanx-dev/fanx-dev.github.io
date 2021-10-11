@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>crypto::PubKey</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>crypto</a></li><li><a href='PubKey.html'>PubKey</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const mixin</span> crypto::PubKey</h1>
+<pre>crypto::PubKey : <a href='AsymKey.html'>crypto::AsymKey</a></pre>
+
+<p>A public key in an asymmetric key pair. A public key can be used to <code><a href='PubKey.html#verify'>verify</a></code> and <code><a href='PubKey.html#encrypt'>encrypt</a></code> data.</p>
+<dl>
+<dt id='encrypt'>
+encrypt</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Buf.html'>Buf</a> encrypt(<a href='../std/Buf.html'>Buf</a> data, <a href='../sys/Str.html'>Str</a> padding := &quot;PKCS1Padding&quot;)</code></p>
+
+<p>Encrypt the contents of the data buffer and return the result.</p>
+
+<p>Throws an Err if the algorithm does not support encryption, or if the padding is not supported for the algorithm.</p>
+
+<pre>encrypted := pubKey.encrypt("Message".toBuf)</pre>
+</dd>
+<dt id='verify'>
+verify</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> verify(<a href='../std/Buf.html'>Buf</a> data, <a href='../sys/Str.html'>Str</a> digest, <a href='../std/Buf.html'>Buf</a> signature)</code></p>
+
+<p>Throws an Err if the digest algorithm is not supported.</p>
+
+<pre>valid := pubKey.verify("Message".toBuf, "SHA512", signature)</pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#encrypt'>encrypt</a></li><li><a href='#verify'>verify</a></li></ul>
+</div>
+</div>
+</body>
+</html>

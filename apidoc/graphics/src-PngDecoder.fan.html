@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>PngDecoder.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='PngDecoder.html'>PngDecoder</a></li><li><a href='src-PngDecoder.fan.html'>PngDecoder.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2017, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   20 Jun 2017  Matthew Giannini  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Decodes a PNG file into an `Image`</span>
+<span id='line13'>**</span>
+<span id='line14'>@NoDoc @Js class PngDecoder</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'>// Construction</span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'></span>
+<span id='line21'>  ** Creates a PNG decoder for the given stream. The stream will</span>
+<span id='line22'>  ** not be closed after decoding.</span>
+<span id='line23'>  new make<b>(</b>InStream in<b>)</b></span>
+<span id='line24'>  <b>{</b></span>
+<span id='line25'>    this.in = in</span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line29'>// Identity</span>
+<span id='line30'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line31'></span>
+<span id='line32'>  ** PNG magic number</span>
+<span id='line33'>  static const Int magic := 0x89_50_4e_47_0d_0a_1a_0a</span>
+<span id='line34'></span>
+<span id='line35'>  ** PNG mime type</span>
+<span id='line36'>  static const MimeType mime := MimeType<b>(</b>"image/png"<b>)</b></span>
+<span id='line37'></span>
+<span id='line38'>  ** Returns true if Buf starts with `magic` number.</span>
+<span id='line39'>  ** The buf is not modified.</span>
+<span id='line40'>  static Bool isPng<b>(</b>Buf buf<b>)</b> <b>{</b> magic == buf<b>[</b>0..&lt;8<b>]</b>.readS8 <b>}</b></span>
+<span id='line41'></span>
+<span id='line42'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line43'>// Decode</span>
+<span id='line44'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line45'></span>
+<span id='line46'>  Image decode<b>(</b><b>)</b></span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    // verify magic</span>
+<span id='line49'>    if <b>(</b>magic != in.readS8<b>)</b> throw IOErr<b>(</b>"Missing magic"<b>)</b></span>
+<span id='line50'>    data := Buf<b>(</b><b>)</b></span>
+<span id='line51'>    while <b>(</b>true<b>)</b></span>
+<span id='line52'>    <b>{</b></span>
+<span id='line53'>      len  := in.readU4</span>
+<span id='line54'>      type := in.readChars<b>(</b>4<b>)</b></span>
+<span id='line55'>      data  = in.readBufFully<b>(</b>data.clear, len<b>)</b></span>
+<span id='line56'>      crc  := in.readU4</span>
+<span id='line57'>      switch <b>(</b>type<b>)</b></span>
+<span id='line58'>      <b>{</b></span>
+<span id='line59'>        case "IHDR": readImageHeader<b>(</b>data<b>)</b></span>
+<span id='line60'>        case "PLTE": readPalette<b>(</b>data<b>)</b></span>
+<span id='line61'>        case "IDAT": readImageData<b>(</b>data<b>)</b></span>
+<span id='line62'>        case "tRNS": readTransparency<b>(</b>data<b>)</b></span>
+<span id='line63'>        case "IEND": break</span>
+<span id='line64'>      <b>}</b></span>
+<span id='line65'>    <b>}</b></span>
+<span id='line66'>    return toImage</span>
+<span id='line67'>  <b>}</b></span>
+<span id='line68'></span>
+<span id='line69'>  private PngImage toImage<b>(</b><b>)</b></span>
+<span id='line70'>  <b>{</b></span>
+<span id='line71'>    PngImage <b>{</b></span>
+<span id='line72'>      it.mime = PngDecoder.mime</span>
+<span id='line73'>      it.size = Size<b>(</b>width, height<b>)</b></span>
+<span id='line74'>      it.props = <b>[</b></span>
+<span id='line75'>        "colorType":       this.colorType,</span>
+<span id='line76'>        "colorSpace":      this.colorSpace,</span>
+<span id='line77'>        "colorSpaceBits":  isIndexedColor ? 8 : bitDepth,</span>
+<span id='line78'>        "interlaceMethod": this.interlaceMethod,</span>
+<span id='line79'>        "palette":         this.palette.flip,</span>
+<span id='line80'>        "transparency":    this.transparency.flip,</span>
+<span id='line81'>        "imgData":         this.imgData.flip,</span>
+<span id='line82'>      <b>]</b>.toImmutable</span>
+<span id='line83'>    <b>}</b></span>
+<span id='line84'>  <b>}</b></span>
+<span id='line85'></span>
+<span id='line86'>  private Void readImageHeader<b>(</b>Buf data<b>)</b></span>
+<span id='line87'>  <b>{</b></span>
+<span id='line88'>    this.width  = data.readU4</span>
+<span id='line89'>    if <b>(</b>width &lt;= 0<b>)</b> throw IOErr<b>(</b>"Invalid width: $width"<b>)</b></span>
+<span id='line90'></span>
+<span id='line91'>    this.height = data.readU4</span>
+<span id='line92'>    if <b>(</b>height &lt;= 0<b>)</b> throw IOErr<b>(</b>"Invalid height: $height"<b>)</b></span>
+<span id='line93'></span>
+<span id='line94'>    this.bitDepth  = data.readU1</span>
+<span id='line95'>    this.colorType = data.readU1</span>
+<span id='line96'></span>
+<span id='line97'>    compressionMethod := data.readU1</span>
+<span id='line98'>    if <b>(</b>compressionMethod != 0<b>)</b> throw IOErr<b>(</b>"Invalid compression method: $compressionMethod"<b>)</b></span>
+<span id='line99'></span>
+<span id='line100'>    filterMethod := data.readU1</span>
+<span id='line101'>    if <b>(</b>filterMethod != 0<b>)</b> throw IOErr<b>(</b>"Invalid filter method: $filterMethod"<b>)</b></span>
+<span id='line102'></span>
+<span id='line103'>    this.interlaceMethod = data.readU1</span>
+<span id='line104'>    if <b>(</b>interlaceMethod > 1<b>)</b> throw IOErr<b>(</b>"Invalid interlace method: $interlaceMethod"<b>)</b></span>
+<span id='line105'>  <b>}</b></span>
+<span id='line106'></span>
+<span id='line107'>  private Void readPalette<b>(</b>Buf data<b>)</b></span>
+<span id='line108'>  <b>{</b></span>
+<span id='line109'>    if <b>(</b>data.size % 3 != 0<b>)</b> throw IOErr<b>(</b>"Invalid palette data size: $<b>{</b>data.size<b>}</b>"<b>)</b></span>
+<span id='line110'>    palette.writeBuf<b>(</b>data<b>)</b></span>
+<span id='line111'>  <b>}</b></span>
+<span id='line112'></span>
+<span id='line113'>  private Void readImageData<b>(</b>Buf data<b>)</b></span>
+<span id='line114'>  <b>{</b></span>
+<span id='line115'>    imgData.writeBuf<b>(</b>data<b>)</b></span>
+<span id='line116'>  <b>}</b></span>
+<span id='line117'></span>
+<span id='line118'>  private Void readTransparency<b>(</b>Buf data<b>)</b></span>
+<span id='line119'>  <b>{</b></span>
+<span id='line120'>    transparency.writeBuf<b>(</b>data<b>)</b></span>
+<span id='line121'>    if <b>(</b>colorType == 3<b>)</b></span>
+<span id='line122'>      transparency.fill<b>(</b>255, palette.size - transparency.size<b>)</b></span>
+<span id='line123'>  <b>}</b></span>
+<span id='line124'></span>
+<span id='line125'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line126'>// Util</span>
+<span id='line127'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line128'></span>
+<span id='line129'>  ** Is there a palette index</span>
+<span id='line130'>  private Bool isIndexedColor<b>(</b><b>)</b> <b>{</b> colorType == 3 <b>}</b></span>
+<span id='line131'></span>
+<span id='line132'>  private Str colorSpace<b>(</b><b>)</b></span>
+<span id='line133'>  <b>{</b></span>
+<span id='line134'>    switch <b>(</b>colorType<b>)</b></span>
+<span id='line135'>    <b>{</b></span>
+<span id='line136'>      case 0: return "Gray"</span>
+<span id='line137'>      case 2: return "RGB"</span>
+<span id='line138'>      case 3: return "RGB"  // palette index</span>
+<span id='line139'>      case 4: return "Gray" // with alpha</span>
+<span id='line140'>      case 6: return "RGB"  // with alpha</span>
+<span id='line141'>    <b>}</b></span>
+<span id='line142'>    throw IOErr<b>(</b>"Invalid color type: $colorType"<b>)</b></span>
+<span id='line143'>  <b>}</b></span>
+<span id='line144'></span>
+<span id='line145'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line146'>// Fields</span>
+<span id='line147'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line148'></span>
+<span id='line149'>  private InStream in</span>
+<span id='line150'>  private Str:Obj props := <b>[</b>:<b>]</b></span>
+<span id='line151'></span>
+<span id='line152'>  // IHDR</span>
+<span id='line153'>  private Int? width</span>
+<span id='line154'>  private Int? height</span>
+<span id='line155'>  private Int? bitDepth</span>
+<span id='line156'>  private Int? colorType</span>
+<span id='line157'>  private Int? interlaceMethod</span>
+<span id='line158'></span>
+<span id='line159'>  // PLTE</span>
+<span id='line160'>  private Buf palette := Buf<b>(</b><b>)</b></span>
+<span id='line161'></span>
+<span id='line162'>  // tRNS</span>
+<span id='line163'>  ** simple transparency alpha channel</span>
+<span id='line164'>  private Buf transparency := Buf<b>(</b><b>)</b></span>
+<span id='line165'></span>
+<span id='line166'>  // IDAT</span>
+<span id='line167'>  ** Concatenation of all IDAT *compressed* data chunks.</span>
+<span id='line168'>  private Buf imgData := Buf<b>(</b><b>)</b></span>
+<span id='line169'><b>}</b></span>
+<span id='line170'></span>
+<span id='line171'>**************************************************************************</span>
+<span id='line172'>** PngImage</span>
+<span id='line173'>**************************************************************************</span>
+<span id='line174'></span>
+<span id='line175'>@NoDoc @Js const class PngImage : Image</span>
+<span id='line176'><b>{</b></span>
+<span id='line177'>  new make<b>(</b>|This| f<b>)</b> : super<b>(</b>f<b>)</b> <b>{</b> <b>}</b></span>
+<span id='line178'></span>
+<span id='line179'>  ** Does the image have an alpha channel</span>
+<span id='line180'>  Bool hasAlpha<b>(</b><b>)</b> <b>{</b> colorType == 4 || colorType == 6 <b>}</b></span>
+<span id='line181'></span>
+<span id='line182'>  ** Does the image have a palette index</span>
+<span id='line183'>  Bool hasPalette<b>(</b><b>)</b> <b>{</b> palette.size > 0 <b>}</b></span>
+<span id='line184'></span>
+<span id='line185'>  ** Does the image have simple transparency alpha channel</span>
+<span id='line186'>  Bool hasTransparency<b>(</b><b>)</b> <b>{</b> transparency.size > 0 <b>}</b></span>
+<span id='line187'></span>
+<span id='line188'>  ** Color type code</span>
+<span id='line189'>  Int colorType<b>(</b><b>)</b> <b>{</b> props<b>[</b>"colorType"<b>]</b> <b>}</b></span>
+<span id='line190'></span>
+<span id='line191'>  ** Number of color components</span>
+<span id='line192'>  Int colors<b>(</b><b>)</b> <b>{</b></span>
+<span id='line193'>    c := <b>(</b>colorType == 2 || colorType == 6<b>)</b> ? 3 : 1</span>
+<span id='line194'>    return hasAlpha ? c + 1 : c</span>
+<span id='line195'>  <b>}</b></span>
+<span id='line196'></span>
+<span id='line197'>  ** Number of bits in a pixel</span>
+<span id='line198'>  Int pixelBits<b>(</b><b>)</b> <b>{</b> colors * <b>(</b><b>(</b>Int<b>)</b>props<b>[</b>"colorSpaceBits"<b>]</b><b>)</b> <b>}</b></span>
+<span id='line199'></span>
+<span id='line200'>  ** The palette index. The Buf is immutable.</span>
+<span id='line201'>  Buf palette<b>(</b><b>)</b> <b>{</b> props<b>[</b>"palette"<b>]</b> <b>}</b></span>
+<span id='line202'></span>
+<span id='line203'>  ** The simple transparency alpha channel. The Buf is immutable.</span>
+<span id='line204'>  Buf transparency<b>(</b><b>)</b> <b>{</b> props<b>[</b>"transparency"<b>]</b> <b>}</b></span>
+<span id='line205'></span>
+<span id='line206'>  ** Raw image data. The Buf is immutable.</span>
+<span id='line207'>  Buf imgData<b>(</b><b>)</b> <b>{</b> props<b>[</b>"imgData"<b>]</b> <b>}</b></span>
+<span id='line208'></span>
+<span id='line209'>  ** Get decompressed pixels. The Buf is immutable.</span>
+<span id='line210'>  Buf pixels<b>(</b><b>)</b></span>
+<span id='line211'>  <b>{</b></span>
+<span id='line212'>    if <b>(</b>pixelsRef.val != null<b>)</b> return pixelsRef.val->seek<b>(</b>0<b>)</b></span>
+<span id='line213'></span>
+<span id='line214'>    data := Zip.deflateInStream<b>(</b>imgData.in<b>)</b>.readAllBuf</span>
+<span id='line215'>    pixelBytes  := pixelBits / 8</span>
+<span id='line216'>    scanLineLen := pixelBytes * size.w.toInt</span>
+<span id='line217'>    numPixels   := scanLineLen * size.h.toInt</span>
+<span id='line218'>    pixels      := Buf<b>(</b>numPixels<b>)</b></span>
+<span id='line219'>    row         := 0</span>
+<span id='line220'>    while <b>(</b>data.more<b>)</b></span>
+<span id='line221'>    <b>{</b></span>
+<span id='line222'>      filter := data.read</span>
+<span id='line223'>      <b>(</b>0..&lt;scanLineLen<b>)</b>.each |i|</span>
+<span id='line224'>      <b>{</b></span>
+<span id='line225'>        // None</span>
+<span id='line226'>        if <b>(</b>0 == filter<b>)</b> <b>{</b> pixels.out.write<b>(</b>data.read<b>)</b>; return <b>}</b></span>
+<span id='line227'></span>
+<span id='line228'>        byte  := data.read</span>
+<span id='line229'>        col   := <b>(</b>i - <b>(</b>i % pixelBytes<b>)</b><b>)</b> / pixelBytes</span>
+<span id='line230'>        left  := i &lt; pixelBytes ? 0 : pixels<b>[</b>pixels.size - pixelBytes<b>]</b></span>
+<span id='line231'>        upper := row == 0 ? 0 : pixels<b>[</b><b>(</b><b>(</b>row - 1<b>)</b> * scanLineLen<b>)</b> + <b>(</b>col * pixelBytes<b>)</b> + <b>(</b>i % pixelBytes<b>)</b><b>]</b></span>
+<span id='line232'>        upperLeft := row == 0 || col == 0 ? 0 : pixels<b>[</b><b>(</b><b>(</b>row - 1<b>)</b> * scanLineLen<b>)</b> + <b>(</b><b>(</b>col - 1<b>)</b> * pixelBytes<b>)</b> + <b>(</b>i % pixelBytes<b>)</b><b>]</b></span>
+<span id='line233'></span>
+<span id='line234'>        Int? val := null</span>
+<span id='line235'>        switch <b>(</b>filter<b>)</b></span>
+<span id='line236'>        <b>{</b></span>
+<span id='line237'>          case 1: // Sub</span>
+<span id='line238'>            val = byte + left</span>
+<span id='line239'>          case 2: // Up</span>
+<span id='line240'>            val = upper + byte</span>
+<span id='line241'>          case 3: // Avg</span>
+<span id='line242'>            val = <b>(</b>byte + <b>(</b><b>(</b>left + upper<b>)</b>.toFloat / 2f<b>)</b>.floor.toInt<b>)</b></span>
+<span id='line243'>          case 4: // Paeth</span>
+<span id='line244'>            p  := left + upper - upperLeft</span>
+<span id='line245'>            pa := <b>(</b>p - left<b>)</b>.abs</span>
+<span id='line246'>            pb := <b>(</b>p - upper<b>)</b>.abs</span>
+<span id='line247'>            pc := <b>(</b>p - upperLeft<b>)</b>.abs</span>
+<span id='line248'></span>
+<span id='line249'>            paeth := upperLeft</span>
+<span id='line250'>            if <b>(</b>pa &lt;= pb &amp;&amp; pa &lt;= pc<b>)</b></span>
+<span id='line251'>              paeth = left</span>
+<span id='line252'>            else if <b>(</b>pb &lt;= pc<b>)</b></span>
+<span id='line253'>              paeth = upper</span>
+<span id='line254'></span>
+<span id='line255'>            val = byte + paeth</span>
+<span id='line256'>        <b>}</b></span>
+<span id='line257'>        pixels.write<b>(</b>val % 256<b>)</b></span>
+<span id='line258'>      <b>}</b></span>
+<span id='line259'>      ++row</span>
+<span id='line260'>    <b>}</b></span>
+<span id='line261'></span>
+<span id='line262'>    pixelsRef.val = pixels.flip.toImmutable</span>
+<span id='line263'>    return pixelsRef.val</span>
+<span id='line264'>  <b>}</b></span>
+<span id='line265'>  private const AtomicRef pixelsRef := AtomicRef<b>(</b>null<b>)</b></span>
+<span id='line266'><b>}</b></span>
+<span id='line267'></span>
+</pre>
+</div>
+</body>
+</html>

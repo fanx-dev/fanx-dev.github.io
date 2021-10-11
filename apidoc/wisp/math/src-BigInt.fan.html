@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>BigInt.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>math</a></li><li><a href='BigInt.html'>BigInt</a></li><li><a href='src-BigInt.fan.html'>BigInt.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   06 Aug 2021 Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** Immutable arbitrary-precision integer.</span>
+<span id='line11'>**</span>
+<span id='line12'>native const class BigInt</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line16'>// Construction</span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'></span>
+<span id='line19'>  static new fromStr<b>(</b>Str s, Int radix := 10, Bool checked := true<b>)</b></span>
+<span id='line20'></span>
+<span id='line21'>  ** Default value is 0.</span>
+<span id='line22'>  static const BigInt defVal</span>
+<span id='line23'>  static const BigInt zero</span>
+<span id='line24'>  static const BigInt one</span>
+<span id='line25'></span>
+<span id='line26'>  new makeInt<b>(</b>Int val<b>)</b></span>
+<span id='line27'>  new makeBuf<b>(</b>Buf bytes<b>)</b></span>
+<span id='line28'></span>
+<span id='line29'>  private new privateMake<b>(</b><b>)</b></span>
+<span id='line30'></span>
+<span id='line31'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line32'>// Obj</span>
+<span id='line33'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line34'></span>
+<span id='line35'>  override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line36'></span>
+<span id='line37'>  override Int compare<b>(</b>Obj obj<b>)</b></span>
+<span id='line38'></span>
+<span id='line39'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line40'></span>
+<span id='line41'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line42'>// Identity</span>
+<span id='line43'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line44'></span>
+<span id='line45'>  ** -1, 0, 1 if the BigInt is negative, zero, or positive.</span>
+<span id='line46'>  Int signum<b>(</b><b>)</b></span>
+<span id='line47'></span>
+<span id='line48'>  ** Convert the number to an Int.</span>
+<span id='line49'>  **</span>
+<span id='line50'>  ** If the value is out-of-range and checked is true, an Err is thrown.</span>
+<span id='line51'>  ** Otherwise the value is truncated, with possible loss of sign.</span>
+<span id='line52'>  Int toInt<b>(</b>Bool checked := true<b>)</b></span>
+<span id='line53'></span>
+<span id='line54'>  Buf toBuf<b>(</b><b>)</b></span>
+<span id='line55'></span>
+<span id='line56'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line57'>// Methods</span>
+<span id='line58'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line59'></span>
+<span id='line60'>  ////////// unary //////////</span>
+<span id='line61'></span>
+<span id='line62'>  @Operator BigInt negate<b>(</b><b>)</b></span>
+<span id='line63'></span>
+<span id='line64'>  @Operator BigInt increment<b>(</b><b>)</b></span>
+<span id='line65'></span>
+<span id='line66'>  @Operator BigInt decrement<b>(</b><b>)</b></span>
+<span id='line67'></span>
+<span id='line68'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line69'>// Bitwise</span>
+<span id='line70'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line71'></span>
+<span id='line72'>  BigInt setBit<b>(</b>Int b<b>)</b></span>
+<span id='line73'></span>
+<span id='line74'>  BigInt clearBit<b>(</b>Int b<b>)</b></span>
+<span id='line75'></span>
+<span id='line76'>  BigInt flipBit<b>(</b>Int b<b>)</b></span>
+<span id='line77'></span>
+<span id='line78'>  Bool testBit<b>(</b>Int b<b>)</b></span>
+<span id='line79'></span>
+<span id='line80'>  ** Returns the number of bits in the minimal two's-complement</span>
+<span id='line81'>  ** representation of this BigInteger, excluding a sign bit.</span>
+<span id='line82'>  Int bitLen<b>(</b><b>)</b></span>
+<span id='line83'></span>
+<span id='line84'>  BigInt not<b>(</b><b>)</b></span>
+<span id='line85'></span>
+<span id='line86'>  BigInt and<b>(</b>Obj b<b>)</b></span>
+<span id='line87'></span>
+<span id='line88'>  BigInt or<b>(</b>Obj b<b>)</b></span>
+<span id='line89'></span>
+<span id='line90'>  BigInt xor<b>(</b>Obj b<b>)</b></span>
+<span id='line91'></span>
+<span id='line92'>  BigInt shiftl<b>(</b>Int b<b>)</b></span>
+<span id='line93'></span>
+<span id='line94'>  BigInt shftr<b>(</b>Int b<b>)</b></span>
+<span id='line95'></span>
+<span id='line96'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

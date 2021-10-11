@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocTheme.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocTheme.html'>DocTheme</a></li><li><a href='src-DocTheme.fan.html'>DocTheme.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   20 Dec 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using web</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** DocTheme is responsible for providing the common chrome, styling,</span>
+<span id='line13'>** and breadcrumb across different DocRenderers.  The theme used by</span>
+<span id='line14'>** renderers is defined by `DocEnv.theme`.</span>
+<span id='line15'>**</span>
+<span id='line16'>const class DocTheme</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'></span>
+<span id='line19'>  **</span>
+<span id='line20'>  ** Write opening HTML for page.  This should generate the</span>
+<span id='line21'>  ** doc type, html, head, and opening body tags.  Any common</span>
+<span id='line22'>  ** header should always be generated here.</span>
+<span id='line23'>  **</span>
+<span id='line24'>  virtual Void writeStart<b>(</b>DocRenderer r<b>)</b></span>
+<span id='line25'>  <b>{</b></span>
+<span id='line26'>    out := r.out</span>
+<span id='line27'>    out.docType</span>
+<span id='line28'>    out.html</span>
+<span id='line29'>    out.head</span>
+<span id='line30'>      .title.esc<b>(</b>r.doc.title<b>)</b>.titleEnd</span>
+<span id='line31'>      .printLine<b>(</b>"&lt;meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>"<b>)</b></span>
+<span id='line32'>      .includeCss<b>(</b>r.doc.isTopIndex ? `style.css` : `../style.css`<b>)</b></span>
+<span id='line33'>      .headEnd</span>
+<span id='line34'>    out.body</span>
+<span id='line35'>  <b>}</b></span>
+<span id='line36'></span>
+<span id='line37'>  **</span>
+<span id='line38'>  ** Write navigation breadcrumbs for given renderer</span>
+<span id='line39'>  **</span>
+<span id='line40'>  virtual Void writeBreadcrumb<b>(</b>DocRenderer r<b>)</b></span>
+<span id='line41'>  <b>{</b></span>
+<span id='line42'>    out := r.out</span>
+<span id='line43'>    doc := r.doc</span>
+<span id='line44'>    ext := r.env.linkUriExt ?: ""</span>
+<span id='line45'>    out.div<b>(</b>"class='breadcrumb'"<b>)</b>.ul</span>
+<span id='line46'>    if <b>(</b>doc.isTopIndex<b>)</b></span>
+<span id='line47'>    <b>{</b></span>
+<span id='line48'>      out.li.a<b>(</b>`index$ext`<b>)</b>.w<b>(</b>"Doc Index"<b>)</b>.aEnd.liEnd</span>
+<span id='line49'>    <b>}</b></span>
+<span id='line50'>    else</span>
+<span id='line51'>    <b>{</b></span>
+<span id='line52'>      out.li.a<b>(</b>`../index$ext`<b>)</b>.w<b>(</b>"Doc Index"<b>)</b>.aEnd.liEnd</span>
+<span id='line53'>      out.li.a<b>(</b>`index$ext`<b>)</b>.w<b>(</b>r.doc.space.breadcrumb<b>)</b>.aEnd.liEnd</span>
+<span id='line54'>      if <b>(</b>doc.isSpaceIndex<b>)</b></span>
+<span id='line55'>      <b>{</b></span>
+<span id='line56'>        // skip</span>
+<span id='line57'>      <b>}</b></span>
+<span id='line58'>      else if <b>(</b>doc is DocSrc<b>)</b></span>
+<span id='line59'>      <b>{</b></span>
+<span id='line60'>        src := <b>(</b>DocSrc<b>)</b>doc</span>
+<span id='line61'>        type := src.pod.type<b>(</b>src.uri.basename, false<b>)</b></span>
+<span id='line62'>        if <b>(</b>type != null<b>)</b></span>
+<span id='line63'>          out.li.a<b>(</b>`$<b>{</b>type.docName<b>}</b>$ext`<b>)</b>.w<b>(</b>type.breadcrumb<b>)</b>.aEnd.liEnd</span>
+<span id='line64'>        out.li.a<b>(</b>`$<b>{</b>doc.docName<b>}</b>$ext`<b>)</b>.w<b>(</b>src.breadcrumb<b>)</b>.aEnd.liEnd</span>
+<span id='line65'>      <b>}</b></span>
+<span id='line66'>      else</span>
+<span id='line67'>      <b>{</b></span>
+<span id='line68'>        out.li.a<b>(</b>`$<b>{</b>doc.docName<b>}</b>$ext`<b>)</b>.w<b>(</b>r.doc.breadcrumb<b>)</b>.aEnd.liEnd</span>
+<span id='line69'>      <b>}</b></span>
+<span id='line70'>    <b>}</b></span>
+<span id='line71'>    out.ulEnd.divEnd</span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  **</span>
+<span id='line75'>  ** Write closing HTML for page.  This should generate the</span>
+<span id='line76'>  ** common footer and close the body and html tags.</span>
+<span id='line77'>  **</span>
+<span id='line78'>  virtual Void writeEnd<b>(</b>DocRenderer r<b>)</b></span>
+<span id='line79'>  <b>{</b></span>
+<span id='line80'>    out := r.out</span>
+<span id='line81'>    out.bodyEnd</span>
+<span id='line82'>    out.htmlEnd</span>
+<span id='line83'>  <b>}</b></span>
+<span id='line84'></span>
+<span id='line85'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

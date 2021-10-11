@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::AbstractMain</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='AbstractMain.html'>AbstractMain</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract virtual class</span> util::AbstractMain</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  util::AbstractMain</pre>
+
+<p>AbstractMain provides conveniences for writing the main routine of an app. Command line arguments are configured as fields with the <code><a href='Arg.html'>Arg</a></code> facet:</p>
+
+<pre>@Arg { help = "source file to process" }
+File? src</pre>
+
+<p>Arguments are ordered by the field declaration order.  The last argument may be declared as a list to handle a variable numbers of arguments.</p>
+
+<p>Command line options are configured as fields with the <code><a href='Opt.html'>Opt</a></code> facet :</p>
+
+<pre>@Opt { help = "http port"; aliases=["p"] }
+Int port := 8080</pre>
+
+<p>Bool fields should always default to false and are considered flag options.  All other arg and opt fields must be a Str, File, or have a type which supports a <code>fromStr</code> method.</p>
+
+<p>Option fields may include the "Opt" suffix, and arguments the "Arg" suffix.  These suffixes can be used when a field conflicts with an existing slot name.</p>
+
+<p>AbstractMain will automatically implement <code><a href='AbstractMain.html#usage'>usage</a></code> and <code><a href='AbstractMain.html#parseArgs'>parseArgs</a></code> based on the fields which are declared as options and arguments.  In general subclasses only need to override <code><a href='AbstractMain.html#run'>run</a></code>. If writing a daemon main, then you'll probably want to configure your services then call <code><a href='AbstractMain.html#runServices'>runServices</a></code>.</p>
+
+<p>See <a href='https://fantom.org/doc/examples/util-main'>example</a>.</p>
+<dl>
+<dt id='appName'>
+appName</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> appName()</code></p>
+
+<p>Get the application name.  If this is a script it is the name of the script file.  For a precompiled class called "Main" this is the pod name, otherwise it is the type name.</p>
+</dd>
+<dt id='argFields'>
+argFields</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='../std/Field.html'>Field</a>&gt;</a> argFields()</code></p>
+
+<p>Get all the fields annotated with the <code><a href='Arg.html'>@Arg</a></code> facet.</p>
+</dd>
+<dt id='helpOpt'>
+helpOpt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Opt.html'>Opt</a> { help=&quot;Print usage help&quot;; aliases=[&quot;?&quot;] }</code><br /> <a href='../sys/Bool.html'>Bool</a> helpOpt := false</code></p>
+
+<p>Print usage help.</p>
+</dd>
+<dt id='homeDir'>
+homeDir</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/File.html'>File</a> homeDir()</code></p>
+
+<p>Home directory for the application.  For a script this defaults to directory of the script.  For pods the default is "{Env.cur.workDir}/etc/{pod}".</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/Log.html'>Log</a> log()</code></p>
+
+<p>Log for this application; defaults to <code><a href='AbstractMain.html#appName'>appName</a></code>.</p>
+</dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> main(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> args := Env.cur().args())</code></p>
+
+<p>Main performs the following tasks:</p>
+
+<ol style='list-style-type:decimal'>
+<li>Calls <code><a href='AbstractMain.html#parseArgs'>parseArgs</a></code> to parse command line</li>
+
+<li>If args were incomplete or -help was specified then dump usage and return 1</li>
+
+<li>Call <code><a href='AbstractMain.html#run'>run</a></code> and return 0</li>
+
+<li>If an exception is raised log it and return 1</li>
+</ol>
+</dd>
+<dt id='optFields'>
+optFields</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='../std/Field.html'>Field</a>&gt;</a> optFields()</code></p>
+
+<p>Get all the fields annotated with the <code><a href='Opt.html'>@Opt</a></code> facet.</p>
+</dd>
+<dt id='parseArgs'>
+parseArgs</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> parseArgs(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> toks)</code></p>
+
+<p>Parse the command line and set this instances fields. Return false if not all of the arguments were passed.</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> run()</code></p>
+
+<p>Run the application.  This method is called after the command line has been parsed.  See <code><a href='AbstractMain.html#runServices'>runServices</a></code> to launch a deamon application.  Return status code, zero for success.</p>
+</dd>
+<dt id='runServices'>
+runServices</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> runServices(<a href='../sys/List.html'>List&lt;<a href='Service.html'>Service</a>&gt;</a> services)</code></p>
+
+<p>Run the set of services:</p>
+
+<ol style='list-style-type:decimal'>
+<li>call install on each service</li>
+
+<li>call start on each service</li>
+
+<li>put main thread to sleep.</li>
+
+<li>on shutodwn call stop on each service</li>
+
+<li>then call uninstall on each service</li>
+</ol>
+</dd>
+<dt id='usage'>
+usage</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> usage(<a href='../std/OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+
+<p>Print usage of arguments and options. Return non-zero.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#appName'>appName</a></li><li><a href='#argFields'>argFields</a></li><li><a href='#helpOpt'>helpOpt</a></li><li><a href='#homeDir'>homeDir</a></li><li><a href='#log'>log</a></li><li><a href='#main'>main</a></li><li><a href='#optFields'>optFields</a></li><li><a href='#parseArgs'>parseArgs</a></li><li><a href='#run'>run</a></li><li><a href='#runServices'>runServices</a></li><li><a href='#usage'>usage</a></li></ul>
+</div>
+</div>
+</body>
+</html>

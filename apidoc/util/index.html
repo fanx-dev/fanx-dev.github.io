@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>pod</span> util</h1>
+<p>
+Utilities</p>
+<h2>Mixins</h2>
+<table>
+<tr>
+<td><a href='Service.html'>Service</a></td>
+<td>
+<p>Services are used to publish functionality in a VM for use by other software components.</p>
+</td>
+</tr>
+</table>
+<h2>Classes</h2>
+<table>
+<tr>
+<td><a href='AbstractMain.html'>AbstractMain</a></td>
+<td>
+<p>AbstractMain provides conveniences for writing the main routine of an app.</p>
+</td>
+</tr>
+<tr>
+<td><a href='BoolArray.html'>BoolArray</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='CsvInStream.html'>CsvInStream</a></td>
+<td>
+<p>CsvInStream is used to read delimiter-separated values as specified by RFC 4180.</p>
+</td>
+</tr>
+<tr>
+<td><a href='CsvOutStream.html'>CsvOutStream</a></td>
+<td>
+<p>CsvOutStream is used to write delimiter-separated values as specified by RFC 4180.</p>
+</td>
+</tr>
+<tr>
+<td><a href='FileLogger.html'>FileLogger</a></td>
+<td>
+<p>FileLogger appends Str log entries to a file.</p>
+</td>
+</tr>
+<tr>
+<td><a href='FloatArray.html'>FloatArray</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='IntArray.html'>IntArray</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='JVal.html'>JVal</a></td>
+<td>
+<p>JSON Object</p>
+</td>
+</tr>
+<tr>
+<td><a href='Macro.html'>Macro</a></td>
+<td>
+<p>Macro provides a way to replace macro expressions within a pattern using a pluggable implementation for the macro resolution.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Random.html'>Random</a></td>
+<td>
+<p>Random provides different implementation of random number generators with more flexibility than the methods available in sys.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Unit.html'>Unit</a></td>
+<td>
+<p>Unit models a unit of measurement.</p>
+</td>
+</tr>
+</table>
+<h2>Facets</h2>
+<table>
+<tr>
+<td><a href='Arg.html'>Arg</a></td>
+<td>
+<p>Facet for annotating an <code><a href='AbstractMain.html'>AbstractMain</a></code> argument field.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Opt.html'>Opt</a></td>
+<td>
+<p>Facet for annotating an <code><a href='AbstractMain.html'>AbstractMain</a></code> option field.</p>
+</td>
+</tr>
+</table>
+</div>
+<div class='sidebar'>
+<h3>All Types</h3>
+<ul>
+<li><a href='AbstractMain.html'>AbstractMain</a></li><li><a href='Arg.html'>Arg</a></li><li><a href='BoolArray.html'>BoolArray</a></li><li><a href='CsvInStream.html'>CsvInStream</a></li><li><a href='CsvOutStream.html'>CsvOutStream</a></li><li><a href='FileLogger.html'>FileLogger</a></li><li><a href='FloatArray.html'>FloatArray</a></li><li><a href='IntArray.html'>IntArray</a></li><li><a href='JVal.html'>JVal</a></li><li><a href='Macro.html'>Macro</a></li><li><a href='Opt.html'>Opt</a></li><li><a href='Random.html'>Random</a></li><li><a href='Service.html'>Service</a></li><li><a href='Unit.html'>Unit</a></li></ul>
+</div>
+</div>
+<div class='mainSidebar'>
+<div class='main pod-doc' id='pod-doc'>
+
+<h2 id='json'>JSON</h2>
+
+<p>The json APIs provide basic serialization between Fantom and Javascript Object Notation (JSON).  Refer to <a href='http://www.json.org'>json.org</a> for more information about JSON.</p>
+
+<h3 id='jsonMapping'>Type Mapping</h3>
+
+<p>JSON types are mapped to Fantom types as follows:</p>
+
+<pre>JSON     Fantom
+------   --------
+object   Str:Obj?
+array    Obj?[]
+string   Str
+number   Int or Float
+true     Bool
+false    Bool
+null     null</pre>
+
+<p>In addition when writing Fantom objects the following is supported:</p>
+
+<ul>
+<li><a href='docLang::Serialization#simple'>Simples</a> are written as a JSON string</li>
+
+<li><a href='docLang::Serialization#serializable'>Serializables</a> are written as JSON objects with each non-static, non-transient field being written as a key/val pair</li>
+</ul>
+
+<p>Writing simples or serializables do not "roundtrip". For example if you write a <code>Date</code> it is written and will be read back as a normal string.</p>
+
+<h3 id='jsonWrite'>Writing Json</h3>
+
+<p>Writing is accomplised via <code><a href='JsonOutStream.html'>JsonOutStream</a></code>. To write to standard out:</p>
+
+<pre>map := ["key":"value", "intKey":123]
+JsonOutStream(Env.cur.out).writeJson(map)</pre>
+
+<p>You can also use the <code><a href='JsonOutStream.html#writeJsonToStr'>writeToStr</a></code> as a convenience to write to an in-memory string.</p>
+
+<h3 id='jsonRread'>Reading Json</h3>
+
+<p>Reading JSON is accomplised via <code><a href='JsonInStream.html'>JsonInStream</a></code> which takes raw JSON from a stream and produces of the core JSON types. For example:</p>
+
+<pre>str := """{"k1":"v1", "k2":3.4159, "k3":[1,2,3], "k4": {"m1":true, "m2":null}}"""
+Str:Obj? data := JsonInStream(str.in).readJson
+data["k1"]  =>  v1</pre>
+</div>
+<div class='sidebar'>
+<h3>Contents</h3>
+<ul>
+<li><a href='#json'>JSON</a><ul>
+<li><a href='#jsonMapping'>Type Mapping</a></li><li><a href='#jsonWrite'>Writing Json</a></li><li><a href='#jsonRread'>Reading Json</a></li></ul>
+</li></ul>
+</div>
+</div>
+</body>
+</html>

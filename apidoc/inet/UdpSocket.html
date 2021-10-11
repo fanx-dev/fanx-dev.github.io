@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inet::UdpSocket</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='UdpSocket.html'>UdpSocket</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> inet::UdpSocket</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  inet::UdpSocket</pre>
+<p class='src'>
+<a href='src-UdpSocket.fan.html'>Source</a></p>
+
+<p>UdpSocket manages a UDP/IP datagram endpoint.</p>
+<dl>
+<dt id='bind'>
+bind</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> bind(<a href='IpAddr.html'>IpAddr?</a> addr, <a href='../sys/Int.html'>Int?</a> port)</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line93'>Source</a></p>
+
+<p>Bind this socket to the specified local address.  If addr is null then the default IpAddr for the local host is selected.  If port is null an ephemeral port is selected.  Throw IOErr if the port is already bound or the bind fails.  Return this.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line141'>Source</a></p>
+
+<p>Close this socket.  This method is guaranteed to never throw an IOErr.  Return true if the socket was closed successfully or false if the socket was closed abnormally.</p>
+</dd>
+<dt id='config'>
+config</dt>
+<dd>
+<p class='sig'>
+<code> <a href='SocketConfig.html'>SocketConfig</a> config()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line42'>Source</a></p>
+
+<p>Get the <code><a href='SocketConfig.html'>socket configuration</a></code> for this socket.</p>
+</dd>
+<dt id='connect'>
+connect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> connect(<a href='IpAddr.html'>IpAddr</a> addr, <a href='../sys/Int.html'>Int</a> port)</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line101'>Source</a></p>
+
+<p>Connect this socket to the specified address and port.  Once connected packets may only be send to the remote using this socket.</p>
+</dd>
+<dt id='disconnect'>
+disconnect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> disconnect()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line135'>Source</a></p>
+
+<p>Disconnect this socket from its remote address.  Do nothing if not connected. Return this.</p>
+</dd>
+<dt id='isBound'>
+isBound</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isBound()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line47'>Source</a></p>
+
+<p>Is this socket bound to a local address and port.</p>
+</dd>
+<dt id='isClosed'>
+isClosed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isClosed()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line60'>Source</a></p>
+
+<p>Is this socket closed.</p>
+</dd>
+<dt id='isConnected'>
+isConnected</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isConnected()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line52'>Source</a></p>
+
+<p>Is this socket "connected" to a specific remote host.  Since UDP is not session oriented, connected just means we've used connect() to predefine the remote address where we want to send packets.</p>
+</dd>
+<dt id='localAddr'>
+localAddr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='IpAddr.html'>IpAddr?</a> localAddr()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line69'>Source</a></p>
+
+<p>Get the bound local address or null if unbound.</p>
+</dd>
+<dt id='localPort'>
+localPort</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> localPort()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line74'>Source</a></p>
+
+<p>Get the bound local port or null if unbound.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='SocketConfig.html'>SocketConfig</a> config := SocketConfig.cur())</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html'>Source</a></p>
+
+<p>Make a new unbound UDP socket. The socket will be configured using the given <code><a href='SocketConfig.html'>socket configuration</a></code>. The following configuration applies to UDP sockets:</p>
+
+<ul>
+<li><code><a href='SocketConfig.html#broadcast'>SocketConfig.broadcast</a></code></li>
+
+<li><code><a href='SocketConfig.html#receiveBufferSize'>SocketConfig.receiveBufferSize</a></code></li>
+
+<li><code><a href='SocketConfig.html#sendBufferSize'>SocketConfig.sendBufferSize</a></code></li>
+
+<li><code><a href='SocketConfig.html#reuseAddr'>SocketConfig.reuseAddr</a></code></li>
+
+<li><code><a href='SocketConfig.html#receiveBufferSize'>SocketConfig.receiveBufferSize</a></code></li>
+
+<li><code><a href='SocketConfig.html#trafficClass'>SocketConfig.trafficClass</a></code></li>
+</ul>
+</dd>
+<dt id='options'>
+options</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=&quot;Use SocketConfig&quot; }</code><br /> <a href='SocketOptions.html'>SocketOptions</a> options()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line152'>Source</a></p>
+
+<p>Access the SocketOptions used to tune this socket.  The following options apply to UdpSockets:</p>
+
+<ul>
+<li>broadcast</li>
+
+<li>receiveBufferSize</li>
+
+<li>sendBufferSize</li>
+
+<li>reuseAddr</li>
+
+<li>receiveBufferSize</li>
+
+<li>trafficClass Accessing other option fields will throw UnsupportedErr.</li>
+</ul>
+</dd>
+<dt id='receive'>
+receive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='UdpPacket.html'>UdpPacket</a> receive(<a href='UdpPacket.html'>UdpPacket?</a> packet := null)</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line118'>Source</a></p>
+
+<p>Receive a packet on this socket's bound local address.  The resulting packet is filled in with the sender's address and port.  This method blocks until a packet is received.  If this socket's receiveTimeout option is configured, then receive will timeout with an IOErr.</p>
+
+<p>The packet data is read into the Buf starting at it's current position. The buffer is <em>not</em> grown - at most Buf.capacity bytes are received. If the received message is longer than the packet's capacity then the message is silently truncated (weird Java behavior).  Upon return the Buf size and position are updated to reflect the bytes read. Use <a href='sys::Buf.flip'>sys::Buf.flip</a> to ready the buffer to read from start. If packet is null, then a new packet is created with a capacity of 1kb.  The packet data must always be a memory backed buffer.</p>
+</dd>
+<dt id='remoteAddr'>
+remoteAddr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='IpAddr.html'>IpAddr?</a> remoteAddr()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line79'>Source</a></p>
+
+<p>Get the remote address or null if not connected to a specific end point.</p>
+</dd>
+<dt id='remotePort'>
+remotePort</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> remotePort()</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line84'>Source</a></p>
+
+<p>Get the remote port or null if not connected to a specific end point.</p>
+</dd>
+<dt id='send'>
+send</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> send(<a href='UdpPacket.html'>UdpPacket</a> packet)</code></p>
+<p class='src'>
+<a href='src-UdpSocket.fan.html#line107'>Source</a></p>
+
+<p>Send the packet to its specified remote endpoint.  If this is socket is connected to a specific remote address, then the packet's address and port must be null or ArgErr is thrown.  Throw IOErr on error.</p>
+
+<p>The number of bytes sent is buf.remaining; upon return the buf is drained and position is advanced.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-UdpSocket.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bind'>bind</a></li><li><a href='#close'>close</a></li><li><a href='#config'>config</a></li><li><a href='#connect'>connect</a></li><li><a href='#disconnect'>disconnect</a></li><li><a href='#isBound'>isBound</a></li><li><a href='#isClosed'>isClosed</a></li><li><a href='#isConnected'>isConnected</a></li><li><a href='#localAddr'>localAddr</a></li><li><a href='#localPort'>localPort</a></li><li><a href='#options'>options</a></li><li><a href='#receive'>receive</a></li><li><a href='#remoteAddr'>remoteAddr</a></li><li><a href='#remotePort'>remotePort</a></li><li><a href='#send'>send</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::TreeNode</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='TreeNode.html'>TreeNode</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> domkit::TreeNode</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  domkit::TreeNode</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Tree.fan.html'>Source</a></p>
+
+<p>TreeNode models a node in a Tree.</p>
+
+<p>See also: <a href='docDomkit::Controls#tree'>docDomkit</a></p>
+<dl>
+<dt id='children'>
+children</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='TreeNode.html'>TreeNode</a>&gt;</a> children()</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line35'>Source</a></p>
+
+<p>Get the children of this node.  If no children return an empty list. Default behavior is no children. This method must return the same instances when called.</p>
+</dd>
+<dt id='hasChildren'>
+hasChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> hasChildren()</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line29'>Source</a></p>
+
+<p>Return true if this has or might have children. This is an optimization to display an expansion control without actually loading all the children.  The default returns <code>!children.isEmpty</code>.</p>
+</dd>
+<dt id='isExpanded'>
+isExpanded</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isExpanded()</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line26'>Source</a></p>
+
+<p>Is this node expanded?</p>
+</dd>
+<dt id='onElem'>
+onElem</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> onElem(<a href='../dom/Elem.html'>Elem</a> elem, <a href='TreeFlags.html'>TreeFlags</a> flags)</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line40'>Source</a></p>
+
+<p>Callback to customize Elem for this node.</p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TreeNode.html'>TreeNode?</a> parent { internal set }</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line23'>Source</a></p>
+
+<p>Parent node of this node, or <code>null</code> if this node is a root.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Tree.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#children'>children</a></li><li><a href='#hasChildren'>hasChildren</a></li><li><a href='#isExpanded'>isExpanded</a></li><li><a href='#onElem'>onElem</a></li><li><a href='#parent'>parent</a></li></ul>
+</div>
+</div>
+</body>
+</html>

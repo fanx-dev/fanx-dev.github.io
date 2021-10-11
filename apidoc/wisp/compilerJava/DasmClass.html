@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJava::DasmClass</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJava</a></li><li><a href='DasmClass.html'>DasmClass</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerJava::DasmClass</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerJava::DasmClass</pre>
+
+<p>DasmClass models a single disassmbled Java classfile</p>
+<dl>
+<dt id='dump'>
+dump</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> dump(<a href='../std/OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+
+<p>Dump debug to output stream</p>
+</dd>
+<dt id='fields'>
+fields</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DasmField.html'>DasmField</a>&gt;</a> fields</code></p>
+
+<p>Member fields</p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DasmFlags.html'>DasmFlags</a> flags</code></p>
+
+<p>Class access flags</p>
+</dd>
+<dt id='interfaces'>
+interfaces</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DasmType.html'>DasmType</a>&gt;</a> interfaces</code></p>
+
+<p>Interface signatures</p>
+</dd>
+<dt id='methods'>
+methods</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='DasmMethod.html'>DasmMethod</a>&gt;</a> methods</code></p>
+
+<p>Member methods</p>
+</dd>
+<dt id='superClass'>
+superClass</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DasmType.html'>DasmType?</a> superClass</code></p>
+
+<p>Super class name signature (or null if object)</p>
+</dd>
+<dt id='thisClass'>
+thisClass</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DasmType.html'>DasmType</a> thisClass</code></p>
+
+<p>This class name signature</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return <code>thisClass.toStr</code></p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Version.html'>Version</a> version</code></p>
+
+<p>Classfile <code>major.minor</code> version</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dump'>dump</a></li><li><a href='#fields'>fields</a></li><li><a href='#flags'>flags</a></li><li><a href='#interfaces'>interfaces</a></li><li><a href='#methods'>methods</a></li><li><a href='#superClass'>superClass</a></li><li><a href='#thisClass'>thisClass</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

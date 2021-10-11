@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Version</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Version.html'>Version</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> std::Version</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Version</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Version is defined as a list of decimal digits separated by the dot.  Convention for Fantom pods is a four part version format of <code>major.minor.build.patch</code>.</p>
+<dl>
+<dt id='build'>
+build</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> build()</code></p>
+
+<p>Get the third segment which represents the build number. Return null if version has less than three segments.</p>
+</dd>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> compare(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>Compare from from most significant segment to least significant segment.</p>
+
+<p>Examples:</p>
+
+<pre>1.6 > 1.4
+2.0 > 1.9
+1.2.3 > 1.2
+1.11 > 1.9.3</pre>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Version.html'>Version</a> defVal := Version.fromStr(&quot;0&quot;)</code></p>
+
+<p>Default value is "0".</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return true if equal segments.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> version, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a string representation into a Version. If invalid format and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return toStr.hash</p>
+</dd>
+<dt id='major'>
+major</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> major()</code></p>
+
+<p>Get the first, most significant segment which represents the major version.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> segments)</code></p>
+
+<p>Construct with list of integer segments. Throw ArgErr if segments is empty or contains negative numbers.</p>
+</dd>
+<dt id='minor'>
+minor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> minor()</code></p>
+
+<p>Get the second segment which represents the minor version. Return null if version has less than two segments.</p>
+</dd>
+<dt id='patch'>
+patch</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> patch()</code></p>
+
+<p>Get the fourth segment which represents the patch number. Return null if version has less than four segments.</p>
+</dd>
+<dt id='segments'>
+segments</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> segments</code></p>
+
+<p>Get a readonly list of the integer segments.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>The string format is equivalent to segments.join(".")</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#build'>build</a></li><li><a href='#compare'>compare</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#major'>major</a></li><li><a href='#minor'>minor</a></li><li><a href='#patch'>patch</a></li><li><a href='#segments'>segments</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

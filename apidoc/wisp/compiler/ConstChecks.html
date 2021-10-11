@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::ConstChecks</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='ConstChecks.html'>ConstChecks</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::ConstChecks</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    <a href='CompilerStep.html'>compiler::CompilerStep</a>
+      compiler::ConstChecks</pre>
+
+<p>ConstChecks adds hooks into constructors and it-blocks to ensure that an attempt to set a const field will throw ConstErr if not in the objects constructor.  We also use this step to insert the runtime checks for non-nullable fields.</p>
+
+<p>For each it-block which sets const fields:</p>
+
+<pre>doCall(Foo it)
+{
+  this.checkInCtor(it)
+  ...
+}</pre>
+
+<p>For each constructor which takes an it-block:</p>
+
+<pre>new make(..., |This| f)
+{
+  f?.enterCtor(this)
+  ...
+  checksField$Foo()  // if non-nullable fields need runtime checks
+  f?.exitCtor()      // for every return
+  return
+}</pre>
+<dl>
+<dt id='curCtor'>
+curCtor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> curCtor</code></p>
+</dd>
+<dt id='fieldCheck'>
+fieldCheck</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> fieldCheck</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler)</code></p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+<dt id='visitStmt'>
+visitStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='Stmt.html'>Stmt</a>&gt;?</a> visitStmt(<a href='Stmt.html'>Stmt</a> stmt)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#curCtor'>curCtor</a></li><li><a href='#fieldCheck'>fieldCheck</a></li><li><a href='#run'>run</a></li><li><a href='#visitStmt'>visitStmt</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::Loc</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='Loc.html'>Loc</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerx::Loc</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::Loc</pre>
+
+<p>Loc provides a source file, line number, and column number.</p>
+<dl>
+<dt id='col'>
+col</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> col</code></p>
+</dd>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> compare(<a href='../sys/Obj.html'>Obj</a> that)</code></p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> file</code></p>
+</dd>
+<dt id='fileUri'>
+fileUri</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> fileUri()</code></p>
+</dd>
+<dt id='filename'>
+filename</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> filename()</code></p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+</dd>
+<dt id='invalidLoc'>
+invalidLoc</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Loc.html'>Loc</a> invalidLoc := Loc.make(&quot;Unknown&quot;)</code></p>
+</dd>
+<dt id='line'>
+line</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> line</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Str.html'>Str</a> file, <a href='../sys/Int.html'>Int</a> line := -1, <a href='../sys/Int.html'>Int?</a> col := -1, <a href='../sys/Int.html'>Int</a> offset := -1)</code></p>
+</dd>
+<dt id='makeFile'>
+makeFile</dt>
+<dd>
+<p class='sig'>
+<code>new makeFile(<a href='../std/File.html'>File?</a> file, <a href='../sys/Int.html'>Int</a> line := -1, <a href='../sys/Int.html'>Int</a> col := -1, <a href='../sys/Int.html'>Int</a> offset := -1)</code></p>
+</dd>
+<dt id='makeUnknow'>
+makeUnknow</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Loc.html'>Loc</a> makeUnknow()</code></p>
+</dd>
+<dt id='offset'>
+offset</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> offset</code></p>
+</dd>
+<dt id='toLocStr'>
+toLocStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toLocStr()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#invalidLoc'>invalidLoc</a></li><li><a href='#make'>make</a></li><li><a href='#makeFile'>makeFile</a></li><li><a href='#makeUnknow'>makeUnknow</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#col'>col</a></li><li><a href='#compare'>compare</a></li><li><a href='#equals'>equals</a></li><li><a href='#file'>file</a></li><li><a href='#fileUri'>fileUri</a></li><li><a href='#filename'>filename</a></li><li><a href='#hash'>hash</a></li><li><a href='#line'>line</a></li><li><a href='#offset'>offset</a></li><li><a href='#toLocStr'>toLocStr</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

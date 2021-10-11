@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Math</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Math.html'>Math</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> std::Math</h1>
+<pre>std::Math</pre>
+<dl>
+<dt id='abs'>
+abs</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> abs(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return the absolute value of this float.  If this value is positive then return this, otherwise return the negation.</p>
+</dd>
+<dt id='acos'>
+acos</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> acos(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return the arc cosine.</p>
+</dd>
+<dt id='approx'>
+approx</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Bool.html'>Bool</a> approx(<a href='../sys/Float.html'>Float</a> self, <a href='../sys/Float.html'>Float</a> that, <a href='../sys/Float.html'>Float?</a> tolerance := null)</code></p>
+
+<p>Return if this Float is approximately equal to the given Float by the specified tolerance.  If tolerance is null, then it is computed using the magnitude of the two Floats.  It is useful for comparing Floats since often they lose a bit of precision during manipulation. This method is equivalent to:</p>
+
+<pre>if (tolerance == null) tolerance = min(abs(this/1e6), abs(r/1e6))
+(this - r).abs &lt; tolerance</pre>
+</dd>
+<dt id='asin'>
+asin</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> asin(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return the arc sine.</p>
+</dd>
+<dt id='atan'>
+atan</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> atan(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return the arc tangent.</p>
+</dd>
+<dt id='atan2'>
+atan2</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> atan2(<a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> x)</code></p>
+
+<p>Converts rectangular coordinates (x, y) to polar (r, theta).</p>
+</dd>
+<dt id='ceil'>
+ceil</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> ceil(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Returns the smallest whole number greater than or equal to this number.</p>
+</dd>
+<dt id='clip'>
+clip</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> clip(<a href='../sys/Float.html'>Float</a> self, <a href='../sys/Float.html'>Float</a> min, <a href='../sys/Float.html'>Float</a> max)</code></p>
+
+<p>Clip this float between the min and max.  If its less than min then return min, if its greater than max return max, otherwise return this float itself.</p>
+</dd>
+<dt id='cos'>
+cos</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> cos(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return the cosine of this angle in radians.</p>
+</dd>
+<dt id='cosh'>
+cosh</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> cosh(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return the hyperbolic cosine.</p>
+</dd>
+<dt id='e'>
+e</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Float.html'>Float</a> e := 2.718281828459045f</code></p>
+
+<p>Float value for e which is the base of natural logarithms.</p>
+</dd>
+<dt id='exp'>
+exp</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> exp(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return e raised to this power.</p>
+</dd>
+<dt id='floor'>
+floor</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> floor(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Returns the largest whole number less than or equal to this number.</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> log(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return natural logarithm of this number.</p>
+</dd>
+<dt id='log10'>
+log10</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> log10(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return base 10 logarithm of this number.</p>
+</dd>
+<dt id='max'>
+max</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> max(<a href='../sys/Float.html'>Float</a> self, <a href='../sys/Float.html'>Float</a> that)</code></p>
+
+<p>Return the larger of this and the specified Float values.</p>
+</dd>
+<dt id='min'>
+min</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> min(<a href='../sys/Float.html'>Float</a> self, <a href='../sys/Float.html'>Float</a> that)</code></p>
+
+<p>Return the smaller of this and the specified Float values.</p>
+</dd>
+<dt id='pi'>
+pi</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Float.html'>Float</a> pi := 3.141592653589793f</code></p>
+
+<p>Float value for pi which is the ratio of the circumference of a circle to its diameter.</p>
+</dd>
+<dt id='pow'>
+pow</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> pow(<a href='../sys/Float.html'>Float</a> self, <a href='../sys/Float.html'>Float</a> pow)</code></p>
+
+<p>Return this value raised to the specified power.</p>
+</dd>
+<dt id='round'>
+round</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> round(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Returns the nearest whole number to this number.</p>
+</dd>
+<dt id='sin'>
+sin</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> sin(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return sine of this angle in radians.</p>
+</dd>
+<dt id='sinh'>
+sinh</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> sinh(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return hyperbolic sine.</p>
+</dd>
+<dt id='sqrt'>
+sqrt</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> sqrt(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return square root of this value.</p>
+</dd>
+<dt id='tan'>
+tan</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> tan(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return tangent of this angle in radians.</p>
+</dd>
+<dt id='tanh'>
+tanh</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> tanh(<a href='../sys/Float.html'>Float</a> self)</code></p>
+
+<p>Return hyperbolic tangent.</p>
+</dd>
+<dt id='toDegrees'>
+toDegrees</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> toDegrees(<a href='../sys/Float.html'>Float</a> radians)</code></p>
+
+<p>Convert this angle in radians to an angle in degrees.</p>
+</dd>
+<dt id='toRadians'>
+toRadians</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Float.html'>Float</a> toRadians(<a href='../sys/Float.html'>Float</a> degrees)</code></p>
+
+<p>Convert this angle in degrees to an angle in radians.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#abs'>abs</a></li><li><a href='#acos'>acos</a></li><li><a href='#approx'>approx</a></li><li><a href='#asin'>asin</a></li><li><a href='#atan'>atan</a></li><li><a href='#atan2'>atan2</a></li><li><a href='#ceil'>ceil</a></li><li><a href='#clip'>clip</a></li><li><a href='#cos'>cos</a></li><li><a href='#cosh'>cosh</a></li><li><a href='#e'>e</a></li><li><a href='#exp'>exp</a></li><li><a href='#floor'>floor</a></li><li><a href='#log'>log</a></li><li><a href='#log10'>log10</a></li><li><a href='#max'>max</a></li><li><a href='#min'>min</a></li><li><a href='#pi'>pi</a></li><li><a href='#pow'>pow</a></li><li><a href='#round'>round</a></li><li><a href='#sin'>sin</a></li><li><a href='#sinh'>sinh</a></li><li><a href='#sqrt'>sqrt</a></li><li><a href='#tan'>tan</a></li><li><a href='#tanh'>tanh</a></li><li><a href='#toDegrees'>toDegrees</a></li><li><a href='#toRadians'>toRadians</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

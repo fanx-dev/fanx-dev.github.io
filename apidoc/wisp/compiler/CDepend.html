@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::CDepend</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='CDepend.html'>CDepend</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::CDepend</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compiler::CDepend</pre>
+
+<p>CDepend is a compiler dependency which wraps <a href='sys::Depend'>sys::Depend</a></p>
+<dl>
+<dt id='depend'>
+depend</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Depend.html'>Depend</a> depend</code></p>
+
+<p>Depend specification</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CDepend.html'>CDepend</a> fromStr(<a href='../sys/Str.html'>Str</a> s)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/Depend.html'>Depend</a> d, <a href='CPod.html'>CPod?</a> p)</code></p>
+</dd>
+<dt id='makeList'>
+makeList</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='CDepend.html'>CDepend</a>&gt;</a> makeList(<a href='../sys/List.html'>List&lt;<a href='../std/Depend.html'>Depend</a>&gt;</a> d)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>Pod name of the dependency</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CPod.html'>CPod?</a> pod</code></p>
+
+<p>Resolved pod for the dependency or null if unresolved</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return depend.toStr</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li><li><a href='#makeList'>makeList</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#depend'>depend</a></li><li><a href='#name'>name</a></li><li><a href='#pod'>pod</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

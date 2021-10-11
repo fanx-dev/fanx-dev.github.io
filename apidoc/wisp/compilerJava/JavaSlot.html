@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJava::JavaSlot</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJava</a></li><li><a href='JavaSlot.html'>JavaSlot</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> compilerJava::JavaSlot</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerJava::JavaSlot : <a href='../compiler/CSlot.html'>compiler::CSlot</a></pre>
+
+<p>JavaSlot is the implementation of CSlot for a Java member.</p>
+<dl>
+<dt id='dup'>
+dup</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> dup()</code></p>
+
+<p>Clone without next linked list</p>
+</dd>
+<dt id='facet'>
+facet</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/CFacet.html'>CFacet?</a> facet(<a href='../sys/Str.html'>Str</a> qname)</code></p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> flags</code></p>
+</dd>
+<dt id='isForeign'>
+isForeign</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isForeign()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../compiler/CType.html'>CType</a> parent, <a href='../sys/Str.html'>Str</a> name, <a href='../sys/Int.html'>Int</a> flags)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='next'>
+next</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JavaMethod.html'>JavaMethod?</a> next</code></p>
+
+<p>linked list of overloaded methods (first one may be field or method)</p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/CNamespace.html'>CNamespace</a> ns()</code></p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../compiler/CType.html'>CType</a> parent</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> qname()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dup'>dup</a></li><li><a href='#facet'>facet</a></li><li><a href='#flags'>flags</a></li><li><a href='#isForeign'>isForeign</a></li><li><a href='#name'>name</a></li><li><a href='#next'>next</a></li><li><a href='#ns'>ns</a></li><li><a href='#parent'>parent</a></li><li><a href='#qname'>qname</a></li></ul>
+</div>
+</div>
+</body>
+</html>

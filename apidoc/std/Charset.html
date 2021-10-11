@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Charset</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Charset.html'>Charset</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> std::Charset</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Charset</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Charset represents a specific character encoding used to decode bytes to Unicode characters, and encode Unicode characters to bytes.</p>
+<dl>
+<dt id='decode'>
+decode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> decode(<a href='InStream.html'>InStream</a> in)</code></p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Charset.html'>Charset</a> defVal := utf8</code></p>
+
+<p>Default value is <code><a href='Charset.html#utf8'>utf8</a></code>.</p>
+</dd>
+<dt id='encode'>
+encode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> encode(<a href='../sys/Int.html'>Int</a> ch, <a href='OutStream.html'>OutStream</a> out)</code></p>
+</dd>
+<dt id='encodeArray'>
+encodeArray</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> encodeArray(<a href='../sys/Int.html'>Int</a> ch, <a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;</a> out, <a href='../sys/Int.html'>Int</a> offset)</code></p>
+</dd>
+<dt id='encoder'>
+encoder</dt>
+<dd>
+<p class='sig'>
+<code>protected const <a href='Encoder.html'>Encoder</a> encoder</code></p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Charset equality is based on the character set name ignoring case (names are not case-sensitive).</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Attempt to lookup a Charset by name.  Use one of the predefined methods such as <code><a href='Charset.html#utf8'>utf8</a></code> to get a standard encoding.  If charset not found and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Compute hash code based on case-insensitive name.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name</code></p>
+
+<p>Get the name of this character encoding.</p>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake(<a href='../sys/Str.html'>Str</a> name, <a href='Encoder.html'>Encoder</a> coder)</code></p>
+
+<p>Private constructor</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return name().</p>
+</dd>
+<dt id='utf16BE'>
+utf16BE</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Charset.html'>Charset</a> utf16BE := ...</code></p>
+
+<p>An charset for "UTF-16BE" format (Sixteen-bit UCS Transformation Format, big-endian byte order).</p>
+</dd>
+<dt id='utf16LE'>
+utf16LE</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Charset.html'>Charset</a> utf16LE := ...</code></p>
+
+<p>An charset for "UTF-16LE" format (Sixteen-bit UCS Transformation Format, little-endian byte order).</p>
+</dd>
+<dt id='utf8'>
+utf8</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Charset.html'>Charset</a> utf8 := ...</code></p>
+
+<p>An charset for "UTF-8" format (Eight-bit UCS Transformation Format).</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#privateMake'>privateMake</a></li><li><a href='#utf16BE'>utf16BE</a></li><li><a href='#utf16LE'>utf16LE</a></li><li><a href='#utf8'>utf8</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#decode'>decode</a></li><li><a href='#encode'>encode</a></li><li><a href='#encodeArray'>encodeArray</a></li><li><a href='#encoder'>encoder</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#name'>name</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

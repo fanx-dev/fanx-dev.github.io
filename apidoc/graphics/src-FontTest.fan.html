@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>FontTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='src-FontTest.fan.html'>FontTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   16 Jun 2008  Brian Frank  Creation</span>
+<span id='line7'>//   12 May 2016  Brian Frank  SVG/CSS changes</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** FontTest</span>
+<span id='line12'>**</span>
+<span id='line13'>@Js</span>
+<span id='line14'>class FontTest : Test</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>  Void testWeight<b>(</b><b>)</b></span>
+<span id='line18'>  <b>{</b></span>
+<span id='line19'>    verifyEq<b>(</b>FontWeight.fromNum<b>(</b>400<b>)</b>, FontWeight.normal<b>)</b></span>
+<span id='line20'>    verifyEq<b>(</b>FontWeight.fromNum<b>(</b>700<b>)</b>, FontWeight.bold<b>)</b></span>
+<span id='line21'>    verifyEq<b>(</b>FontWeight.fromNum<b>(</b>99, false<b>)</b>, null<b>)</b></span>
+<span id='line22'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> FontWeight.fromNum<b>(</b>-1<b>)</b> <b>}</b></span>
+<span id='line23'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> FontWeight.fromNum<b>(</b>0, true<b>)</b> <b>}</b></span>
+<span id='line24'></span>
+<span id='line25'>    verifyEq<b>(</b>FontWeight.decode<b>(</b>"300"<b>)</b>, FontWeight.light<b>)</b></span>
+<span id='line26'>    verifyEq<b>(</b>FontWeight.decode<b>(</b>"400"<b>)</b>, FontWeight.normal<b>)</b></span>
+<span id='line27'>    verifyEq<b>(</b>FontWeight.decode<b>(</b>"normal"<b>)</b>, FontWeight.normal<b>)</b></span>
+<span id='line28'>    verifyEq<b>(</b>FontWeight.decode<b>(</b>"bold"<b>)</b>, FontWeight.bold<b>)</b></span>
+<span id='line29'>    verifyEq<b>(</b>FontWeight.decode<b>(</b>"900"<b>)</b>, FontWeight.black<b>)</b></span>
+<span id='line30'>    verifyEq<b>(</b>FontWeight.decode<b>(</b>"foo", false<b>)</b>, null<b>)</b></span>
+<span id='line31'>    verifyEq<b>(</b>FontWeight.decode<b>(</b>"555", false<b>)</b>, null<b>)</b></span>
+<span id='line32'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> FontWeight.decode<b>(</b>"badone"<b>)</b> <b>}</b></span>
+<span id='line33'>    verifyErr<b>(</b>ArgErr#<b>)</b> <b>{</b> FontWeight.decode<b>(</b>"123", true<b>)</b> <b>}</b></span>
+<span id='line34'>  <b>}</b></span>
+<span id='line35'></span>
+<span id='line36'>  Void testMake<b>(</b><b>)</b></span>
+<span id='line37'>  <b>{</b></span>
+<span id='line38'>    verifyFont<b>(</b>Font <b>{</b> names = <b>[</b>"Arial"<b>]</b>; size = 10f <b>}</b>,</span>
+<span id='line39'>      <b>[</b>"Arial"<b>]</b>, 10f, FontWeight.normal, FontStyle.normal, "10pt Arial"<b>)</b></span>
+<span id='line40'></span>
+<span id='line41'>    verifyFont<b>(</b>Font <b>{</b> names = <b>[</b>"Arial", "sans-serif"<b>]</b>; size = 11f; weight= FontWeight.bold <b>}</b>,</span>
+<span id='line42'>      <b>[</b>"Arial", "sans-serif"<b>]</b>, 11f, FontWeight.bold, FontStyle.normal, "700 11pt Arial,sans-serif"<b>)</b></span>
+<span id='line43'></span>
+<span id='line44'>    verifyFont<b>(</b>Font <b>{</b> names = <b>[</b>"Courier", "monospace"<b>]</b>; size = 12f; style= FontStyle.italic <b>}</b>,</span>
+<span id='line45'>      <b>[</b>"Courier", "monospace"<b>]</b>, 12f, FontWeight.normal, FontStyle.italic, "italic 12pt Courier,monospace"<b>)</b></span>
+<span id='line46'></span>
+<span id='line47'>    verifyFont<b>(</b>Font <b>{</b> names = <b>[</b>"Courier", "monospace"<b>]</b>; size = 12f; weight= FontWeight.light; style= FontStyle.italic <b>}</b>,</span>
+<span id='line48'>      <b>[</b>"Courier", "monospace"<b>]</b>, 12f, FontWeight.light, FontStyle.italic, "italic 300 12pt Courier,monospace"<b>)</b></span>
+<span id='line49'></span>
+<span id='line50'>    verifyFont<b>(</b>Font.fromStr<b>(</b>"12pt Courier, monospace"<b>)</b>,</span>
+<span id='line51'>      <b>[</b>"Courier", "monospace"<b>]</b>, 12f, FontWeight.normal, FontStyle.normal, "12pt Courier,monospace"<b>)</b></span>
+<span id='line52'></span>
+<span id='line53'>    verifyFont<b>(</b>Font.fromStr<b>(</b>"normal 12pt Courier, monospace"<b>)</b>,</span>
+<span id='line54'>      <b>[</b>"Courier", "monospace"<b>]</b>, 12f, FontWeight.normal, FontStyle.normal, "12pt Courier,monospace"<b>)</b></span>
+<span id='line55'></span>
+<span id='line56'>    verifyFont<b>(</b>Font.fromStr<b>(</b>"normal bold 12pt Courier, monospace"<b>)</b>,</span>
+<span id='line57'>      <b>[</b>"Courier", "monospace"<b>]</b>, 12f, FontWeight.bold, FontStyle.normal, "700 12pt Courier,monospace"<b>)</b></span>
+<span id='line58'></span>
+<span id='line59'>    verifyFont<b>(</b>Font.fromStr<b>(</b>"bold 12pt Consolas, Courier, monospace"<b>)</b>,</span>
+<span id='line60'>      <b>[</b>"Consolas", "Courier", "monospace"<b>]</b>, 12f, FontWeight.bold, FontStyle.normal, "700 12pt Consolas,Courier,monospace"<b>)</b></span>
+<span id='line61'></span>
+<span id='line62'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Font.fromStr<b>(</b>"10 Arial"<b>)</b> <b>}</b></span>
+<span id='line63'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := Font.fromStr<b>(</b>"", true<b>)</b> <b>}</b></span>
+<span id='line64'>  <b>}</b></span>
+<span id='line65'></span>
+<span id='line66'>  Void verifyFont<b>(</b>Font f, Str<b>[</b><b>]</b> names, Float size, FontWeight weight, FontStyle style, Str str<b>)</b></span>
+<span id='line67'>  <b>{</b></span>
+<span id='line68'>    //echo<b>(</b>"=== $f"<b>)</b></span>
+<span id='line69'>    //echo<b>(</b>"    " + Font.fromStr<b>(</b>f.toStr<b>)</b><b>)</b></span>
+<span id='line70'></span>
+<span id='line71'>    verifyEq<b>(</b>f.names, names<b>)</b></span>
+<span id='line72'>    verifyEq<b>(</b>f.size, size<b>)</b></span>
+<span id='line73'>    verifyEq<b>(</b>f.weight, weight<b>)</b></span>
+<span id='line74'>    verifyEq<b>(</b>f.style, style<b>)</b></span>
+<span id='line75'>    verifyEq<b>(</b>f.toStr, str<b>)</b></span>
+<span id='line76'></span>
+<span id='line77'>    verifyEq<b>(</b>f, Font <b>{</b> it.names = names; it.size = size; it.weight = weight; it.style = style <b>}</b><b>)</b></span>
+<span id='line78'>    verifyNotEq<b>(</b>f, Font <b>{</b> it.names = names.dup.add<b>(</b>"x"<b>)</b>; it.size = size; it.weight = weight; it.style = style <b>}</b><b>)</b></span>
+<span id='line79'>    verifyNotEq<b>(</b>f, Font <b>{</b> it.names = names; it.size = size+1; it.weight = weight; it.style = style <b>}</b><b>)</b></span>
+<span id='line80'>    verifyNotEq<b>(</b>f, Font <b>{</b> it.names = names; it.size = size; it.weight = FontWeight.fromNum<b>(</b>weight.num+100<b>)</b>; it.style = style <b>}</b><b>)</b></span>
+<span id='line81'>    verifyNotEq<b>(</b>f, Font <b>{</b> it.names = names; it.size = size; it.weight = weight; it.style = FontStyle.vals<b>[</b>style.ordinal+1<b>]</b> <b>}</b><b>)</b></span>
+<span id='line82'></span>
+<span id='line83'>    verifyEq<b>(</b>f, Font.fromStr<b>(</b>f.toStr<b>)</b><b>)</b></span>
+<span id='line84'>    verifyEq<b>(</b>f, Buf<b>(</b><b>)</b> <b>{</b> out.writeObj<b>(</b>f<b>)</b> <b>}</b> .flip.in.readObj<b>)</b></span>
+<span id='line85'>  <b>}</b></span>
+<span id='line86'></span>
+<span id='line87'>  Void testNormalize<b>(</b><b>)</b></span>
+<span id='line88'>  <b>{</b></span>
+<span id='line89'>    <b>[</b>"Helvetica", "Something,Helvetica"<b>]</b>.each |x|</span>
+<span id='line90'>    <b>{</b></span>
+<span id='line91'>      verifyNormalize<b>(</b>"12pt $x", "12pt Helvetica"<b>)</b></span>
+<span id='line92'>      verifyNormalize<b>(</b>"14pt $x", "14pt Helvetica"<b>)</b></span>
+<span id='line93'>      verifyNormalize<b>(</b>"oblique 14pt $x", "italic 14pt Helvetica"<b>)</b></span>
+<span id='line94'>      verifyNormalize<b>(</b>"italic 14pt $x", "italic 14pt Helvetica"<b>)</b></span>
+<span id='line95'>      verifyNormalize<b>(</b>"bold 11pt $x", "700 11pt Helvetica"<b>)</b></span>
+<span id='line96'>      verifyNormalize<b>(</b>"300 8pt $x", "8pt Helvetica"<b>)</b></span>
+<span id='line97'>      verifyNormalize<b>(</b>"500 8pt $x", "700 8pt Helvetica"<b>)</b></span>
+<span id='line98'>      verifyNormalize<b>(</b>"600 8pt $x", "700 8pt Helvetica"<b>)</b></span>
+<span id='line99'>      verifyNormalize<b>(</b>"900 8pt $x", "700 8pt Helvetica"<b>)</b></span>
+<span id='line100'>      verifyNormalize<b>(</b>"italic 600 8pt $x", "italic 700 8pt Helvetica"<b>)</b></span>
+<span id='line101'>      verifyNormalize<b>(</b>"italic 300 8pt $x", "italic 8pt Helvetica"<b>)</b></span>
+<span id='line102'>    <b>}</b></span>
+<span id='line103'></span>
+<span id='line104'>    verifyNormalize<b>(</b>"12pt Roboto Mono", "12pt Roboto Mono"<b>)</b></span>
+<span id='line105'>    verifyNormalize<b>(</b>"bold 12pt Roboto Mono", "12pt Roboto Mono"<b>)</b></span>
+<span id='line106'>  <b>}</b></span>
+<span id='line107'></span>
+<span id='line108'>  Void verifyNormalize<b>(</b>Str s, Str expected<b>)</b></span>
+<span id='line109'>  <b>{</b></span>
+<span id='line110'>    f := Font<b>(</b>s<b>)</b></span>
+<span id='line111'>    actual := f.normalize</span>
+<span id='line112'>    //echo<b>(</b>"-- $f"<b>)</b></span>
+<span id='line113'>    //echo<b>(</b>"   $actual"<b>)</b></span>
+<span id='line114'>    verifyEq<b>(</b>actual.toStr, expected<b>)</b></span>
+<span id='line115'>  <b>}</b></span>
+<span id='line116'></span>
+<span id='line117'>  Void testProps<b>(</b><b>)</b></span>
+<span id='line118'>  <b>{</b></span>
+<span id='line119'>    verifyProps<b>(</b>"12pt Helvetica", <b>[</b>"font-family":"Helvetica", "font-size":"12pt"<b>]</b><b>)</b></span>
+<span id='line120'>    verifyProps<b>(</b>"bold 12pt Helvetica", <b>[</b>"font-family":"Helvetica", "font-size":"12pt", "font-weight":"700"<b>]</b><b>)</b></span>
+<span id='line121'>    verifyProps<b>(</b>"300 12pt Helvetica", <b>[</b>"font-family":"Helvetica", "font-size":"12pt", "font-weight":"300"<b>]</b><b>)</b></span>
+<span id='line122'>    verifyProps<b>(</b>"italic 12pt Helvetica", <b>[</b>"font-family":"Helvetica", "font-size":"12pt", "font-style":"italic"<b>]</b><b>)</b></span>
+<span id='line123'>    verifyProps<b>(</b>"italic bold 11pt Helvetica", <b>[</b>"font-family":"Helvetica", "font-size":"11pt", "font-weight":"700", "font-style":"italic"<b>]</b><b>)</b></span>
+<span id='line124'>    verifyProps<b>(</b>"italic 800 8pt Helvetica", <b>[</b>"font-family":"Helvetica", "font-size":"8pt", "font-weight":"800", "font-style":"italic"<b>]</b><b>)</b></span>
+<span id='line125'>  <b>}</b></span>
+<span id='line126'></span>
+<span id='line127'>  Void verifyProps<b>(</b>Str str, <b>[</b>Str:Str<b>]</b> props<b>)</b></span>
+<span id='line128'>  <b>{</b></span>
+<span id='line129'>    f := Font<b>(</b>str<b>)</b></span>
+<span id='line130'>    verifyEq<b>(</b>f.toProps, props<b>)</b></span>
+<span id='line131'>    verifyEq<b>(</b>Font.fromProps<b>(</b>props<b>)</b>, f<b>)</b></span>
+<span id='line132'>  <b>}</b></span>
+<span id='line133'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SyntaxRules.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='SyntaxRules.html'>SyntaxRules</a></li><li><a href='src-SyntaxRules.fan.html'>SyntaxRules.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   10 Aug 08  Brian Frank  Creation</span>
+<span id='line7'>//   30 Aug 11  Brian Frank  Refactor out of fluxText</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** SyntaxRules defines the syntax rules used to parse a specific</span>
+<span id='line12'>** programming language.</span>
+<span id='line13'>**</span>
+<span id='line14'>@Serializable</span>
+<span id='line15'>const class SyntaxRules</span>
+<span id='line16'><b>{</b></span>
+<span id='line17'></span>
+<span id='line18'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line19'>// Factory</span>
+<span id='line20'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line21'></span>
+<span id='line22'>  **</span>
+<span id='line23'>  ** Load syntax rules for given file extension using "etc/syntax/ext.props".</span>
+<span id='line24'>  ** If no rules defined for extension return null.</span>
+<span id='line25'>  **</span>
+<span id='line26'>  static SyntaxRules? loadForExt<b>(</b>Str ext<b>)</b></span>
+<span id='line27'>  <b>{</b></span>
+<span id='line28'>    props := SyntaxRules#.pod.props<b>(</b>`ext.props`, 1min<b>)</b></span>
+<span id='line29'>    ruleName := props<b>[</b>ext<b>]</b></span>
+<span id='line30'>    if <b>(</b>ruleName == null<b>)</b> return null</span>
+<span id='line31'>    file := Env.cur.findFile<b>(</b>`etc/syntax/syntax-$<b>{</b>ruleName<b>}</b>.fog`, false<b>)</b></span>
+<span id='line32'>    if <b>(</b>file == null<b>)</b> return null</span>
+<span id='line33'>    return file.in.readObj</span>
+<span id='line34'>  <b>}</b></span>
+<span id='line35'></span>
+<span id='line36'>  **</span>
+<span id='line37'>  ** Load syntax rules for given file.  If the file has already been</span>
+<span id='line38'>  ** parse then pass the first line to avoid re-reading the file</span>
+<span id='line39'>  ** to check the "#!" shebang.  First we attempt to map the file extension</span>
+<span id='line40'>  ** to rules.  If that fails, then we check the first line to see</span>
+<span id='line41'>  ** if defines a "#!" shebang.  Return null if no rules can be</span>
+<span id='line42'>  ** determined.</span>
+<span id='line43'>  **</span>
+<span id='line44'>  static SyntaxRules? loadForFile<b>(</b>File file, Str? firstLine := null<b>)</b></span>
+<span id='line45'>  <b>{</b></span>
+<span id='line46'>    // try file extension first</span>
+<span id='line47'>    rules := loadForExt<b>(</b>file.ext ?: "not.found"<b>)</b></span>
+<span id='line48'>    if <b>(</b>rules != null<b>)</b> return rules</span>
+<span id='line49'></span>
+<span id='line50'>    // if we don't have a firstLine, then read it</span>
+<span id='line51'>    if <b>(</b>firstLine == null<b>)</b></span>
+<span id='line52'>    <b>{</b></span>
+<span id='line53'>      in := file.in</span>
+<span id='line54'>      try <b>{</b> firstLine = in.readLine ?: "" <b>}</b> finally <b>{</b> in.close <b>}</b></span>
+<span id='line55'>    <b>}</b></span>
+<span id='line56'></span>
+<span id='line57'>    // try to parse first line with shebang</span>
+<span id='line58'>    if <b>(</b>firstLine.startsWith<b>(</b>"#!"<b>)</b> || firstLine.startsWith<b>(</b>"# !"<b>)</b><b>)</b></span>
+<span id='line59'>    <b>{</b></span>
+<span id='line60'>      toks := firstLine<b>[</b>firstLine.index<b>(</b>"!"<b>)</b>+1..-1<b>]</b>.split</span>
+<span id='line61'>      cmd := toks<b>[</b>0<b>]</b>.split<b>(</b>'/'<b>)</b>.last.lower</span>
+<span id='line62'>      if <b>(</b>cmd == "env" &amp;&amp; toks.size > 1<b>)</b></span>
+<span id='line63'>        cmd = toks<b>[</b>1<b>]</b>.split<b>(</b>'/'<b>)</b>.last.lower</span>
+<span id='line64'>      rules = loadForExt<b>(</b>cmd<b>)</b></span>
+<span id='line65'>      if <b>(</b>rules != null<b>)</b> return rules</span>
+<span id='line66'>    <b>}</b></span>
+<span id='line67'></span>
+<span id='line68'>    // give up</span>
+<span id='line69'>    return null</span>
+<span id='line70'>  <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line73'>// Construction</span>
+<span id='line74'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line75'></span>
+<span id='line76'>  **</span>
+<span id='line77'>  ** Default constructor with it-block</span>
+<span id='line78'>  **</span>
+<span id='line79'>  new make<b>(</b>|This|? f := null<b>)</b> <b>{</b> if <b>(</b>f != null<b>)</b> f<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line80'></span>
+<span id='line81'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line82'>// Rule Configuration</span>
+<span id='line83'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line84'></span>
+<span id='line85'>  ** Bracket characters defaults to "<b>(</b><b>)</b><b>[</b><b>]</b><b>{</b><b>}</b>".</span>
+<span id='line86'>  const Str brackets := "<b>(</b><b>)</b><b>{</b><b>}</b><b>[</b><b>]</b>"</span>
+<span id='line87'></span>
+<span id='line88'>  ** List of the keywords.</span>
+<span id='line89'>  const Str<b>[</b><b>]</b>? keywords</span>
+<span id='line90'></span>
+<span id='line91'>  ** Start tokens for single line comments to end</span>
+<span id='line92'>  ** of line <b>(</b>list of strings<b>)</b>.</span>
+<span id='line93'>  const Str<b>[</b><b>]</b>? comments</span>
+<span id='line94'></span>
+<span id='line95'>  ** String and character literal styles</span>
+<span id='line96'>  const SyntaxStr<b>[</b><b>]</b>? strs</span>
+<span id='line97'></span>
+<span id='line98'>  ** Start token for multi-line block comments</span>
+<span id='line99'>  const Str? blockCommentStart</span>
+<span id='line100'></span>
+<span id='line101'>  ** End token for multi-line block comments</span>
+<span id='line102'>  const Str? blockCommentEnd</span>
+<span id='line103'></span>
+<span id='line104'>  ** Can block comments be nested <b>(</b>default is false<b>)</b>.</span>
+<span id='line105'>  const Bool blockCommentsNest := false</span>
+<span id='line106'><b>}</b></span>
+<span id='line107'></span>
+<span id='line108'>**</span>
+<span id='line109'>** Syntax rules for a string or character literal</span>
+<span id='line110'>**</span>
+<span id='line111'>@Serializable</span>
+<span id='line112'>const class SyntaxStr</span>
+<span id='line113'><b>{</b></span>
+<span id='line114'>  ** Token which delimits the start and end of the string.</span>
+<span id='line115'>  ** If the end delimiter is different, then also set the</span>
+<span id='line116'>  ** `delimiterEnd` field.</span>
+<span id='line117'>  const Str delimiter := "\""</span>
+<span id='line118'></span>
+<span id='line119'>  ** Token which delimits the end of the string, or if</span>
+<span id='line120'>  ** null, then `delimiter` is assumed to be both the</span>
+<span id='line121'>  ** start and end of the string.</span>
+<span id='line122'>  const Str? delimiterEnd</span>
+<span id='line123'></span>
+<span id='line124'>  ** Escape character placed before ending delimiter to indicate</span>
+<span id='line125'>  ** the delimiter is part of the string, not the end.  The</span>
+<span id='line126'>  ** escape character is also assumed to escape itself.</span>
+<span id='line127'>  const Int escape</span>
+<span id='line128'></span>
+<span id='line129'>  ** Can this string literal span multiple lines</span>
+<span id='line130'>  const Bool multiLine := false</span>
+<span id='line131'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

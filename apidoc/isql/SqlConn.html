@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>isql::SqlConn</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>isql</a></li><li><a href='SqlConn.html'>SqlConn</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> isql::SqlConn</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  isql::SqlConn</pre>
+
+<p>SqlConn manages a connection to a relational database. See <a href='pod-doc#connections'>pod-doc</a>.</p>
+<dl>
+<dt id='autoCommit'>
+autoCommit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> autoCommit</code></p>
+
+<p>If auto-commit is true then each statement is executed and committed as an individual transaction.  Otherwise statements are grouped into transaction which must be closed via <code><a href='SqlConn.html#commit'>commit</a></code> or <code><a href='SqlConn.html#rollback'>rollback</a></code>.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+
+<p>Close the database connection.  Closing a connection already closed is a no-op.  This method is guaranteed to never throw an exception.  Return true if the connection was closed successfully or <code>false</code> if closed abnormally.</p>
+</dd>
+<dt id='commit'>
+commit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> commit()</code></p>
+
+<p>Commit all the changes made inside the current transaction.</p>
+</dd>
+<dt id='isClosed'>
+isClosed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isClosed()</code></p>
+
+<p>Return if <code><a href='SqlConn.html#close'>close</a></code> has been called.</p>
+</dd>
+<dt id='meta'>
+meta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='SqlMeta.html'>SqlMeta</a> meta()</code></p>
+
+<p>Get the database meta-data</p>
+</dd>
+<dt id='open'>
+open</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='SqlConn.html'>SqlConn</a> open(<a href='../sys/Str.html'>Str</a> uri, <a href='../sys/Str.html'>Str?</a> username, <a href='../sys/Str.html'>Str?</a> password)</code></p>
+
+<p>Open a connection to the database specified by the given JDBC uri and username/password credentials.  Raise exception if connection cannot be established. See <a href='pod-doc#connections'>pod-doc</a>.</p>
+</dd>
+<dt id='rollback'>
+rollback</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> rollback()</code></p>
+
+<p>Undo any changes made inside the current transaction.</p>
+</dd>
+<dt id='sql'>
+sql</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Statement.html'>Statement</a> sql(<a href='../sys/Str.html'>Str</a> sql, <a href='../sys/Bool.html'>Bool</a> prepare := true)</code></p>
+
+<p>Create a statement for this database.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#open'>open</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#autoCommit'>autoCommit</a></li><li><a href='#close'>close</a></li><li><a href='#commit'>commit</a></li><li><a href='#isClosed'>isClosed</a></li><li><a href='#meta'>meta</a></li><li><a href='#rollback'>rollback</a></li><li><a href='#sql'>sql</a></li></ul>
+</div>
+</div>
+</body>
+</html>

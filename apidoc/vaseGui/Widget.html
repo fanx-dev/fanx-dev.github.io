@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::Widget</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='Widget.html'>Widget</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> vaseGui::Widget</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGui::Widget</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+
+<p>Widget is the base class for all UI widgets.</p>
+<dl>
+<dt id='alpha'>
+alpha</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='../sys/Float.html'>Float?</a> alpha</code></p>
+<pre>current alpha as animation target
+range in [0,1]
+
+</pre>
+</dd>
+<dt id='bufferedHeight'>
+bufferedHeight</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> bufferedHeight()</code></p>
+</dd>
+<dt id='bufferedPrefSize'>
+bufferedPrefSize</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../vaseGraphics/Size.html'>Size</a> bufferedPrefSize(<a href='../sys/Int.html'>Int</a> parentContentWidth := -1, <a href='../sys/Int.html'>Int</a> parentContentHeight := -1)</code></p>
+
+<p>preferred size with margin</p>
+</dd>
+<dt id='bufferedWidth'>
+bufferedWidth</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> bufferedWidth()</code></p>
+</dd>
+<dt id='clicked'>
+clicked</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> clicked()</code></p>
+</dd>
+<dt id='clip'>
+clip</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> clip := true</code></p>
+
+<p>current render effect</p>
+</dd>
+<dt id='contains'>
+contains</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> contains(<a href='../sys/Int.html'>Int</a> rx, <a href='../sys/Int.html'>Int</a> ry)</code></p>
+
+<p>relative coordinate</p>
+</dd>
+<dt id='contentHeight'>
+contentHeight</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> contentHeight()</code></p>
+</dd>
+<dt id='contentWidth'>
+contentWidth</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> contentWidth()</code></p>
+</dd>
+<dt id='detach'>
+detach</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> detach(<a href='../sys/Bool.html'>Bool</a> doRelayout := true)</code></p>
+
+<p>Detach from parent</p>
+</dd>
+<dt id='doPaint'>
+doPaint</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> doPaint(<a href='../vaseGraphics/Graphics.html'>Graphics</a> g)</code></p>
+</dd>
+<dt id='dpToPixel'>
+dpToPixel</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> dpToPixel(<a href='../sys/Int.html'>Int</a> d)</code></p>
+</dd>
+<dt id='enabled'>
+enabled</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> enabled := true</code></p>
+
+<p>Enabled is used to control whether this widget can accept user input.  Disabled controls are "grayed out".</p>
+</dd>
+<dt id='findById'>
+findById</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Widget.html'>Widget?</a> findById(<a href='../sys/Str.html'>Str</a> id)</code></p>
+
+<p>Find widget by id in descendant</p>
+</dd>
+<dt id='fireStateChange'>
+fireStateChange</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> fireStateChange(<a href='../sys/Obj.html'>Obj?</a> oldValue, <a href='../sys/Obj.html'>Obj?</a> newValue, <a href='../std/Field.html'>Field?</a> field)</code></p>
+
+<p>Position and size of this widget relative to its parent. If this a window, this is the position on the screen.</p>
+</dd>
+<dt id='focus'>
+focus</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> focus(<a href='../sys/Bool.html'>Bool</a> check := true)</code></p>
+
+<p>Attempt for this widget to take the keyboard focus.</p>
+</dd>
+<dt id='focusable'>
+focusable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> focusable := false</code></p>
+</dd>
+<dt id='focused'>
+focused</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> focused()</code></p>
+
+<p>Return if this widget is the focused widget which is currently receiving all keyboard input.</p>
+</dd>
+<dt id='gestureEvent'>
+gestureEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> gestureEvent(<a href='GestureEvent.html'>GestureEvent</a> e)</code></p>
+
+<p>process gesture event</p>
+</dd>
+<dt id='gestureFocusable'>
+gestureFocusable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> gestureFocusable := false</code></p>
+</dd>
+<dt id='getRootView'>
+getRootView</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Frame.html'>Frame?</a> getRootView()</code></p>
+
+<p>Get this widget's parent View or null if not mounted under a View widget.</p>
+</dd>
+<dt id='getStyle'>
+getStyle</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='Style.html'>Style</a> getStyle()</code></p>
+</dd>
+<dt id='height'>
+height</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='../sys/Int.html'>Int</a> height := 0</code></p>
+</dd>
+<dt id='id'>
+id</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> id := &quot;&quot;</code></p>
+
+<p>The unique identifies of widget.</p>
+</dd>
+<dt id='keyEvent'>
+keyEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> keyEvent(<a href='../vaseWindow/KeyEvent.html'>KeyEvent</a> e)</code></p>
+
+<p>Post key event</p>
+</dd>
+<dt id='layout'>
+layout</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Layout.html'>Layout</a> layout := Layout.&lt;ctor>()</code></p>
+
+<p>Layout params</p>
+</dd>
+<dt id='layoutChildren'>
+layoutChildren</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> layoutChildren(<a href='../sys/Bool.html'>Bool</a> force)</code></p>
+
+<p>layout the children</p>
+</dd>
+<dt id='layoutDirty'>
+layoutDirty</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='../sys/Int.html'>Int</a> layoutDirty := 1</code></p>
+</dd>
+<dt id='mapToRelative'>
+mapToRelative</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> mapToRelative(<a href='Coord.html'>Coord</a> p)</code></p>
+
+<p>Translates absolute coordinates into coordinates in the coordinate space of this component.</p>
+</dd>
+<dt id='mapToWidget'>
+mapToWidget</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> mapToWidget(<a href='Coord.html'>Coord</a> p)</code></p>
+
+<p>Translates absolute coordinates into relative this widget</p>
+</dd>
+<dt id='margin'>
+margin</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Insets.html'>Insets</a> margin := Insets.defVal</code></p>
+
+<p>out side bounder</p>
+</dd>
+<dt id='motionEvent'>
+motionEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> motionEvent(<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+
+<p>process motion event</p>
+</dd>
+<dt id='mouseEnter'>
+mouseEnter</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> mouseEnter()</code></p>
+
+<p>Callback when mouse enters this widget's bounds.</p>
+</dd>
+<dt id='mouseExit'>
+mouseExit</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> mouseExit()</code></p>
+
+<p>Callback when mouse exits this widget's bounds.</p>
+</dd>
+<dt id='onClick'>
+onClick</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onClick(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Widget.html'>Widget</a>&gt;</a> c)</code></p>
+</dd>
+<dt id='onClickCallback'>
+onClickCallback</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Widget.html'>Widget</a>&gt;?</a> onClickCallback := null</code></p>
+</dd>
+<dt id='onFocusChanged'>
+onFocusChanged</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onFocusChanged()</code></p>
+
+<p>callback when lost focus or gains focus.</p>
+</dd>
+<dt id='onLongPress'>
+onLongPress</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onLongPress(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Widget.html'>Widget</a>&gt;</a> c)</code></p>
+</dd>
+<dt id='onLongPressCallback'>
+onLongPressCallback</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Widget.html'>Widget</a>&gt;?</a> onLongPressCallback := null</code></p>
+</dd>
+<dt id='onMounted'>
+onMounted</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> onMounted()</code></p>
+
+<p>Callback this widget mounted.</p>
+</dd>
+<dt id='onStateChanged'>
+onStateChanged</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onStateChanged()</code></p>
+
+<p>Callback function when Widget state changed</p>
+</dd>
+<dt id='padding'>
+padding</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Insets.html'>Insets</a> padding := Insets.defVal</code></p>
+</dd>
+<dt id='paddingLeft'>
+paddingLeft</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> paddingLeft()</code></p>
+</dd>
+<dt id='paddingTop'>
+paddingTop</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> paddingTop()</code></p>
+</dd>
+<dt id='paint'>
+paint</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> paint(<a href='../vaseGraphics/Graphics.html'>Graphics</a> g)</code></p>
+
+<p>Paints this component.</p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='WidgetGroup.html'>WidgetGroup?</a> parent { private set }</code></p>
+
+<p>Get this widget's parent or null if not mounted.</p>
+</dd>
+<dt id='pixelToDp'>
+pixelToDp</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> pixelToDp(<a href='../sys/Int.html'>Int</a> d)</code></p>
+</dd>
+<dt id='posOnWindow'>
+posOnWindow</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> posOnWindow(<a href='Coord.html'>Coord</a> result)</code></p>
+
+<p>Get the position of this widget relative to the window. If not on mounted on the screen then return null.</p>
+</dd>
+<dt id='prefContentSize'>
+prefContentSize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../vaseGraphics/Size.html'>Size</a> prefContentSize(<a href='../sys/Int.html'>Int</a> hintsWidth := -1, <a href='../sys/Int.html'>Int</a> hintsHeight := -1)</code></p>
+
+<p>preferred size of content without padding</p>
+</dd>
+<dt id='prefSize'>
+prefSize</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../vaseGraphics/Size.html'>Size</a> prefSize(<a href='../sys/Int.html'>Int</a> parentContentWidth := -1, <a href='../sys/Int.html'>Int</a> parentContentHeight := -1)</code></p>
+
+<p>preferred size without margin</p>
+</dd>
+<dt id='relayout'>
+relayout</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> relayout()</code></p>
+
+<p>Requset relayout this widget</p>
+</dd>
+<dt id='renderCacheDirty'>
+renderCacheDirty</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='../sys/Bool.html'>Bool</a> renderCacheDirty := true</code></p>
+
+<p>invalidate the renderCache bitmap image</p>
+</dd>
+<dt id='repaint'>
+repaint</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> repaint(<a href='../vaseGraphics/Rect.html'>Rect?</a> dirty := null)</code></p>
+
+<p>Repaints the specified rectangle.</p>
+</dd>
+<dt id='resetStyle'>
+resetStyle</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> resetStyle()</code></p>
+</dd>
+<dt id='setLayout'>
+setLayout</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setLayout(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h, <a href='../sys/Bool.html'>Bool</a> force)</code></p>
+
+<p>layout the children</p>
+</dd>
+<dt id='setStyle'>
+setStyle</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setStyle(<a href='Style.html'>Style</a> s)</code></p>
+</dd>
+<dt id='style'>
+style</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> style := &quot;&quot;</code></p>
+
+<p>A name for style</p>
+</dd>
+<dt id='transform'>
+transform</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='../vaseGraphics/Transform2D.html'>Transform2D?</a> transform</code></p>
+
+<p>current transform as animation target</p>
+</dd>
+<dt id='useRenderCache'>
+useRenderCache</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Bool.html'>Bool</a> useRenderCache := false</code></p>
+
+<p>flag for using renderCache</p>
+</dd>
+<dt id='visible'>
+visible</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> visible := true</code></p>
+
+<p>Controls whether this widget is visible or hidden.</p>
+</dd>
+<dt id='width'>
+width</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='../sys/Int.html'>Int</a> width := 0</code></p>
+</dd>
+<dt id='x'>
+x</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='../sys/Int.html'>Int</a> x := 0</code></p>
+</dd>
+<dt id='y'>
+y</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='../sys/Int.html'>Int</a> y := 0</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#alpha'>alpha</a></li><li><a href='#bufferedHeight'>bufferedHeight</a></li><li><a href='#bufferedPrefSize'>bufferedPrefSize</a></li><li><a href='#bufferedWidth'>bufferedWidth</a></li><li><a href='#clicked'>clicked</a></li><li><a href='#clip'>clip</a></li><li><a href='#contains'>contains</a></li><li><a href='#contentHeight'>contentHeight</a></li><li><a href='#contentWidth'>contentWidth</a></li><li><a href='#detach'>detach</a></li><li><a href='#doPaint'>doPaint</a></li><li><a href='#dpToPixel'>dpToPixel</a></li><li><a href='#enabled'>enabled</a></li><li><a href='#findById'>findById</a></li><li><a href='#fireStateChange'>fireStateChange</a></li><li><a href='#focus'>focus</a></li><li><a href='#focusable'>focusable</a></li><li><a href='#focused'>focused</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#gestureFocusable'>gestureFocusable</a></li><li><a href='#getRootView'>getRootView</a></li><li><a href='#getStyle'>getStyle</a></li><li><a href='#height'>height</a></li><li><a href='#id'>id</a></li><li><a href='#keyEvent'>keyEvent</a></li><li><a href='#layout'>layout</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#layoutDirty'>layoutDirty</a></li><li><a href='#mapToRelative'>mapToRelative</a></li><li><a href='#mapToWidget'>mapToWidget</a></li><li><a href='#margin'>margin</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#mouseEnter'>mouseEnter</a></li><li><a href='#mouseExit'>mouseExit</a></li><li><a href='#onClick'>onClick</a></li><li><a href='#onClickCallback'>onClickCallback</a></li><li><a href='#onFocusChanged'>onFocusChanged</a></li><li><a href='#onLongPress'>onLongPress</a></li><li><a href='#onLongPressCallback'>onLongPressCallback</a></li><li><a href='#onMounted'>onMounted</a></li><li><a href='#onStateChanged'>onStateChanged</a></li><li><a href='#padding'>padding</a></li><li><a href='#paddingLeft'>paddingLeft</a></li><li><a href='#paddingTop'>paddingTop</a></li><li><a href='#paint'>paint</a></li><li><a href='#parent'>parent</a></li><li><a href='#pixelToDp'>pixelToDp</a></li><li><a href='#posOnWindow'>posOnWindow</a></li><li><a href='#prefContentSize'>prefContentSize</a></li><li><a href='#prefSize'>prefSize</a></li><li><a href='#relayout'>relayout</a></li><li><a href='#renderCacheDirty'>renderCacheDirty</a></li><li><a href='#repaint'>repaint</a></li><li><a href='#resetStyle'>resetStyle</a></li><li><a href='#setLayout'>setLayout</a></li><li><a href='#setStyle'>setStyle</a></li><li><a href='#style'>style</a></li><li><a href='#transform'>transform</a></li><li><a href='#useRenderCache'>useRenderCache</a></li><li><a href='#visible'>visible</a></li><li><a href='#width'>width</a></li><li><a href='#x'>x</a></li><li><a href='#y'>y</a></li></ul>
+</div>
+</div>
+</body>
+</html>

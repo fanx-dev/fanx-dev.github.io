@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>CardBox.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='CardBox.html'>CardBox</a></li><li><a href='src-CardBox.fan.html'>CardBox.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Mar 2015  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** CardBox lays out child elements as a stack of cards, where</span>
+<span id='line13'>** only one card may be visible at a time.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Layout#cardBox`</span>
+<span id='line16'>**</span>
+<span id='line17'>@Js class CardBox : Box</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line20'>  <b>{</b></span>
+<span id='line21'>    this.style.addClass<b>(</b>"domkit-CardBox"<b>)</b></span>
+<span id='line22'>  <b>}</b></span>
+<span id='line23'></span>
+<span id='line24'>  ** Selected card instance, or null if no children.</span>
+<span id='line25'>  Elem? selItem<b>(</b><b>)</b></span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    selIndex==null ? null : children<b>[</b>selIndex<b>]</b></span>
+<span id='line28'>  <b>}</b></span>
+<span id='line29'></span>
+<span id='line30'>  ** Selected card index, or null if no children.</span>
+<span id='line31'>  virtual Int? selIndex</span>
+<span id='line32'>  <b>{</b></span>
+<span id='line33'>    set</span>
+<span id='line34'>    <b>{</b></span>
+<span id='line35'>      old := &amp;selIndex</span>
+<span id='line36'>      &amp;selIndex = it.max<b>(</b>0<b>)</b>.min<b>(</b>children.size<b>)</b></span>
+<span id='line37'>      if <b>(</b>old != &amp;selIndex<b>)</b> updateStyle</span>
+<span id='line38'>    <b>}</b></span>
+<span id='line39'>  <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  **</span>
+<span id='line42'>  ** Transition effect to apply when 'selIndex' is changed.</span>
+<span id='line43'>  ** If null, no effect is applied.</span>
+<span id='line44'>  **</span>
+<span id='line45'>  ** Valid values are:</span>
+<span id='line46'>  **   - 'slideLeft': animate cards sliding in from right-to-left</span>
+<span id='line47'>  **   - 'slideRight': animate cards sliding in from left-to-right</span>
+<span id='line48'>  **</span>
+<span id='line49'>  Str? effect := null</span>
+<span id='line50'></span>
+<span id='line51'>  ** Duratin for `effect` animation to last.</span>
+<span id='line52'>  Duration effectDur := 350ms</span>
+<span id='line53'></span>
+<span id='line54'>  protected override Void onAdd<b>(</b>Elem c<b>)</b>    <b>{</b> updateStyle <b>}</b></span>
+<span id='line55'>  protected override Void onRemove<b>(</b>Elem c<b>)</b> <b>{</b> updateStyle <b>}</b></span>
+<span id='line56'></span>
+<span id='line57'>  private Void updateStyle<b>(</b><b>)</b></span>
+<span id='line58'>  <b>{</b></span>
+<span id='line59'>    // TODO:</span>
+<span id='line60'>    //   currently require style.width/height to be set on CardBox</span>
+<span id='line61'>    //   should probalby check, or throw if not configured?</span>
+<span id='line62'></span>
+<span id='line63'>    kids := children</span>
+<span id='line64'></span>
+<span id='line65'>    // implicitly select first card if not specified</span>
+<span id='line66'>    if <b>(</b>kids.size > 0 &amp;&amp; selIndex == null<b>)</b> selIndex = 0</span>
+<span id='line67'></span>
+<span id='line68'>    // if effect is set, stage the card we will show next</span>
+<span id='line69'>    fx   := this.effect</span>
+<span id='line70'>    cur  := kids.find |k| <b>{</b> k.style->display == "block" <b>}</b></span>
+<span id='line71'>    next := fx == null ? null : children<b>[</b>selIndex<b>]</b></span>
+<span id='line72'>    size := fx == null ? null : this.size</span>
+<span id='line73'></span>
+<span id='line74'>    // if cur is selected short-circuit effect</span>
+<span id='line75'>    if <b>(</b>cur == null<b>)</b> cur = next</span>
+<span id='line76'>    if <b>(</b>cur === next<b>)</b> <b>{</b> fx=null; next=null <b>}</b></span>
+<span id='line77'>    curIndex := kids.findIndex |k| <b>{</b> k == cur <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>    // if we are not mounted short-circuit effect</span>
+<span id='line80'>    if <b>(</b>fx != null &amp;&amp; !Win.cur.doc.body.containsChild<b>(</b>this<b>)</b><b>)</b> <b>{</b> fx=null; next=null; <b>}</b></span>
+<span id='line81'></span>
+<span id='line82'>    switch <b>(</b>fx<b>)</b></span>
+<span id='line83'>    <b>{</b></span>
+<span id='line84'>      case "slideLeft":</span>
+<span id='line85'>        cy := curIndex > selIndex ? "-$<b>{</b>size.h<b>}</b>px" : "0px"</span>
+<span id='line86'>        ny := curIndex &lt; selIndex ? "-$<b>{</b>size.h<b>}</b>px" : "0px"</span>
+<span id='line87'>        cur.style->transform  = "translateX<b>(</b>0<b>)</b> translateY<b>(</b>$cy<b>)</b>"</span>
+<span id='line88'>        next.style->transform = "translateX<b>(</b>$<b>{</b>size.w<b>}</b>px<b>)</b> translateY<b>(</b>$ny<b>)</b>"</span>
+<span id='line89'>        next.style->display   = "block"</span>
+<span id='line90'>        cur.transition<b>(</b><b>[</b>"transform":"translateX<b>(</b>-$<b>{</b>size.w<b>}</b>px<b>)</b> translateY<b>(</b>$cy<b>)</b>", "opacity":"0"<b>]</b>, null, effectDur<b>)</b></span>
+<span id='line91'>        next.transition<b>(</b><b>[</b>"transform":"translateX<b>(</b>0px<b>)</b> translateY<b>(</b>$ny<b>)</b>"<b>]</b>, null, effectDur<b>)</b> <b>{</b></span>
+<span id='line92'>          updateDis</span>
+<span id='line93'>        <b>}</b></span>
+<span id='line94'></span>
+<span id='line95'>      case "slideRight":</span>
+<span id='line96'>        cy := curIndex > selIndex ? "-$<b>{</b>size.h<b>}</b>px" : "0px"</span>
+<span id='line97'>        ny := curIndex &lt; selIndex ? "-$<b>{</b>size.h<b>}</b>px" : "0px"</span>
+<span id='line98'>        cur.style->transform  = "translateX<b>(</b>0<b>)</b> translateY<b>(</b>$cy<b>)</b>"</span>
+<span id='line99'>        next.style->transform = "translateX<b>(</b>-$<b>{</b>size.w<b>}</b>px<b>)</b> translateY<b>(</b>$ny<b>)</b>"</span>
+<span id='line100'>        next.style->display   = "block"</span>
+<span id='line101'>        cur.transition<b>(</b><b>[</b>"transform":"translateX<b>(</b>$<b>{</b>size.w<b>}</b>px<b>)</b> translateY<b>(</b>$cy<b>)</b>", "opacity":"0"<b>]</b>, null, effectDur<b>)</b></span>
+<span id='line102'>        next.transition<b>(</b><b>[</b>"transform":"translateX<b>(</b>0px<b>)</b> translateY<b>(</b>$ny<b>)</b>"<b>]</b>, null, effectDur<b>)</b> <b>{</b></span>
+<span id='line103'>          updateDis</span>
+<span id='line104'>        <b>}</b></span>
+<span id='line105'></span>
+<span id='line106'>      default:</span>
+<span id='line107'>        // if no effect, just update display</span>
+<span id='line108'>        updateDis</span>
+<span id='line109'>     <b>}</b></span>
+<span id='line110'>  <b>}</b></span>
+<span id='line111'></span>
+<span id='line112'>  private Void updateDis<b>(</b><b>)</b></span>
+<span id='line113'>  <b>{</b></span>
+<span id='line114'>    children.each |kid,i|</span>
+<span id='line115'>    <b>{</b></span>
+<span id='line116'>      kid.style->display = i==selIndex ? "block" : "none"</span>
+<span id='line117'>      kid.style->opacity = "1.0"</span>
+<span id='line118'>      kid.transition<b>(</b><b>[</b>"transform":"translateX<b>(</b>0<b>)</b> translateY<b>(</b>0<b>)</b>"<b>]</b>, null, 0ms<b>)</b></span>
+<span id='line119'>    <b>}</b></span>
+<span id='line120'>  <b>}</b></span>
+<span id='line121'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Box.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Box.html'>Box</a></li><li><a href='src-Box.fan.html'>Box.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2014, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Dec 2014  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Box defaults style to:</span>
+<span id='line13'>**</span>
+<span id='line14'>**   display: block;</span>
+<span id='line15'>**   box-sizing: border-box;</span>
+<span id='line16'>**   width: 100%;</span>
+<span id='line17'>**   height: 100%;</span>
+<span id='line18'>**   position: relative;</span>
+<span id='line19'>**</span>
+<span id='line20'>@Js virtual class Box : Elem</span>
+<span id='line21'><b>{</b></span>
+<span id='line22'>  new make<b>(</b><b>)</b> : super<b>(</b>"div"<b>)</b></span>
+<span id='line23'>  <b>{</b></span>
+<span id='line24'>    this.style.addClass<b>(</b>"domkit-Box"<b>)</b></span>
+<span id='line25'>  <b>}</b></span>
+<span id='line26'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

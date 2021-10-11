@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>graphics::FontWeight</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='FontWeight.html'>FontWeight</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> graphics::FontWeight</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    graphics::FontWeight</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+<p class='src'>
+<a href='src-Font.fan.html#line282'>Source</a></p>
+
+<p>Font weight property values</p>
+<ul>
+<li><a href='#thin'>thin</a></li><li><a href='#extraLight'>extraLight</a></li><li><a href='#light'>light</a></li><li><a href='#normal'>normal</a></li><li><a href='#medium'>medium</a></li><li><a href='#semiBold'>semiBold</a></li><li><a href='#bold'>bold</a></li><li><a href='#extraBold'>extraBold</a></li><li><a href='#black'>black</a></li></ul>
+<dl>
+<dt id='black'>
+black</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontWeight.html'>FontWeight</a> black := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line294'>Source</a></p>
+</dd>
+<dt id='bold'>
+bold</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontWeight.html'>FontWeight</a> bold := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line292'>Source</a></p>
+</dd>
+<dt id='extraBold'>
+extraBold</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontWeight.html'>FontWeight</a> extraBold := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line293'>Source</a></p>
+</dd>
+<dt id='extraLight'>
+extraLight</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontWeight.html'>FontWeight</a> extraLight := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line287'>Source</a></p>
+</dd>
+<dt id='fromNum'>
+fromNum</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='FontWeight.html'>FontWeight?</a> fromNum(<a href='../sys/Int.html'>Int</a> num, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line302'>Source</a></p>
+
+<p>From numeric value 100 to 900</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line284'>Source</a></p>
+
+<p>Return the FontWeight instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='isNormal'>
+isNormal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNormal()</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line299'>Source</a></p>
+
+<p>Is this the normal value</p>
+</dd>
+<dt id='light'>
+light</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontWeight.html'>FontWeight</a> light := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line288'>Source</a></p>
+</dd>
+<dt id='medium'>
+medium</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontWeight.html'>FontWeight</a> medium := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line290'>Source</a></p>
+</dd>
+<dt id='normal'>
+normal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontWeight.html'>FontWeight</a> normal := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line289'>Source</a></p>
+</dd>
+<dt id='num'>
+num</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> num</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line296'>Source</a></p>
+
+<p>Numeric weight as number from 100 to 900</p>
+</dd>
+<dt id='semiBold'>
+semiBold</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontWeight.html'>FontWeight</a> semiBold := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line291'>Source</a></p>
+</dd>
+<dt id='thin'>
+thin</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FontWeight.html'>FontWeight</a> thin := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line286'>Source</a></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='FontWeight.html'>FontWeight</a>&gt;</a> vals := ...</code></p>
+<p class='src'>
+<a href='src-Font.fan.html#line284'>Source</a></p>
+
+<p>List of FontWeight values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Font.fan.html#line282'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#black'>black</a></li><li><a href='#bold'>bold</a></li><li><a href='#extraBold'>extraBold</a></li><li><a href='#extraLight'>extraLight</a></li><li><a href='#fromNum'>fromNum</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#light'>light</a></li><li><a href='#medium'>medium</a></li><li><a href='#normal'>normal</a></li><li><a href='#semiBold'>semiBold</a></li><li><a href='#thin'>thin</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#isNormal'>isNormal</a></li><li><a href='#num'>num</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>MulticastSocket.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='MulticastSocket.html'>MulticastSocket</a></li><li><a href='src-MulticastSocket.fan.html'>MulticastSocket.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2013, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   5 Jul 13  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** MulticastSocket extends UdpSocket to provide multicast capabilities.</span>
+<span id='line11'>**</span>
+<span id='line12'>class MulticastSocket : UdpSocket</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'></span>
+<span id='line16'>  **</span>
+<span id='line17'>  ** Make a new unbound multicast UDP socket.</span>
+<span id='line18'>  **</span>
+<span id='line19'>  new make<b>(</b>SocketConfig config := SocketConfig.cur<b>)</b> : super<b>(</b>config<b>)</b> <b>{</b><b>}</b></span>
+<span id='line20'></span>
+<span id='line21'>  **</span>
+<span id='line22'>  ** Default network interface for outgoing datagrams on this socket</span>
+<span id='line23'>  **</span>
+<span id='line24'>  IpInterface interface</span>
+<span id='line25'>  <b>{</b></span>
+<span id='line26'>    get <b>{</b> getInterface <b>}</b></span>
+<span id='line27'>    set <b>{</b> setInterface<b>(</b>it<b>)</b> <b>}</b></span>
+<span id='line28'>  <b>}</b></span>
+<span id='line29'>  private native IpInterface getInterface<b>(</b><b>)</b></span>
+<span id='line30'>  private native Void setInterface<b>(</b>IpInterface val<b>)</b></span>
+<span id='line31'></span>
+<span id='line32'>  **</span>
+<span id='line33'>  ** Default time to live for packets send on this socket.  Value must</span>
+<span id='line34'>  ** be between 0 and 255.  TTL of zero is only delivered locally.</span>
+<span id='line35'>  **</span>
+<span id='line36'>  native Int timeToLive</span>
+<span id='line37'></span>
+<span id='line38'>  **</span>
+<span id='line39'>  ** True to enable outgoing packets to be received by the local socket.</span>
+<span id='line40'>  **</span>
+<span id='line41'>  native Bool loopbackMode</span>
+<span id='line42'></span>
+<span id='line43'>  **</span>
+<span id='line44'>  ** Join a multicast group.  If interface parameter is null,</span>
+<span id='line45'>  ** then `interface` field is used.  Return this.</span>
+<span id='line46'>  **</span>
+<span id='line47'>  native This joinGroup<b>(</b>IpAddr addr, Int? port := null, IpInterface? interface := null<b>)</b></span>
+<span id='line48'></span>
+<span id='line49'>  **</span>
+<span id='line50'>  ** Leave a multicast group.  If interface parameter is null,</span>
+<span id='line51'>  ** then `interface` field is used.  Return this.</span>
+<span id='line52'>  **</span>
+<span id='line53'>  native This leaveGroup<b>(</b>IpAddr addr, Int? port := null, IpInterface? interface := null<b>)</b></span>
+<span id='line54'></span>
+<span id='line55'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

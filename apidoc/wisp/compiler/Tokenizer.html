@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::Tokenizer</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='Tokenizer.html'>Tokenizer</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::Tokenizer</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    compiler::Tokenizer</pre>
+
+<p>Tokenizer inputs a Str and output a list of Tokens</p>
+<dl>
+<dt id='alias'>
+alias</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> alias := null</code></p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CompilerErr.html'>CompilerErr</a> err(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Return a CompilerException for current location in source.</p>
+</dd>
+<dt id='escape'>
+escape</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> escape()</code></p>
+
+<p>Parse an escapse sequence which starts with a \</p>
+</dd>
+<dt id='hex'>
+hex</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TokenVal.html'>TokenVal</a> hex()</code></p>
+
+<p>Process hex int/long literal starting with 0x</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler, <a href='Loc.html'>Loc</a> loc, <a href='../sys/Str.html'>Str</a> buf, <a href='../sys/Bool.html'>Bool</a> isDoc)</code></p>
+
+<p>Construct with characters of source file.  The buffer passed must be normalized in that all newlines must be represented strictly as \n and not \r or \r\n (see File.readAllStr).  If isDoc is false, we skip all star-star Fandoc comments.</p>
+</dd>
+<dt id='next'>
+next</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TokenVal.html'>TokenVal?</a> next()</code></p>
+
+<p>Return the next token in the buffer.</p>
+</dd>
+<dt id='tokenize'>
+tokenize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='TokenVal.html'>TokenVal</a>&gt;</a> tokenize()</code></p>
+
+<p>Tokenize the entire input into a list of tokens.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#alias'>alias</a></li><li><a href='#err'>err</a></li><li><a href='#escape'>escape</a></li><li><a href='#hex'>hex</a></li><li><a href='#next'>next</a></li><li><a href='#tokenize'>tokenize</a></li></ul>
+</div>
+</div>
+</body>
+</html>

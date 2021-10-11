@@ -1,0 +1,578 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Color.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='Color.html'>Color</a></li><li><a href='src-Color.fan.html'>Color.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   12 Jun 2008  Brian Frank  Creation</span>
+<span id='line7'>//   10 Apr 2017  Brian Frank  Refactor to model CSS color</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** Models an CSS4 RGB color with alpha</span>
+<span id='line12'>**</span>
+<span id='line13'>@Js</span>
+<span id='line14'>@Serializable <b>{</b> simple = true <b>}</b></span>
+<span id='line15'>const class Color</span>
+<span id='line16'><b>{</b></span>
+<span id='line17'></span>
+<span id='line18'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line19'>// Construction</span>
+<span id='line20'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line21'></span>
+<span id='line22'>  ** Transparent constant with opacity set to zero</span>
+<span id='line23'>  const static Color transparent := make<b>(</b>0, 0f<b>)</b></span>
+<span id='line24'></span>
+<span id='line25'>  ** Make a new instance with the RGB components masked</span>
+<span id='line26'>  ** together: bits 16-23 red; bits 8-15 green; bits 0-7 blue.</span>
+<span id='line27'>  ** Alpha should be a float between 1.0 and 0.0.</span>
+<span id='line28'>  new make<b>(</b>Int rgb := 0, Float a := 1.0f<b>)</b></span>
+<span id='line29'>  <b>{</b></span>
+<span id='line30'>    this.rgb = rgb.and<b>(</b>0xff_ff_ff<b>)</b></span>
+<span id='line31'>    this.a = a.max<b>(</b>0f<b>)</b>.min<b>(</b>1.0f<b>)</b></span>
+<span id='line32'>  <b>}</b></span>
+<span id='line33'></span>
+<span id='line34'>  ** Make a new instance with the RGB individual</span>
+<span id='line35'>  ** components as integers between 0 and 255 and alpha</span>
+<span id='line36'>  ** as float between 1.0 and 0.0.</span>
+<span id='line37'>  static Color makeRgb<b>(</b>Int r, Int g, Int b, Float a := 1.0f<b>)</b></span>
+<span id='line38'>  <b>{</b></span>
+<span id='line39'>    return make<b>(</b><b>(</b>r.and<b>(</b>0xff<b>)</b>.shiftl<b>(</b>16<b>)</b><b>)</b></span>
+<span id='line40'>             .or<b>(</b>g.and<b>(</b>0xff<b>)</b>.shiftl<b>(</b>8<b>)</b><b>)</b></span>
+<span id='line41'>             .or<b>(</b>b.and<b>(</b>0xff<b>)</b><b>)</b>, a<b>)</b></span>
+<span id='line42'>  <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>  ** Construct a color using HSL model <b>(</b>hue, saturation, lightness<b>)</b>:</span>
+<span id='line45'>  **   - hue as 0.0 to 360.0</span>
+<span id='line46'>  **   - saturation as 0.0 to 1.0</span>
+<span id='line47'>  **   - lightness <b>(</b>or brightness<b>)</b> as 0.0 to 1.0</span>
+<span id='line48'>  **   - alpha as 0.0 to 1.0</span>
+<span id='line49'>  ** Also see `h`, `s`, `l`.</span>
+<span id='line50'>  static Color makeHsl<b>(</b>Float h, Float s, Float l, Float a := 1.0f<b>)</b></span>
+<span id='line51'>  <b>{</b></span>
+<span id='line52'>    r := l; g := l; b := l</span>
+<span id='line53'>    if <b>(</b>s != 0f<b>)</b></span>
+<span id='line54'>    <b>{</b></span>
+<span id='line55'>      if <b>(</b>h == 360f<b>)</b> h = 0f</span>
+<span id='line56'>      h /= 60f</span>
+<span id='line57'>      i := h.floor</span>
+<span id='line58'>      f := h - i</span>
+<span id='line59'>      p := l * <b>(</b>1f - s<b>)</b></span>
+<span id='line60'>      q := l * <b>(</b>1f - s * f<b>)</b></span>
+<span id='line61'>      t := l * <b>(</b>1f - <b>(</b>s*<b>(</b>1f-f<b>)</b><b>)</b><b>)</b></span>
+<span id='line62'>      switch <b>(</b>i.toInt<b>)</b></span>
+<span id='line63'>      <b>{</b></span>
+<span id='line64'>        case 0: r=l; g=t; b=p</span>
+<span id='line65'>        case 1: r=q; g=l; b=p</span>
+<span id='line66'>        case 2: r=p; g=l; b=t</span>
+<span id='line67'>        case 3: r=p; g=q; b=l</span>
+<span id='line68'>        case 4: r=t; g=p; b=l</span>
+<span id='line69'>        case 5: r=l; g=p; b=q</span>
+<span id='line70'>      <b>}</b></span>
+<span id='line71'>    <b>}</b></span>
+<span id='line72'>    return make<b>(</b><b>(</b>r * 255f<b>)</b>.toInt.shiftl<b>(</b>16<b>)</b></span>
+<span id='line73'>                .or<b>(</b><b>(</b>g * 255f<b>)</b>.toInt.shiftl<b>(</b>8<b>)</b><b>)</b></span>
+<span id='line74'>                .or<b>(</b><b>(</b>b * 255f<b>)</b>.toInt<b>)</b>, a<b>)</b></span>
+<span id='line75'>  <b>}</b></span>
+<span id='line76'></span>
+<span id='line77'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line78'>// Parsing</span>
+<span id='line79'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line80'></span>
+<span id='line81'>  ** Parse color from CSS 4 string.  If invalid</span>
+<span id='line82'>  ** and checked is true then throw ParseErr otherwise</span>
+<span id='line83'>  ** return null.  The following formats are supported:</span>
+<span id='line84'>  **   - CSS keyword color</span>
+<span id='line85'>  **   - #RRGGBB</span>
+<span id='line86'>  **   - #RRGGBBAA</span>
+<span id='line87'>  **   - #RGB</span>
+<span id='line88'>  **   - #RGBA</span>
+<span id='line89'>  **   - rgb<b>(</b>r, g b<b>)</b></span>
+<span id='line90'>  **   - rgba<b>(</b>r, g, b, a<b>)</b></span>
+<span id='line91'>  **   - hsl<b>(</b>h, s, l<b>)</b></span>
+<span id='line92'>  **   - hsla<b>(</b>h, s, l, a<b>)</b></span>
+<span id='line93'>  **</span>
+<span id='line94'>  ** Functional notation works with comma or space separated</span>
+<span id='line95'>  ** arguments.</span>
+<span id='line96'>  **</span>
+<span id='line97'>  ** Examples:</span>
+<span id='line98'>  **   Color.fromStr<b>(</b>"red"<b>)</b></span>
+<span id='line99'>  **   Color.fromStr<b>(</b>"#8A0"<b>)</b></span>
+<span id='line100'>  **   Color.fromStr<b>(</b>"#88AA00"<b>)</b></span>
+<span id='line101'>  **   Color.fromStr<b>(</b>"rgba<b>(</b>255, 0, 0, 0.3<b>)</b>"<b>)</b></span>
+<span id='line102'>  **   Color.fromStr<b>(</b>"rgb<b>(</b>100% 0% 0% 25%<b>)</b>"<b>)</b></span>
+<span id='line103'>  static Color? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line104'>  <b>{</b></span>
+<span id='line105'>    try</span>
+<span id='line106'>    <b>{</b></span>
+<span id='line107'>      // #xxx syntax</span>
+<span id='line108'>      if <b>(</b>s.startsWith<b>(</b>"#"<b>)</b><b>)</b> return parseHex<b>(</b>s<b>)</b></span>
+<span id='line109'></span>
+<span id='line110'>      // keyword</span>
+<span id='line111'>      k := byKeyword<b>[</b>s<b>]</b></span>
+<span id='line112'>      if <b>(</b>k != null<b>)</b> return k</span>
+<span id='line113'></span>
+<span id='line114'>      // try functional notation</span>
+<span id='line115'>      paren := s.index<b>(</b>"<b>(</b>"<b>)</b></span>
+<span id='line116'>      if <b>(</b>paren != null<b>)</b></span>
+<span id='line117'>      <b>{</b></span>
+<span id='line118'>        if <b>(</b>s<b>[</b>-1<b>]</b> != '<b>)</b>'<b>)</b> throw Err<b>(</b><b>)</b></span>
+<span id='line119'>        return parseFunc<b>(</b>s<b>[</b>0..&lt;paren<b>]</b>, GeomUtil.split<b>(</b>s<b>[</b>paren+1..-2<b>]</b><b>)</b><b>)</b></span>
+<span id='line120'>      <b>}</b></span>
+<span id='line121'></span>
+<span id='line122'>      // bad format</span>
+<span id='line123'>      throw Err<b>(</b><b>)</b></span>
+<span id='line124'>    <b>}</b></span>
+<span id='line125'>    catch <b>(</b>Err e<b>)</b> <b>{</b><b>}</b></span>
+<span id='line126'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Invalid Color: $s"<b>)</b></span>
+<span id='line127'>    return null</span>
+<span id='line128'>  <b>}</b></span>
+<span id='line129'></span>
+<span id='line130'>  ** Parse comma separated list from string</span>
+<span id='line131'>  @NoDoc</span>
+<span id='line132'>  static Color<b>[</b><b>]</b>? listFromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line133'>  <b>{</b></span>
+<span id='line134'>    try</span>
+<span id='line135'>    <b>{</b></span>
+<span id='line136'>      toks := s.split<b>(</b>','<b>)</b></span>
+<span id='line137'>      if <b>(</b>s.contains<b>(</b>"<b>(</b>"<b>)</b><b>)</b></span>
+<span id='line138'>      <b>{</b></span>
+<span id='line139'>        acc := StrBuf<b>[</b>,<b>]</b></span>
+<span id='line140'>        inParen := false</span>
+<span id='line141'>        toks.each |tok, i|</span>
+<span id='line142'>        <b>{</b></span>
+<span id='line143'>          if <b>(</b>inParen<b>)</b> acc.last.addChar<b>(</b>','<b>)</b>.add<b>(</b>tok<b>)</b></span>
+<span id='line144'>          else acc.add<b>(</b>StrBuf<b>(</b><b>)</b>.add<b>(</b>tok<b>)</b><b>)</b></span>
+<span id='line145'>          if <b>(</b>tok.contains<b>(</b>"<b>(</b>"<b>)</b><b>)</b> inParen = true</span>
+<span id='line146'>          if <b>(</b>tok.contains<b>(</b>"<b>)</b>"<b>)</b><b>)</b> inParen = false</span>
+<span id='line147'>        <b>}</b></span>
+<span id='line148'>        toks = acc.map |buf->Str| <b>{</b> buf.toStr <b>}</b></span>
+<span id='line149'>      <b>}</b></span>
+<span id='line150'>      return toks.map |tok->Color| <b>{</b> Color.fromStr<b>(</b>tok<b>)</b> <b>}</b></span>
+<span id='line151'>    <b>}</b></span>
+<span id='line152'>    catch <b>(</b>Err e<b>)</b> e.trace</span>
+<span id='line153'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Invalid color list: $s"<b>)</b></span>
+<span id='line154'>    return null</span>
+<span id='line155'>  <b>}</b></span>
+<span id='line156'></span>
+<span id='line157'>  private static Color parseHex<b>(</b>Str s<b>)</b></span>
+<span id='line158'>  <b>{</b></span>
+<span id='line159'>    sub := s<b>[</b>1..-1<b>]</b></span>
+<span id='line160'>    hex := sub.toInt<b>(</b>16<b>)</b></span>
+<span id='line161'>    switch <b>(</b>sub.size<b>)</b></span>
+<span id='line162'>    <b>{</b></span>
+<span id='line163'>      case 3:</span>
+<span id='line164'>        r := hex.shiftr<b>(</b>8<b>)</b>.and<b>(</b>0xf<b>)</b>; r = r.shiftl<b>(</b>4<b>)</b>.or<b>(</b>r<b>)</b></span>
+<span id='line165'>        g := hex.shiftr<b>(</b>4<b>)</b>.and<b>(</b>0xf<b>)</b>; g = g.shiftl<b>(</b>4<b>)</b>.or<b>(</b>g<b>)</b></span>
+<span id='line166'>        b := hex.shiftr<b>(</b>0<b>)</b>.and<b>(</b>0xf<b>)</b>; b = b.shiftl<b>(</b>4<b>)</b>.or<b>(</b>b<b>)</b></span>
+<span id='line167'>        return make<b>(</b>r.shiftl<b>(</b>16<b>)</b>.or<b>(</b>g.shiftl<b>(</b>8<b>)</b><b>)</b>.or<b>(</b>b<b>)</b><b>)</b></span>
+<span id='line168'>      case 4:</span>
+<span id='line169'>        r := hex.shiftr<b>(</b>12<b>)</b>.and<b>(</b>0xf<b>)</b>; r = r.shiftl<b>(</b>4<b>)</b>.or<b>(</b>r<b>)</b></span>
+<span id='line170'>        g := hex.shiftr<b>(</b>8<b>)</b>.and<b>(</b>0xf<b>)</b>;  g = g.shiftl<b>(</b>4<b>)</b>.or<b>(</b>g<b>)</b></span>
+<span id='line171'>        b := hex.shiftr<b>(</b>4<b>)</b>.and<b>(</b>0xf<b>)</b>;  b = b.shiftl<b>(</b>4<b>)</b>.or<b>(</b>b<b>)</b></span>
+<span id='line172'>        a := hex.shiftr<b>(</b>0<b>)</b>.and<b>(</b>0xf<b>)</b>;  a = a.shiftl<b>(</b>4<b>)</b>.or<b>(</b>a<b>)</b></span>
+<span id='line173'>        return makeRgb<b>(</b>r, g, b, a/255f<b>)</b></span>
+<span id='line174'>      case 6:</span>
+<span id='line175'>        return make<b>(</b>hex<b>)</b></span>
+<span id='line176'>      case 8:</span>
+<span id='line177'>        return make<b>(</b>hex.shiftr<b>(</b>8<b>)</b>, GeomUtil.formatFloat<b>(</b>hex.and<b>(</b>0xff<b>)</b>/255f<b>)</b>.toFloat<b>)</b></span>
+<span id='line178'>      default:</span>
+<span id='line179'>        throw Err<b>(</b><b>)</b></span>
+<span id='line180'>    <b>}</b></span>
+<span id='line181'>  <b>}</b></span>
+<span id='line182'></span>
+<span id='line183'>  private static Color parseFunc<b>(</b>Str func, Str<b>[</b><b>]</b> args<b>)</b></span>
+<span id='line184'>  <b>{</b></span>
+<span id='line185'>    switch <b>(</b>func<b>)</b></span>
+<span id='line186'>    <b>{</b></span>
+<span id='line187'>      case "rgb":</span>
+<span id='line188'>      case "rgba":</span>
+<span id='line189'>        return makeRgb<b>(</b>parseRgbArg<b>(</b>args<b>[</b>0<b>]</b><b>)</b>, parseRgbArg<b>(</b>args<b>[</b>1<b>]</b><b>)</b>, parseRgbArg<b>(</b>args<b>[</b>2<b>]</b><b>)</b>, parsePercentArg<b>(</b>args.getSafe<b>(</b>3<b>)</b><b>)</b><b>)</b></span>
+<span id='line190'>      case "hsl":</span>
+<span id='line191'>      case "hsla":</span>
+<span id='line192'>        return makeHsl<b>(</b>parseDegArg<b>(</b>args<b>[</b>0<b>]</b><b>)</b>, parsePercentArg<b>(</b>args<b>[</b>1<b>]</b><b>)</b>, parsePercentArg<b>(</b>args<b>[</b>2<b>]</b><b>)</b>, parsePercentArg<b>(</b>args.getSafe<b>(</b>3<b>)</b><b>)</b><b>)</b></span>
+<span id='line193'>      default:</span>
+<span id='line194'>        throw Err<b>(</b><b>)</b></span>
+<span id='line195'>    <b>}</b></span>
+<span id='line196'>  <b>}</b></span>
+<span id='line197'></span>
+<span id='line198'>  private static Int parseRgbArg<b>(</b>Str s<b>)</b></span>
+<span id='line199'>  <b>{</b></span>
+<span id='line200'>    if <b>(</b>s<b>[</b>-1<b>]</b> == '%'<b>)</b> return <b>(</b>255f * s<b>[</b>0..-2<b>]</b>.toFloat / 100f<b>)</b>.toInt</span>
+<span id='line201'>    return s.toInt</span>
+<span id='line202'>  <b>}</b></span>
+<span id='line203'></span>
+<span id='line204'>  private static Float parseDegArg<b>(</b>Str s<b>)</b></span>
+<span id='line205'>  <b>{</b></span>
+<span id='line206'>    if <b>(</b>s.endsWith<b>(</b>"deg"<b>)</b><b>)</b> s = s<b>[</b>0..-4<b>]</b></span>
+<span id='line207'>    f := s.toFloat</span>
+<span id='line208'>    if <b>(</b>f > 360f<b>)</b> f = f.toInt.mod<b>(</b>360<b>)</b>.toFloat</span>
+<span id='line209'>    return f</span>
+<span id='line210'>  <b>}</b></span>
+<span id='line211'></span>
+<span id='line212'>  private static Float parsePercentArg<b>(</b>Str? s<b>)</b></span>
+<span id='line213'>  <b>{</b></span>
+<span id='line214'>    if <b>(</b>s == null<b>)</b> return 1.0f</span>
+<span id='line215'>    if <b>(</b>s<b>[</b>-1<b>]</b> == '%'<b>)</b> return s<b>[</b>0..-2<b>]</b>.toFloat / 100f</span>
+<span id='line216'>    return s.toFloat</span>
+<span id='line217'>  <b>}</b></span>
+<span id='line218'></span>
+<span id='line219'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line220'>// Color Model</span>
+<span id='line221'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line222'></span>
+<span id='line223'>  ** The RGB components masked together: bits 16-23 red;</span>
+<span id='line224'>  ** bits 8-15 green; bits 0-7 blue.</span>
+<span id='line225'>  const Int rgb</span>
+<span id='line226'></span>
+<span id='line227'>  ** The alpha component from 0.0 to 1.0</span>
+<span id='line228'>  const Float a</span>
+<span id='line229'></span>
+<span id='line230'>  ** The red component from 0 to 255.</span>
+<span id='line231'>  Int r<b>(</b><b>)</b> <b>{</b> rgb.shiftr<b>(</b>16<b>)</b>.and<b>(</b>0xff<b>)</b> <b>}</b></span>
+<span id='line232'></span>
+<span id='line233'>  ** The green component from 0 to 255.</span>
+<span id='line234'>  Int g<b>(</b><b>)</b> <b>{</b> rgb.shiftr<b>(</b>8<b>)</b>.and<b>(</b>0xff<b>)</b> <b>}</b></span>
+<span id='line235'></span>
+<span id='line236'>  ** The blue component from 0 to 255.</span>
+<span id='line237'>  Int b<b>(</b><b>)</b> <b>{</b> rgb.and<b>(</b>0xff<b>)</b> <b>}</b></span>
+<span id='line238'></span>
+<span id='line239'>  ** Hue as a float between 0.0 and 360.0 of the HSL model <b>(</b>hue,</span>
+<span id='line240'>  ** saturation, lightness<b>)</b>.  Also see `makeHsl`, `s`, `l`.</span>
+<span id='line241'>  Float h<b>(</b><b>)</b></span>
+<span id='line242'>  <b>{</b></span>
+<span id='line243'>    r := this.r.toFloat</span>
+<span id='line244'>    b := this.b.toFloat</span>
+<span id='line245'>    g := this.g.toFloat</span>
+<span id='line246'>    min := r.min<b>(</b>b.min<b>(</b>g<b>)</b><b>)</b></span>
+<span id='line247'>    max := r.max<b>(</b>b.max<b>(</b>g<b>)</b><b>)</b></span>
+<span id='line248'>    delta := max - min</span>
+<span id='line249'>    s := max == 0f ? 0f : delta / max</span>
+<span id='line250'>    h := 0f</span>
+<span id='line251'>    if <b>(</b>s != 0f<b>)</b></span>
+<span id='line252'>    <b>{</b></span>
+<span id='line253'>      if <b>(</b>r == max<b>)</b> h = <b>(</b>g - b<b>)</b> / delta</span>
+<span id='line254'>      else if <b>(</b>g == max<b>)</b> h = 2f + <b>(</b>b - r<b>)</b> / delta</span>
+<span id='line255'>      else if <b>(</b>b == max<b>)</b> h = 4f + <b>(</b>r - g<b>)</b> / delta</span>
+<span id='line256'>      h *= 60f</span>
+<span id='line257'>      if <b>(</b>h &lt; 0f<b>)</b> h += 360f</span>
+<span id='line258'>    <b>}</b></span>
+<span id='line259'>    return h</span>
+<span id='line260'>  <b>}</b></span>
+<span id='line261'></span>
+<span id='line262'>  ** Saturation as a float between 0.0 and 1.0 of the HSL model <b>(</b>hue,</span>
+<span id='line263'>  ** saturation, lightness<b>)</b>.  Also see `makeHsl`, `h`, `l`.</span>
+<span id='line264'>  Float s<b>(</b><b>)</b></span>
+<span id='line265'>  <b>{</b></span>
+<span id='line266'>    min := r.min<b>(</b>b.min<b>(</b>g<b>)</b><b>)</b>.toFloat</span>
+<span id='line267'>    max := r.max<b>(</b>b.max<b>(</b>g<b>)</b><b>)</b>.toFloat</span>
+<span id='line268'>    return max == 0f ? 0f : <b>(</b>max-min<b>)</b> / max</span>
+<span id='line269'>  <b>}</b></span>
+<span id='line270'></span>
+<span id='line271'>  ** Lightness <b>(</b>brightness<b>)</b> as a float between 0.0 and 1.0 of the HSL</span>
+<span id='line272'>  ** model <b>(</b>hue, saturation, lightness<b>)</b>. Also see `makeHsl`, `h`, `s`.</span>
+<span id='line273'>  Float l<b>(</b><b>)</b></span>
+<span id='line274'>  <b>{</b></span>
+<span id='line275'>    r.max<b>(</b>b.max<b>(</b>g<b>)</b><b>)</b>.toFloat / 255f</span>
+<span id='line276'>  <b>}</b></span>
+<span id='line277'></span>
+<span id='line278'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line279'>// Identity</span>
+<span id='line280'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line281'></span>
+<span id='line282'>  ** Return the hash code.</span>
+<span id='line283'>  override Int hash<b>(</b><b>)</b> <b>{</b> rgb.xor<b>(</b>a.hash.shiftl<b>(</b>24<b>)</b><b>)</b> <b>}</b></span>
+<span id='line284'></span>
+<span id='line285'>  ** Equality</span>
+<span id='line286'>  override Bool equals<b>(</b>Obj? that<b>)</b></span>
+<span id='line287'>  <b>{</b></span>
+<span id='line288'>    x := that as Color</span>
+<span id='line289'>    if <b>(</b>x == null<b>)</b> return false</span>
+<span id='line290'>    return x.rgb == rgb &amp;&amp; x.a == a</span>
+<span id='line291'>  <b>}</b></span>
+<span id='line292'></span>
+<span id='line293'>  ** If the alpha component is 1.0, then format as '"#RRGGBB"' hex</span>
+<span id='line294'>  ** string, otherwise format as '"rbga<b>(</b><b>)</b>"' notation.</span>
+<span id='line295'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line296'>  <b>{</b></span>
+<span id='line297'>    if <b>(</b>a >= 1.0f<b>)</b> return toHexStr</span>
+<span id='line298'>    aStr := a.toLocale<b>(</b>"0.##"<b>)</b></span>
+<span id='line299'>    return "rgba<b>(</b>$r,$g,$b,$aStr<b>)</b>"</span>
+<span id='line300'>  <b>}</b></span>
+<span id='line301'></span>
+<span id='line302'>  ** Format as #RGB, #RRGGBB or #RRGGBBAA syntax</span>
+<span id='line303'>  Str toHexStr<b>(</b><b>)</b></span>
+<span id='line304'>  <b>{</b></span>
+<span id='line305'>    hex := rgb.toHex<b>(</b>6<b>)</b></span>
+<span id='line306'>    if <b>(</b>a >= 1f<b>)</b></span>
+<span id='line307'>    <b>{</b></span>
+<span id='line308'>      if <b>(</b>hex<b>[</b>0<b>]</b> == hex<b>[</b>1<b>]</b> &amp;&amp; hex<b>[</b>2<b>]</b> == hex<b>[</b>3<b>]</b> &amp;&amp; hex<b>[</b>4<b>]</b> == hex<b>[</b>5<b>]</b><b>)</b></span>
+<span id='line309'>        return "#" + hex<b>[</b>0<b>]</b>.toChar + hex<b>[</b>2<b>]</b>.toChar + hex<b>[</b>4<b>]</b>.toChar</span>
+<span id='line310'>      else</span>
+<span id='line311'>        return "#" + hex</span>
+<span id='line312'>    <b>}</b></span>
+<span id='line313'>    ahex := <b>(</b>255f * a<b>)</b>.toInt.min<b>(</b>255<b>)</b>.max<b>(</b>0<b>)</b>.toHex<b>(</b>2<b>)</b></span>
+<span id='line314'>    return "#" + hex + ahex</span>
+<span id='line315'>  <b>}</b></span>
+<span id='line316'></span>
+<span id='line317'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line318'>// Utils</span>
+<span id='line319'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line320'></span>
+<span id='line321'>  ** Return if `a` is zero, fully transparent</span>
+<span id='line322'>  Bool isTransparent<b>(</b><b>)</b> <b>{</b> a &lt;= 0f <b>}</b></span>
+<span id='line323'></span>
+<span id='line324'>  ** Adjust the opacity of this color and return new instance,</span>
+<span id='line325'>  ** where 'opacity' is between 0.0  and 1.0.</span>
+<span id='line326'>  Color opacity<b>(</b>Float opacity := 1f<b>)</b></span>
+<span id='line327'>  <b>{</b></span>
+<span id='line328'>    make<b>(</b>rgb, a * opacity<b>)</b></span>
+<span id='line329'>  <b>}</b></span>
+<span id='line330'></span>
+<span id='line331'>  ** Get a color which is a lighter shade of this color.</span>
+<span id='line332'>  ** This increases the brightness by the given percentage</span>
+<span id='line333'>  ** which is a float between 0.0 and 1.0.</span>
+<span id='line334'>  Color lighter<b>(</b>Float percentage := 0.2f<b>)</b></span>
+<span id='line335'>  <b>{</b></span>
+<span id='line336'>    // adjust value <b>(</b>brighness<b>)</b></span>
+<span id='line337'>    l := <b>(</b>this.l + percentage<b>)</b>.max<b>(</b>0f<b>)</b>.min<b>(</b>1f<b>)</b></span>
+<span id='line338'>    return makeHsl<b>(</b>h, s, l<b>)</b></span>
+<span id='line339'>  <b>}</b></span>
+<span id='line340'></span>
+<span id='line341'>  ** Get a color which is a dark shade of this color.</span>
+<span id='line342'>  ** This decreases the brightness by the given percentage</span>
+<span id='line343'>  ** which is a float between 0.0 and 1.0.</span>
+<span id='line344'>  Color darker<b>(</b>Float percentage := 0.2f<b>)</b></span>
+<span id='line345'>  <b>{</b></span>
+<span id='line346'>    lighter<b>(</b>-percentage<b>)</b></span>
+<span id='line347'>  <b>}</b></span>
+<span id='line348'></span>
+<span id='line349'>  ** Adjust saturation as percentage between -1..1.</span>
+<span id='line350'>  Color saturate<b>(</b>Float percentage := 0.2f<b>)</b></span>
+<span id='line351'>  <b>{</b></span>
+<span id='line352'>    s := <b>(</b>this.s + percentage<b>)</b>.max<b>(</b>0f<b>)</b>.min<b>(</b>1f<b>)</b></span>
+<span id='line353'>    return makeHsl<b>(</b>h, s, l<b>)</b></span>
+<span id='line354'>  <b>}</b></span>
+<span id='line355'></span>
+<span id='line356'>  ** Convenience for 'saturate<b>(</b>-percentage<b>)</b>'.</span>
+<span id='line357'>  Color desaturate<b>(</b>Float percentage := 0.2f<b>)</b></span>
+<span id='line358'>  <b>{</b></span>
+<span id='line359'>    saturate<b>(</b>-percentage<b>)</b></span>
+<span id='line360'>  <b>}</b></span>
+<span id='line361'></span>
+<span id='line362'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line363'>// Interpolate</span>
+<span id='line364'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line365'></span>
+<span id='line366'>  ** Interpolate between a and b where t is 0.0 to 1.0 using RGB color model.</span>
+<span id='line367'>  static Color interpolateRgb<b>(</b>Color a, Color b, Float t<b>)</b></span>
+<span id='line368'>  <b>{</b></span>
+<span id='line369'>    return Color.makeRgb<b>(</b>interpolateByte<b>(</b>a.r, b.r, t<b>)</b>,</span>
+<span id='line370'>                         interpolateByte<b>(</b>a.g, b.g, t<b>)</b>,</span>
+<span id='line371'>                         interpolateByte<b>(</b>a.b, b.b, t<b>)</b>,</span>
+<span id='line372'>                         interpolatePercent<b>(</b>a.a, b.a, t<b>)</b><b>)</b></span>
+<span id='line373'>  <b>}</b></span>
+<span id='line374'></span>
+<span id='line375'>  ** Interpolate between a and b where t is 0.0 to 1.0 using HSL color model.</span>
+<span id='line376'>  static Color interpolateHsl<b>(</b>Color a, Color b, Float t<b>)</b></span>
+<span id='line377'>  <b>{</b></span>
+<span id='line378'>    return Color.makeHsl<b>(</b>interpolateDeg<b>(</b>a.h, b.h, t<b>)</b>,</span>
+<span id='line379'>                         interpolatePercent<b>(</b>a.s, b.s, t<b>)</b>,</span>
+<span id='line380'>                         interpolatePercent<b>(</b>a.l, b.l, t<b>)</b>,</span>
+<span id='line381'>                         interpolatePercent<b>(</b>a.a, b.a, t<b>)</b><b>)</b></span>
+<span id='line382'>  <b>}</b></span>
+<span id='line383'></span>
+<span id='line384'>  private static Float interpolateDeg<b>(</b>Float a, Float b, Float t<b>)</b></span>
+<span id='line385'>  <b>{</b></span>
+<span id='line386'>    <b>(</b>a + <b>(</b>b-a<b>)</b> * t<b>)</b>.min<b>(</b>360f<b>)</b>.max<b>(</b>0f<b>)</b></span>
+<span id='line387'>  <b>}</b></span>
+<span id='line388'></span>
+<span id='line389'>  private static Int interpolateByte<b>(</b>Int a, Int b, Float t<b>)</b></span>
+<span id='line390'>  <b>{</b></span>
+<span id='line391'>    <b>(</b>a + <b>(</b>b-a<b>)</b> * t<b>)</b>.toInt.min<b>(</b>255<b>)</b>.max<b>(</b>0<b>)</b></span>
+<span id='line392'>  <b>}</b></span>
+<span id='line393'></span>
+<span id='line394'>  private static Float interpolatePercent<b>(</b>Float a, Float b, Float t<b>)</b></span>
+<span id='line395'>  <b>{</b></span>
+<span id='line396'>    <b>(</b>a + <b>(</b>b-a<b>)</b> * t<b>)</b>.min<b>(</b>1f<b>)</b>.max<b>(</b>0f<b>)</b></span>
+<span id='line397'>  <b>}</b></span>
+<span id='line398'></span>
+<span id='line399'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line400'>// Predefined</span>
+<span id='line401'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line402'></span>
+<span id='line403'>  private static const <b>[</b>Str:Color<b>]</b> byKeyword</span>
+<span id='line404'>  static</span>
+<span id='line405'>  <b>{</b></span>
+<span id='line406'>    // CSS 1, 2, 3, and 4 keywords</span>
+<span id='line407'>    acc := CaseInsensitiveMap&lt;Str,Color><b>(</b><b>)</b></span>
+<span id='line408'>    acc<b>[</b>"black"<b>]</b> = Color<b>(</b>0x000000<b>)</b></span>
+<span id='line409'>    acc<b>[</b>"silver"<b>]</b> = Color<b>(</b>0xc0c0c0<b>)</b></span>
+<span id='line410'>    acc<b>[</b>"gray"<b>]</b> = Color<b>(</b>0x808080<b>)</b></span>
+<span id='line411'>    acc<b>[</b>"white"<b>]</b> = Color<b>(</b>0xffffff<b>)</b></span>
+<span id='line412'>    acc<b>[</b>"maroon"<b>]</b> = Color<b>(</b>0x800000<b>)</b></span>
+<span id='line413'>    acc<b>[</b>"red"<b>]</b> = Color<b>(</b>0xff0000<b>)</b></span>
+<span id='line414'>    acc<b>[</b>"purple"<b>]</b> = Color<b>(</b>0x800080<b>)</b></span>
+<span id='line415'>    acc<b>[</b>"fuchsia"<b>]</b> = Color<b>(</b>0xff00ff<b>)</b></span>
+<span id='line416'>    acc<b>[</b>"green"<b>]</b> = Color<b>(</b>0x008000<b>)</b></span>
+<span id='line417'>    acc<b>[</b>"lime"<b>]</b> = Color<b>(</b>0x00ff00<b>)</b></span>
+<span id='line418'>    acc<b>[</b>"olive"<b>]</b> = Color<b>(</b>0x808000<b>)</b></span>
+<span id='line419'>    acc<b>[</b>"yellow"<b>]</b> = Color<b>(</b>0xffff00<b>)</b></span>
+<span id='line420'>    acc<b>[</b>"navy"<b>]</b> = Color<b>(</b>0x000080<b>)</b></span>
+<span id='line421'>    acc<b>[</b>"blue"<b>]</b> = Color<b>(</b>0x0000ff<b>)</b></span>
+<span id='line422'>    acc<b>[</b>"teal"<b>]</b> = Color<b>(</b>0x008080<b>)</b></span>
+<span id='line423'>    acc<b>[</b>"aqua"<b>]</b> = Color<b>(</b>0x00ffff<b>)</b></span>
+<span id='line424'>    acc<b>[</b>"orange"<b>]</b> = Color<b>(</b>0xffa500<b>)</b></span>
+<span id='line425'>    acc<b>[</b>"aliceblue"<b>]</b> = Color<b>(</b>0xf0f8ff<b>)</b></span>
+<span id='line426'>    acc<b>[</b>"antiquewhite"<b>]</b> = Color<b>(</b>0xfaebd7<b>)</b></span>
+<span id='line427'>    acc<b>[</b>"aquamarine"<b>]</b> = Color<b>(</b>0x7fffd4<b>)</b></span>
+<span id='line428'>    acc<b>[</b>"azure"<b>]</b> = Color<b>(</b>0xf0ffff<b>)</b></span>
+<span id='line429'>    acc<b>[</b>"beige"<b>]</b> = Color<b>(</b>0xf5f5dc<b>)</b></span>
+<span id='line430'>    acc<b>[</b>"bisque"<b>]</b> = Color<b>(</b>0xffe4c4<b>)</b></span>
+<span id='line431'>    acc<b>[</b>"blanchedalmond"<b>]</b> = Color<b>(</b>0xffebcd<b>)</b></span>
+<span id='line432'>    acc<b>[</b>"blueviolet"<b>]</b> = Color<b>(</b>0x8a2be2<b>)</b></span>
+<span id='line433'>    acc<b>[</b>"brown"<b>]</b> = Color<b>(</b>0xa52a2a<b>)</b></span>
+<span id='line434'>    acc<b>[</b>"burlywood"<b>]</b> = Color<b>(</b>0xdeb887<b>)</b></span>
+<span id='line435'>    acc<b>[</b>"cadetblue"<b>]</b> = Color<b>(</b>0x5f9ea0<b>)</b></span>
+<span id='line436'>    acc<b>[</b>"chartreuse"<b>]</b> = Color<b>(</b>0x7fff00<b>)</b></span>
+<span id='line437'>    acc<b>[</b>"chocolate"<b>]</b> = Color<b>(</b>0xd2691e<b>)</b></span>
+<span id='line438'>    acc<b>[</b>"coral"<b>]</b> = Color<b>(</b>0xff7f50<b>)</b></span>
+<span id='line439'>    acc<b>[</b>"cornflowerblue"<b>]</b> = Color<b>(</b>0x6495ed<b>)</b></span>
+<span id='line440'>    acc<b>[</b>"cornsilk"<b>]</b> = Color<b>(</b>0xfff8dc<b>)</b></span>
+<span id='line441'>    acc<b>[</b>"crimson"<b>]</b> = Color<b>(</b>0xdc143c<b>)</b></span>
+<span id='line442'>    acc<b>[</b>"cyan"<b>]</b> = Color<b>(</b>0x00ffff<b>)</b></span>
+<span id='line443'>    acc<b>[</b>"darkblue"<b>]</b> = Color<b>(</b>0x00008b<b>)</b></span>
+<span id='line444'>    acc<b>[</b>"darkcyan"<b>]</b> = Color<b>(</b>0x008b8b<b>)</b></span>
+<span id='line445'>    acc<b>[</b>"darkgoldenrod"<b>]</b> = Color<b>(</b>0xb8860b<b>)</b></span>
+<span id='line446'>    acc<b>[</b>"darkgray"<b>]</b> = Color<b>(</b>0xa9a9a9<b>)</b></span>
+<span id='line447'>    acc<b>[</b>"darkgreen"<b>]</b> = Color<b>(</b>0x006400<b>)</b></span>
+<span id='line448'>    acc<b>[</b>"darkgrey"<b>]</b> = Color<b>(</b>0xa9a9a9<b>)</b></span>
+<span id='line449'>    acc<b>[</b>"darkkhaki"<b>]</b> = Color<b>(</b>0xbdb76b<b>)</b></span>
+<span id='line450'>    acc<b>[</b>"darkmagenta"<b>]</b> = Color<b>(</b>0x8b008b<b>)</b></span>
+<span id='line451'>    acc<b>[</b>"darkolivegreen"<b>]</b> = Color<b>(</b>0x556b2f<b>)</b></span>
+<span id='line452'>    acc<b>[</b>"darkorange"<b>]</b> = Color<b>(</b>0xff8c00<b>)</b></span>
+<span id='line453'>    acc<b>[</b>"darkorchid"<b>]</b> = Color<b>(</b>0x9932cc<b>)</b></span>
+<span id='line454'>    acc<b>[</b>"darkred"<b>]</b> = Color<b>(</b>0x8b0000<b>)</b></span>
+<span id='line455'>    acc<b>[</b>"darksalmon"<b>]</b> = Color<b>(</b>0xe9967a<b>)</b></span>
+<span id='line456'>    acc<b>[</b>"darkseagreen"<b>]</b> = Color<b>(</b>0x8fbc8f<b>)</b></span>
+<span id='line457'>    acc<b>[</b>"darkslateblue"<b>]</b> = Color<b>(</b>0x483d8b<b>)</b></span>
+<span id='line458'>    acc<b>[</b>"darkslategray"<b>]</b> = Color<b>(</b>0x2f4f4f<b>)</b></span>
+<span id='line459'>    acc<b>[</b>"darkslategrey"<b>]</b> = Color<b>(</b>0x2f4f4f<b>)</b></span>
+<span id='line460'>    acc<b>[</b>"darkturquoise"<b>]</b> = Color<b>(</b>0x00ced1<b>)</b></span>
+<span id='line461'>    acc<b>[</b>"darkviolet"<b>]</b> = Color<b>(</b>0x9400d3<b>)</b></span>
+<span id='line462'>    acc<b>[</b>"deeppink"<b>]</b> = Color<b>(</b>0xff1493<b>)</b></span>
+<span id='line463'>    acc<b>[</b>"deepskyblue"<b>]</b> = Color<b>(</b>0x00bfff<b>)</b></span>
+<span id='line464'>    acc<b>[</b>"dimgray"<b>]</b> = Color<b>(</b>0x696969<b>)</b></span>
+<span id='line465'>    acc<b>[</b>"dimgrey"<b>]</b> = Color<b>(</b>0x696969<b>)</b></span>
+<span id='line466'>    acc<b>[</b>"dodgerblue"<b>]</b> = Color<b>(</b>0x1e90ff<b>)</b></span>
+<span id='line467'>    acc<b>[</b>"firebrick"<b>]</b> = Color<b>(</b>0xb22222<b>)</b></span>
+<span id='line468'>    acc<b>[</b>"floralwhite"<b>]</b> = Color<b>(</b>0xfffaf0<b>)</b></span>
+<span id='line469'>    acc<b>[</b>"forestgreen"<b>]</b> = Color<b>(</b>0x228b22<b>)</b></span>
+<span id='line470'>    acc<b>[</b>"gainsboro"<b>]</b> = Color<b>(</b>0xdcdcdc<b>)</b></span>
+<span id='line471'>    acc<b>[</b>"ghostwhite"<b>]</b> = Color<b>(</b>0xf8f8ff<b>)</b></span>
+<span id='line472'>    acc<b>[</b>"gold"<b>]</b> = Color<b>(</b>0xffd700<b>)</b></span>
+<span id='line473'>    acc<b>[</b>"goldenrod"<b>]</b> = Color<b>(</b>0xdaa520<b>)</b></span>
+<span id='line474'>    acc<b>[</b>"greenyellow"<b>]</b> = Color<b>(</b>0xadff2f<b>)</b></span>
+<span id='line475'>    acc<b>[</b>"grey"<b>]</b> = Color<b>(</b>0x808080<b>)</b></span>
+<span id='line476'>    acc<b>[</b>"honeydew"<b>]</b> = Color<b>(</b>0xf0fff0<b>)</b></span>
+<span id='line477'>    acc<b>[</b>"hotpink"<b>]</b> = Color<b>(</b>0xff69b4<b>)</b></span>
+<span id='line478'>    acc<b>[</b>"indianred"<b>]</b> = Color<b>(</b>0xcd5c5c<b>)</b></span>
+<span id='line479'>    acc<b>[</b>"indigo"<b>]</b> = Color<b>(</b>0x4b0082<b>)</b></span>
+<span id='line480'>    acc<b>[</b>"ivory"<b>]</b> = Color<b>(</b>0xfffff0<b>)</b></span>
+<span id='line481'>    acc<b>[</b>"khaki"<b>]</b> = Color<b>(</b>0xf0e68c<b>)</b></span>
+<span id='line482'>    acc<b>[</b>"lavender"<b>]</b> = Color<b>(</b>0xe6e6fa<b>)</b></span>
+<span id='line483'>    acc<b>[</b>"lavenderblush"<b>]</b> = Color<b>(</b>0xfff0f5<b>)</b></span>
+<span id='line484'>    acc<b>[</b>"lawngreen"<b>]</b> = Color<b>(</b>0x7cfc00<b>)</b></span>
+<span id='line485'>    acc<b>[</b>"lemonchiffon"<b>]</b> = Color<b>(</b>0xfffacd<b>)</b></span>
+<span id='line486'>    acc<b>[</b>"lightblue"<b>]</b> = Color<b>(</b>0xadd8e6<b>)</b></span>
+<span id='line487'>    acc<b>[</b>"lightcoral"<b>]</b> = Color<b>(</b>0xf08080<b>)</b></span>
+<span id='line488'>    acc<b>[</b>"lightcyan"<b>]</b> = Color<b>(</b>0xe0ffff<b>)</b></span>
+<span id='line489'>    acc<b>[</b>"lightgoldenrodyellow"<b>]</b> = Color<b>(</b>0xfafad2<b>)</b></span>
+<span id='line490'>    acc<b>[</b>"lightgray"<b>]</b> = Color<b>(</b>0xd3d3d3<b>)</b></span>
+<span id='line491'>    acc<b>[</b>"lightgreen"<b>]</b> = Color<b>(</b>0x90ee90<b>)</b></span>
+<span id='line492'>    acc<b>[</b>"lightgrey"<b>]</b> = Color<b>(</b>0xd3d3d3<b>)</b></span>
+<span id='line493'>    acc<b>[</b>"lightpink"<b>]</b> = Color<b>(</b>0xffb6c1<b>)</b></span>
+<span id='line494'>    acc<b>[</b>"lightsalmon"<b>]</b> = Color<b>(</b>0xffa07a<b>)</b></span>
+<span id='line495'>    acc<b>[</b>"lightseagreen"<b>]</b> = Color<b>(</b>0x20b2aa<b>)</b></span>
+<span id='line496'>    acc<b>[</b>"lightskyblue"<b>]</b> = Color<b>(</b>0x87cefa<b>)</b></span>
+<span id='line497'>    acc<b>[</b>"lightslategray"<b>]</b> = Color<b>(</b>0x778899<b>)</b></span>
+<span id='line498'>    acc<b>[</b>"lightslategrey"<b>]</b> = Color<b>(</b>0x778899<b>)</b></span>
+<span id='line499'>    acc<b>[</b>"lightsteelblue"<b>]</b> = Color<b>(</b>0xb0c4de<b>)</b></span>
+<span id='line500'>    acc<b>[</b>"lightyellow"<b>]</b> = Color<b>(</b>0xffffe0<b>)</b></span>
+<span id='line501'>    acc<b>[</b>"limegreen"<b>]</b> = Color<b>(</b>0x32cd32<b>)</b></span>
+<span id='line502'>    acc<b>[</b>"linen"<b>]</b> = Color<b>(</b>0xfaf0e6<b>)</b></span>
+<span id='line503'>    acc<b>[</b>"mediumaquamarine"<b>]</b> = Color<b>(</b>0x66cdaa<b>)</b></span>
+<span id='line504'>    acc<b>[</b>"mediumblue"<b>]</b> = Color<b>(</b>0x0000cd<b>)</b></span>
+<span id='line505'>    acc<b>[</b>"mediumorchid"<b>]</b> = Color<b>(</b>0xba55d3<b>)</b></span>
+<span id='line506'>    acc<b>[</b>"mediumpurple"<b>]</b> = Color<b>(</b>0x9370db<b>)</b></span>
+<span id='line507'>    acc<b>[</b>"mediumseagreen"<b>]</b> = Color<b>(</b>0x3cb371<b>)</b></span>
+<span id='line508'>    acc<b>[</b>"mediumslateblue"<b>]</b> = Color<b>(</b>0x7b68ee<b>)</b></span>
+<span id='line509'>    acc<b>[</b>"mediumspringgreen"<b>]</b> = Color<b>(</b>0x00fa9a<b>)</b></span>
+<span id='line510'>    acc<b>[</b>"mediumturquoise"<b>]</b> = Color<b>(</b>0x48d1cc<b>)</b></span>
+<span id='line511'>    acc<b>[</b>"mediumvioletred"<b>]</b> = Color<b>(</b>0xc71585<b>)</b></span>
+<span id='line512'>    acc<b>[</b>"midnightblue"<b>]</b> = Color<b>(</b>0x191970<b>)</b></span>
+<span id='line513'>    acc<b>[</b>"mintcream"<b>]</b> = Color<b>(</b>0xf5fffa<b>)</b></span>
+<span id='line514'>    acc<b>[</b>"mistyrose"<b>]</b> = Color<b>(</b>0xffe4e1<b>)</b></span>
+<span id='line515'>    acc<b>[</b>"moccasin"<b>]</b> = Color<b>(</b>0xffe4b5<b>)</b></span>
+<span id='line516'>    acc<b>[</b>"navajowhite"<b>]</b> = Color<b>(</b>0xffdead<b>)</b></span>
+<span id='line517'>    acc<b>[</b>"oldlace"<b>]</b> = Color<b>(</b>0xfdf5e6<b>)</b></span>
+<span id='line518'>    acc<b>[</b>"olivedrab"<b>]</b> = Color<b>(</b>0x6b8e23<b>)</b></span>
+<span id='line519'>    acc<b>[</b>"orangered"<b>]</b> = Color<b>(</b>0xff4500<b>)</b></span>
+<span id='line520'>    acc<b>[</b>"orchid"<b>]</b> = Color<b>(</b>0xda70d6<b>)</b></span>
+<span id='line521'>    acc<b>[</b>"palegoldenrod"<b>]</b> = Color<b>(</b>0xeee8aa<b>)</b></span>
+<span id='line522'>    acc<b>[</b>"palegreen"<b>]</b> = Color<b>(</b>0x98fb98<b>)</b></span>
+<span id='line523'>    acc<b>[</b>"paleturquoise"<b>]</b> = Color<b>(</b>0xafeeee<b>)</b></span>
+<span id='line524'>    acc<b>[</b>"palevioletred"<b>]</b> = Color<b>(</b>0xdb7093<b>)</b></span>
+<span id='line525'>    acc<b>[</b>"papayawhip"<b>]</b> = Color<b>(</b>0xffefd5<b>)</b></span>
+<span id='line526'>    acc<b>[</b>"peachpuff"<b>]</b> = Color<b>(</b>0xffdab9<b>)</b></span>
+<span id='line527'>    acc<b>[</b>"peru"<b>]</b> = Color<b>(</b>0xcd853f<b>)</b></span>
+<span id='line528'>    acc<b>[</b>"pink"<b>]</b> = Color<b>(</b>0xffc0cb<b>)</b></span>
+<span id='line529'>    acc<b>[</b>"plum"<b>]</b> = Color<b>(</b>0xdda0dd<b>)</b></span>
+<span id='line530'>    acc<b>[</b>"powderblue"<b>]</b> = Color<b>(</b>0xb0e0e6<b>)</b></span>
+<span id='line531'>    acc<b>[</b>"rosybrown"<b>]</b> = Color<b>(</b>0xbc8f8f<b>)</b></span>
+<span id='line532'>    acc<b>[</b>"royalblue"<b>]</b> = Color<b>(</b>0x4169e1<b>)</b></span>
+<span id='line533'>    acc<b>[</b>"saddlebrown"<b>]</b> = Color<b>(</b>0x8b4513<b>)</b></span>
+<span id='line534'>    acc<b>[</b>"salmon"<b>]</b> = Color<b>(</b>0xfa8072<b>)</b></span>
+<span id='line535'>    acc<b>[</b>"sandybrown"<b>]</b> = Color<b>(</b>0xf4a460<b>)</b></span>
+<span id='line536'>    acc<b>[</b>"seagreen"<b>]</b> = Color<b>(</b>0x2e8b57<b>)</b></span>
+<span id='line537'>    acc<b>[</b>"seashell"<b>]</b> = Color<b>(</b>0xfff5ee<b>)</b></span>
+<span id='line538'>    acc<b>[</b>"sienna"<b>]</b> = Color<b>(</b>0xa0522d<b>)</b></span>
+<span id='line539'>    acc<b>[</b>"skyblue"<b>]</b> = Color<b>(</b>0x87ceeb<b>)</b></span>
+<span id='line540'>    acc<b>[</b>"slateblue"<b>]</b> = Color<b>(</b>0x6a5acd<b>)</b></span>
+<span id='line541'>    acc<b>[</b>"slategray"<b>]</b> = Color<b>(</b>0x708090<b>)</b></span>
+<span id='line542'>    acc<b>[</b>"slategrey"<b>]</b> = Color<b>(</b>0x708090<b>)</b></span>
+<span id='line543'>    acc<b>[</b>"snow"<b>]</b> = Color<b>(</b>0xfffafa<b>)</b></span>
+<span id='line544'>    acc<b>[</b>"springgreen"<b>]</b> = Color<b>(</b>0x00ff7f<b>)</b></span>
+<span id='line545'>    acc<b>[</b>"steelblue"<b>]</b> = Color<b>(</b>0x4682b4<b>)</b></span>
+<span id='line546'>    acc<b>[</b>"tan"<b>]</b> = Color<b>(</b>0xd2b48c<b>)</b></span>
+<span id='line547'>    acc<b>[</b>"thistle"<b>]</b> = Color<b>(</b>0xd8bfd8<b>)</b></span>
+<span id='line548'>    acc<b>[</b>"tomato"<b>]</b> = Color<b>(</b>0xff6347<b>)</b></span>
+<span id='line549'>    acc<b>[</b>"transparent"<b>]</b> = transparent</span>
+<span id='line550'>    acc<b>[</b>"turquoise"<b>]</b> = Color<b>(</b>0x40e0d0<b>)</b></span>
+<span id='line551'>    acc<b>[</b>"violet"<b>]</b> = Color<b>(</b>0xee82ee<b>)</b></span>
+<span id='line552'>    acc<b>[</b>"wheat"<b>]</b> = Color<b>(</b>0xf5deb3<b>)</b></span>
+<span id='line553'>    acc<b>[</b>"whitesmoke"<b>]</b> = Color<b>(</b>0xf5f5f5<b>)</b></span>
+<span id='line554'>    acc<b>[</b>"yellowgreen"<b>]</b> = Color<b>(</b>0x9acd32<b>)</b></span>
+<span id='line555'>    acc<b>[</b>"rebeccapurple"<b>]</b> = Color<b>(</b>0x663399<b>)</b></span>
+<span id='line556'>    byKeyword = acc</span>
+<span id='line557'>  <b>}</b></span>
+<span id='line558'><b>}</b></span>
+<span id='line559'></span>
+</pre>
+</div>
+</body>
+</html>

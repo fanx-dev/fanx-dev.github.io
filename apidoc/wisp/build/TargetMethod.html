@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::TargetMethod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='TargetMethod.html'>TargetMethod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> build::TargetMethod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  build::TargetMethod</pre>
+
+<p>TargetMethod wraps a build target method which may be executed independently within a build script.  Targets are the top level unit for organizing build scripts - each script publishes its available targets via <code><a href='BuildScript.html#targets'>BuildScript.targets</a></code>.</p>
+<dl>
+<dt id='help'>
+help</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> help()</code></p>
+
+<p>Summary description for usage help, derived from <code><a href='Target.html'>Target</a></code> facet on method.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='BuildScript.html'>BuildScript</a> script, <a href='../std/Method.html'>Method</a> method)</code></p>
+
+<p>Construct a target to run under the specified build script. The name is the key used to invoke this target from the command line. Description is used for usage summary.  Func is invoked when this target is executed.</p>
+</dd>
+<dt id='method'>
+method</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Method.html'>Method</a> method { private set }</code></p>
+
+<p>Method to invoke when this target is executed.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>Method of the target.</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run this target by invoking the target's method.  If the target fails to run then it should report errors via the log and throw FatalBuildErr.</p>
+</dd>
+<dt id='script'>
+script</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BuildScript.html'>BuildScript</a> script { private set }</code></p>
+
+<p>Return the parent build script associated with this task.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return name.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#help'>help</a></li><li><a href='#method'>method</a></li><li><a href='#name'>name</a></li><li><a href='#run'>run</a></li><li><a href='#script'>script</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

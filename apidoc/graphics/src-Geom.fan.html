@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Geom.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='src-Geom.fan.html'>Geom.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   12 Jun 2008  Brian Frank  Creation <b>(</b>gfx version<b>)</b></span>
+<span id='line7'>//   29 Mar 2017  Brian Frank  SVG/CSS changes</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**************************************************************************</span>
+<span id='line11'>** Point</span>
+<span id='line12'>**************************************************************************</span>
+<span id='line13'></span>
+<span id='line14'>**</span>
+<span id='line15'>** Point models a x,y coordinate.</span>
+<span id='line16'>**</span>
+<span id='line17'>@Js</span>
+<span id='line18'>@Serializable <b>{</b> simple = true <b>}</b></span>
+<span id='line19'>const class Point</span>
+<span id='line20'><b>{</b></span>
+<span id='line21'>  ** Default instance is '0,0'.</span>
+<span id='line22'>  const static Point defVal := Point<b>(</b>0f, 0f<b>)</b></span>
+<span id='line23'></span>
+<span id='line24'>  ** Construct with x, y.</span>
+<span id='line25'>  new make<b>(</b>Float x, Float y<b>)</b> <b>{</b> this.x = x; this.y = y <b>}</b></span>
+<span id='line26'></span>
+<span id='line27'>  ** Construct with x, y.</span>
+<span id='line28'>  new makeInt<b>(</b>Int x, Int y<b>)</b> <b>{</b> this.x = x.toFloat; this.y = y.toFloat <b>}</b></span>
+<span id='line29'></span>
+<span id='line30'>  ** Parse from comma or space separated string.</span>
+<span id='line31'>  ** If invalid then throw ParseErr or return null based on checked flag.</span>
+<span id='line32'>  static Point? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line33'>  <b>{</b></span>
+<span id='line34'>    try</span>
+<span id='line35'>    <b>{</b></span>
+<span id='line36'>      f := GeomUtil.parseFloatList<b>(</b>s<b>)</b></span>
+<span id='line37'>      return make<b>(</b>f<b>[</b>0<b>]</b>, f<b>[</b>1<b>]</b><b>)</b></span>
+<span id='line38'>    <b>}</b></span>
+<span id='line39'>    catch <b>{</b><b>}</b></span>
+<span id='line40'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Invalid Point: $s"<b>)</b></span>
+<span id='line41'>    return null</span>
+<span id='line42'>  <b>}</b></span>
+<span id='line43'></span>
+<span id='line44'>  ** Return 'x+tx, y+ty'</span>
+<span id='line45'>  Point translate<b>(</b>Point t<b>)</b> <b>{</b> make<b>(</b>x+t.x, y+t.y<b>)</b> <b>}</b></span>
+<span id='line46'></span>
+<span id='line47'>  ** Return hash of x and y.</span>
+<span id='line48'>  override Int hash<b>(</b><b>)</b> <b>{</b> x.hash.xor<b>(</b>y.hash.shiftl<b>(</b>16<b>)</b><b>)</b> <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  ** Return if obj is same Point value.</span>
+<span id='line51'>  override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line52'>  <b>{</b></span>
+<span id='line53'>    that := obj as Point</span>
+<span id='line54'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line55'>    return this.x == that.x &amp;&amp; this.y == that.y</span>
+<span id='line56'>  <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>  ** Return '"x y"'</span>
+<span id='line59'>  override Str toStr<b>(</b><b>)</b> <b>{</b> GeomUtil.formatFloats2<b>(</b>x, y<b>)</b> <b>}</b></span>
+<span id='line60'></span>
+<span id='line61'>  ** X coordinate</span>
+<span id='line62'>  const Float x</span>
+<span id='line63'></span>
+<span id='line64'>  ** Y coordinate</span>
+<span id='line65'>  const Float y</span>
+<span id='line66'><b>}</b></span>
+<span id='line67'></span>
+<span id='line68'>**************************************************************************</span>
+<span id='line69'>** Size</span>
+<span id='line70'>**************************************************************************</span>
+<span id='line71'></span>
+<span id='line72'>**</span>
+<span id='line73'>** Size models the width and height of a shape.</span>
+<span id='line74'>**</span>
+<span id='line75'>@Js</span>
+<span id='line76'>@Serializable <b>{</b> simple = true <b>}</b></span>
+<span id='line77'>const class Size</span>
+<span id='line78'><b>{</b></span>
+<span id='line79'>  ** Default instance is '0,0'.</span>
+<span id='line80'>  const static Size defVal := Size<b>(</b>0f, 0f<b>)</b></span>
+<span id='line81'></span>
+<span id='line82'>  ** Construct with w, h.</span>
+<span id='line83'>  new make<b>(</b>Float w, Float h<b>)</b> <b>{</b> this.w = w; this.h = h <b>}</b></span>
+<span id='line84'></span>
+<span id='line85'>  ** Construct with w, h as integers.</span>
+<span id='line86'>  new makeInt<b>(</b>Int w, Int h<b>)</b> <b>{</b> this.w = w.toFloat; this.h = h.toFloat <b>}</b></span>
+<span id='line87'></span>
+<span id='line88'>  ** Parse from comma or space separated string.</span>
+<span id='line89'>  ** If invalid then throw ParseErr or return null based on checked flag.</span>
+<span id='line90'>  static Size? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line91'>  <b>{</b></span>
+<span id='line92'>    try</span>
+<span id='line93'>    <b>{</b></span>
+<span id='line94'>      f := GeomUtil.parseFloatList<b>(</b>s<b>)</b></span>
+<span id='line95'>      return make<b>(</b>f<b>[</b>0<b>]</b>, f<b>[</b>1<b>]</b><b>)</b></span>
+<span id='line96'>    <b>}</b></span>
+<span id='line97'>    catch <b>{</b><b>}</b></span>
+<span id='line98'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Invalid Size: $s"<b>)</b></span>
+<span id='line99'>    return null</span>
+<span id='line100'>  <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>  ** Return '"w h"'</span>
+<span id='line103'>  override Str toStr<b>(</b><b>)</b> <b>{</b> GeomUtil.formatFloats2<b>(</b>w, h<b>)</b> <b>}</b></span>
+<span id='line104'></span>
+<span id='line105'>  ** Return hash of w and h.</span>
+<span id='line106'>  override Int hash<b>(</b><b>)</b> <b>{</b> w.hash.xor<b>(</b>h.hash.shiftl<b>(</b>16<b>)</b><b>)</b> <b>}</b></span>
+<span id='line107'></span>
+<span id='line108'>  ** Return if obj is same Size value.</span>
+<span id='line109'>  override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line110'>  <b>{</b></span>
+<span id='line111'>    that := obj as Size</span>
+<span id='line112'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line113'>    return this.w == that.w &amp;&amp; this.h == that.h</span>
+<span id='line114'>  <b>}</b></span>
+<span id='line115'></span>
+<span id='line116'>  ** Width</span>
+<span id='line117'>  const Float w</span>
+<span id='line118'></span>
+<span id='line119'>  ** Height</span>
+<span id='line120'>  const Float h</span>
+<span id='line121'><b>}</b></span>
+<span id='line122'></span>
+<span id='line123'>**************************************************************************</span>
+<span id='line124'>** Rect</span>
+<span id='line125'>**************************************************************************</span>
+<span id='line126'></span>
+<span id='line127'>**</span>
+<span id='line128'>** Represents the x,y coordinate and w,h size of a rectangle.</span>
+<span id='line129'>**</span>
+<span id='line130'>@Js</span>
+<span id='line131'>@Serializable <b>{</b> simple = true <b>}</b></span>
+<span id='line132'>const class Rect</span>
+<span id='line133'><b>{</b></span>
+<span id='line134'>  ** Default instance is 0, 0, 0, 0.</span>
+<span id='line135'>  const static Rect defVal := Rect<b>(</b>0f, 0f, 0f, 0f<b>)</b></span>
+<span id='line136'></span>
+<span id='line137'>  ** Construct with x, y, w, h.</span>
+<span id='line138'>  new make<b>(</b>Float x, Float y, Float w, Float h<b>)</b></span>
+<span id='line139'>  <b>{</b></span>
+<span id='line140'>    this.x = x; this.y = y</span>
+<span id='line141'>    this.w = w; this.h = h</span>
+<span id='line142'>  <b>}</b></span>
+<span id='line143'></span>
+<span id='line144'>  ** Construct with x, y, w, h as integers.</span>
+<span id='line145'>  new makeInt<b>(</b>Int x, Int y, Int w, Int h<b>)</b></span>
+<span id='line146'>  <b>{</b></span>
+<span id='line147'>    this.x = x.toFloat; this.y = y.toFloat</span>
+<span id='line148'>    this.w = w.toFloat; this.h = h.toFloat</span>
+<span id='line149'>  <b>}</b></span>
+<span id='line150'></span>
+<span id='line151'>  ** Construct from a Point and Size instance</span>
+<span id='line152'>  new makePosSize<b>(</b>Point p, Size s<b>)</b></span>
+<span id='line153'>  <b>{</b></span>
+<span id='line154'>    this.x = p.x; this.y = p.y</span>
+<span id='line155'>    this.w = s.w; this.h = s.h</span>
+<span id='line156'>  <b>}</b></span>
+<span id='line157'></span>
+<span id='line158'>  ** Parse from comma or space separated string.</span>
+<span id='line159'>  ** If invalid then throw ParseErr or return null based on checked flag.</span>
+<span id='line160'>  static Rect? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line161'>  <b>{</b></span>
+<span id='line162'>    try</span>
+<span id='line163'>    <b>{</b></span>
+<span id='line164'>      f := GeomUtil.parseFloatList<b>(</b>s<b>)</b></span>
+<span id='line165'>      return make<b>(</b>f<b>[</b>0<b>]</b>, f<b>[</b>1<b>]</b>, f<b>[</b>2<b>]</b>, f<b>[</b>3<b>]</b><b>)</b></span>
+<span id='line166'>    <b>}</b></span>
+<span id='line167'>    catch <b>{</b><b>}</b></span>
+<span id='line168'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Invalid Rect: $s"<b>)</b></span>
+<span id='line169'>    return null</span>
+<span id='line170'>  <b>}</b></span>
+<span id='line171'></span>
+<span id='line172'>  ** Get the x, y coordinate of this rectangle.</span>
+<span id='line173'>  Point pos<b>(</b><b>)</b> <b>{</b> Point<b>(</b>x, y<b>)</b> <b>}</b></span>
+<span id='line174'></span>
+<span id='line175'>  ** Get the w, h size of this rectangle.</span>
+<span id='line176'>  Size size<b>(</b><b>)</b> <b>{</b> Size<b>(</b>w, h<b>)</b> <b>}</b></span>
+<span id='line177'></span>
+<span id='line178'>  ** Return true if x,y is inside the bounds of this rectangle.</span>
+<span id='line179'>  Bool contains<b>(</b>Point pt<b>)</b></span>
+<span id='line180'>  <b>{</b></span>
+<span id='line181'>    return pt.x >= this.x &amp;&amp; pt.x &lt;= this.x+w &amp;&amp;</span>
+<span id='line182'>           pt.y >= this.y &amp;&amp; pt.y &lt;= this.y+h</span>
+<span id='line183'>  <b>}</b></span>
+<span id='line184'></span>
+<span id='line185'>  ** Return true if this rectangle intersects any portion of that rectangle</span>
+<span id='line186'>  Bool intersects<b>(</b>Rect that<b>)</b></span>
+<span id='line187'>  <b>{</b></span>
+<span id='line188'>    ax1 := this.x; ay1 := this.y; ax2 := ax1 + this.w; ay2 := ay1 + this.h</span>
+<span id='line189'>    bx1 := that.x; by1 := that.y; bx2 := bx1 + that.w; by2 := by1 + that.h</span>
+<span id='line190'>    return !<b>(</b>ax2 &lt;= bx1 || bx2 &lt;= ax1 || ay2 &lt;= by1 || by2 &lt;= ay1<b>)</b></span>
+<span id='line191'>  <b>}</b></span>
+<span id='line192'></span>
+<span id='line193'>  ** Compute the intersection between this rectangle and that rectangle.</span>
+<span id='line194'>  ** If there is no intersection, then return `defVal`.</span>
+<span id='line195'>  Rect intersection<b>(</b>Rect that<b>)</b></span>
+<span id='line196'>  <b>{</b></span>
+<span id='line197'>    ax1 := this.x; ay1 := this.y; ax2 := ax1 + this.w; ay2 := ay1 + this.h</span>
+<span id='line198'>    bx1 := that.x; by1 := that.y; bx2 := bx1 + that.w; by2 := by1 + that.h</span>
+<span id='line199'>    rx1 := ax1.max<b>(</b>bx1<b>)</b>; rx2 := ax2.min<b>(</b>bx2<b>)</b></span>
+<span id='line200'>    ry1 := ay1.max<b>(</b>by1<b>)</b>; ry2 := ay2.min<b>(</b>by2<b>)</b></span>
+<span id='line201'>    rw := rx2 - rx1</span>
+<span id='line202'>    rh := ry2 - ry1</span>
+<span id='line203'>    if <b>(</b>rw &lt;= 0f || rh &lt;= 0f<b>)</b> return defVal</span>
+<span id='line204'>    return make<b>(</b>rx1, ry1, rw, rh<b>)</b></span>
+<span id='line205'>  <b>}</b></span>
+<span id='line206'></span>
+<span id='line207'>  ** Compute the union between this rectangle and that rectangle,</span>
+<span id='line208'>  ** which is the bounding box that exactly contains both rectangles.</span>
+<span id='line209'>  Rect union<b>(</b>Rect that<b>)</b></span>
+<span id='line210'>  <b>{</b></span>
+<span id='line211'>    ax1 := this.x; ay1 := this.y; ax2 := ax1 + this.w; ay2 := ay1 + this.h</span>
+<span id='line212'>    bx1 := that.x; by1 := that.y; bx2 := bx1 + that.w; by2 := by1 + that.h</span>
+<span id='line213'>    rx1 := ax1.min<b>(</b>bx1<b>)</b>; rx2 := ax2.max<b>(</b>bx2<b>)</b></span>
+<span id='line214'>    ry1 := ay1.min<b>(</b>by1<b>)</b>; ry2 := ay2.max<b>(</b>by2<b>)</b></span>
+<span id='line215'>    rw := rx2 - rx1</span>
+<span id='line216'>    rh := ry2 - ry1</span>
+<span id='line217'>    if <b>(</b>rw &lt;= 0f || rh &lt;= 0f<b>)</b> return defVal</span>
+<span id='line218'>    return make<b>(</b>rx1, ry1, rw, rh<b>)</b></span>
+<span id='line219'>  <b>}</b></span>
+<span id='line220'></span>
+<span id='line221'>  ** Return '"x y w h"'</span>
+<span id='line222'>  override Str toStr<b>(</b><b>)</b> <b>{</b> return GeomUtil.formatFloats4<b>(</b>x, y, w, h<b>)</b> <b>}</b></span>
+<span id='line223'></span>
+<span id='line224'>  ** Return hash of x, y, w, and h.</span>
+<span id='line225'>  override Int hash<b>(</b><b>)</b></span>
+<span id='line226'>  <b>{</b></span>
+<span id='line227'>    x.hash.xor<b>(</b>y.hash.shiftl<b>(</b>8<b>)</b><b>)</b>.xor<b>(</b>w.hash.shiftl<b>(</b>16<b>)</b><b>)</b>.xor<b>(</b>w.hash.shiftl<b>(</b>24<b>)</b><b>)</b></span>
+<span id='line228'>  <b>}</b></span>
+<span id='line229'></span>
+<span id='line230'>  ** Return if obj is same Rect value.</span>
+<span id='line231'>  override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line232'>  <b>{</b></span>
+<span id='line233'>    that := obj as Rect</span>
+<span id='line234'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line235'>    return this.x == that.x &amp;&amp; this.y == that.y &amp;&amp;</span>
+<span id='line236'>           this.w == that.w &amp;&amp; this.h == that.h</span>
+<span id='line237'>  <b>}</b></span>
+<span id='line238'></span>
+<span id='line239'>  ** X coordinate</span>
+<span id='line240'>  const Float x</span>
+<span id='line241'></span>
+<span id='line242'>  ** Y coordinate</span>
+<span id='line243'>  const Float y</span>
+<span id='line244'></span>
+<span id='line245'>  ** Width</span>
+<span id='line246'>  const Float w</span>
+<span id='line247'></span>
+<span id='line248'>  ** Height</span>
+<span id='line249'>  const Float h</span>
+<span id='line250'><b>}</b></span>
+<span id='line251'></span>
+<span id='line252'>**************************************************************************</span>
+<span id='line253'>** Insets</span>
+<span id='line254'>**************************************************************************</span>
+<span id='line255'></span>
+<span id='line256'>**</span>
+<span id='line257'>** Insets represents spacing around the edge of a rectangle.</span>
+<span id='line258'>**</span>
+<span id='line259'>@Js</span>
+<span id='line260'>@Serializable <b>{</b> simple = true <b>}</b></span>
+<span id='line261'>const class Insets</span>
+<span id='line262'><b>{</b></span>
+<span id='line263'>  ** Default instance 0, 0, 0, 0.</span>
+<span id='line264'>  const static Insets defVal := Insets<b>(</b>0f, 0f, 0f, 0f<b>)</b></span>
+<span id='line265'></span>
+<span id='line266'>  **</span>
+<span id='line267'>  ** Construct with top, and optional right, bottom, left.  If one side</span>
+<span id='line268'>  ** is not specified, it is reflected from the opposite side:</span>
+<span id='line269'>  **</span>
+<span id='line270'>  **   Insets<b>(</b>5<b>)</b>     => Insets<b>(</b>5,5,5,5<b>)</b></span>
+<span id='line271'>  **   Insets<b>(</b>5,6<b>)</b>   => Insets<b>(</b>5,6,5,6<b>)</b></span>
+<span id='line272'>  **   Insets<b>(</b>5,6,7<b>)</b> => Insets<b>(</b>5,6,7,6<b>)</b></span>
+<span id='line273'>  **</span>
+<span id='line274'>  new make<b>(</b>Num top, Num? right := null, Num? bottom := null, Num? left := null<b>)</b></span>
+<span id='line275'>  <b>{</b></span>
+<span id='line276'>    if <b>(</b>right == null<b>)</b> right = top</span>
+<span id='line277'>    if <b>(</b>bottom == null<b>)</b> bottom = top</span>
+<span id='line278'>    if <b>(</b>left == null<b>)</b> left = right</span>
+<span id='line279'>    this.top = top.toFloat</span>
+<span id='line280'>    this.right = right.toFloat</span>
+<span id='line281'>    this.bottom = bottom.toFloat</span>
+<span id='line282'>    this.left = left.toFloat</span>
+<span id='line283'>  <b>}</b></span>
+<span id='line284'></span>
+<span id='line285'>  ** Parse from comma or space separated string using CSS format:</span>
+<span id='line286'>  **   - "top"</span>
+<span id='line287'>  **   - "top, right" <b>(</b>implies bottom = top, left = right<b>)</b></span>
+<span id='line288'>  **   - "top, right, bottom" <b>(</b>implies left = right<b>)</b></span>
+<span id='line289'>  **   - "top, right, bottom, left"</span>
+<span id='line290'>  static Insets? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line291'>  <b>{</b></span>
+<span id='line292'>    try</span>
+<span id='line293'>    <b>{</b></span>
+<span id='line294'>      f := GeomUtil.parseFloatList<b>(</b>s<b>)</b></span>
+<span id='line295'>      return make<b>(</b>f<b>[</b>0<b>]</b>, f.getSafe<b>(</b>1<b>)</b>, f.getSafe<b>(</b>2<b>)</b>, f.getSafe<b>(</b>3<b>)</b><b>)</b></span>
+<span id='line296'>    <b>}</b></span>
+<span id='line297'>    catch <b>(</b>Err e<b>)</b> <b>{</b><b>}</b></span>
+<span id='line298'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Invalid Insets: $s"<b>)</b></span>
+<span id='line299'>    return null</span>
+<span id='line300'>  <b>}</b></span>
+<span id='line301'></span>
+<span id='line302'>  ** If all four sides are equal return '"len"'</span>
+<span id='line303'>  ** otherwise return '"top right bottom left"'.</span>
+<span id='line304'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line305'>  <b>{</b></span>
+<span id='line306'>    if <b>(</b>top == right &amp;&amp; top == bottom &amp;&amp; top == left<b>)</b></span>
+<span id='line307'>      return GeomUtil.formatFloat<b>(</b>top<b>)</b></span>
+<span id='line308'>    else</span>
+<span id='line309'>      return GeomUtil.formatFloats4<b>(</b>top, right, bottom, left<b>)</b></span>
+<span id='line310'>  <b>}</b></span>
+<span id='line311'></span>
+<span id='line312'>  ** Return hash of top, right, bottom, left.</span>
+<span id='line313'>  override Int hash<b>(</b><b>)</b></span>
+<span id='line314'>  <b>{</b></span>
+<span id='line315'>    top.hash.xor<b>(</b>right.hash.shiftl<b>(</b>8<b>)</b><b>)</b>.xor<b>(</b>bottom.hash.shiftl<b>(</b>16<b>)</b><b>)</b>.xor<b>(</b>left.hash.shiftl<b>(</b>24<b>)</b><b>)</b></span>
+<span id='line316'>  <b>}</b></span>
+<span id='line317'></span>
+<span id='line318'>  ** Return if obj is same Insets value.</span>
+<span id='line319'>  override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line320'>  <b>{</b></span>
+<span id='line321'>    that := obj as Insets</span>
+<span id='line322'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line323'>    return this.top == that.top &amp;&amp; this.right == that.right &amp;&amp;</span>
+<span id='line324'>           this.bottom == that.bottom &amp;&amp; this.left == that.left</span>
+<span id='line325'>  <b>}</b></span>
+<span id='line326'></span>
+<span id='line327'>  ** Return right+left, top+bottom</span>
+<span id='line328'>  Size toSize<b>(</b><b>)</b> <b>{</b> Size<b>(</b>right+left, top+bottom<b>)</b> <b>}</b></span>
+<span id='line329'></span>
+<span id='line330'>  ** Top side spacing</span>
+<span id='line331'>  const Float top</span>
+<span id='line332'></span>
+<span id='line333'>  ** Right side spacing</span>
+<span id='line334'>  const Float right</span>
+<span id='line335'></span>
+<span id='line336'>  ** Bottom side spacing</span>
+<span id='line337'>  const Float bottom</span>
+<span id='line338'></span>
+<span id='line339'>  ** Left side spacing</span>
+<span id='line340'>  const Float left</span>
+<span id='line341'></span>
+<span id='line342'>  ** Left plus right</span>
+<span id='line343'>  Float w<b>(</b><b>)</b> <b>{</b> left + right <b>}</b></span>
+<span id='line344'></span>
+<span id='line345'>  ** Top plus bottom</span>
+<span id='line346'>  Float h<b>(</b><b>)</b> <b>{</b> top + bottom <b>}</b></span>
+<span id='line347'><b>}</b></span>
+<span id='line348'></span>
+<span id='line349'>**************************************************************************</span>
+<span id='line350'>** GeomUtil</span>
+<span id='line351'>**************************************************************************</span>
+<span id='line352'></span>
+<span id='line353'>@NoDoc @Js</span>
+<span id='line354'>const class GeomUtil</span>
+<span id='line355'><b>{</b></span>
+<span id='line356'>  ** Split with comma or whitespace CSS/SVG styled syntax</span>
+<span id='line357'>  static Str<b>[</b><b>]</b> split<b>(</b>Str s<b>)</b></span>
+<span id='line358'>  <b>{</b></span>
+<span id='line359'>    acc := Str<b>[</b>,<b>]</b></span>
+<span id='line360'>    start := 0</span>
+<span id='line361'>    for <b>(</b>i := 0; i&lt;s.size; ++i<b>)</b></span>
+<span id='line362'>    <b>{</b></span>
+<span id='line363'>      c := s<b>[</b>i<b>]</b></span>
+<span id='line364'>      if <b>(</b>c == ' ' || c == ','<b>)</b></span>
+<span id='line365'>      <b>{</b></span>
+<span id='line366'>        if <b>(</b>start &lt; i<b>)</b> acc.add<b>(</b>s<b>[</b>start..&lt;i<b>]</b><b>)</b></span>
+<span id='line367'>        start = i+1</span>
+<span id='line368'>      <b>}</b></span>
+<span id='line369'>    <b>}</b></span>
+<span id='line370'>    if <b>(</b>start &lt; s.size<b>)</b> acc.add<b>(</b>s<b>[</b>start..-1<b>]</b><b>)</b></span>
+<span id='line371'>    return acc</span>
+<span id='line372'>  <b>}</b></span>
+<span id='line373'></span>
+<span id='line374'>  ** Parse list comma or whitespace separated floats</span>
+<span id='line375'>  static Float<b>[</b><b>]</b> parseFloatList<b>(</b>Str s<b>)</b></span>
+<span id='line376'>  <b>{</b></span>
+<span id='line377'>    split<b>(</b>s<b>)</b>.map |tok| <b>{</b> tok.trim.toFloat <b>}</b></span>
+<span id='line378'>  <b>}</b></span>
+<span id='line379'></span>
+<span id='line380'>  ** Format two floats to space separated string</span>
+<span id='line381'>  static Str formatFloats2<b>(</b>Float a, Float b<b>)</b></span>
+<span id='line382'>  <b>{</b></span>
+<span id='line383'>    StrBuf<b>(</b><b>)</b></span>
+<span id='line384'>      .add<b>(</b>formatFloat<b>(</b>a<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line385'>      .add<b>(</b>formatFloat<b>(</b>b<b>)</b><b>)</b>.toStr</span>
+<span id='line386'>  <b>}</b></span>
+<span id='line387'></span>
+<span id='line388'>  ** Format four floats to space separated string</span>
+<span id='line389'>  static Str formatFloats4<b>(</b>Float a, Float b, Float c, Float d<b>)</b></span>
+<span id='line390'>  <b>{</b></span>
+<span id='line391'>    StrBuf<b>(</b><b>)</b></span>
+<span id='line392'>      .add<b>(</b>formatFloat<b>(</b>a<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line393'>      .add<b>(</b>formatFloat<b>(</b>b<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line394'>      .add<b>(</b>formatFloat<b>(</b>c<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line395'>      .add<b>(</b>formatFloat<b>(</b>d<b>)</b><b>)</b>.toStr</span>
+<span id='line396'>  <b>}</b></span>
+<span id='line397'></span>
+<span id='line398'>  ** Format float to string</span>
+<span id='line399'>  static Str formatFloat<b>(</b>Float f<b>)</b></span>
+<span id='line400'>  <b>{</b></span>
+<span id='line401'>    f.toLocale<b>(</b>"0.###"<b>)</b></span>
+<span id='line402'>  <b>}</b></span>
+<span id='line403'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

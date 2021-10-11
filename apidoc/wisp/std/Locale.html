@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Locale</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Locale.html'>Locale</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> std::Locale</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Locale</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Locale models a cultural language and region/country. See <a href='docLang::Localization'>docLang::Localization</a> for details.</p>
+
+<p>Also see <code><a href='Env.html#locale'>Env.locale</a></code> and <code><a href='Pod.html#locale'>Pod.locale</a></code>.</p>
+<dl>
+<dt id='country'>
+country</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> country</code></p>
+
+<p>Get the country/region as an uppercase ISO 3166 two letter code.  Return null if the country is unspecified.</p>
+</dd>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Locale.html'>Locale</a> cur()</code></p>
+
+<p>Get the current thread's locale.</p>
+</dd>
+<dt id='en'>
+en</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Locale.html'>Locale</a> en := Locale.fromStr(&quot;en&quot;)</code></p>
+
+<p>Constant for the English Locale "en"</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Equality is based on the normalized toStr format.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Locale.html'>Locale?</a> fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a locale according to the <code><a href='Locale.html#toStr'>toStr</a></code> format. If invalid format and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Compute hash code base on normalized toStr format.</p>
+</dd>
+<dt id='lang'>
+lang</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> lang</code></p>
+
+<p>Get the language as a lowercase ISO 639 two letter code.</p>
+</dd>
+<dt id='setCur'>
+setCur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> setCur(<a href='Locale.html'>Locale</a> locale)</code></p>
+
+<p>Set the current thread's locale. Throw NullErr if null is passed.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return string representation:</p>
+
+<pre>&lt;locale>  := &lt;lang> ["-" &lt;country>]
+&lt;lang>    := lowercase ISO 636 two letter code
+&lt;country> := uppercase ISO 3166 two letter code</pre>
+</dd>
+<dt id='use'>
+use</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> use(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> func)</code></p>
+
+<p>Run the specified function using this locale as the the actor's current locale.  This method guarantees that upon return the actor's current locale remains unchanged.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cur'>cur</a></li><li><a href='#en'>en</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#setCur'>setCur</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#country'>country</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#lang'>lang</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#use'>use</a></li></ul>
+</div>
+</div>
+</body>
+</html>

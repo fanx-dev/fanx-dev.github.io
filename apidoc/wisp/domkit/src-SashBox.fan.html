@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SashBox.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='SashBox.html'>SashBox</a></li><li><a href='src-SashBox.fan.html'>SashBox.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   5 Jun 2015  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'>using graphics</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** SashBox lays out children in a single direction allowing both</span>
+<span id='line14'>** fixed and pertange sizes that can fill the parent container.</span>
+<span id='line15'>**</span>
+<span id='line16'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Layout#sashBox`</span>
+<span id='line17'>**</span>
+<span id='line18'>@Js class SashBox : Box</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'>  new make<b>(</b><b>)</b> : super<b>(</b><b>)</b></span>
+<span id='line21'>  <b>{</b></span>
+<span id='line22'>    this.style.addClass<b>(</b>"domkit-SashBox"<b>)</b></span>
+<span id='line23'>    this.onEvent<b>(</b>"mousedown", true<b>)</b> |e| <b>{</b> onMouseDown<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line24'>    this.onEvent<b>(</b>"mouseup",   true<b>)</b> |e| <b>{</b> onMouseUp<b>(</b>e<b>)</b>   <b>}</b></span>
+<span id='line25'>    this.onEvent<b>(</b>"mousemove", true<b>)</b> |e| <b>{</b> onMouseMove<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  **</span>
+<span id='line29'>  ** Direction to layout child elements:</span>
+<span id='line30'>  **   - 'Dir.right': layout children left to right</span>
+<span id='line31'>  **   - 'Dir.down': layout childrent top to bottom</span>
+<span id='line32'>  **</span>
+<span id='line33'>  Dir dir := Dir.right</span>
+<span id='line34'></span>
+<span id='line35'>  ** Allow user to resize sash positions. See `div`.</span>
+<span id='line36'>  Bool resizable := false</span>
+<span id='line37'></span>
+<span id='line38'>  ** Callback when user resizes a sash pane if `resizable` is 'true'.</span>
+<span id='line39'>  Void onSashResize<b>(</b>|This| f<b>)</b> <b>{</b> this.cbSashResize = f <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  **</span>
+<span id='line42'>  ** Size to apply to each child, width or height based on `dir`.  Fixed</span>
+<span id='line43'>  ** 'px' and percentage sizes are allowed.  Percentage sizes will be</span>
+<span id='line44'>  ** subtracted from total fixed size using CSS 'calc<b>(</b><b>)</b>' method.</span>
+<span id='line45'>  **</span>
+<span id='line46'>  Str<b>[</b><b>]</b> sizes := <b>[</b>,<b>]</b></span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    set</span>
+<span id='line49'>    <b>{</b></span>
+<span id='line50'>      &amp;sizes = it</span>
+<span id='line51'>      dims = it.map |s| <b>{</b> CssDim<b>(</b>s<b>)</b> <b>}</b>.toImmutable</span>
+<span id='line52'>      applyStyle</span>
+<span id='line53'>    <b>}</b></span>
+<span id='line54'>  <b>}</b></span>
+<span id='line55'></span>
+<span id='line56'>  ** Minimum size a child can be resized to if 'resizable' is 'true'.</span>
+<span id='line57'>  ** Only percentage sizes allowed.</span>
+<span id='line58'>  Str minSize := "10%"</span>
+<span id='line59'></span>
+<span id='line60'>  ** Create a new divider element for resizing children. Dividers are</span>
+<span id='line61'>  ** required between children when `resizable` is 'true'.</span>
+<span id='line62'>  static Elem div<b>(</b><b>)</b></span>
+<span id='line63'>  <b>{</b></span>
+<span id='line64'>    Box <b>{</b> it.style.addClass<b>(</b>"domkit-SashBox-div"<b>)</b> <b>}</b></span>
+<span id='line65'>  <b>}</b></span>
+<span id='line66'></span>
+<span id='line67'>  protected override Void onAdd<b>(</b>Elem c<b>)</b>    <b>{</b> applyStyle <b>}</b></span>
+<span id='line68'>  protected override Void onRemove<b>(</b>Elem c<b>)</b> <b>{</b> applyStyle <b>}</b></span>
+<span id='line69'></span>
+<span id='line70'>  private Void applyStyle<b>(</b><b>)</b></span>
+<span id='line71'>  <b>{</b></span>
+<span id='line72'>    fixed := Str:Float<b>[</b>:<b>]</b>  // unit:sum</span>
+<span id='line73'>    dims.each |d|</span>
+<span id='line74'>    <b>{</b></span>
+<span id='line75'>      if <b>(</b>d.unit == "%"<b>)</b> return</span>
+<span id='line76'>      fixed<b>[</b>d.unit<b>]</b> = <b>(</b>fixed<b>[</b>d.unit<b>]</b> ?: 0f<b>)</b> + d.val.toFloat</span>
+<span id='line77'>    <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>    kids := children</span>
+<span id='line80'>    kids.each |kid,i|</span>
+<span id='line81'>    <b>{</b></span>
+<span id='line82'>      d := dims.getSafe<b>(</b>i<b>)</b></span>
+<span id='line83'>      if <b>(</b>d == null<b>)</b> return</span>
+<span id='line84'></span>
+<span id='line85'>      css := d.toStr</span>
+<span id='line86'>      if <b>(</b>d.unit == "%" &amp;&amp; fixed.size > 0<b>)</b></span>
+<span id='line87'>      <b>{</b></span>
+<span id='line88'>        per := fixed.join<b>(</b>" - "<b>)</b> |sum,unit| <b>{</b> "$<b>{</b>d.val.toFloat / 100f * sum<b>}</b>$unit" <b>}</b></span>
+<span id='line89'>        css = "calc<b>(</b>$d.toStr - $<b>{</b>per<b>}</b><b>)</b>"</span>
+<span id='line90'>      <b>}</b></span>
+<span id='line91'></span>
+<span id='line92'>      kid.style->display = css == "0px"</span>
+<span id='line93'>         ? "none"</span>
+<span id='line94'>         : <b>(</b>kid is FlexBox ? "flex" : "block"<b>)</b></span>
+<span id='line95'></span>
+<span id='line96'>      vert := dir == Dir.down</span>
+<span id='line97'>      kid.style->float  = vert ? "none" : "left"</span>
+<span id='line98'>      kid.style->width  = vert ? "100%" : css</span>
+<span id='line99'>      kid.style->height = vert ? css : "100%"</span>
+<span id='line100'>    <b>}</b></span>
+<span id='line101'>  <b>}</b></span>
+<span id='line102'></span>
+<span id='line103'>  private Void onMouseDown<b>(</b>Event e<b>)</b></span>
+<span id='line104'>  <b>{</b></span>
+<span id='line105'>    if <b>(</b>!resizable<b>)</b> return</span>
+<span id='line106'>    if <b>(</b>resizeIndex == null<b>)</b> return</span>
+<span id='line107'></span>
+<span id='line108'>    e.stop</span>
+<span id='line109'>    div := children<b>[</b>resizeIndex+1<b>]</b></span>
+<span id='line110'>    this.active = true</span>
+<span id='line111'></span>
+<span id='line112'>    splitter = Elem <b>{</b> it.style.addClass<b>(</b>"domkit-resize-splitter"<b>)</b> <b>}</b></span>
+<span id='line113'>    if <b>(</b>dir == Dir.down<b>)</b></span>
+<span id='line114'>    <b>{</b></span>
+<span id='line115'>      this.pivoff = this.relPos<b>(</b>e.pagePos<b>)</b>.y - div.pos.y</span>
+<span id='line116'>      splitter.style->top    = "$<b>{</b>div.pos.y<b>}</b>px"</span>
+<span id='line117'>      splitter.style->width  = "100%"</span>
+<span id='line118'>      splitter.style->height = "$<b>{</b>div.size.h<b>}</b>px"</span>
+<span id='line119'>    <b>}</b></span>
+<span id='line120'>    else</span>
+<span id='line121'>    <b>{</b></span>
+<span id='line122'>      this.pivoff = this.relPos<b>(</b>e.pagePos<b>)</b>.x - div.pos.x</span>
+<span id='line123'>      splitter.style->left   = "$<b>{</b>div.pos.x<b>}</b>px"</span>
+<span id='line124'>      splitter.style->width  = "$<b>{</b>div.size.w<b>}</b>px"</span>
+<span id='line125'>      splitter.style->height = "100%"</span>
+<span id='line126'>    <b>}</b></span>
+<span id='line127'></span>
+<span id='line128'>    doc := Win.cur.doc</span>
+<span id='line129'>    Obj? fmove</span>
+<span id='line130'>    Obj? fup</span>
+<span id='line131'></span>
+<span id='line132'>    fmove = doc.onEvent<b>(</b>"mousemove", true<b>)</b> |de| <b>{</b> onMouseMove<b>(</b>de<b>)</b> <b>}</b></span>
+<span id='line133'>    fup = doc.onEvent<b>(</b>"mouseup", true<b>)</b> |de| <b>{</b></span>
+<span id='line134'>      onMouseUp<b>(</b>de<b>)</b></span>
+<span id='line135'>      de.stop</span>
+<span id='line136'>      doc.removeEvent<b>(</b>"mousemove", true, fmove<b>)</b></span>
+<span id='line137'>      doc.removeEvent<b>(</b>"mouseup",   true, fup<b>)</b></span>
+<span id='line138'>    <b>}</b></span>
+<span id='line139'></span>
+<span id='line140'>    this.add<b>(</b>splitter<b>)</b></span>
+<span id='line141'>  <b>}</b></span>
+<span id='line142'></span>
+<span id='line143'>  private Void onMouseUp<b>(</b>Event e<b>)</b></span>
+<span id='line144'>  <b>{</b></span>
+<span id='line145'>    if <b>(</b>!resizable<b>)</b> return</span>
+<span id='line146'>    if <b>(</b>!active<b>)</b> return</span>
+<span id='line147'></span>
+<span id='line148'>    p := this.relPos<b>(</b>e.pagePos<b>)</b></span>
+<span id='line149'>    kids := children</span>
+<span id='line150'>    if <b>(</b>dir == Dir.down<b>)</b></span>
+<span id='line151'>    <b>{</b></span>
+<span id='line152'>      y := 0</span>
+<span id='line153'>      for <b>(</b>i:=0; i&lt;=resizeIndex; i++<b>)</b> y += kids<b>[</b>i<b>]</b>.size.h.toInt</span>
+<span id='line154'>      applyResize<b>(</b>resizeIndex, p.y - y - pivoff<b>)</b></span>
+<span id='line155'>    <b>}</b></span>
+<span id='line156'>    else</span>
+<span id='line157'>    <b>{</b></span>
+<span id='line158'>      x := 0</span>
+<span id='line159'>      for <b>(</b>i:=0; i&lt;=resizeIndex; i++<b>)</b> x += kids<b>[</b>i<b>]</b>.size.w.toInt</span>
+<span id='line160'>      applyResize<b>(</b>resizeIndex, p.x - x - pivoff<b>)</b></span>
+<span id='line161'>    <b>}</b></span>
+<span id='line162'></span>
+<span id='line163'>    this.active = false</span>
+<span id='line164'>    this.resizeIndex = null</span>
+<span id='line165'>    this.remove<b>(</b>splitter<b>)</b></span>
+<span id='line166'>  <b>}</b></span>
+<span id='line167'></span>
+<span id='line168'>  private Void onMouseMove<b>(</b>Event e<b>)</b></span>
+<span id='line169'>  <b>{</b></span>
+<span id='line170'>    if <b>(</b>!resizable<b>)</b> return</span>
+<span id='line171'></span>
+<span id='line172'>    p := this.relPos<b>(</b>e.pagePos<b>)</b></span>
+<span id='line173'>    if <b>(</b>active<b>)</b></span>
+<span id='line174'>    <b>{</b></span>
+<span id='line175'>      // drag splitter</span>
+<span id='line176'>      if <b>(</b>dir == Dir.down<b>)</b></span>
+<span id='line177'>      <b>{</b></span>
+<span id='line178'>        sy := 0f.max<b>(</b>p.y - pivoff<b>)</b>.min<b>(</b>this.size.h-splitter.size.h<b>)</b></span>
+<span id='line179'>        splitter.style->top = "$<b>{</b>sy<b>}</b>px"</span>
+<span id='line180'>        e.stop</span>
+<span id='line181'>      <b>}</b></span>
+<span id='line182'>      else</span>
+<span id='line183'>      <b>{</b></span>
+<span id='line184'>        sx := 0f.max<b>(</b>p.x - pivoff<b>)</b>.min<b>(</b>this.size.w-splitter.size.w<b>)</b></span>
+<span id='line185'>        splitter.style->left = "$<b>{</b>sx<b>}</b>px"</span>
+<span id='line186'>        e.stop</span>
+<span id='line187'>      <b>}</b></span>
+<span id='line188'>      return</span>
+<span id='line189'>    <b>}</b></span>
+<span id='line190'>    else</span>
+<span id='line191'>    <b>{</b></span>
+<span id='line192'>      // check for roll-over cursor</span>
+<span id='line193'>      div := toDiv<b>(</b>e.target<b>)</b></span>
+<span id='line194'>      if <b>(</b>div != null<b>)</b></span>
+<span id='line195'>      <b>{</b></span>
+<span id='line196'>        this.style->cursor = dir==Dir.down ? "row-resize" : "col-resize"</span>
+<span id='line197'>        this.resizeIndex = 0.max<b>(</b>children.findIndex |c| <b>{</b> c == div <b>}</b> - 1<b>)</b></span>
+<span id='line198'>      <b>}</b></span>
+<span id='line199'>      else</span>
+<span id='line200'>      <b>{</b></span>
+<span id='line201'>        this.style->cursor = "default"</span>
+<span id='line202'>        this.resizeIndex = null</span>
+<span id='line203'>      <b>}</b></span>
+<span id='line204'>    <b>}</b></span>
+<span id='line205'>  <b>}</b></span>
+<span id='line206'></span>
+<span id='line207'>  private Elem? toDiv<b>(</b>Elem? elem<b>)</b></span>
+<span id='line208'>  <b>{</b></span>
+<span id='line209'>    while <b>(</b>elem != null<b>)</b></span>
+<span id='line210'>    <b>{</b></span>
+<span id='line211'>      if <b>(</b>elem.style.hasClass<b>(</b>"domkit-SashBox-div"<b>)</b> &amp;&amp; elem.parent == this<b>)</b> return elem</span>
+<span id='line212'>      elem = elem.parent</span>
+<span id='line213'>    <b>}</b></span>
+<span id='line214'>    return null</span>
+<span id='line215'>  <b>}</b></span>
+<span id='line216'></span>
+<span id='line217'>  private Void applyResize<b>(</b>Int index, Float delta<b>)</b></span>
+<span id='line218'>  <b>{</b></span>
+<span id='line219'>    // convert to % if needed</span>
+<span id='line220'>    sizesToPercent</span>
+<span id='line221'></span>
+<span id='line222'>    // get adjacent child nodes</span>
+<span id='line223'>    da  := dims<b>[</b>index<b>]</b></span>
+<span id='line224'>    db  := dims<b>[</b>index+2<b>]</b></span>
+<span id='line225'></span>
+<span id='line226'>    // if already at minSize bail here</span>
+<span id='line227'>    min := CssDim<b>(</b>minSize<b>)</b>.val.toFloat</span>
+<span id='line228'>    dav := da.val.toFloat</span>
+<span id='line229'>    dbv := db.val.toFloat</span>
+<span id='line230'>    if <b>(</b>dav + dbv &lt;= min + min<b>)</b> return</span>
+<span id='line231'></span>
+<span id='line232'>    // split delta between adjacent children</span>
+<span id='line233'>    working := sizes.dup</span>
+<span id='line234'>    sz := dir == Dir.down ? this.size.h : this.size.w</span>
+<span id='line235'>    dp := delta / sz * 100f</span>
+<span id='line236'>    av := <b>(</b>dav + dp<b>)</b>.toLocale<b>(</b>"0.00"<b>)</b>.toFloat</span>
+<span id='line237'>    bv := <b>(</b>dav + dbv - av<b>)</b>.toLocale<b>(</b>"0.00"<b>)</b>.toFloat</span>
+<span id='line238'>    if <b>(</b>av &lt; min<b>)</b></span>
+<span id='line239'>    <b>{</b></span>
+<span id='line240'>      av = min</span>
+<span id='line241'>      bv = <b>(</b>dav + dbv - av<b>)</b>.toLocale<b>(</b>"0.00"<b>)</b>.toFloat</span>
+<span id='line242'>    <b>}</b></span>
+<span id='line243'>    else if <b>(</b>bv &lt; min<b>)</b></span>
+<span id='line244'>    <b>{</b></span>
+<span id='line245'>      bv = min</span>
+<span id='line246'>      av = <b>(</b>dav + dbv - bv<b>)</b>.toLocale<b>(</b>"0.00"<b>)</b>.toFloat</span>
+<span id='line247'>    <b>}</b></span>
+<span id='line248'>    working<b>[</b>index<b>]</b>   = "$<b>{</b>av<b>}</b>%"</span>
+<span id='line249'>    working<b>[</b>index+2<b>]</b> = "$<b>{</b>bv<b>}</b>%"</span>
+<span id='line250'></span>
+<span id='line251'>    // update</span>
+<span id='line252'>    this.sizes = working</span>
+<span id='line253'>    applyStyle</span>
+<span id='line254'>    cbSashResize?.call<b>(</b>this<b>)</b></span>
+<span id='line255'>  <b>}</b></span>
+<span id='line256'></span>
+<span id='line257'>  ** Convert `sizes` to %</span>
+<span id='line258'>  @NoDoc Void sizesToPercent<b>(</b><b>)</b></span>
+<span id='line259'>  <b>{</b></span>
+<span id='line260'>    // short-circuit if already converted</span>
+<span id='line261'>    if <b>(</b>dims.all |d| <b>{</b> d.unit == "%" <b>}</b><b>)</b> return</span>
+<span id='line262'></span>
+<span id='line263'>    sz := dir == Dir.down ? this.size.h : this.size.w</span>
+<span id='line264'>    converted := CssDim<b>[</b>,<b>]</b></span>
+<span id='line265'>    remainder := 100f</span>
+<span id='line266'></span>
+<span id='line267'>    // convert px -> %</span>
+<span id='line268'>    kids := children</span>
+<span id='line269'>    dims.each |d,i|</span>
+<span id='line270'>    <b>{</b></span>
+<span id='line271'>      if <b>(</b>d.unit == "%"<b>)</b> <b>{</b> converted.add<b>(</b>CssDim.defVal<b>)</b>; return <b>}</b></span>
+<span id='line272'>      ksz  := kids.getSafe<b>(</b>i<b>)</b>?.size ?: Size.defVal</span>
+<span id='line273'>      kval := dir == Dir.down ? ksz.h : ksz.w</span>
+<span id='line274'>      val  := <b>(</b><b>(</b>kval / sz.toFloat<b>)</b> * 100f<b>)</b>.toLocale<b>(</b>"0.00"<b>)</b>.toFloat</span>
+<span id='line275'>      converted.add<b>(</b>CssDim<b>(</b>val, "%"<b>)</b><b>)</b></span>
+<span id='line276'>      remainder -= val</span>
+<span id='line277'>    <b>}</b></span>
+<span id='line278'></span>
+<span id='line279'>    // divide up existing % into new %</span>
+<span id='line280'>    dims.each |d,i|</span>
+<span id='line281'>    <b>{</b></span>
+<span id='line282'>      if <b>(</b>d.unit != "%"<b>)</b> return</span>
+<span id='line283'>      val := <b>(</b>d.val.toFloat * remainder / 100f<b>)</b>.toLocale<b>(</b>"0.00"<b>)</b>.toFloat</span>
+<span id='line284'>      converted<b>[</b>i<b>]</b> = CssDim<b>(</b>val, "%"<b>)</b></span>
+<span id='line285'>    <b>}</b></span>
+<span id='line286'></span>
+<span id='line287'>    // trim last child to 100% if needed</span>
+<span id='line288'>    sum := 0f</span>
+<span id='line289'>    converted.each |d| <b>{</b> sum += d.val.toFloat <b>}</b></span>
+<span id='line290'>    if <b>(</b>sum > 100f<b>)</b> converted<b>[</b>-1<b>]</b> = CssDim<b>(</b>converted.last.val.toFloat-<b>(</b>sum-100f<b>)</b>, "%"<b>)</b></span>
+<span id='line291'></span>
+<span id='line292'>    // update</span>
+<span id='line293'>    this.sizes = converted.map |c| <b>{</b> c.toStr <b>}</b></span>
+<span id='line294'>  <b>}</b></span>
+<span id='line295'></span>
+<span id='line296'>  private CssDim<b>[</b><b>]</b> dims := List.defVal</span>
+<span id='line297'></span>
+<span id='line298'>  private Bool active := false</span>
+<span id='line299'>  private Int? resizeIndex</span>
+<span id='line300'>  private Float? pivoff</span>
+<span id='line301'>  private Elem? splitter</span>
+<span id='line302'>  private Func? cbSashResize</span>
+<span id='line303'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

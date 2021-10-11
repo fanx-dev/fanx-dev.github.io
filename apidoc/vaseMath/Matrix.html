@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseMath::Matrix</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseMath</a></li><li><a href='Matrix.html'>Matrix</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseMath::Matrix</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseMath::Matrix</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>Modeling a matrix</p>
+<dl>
+<dt id='adjoint'>
+adjoint</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Matrix.html'>Matrix</a> adjoint()</code></p>
+
+<p>adjoint matrix</p>
+</dd>
+<dt id='approx'>
+approx</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> approx(<a href='Matrix.html'>Matrix</a> other, <a href='../sys/Float.html'>Float?</a> tolerance := 1.0E-10f)</code></p>
+
+<p>approximately equal</p>
+</dd>
+<dt id='clone'>
+clone</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Matrix.html'>Matrix</a> clone()</code></p>
+
+<p>return a copy of this matrix</p>
+</dd>
+<dt id='cofactor'>
+cofactor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> cofactor(<a href='../sys/Int.html'>Int</a> ai, <a href='../sys/Int.html'>Int</a> aj)</code></p>
+
+<p>algebraic cofactor</p>
+</dd>
+<dt id='determinant'>
+determinant</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> determinant()</code></p>
+
+<p>determinant of matrix</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+</dd>
+<dt id='flatten'>
+flatten</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../util/FloatArray.html'>FloatArray</a> flatten()</code></p>
+
+<p>return a one-dimensional list</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> get(<a href='../sys/Int.html'>Int</a> r, <a href='../sys/Int.html'>Int</a> c)</code></p>
+
+<p>return the value at given location</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+</dd>
+<dt id='invert'>
+invert</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Matrix.html'>Matrix</a> invert()</code></p>
+
+<p>invert matrix by Gauss algorithm</p>
+</dd>
+<dt id='invertByAdjoint'>
+invertByAdjoint</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Matrix.html'>Matrix</a> invertByAdjoint()</code></p>
+
+<p>invert matrix by adjoint</p>
+</dd>
+<dt id='m'>
+m</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> m</code></p>
+
+<p>num of rows</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/List.html'>List&lt;<a href='../sys/List.html'>List&lt;<a href='../sys/Float.html'>Float</a>&gt;</a>&gt;</a> list)</code></p>
+
+<p>make matrix by given list, there is no copy.</p>
+</dd>
+<dt id='makeIndentity'>
+makeIndentity</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeIndentity(<a href='../sys/Int.html'>Int</a> n)</code></p>
+
+<p>unit Matrix</p>
+</dd>
+<dt id='makeZero'>
+makeZero</dt>
+<dd>
+<p class='sig'>
+<code>new makeZero(<a href='../sys/Int.html'>Int</a> am, <a href='../sys/Int.html'>Int</a> an)</code></p>
+
+<p>make a matrix that all elements is zero</p>
+</dd>
+<dt id='multFloat'>
+multFloat</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Matrix.html'>Matrix</a> multFloat(<a href='../sys/Float.html'>Float</a> k)</code></p>
+
+<p>multiply matrix by scalar</p>
+</dd>
+<dt id='multMatrix'>
+multMatrix</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Matrix.html'>Matrix</a> multMatrix(<a href='Matrix.html'>Matrix</a> b)</code></p>
+
+<p>multiply matrix by matrix</p>
+</dd>
+<dt id='n'>
+n</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> n</code></p>
+
+<p>num of columns</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> name</code></p>
+
+<p>name for debug</p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Matrix.html'>Matrix</a> plus(<a href='Matrix.html'>Matrix</a> b)</code></p>
+
+<p>add with another matrix</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> set(<a href='../sys/Int.html'>Int</a> r, <a href='../sys/Int.html'>Int</a> c, <a href='../sys/Float.html'>Float</a> value)</code></p>
+
+<p>set the value of r row and c column</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='transpose'>
+transpose</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Matrix.html'>Matrix</a> transpose()</code></p>
+
+<p>transpose meaing exchange the row and column</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeIndentity'>makeIndentity</a></li><li><a href='#makeZero'>makeZero</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#adjoint'>adjoint</a></li><li><a href='#approx'>approx</a></li><li><a href='#clone'>clone</a></li><li><a href='#cofactor'>cofactor</a></li><li><a href='#determinant'>determinant</a></li><li><a href='#equals'>equals</a></li><li><a href='#flatten'>flatten</a></li><li><a href='#get'>get</a></li><li><a href='#hash'>hash</a></li><li><a href='#invert'>invert</a></li><li><a href='#invertByAdjoint'>invertByAdjoint</a></li><li><a href='#m'>m</a></li><li><a href='#multFloat'>multFloat</a></li><li><a href='#multMatrix'>multMatrix</a></li><li><a href='#n'>n</a></li><li><a href='#name'>name</a></li><li><a href='#plus'>plus</a></li><li><a href='#set'>set</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#transpose'>transpose</a></li></ul>
+</div>
+</div>
+</body>
+</html>

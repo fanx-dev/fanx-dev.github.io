@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::Dialog</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Dialog.html'>Dialog</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::Dialog</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    <a href='Box.html'>domkit::Box</a>
+      domkit::Dialog</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Dialog.fan.html'>Source</a></p>
+
+<p>Dialog manages a modal window above page content.</p>
+
+<p>See also: <a href='docDomkit::Modals#dialog'>docDomkit</a></p>
+<dl>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> close()</code></p>
+<p class='src'>
+<a href='src-Dialog.fan.html#line114'>Source</a></p>
+
+<p>Close this dialog. If dialog is already closed this method does nothing.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-Dialog.fan.html'>Source</a></p>
+</dd>
+<dt id='onAfterOpen'>
+onAfterOpen</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> onAfterOpen()</code></p>
+<p class='src'>
+<a href='src-Dialog.fan.html#line34'>Source</a></p>
+
+<p>Protected sub-class callback invoked directly after dialog is opened.</p>
+</dd>
+<dt id='onBeforeOpen'>
+onBeforeOpen</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> onBeforeOpen()</code></p>
+<p class='src'>
+<a href='src-Dialog.fan.html#line31'>Source</a></p>
+
+<p>Protected sub-class callback invoked directly before dialog is opened.</p>
+</dd>
+<dt id='onClose'>
+onClose</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onClose(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Dialog.fan.html#line130'>Source</a></p>
+
+<p>Callback when popup is closed.</p>
+</dd>
+<dt id='onKeyDown'>
+onKeyDown</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> onKeyDown(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../dom/Event.html'>Event</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Dialog.fan.html#line37'>Source</a></p>
+
+<p>Callback when a key is pressed while Dialog is open, including events that where dispatched outside the dialog.</p>
+</dd>
+<dt id='onOpen'>
+onOpen</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onOpen(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Dialog.fan.html#line127'>Source</a></p>
+
+<p>Callback when dialog is opened.</p>
+</dd>
+<dt id='open'>
+open</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> open()</code></p>
+<p class='src'>
+<a href='src-Dialog.fan.html#line41'>Source</a></p>
+
+<p>Open this dialog in the current Window. If dialog is already open this method does nothing.</p>
+</dd>
+<dt id='title'>
+title</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> title := null</code></p>
+<p class='src'>
+<a href='src-Dialog.fan.html#line27'>Source</a></p>
+
+<p><code>Str</code> or <code>Elem</code> content displayed in title bar, or <code>null</code> to hide title bar.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Dialog.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#close'>close</a></li><li><a href='#onAfterOpen'>onAfterOpen</a></li><li><a href='#onBeforeOpen'>onBeforeOpen</a></li><li><a href='#onClose'>onClose</a></li><li><a href='#onKeyDown'>onKeyDown</a></li><li><a href='#onOpen'>onOpen</a></li><li><a href='#open'>open</a></li><li><a href='#title'>title</a></li></ul>
+</div>
+</div>
+</body>
+</html>

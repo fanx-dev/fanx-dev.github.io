@@ -1,0 +1,884 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::Token</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='Token.html'>Token</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> compiler::Token</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    compiler::Token</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Token is the enum for all the token types.</p>
+<ul>
+<li><a href='#identifier'>identifier</a></li><li><a href='#strLiteral'>strLiteral</a></li><li><a href='#intLiteral'>intLiteral</a></li><li><a href='#floatLiteral'>floatLiteral</a></li><li><a href='#decimalLiteral'>decimalLiteral</a></li><li><a href='#durationLiteral'>durationLiteral</a></li><li><a href='#uriLiteral'>uriLiteral</a></li><li><a href='#dsl'>dsl</a></li><li><a href='#localeLiteral'>localeLiteral</a></li><li><a href='#dot'>dot</a></li><li><a href='#semicolon'>semicolon</a></li><li><a href='#comma'>comma</a></li><li><a href='#colon'>colon</a></li><li><a href='#doubleColon'>doubleColon</a></li><li><a href='#plus'>plus</a></li><li><a href='#minus'>minus</a></li><li><a href='#star'>star</a></li><li><a href='#slash'>slash</a></li><li><a href='#percent'>percent</a></li><li><a href='#pound'>pound</a></li><li><a href='#increment'>increment</a></li><li><a href='#decrement'>decrement</a></li><li><a href='#bang'>bang</a></li><li><a href='#question'>question</a></li><li><a href='#tilde'>tilde</a></li><li><a href='#pipe'>pipe</a></li><li><a href='#amp'>amp</a></li><li><a href='#caret'>caret</a></li><li><a href='#at'>at</a></li><li><a href='#doublePipe'>doublePipe</a></li><li><a href='#doubleAmp'>doubleAmp</a></li><li><a href='#same'>same</a></li><li><a href='#notSame'>notSame</a></li><li><a href='#eq'>eq</a></li><li><a href='#notEq'>notEq</a></li><li><a href='#cmp'>cmp</a></li><li><a href='#lt'>lt</a></li><li><a href='#ltEq'>ltEq</a></li><li><a href='#gt'>gt</a></li><li><a href='#gtEq'>gtEq</a></li><li><a href='#lbrace'>lbrace</a></li><li><a href='#rbrace'>rbrace</a></li><li><a href='#lparen'>lparen</a></li><li><a href='#rparen'>rparen</a></li><li><a href='#lbracket'>lbracket</a></li><li><a href='#rbracket'>rbracket</a></li><li><a href='#dotDot'>dotDot</a></li><li><a href='#dotDotLt'>dotDotLt</a></li><li><a href='#defAssign'>defAssign</a></li><li><a href='#assign'>assign</a></li><li><a href='#assignPlus'>assignPlus</a></li><li><a href='#assignMinus'>assignMinus</a></li><li><a href='#assignStar'>assignStar</a></li><li><a href='#assignSlash'>assignSlash</a></li><li><a href='#assignPercent'>assignPercent</a></li><li><a href='#arrow'>arrow</a></li><li><a href='#tildeArrow'>tildeArrow</a></li><li><a href='#elvis'>elvis</a></li><li><a href='#safeDot'>safeDot</a></li><li><a href='#safeArrow'>safeArrow</a></li><li><a href='#safeTildeArrow'>safeTildeArrow</a></li><li><a href='#docComment'>docComment</a></li><li><a href='#dollar'>dollar</a></li><li><a href='#lparenSynthetic'>lparenSynthetic</a></li><li><a href='#abstractKeyword'>abstractKeyword</a></li><li><a href='#asKeyword'>asKeyword</a></li><li><a href='#breakKeyword'>breakKeyword</a></li><li><a href='#caseKeyword'>caseKeyword</a></li><li><a href='#catchKeyword'>catchKeyword</a></li><li><a href='#classKeyword'>classKeyword</a></li><li><a href='#constKeyword'>constKeyword</a></li><li><a href='#continueKeyword'>continueKeyword</a></li><li><a href='#defaultKeyword'>defaultKeyword</a></li><li><a href='#doKeyword'>doKeyword</a></li><li><a href='#elseKeyword'>elseKeyword</a></li><li><a href='#falseKeyword'>falseKeyword</a></li><li><a href='#finalKeyword'>finalKeyword</a></li><li><a href='#finallyKeyword'>finallyKeyword</a></li><li><a href='#forKeyword'>forKeyword</a></li><li><a href='#foreachKeyword'>foreachKeyword</a></li><li><a href='#ifKeyword'>ifKeyword</a></li><li><a href='#internalKeyword'>internalKeyword</a></li><li><a href='#isKeyword'>isKeyword</a></li><li><a href='#isnotKeyword'>isnotKeyword</a></li><li><a href='#itKeyword'>itKeyword</a></li><li><a href='#mixinKeyword'>mixinKeyword</a></li><li><a href='#nativeKeyword'>nativeKeyword</a></li><li><a href='#newKeyword'>newKeyword</a></li><li><a href='#nullKeyword'>nullKeyword</a></li><li><a href='#onceKeyword'>onceKeyword</a></li><li><a href='#overrideKeyword'>overrideKeyword</a></li><li><a href='#privateKeyword'>privateKeyword</a></li><li><a href='#protectedKeyword'>protectedKeyword</a></li><li><a href='#publicKeyword'>publicKeyword</a></li><li><a href='#readonlyKeyword'>readonlyKeyword</a></li><li><a href='#returnKeyword'>returnKeyword</a></li><li><a href='#staticKeyword'>staticKeyword</a></li><li><a href='#superKeyword'>superKeyword</a></li><li><a href='#switchKeyword'>switchKeyword</a></li><li><a href='#thisKeyword'>thisKeyword</a></li><li><a href='#throwKeyword'>throwKeyword</a></li><li><a href='#trueKeyword'>trueKeyword</a></li><li><a href='#tryKeyword'>tryKeyword</a></li><li><a href='#usingKeyword'>usingKeyword</a></li><li><a href='#virtualKeyword'>virtualKeyword</a></li><li><a href='#volatileKeyword'>volatileKeyword</a></li><li><a href='#voidKeyword'>voidKeyword</a></li><li><a href='#whileKeyword'>whileKeyword</a></li><li><a href='#extensionKeyword'>extensionKeyword</a></li><li><a href='#rtconstKeyword'>rtconstKeyword</a></li><li><a href='#inlineKeyword'>inlineKeyword</a></li><li><a href='#referKeyword'>referKeyword</a></li><li><a href='#asyncKeyword'>asyncKeyword</a></li><li><a href='#yieldKeyword'>yieldKeyword</a></li><li><a href='#lretKeyword'>lretKeyword</a></li><li><a href='#awaitKeyword'>awaitKeyword</a></li><li><a href='#addressofKeyword'>addressofKeyword</a></li><li><a href='#sizeofKeyword'>sizeofKeyword</a></li><li><a href='#offsetofKeyword'>offsetofKeyword</a></li><li><a href='#uninitKeyword'>uninitKeyword</a></li><li><a href='#weakKeyword'>weakKeyword</a></li><li><a href='#varKeyword'>varKeyword</a></li><li><a href='#letKeyword'>letKeyword</a></li><li><a href='#funKeyword'>funKeyword</a></li><li><a href='#eof'>eof</a></li></ul>
+<dl>
+<dt id='abstractKeyword'>
+abstractKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> abstractKeyword := ...</code></p>
+</dd>
+<dt id='addressofKeyword'>
+addressofKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> addressofKeyword := ...</code></p>
+</dd>
+<dt id='amp'>
+amp</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> amp := ...</code></p>
+</dd>
+<dt id='arrow'>
+arrow</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> arrow := ...</code></p>
+</dd>
+<dt id='asKeyword'>
+asKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> asKeyword := ...</code></p>
+</dd>
+<dt id='assign'>
+assign</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> assign := ...</code></p>
+</dd>
+<dt id='assignMinus'>
+assignMinus</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> assignMinus := ...</code></p>
+</dd>
+<dt id='assignPercent'>
+assignPercent</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> assignPercent := ...</code></p>
+</dd>
+<dt id='assignPlus'>
+assignPlus</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> assignPlus := ...</code></p>
+</dd>
+<dt id='assignSlash'>
+assignSlash</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> assignSlash := ...</code></p>
+</dd>
+<dt id='assignStar'>
+assignStar</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> assignStar := ...</code></p>
+</dd>
+<dt id='asyncKeyword'>
+asyncKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> asyncKeyword := ...</code></p>
+</dd>
+<dt id='at'>
+at</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> at := ...</code></p>
+</dd>
+<dt id='awaitKeyword'>
+awaitKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> awaitKeyword := ...</code></p>
+</dd>
+<dt id='bang'>
+bang</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> bang := ...</code></p>
+</dd>
+<dt id='breakKeyword'>
+breakKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> breakKeyword := ...</code></p>
+</dd>
+<dt id='caret'>
+caret</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> caret := ...</code></p>
+</dd>
+<dt id='caseKeyword'>
+caseKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> caseKeyword := ...</code></p>
+</dd>
+<dt id='catchKeyword'>
+catchKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> catchKeyword := ...</code></p>
+</dd>
+<dt id='classKeyword'>
+classKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> classKeyword := ...</code></p>
+</dd>
+<dt id='cmp'>
+cmp</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> cmp := ...</code></p>
+</dd>
+<dt id='colon'>
+colon</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> colon := ...</code></p>
+</dd>
+<dt id='comma'>
+comma</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> comma := ...</code></p>
+</dd>
+<dt id='constKeyword'>
+constKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> constKeyword := ...</code></p>
+</dd>
+<dt id='continueKeyword'>
+continueKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> continueKeyword := ...</code></p>
+</dd>
+<dt id='decimalLiteral'>
+decimalLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> decimalLiteral := ...</code></p>
+</dd>
+<dt id='decrement'>
+decrement</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> decrement := ...</code></p>
+</dd>
+<dt id='defAssign'>
+defAssign</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> defAssign := ...</code></p>
+</dd>
+<dt id='defaultKeyword'>
+defaultKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> defaultKeyword := ...</code></p>
+</dd>
+<dt id='doKeyword'>
+doKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> doKeyword := ...</code></p>
+</dd>
+<dt id='docComment'>
+docComment</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> docComment := ...</code></p>
+</dd>
+<dt id='dollar'>
+dollar</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> dollar := ...</code></p>
+</dd>
+<dt id='dot'>
+dot</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> dot := ...</code></p>
+</dd>
+<dt id='dotDot'>
+dotDot</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> dotDot := ...</code></p>
+</dd>
+<dt id='dotDotLt'>
+dotDotLt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> dotDotLt := ...</code></p>
+</dd>
+<dt id='doubleAmp'>
+doubleAmp</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> doubleAmp := ...</code></p>
+</dd>
+<dt id='doubleColon'>
+doubleColon</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> doubleColon := ...</code></p>
+</dd>
+<dt id='doublePipe'>
+doublePipe</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> doublePipe := ...</code></p>
+</dd>
+<dt id='dsl'>
+dsl</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> dsl := ...</code></p>
+</dd>
+<dt id='durationLiteral'>
+durationLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> durationLiteral := ...</code></p>
+</dd>
+<dt id='elseKeyword'>
+elseKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> elseKeyword := ...</code></p>
+</dd>
+<dt id='elvis'>
+elvis</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> elvis := ...</code></p>
+</dd>
+<dt id='eof'>
+eof</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> eof := ...</code></p>
+</dd>
+<dt id='eq'>
+eq</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> eq := ...</code></p>
+</dd>
+<dt id='extensionKeyword'>
+extensionKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> extensionKeyword := ...</code></p>
+</dd>
+<dt id='falseKeyword'>
+falseKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> falseKeyword := ...</code></p>
+</dd>
+<dt id='finalKeyword'>
+finalKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> finalKeyword := ...</code></p>
+</dd>
+<dt id='finallyKeyword'>
+finallyKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> finallyKeyword := ...</code></p>
+</dd>
+<dt id='floatLiteral'>
+floatLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> floatLiteral := ...</code></p>
+</dd>
+<dt id='forKeyword'>
+forKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> forKeyword := ...</code></p>
+</dd>
+<dt id='foreachKeyword'>
+foreachKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> foreachKeyword := ...</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the Token instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='funKeyword'>
+funKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> funKeyword := ...</code></p>
+</dd>
+<dt id='gt'>
+gt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> gt := ...</code></p>
+</dd>
+<dt id='gtEq'>
+gtEq</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> gtEq := ...</code></p>
+</dd>
+<dt id='identifier'>
+identifier</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> identifier := ...</code></p>
+</dd>
+<dt id='ifKeyword'>
+ifKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> ifKeyword := ...</code></p>
+</dd>
+<dt id='increment'>
+increment</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> increment := ...</code></p>
+</dd>
+<dt id='inlineKeyword'>
+inlineKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> inlineKeyword := ...</code></p>
+</dd>
+<dt id='intLiteral'>
+intLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> intLiteral := ...</code></p>
+</dd>
+<dt id='internalKeyword'>
+internalKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> internalKeyword := ...</code></p>
+</dd>
+<dt id='isAssign'>
+isAssign</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> isAssign</code></p>
+
+<p>Is this an assignment token such as "=", etc "+=", etc</p>
+</dd>
+<dt id='isIncrementOrDecrement'>
+isIncrementOrDecrement</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isIncrementOrDecrement()</code></p>
+
+<p>Return if -- or ++</p>
+</dd>
+<dt id='isKeyword'>
+isKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> isKeyword := ...</code></p>
+</dd>
+<dt id='isProtectionKeyword'>
+isProtectionKeyword</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isProtectionKeyword()</code></p>
+
+<p>Is one of: public, protected, internal, private</p>
+</dd>
+<dt id='isnotKeyword'>
+isnotKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> isnotKeyword := ...</code></p>
+</dd>
+<dt id='itKeyword'>
+itKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> itKeyword := ...</code></p>
+</dd>
+<dt id='keyword'>
+keyword</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> keyword</code></p>
+
+<p>Is this a keyword token such as "null"</p>
+</dd>
+<dt id='keywords'>
+keywords</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='Token.html'>Token</a>&gt;</a> keywords</code></p>
+
+<p>Get a map of the keywords</p>
+</dd>
+<dt id='lbrace'>
+lbrace</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> lbrace := ...</code></p>
+</dd>
+<dt id='lbracket'>
+lbracket</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> lbracket := ...</code></p>
+</dd>
+<dt id='letKeyword'>
+letKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> letKeyword := ...</code></p>
+</dd>
+<dt id='localeLiteral'>
+localeLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> localeLiteral := ...</code></p>
+</dd>
+<dt id='lparen'>
+lparen</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> lparen := ...</code></p>
+</dd>
+<dt id='lparenSynthetic'>
+lparenSynthetic</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> lparenSynthetic := ...</code></p>
+</dd>
+<dt id='lretKeyword'>
+lretKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> lretKeyword := ...</code></p>
+</dd>
+<dt id='lt'>
+lt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> lt := ...</code></p>
+</dd>
+<dt id='ltEq'>
+ltEq</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> ltEq := ...</code></p>
+</dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> main()</code></p>
+</dd>
+<dt id='minus'>
+minus</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> minus := ...</code></p>
+</dd>
+<dt id='mixinKeyword'>
+mixinKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> mixinKeyword := ...</code></p>
+</dd>
+<dt id='nativeKeyword'>
+nativeKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> nativeKeyword := ...</code></p>
+</dd>
+<dt id='newKeyword'>
+newKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> newKeyword := ...</code></p>
+</dd>
+<dt id='notEq'>
+notEq</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> notEq := ...</code></p>
+</dd>
+<dt id='notSame'>
+notSame</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> notSame := ...</code></p>
+</dd>
+<dt id='nullKeyword'>
+nullKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> nullKeyword := ...</code></p>
+</dd>
+<dt id='offsetofKeyword'>
+offsetofKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> offsetofKeyword := ...</code></p>
+</dd>
+<dt id='onceKeyword'>
+onceKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> onceKeyword := ...</code></p>
+</dd>
+<dt id='overrideKeyword'>
+overrideKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> overrideKeyword := ...</code></p>
+</dd>
+<dt id='percent'>
+percent</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> percent := ...</code></p>
+</dd>
+<dt id='pipe'>
+pipe</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> pipe := ...</code></p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> plus := ...</code></p>
+</dd>
+<dt id='pound'>
+pound</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> pound := ...</code></p>
+</dd>
+<dt id='privateKeyword'>
+privateKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> privateKeyword := ...</code></p>
+</dd>
+<dt id='protectedKeyword'>
+protectedKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> protectedKeyword := ...</code></p>
+</dd>
+<dt id='publicKeyword'>
+publicKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> publicKeyword := ...</code></p>
+</dd>
+<dt id='question'>
+question</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> question := ...</code></p>
+</dd>
+<dt id='rbrace'>
+rbrace</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> rbrace := ...</code></p>
+</dd>
+<dt id='rbracket'>
+rbracket</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> rbracket := ...</code></p>
+</dd>
+<dt id='readonlyKeyword'>
+readonlyKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> readonlyKeyword := ...</code></p>
+</dd>
+<dt id='referKeyword'>
+referKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> referKeyword := ...</code></p>
+</dd>
+<dt id='returnKeyword'>
+returnKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> returnKeyword := ...</code></p>
+</dd>
+<dt id='rparen'>
+rparen</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> rparen := ...</code></p>
+</dd>
+<dt id='rtconstKeyword'>
+rtconstKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> rtconstKeyword := ...</code></p>
+</dd>
+<dt id='safeArrow'>
+safeArrow</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> safeArrow := ...</code></p>
+</dd>
+<dt id='safeDot'>
+safeDot</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> safeDot := ...</code></p>
+</dd>
+<dt id='safeTildeArrow'>
+safeTildeArrow</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> safeTildeArrow := ...</code></p>
+</dd>
+<dt id='same'>
+same</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> same := ...</code></p>
+</dd>
+<dt id='semicolon'>
+semicolon</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> semicolon := ...</code></p>
+</dd>
+<dt id='sizeofKeyword'>
+sizeofKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> sizeofKeyword := ...</code></p>
+</dd>
+<dt id='slash'>
+slash</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> slash := ...</code></p>
+</dd>
+<dt id='star'>
+star</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> star := ...</code></p>
+</dd>
+<dt id='staticKeyword'>
+staticKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> staticKeyword := ...</code></p>
+</dd>
+<dt id='strLiteral'>
+strLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> strLiteral := ...</code></p>
+</dd>
+<dt id='superKeyword'>
+superKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> superKeyword := ...</code></p>
+</dd>
+<dt id='switchKeyword'>
+switchKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> switchKeyword := ...</code></p>
+</dd>
+<dt id='symbol'>
+symbol</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> symbol</code></p>
+
+<p>Get string used to display token to user in error messages</p>
+</dd>
+<dt id='thisKeyword'>
+thisKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> thisKeyword := ...</code></p>
+</dd>
+<dt id='throwKeyword'>
+throwKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> throwKeyword := ...</code></p>
+</dd>
+<dt id='tilde'>
+tilde</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> tilde := ...</code></p>
+</dd>
+<dt id='tildeArrow'>
+tildeArrow</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> tildeArrow := ...</code></p>
+</dd>
+<dt id='toExprId'>
+toExprId</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ExprId.html'>ExprId</a> toExprId()</code></p>
+
+<p>Get this Token as a ExprId or throw Err.</p>
+</dd>
+<dt id='toShortcutOp'>
+toShortcutOp</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ShortcutOp.html'>ShortcutOp</a> toShortcutOp(<a href='../sys/Int.html'>Int</a> degree)</code></p>
+
+<p>Map an operator token to it's shortcut operator enum. Degree is 1 for unary and 2 for binary.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='trueKeyword'>
+trueKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> trueKeyword := ...</code></p>
+</dd>
+<dt id='tryKeyword'>
+tryKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> tryKeyword := ...</code></p>
+</dd>
+<dt id='uninitKeyword'>
+uninitKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> uninitKeyword := ...</code></p>
+</dd>
+<dt id='uriLiteral'>
+uriLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> uriLiteral := ...</code></p>
+</dd>
+<dt id='usingKeyword'>
+usingKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> usingKeyword := ...</code></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='Token.html'>Token</a>&gt;</a> vals := ...</code></p>
+
+<p>List of Token values indexed by ordinal</p>
+</dd>
+<dt id='varKeyword'>
+varKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> varKeyword := ...</code></p>
+</dd>
+<dt id='virtualKeyword'>
+virtualKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> virtualKeyword := ...</code></p>
+</dd>
+<dt id='voidKeyword'>
+voidKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> voidKeyword := ...</code></p>
+</dd>
+<dt id='volatileKeyword'>
+volatileKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> volatileKeyword := ...</code></p>
+</dd>
+<dt id='weakKeyword'>
+weakKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> weakKeyword := ...</code></p>
+</dd>
+<dt id='whileKeyword'>
+whileKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> whileKeyword := ...</code></p>
+</dd>
+<dt id='yieldKeyword'>
+yieldKeyword</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Token.html'>Token</a> yieldKeyword := ...</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#abstractKeyword'>abstractKeyword</a></li><li><a href='#addressofKeyword'>addressofKeyword</a></li><li><a href='#amp'>amp</a></li><li><a href='#arrow'>arrow</a></li><li><a href='#asKeyword'>asKeyword</a></li><li><a href='#assign'>assign</a></li><li><a href='#assignMinus'>assignMinus</a></li><li><a href='#assignPercent'>assignPercent</a></li><li><a href='#assignPlus'>assignPlus</a></li><li><a href='#assignSlash'>assignSlash</a></li><li><a href='#assignStar'>assignStar</a></li><li><a href='#asyncKeyword'>asyncKeyword</a></li><li><a href='#at'>at</a></li><li><a href='#awaitKeyword'>awaitKeyword</a></li><li><a href='#bang'>bang</a></li><li><a href='#breakKeyword'>breakKeyword</a></li><li><a href='#caret'>caret</a></li><li><a href='#caseKeyword'>caseKeyword</a></li><li><a href='#catchKeyword'>catchKeyword</a></li><li><a href='#classKeyword'>classKeyword</a></li><li><a href='#cmp'>cmp</a></li><li><a href='#colon'>colon</a></li><li><a href='#comma'>comma</a></li><li><a href='#constKeyword'>constKeyword</a></li><li><a href='#continueKeyword'>continueKeyword</a></li><li><a href='#decimalLiteral'>decimalLiteral</a></li><li><a href='#decrement'>decrement</a></li><li><a href='#defAssign'>defAssign</a></li><li><a href='#defaultKeyword'>defaultKeyword</a></li><li><a href='#doKeyword'>doKeyword</a></li><li><a href='#docComment'>docComment</a></li><li><a href='#dollar'>dollar</a></li><li><a href='#dot'>dot</a></li><li><a href='#dotDot'>dotDot</a></li><li><a href='#dotDotLt'>dotDotLt</a></li><li><a href='#doubleAmp'>doubleAmp</a></li><li><a href='#doubleColon'>doubleColon</a></li><li><a href='#doublePipe'>doublePipe</a></li><li><a href='#dsl'>dsl</a></li><li><a href='#durationLiteral'>durationLiteral</a></li><li><a href='#elseKeyword'>elseKeyword</a></li><li><a href='#elvis'>elvis</a></li><li><a href='#eof'>eof</a></li><li><a href='#eq'>eq</a></li><li><a href='#extensionKeyword'>extensionKeyword</a></li><li><a href='#falseKeyword'>falseKeyword</a></li><li><a href='#finalKeyword'>finalKeyword</a></li><li><a href='#finallyKeyword'>finallyKeyword</a></li><li><a href='#floatLiteral'>floatLiteral</a></li><li><a href='#forKeyword'>forKeyword</a></li><li><a href='#foreachKeyword'>foreachKeyword</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#funKeyword'>funKeyword</a></li><li><a href='#gt'>gt</a></li><li><a href='#gtEq'>gtEq</a></li><li><a href='#identifier'>identifier</a></li><li><a href='#ifKeyword'>ifKeyword</a></li><li><a href='#increment'>increment</a></li><li><a href='#inlineKeyword'>inlineKeyword</a></li><li><a href='#intLiteral'>intLiteral</a></li><li><a href='#internalKeyword'>internalKeyword</a></li><li><a href='#isKeyword'>isKeyword</a></li><li><a href='#isnotKeyword'>isnotKeyword</a></li><li><a href='#itKeyword'>itKeyword</a></li><li><a href='#keywords'>keywords</a></li><li><a href='#lbrace'>lbrace</a></li><li><a href='#lbracket'>lbracket</a></li><li><a href='#letKeyword'>letKeyword</a></li><li><a href='#localeLiteral'>localeLiteral</a></li><li><a href='#lparen'>lparen</a></li><li><a href='#lparenSynthetic'>lparenSynthetic</a></li><li><a href='#lretKeyword'>lretKeyword</a></li><li><a href='#lt'>lt</a></li><li><a href='#ltEq'>ltEq</a></li><li><a href='#main'>main</a></li><li><a href='#minus'>minus</a></li><li><a href='#mixinKeyword'>mixinKeyword</a></li><li><a href='#nativeKeyword'>nativeKeyword</a></li><li><a href='#newKeyword'>newKeyword</a></li><li><a href='#notEq'>notEq</a></li><li><a href='#notSame'>notSame</a></li><li><a href='#nullKeyword'>nullKeyword</a></li><li><a href='#offsetofKeyword'>offsetofKeyword</a></li><li><a href='#onceKeyword'>onceKeyword</a></li><li><a href='#overrideKeyword'>overrideKeyword</a></li><li><a href='#percent'>percent</a></li><li><a href='#pipe'>pipe</a></li><li><a href='#plus'>plus</a></li><li><a href='#pound'>pound</a></li><li><a href='#privateKeyword'>privateKeyword</a></li><li><a href='#protectedKeyword'>protectedKeyword</a></li><li><a href='#publicKeyword'>publicKeyword</a></li><li><a href='#question'>question</a></li><li><a href='#rbrace'>rbrace</a></li><li><a href='#rbracket'>rbracket</a></li><li><a href='#readonlyKeyword'>readonlyKeyword</a></li><li><a href='#referKeyword'>referKeyword</a></li><li><a href='#returnKeyword'>returnKeyword</a></li><li><a href='#rparen'>rparen</a></li><li><a href='#rtconstKeyword'>rtconstKeyword</a></li><li><a href='#safeArrow'>safeArrow</a></li><li><a href='#safeDot'>safeDot</a></li><li><a href='#safeTildeArrow'>safeTildeArrow</a></li><li><a href='#same'>same</a></li><li><a href='#semicolon'>semicolon</a></li><li><a href='#sizeofKeyword'>sizeofKeyword</a></li><li><a href='#slash'>slash</a></li><li><a href='#star'>star</a></li><li><a href='#staticKeyword'>staticKeyword</a></li><li><a href='#strLiteral'>strLiteral</a></li><li><a href='#superKeyword'>superKeyword</a></li><li><a href='#switchKeyword'>switchKeyword</a></li><li><a href='#thisKeyword'>thisKeyword</a></li><li><a href='#throwKeyword'>throwKeyword</a></li><li><a href='#tilde'>tilde</a></li><li><a href='#tildeArrow'>tildeArrow</a></li><li><a href='#trueKeyword'>trueKeyword</a></li><li><a href='#tryKeyword'>tryKeyword</a></li><li><a href='#uninitKeyword'>uninitKeyword</a></li><li><a href='#uriLiteral'>uriLiteral</a></li><li><a href='#usingKeyword'>usingKeyword</a></li><li><a href='#vals'>vals</a></li><li><a href='#varKeyword'>varKeyword</a></li><li><a href='#virtualKeyword'>virtualKeyword</a></li><li><a href='#voidKeyword'>voidKeyword</a></li><li><a href='#volatileKeyword'>volatileKeyword</a></li><li><a href='#weakKeyword'>weakKeyword</a></li><li><a href='#whileKeyword'>whileKeyword</a></li><li><a href='#yieldKeyword'>yieldKeyword</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#isAssign'>isAssign</a></li><li><a href='#isIncrementOrDecrement'>isIncrementOrDecrement</a></li><li><a href='#isProtectionKeyword'>isProtectionKeyword</a></li><li><a href='#keyword'>keyword</a></li><li><a href='#symbol'>symbol</a></li><li><a href='#toExprId'>toExprId</a></li><li><a href='#toShortcutOp'>toShortcutOp</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

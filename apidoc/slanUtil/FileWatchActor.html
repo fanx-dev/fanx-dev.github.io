@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>slanUtil::FileWatchActor</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>slanUtil</a></li><li><a href='FileWatchActor.html'>FileWatchActor</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> slanUtil::FileWatchActor</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../concurrent/Actor.html'>concurrent::Actor</a>
+    slanUtil::FileWatchActor</pre>
+
+<p>notify if file changed</p>
+<dl>
+<dt id='checkTime'>
+checkTime</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Duration.html'>Duration</a> checkTime := 5.sec</code></p>
+</dd>
+<dt id='fileList'>
+fileList</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;?</a> fileList</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='onChanged'>
+onChanged</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>&gt;?</a> onChanged</code></p>
+</dd>
+<dt id='receive'>
+receive</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Obj.html'>Obj?</a> receive(<a href='../sys/Obj.html'>Obj?</a> msg)</code></p>
+</dd>
+<dt id='storeKey'>
+storeKey</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Str.html'>Str</a> storeKey := &quot;watchActor.map&quot;</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#storeKey'>storeKey</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#checkTime'>checkTime</a></li><li><a href='#fileList'>fileList</a></li><li><a href='#onChanged'>onChanged</a></li><li><a href='#receive'>receive</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseWindow::NImage</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseWindow</a></li><li><a href='NImage.html'>NImage</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>rtconst virtual class</span> vaseWindow::NImage</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../vaseGraphics/Image.html'>vaseGraphics::Image</a>
+    vaseWindow::NImage</pre>
+
+<p>Image represents a graphical image.</p>
+<dl>
+<dt id='createGraphics'>
+createGraphics</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../vaseGraphics/Graphics.html'>Graphics</a> createGraphics()</code></p>
+</dd>
+<dt id='dispose'>
+dispose</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> dispose()</code></p>
+
+<p>Free any operating system resources used by this instance.</p>
+</dd>
+<dt id='finalize'>
+finalize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> finalize()</code></p>
+</dd>
+<dt id='getPixel'>
+getPixel</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> getPixel(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+
+<p>Returns the pixel value at x,y</p>
+</dd>
+<dt id='height'>
+height</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> height { private set }</code></p>
+</dd>
+<dt id='isReady'>
+isReady</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isReady()</code></p>
+
+<p>is loaded in javascript</p>
+</dd>
+<dt id='makeData'>
+makeData</dt>
+<dd>
+<p class='sig'>
+<code>new makeData(<a href='../sys/Int.html'>Int</a> data, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h)</code></p>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake()</code></p>
+</dd>
+<dt id='save'>
+save</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> save(<a href='../std/OutStream.html'>OutStream</a> out, <a href='../sys/Str.html'>Str</a> format := &quot;png&quot;)</code></p>
+
+<p>Save image to outStream.</p>
+</dd>
+<dt id='setPixel'>
+setPixel</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> setPixel(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> p)</code></p>
+
+<p>Set the pixel value at x,y</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../vaseGraphics/Size.html'>Size</a> size()</code></p>
+</dd>
+<dt id='width'>
+width</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> width { private set }</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#makeData'>makeData</a></li><li><a href='#privateMake'>privateMake</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#createGraphics'>createGraphics</a></li><li><a href='#dispose'>dispose</a></li><li><a href='#finalize'>finalize</a></li><li><a href='#getPixel'>getPixel</a></li><li><a href='#height'>height</a></li><li><a href='#isReady'>isReady</a></li><li><a href='#save'>save</a></li><li><a href='#setPixel'>setPixel</a></li><li><a href='#size'>size</a></li><li><a href='#width'>width</a></li></ul>
+</div>
+</div>
+</body>
+</html>

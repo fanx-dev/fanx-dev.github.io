@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseOpenGl::ArrayBuffer</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseOpenGl</a></li><li><a href='ArrayBuffer.html'>ArrayBuffer</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> vaseOpenGl::ArrayBuffer</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseOpenGl::ArrayBuffer</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>Wrapping a native array buffer.</p>
+<dl>
+<dt id='allocateDirect'>
+allocateDirect</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ArrayBuffer.html'>ArrayBuffer</a> allocateDirect(<a href='../sys/Int.html'>Int</a> size, <a href='NumType.html'>NumType</a> type := NumType.tByte)</code></p>
+</dd>
+<dt id='createView'>
+createView</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> createView(<a href='NumType.html'>NumType</a> v, <a href='../sys/Int.html'>Int</a> offset := 0, <a href='../sys/Int.html'>Int</a> size := this.size() / this.type().size)</code></p>
+</dd>
+<dt id='getFloat'>
+getFloat</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> getFloat(<a href='../sys/Int.html'>Int</a> index)</code></p>
+</dd>
+<dt id='getInt'>
+getInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> getInt(<a href='../sys/Int.html'>Int</a> index)</code></p>
+</dd>
+<dt id='makeFloat'>
+makeFloat</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ArrayBuffer.html'>ArrayBuffer</a> makeFloat(<a href='../sys/List.html'>List&lt;<a href='../sys/Float.html'>Float</a>&gt;</a> data)</code></p>
+</dd>
+<dt id='makeFloatArray'>
+makeFloatArray</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ArrayBuffer.html'>ArrayBuffer</a> makeFloatArray(<a href='../util/FloatArray.html'>FloatArray</a> data)</code></p>
+</dd>
+<dt id='makeInt'>
+makeInt</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ArrayBuffer.html'>ArrayBuffer</a> makeInt(<a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> data)</code></p>
+</dd>
+<dt id='makeIntArray'>
+makeIntArray</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ArrayBuffer.html'>ArrayBuffer</a> makeIntArray(<a href='../util/IntArray.html'>IntArray</a> data)</code></p>
+</dd>
+<dt id='makeShort'>
+makeShort</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ArrayBuffer.html'>ArrayBuffer</a> makeShort(<a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> data)</code></p>
+</dd>
+<dt id='putFloat'>
+putFloat</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> putFloat(<a href='../sys/List.html'>List&lt;<a href='../sys/Float.html'>Float</a>&gt;</a> data)</code></p>
+</dd>
+<dt id='putInt'>
+putInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> putInt(<a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> data)</code></p>
+</dd>
+<dt id='putShort'>
+putShort</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> putShort(<a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> data)</code></p>
+</dd>
+<dt id='setFloat'>
+setFloat</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setFloat(<a href='../sys/Int.html'>Int</a> index, <a href='../sys/Int.html'>Int</a> v)</code></p>
+</dd>
+<dt id='setFloatArray'>
+setFloatArray</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setFloatArray(<a href='../util/FloatArray.html'>FloatArray</a> data)</code></p>
+</dd>
+<dt id='setInt'>
+setInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setInt(<a href='../sys/Int.html'>Int</a> index, <a href='../sys/Int.html'>Int</a> v)</code></p>
+</dd>
+<dt id='setIntArray'>
+setIntArray</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setIntArray(<a href='../util/IntArray.html'>IntArray</a> data)</code></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> size()</code></p>
+</dd>
+<dt id='type'>
+type</dt>
+<dd>
+<p class='sig'>
+<code> <a href='NumType.html'>NumType</a> type()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#allocateDirect'>allocateDirect</a></li><li><a href='#makeFloat'>makeFloat</a></li><li><a href='#makeFloatArray'>makeFloatArray</a></li><li><a href='#makeInt'>makeInt</a></li><li><a href='#makeIntArray'>makeIntArray</a></li><li><a href='#makeShort'>makeShort</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#createView'>createView</a></li><li><a href='#getFloat'>getFloat</a></li><li><a href='#getInt'>getInt</a></li><li><a href='#putFloat'>putFloat</a></li><li><a href='#putInt'>putInt</a></li><li><a href='#putShort'>putShort</a></li><li><a href='#setFloat'>setFloat</a></li><li><a href='#setFloatArray'>setFloatArray</a></li><li><a href='#setInt'>setInt</a></li><li><a href='#setIntArray'>setIntArray</a></li><li><a href='#size'>size</a></li><li><a href='#type'>type</a></li></ul>
+</div>
+</div>
+</body>
+</html>

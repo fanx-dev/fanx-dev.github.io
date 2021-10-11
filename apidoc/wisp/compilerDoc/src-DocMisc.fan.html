@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocMisc.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='src-DocMisc.fan.html'>DocMisc.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   15 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**************************************************************************</span>
+<span id='line10'>** DocTopIndex</span>
+<span id='line11'>**************************************************************************</span>
+<span id='line12'></span>
+<span id='line13'>**</span>
+<span id='line14'>** DocTopIndex models the top-level index</span>
+<span id='line15'>**</span>
+<span id='line16'>const class DocTopIndex : Doc</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  ** It-block constructor</span>
+<span id='line19'>  new make<b>(</b>|This|? f := null<b>)</b> <b>{</b> if <b>(</b>f != null<b>)</b> f<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line20'></span>
+<span id='line21'>  ** Spaces to index</span>
+<span id='line22'>  const DocSpace<b>[</b><b>]</b> spaces := <b>[</b>,<b>]</b></span>
+<span id='line23'></span>
+<span id='line24'>  ** Get the spaces which as instances of DocPod</span>
+<span id='line25'>  DocPod<b>[</b><b>]</b> pods<b>(</b><b>)</b> <b>{</b> spaces.findType<b>(</b>DocPod#<b>)</b> <b>}</b></span>
+<span id='line26'></span>
+<span id='line27'>  ** Throw UnsupportedErr</span>
+<span id='line28'>  override DocSpace space<b>(</b><b>)</b> <b>{</b> throw UnsupportedErr<b>(</b><b>)</b> <b>}</b></span>
+<span id='line29'></span>
+<span id='line30'>  ** Throw UnsupportedErr</span>
+<span id='line31'>  override Str docName<b>(</b><b>)</b> <b>{</b> "index" <b>}</b></span>
+<span id='line32'></span>
+<span id='line33'>  ** Default is "Doc Index"</span>
+<span id='line34'>  override const Str title := "Doc Index"</span>
+<span id='line35'></span>
+<span id='line36'>  ** Default renderer `DocTopIndexRenderer`</span>
+<span id='line37'>  override const Type renderer := DocTopIndexRenderer#</span>
+<span id='line38'></span>
+<span id='line39'>  ** Return true</span>
+<span id='line40'>  override Bool isTopIndex<b>(</b><b>)</b> <b>{</b> true<b>}</b></span>
+<span id='line41'></span>
+<span id='line42'>  ** Debug string</span>
+<span id='line43'>  override Str toStr<b>(</b><b>)</b> <b>{</b> this.typeof.name <b>}</b></span>
+<span id='line44'><b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>**************************************************************************</span>
+<span id='line47'>** DocRes</span>
+<span id='line48'>**************************************************************************</span>
+<span id='line49'></span>
+<span id='line50'>**</span>
+<span id='line51'>** DocRes models a resource file within a pod.</span>
+<span id='line52'>**</span>
+<span id='line53'>const class DocRes : Doc</span>
+<span id='line54'><b>{</b></span>
+<span id='line55'>  ** Construct for pod and uri</span>
+<span id='line56'>  internal new make<b>(</b>DocPod pod, Uri uri<b>)</b></span>
+<span id='line57'>  <b>{</b></span>
+<span id='line58'>    this.pod = pod</span>
+<span id='line59'>    this.uri = uri</span>
+<span id='line60'>  <b>}</b></span>
+<span id='line61'></span>
+<span id='line62'>  ** Pod which contains the resource</span>
+<span id='line63'>  const DocPod pod</span>
+<span id='line64'></span>
+<span id='line65'>  ** Uri of the resource file inside the pod</span>
+<span id='line66'>  const Uri uri</span>
+<span id='line67'></span>
+<span id='line68'>  ** The space for this doc is `pod`</span>
+<span id='line69'>  override DocSpace space<b>(</b><b>)</b> <b>{</b> pod <b>}</b></span>
+<span id='line70'></span>
+<span id='line71'>  ** Document name under space is filename</span>
+<span id='line72'>  override Str docName<b>(</b><b>)</b> <b>{</b> uri.name <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  ** Title is the filename</span>
+<span id='line75'>  override Str title<b>(</b><b>)</b> <b>{</b> uri.name <b>}</b></span>
+<span id='line76'></span>
+<span id='line77'>  ** Throw UnsupportedErr</span>
+<span id='line78'>  override Type renderer<b>(</b><b>)</b> <b>{</b> throw UnsupportedErr<b>(</b><b>)</b> <b>}</b></span>
+<span id='line79'><b>}</b></span>
+<span id='line80'></span>
+<span id='line81'>**************************************************************************</span>
+<span id='line82'>** DocSrc</span>
+<span id='line83'>**************************************************************************</span>
+<span id='line84'></span>
+<span id='line85'>**</span>
+<span id='line86'>** DocSrc models a page of source code for display.</span>
+<span id='line87'>**</span>
+<span id='line88'>const class DocSrc : Doc</span>
+<span id='line89'><b>{</b></span>
+<span id='line90'>  ** Construct for pod and uri</span>
+<span id='line91'>  internal new make<b>(</b>DocPod pod, Uri uri<b>)</b></span>
+<span id='line92'>  <b>{</b></span>
+<span id='line93'>    this.pod = pod</span>
+<span id='line94'>    this.uri = uri</span>
+<span id='line95'>  <b>}</b></span>
+<span id='line96'></span>
+<span id='line97'>  ** Pod which contains the source file</span>
+<span id='line98'>  const DocPod pod</span>
+<span id='line99'></span>
+<span id='line100'>  ** Uri of the source file inside the pod</span>
+<span id='line101'>  const Uri uri</span>
+<span id='line102'></span>
+<span id='line103'>  ** The space for this doc is `pod`</span>
+<span id='line104'>  override DocSpace space<b>(</b><b>)</b> <b>{</b> pod <b>}</b></span>
+<span id='line105'></span>
+<span id='line106'>  ** Document name under space is "src-<b>{</b>filename<b>}</b>"</span>
+<span id='line107'>  override Str docName<b>(</b><b>)</b> <b>{</b> "src-$<b>{</b>uri.name<b>}</b>" <b>}</b></span>
+<span id='line108'></span>
+<span id='line109'>  ** Title is the filename</span>
+<span id='line110'>  override Str title<b>(</b><b>)</b> <b>{</b> uri.name <b>}</b></span>
+<span id='line111'></span>
+<span id='line112'>  ** Breadcrumb name is the filename</span>
+<span id='line113'>  override Str breadcrumb<b>(</b><b>)</b> <b>{</b> uri.name <b>}</b></span>
+<span id='line114'></span>
+<span id='line115'>  ** Default renderer is `DocSrcRenderer`</span>
+<span id='line116'>  override Type renderer<b>(</b><b>)</b> <b>{</b> DocSrcRenderer# <b>}</b></span>
+<span id='line117'><b>}</b></span>
+<span id='line118'></span>
+<span id='line119'>**************************************************************************</span>
+<span id='line120'>** DocLoc</span>
+<span id='line121'>**************************************************************************</span>
+<span id='line122'></span>
+<span id='line123'>**</span>
+<span id='line124'>** DocLoc models a filename / linenumber</span>
+<span id='line125'>**</span>
+<span id='line126'>const class DocLoc</span>
+<span id='line127'><b>{</b></span>
+<span id='line128'>  const static DocLoc unknown := DocLoc<b>(</b>"Unknown", 0<b>)</b></span>
+<span id='line129'></span>
+<span id='line130'>  ** Construct with file and line number <b>(</b>zero if unknown<b>)</b></span>
+<span id='line131'>  new make<b>(</b>Str file, Int line<b>)</b></span>
+<span id='line132'>  <b>{</b></span>
+<span id='line133'>    this.file = file</span>
+<span id='line134'>    this.line = line</span>
+<span id='line135'>  <b>}</b></span>
+<span id='line136'></span>
+<span id='line137'>  ** Filename location</span>
+<span id='line138'>  const Str file</span>
+<span id='line139'></span>
+<span id='line140'>  ** Line number or zero if unknown</span>
+<span id='line141'>  const Int line</span>
+<span id='line142'></span>
+<span id='line143'>  ** Return string representation</span>
+<span id='line144'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line145'>  <b>{</b></span>
+<span id='line146'>    if <b>(</b>line &lt;= 0<b>)</b> return file</span>
+<span id='line147'>    return "$file <b>[</b>Line $line<b>]</b>"</span>
+<span id='line148'>  <b>}</b></span>
+<span id='line149'><b>}</b></span>
+<span id='line150'></span>
+<span id='line151'>**************************************************************************</span>
+<span id='line152'>** DocFandoc</span>
+<span id='line153'>**************************************************************************</span>
+<span id='line154'></span>
+<span id='line155'>**</span>
+<span id='line156'>** Wrapper for Fandoc string for a chapter, type, or slot</span>
+<span id='line157'>**</span>
+<span id='line158'>const class DocFandoc</span>
+<span id='line159'><b>{</b></span>
+<span id='line160'>  ** Construct from `loc` and `text`</span>
+<span id='line161'>  new make<b>(</b>DocLoc loc, Str text<b>)</b></span>
+<span id='line162'>  <b>{</b></span>
+<span id='line163'>    this.loc = loc</span>
+<span id='line164'>    this.text = text</span>
+<span id='line165'>  <b>}</b></span>
+<span id='line166'></span>
+<span id='line167'>  ** Return the first sentence of fandoc</span>
+<span id='line168'>  DocFandoc firstSentence<b>(</b><b>)</b></span>
+<span id='line169'>  <b>{</b></span>
+<span id='line170'>    DocFandoc<b>(</b>loc, firstSentenceStrBuf.toStr<b>)</b></span>
+<span id='line171'>  <b>}</b></span>
+<span id='line172'></span>
+<span id='line173'>  ** Return the first sentence of fandoc as a StrBuf</span>
+<span id='line174'>  @NoDoc StrBuf firstSentenceStrBuf<b>(</b><b>)</b></span>
+<span id='line175'>  <b>{</b></span>
+<span id='line176'>    buf := StrBuf<b>(</b><b>)</b></span>
+<span id='line177'>    for <b>(</b>i:=0; i&lt;text.size; i++<b>)</b></span>
+<span id='line178'>    <b>{</b></span>
+<span id='line179'>      ch := text<b>[</b>i<b>]</b></span>
+<span id='line180'>      peek := i&lt;text.size-1 ? text<b>[</b>i+1<b>]</b> : -1</span>
+<span id='line181'>      if <b>(</b>ch == '.' &amp;&amp; <b>(</b>peek == ' ' || peek == '\n'<b>)</b><b>)</b></span>
+<span id='line182'>      <b>{</b></span>
+<span id='line183'>        buf.addChar<b>(</b>ch<b>)</b></span>
+<span id='line184'>        break;</span>
+<span id='line185'>      <b>}</b></span>
+<span id='line186'>      else if <b>(</b>ch == '\n'<b>)</b></span>
+<span id='line187'>      <b>{</b></span>
+<span id='line188'>        if <b>(</b>peek == -1 || peek == ' ' || peek == '\n'<b>)</b> break</span>
+<span id='line189'>        else buf.addChar<b>(</b>' '<b>)</b></span>
+<span id='line190'>      <b>}</b></span>
+<span id='line191'>      else buf.addChar<b>(</b>ch<b>)</b></span>
+<span id='line192'>    <b>}</b></span>
+<span id='line193'>    if <b>(</b>buf.size > 1 &amp;&amp; buf<b>[</b>-1<b>]</b> == ':'<b>)</b> buf.remove<b>(</b>-1<b>)</b></span>
+<span id='line194'>    return buf</span>
+<span id='line195'>  <b>}</b></span>
+<span id='line196'></span>
+<span id='line197'>  ** Location of fandoc in source file</span>
+<span id='line198'>  const DocLoc loc</span>
+<span id='line199'></span>
+<span id='line200'>  ** Plain text fandoc string</span>
+<span id='line201'>  const Str text</span>
+<span id='line202'><b>}</b></span>
+<span id='line203'></span>
+</pre>
+</div>
+</body>
+</html>

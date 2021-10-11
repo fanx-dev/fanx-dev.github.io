@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJava::JarClassLib</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJava</a></li><li><a href='JarClassLib.html'>JarClassLib</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compilerJava::JarClassLib</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='ClassLib.html'>compilerJava::ClassLib</a>
+    compilerJava::JarClassLib</pre>
+
+<p>JarClassLib can load packages from JAR files, or from directories on the file system that represent an "exploded" JAR file.</p>
+<dl>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/This.html'>This</a> close()</code></p>
+</dd>
+<dt id='findClassicLibs'>
+findClassicLibs</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='JarClassLib.html'>JarClassLib</a>&gt;</a> findClassicLibs()</code></p>
+
+<p>Find all jars in system classpath (Java 1.8 and earlier)</p>
+</dd>
+<dt id='loadPackages'>
+loadPackages</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='ClassPathPackage.html'>ClassPathPackage</a>&gt;</a> loadPackages()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/File.html'>File</a> file)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#findClassicLibs'>findClassicLibs</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#close'>close</a></li><li><a href='#loadPackages'>loadPackages</a></li></ul>
+</div>
+</div>
+</body>
+</html>

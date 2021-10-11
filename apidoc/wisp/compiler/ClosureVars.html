@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::ClosureVars</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='ClosureVars.html'>ClosureVars</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::ClosureVars</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    <a href='CompilerStep.html'>compiler::CompilerStep</a>
+      compiler::ClosureVars</pre>
+
+<p>ClosureVars is used to process closure variables which have been enclosed from their parent scope:</p>
+
+<p>ResolveExpr ----------- ResolveExpr we detected variables used from parent scope and created shadow variables in the closure's scope with a reference via <code>MethodVar.shadows</code>.  Also during this step we note any variables which are reassigned making them non-final (according to Java final variable semantics).</p>
+
+<p>Process Method -------------- First we walk all types looking for methods which use closure variables:</p>
+
+<ol style='list-style-type:decimal'>
+<li>For each one walk thru its variables to see if any variables enclosed are non-final (reassigned at some point).  These variables as hoisted onto the heap with wrappers:
+<pre>class Wrapper$T { new make(T v) { val=v }  T val }</pre>
+</li>
+
+<li>If no wrapped variables, then we can leave a cvars method alone - everything stays the same.  If however we do have wrapped variables, then we need to walk the expr tree of the method replacing all access of the variable with its wrapper access:
+<pre>x := 3     =>   x := Wrapper$Int(3)
+x = x + 1  =>   x.val = x.val + 1</pre>
+</li>
+
+<li>If any params were wrapped, we generated a new local variable in <code>wrapNonFinalVars</code>.  During the expr tree walk we replaced all references to the param to its new wrapped local.   To finish processing the method we insert a bit of code in the beginning of the method to initialize the local.</li>
+</ol>
+
+<p>Process Closure --------------- After we have walked all methods using closure variables (which might include closure doCall methods themselves), then we walk all the closures.</p>
+
+<ol style='list-style-type:decimal'>
+<li>For each shadowed variables we need:
+<ol style='list-style-type:lower-alpha'>
+<li>Define field on the closure to store variable</li>
+
+<li>Pass variable to closure constructor at substitution site</li>
+
+<li>Add variable to as closure constructor param</li>
+
+<li>Assign param to field in constructor If the variable has been wrapped we are doing this for the wrapped variable (we don't unwrap it).</li>
+</ol>
+</li>
+
+<li>If any of the closures shadowed variables are wrapped, then we do a expr tree walk of doCall - the exact same thing as step 2 of the processMethod stage.</li>
+</ol>
+<dl>
+<dt id='genWrapper'>
+genWrapper</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CField.html'>CField</a> genWrapper(<a href='CompilerSupport.html'>CompilerSupport</a> cs, <a href='CType.html'>CType</a> ctype)</code></p>
+
+<p>Given a variable type, generate a wrapper class of the format:</p>
+
+<pre>class Wrap$ctype[$n] { CType val }</pre>
+
+<p>Wrappers are used to manage variables on the heap so that they can be shared between methods and closures.  We generate one wrapper class per variable type per pod with potentially a non-nullable and nullable variant ($n suffix).</p>
+
+<p>Eventually we'd probably like to share wrappers for common types like Int, Str, Obj, etc.</p>
+
+<p>Return the val field of the wrapper.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler)</code></p>
+</dd>
+<dt id='makeOuterThisField'>
+makeOuterThisField</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CField.html'>CField</a> makeOuterThisField(<a href='ClosureExpr.html'>ClosureExpr</a> closure)</code></p>
+
+<p>This method is called by ClosureExpr to auto-generate the implicit outer "this" field in the Closure's implementation class:</p>
+
+<ol style='list-style-type:decimal'>
+<li>Add $this field to closure's anonymous class</li>
+
+<li>Add $this param to closure's make constructor</li>
+
+<li>Pass this to closure constructor at substitute site</li>
+
+<li>Set field from param in constructor</li>
+</ol>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+<dt id='visitExpr'>
+visitExpr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Expr.html'>Expr</a> visitExpr(<a href='Expr.html'>Expr</a> expr)</code></p>
+</dd>
+<dt id='visitStmt'>
+visitStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='Stmt.html'>Stmt</a>&gt;?</a> visitStmt(<a href='Stmt.html'>Stmt</a> stmt)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#genWrapper'>genWrapper</a></li><li><a href='#make'>make</a></li><li><a href='#makeOuterThisField'>makeOuterThisField</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#run'>run</a></li><li><a href='#visitExpr'>visitExpr</a></li><li><a href='#visitStmt'>visitStmt</a></li></ul>
+</div>
+</div>
+</body>
+</html>

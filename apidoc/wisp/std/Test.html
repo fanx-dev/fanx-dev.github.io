@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Test</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Test.html'>Test</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> std::Test</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Test</pre>
+
+<p>Test is the base for Fantom unit tests.</p>
+
+<p>See <a href='docTools::Fant'>docTools::Fant</a>.</p>
+<dl>
+<dt id='curTestMethod'>
+curTestMethod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Method.html'>Method?</a> curTestMethod { internal set }</code></p>
+
+<p>Get the current test method being executed or throw Err if not currently running a test.  This method is available during both <code><a href='Test.html#setup'>setup</a></code> and <code><a href='Test.html#teardown'>teardown</a></code> as well during the test itself.</p>
+</dd>
+<dt id='fail'>
+fail</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> fail(<a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+
+<p>Throw a test failure exception.  If msg is non-null, include it in the failure exception.</p>
+</dd>
+<dt id='isJs'>
+isJs</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Bool.html'>Bool</a> isJs := = &quot;js&quot;</code></p>
+</dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> main(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> args)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+
+<p>Protected constructor.</p>
+</dd>
+<dt id='setup'>
+setup</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> setup()</code></p>
+
+<p>Setup is called before running each test method.</p>
+</dd>
+<dt id='teardown'>
+teardown</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> teardown()</code></p>
+
+<p>Teardown is called after running every test method.</p>
+</dd>
+<dt id='tempDir'>
+tempDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='File.html'>File?</a> tempDir { private set }</code></p>
+
+<p>Return a temporary test directory which may used as a scratch directory.  This directory is guaranteed to be created and empty the first time this method is called for a given test run.  The test directory is "{Env.cur.tempDir}/test/".</p>
+</dd>
+<dt id='verify'>
+verify</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verify(<a href='../sys/Bool.html'>Bool</a> cond, <a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+
+<p>Verify that cond is true, otherwise throw a test failure exception.  If msg is non-null, include it in a failure exception.</p>
+</dd>
+<dt id='verifyEq'>
+verifyEq</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifyEq(<a href='../sys/Obj.html'>Obj?</a> a, <a href='../sys/Obj.html'>Obj?</a> b, <a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+
+<p>Verify that a == b, otherwise throw a test failure exception. If both a and b are nonnull, then this method also ensures that a.hash == b.hash, because any two objects which return true for equals() must also return the same hash code.  If msg is non-null, include it in failure exception.</p>
+</dd>
+<dt id='verifyErr'>
+verifyErr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifyErr(<a href='Type.html'>Type?</a> errType, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Test.html'>Test</a>&gt;</a> c)</code></p>
+
+<p>Verify that the function throws an Err of the exact same type as errType (compare using === operator). If the errType parameter is null, then this method tests only that an exception is thrown, not its type.</p>
+
+<p>Example:</p>
+
+<pre>verifyErr(ParseErr#) { x := Int.fromStr("@#!") }</pre>
+</dd>
+<dt id='verifyFalse'>
+verifyFalse</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifyFalse(<a href='../sys/Bool.html'>Bool</a> cond, <a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+
+<p>Verify that cond is false, otherwise throw a test failure exception.  If msg is non-null, include it in a failure exception.</p>
+</dd>
+<dt id='verifyIsType'>
+verifyIsType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifyIsType(<a href='../sys/Obj.html'>Obj</a> obj, <a href='Type.html'>Type</a> t)</code></p>
+
+<p>Verify that <code>obj</code> is instance of the given type.</p>
+</dd>
+<dt id='verifyNotEq'>
+verifyNotEq</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifyNotEq(<a href='../sys/Obj.html'>Obj?</a> a, <a href='../sys/Obj.html'>Obj?</a> b, <a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+
+<p>Verify that a != b, otherwise throw a test failure exception. If msg is non-null, include it in failure exception.</p>
+</dd>
+<dt id='verifyNotNull'>
+verifyNotNull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifyNotNull(<a href='../sys/Obj.html'>Obj?</a> a, <a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+
+<p>Verify that a is not null, otherwise throw a test failure exception.  If msg is non-null, include it in a failure exception.</p>
+</dd>
+<dt id='verifyNotSame'>
+verifyNotSame</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifyNotSame(<a href='../sys/Obj.html'>Obj?</a> a, <a href='../sys/Obj.html'>Obj?</a> b, <a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+
+<p>Verify that a !== b, otherwise throw a test* failure exception. If msg is non-null, include it in failure exception.</p>
+</dd>
+<dt id='verifyNull'>
+verifyNull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifyNull(<a href='../sys/Obj.html'>Obj?</a> a, <a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+
+<p>Verify that a is null, otherwise throw a test failure exception.  If msg is non-null, include it in a failure exception.</p>
+</dd>
+<dt id='verifySame'>
+verifySame</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifySame(<a href='../sys/Obj.html'>Obj?</a> a, <a href='../sys/Obj.html'>Obj?</a> b, <a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+
+<p>Verify that a === b, otherwise throw a test failure exception. If msg is non-null, include it in failure exception.</p>
+</dd>
+<dt id='verifyType'>
+verifyType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> verifyType(<a href='../sys/Obj.html'>Obj</a> obj, <a href='Type.html'>Type</a> t)</code></p>
+
+<p>Verify that <code>Type.of(obj)</code> equals the given type.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#isJs'>isJs</a></li><li><a href='#main'>main</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#curTestMethod'>curTestMethod</a></li><li><a href='#fail'>fail</a></li><li><a href='#setup'>setup</a></li><li><a href='#teardown'>teardown</a></li><li><a href='#tempDir'>tempDir</a></li><li><a href='#verify'>verify</a></li><li><a href='#verifyEq'>verifyEq</a></li><li><a href='#verifyErr'>verifyErr</a></li><li><a href='#verifyFalse'>verifyFalse</a></li><li><a href='#verifyIsType'>verifyIsType</a></li><li><a href='#verifyNotEq'>verifyNotEq</a></li><li><a href='#verifyNotNull'>verifyNotNull</a></li><li><a href='#verifyNotSame'>verifyNotSame</a></li><li><a href='#verifyNull'>verifyNull</a></li><li><a href='#verifySame'>verifySame</a></li><li><a href='#verifyType'>verifyType</a></li></ul>
+</div>
+</div>
+</body>
+</html>

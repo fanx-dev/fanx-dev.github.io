@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::TryStmt</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='TryStmt.html'>TryStmt</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::TryStmt</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    <a href='Stmt.html'>compiler::Stmt</a>
+      compiler::TryStmt</pre>
+
+<p>TryStmt models a try/catch/finally block</p>
+<dl>
+<dt id='block'>
+block</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Block.html'>Block?</a> block</code></p>
+</dd>
+<dt id='catches'>
+catches</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Catch.html'>Catch</a>&gt;</a> catches</code></p>
+</dd>
+<dt id='exception'>
+exception</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr?</a> exception</code></p>
+</dd>
+<dt id='finallyBlock'>
+finallyBlock</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Block.html'>Block?</a> finallyBlock</code></p>
+</dd>
+<dt id='isDefiniteAssign'>
+isDefiniteAssign</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isDefiniteAssign(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='Expr.html'>Expr</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='isExit'>
+isExit</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isExit()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='walkChildren'>
+walkChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> walkChildren(<a href='Visitor.html'>Visitor</a> v, <a href='VisitDepth.html'>VisitDepth</a> depth)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#block'>block</a></li><li><a href='#catches'>catches</a></li><li><a href='#exception'>exception</a></li><li><a href='#finallyBlock'>finallyBlock</a></li><li><a href='#isDefiniteAssign'>isDefiniteAssign</a></li><li><a href='#isExit'>isExit</a></li><li><a href='#print'>print</a></li><li><a href='#walkChildren'>walkChildren</a></li></ul>
+</div>
+</div>
+</body>
+</html>

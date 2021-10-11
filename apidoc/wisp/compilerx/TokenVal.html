@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::TokenVal</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='TokenVal.html'>TokenVal</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::TokenVal</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::TokenVal</pre>
+
+<p>TokenVal stores an instance of a Token at a specific location.</p>
+<dl>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+</dd>
+<dt id='isCallOpenParen'>
+isCallOpenParen</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCallOpenParen()</code></p>
+
+<p>Return if this token is a left opening paren, but only if on the same line:</p>
+
+<p>Ok:</p>
+
+<pre>call(...)</pre>
+
+<p>Not ok:</p>
+
+<pre>call
+  (...)</pre>
+</dd>
+<dt id='isIndexOpenBracket'>
+isIndexOpenBracket</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isIndexOpenBracket()</code></p>
+
+<p>Return if this token is a left opening bracket, but only if on the same line:</p>
+
+<p>Ok:</p>
+
+<pre>expr[...]</pre>
+
+<p>Not ok:</p>
+
+<pre>expr
+  [...]</pre>
+</dd>
+<dt id='kind'>
+kind</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Token.html'>Token</a> kind</code></p>
+</dd>
+<dt id='len'>
+len</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> len</code></p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Loc.html'>Loc</a> loc</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Token.html'>Token</a> kind, <a href='../sys/Obj.html'>Obj?</a> val := null)</code></p>
+</dd>
+<dt id='newline'>
+newline</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> newline</code></p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toCode()</code></p>
+
+<p>Get this token as Fantom source code.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> val</code></p>
+</dd>
+<dt id='whitespace'>
+whitespace</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> whitespace</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#isCallOpenParen'>isCallOpenParen</a></li><li><a href='#isIndexOpenBracket'>isIndexOpenBracket</a></li><li><a href='#kind'>kind</a></li><li><a href='#len'>len</a></li><li><a href='#loc'>loc</a></li><li><a href='#newline'>newline</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#val'>val</a></li><li><a href='#whitespace'>whitespace</a></li></ul>
+</div>
+</div>
+</body>
+</html>

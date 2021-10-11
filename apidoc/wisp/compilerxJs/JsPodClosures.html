@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerxJs::JsPodClosures</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerxJs</a></li><li><a href='JsPodClosures.html'>JsPodClosures</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerxJs::JsPodClosures</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='JsNode.html'>compilerxJs::JsNode</a>
+    compilerxJs::JsPodClosures</pre>
+
+<p>Utility for working with JS closures. Shared by JsPod and JsClosureExpr for writing javascript related to closures.</p>
+
+<p>Every closure in JS requires that we create a <code>fan.sys.Func</code>. The Func requires a <code>ClosureFuncSpec$</code> object that represents the closure specification for the Func.This class analyzes all closures for the pod and creates a static field for each unique ClosureFuncSpec it identifies.Then, when the actual closure Func is created and called, it uses that static field instead of creating a new one every time the closure is called.</p>
+<dl>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='JsCompilerSupport.html'>JsCompilerSupport</a> s)</code></p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> write(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+
+<p>Write the unique closure specification fields for this pod (JsPod)</p>
+</dd>
+<dt id='writeClosure'>
+writeClosure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeClosure(<a href='../compilerx/ClosureExpr.html'>ClosureExpr</a> ce, <a href='JsWriter.html'>JsWriter</a> out)</code></p>
+
+<p>Write the actual closure Func (JsClosureExpr)</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#write'>write</a></li><li><a href='#writeClosure'>writeClosure</a></li></ul>
+</div>
+</div>
+</body>
+</html>

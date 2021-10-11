@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>MemWispSessionStore.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>wisp</a></li><li><a href='src-MemWispSessionStore.fan.html'>MemWispSessionStore.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2010, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Mar 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using web</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** Default memory based web session storage</span>
+<span id='line14'>**</span>
+<span id='line15'>internal const class MemWispSessionStore : Actor, WispSessionStore</span>
+<span id='line16'><b>{</b></span>
+<span id='line17'>  new make<b>(</b>WispService service<b>)</b> : super<b>(</b>ActorPool <b>{</b> it.name = "WispServiceSessions" <b>}</b><b>)</b></span>
+<span id='line18'>  <b>{</b></span>
+<span id='line19'>    this.service = service</span>
+<span id='line20'>  <b>}</b></span>
+<span id='line21'></span>
+<span id='line22'>  override const WispService service</span>
+<span id='line23'></span>
+<span id='line24'>  override Void onStart<b>(</b><b>)</b> <b>{</b> sendLater<b>(</b>houseKeepingPeriod, Msg<b>(</b>"houseKeeping"<b>)</b><b>)</b> <b>}</b></span>
+<span id='line25'></span>
+<span id='line26'>  override Void onStop<b>(</b><b>)</b> <b>{</b> pool.stop <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>  override Str:Obj? load<b>(</b>Str id<b>)</b> <b>{</b> send<b>(</b>Msg<b>(</b>"load", id<b>)</b><b>)</b>.get<b>(</b>timeout<b>)</b> <b>}</b></span>
+<span id='line29'></span>
+<span id='line30'>  override Void save<b>(</b>Str id, <b>[</b>Str:Obj?<b>]</b> map<b>)</b> <b>{</b> send<b>(</b>Msg<b>(</b>"save", id, map<b>)</b><b>)</b> <b>}</b></span>
+<span id='line31'></span>
+<span id='line32'>  override Void delete<b>(</b>Str id<b>)</b> <b>{</b> send<b>(</b>Msg<b>(</b>"delete", id<b>)</b><b>)</b> <b>}</b></span>
+<span id='line33'></span>
+<span id='line34'>  override Obj? receive<b>(</b>Obj? msgObj<b>)</b></span>
+<span id='line35'>  <b>{</b></span>
+<span id='line36'>    try</span>
+<span id='line37'>    <b>{</b></span>
+<span id='line38'>      msg := <b>(</b>Msg<b>)</b>msgObj</span>
+<span id='line39'></span>
+<span id='line40'>      // init or lookup map of sessions</span>
+<span id='line41'>      sessions := Actor.locals<b>[</b>"wisp.sessions"<b>]</b> as Str:MemStoreSession</span>
+<span id='line42'>      if <b>(</b>sessions == null<b>)</b> Actor.locals<b>[</b>"wisp.sessions"<b>]</b> = sessions = Str:MemStoreSession<b>[</b>:<b>]</b></span>
+<span id='line43'></span>
+<span id='line44'>      // dispatch msg to handler method</span>
+<span id='line45'>      switch<b>(</b>msg.cmd<b>)</b></span>
+<span id='line46'>      <b>{</b></span>
+<span id='line47'>        case "houseKeeping": return onHouseKeeping<b>(</b>sessions<b>)</b></span>
+<span id='line48'>        case "load":         return onLoad<b>(</b>sessions, msg<b>)</b></span>
+<span id='line49'>        case "save":         return onSave<b>(</b>sessions, msg<b>)</b></span>
+<span id='line50'>        case "delete":       return onDelete<b>(</b>sessions, msg<b>)</b></span>
+<span id='line51'>      <b>}</b></span>
+<span id='line52'></span>
+<span id='line53'>      echo<b>(</b>"Unhandled msg: $msg.cmd"<b>)</b></span>
+<span id='line54'>    <b>}</b></span>
+<span id='line55'>    catch <b>(</b>Err e<b>)</b> e.trace</span>
+<span id='line56'>    return null</span>
+<span id='line57'>  <b>}</b></span>
+<span id='line58'></span>
+<span id='line59'>  private Obj? onHouseKeeping<b>(</b><b>[</b>Str:MemStoreSession<b>]</b> sessions<b>)</b></span>
+<span id='line60'>  <b>{</b></span>
+<span id='line61'>    // clean-up old sessions after expiration period</span>
+<span id='line62'>    now := Duration.nowTicks</span>
+<span id='line63'>    expired := Str<b>[</b>,<b>]</b></span>
+<span id='line64'>    sessions.each |session|</span>
+<span id='line65'>    <b>{</b></span>
+<span id='line66'>      if <b>(</b>now - session.lastAccess > expirationPeriod.toNanos<b>)</b></span>
+<span id='line67'>        expired.add<b>(</b>session.id<b>)</b></span>
+<span id='line68'>    <b>}</b></span>
+<span id='line69'>    expired.each |id| <b>{</b> sessions.remove<b>(</b>id<b>)</b> <b>}</b></span>
+<span id='line70'>    sendLater<b>(</b>houseKeepingPeriod, Msg<b>(</b>"houseKeeping"<b>)</b><b>)</b></span>
+<span id='line71'>    return null</span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  private Map onLoad<b>(</b><b>[</b>Str:MemStoreSession<b>]</b> sessions, Msg msg<b>)</b></span>
+<span id='line75'>  <b>{</b></span>
+<span id='line76'>    sessions<b>[</b>msg.id<b>]</b>?.map ?: emptyMap</span>
+<span id='line77'>  <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>  private Obj? onSave<b>(</b><b>[</b>Str:MemStoreSession<b>]</b> sessions, Msg msg<b>)</b></span>
+<span id='line80'>  <b>{</b></span>
+<span id='line81'>    session := sessions<b>[</b>msg.id<b>]</b></span>
+<span id='line82'>    if <b>(</b>session == null<b>)</b> sessions<b>[</b>msg.id<b>]</b> = session = MemStoreSession<b>(</b>msg.id<b>)</b></span>
+<span id='line83'>    session.map = msg.map</span>
+<span id='line84'>    session.lastAccess = Duration.nowTicks</span>
+<span id='line85'>    return null</span>
+<span id='line86'>  <b>}</b></span>
+<span id='line87'></span>
+<span id='line88'>  private Obj? onDelete<b>(</b><b>[</b>Str:MemStoreSession<b>]</b> sessions, Msg msg<b>)</b></span>
+<span id='line89'>  <b>{</b></span>
+<span id='line90'>    sessions.remove<b>(</b>msg.id<b>)</b></span>
+<span id='line91'>    return null</span>
+<span id='line92'>  <b>}</b></span>
+<span id='line93'></span>
+<span id='line94'>  const Duration houseKeepingPeriod := 1min</span>
+<span id='line95'>  const Duration expirationPeriod := 24hr</span>
+<span id='line96'>  const Duration timeout := 15sec</span>
+<span id='line97'>  const <b>[</b>Str:Obj?<b>]</b> emptyMap := <b>[</b>:<b>]</b></span>
+<span id='line98'><b>}</b></span>
+<span id='line99'></span>
+<span id='line100'>internal const class Msg</span>
+<span id='line101'><b>{</b></span>
+<span id='line102'>  new make<b>(</b>Str c, Str? i := null, Map? m := null<b>)</b> <b>{</b> cmd = c; id = i; map = m <b>}</b></span>
+<span id='line103'>  const Str cmd</span>
+<span id='line104'>  const Str? id</span>
+<span id='line105'>  const Map? map</span>
+<span id='line106'><b>}</b></span>
+<span id='line107'></span>
+<span id='line108'>internal class MemStoreSession</span>
+<span id='line109'><b>{</b></span>
+<span id='line110'>  new make<b>(</b>Str id<b>)</b> <b>{</b> this.id = id <b>}</b></span>
+<span id='line111'>  const Str id</span>
+<span id='line112'>  Map? map</span>
+<span id='line113'>  Int lastAccess</span>
+<span id='line114'><b>}</b></span>
+<span id='line115'></span>
+</pre>
+</div>
+</body>
+</html>

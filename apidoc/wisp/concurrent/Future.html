@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>concurrent::Future</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>concurrent</a></li><li><a href='Future.html'>Future</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract rtconst virtual class</span> concurrent::Future</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  concurrent::Future</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>Future represents the result of an asynchronous computation.</p>
+
+<p>See <a href='docLang::Actors'>docLang::Actors</a></p>
+<dl>
+<dt id='cancel'>
+cancel</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> cancel()</code></p>
+
+<p>Cancel this computation if it has not begun processing. No guarantee is made that the computation will be cancelled.</p>
+</dd>
+<dt id='complete'>
+complete</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> complete(<a href='../sys/Obj.html'>Obj?</a> val)</code></p>
+
+<p>Complete the future successfully with given value.  Raise an exception if value is not immutable or the future is already complete (ignore this call if cancelled). Raise UnsupportedErr if this future is not completable. Return this. This method is subject to change.</p>
+</dd>
+<dt id='completeErr'>
+completeErr</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> completeErr(<a href='../sys/Err.html'>Err</a> err)</code></p>
+
+<p>Complete the future with a failure condition using given exception.  Raise an exception if the future is already complete (ignore this call if cancelled).  Return this. Raise UnsupportedErr if this future is not completable. This method is subject to change.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Obj.html'>Obj?</a> get(<a href='../std/Duration.html'>Duration?</a> timeout := null)</code></p>
+
+<p>Block current thread until result is ready.  If timeout occurs then TimeoutErr is raised.  A null timeout blocks forever.  If an exception was raised by the asynchronous computation, then it is raised to the caller of this method.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+
+<p>Subclass constructor</p>
+</dd>
+<dt id='makeCompletable'>
+makeCompletable</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Future.html'>Future</a> makeCompletable()</code></p>
+
+<p>Construct a completable future instance in the pending state. This method is subject to change.</p>
+</dd>
+<dt id='state'>
+state</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='FutureState.html'>FutureState</a> state()</code></p>
+
+<p>Current state of asynchronous computation</p>
+</dd>
+<dt id='waitFor'>
+waitFor</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> waitFor(<a href='../std/Duration.html'>Duration?</a> timeout := null)</code></p>
+
+<p>Block until this future transitions to a completed state (ok, err, or canceled).  If timeout is null then block forever, otherwise raise a TimeoutErr if timeout elapses.  Return this.</p>
+</dd>
+<dt id='waitForAll'>
+waitForAll</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> waitForAll(<a href='../sys/List.html'>List&lt;<a href='Future.html'>Future</a>&gt;</a> list, <a href='../std/Duration.html'>Duration?</a> timeout := null)</code></p>
+
+<p>Block on a list of futures until they all transition to a completed state.  If timeout is null block forever, otherwise raise TimeoutErr if any one of the futures does not complete before the timeout elapses.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeCompletable'>makeCompletable</a></li><li><a href='#waitForAll'>waitForAll</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#cancel'>cancel</a></li><li><a href='#complete'>complete</a></li><li><a href='#completeErr'>completeErr</a></li><li><a href='#get'>get</a></li><li><a href='#state'>state</a></li><li><a href='#waitFor'>waitFor</a></li></ul>
+</div>
+</div>
+</body>
+</html>

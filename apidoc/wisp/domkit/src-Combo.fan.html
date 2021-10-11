@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Combo.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Combo.html'>Combo</a></li><li><a href='src-Combo.fan.html'>Combo.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   1 Mar 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Combo combines a TextField and ListButton into a single widget</span>
+<span id='line13'>** that allows a user to select from a list or manually enter a</span>
+<span id='line14'>** value.</span>
+<span id='line15'>**</span>
+<span id='line16'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#combo`</span>
+<span id='line17'>**</span>
+<span id='line18'>@Js class Combo : Elem</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'>  new make<b>(</b><b>)</b> : super<b>(</b>"div"<b>)</b></span>
+<span id='line21'>  <b>{</b></span>
+<span id='line22'>    this.field = TextField</span>
+<span id='line23'>    <b>{</b></span>
+<span id='line24'>      it.onEvent<b>(</b>"keydown", false<b>)</b> |e|</span>
+<span id='line25'>      <b>{</b></span>
+<span id='line26'>        if <b>(</b>e.key == Key.down<b>)</b></span>
+<span id='line27'>        <b>{</b></span>
+<span id='line28'>          e.stop</span>
+<span id='line29'>          button.openPopup</span>
+<span id='line30'>        <b>}</b></span>
+<span id='line31'>      <b>}</b></span>
+<span id='line32'>    <b>}</b></span>
+<span id='line33'></span>
+<span id='line34'>    this.button = ListButton</span>
+<span id='line35'>    <b>{</b></span>
+<span id='line36'>      it.isCombo = true</span>
+<span id='line37'>      it.onSelect</span>
+<span id='line38'>      <b>{</b></span>
+<span id='line39'>        field.val = button.sel.item</span>
+<span id='line40'>        field.focus</span>
+<span id='line41'>        field.fireModify<b>(</b>null<b>)</b></span>
+<span id='line42'>      <b>}</b></span>
+<span id='line43'>    <b>}</b></span>
+<span id='line44'></span>
+<span id='line45'>    this.style.addClass<b>(</b>"domkit-Combo"<b>)</b></span>
+<span id='line46'>    this.add<b>(</b>field<b>)</b></span>
+<span id='line47'>    this.add<b>(</b>button<b>)</b></span>
+<span id='line48'>  <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  ** TextField component of Combo.</span>
+<span id='line51'>  TextField field <b>{</b> private set <b>}</b></span>
+<span id='line52'></span>
+<span id='line53'>  ** The current list items for Combo.</span>
+<span id='line54'>  Str<b>[</b><b>]</b> items</span>
+<span id='line55'>  <b>{</b></span>
+<span id='line56'>    get <b>{</b> button.items <b>}</b></span>
+<span id='line57'>    set <b>{</b> button.items = it <b>}</b></span>
+<span id='line58'>  <b>}</b></span>
+<span id='line59'></span>
+<span id='line60'>  ** Callback to create an 'Elem' representation for a given list</span>
+<span id='line61'>  ** item.  If function does not return an 'Elem' instance, one will</span>
+<span id='line62'>  ** be created using 'toStr' of value.</span>
+<span id='line63'>  Void onElem<b>(</b>|Obj->Obj| f<b>)</b></span>
+<span id='line64'>  <b>{</b></span>
+<span id='line65'>    this.button.onElem<b>(</b>f<b>)</b></span>
+<span id='line66'>  <b>}</b></span>
+<span id='line67'></span>
+<span id='line68'>  override Bool? enabled</span>
+<span id='line69'>  <b>{</b></span>
+<span id='line70'>    get <b>{</b> field.enabled <b>}</b></span>
+<span id='line71'>    set <b>{</b> field.enabled = button.enabled = it <b>}</b></span>
+<span id='line72'>  <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'>  // framework use only</span>
+<span id='line75'>  internal Void update<b>(</b>Str val<b>)</b></span>
+<span id='line76'>  <b>{</b></span>
+<span id='line77'>    i := items.findIndex |i| <b>{</b> i == val <b>}</b></span>
+<span id='line78'>    button.sel.index = i != -1 ? i : 0</span>
+<span id='line79'>  <b>}</b></span>
+<span id='line80'></span>
+<span id='line81'>  private ListButton button</span>
+<span id='line82'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

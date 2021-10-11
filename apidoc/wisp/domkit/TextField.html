@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::TextField</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='TextField.html'>TextField</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::TextField</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    domkit::TextField</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-TextField.fan.html'>Source</a></p>
+
+<p>Text field input element.</p>
+
+<p>See also: <a href='docDomkit::Controls#textField'>docDomkit</a></p>
+<dl>
+<dt id='cols'>
+cols</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> cols</code></p>
+<p class='src'>
+<a href='src-TextField.fan.html#line33'>Source</a></p>
+
+<p>Preferred width of field in columns, or <code>null</code> for default.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-TextField.fan.html'>Source</a></p>
+</dd>
+<dt id='onAction'>
+onAction</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onAction(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-TextField.fan.html#line73'>Source</a></p>
+
+<p>Callback when <code>enter</code> key is pressed.</p>
+</dd>
+<dt id='onModify'>
+onModify</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onModify(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-TextField.fan.html#line70'>Source</a></p>
+
+<p>Callback when value is modified by user.</p>
+</dd>
+<dt id='password'>
+password</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> password</code></p>
+<p class='src'>
+<a href='src-TextField.fan.html#line56'>Source</a></p>
+
+<p>Set to <code>true</code> to mask characters inputed into field.</p>
+</dd>
+<dt id='placeholder'>
+placeholder</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> placeholder</code></p>
+<p class='src'>
+<a href='src-TextField.fan.html#line40'>Source</a></p>
+
+<p>Hint that is displayed in the field before a user enters a value that describes the expected input, or <code>null</code> for no placeholder text.</p>
+</dd>
+<dt id='ro'>
+ro</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> ro</code></p>
+<p class='src'>
+<a href='src-TextField.fan.html#line49'>Source</a></p>
+
+<p>Set to <code>true</code> to set field to readonly mode.</p>
+</dd>
+<dt id='select'>
+select</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> select(<a href='../sys/Int.html'>Int</a> start, <a href='../sys/Int.html'>Int</a> end)</code></p>
+<p class='src'>
+<a href='src-TextField.fan.html#line76'>Source</a></p>
+
+<p>Select given range of text</p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> val</code></p>
+<p class='src'>
+<a href='src-TextField.fan.html#line63'>Source</a></p>
+
+<p>Value of text field.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-TextField.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#cols'>cols</a></li><li><a href='#onAction'>onAction</a></li><li><a href='#onModify'>onModify</a></li><li><a href='#password'>password</a></li><li><a href='#placeholder'>placeholder</a></li><li><a href='#ro'>ro</a></li><li><a href='#select'>select</a></li><li><a href='#val'>val</a></li></ul>
+</div>
+</div>
+</body>
+</html>

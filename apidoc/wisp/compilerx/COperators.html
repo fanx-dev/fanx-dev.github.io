@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::COperators</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='COperators.html'>COperators</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compilerx::COperators</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::COperators</pre>
+
+<p>COperators is used to manage methods annoated with the Operator facet for efficient operator method resolution.</p>
+<dl>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CMethod.html'>CMethod</a>&gt;</a> find(<a href='../sys/Str.html'>Str</a> prefix)</code></p>
+
+<p>Get operators defined for prefix.  For example:</p>
+
+<pre>find("plus") => [plus, plusFloat, plusDecimal]</pre>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CTypeDef.html'>CTypeDef</a> parent)</code></p>
+
+<p>Construct for given parent type</p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CTypeDef.html'>CTypeDef</a> parent { private set }</code></p>
+</dd>
+<dt id='toPrefix'>
+toPrefix</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str?</a> toPrefix(<a href='../sys/Str.html'>Str</a> methodName)</code></p>
+
+<p>Given a method name get the operator prefix:</p>
+
+<pre>"plus"     =>  "plus"
+"plusInt"  =>  "plus"
+"fooBar"   =>  null</pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#toPrefix'>toPrefix</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#find'>find</a></li><li><a href='#parent'>parent</a></li></ul>
+</div>
+</div>
+</body>
+</html>

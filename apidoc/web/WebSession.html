@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::WebSession</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebSession.html'>WebSession</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> web::WebSession</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  web::WebSession</pre>
+<p class='src'>
+<a href='src-WebSession.fan.html'>Source</a></p>
+
+<p>WebSession provides a name/value map associated with a specific browser "connection" to the web server.  Any values stored in a WebSession must be both immutable and serializable.  Get the current WebSession via <code><a href='WebReq.html#session'>WebReq.session</a></code>.</p>
+
+<p>See <a href='index.html#sessions'>pod doc</a>.</p>
+<dl>
+<dt id='delete'>
+delete</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> delete()</code></p>
+<p class='src'>
+<a href='src-WebSession.fan.html#line58'>Source</a></p>
+
+<p>Delete this web session which clears both the user agent cookie and the server side session instance. This method must be called before the WebRes is committed otherwise the server side instance is cleared, but the user agent cookie will remain uncleared.</p>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> each(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/Obj.html'>Obj?</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-WebSession.fan.html#line30'>Source</a></p>
+
+<p>Iterate the key/value pairs</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='../sys/Obj.html'>Obj?</a> get(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Obj.html'>Obj?</a> def := null)</code></p>
+<p class='src'>
+<a href='src-WebSession.fan.html#line35'>Source</a></p>
+
+<p>Get session value or return def if not defined.</p>
+</dd>
+<dt id='id'>
+id</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> id()</code></p>
+<p class='src'>
+<a href='src-WebSession.fan.html'>Source</a></p>
+
+<p>Get the unique id used to identify this session.</p>
+</dd>
+<dt id='map'>
+map</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=&quot;Use get, set, remove, each&quot; }</code><br />abstract <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> map()</code></p>
+<p class='src'>
+<a href='src-WebSession.fan.html#line50'>Source</a></p>
+
+<p>Application name/value pairs which are persisted between HTTP requests.  The values stored in this map must be serializable.</p>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> remove(<a href='../sys/Str.html'>Str</a> name)</code></p>
+<p class='src'>
+<a href='src-WebSession.fan.html#line45'>Source</a></p>
+
+<p>Remove a session key</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='../sys/Void.html'>Void</a> set(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Obj.html'>Obj?</a> val)</code></p>
+<p class='src'>
+<a href='src-WebSession.fan.html#line40'>Source</a></p>
+
+<p>Set a session value which must be immutable and serializable.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-WebSession.fan.html#line25'>Source</a></p>
+
+<p>Return <code><a href='WebSession.html#id'>id</a></code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-WebSession.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#delete'>delete</a></li><li><a href='#each'>each</a></li><li><a href='#get'>get</a></li><li><a href='#id'>id</a></li><li><a href='#map'>map</a></li><li><a href='#remove'>remove</a></li><li><a href='#set'>set</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

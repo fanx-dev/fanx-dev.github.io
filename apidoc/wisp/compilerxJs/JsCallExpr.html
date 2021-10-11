@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerxJs::JsCallExpr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerxJs</a></li><li><a href='JsCallExpr.html'>JsCallExpr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerxJs::JsCallExpr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='JsNode.html'>compilerxJs::JsNode</a>
+    <a href='JsExpr.html'>compilerxJs::JsExpr</a>
+      compilerxJs::JsCallExpr</pre>
+
+<p>JsCallExpr</p>
+<dl>
+<dt id='args'>
+args</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='JsExpr.html'>JsExpr</a>&gt;</a> args</code></p>
+</dd>
+<dt id='dynamicName'>
+dynamicName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> dynamicName</code></p>
+</dd>
+<dt id='isArray'>
+isArray</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isArray</code></p>
+</dd>
+<dt id='isCtor'>
+isCtor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCtor</code></p>
+</dd>
+<dt id='isCtorChain'>
+isCtorChain</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCtorChain</code></p>
+</dd>
+<dt id='isDynamic'>
+isDynamic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isDynamic</code></p>
+</dd>
+<dt id='isMock'>
+isMock</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isMock</code></p>
+</dd>
+<dt id='isObj'>
+isObj</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isObj</code></p>
+</dd>
+<dt id='isPrim'>
+isPrim</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPrim</code></p>
+</dd>
+<dt id='isSafe'>
+isSafe</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSafe</code></p>
+</dd>
+<dt id='isStatic'>
+isStatic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStatic</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='JsCompilerSupport.html'>JsCompilerSupport</a> s, <a href='../compilerx/CallExpr.html'>CallExpr</a> ce)</code></p>
+</dd>
+<dt id='method'>
+method</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsMethodRef.html'>JsMethodRef</a> method</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsTypeRef.html'>JsTypeRef?</a> parent</code></p>
+</dd>
+<dt id='parentExtName'>
+parentExtName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> parentExtName</code></p>
+</dd>
+<dt id='safeVar'>
+safeVar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> safeVar</code></p>
+</dd>
+<dt id='target'>
+target</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsExpr.html'>JsExpr?</a> target</code></p>
+</dd>
+<dt id='targetType'>
+targetType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsTypeRef.html'>JsTypeRef?</a> targetType</code></p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> write(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writeArgs'>
+writeArgs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeArgs(<a href='JsWriter.html'>JsWriter</a> out, <a href='../sys/Bool.html'>Bool</a> hasFirstArg := false)</code></p>
+</dd>
+<dt id='writeArrayCotr'>
+writeArrayCotr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeArrayCotr(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writeCall'>
+writeCall</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeCall(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writeCtorChain'>
+writeCtorChain</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeCtorChain(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writeObj'>
+writeObj</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeObj(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writePrimitive'>
+writePrimitive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writePrimitive(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writeSuper'>
+writeSuper</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeSuper(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+<dt id='writeTarget'>
+writeTarget</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeTarget(<a href='JsWriter.html'>JsWriter</a> out)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#args'>args</a></li><li><a href='#dynamicName'>dynamicName</a></li><li><a href='#isArray'>isArray</a></li><li><a href='#isCtor'>isCtor</a></li><li><a href='#isCtorChain'>isCtorChain</a></li><li><a href='#isDynamic'>isDynamic</a></li><li><a href='#isMock'>isMock</a></li><li><a href='#isObj'>isObj</a></li><li><a href='#isPrim'>isPrim</a></li><li><a href='#isSafe'>isSafe</a></li><li><a href='#isStatic'>isStatic</a></li><li><a href='#method'>method</a></li><li><a href='#name'>name</a></li><li><a href='#parent'>parent</a></li><li><a href='#parentExtName'>parentExtName</a></li><li><a href='#safeVar'>safeVar</a></li><li><a href='#target'>target</a></li><li><a href='#targetType'>targetType</a></li><li><a href='#write'>write</a></li><li><a href='#writeArgs'>writeArgs</a></li><li><a href='#writeArrayCotr'>writeArrayCotr</a></li><li><a href='#writeCall'>writeCall</a></li><li><a href='#writeCtorChain'>writeCtorChain</a></li><li><a href='#writeObj'>writeObj</a></li><li><a href='#writePrimitive'>writePrimitive</a></li><li><a href='#writeSuper'>writeSuper</a></li><li><a href='#writeTarget'>writeTarget</a></li></ul>
+</div>
+</div>
+</body>
+</html>

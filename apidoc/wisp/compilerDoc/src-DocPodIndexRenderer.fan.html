@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocPodIndexRenderer.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocPodIndexRenderer.html'>DocPodIndexRenderer</a></li><li><a href='src-DocPodIndexRenderer.fan.html'>DocPodIndexRenderer.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   13 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using web</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Renders the index of a pod's documents.</span>
+<span id='line13'>**</span>
+<span id='line14'>** Index</span>
+<span id='line15'>** =====</span>
+<span id='line16'>**</span>
+<span id='line17'>**   &lt;h1>&lt;span>pod&lt;/span><b>{</b>pod.qname<b>}</b>&lt;/h1></span>
+<span id='line18'>**   &lt;p><b>{</b>pod.summary<b>}</b>&lt;/p></span>
+<span id='line19'>**</span>
+<span id='line20'>**   &lt;h2><b>{</b>section.name<b>}</b>&lt;/h2></span>
+<span id='line21'>**   &lt;table></span>
+<span id='line22'>**    &lt;tr></span>
+<span id='line23'>**     &lt;td><b>{</b>type.name<b>}</b>&lt;/td></span>
+<span id='line24'>**     &lt;td><b>{</b>type.summary<b>}</b>&lt;/td></span>
+<span id='line25'>**    &lt;/tr></span>
+<span id='line26'>**   &lt;/table></span>
+<span id='line27'>**</span>
+<span id='line28'>** Table of Contents</span>
+<span id='line29'>** =================</span>
+<span id='line30'>**</span>
+<span id='line31'>**   &lt;ul></span>
+<span id='line32'>**    &lt;li>&lt;a>...&lt;/a>&lt;/li></span>
+<span id='line33'>**    &lt;li>&lt;a>...&lt;/a></span>
+<span id='line34'>**     &lt;ul>...&lt;/ul></span>
+<span id='line35'>**    &lt;/li></span>
+<span id='line36'>**   &lt;/ul></span>
+<span id='line37'>**</span>
+<span id='line38'>class DocPodIndexRenderer : DocRenderer</span>
+<span id='line39'><b>{</b></span>
+<span id='line40'>  new make<b>(</b>DocEnv env, WebOutStream out, DocPodIndex doc<b>)</b></span>
+<span id='line41'>    : super<b>(</b>env, out, doc<b>)</b></span>
+<span id='line42'>  <b>{</b></span>
+<span id='line43'>    this.index = doc</span>
+<span id='line44'>  <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  ** Pod index to render</span>
+<span id='line47'>  const DocPodIndex index</span>
+<span id='line48'></span>
+<span id='line49'>  ** Write the content for a pod index.  This delegates</span>
+<span id='line50'>  ** to `writeContentApi` or `writeContentManual`</span>
+<span id='line51'>  override Void writeContent<b>(</b><b>)</b></span>
+<span id='line52'>  <b>{</b></span>
+<span id='line53'>    if <b>(</b>index.pod.isManual<b>)</b></span>
+<span id='line54'>      writeContentManual</span>
+<span id='line55'>    else</span>
+<span id='line56'>      writeContentApi</span>
+<span id='line57'>  <b>}</b></span>
+<span id='line58'></span>
+<span id='line59'>  ** Write the content for an API <b>(</b>non-manual<b>)</b> pod</span>
+<span id='line60'>  virtual Void writeContentApi<b>(</b><b>)</b></span>
+<span id='line61'>  <b>{</b></span>
+<span id='line62'>    // type table</span>
+<span id='line63'>    pod := index.pod</span>
+<span id='line64'>    out.div<b>(</b>"class='mainSidebar'"<b>)</b></span>
+<span id='line65'>    out.div<b>(</b>"class='main type'"<b>)</b></span>
+<span id='line66'>    writeTypes</span>
+<span id='line67'>    out.divEnd</span>
+<span id='line68'></span>
+<span id='line69'>    // type list</span>
+<span id='line70'>    out.div<b>(</b>"class='sidebar'"<b>)</b></span>
+<span id='line71'>    out.h3.w<b>(</b>"All Types"<b>)</b>.h3End</span>
+<span id='line72'>    out.ul</span>
+<span id='line73'>    pod.types.each |t|</span>
+<span id='line74'>    <b>{</b></span>
+<span id='line75'>      out.li</span>
+<span id='line76'>      writeLinkTo<b>(</b>t<b>)</b></span>
+<span id='line77'>      out.liEnd</span>
+<span id='line78'>    <b>}</b></span>
+<span id='line79'>    out.ulEnd</span>
+<span id='line80'>    out.divEnd</span>
+<span id='line81'>    out.divEnd</span>
+<span id='line82'></span>
+<span id='line83'>    // pod doc</span>
+<span id='line84'>    if <b>(</b>pod.podDoc != null<b>)</b></span>
+<span id='line85'>    <b>{</b></span>
+<span id='line86'>      // chapter</span>
+<span id='line87'>      out.div<b>(</b>"class='mainSidebar'"<b>)</b></span>
+<span id='line88'>      out.div<b>(</b>"class='main pod-doc' id='pod-doc'"<b>)</b></span>
+<span id='line89'>      DocChapterRenderer<b>(</b>env, out, pod.podDoc<b>)</b>.writeBody</span>
+<span id='line90'>      out.divEnd</span>
+<span id='line91'></span>
+<span id='line92'>      // toc</span>
+<span id='line93'>      out.div<b>(</b>"class='sidebar'"<b>)</b></span>
+<span id='line94'>      out.h3.w<b>(</b>"Contents"<b>)</b>.h3End</span>
+<span id='line95'>      writePodDocToc<b>(</b>pod.podDoc.headings<b>)</b></span>
+<span id='line96'>      out.divEnd</span>
+<span id='line97'>      out.divEnd</span>
+<span id='line98'>    <b>}</b></span>
+<span id='line99'>  <b>}</b></span>
+<span id='line100'></span>
+<span id='line101'>  ** Render the pod's index of types.</span>
+<span id='line102'>  virtual Void writeTypes<b>(</b><b>)</b></span>
+<span id='line103'>  <b>{</b></span>
+<span id='line104'>    // name</span>
+<span id='line105'>    pod := index.pod</span>
+<span id='line106'>    out.h1.span.w<b>(</b>"pod"<b>)</b>.spanEnd.w<b>(</b>" $pod.name"<b>)</b>.h1End</span>
+<span id='line107'>    out.p.esc<b>(</b>pod.summary<b>)</b>.pEnd</span>
+<span id='line108'></span>
+<span id='line109'>    // list type</span>
+<span id='line110'>    pod.index.toc.each |item,i|</span>
+<span id='line111'>    <b>{</b></span>
+<span id='line112'>      if <b>(</b>item is Str<b>)</b></span>
+<span id='line113'>      <b>{</b></span>
+<span id='line114'>        if <b>(</b>i > 0<b>)</b> out.tableEnd</span>
+<span id='line115'>        out.h2.w<b>(</b>item<b>)</b>.h2End</span>
+<span id='line116'>        out.table</span>
+<span id='line117'>      <b>}</b></span>
+<span id='line118'>      else</span>
+<span id='line119'>      <b>{</b></span>
+<span id='line120'>        type := item as DocType</span>
+<span id='line121'>        out.tr</span>
+<span id='line122'>        out.td; writeLinkTo<b>(</b>type<b>)</b>; out.tdEnd</span>
+<span id='line123'>        out.td</span>
+<span id='line124'>        writeFandoc<b>(</b>type.doc.firstSentence<b>)</b></span>
+<span id='line125'>        out.tdEnd</span>
+<span id='line126'>        out.trEnd</span>
+<span id='line127'>      <b>}</b></span>
+<span id='line128'>    <b>}</b></span>
+<span id='line129'>    out.tableEnd</span>
+<span id='line130'>  <b>}</b></span>
+<span id='line131'></span>
+<span id='line132'>  ** Write out pod-doc table of contents.</span>
+<span id='line133'>  virtual Void writePodDocToc<b>(</b>DocHeading<b>[</b><b>]</b> headings<b>)</b></span>
+<span id='line134'>  <b>{</b></span>
+<span id='line135'>    out.ul</span>
+<span id='line136'>    headings.each |h|</span>
+<span id='line137'>    <b>{</b></span>
+<span id='line138'>      out.li.a<b>(</b>`#$h.anchorId`<b>)</b>.esc<b>(</b>h.title<b>)</b>.aEnd</span>
+<span id='line139'>      if <b>(</b>!h.children.isEmpty<b>)</b> writePodDocToc<b>(</b>h.children<b>)</b></span>
+<span id='line140'>      out.liEnd</span>
+<span id='line141'>    <b>}</b></span>
+<span id='line142'>    out.ulEnd</span>
+<span id='line143'>  <b>}</b></span>
+<span id='line144'></span>
+<span id='line145'>  ** Write the content for a manual pod</span>
+<span id='line146'>  virtual Void writeContentManual<b>(</b><b>)</b></span>
+<span id='line147'>  <b>{</b></span>
+<span id='line148'>    // name</span>
+<span id='line149'>    pod := index.pod</span>
+<span id='line150'>    out.h1.w<b>(</b>pod.name<b>)</b>.h1End</span>
+<span id='line151'>    out.p.esc<b>(</b>pod.summary<b>)</b>.pEnd</span>
+<span id='line152'></span>
+<span id='line153'>    // contents</span>
+<span id='line154'>    out.div<b>(</b>"class='toc'"<b>)</b></span>
+<span id='line155'>    open  := false</span>
+<span id='line156'>    pod.index.toc.each |item|</span>
+<span id='line157'>    <b>{</b></span>
+<span id='line158'>      if <b>(</b>item is Str<b>)</b></span>
+<span id='line159'>      <b>{</b></span>
+<span id='line160'>        // close open list</span>
+<span id='line161'>        if <b>(</b>open<b>)</b> out.olEnd</span>
+<span id='line162'>        open = false</span>
+<span id='line163'></span>
+<span id='line164'>        // part header</span>
+<span id='line165'>        out.h2.esc<b>(</b>item<b>)</b>.h2End</span>
+<span id='line166'>      <b>}</b></span>
+<span id='line167'>      else</span>
+<span id='line168'>      <b>{</b></span>
+<span id='line169'>        if <b>(</b>!open<b>)</b> out.ol</span>
+<span id='line170'>        open = true</span>
+<span id='line171'></span>
+<span id='line172'>        // chapter</span>
+<span id='line173'>        c := item as DocChapter</span>
+<span id='line174'>        out.li<b>(</b>"value='$c.num'"<b>)</b></span>
+<span id='line175'>        writeLinkTo<b>(</b>c<b>)</b></span>
+<span id='line176'>        out.p.esc<b>(</b>c.summary<b>)</b>.pEnd</span>
+<span id='line177'>        out.p</span>
+<span id='line178'>        c.headings.each |h, i|</span>
+<span id='line179'>        <b>{</b></span>
+<span id='line180'>          if <b>(</b>i > 0<b>)</b> out.w<b>(</b>", "<b>)</b></span>
+<span id='line181'>          writeLinkTo<b>(</b>c, h.title, h.anchorId<b>)</b></span>
+<span id='line182'>        <b>}</b></span>
+<span id='line183'>        out.pEnd.liEnd</span>
+<span id='line184'>      <b>}</b></span>
+<span id='line185'>    <b>}</b></span>
+<span id='line186'>    if <b>(</b>open<b>)</b> out.olEnd</span>
+<span id='line187'>    out.divEnd</span>
+<span id='line188'>  <b>}</b></span>
+<span id='line189'></span>
+<span id='line190'><b>}</b></span>
+<span id='line191'></span>
+</pre>
+</div>
+</body>
+</html>

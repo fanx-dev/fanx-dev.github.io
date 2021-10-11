@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::BuildJava</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='BuildJava.html'>BuildJava</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> build::BuildJava</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='BuildScript.html'>build::BuildScript</a>
+    build::BuildJava</pre>
+
+<p>BuildJava is the base class for build scripts used to manage building Java source code into a Java jar file.</p>
+<dl>
+<dt id='clean'>
+clean</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Target.html'>Target</a> { help=... }</code><br /> <a href='../sys/Void.html'>Void</a> clean()</code></p>
+
+<p>Delete all intermediate and target files</p>
+</dd>
+<dt id='compile'>
+compile</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Target.html'>Target</a> { help=&quot;Compile Java source into jar&quot; }</code><br /> <a href='../sys/Void.html'>Void</a> compile()</code></p>
+
+<p>Compile Java source into jar</p>
+</dd>
+<dt id='cp'>
+cp</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> cp</code></p>
+
+<p>List of files to include in compiler classpath.  The core Java rt.jar is always implied and should not be specified. These URIs are relative to the script dir.</p>
+</dd>
+<dt id='dumpEnv'>
+dumpEnv</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> dumpEnv()</code></p>
+</dd>
+<dt id='full'>
+full</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Target.html'>Target</a> { help=&quot;Run clean, compile&quot; }</code><br /> <a href='../sys/Void.html'>Void</a> full()</code></p>
+
+<p>Run clean, compile</p>
+</dd>
+<dt id='jar'>
+jar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri?</a> jar</code></p>
+
+<p>Required target jar file to build</p>
+</dd>
+<dt id='mainClass'>
+mainClass</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> mainClass</code></p>
+
+<p>Main class name to add to manifest if not null.</p>
+</dd>
+<dt id='packages'>
+packages</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;?</a> packages</code></p>
+
+<p>Required list of dotted package names to compile.  Each of these packages must have a corresponding source directory relative to the script directory.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#clean'>clean</a></li><li><a href='#compile'>compile</a></li><li><a href='#cp'>cp</a></li><li><a href='#dumpEnv'>dumpEnv</a></li><li><a href='#full'>full</a></li><li><a href='#jar'>jar</a></li><li><a href='#mainClass'>mainClass</a></li><li><a href='#packages'>packages</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::TableModel</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='TableModel.html'>TableModel</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::TableModel</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  domkit::TableModel</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1212'>Source</a></p>
+
+<p>TableModel backs the data model for a <code><a href='Table.html'>Table</a></code></p>
+<dl>
+<dt id='colWidth'>
+colWidth</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> colWidth(<a href='../sys/Int.html'>Int</a> col)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1225'>Source</a></p>
+
+<p>Return width of given column.</p>
+</dd>
+<dt id='headerHeight'>
+headerHeight</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> headerHeight()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1222'>Source</a></p>
+
+<p>Return height of header.</p>
+</dd>
+<dt id='isVisibleDef'>
+isVisibleDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isVisibleDef(<a href='../sys/Int.html'>Int</a> col)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1240'>Source</a></p>
+
+<p>Return default visible/hidden state for column</p>
+</dd>
+<dt id='item'>
+item</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Obj.html'>Obj</a> item(<a href='../sys/Int.html'>Int</a> row)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1231'>Source</a></p>
+
+<p>Return item for the given row to be used with selection.</p>
+</dd>
+<dt id='numCols'>
+numCols</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> numCols()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1216'>Source</a></p>
+
+<p>Number of columns in table.</p>
+</dd>
+<dt id='numRows'>
+numRows</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> numRows()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1219'>Source</a></p>
+
+<p>Number of rows in table.</p>
+</dd>
+<dt id='onCell'>
+onCell</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onCell(<a href='../dom/Elem.html'>Elem</a> cell, <a href='../sys/Int.html'>Int</a> col, <a href='../sys/Int.html'>Int</a> row, <a href='TableFlags.html'>TableFlags</a> flags)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1243'>Source</a></p>
+
+<p>Callback to update the cell content at given location.</p>
+</dd>
+<dt id='onHeader'>
+onHeader</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onHeader(<a href='../dom/Elem.html'>Elem</a> header, <a href='../sys/Int.html'>Int</a> col)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1234'>Source</a></p>
+
+<p>Callback to update content for column header at given index.</p>
+</dd>
+<dt id='rowHeight'>
+rowHeight</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> rowHeight()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1228'>Source</a></p>
+
+<p>Return height of rows.</p>
+</dd>
+<dt id='sortCompare'>
+sortCompare</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Int.html'>Int</a> sortCompare(<a href='../sys/Int.html'>Int</a> col, <a href='../sys/Int.html'>Int</a> row1, <a href='../sys/Int.html'>Int</a> row2)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line1249'>Source</a></p>
+
+<p>Compare two cells when sorting the given col.  Return -1, 0, or 1 according to the same semanatics as <code><a href='../sys/Obj.html#compare'>Obj.compare</a></code>. See <code><a href='Table.html#sort'>Table.sort</a></code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Table.fan.html#line1212'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#colWidth'>colWidth</a></li><li><a href='#headerHeight'>headerHeight</a></li><li><a href='#isVisibleDef'>isVisibleDef</a></li><li><a href='#item'>item</a></li><li><a href='#numCols'>numCols</a></li><li><a href='#numRows'>numRows</a></li><li><a href='#onCell'>onCell</a></li><li><a href='#onHeader'>onHeader</a></li><li><a href='#rowHeight'>rowHeight</a></li><li><a href='#sortCompare'>sortCompare</a></li></ul>
+</div>
+</div>
+</body>
+</html>

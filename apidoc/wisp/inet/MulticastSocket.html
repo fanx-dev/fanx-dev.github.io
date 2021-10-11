@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inet::MulticastSocket</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='MulticastSocket.html'>MulticastSocket</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> inet::MulticastSocket</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='UdpSocket.html'>inet::UdpSocket</a>
+    inet::MulticastSocket</pre>
+<p class='src'>
+<a href='src-MulticastSocket.fan.html'>Source</a></p>
+
+<p>MulticastSocket extends UdpSocket to provide multicast capabilities.</p>
+<dl>
+<dt id='interface'>
+interface</dt>
+<dd>
+<p class='sig'>
+<code> <a href='IpInterface.html'>IpInterface</a> interface</code></p>
+<p class='src'>
+<a href='src-MulticastSocket.fan.html#line22'>Source</a></p>
+
+<p>Default network interface for outgoing datagrams on this socket</p>
+</dd>
+<dt id='joinGroup'>
+joinGroup</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> joinGroup(<a href='IpAddr.html'>IpAddr</a> addr, <a href='../sys/Int.html'>Int?</a> port := null, <a href='IpInterface.html'>IpInterface?</a> interface := null)</code></p>
+<p class='src'>
+<a href='src-MulticastSocket.fan.html#line44'>Source</a></p>
+
+<p>Join a multicast group.  If interface parameter is null, then <code><a href='MulticastSocket.html#interface'>interface</a></code> field is used.  Return this.</p>
+</dd>
+<dt id='leaveGroup'>
+leaveGroup</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> leaveGroup(<a href='IpAddr.html'>IpAddr</a> addr, <a href='../sys/Int.html'>Int?</a> port := null, <a href='IpInterface.html'>IpInterface?</a> interface := null)</code></p>
+<p class='src'>
+<a href='src-MulticastSocket.fan.html#line50'>Source</a></p>
+
+<p>Leave a multicast group.  If interface parameter is null, then <code><a href='MulticastSocket.html#interface'>interface</a></code> field is used.  Return this.</p>
+</dd>
+<dt id='loopbackMode'>
+loopbackMode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> loopbackMode</code></p>
+<p class='src'>
+<a href='src-MulticastSocket.fan.html#line39'>Source</a></p>
+
+<p>True to enable outgoing packets to be received by the local socket.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='SocketConfig.html'>SocketConfig</a> config := SocketConfig.cur())</code></p>
+<p class='src'>
+<a href='src-MulticastSocket.fan.html'>Source</a></p>
+
+<p>Make a new unbound multicast UDP socket.</p>
+</dd>
+<dt id='timeToLive'>
+timeToLive</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> timeToLive</code></p>
+<p class='src'>
+<a href='src-MulticastSocket.fan.html#line33'>Source</a></p>
+
+<p>Default time to live for packets send on this socket.  Value must be between 0 and 255.  TTL of zero is only delivered locally.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-MulticastSocket.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#interface'>interface</a></li><li><a href='#joinGroup'>joinGroup</a></li><li><a href='#leaveGroup'>leaveGroup</a></li><li><a href='#loopbackMode'>loopbackMode</a></li><li><a href='#timeToLive'>timeToLive</a></li></ul>
+</div>
+</div>
+</body>
+</html>

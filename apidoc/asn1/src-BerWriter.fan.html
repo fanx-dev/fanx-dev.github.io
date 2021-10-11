@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>BerWriter.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='BerWriter.html'>BerWriter</a></li><li><a href='src-BerWriter.fan.html'>BerWriter.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   05 Aug 2021 Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using math</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** BerWriter encodes ASN.1 objects using the Basic Encoding Rules.</span>
+<span id='line13'>**</span>
+<span id='line14'>class BerWriter</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'>// Constructor</span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'></span>
+<span id='line21'>  static Buf toBuf<b>(</b>AsnObj obj, Buf buf := Buf<b>(</b><b>)</b><b>)</b></span>
+<span id='line22'>  <b>{</b></span>
+<span id='line23'>    BerWriter<b>(</b>buf.out<b>)</b>.write<b>(</b>obj<b>)</b></span>
+<span id='line24'>    return buf.flip</span>
+<span id='line25'>  <b>}</b></span>
+<span id='line26'></span>
+<span id='line27'>  new make<b>(</b>OutStream out<b>)</b></span>
+<span id='line28'>  <b>{</b></span>
+<span id='line29'>    this.out = out</span>
+<span id='line30'>  <b>}</b></span>
+<span id='line31'></span>
+<span id='line32'>  private OutStream out</span>
+<span id='line33'></span>
+<span id='line34'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line35'>// BerWriter</span>
+<span id='line36'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line37'></span>
+<span id='line38'>  Bool close<b>(</b><b>)</b> <b>{</b> out.close <b>}</b></span>
+<span id='line39'></span>
+<span id='line40'>  This write<b>(</b>AsnObj obj<b>)</b> <b>{</b> doWrite<b>(</b>obj, out<b>)</b> <b>}</b></span>
+<span id='line41'></span>
+<span id='line42'>  private This doWrite<b>(</b>AsnObj obj, OutStream out<b>)</b></span>
+<span id='line43'>  <b>{</b></span>
+<span id='line44'>    tlv := writeVal<b>(</b>obj<b>)</b></span>
+<span id='line45'></span>
+<span id='line46'>    // Any is assumed to be already encoded, so we</span>
+<span id='line47'>    // don't need to write any tags</span>
+<span id='line48'>    if <b>(</b>obj.isAny<b>)</b></span>
+<span id='line49'>    <b>{</b></span>
+<span id='line50'>      out.writeBuf<b>(</b>tlv.seek<b>(</b>0<b>)</b><b>)</b></span>
+<span id='line51'>      return this</span>
+<span id='line52'>    <b>}</b></span>
+<span id='line53'></span>
+<span id='line54'>    format := obj.isPrimitive ? Format.primitive : Format.constructed</span>
+<span id='line55'>    obj.effectiveTags.reverse.each |tag, i|</span>
+<span id='line56'>    <b>{</b></span>
+<span id='line57'>      temp := Buf<b>(</b>tlv.size + 4<b>)</b></span>
+<span id='line58'>      if <b>(</b>i != 0<b>)</b> format = Format.constructed</span>
+<span id='line59'></span>
+<span id='line60'>      // TLV</span>
+<span id='line61'>      writeTag<b>(</b>tag, format, temp.out<b>)</b></span>
+<span id='line62'>        .writeLen<b>(</b>tlv.size, temp.out<b>)</b></span>
+<span id='line63'>      temp.writeBuf<b>(</b>tlv.seek<b>(</b>0<b>)</b><b>)</b></span>
+<span id='line64'></span>
+<span id='line65'>      tlv = temp</span>
+<span id='line66'>    <b>}</b></span>
+<span id='line67'>    out.writeBuf<b>(</b>tlv.seek<b>(</b>0<b>)</b><b>)</b></span>
+<span id='line68'></span>
+<span id='line69'>    return this</span>
+<span id='line70'>  <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line73'>// T - Tag</span>
+<span id='line74'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line75'></span>
+<span id='line76'>  @NoDoc This writeTag<b>(</b>AsnTag tag, Format format, OutStream out<b>)</b></span>
+<span id='line77'>  <b>{</b></span>
+<span id='line78'>    v := tag.cls.mask.or<b>(</b>format.mask<b>)</b></span>
+<span id='line79'>    if <b>(</b>tag.id &lt; 31<b>)</b></span>
+<span id='line80'>    <b>{</b></span>
+<span id='line81'>      v = v.or<b>(</b>tag.id<b>)</b></span>
+<span id='line82'>      out.write<b>(</b>v<b>)</b></span>
+<span id='line83'>    <b>}</b></span>
+<span id='line84'>    else</span>
+<span id='line85'>    <b>{</b></span>
+<span id='line86'>      // TODO: special encoding for ids >= 31</span>
+<span id='line87'>      throw UnsupportedErr<b>(</b>"Tag id '$<b>{</b>tag.id<b>}</b>' is not supported"<b>)</b></span>
+<span id='line88'>    <b>}</b></span>
+<span id='line89'>    return this</span>
+<span id='line90'>  <b>}</b></span>
+<span id='line91'></span>
+<span id='line92'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line93'>// L - Length</span>
+<span id='line94'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line95'></span>
+<span id='line96'>  @NoDoc This writeLen<b>(</b>Int len, OutStream out<b>)</b></span>
+<span id='line97'>  <b>{</b></span>
+<span id='line98'>    if <b>(</b>len &lt; 0<b>)</b> throw AsnErr<b>(</b>"Length cannot be negative: $len"<b>)</b></span>
+<span id='line99'></span>
+<span id='line100'>    if <b>(</b>len &lt; 128<b>)</b> out.write<b>(</b>len<b>)</b></span>
+<span id='line101'>    else</span>
+<span id='line102'>    <b>{</b></span>
+<span id='line103'>      // definite long-form</span>
+<span id='line104'>      octets := Int<b>[</b>,<b>]</b></span>
+<span id='line105'>      while <b>(</b>len != 0<b>)</b></span>
+<span id='line106'>      <b>{</b></span>
+<span id='line107'>        octets.add<b>(</b>len.and<b>(</b>0xff<b>)</b><b>)</b></span>
+<span id='line108'>        len = len.shiftr<b>(</b>8<b>)</b></span>
+<span id='line109'>      <b>}</b></span>
+<span id='line110'>      numOctets := octets.size</span>
+<span id='line111'>      if <b>(</b>numOctets > 127<b>)</b> throw AsnErr<b>(</b>"Too many octets for encoding length: $len"<b>)</b></span>
+<span id='line112'></span>
+<span id='line113'>      out.write<b>(</b>numOctets.or<b>(</b>0x80<b>)</b><b>)</b></span>
+<span id='line114'>      octets.eachr |octet| <b>{</b> out.write<b>(</b>octet<b>)</b> <b>}</b></span>
+<span id='line115'>    <b>}</b></span>
+<span id='line116'>    return this</span>
+<span id='line117'>  <b>}</b></span>
+<span id='line118'></span>
+<span id='line119'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line120'>// V - Value</span>
+<span id='line121'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line122'></span>
+<span id='line123'>  @NoDoc Buf writeVal<b>(</b>AsnObj obj, Buf buf := Buf<b>(</b>64<b>)</b><b>)</b></span>
+<span id='line124'>  <b>{</b></span>
+<span id='line125'>    switch <b>(</b>obj.univTag<b>)</b></span>
+<span id='line126'>    <b>{</b></span>
+<span id='line127'>      case AsnTag.univSeq:</span>
+<span id='line128'>      case AsnTag.univSet:</span>
+<span id='line129'>        // fall-through</span>
+<span id='line130'>        return writeColl<b>(</b>obj, buf<b>)</b></span>
+<span id='line131'>      case AsnTag.univBool:     return writeBool<b>(</b>obj.bool, buf<b>)</b></span>
+<span id='line132'>      case AsnTag.univInt:      return writeInt<b>(</b>obj.bigInt, buf<b>)</b></span>
+<span id='line133'>      case AsnTag.univBits:     return writeBits<b>(</b>obj, buf<b>)</b></span>
+<span id='line134'>      case AsnTag.univOcts:     return writeOcts<b>(</b>obj, buf<b>)</b></span>
+<span id='line135'>      case AsnTag.univNull:     return writeNull<b>(</b>buf<b>)</b></span>
+<span id='line136'>      case AsnTag.univOid:      return writeOid<b>(</b>obj.oid, buf<b>)</b></span>
+<span id='line137'>      case AsnTag.univEnum:     return writeInt<b>(</b>obj.bigInt, buf<b>)</b></span>
+<span id='line138'>      case AsnTag.univUtf8:</span>
+<span id='line139'>      case AsnTag.univPrintStr:</span>
+<span id='line140'>      case AsnTag.univIa5Str:</span>
+<span id='line141'>      case AsnTag.univVisStr:</span>
+<span id='line142'>        // fall-through</span>
+<span id='line143'>        return writeUtf8<b>(</b>obj.str, buf<b>)</b></span>
+<span id='line144'>      case AsnTag.univUtcTime:  return writeUtcTime<b>(</b>obj.ts, buf<b>)</b></span>
+<span id='line145'>      case AsnTag.univGenTime:  return writeGenTime<b>(</b>obj.ts, buf<b>)</b></span>
+<span id='line146'>      case AsnTag.univAny:      return writeAny<b>(</b>obj, buf<b>)</b></span>
+<span id='line147'>      default: throw AsnErr<b>(</b>"No writer for $obj"<b>)</b></span>
+<span id='line148'>    <b>}</b></span>
+<span id='line149'>    return buf</span>
+<span id='line150'>  <b>}</b></span>
+<span id='line151'></span>
+<span id='line152'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line153'>// Any</span>
+<span id='line154'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line155'></span>
+<span id='line156'>  @NoDoc virtual Buf writeAny<b>(</b>AsnBin any, Buf buf:= Buf<b>(</b>any.size<b>)</b><b>)</b></span>
+<span id='line157'>  <b>{</b></span>
+<span id='line158'>    buf.writeBuf<b>(</b>any.forRead<b>)</b></span>
+<span id='line159'>  <b>}</b></span>
+<span id='line160'></span>
+<span id='line161'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line162'>// Boolean</span>
+<span id='line163'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line164'></span>
+<span id='line165'>  @NoDoc Buf writeBool<b>(</b>Bool val, Buf buf := Buf<b>(</b>1<b>)</b><b>)</b></span>
+<span id='line166'>  <b>{</b></span>
+<span id='line167'>    return val ? buf.write<b>(</b>0xff<b>)</b> : buf.write<b>(</b>0x00<b>)</b></span>
+<span id='line168'>  <b>}</b></span>
+<span id='line169'></span>
+<span id='line170'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line171'>// Integer</span>
+<span id='line172'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line173'></span>
+<span id='line174'>  @NoDoc Buf writeInt<b>(</b>Obj val, Buf buf := Buf<b>(</b><b>)</b><b>)</b></span>
+<span id='line175'>  <b>{</b></span>
+<span id='line176'>    if <b>(</b>val is Int<b>)</b> val = BigInt.makeInt<b>(</b>val<b>)</b></span>
+<span id='line177'>    int := val as BigInt ?: throw ArgErr<b>(</b>"Not an int: $val <b>(</b>$val.typeof<b>)</b>"<b>)</b></span>
+<span id='line178'>    if <b>(</b>int == BigInt.zero<b>)</b> return buf.write<b>(</b>0<b>)</b></span>
+<span id='line179'>    return buf.writeBuf<b>(</b>int.toBuf<b>)</b></span>
+<span id='line180'>  <b>}</b></span>
+<span id='line181'></span>
+<span id='line182'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line183'>// Bit String</span>
+<span id='line184'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line185'></span>
+<span id='line186'>  @NoDoc Buf writeBits<b>(</b>AsnBin bits, Buf buf := Buf<b>(</b>bits.size+1<b>)</b><b>)</b></span>
+<span id='line187'>  <b>{</b></span>
+<span id='line188'>    raw := bits.buf</span>
+<span id='line189'></span>
+<span id='line190'>    // TODO: not sure if this is a problem or not, but since</span>
+<span id='line191'>    // we model bits as underlying Buf, we always encode full</span>
+<span id='line192'>    // last octet and we don't really know if trailing zeroes</span>
+<span id='line193'>    // in that octet are unused or not.</span>
+<span id='line194'>    //</span>
+<span id='line195'>    // So we always write '0' for number of unused bits</span>
+<span id='line196'>    buf.write<b>(</b>0x00<b>)</b></span>
+<span id='line197'></span>
+<span id='line198'>    // if all zero bits, then we are done</span>
+<span id='line199'>    allZero := raw.toHex.all |c| <b>{</b> c == '0'<b>}</b></span>
+<span id='line200'>    return allZero ? buf : buf.writeBuf<b>(</b>raw<b>)</b></span>
+<span id='line201'>  <b>}</b></span>
+<span id='line202'></span>
+<span id='line203'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line204'>// Octets</span>
+<span id='line205'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line206'></span>
+<span id='line207'>  @NoDoc Buf writeOcts<b>(</b>AsnBin octets, Buf buf := Buf<b>(</b>octets.size<b>)</b><b>)</b></span>
+<span id='line208'>  <b>{</b></span>
+<span id='line209'>    buf.writeBuf<b>(</b>octets.buf<b>)</b></span>
+<span id='line210'>  <b>}</b></span>
+<span id='line211'></span>
+<span id='line212'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line213'>// Null</span>
+<span id='line214'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line215'></span>
+<span id='line216'>  @NoDoc Buf writeNull<b>(</b>Buf buf := Buf<b>(</b>0<b>)</b><b>)</b></span>
+<span id='line217'>  <b>{</b></span>
+<span id='line218'>    buf</span>
+<span id='line219'>  <b>}</b></span>
+<span id='line220'></span>
+<span id='line221'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line222'>// Object Identifier</span>
+<span id='line223'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line224'></span>
+<span id='line225'>  @NoDoc Buf writeOid<b>(</b>AsnOid oid, Buf buf := Buf<b>(</b>64<b>)</b><b>)</b></span>
+<span id='line226'>  <b>{</b></span>
+<span id='line227'>    ids := oid.ids</span>
+<span id='line228'></span>
+<span id='line229'>    // sanity check</span>
+<span id='line230'>    if <b>(</b>ids.size &lt; 2<b>)</b> throw AsnErr<b>(</b>"Oid must have at least two arcs: $ids"<b>)</b></span>
+<span id='line231'>    if <b>(</b><b>(</b>ids<b>[</b>0<b>]</b> > 2<b>)</b>                 ||</span>
+<span id='line232'>        <b>(</b>ids<b>[</b>0<b>]</b> == 0 &amp;&amp; ids<b>[</b>1<b>]</b> > 39<b>)</b> ||</span>
+<span id='line233'>        <b>(</b>ids<b>[</b>0<b>]</b> == 1 &amp;&amp; ids<b>[</b>1<b>]</b> > 39<b>)</b><b>)</b> throw AsnErr<b>(</b>"Invalid initial arc $<b>{</b>ids<b>[</b>0<b>]</b><b>}</b>.$<b>{</b>ids<b>[</b>1<b>]</b><b>}</b>: "<b>)</b></span>
+<span id='line234'></span>
+<span id='line235'>    // special encoding for first 2 arcs</span>
+<span id='line236'>    first := <b>(</b>ids<b>[</b>0<b>]</b> * 40<b>)</b> + ids<b>[</b>1<b>]</b></span>
+<span id='line237'></span>
+<span id='line238'>    <b>[</b>first<b>]</b>.addAll<b>(</b>ids<b>[</b>2..-1<b>]</b><b>)</b>.each |subId|</span>
+<span id='line239'>    <b>{</b></span>
+<span id='line240'>      if <b>(</b>subId &lt; 0<b>)</b> throw AsnErr<b>(</b>"Negative sub-id: $subId"<b>)</b></span>
+<span id='line241'>      if <b>(</b>subId &lt; 128<b>)</b> buf.write<b>(</b>subId.and<b>(</b>0x7f<b>)</b><b>)</b></span>
+<span id='line242'>      else</span>
+<span id='line243'>      <b>{</b></span>
+<span id='line244'>        octets := Int<b>[</b>,<b>]</b></span>
+<span id='line245'>        // last octet must have zero in bit 8.</span>
+<span id='line246'>        octets.add<b>(</b>subId.and<b>(</b>0x7f<b>)</b><b>)</b></span>
+<span id='line247'>        subId = subId.shiftr<b>(</b>7<b>)</b></span>
+<span id='line248'>        while <b>(</b>subId != 0<b>)</b></span>
+<span id='line249'>        <b>{</b></span>
+<span id='line250'>          // all other octets must "more" bit set <b>(</b>bit 8<b>)</b></span>
+<span id='line251'>          octets.add<b>(</b>subId.and<b>(</b>0x7f<b>)</b>.or<b>(</b>0x80<b>)</b><b>)</b></span>
+<span id='line252'>          subId = subId.shiftr<b>(</b>7<b>)</b></span>
+<span id='line253'>        <b>}</b></span>
+<span id='line254'>        octets.reverse.each <b>{</b> buf.write<b>(</b>it<b>)</b> <b>}</b></span>
+<span id='line255'>      <b>}</b></span>
+<span id='line256'>    <b>}</b></span>
+<span id='line257'>    return buf</span>
+<span id='line258'>  <b>}</b></span>
+<span id='line259'></span>
+<span id='line260'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line261'>// Strings</span>
+<span id='line262'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line263'></span>
+<span id='line264'>  ** All the supported string types are utf-8 or a proper subset <b>(</b>ascii<b>)</b></span>
+<span id='line265'>  @NoDoc Buf writeUtf8<b>(</b>Str str, Buf buf := Buf<b>(</b>str.chars.size<b>)</b><b>)</b></span>
+<span id='line266'>  <b>{</b></span>
+<span id='line267'>    buf.writeBuf<b>(</b>str.toBuf<b>(</b>Charset.utf8<b>)</b><b>)</b></span>
+<span id='line268'>  <b>}</b></span>
+<span id='line269'></span>
+<span id='line270'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line271'>// Timestamps</span>
+<span id='line272'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line273'></span>
+<span id='line274'>  @NoDoc Buf writeUtcTime<b>(</b>DateTime ts, Buf buf := Buf<b>(</b>30<b>)</b><b>)</b></span>
+<span id='line275'>  <b>{</b></span>
+<span id='line276'>    writeTimestamp<b>(</b>ts, buf, false<b>)</b></span>
+<span id='line277'>  <b>}</b></span>
+<span id='line278'></span>
+<span id='line279'>  @NoDoc Buf writeGenTime<b>(</b>DateTime ts, Buf buf := Buf<b>(</b>30<b>)</b><b>)</b></span>
+<span id='line280'>  <b>{</b></span>
+<span id='line281'>    writeTimestamp<b>(</b>ts, buf, true<b>)</b></span>
+<span id='line282'>  <b>}</b></span>
+<span id='line283'></span>
+<span id='line284'>  ** NOTE: we always convert the time stamp to UTC. This makes</span>
+<span id='line285'>  ** the encoding a valid DER encoding also.</span>
+<span id='line286'>  private Buf writeTimestamp<b>(</b>DateTime ts, Buf buf, Bool isGenTime<b>)</b></span>
+<span id='line287'>  <b>{</b></span>
+<span id='line288'>    // convert to UTC</span>
+<span id='line289'>    dt := ts.toTimeZone<b>(</b>TimeZone.utc<b>)</b></span>
+<span id='line290'>    millis := Duration.fromNanos<b>(</b>dt.nanoSec<b>)</b>.toMillis</span>
+<span id='line291'></span>
+<span id='line292'>    // build up pattern</span>
+<span id='line293'>    pattern := StrBuf<b>(</b><b>)</b></span>
+<span id='line294'>    pattern.add<b>(</b>"YY"<b>)</b></span>
+<span id='line295'>    // GenTime is 4-digit year</span>
+<span id='line296'>    if <b>(</b>isGenTime<b>)</b> pattern.add <b>(</b>"YY"<b>)</b></span>
+<span id='line297'>    pattern.add<b>(</b>"MM"<b>)</b>.add<b>(</b>"DD"<b>)</b></span>
+<span id='line298'>    pattern.add<b>(</b>"hh"<b>)</b>.add<b>(</b>"mm"<b>)</b></span>
+<span id='line299'>    if <b>(</b>dt.sec != 0<b>)</b> pattern.add<b>(</b>"ss"<b>)</b></span>
+<span id='line300'>    if <b>(</b>millis != 0<b>)</b> pattern.add<b>(</b>".FFF"<b>)</b></span>
+<span id='line301'>    pattern.add<b>(</b>"z"<b>)</b></span>
+<span id='line302'></span>
+<span id='line303'>    // get encoded format and write it</span>
+<span id='line304'>    enc := dt.toLocale<b>(</b>pattern.toStr, Locale.en<b>)</b></span>
+<span id='line305'>    return buf.writeChars<b>(</b>enc<b>)</b></span>
+<span id='line306'>  <b>}</b></span>
+<span id='line307'></span>
+<span id='line308'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line309'>// Collections</span>
+<span id='line310'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line311'></span>
+<span id='line312'>  @NoDoc Buf writeColl<b>(</b>AsnColl coll, Buf buf := Buf<b>(</b><b>)</b><b>)</b></span>
+<span id='line313'>  <b>{</b></span>
+<span id='line314'>    coll.vals.each |AsnObj val|</span>
+<span id='line315'>    <b>{</b></span>
+<span id='line316'>      doWrite<b>(</b>val, buf.out<b>)</b></span>
+<span id='line317'>    <b>}</b></span>
+<span id='line318'>    return buf</span>
+<span id='line319'>  <b>}</b></span>
+<span id='line320'><b>}</b></span>
+<span id='line321'></span>
+<span id='line322'>**************************************************************************</span>
+<span id='line323'>** Format</span>
+<span id='line324'>**************************************************************************</span>
+<span id='line325'></span>
+<span id='line326'>@NoDoc enum class Format</span>
+<span id='line327'><b>{</b></span>
+<span id='line328'>  primitive<b>(</b>0x00<b>)</b>,</span>
+<span id='line329'>  constructed<b>(</b>0x20<b>)</b></span>
+<span id='line330'></span>
+<span id='line331'>  private new make<b>(</b>Int mask<b>)</b> <b>{</b> this.mask = mask <b>}</b></span>
+<span id='line332'>  const Int mask</span>
+<span id='line333'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerJava::ClassLib</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerJava</a></li><li><a href='ClassLib.html'>ClassLib</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> compilerJava::ClassLib</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerJava::ClassLib</pre>
+
+<p>ClassLib models a file that contains java packages and class files.</p>
+<dl>
+<dt id='accept'>
+accept</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> accept(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='ClassPathPackage.html'>ClassPathPackage</a>&gt;</a> acc, <a href='../std/Uri.html'>Uri</a> uri, <a href='../std/File.html'>File</a> f, <a href='../sys/Bool.html'>Bool</a> isBoot := false)</code></p>
+
+<p>Common utility to determine if a given <code>.class</code> file should be accepted or not. If it is accepted it will be added to the given accumulator.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> close()</code></p>
+
+<p>Release any resources that the library may have opened when loading the packages. Return this.</p>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/File.html'>File</a> file</code></p>
+
+<p>The file to load package from.</p>
+</dd>
+<dt id='loadPackages'>
+loadPackages</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='ClassPathPackage.html'>ClassPathPackage</a>&gt;</a> loadPackages()</code></p>
+
+<p>Load packages keyed by package name in "." format.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/File.html'>File</a> file)</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#accept'>accept</a></li><li><a href='#close'>close</a></li><li><a href='#file'>file</a></li><li><a href='#loadPackages'>loadPackages</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::Table</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Table.html'>Table</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::Table</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    domkit::Table</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Table.fan.html'>Source</a></p>
+
+<p>Table displays a grid of rows and columns.</p>
+
+<p>See also: <a href='docDomkit::Controls#table'>docDomkit</a></p>
+<dl>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html'>Source</a></p>
+
+<p>Constructor.</p>
+</dd>
+<dt id='model'>
+model</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TableModel.html'>TableModel</a> model := TableModel.&lt;ctor>()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line54'>Source</a></p>
+
+<p>Model for this table.</p>
+</dd>
+<dt id='onAction'>
+onAction</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onAction(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line159'>Source</a></p>
+
+<p>Callback when row is double-clicked.</p>
+</dd>
+<dt id='onHeaderPopup'>
+onHeaderPopup</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onHeaderPopup(<a href='../sys/Func.html'>Func&lt;<a href='Popup.html'>Popup</a>,<a href='Table.html'>Table</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line66'>Source</a></p>
+
+<p>Callback to display header popup.  When non-null, a button will be placed on the right-hand side of the table header to indicate the popup is available.</p>
+</dd>
+<dt id='onSelect'>
+onSelect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onSelect(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line156'>Source</a></p>
+
+<p>Callback when selection has changed.</p>
+</dd>
+<dt id='onSort'>
+onSort</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onSort(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line162'>Source</a></p>
+
+<p>Callback when table is sorted by a column</p>
+</dd>
+<dt id='onTableEvent'>
+onTableEvent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onTableEvent(<a href='../sys/Str.html'>Str</a> type, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='TableEvent.html'>TableEvent</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line169'>Source</a></p>
+
+<p>Callback when a event occurs inside a table cell.</p>
+</dd>
+<dt id='rebuild'>
+rebuild</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> rebuild()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line179'>Source</a></p>
+
+<p>Rebuild table layout.</p>
+</dd>
+<dt id='refresh'>
+refresh</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> refresh()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line186'>Source</a></p>
+
+<p>Refresh table cell content.</p>
+</dd>
+<dt id='scrollTo'>
+scrollTo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> scrollTo(<a href='../sys/Int.html'>Int?</a> col, <a href='../sys/Int.html'>Int?</a> row)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line98'>Source</a></p>
+
+<p>Scroll to the given row and column in table.  Pass <code>null</code> to maintain the current scroll position for that axis.</p>
+</dd>
+<dt id='sel'>
+sel</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Selection.html'>Selection</a> sel { private set }</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line150'>Source</a></p>
+
+<p>Selection for table</p>
+</dd>
+<dt id='showHeader'>
+showHeader</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> showHeader := true</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line60'>Source</a></p>
+
+<p>Is the table header visible.</p>
+</dd>
+<dt id='sort'>
+sort</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> sort(<a href='../sys/Int.html'>Int?</a> col, <a href='Dir.html'>Dir</a> dir := Dir.up)</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line83'>Source</a></p>
+
+<p>Sort a table by the given column index. If col is null, then the table is ordered by its natural order of the table model. Sort order is determined by <code><a href='TableModel.html#sortCompare'>TableModel.sortCompare</a></code>.  Sorting does not modify the indexing of TableModel, it only changes how the model is viewed.  Also see <code><a href='Table.html#sortCol'>sortCol</a></code> and <code><a href='Table.html#sortDir'>sortDir</a></code>.  Table automatically refreshed.</p>
+</dd>
+<dt id='sortCol'>
+sortCol</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> sortCol()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line76'>Source</a></p>
+
+<p>The column index by which the table is currently sorted, or null if the table is not currently sorted by a column.  See <code><a href='Table.html#sort'>sort</a></code>.</p>
+</dd>
+<dt id='sortDir'>
+sortDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Dir.html'>Dir</a> sortDir()</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line80'>Source</a></p>
+
+<p>Return if the table is currently sorting up or down.  See <code><a href='Table.html#sort'>sort</a></code>.</p>
+</dd>
+<dt id='stripeClasses'>
+stripeClasses</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> stripeClasses := Str[&quot;even&quot;,&quot;odd&quot;]</code></p>
+<p class='src'>
+<a href='src-Table.fan.html#line63'>Source</a></p>
+
+<p>List of CSS classes applied to rows in sequence, looping as required.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Table.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#model'>model</a></li><li><a href='#onAction'>onAction</a></li><li><a href='#onHeaderPopup'>onHeaderPopup</a></li><li><a href='#onSelect'>onSelect</a></li><li><a href='#onSort'>onSort</a></li><li><a href='#onTableEvent'>onTableEvent</a></li><li><a href='#rebuild'>rebuild</a></li><li><a href='#refresh'>refresh</a></li><li><a href='#scrollTo'>scrollTo</a></li><li><a href='#sel'>sel</a></li><li><a href='#showHeader'>showHeader</a></li><li><a href='#sort'>sort</a></li><li><a href='#sortCol'>sortCol</a></li><li><a href='#sortDir'>sortDir</a></li><li><a href='#stripeClasses'>stripeClasses</a></li></ul>
+</div>
+</div>
+</body>
+</html>

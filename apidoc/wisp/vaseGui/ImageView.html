@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::ImageView</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='ImageView.html'>ImageView</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::ImageView</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Widget.html'>vaseGui::Widget</a>
+    vaseGui::ImageView</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>A display area for image</p>
+<dl>
+<dt id='fitHeight'>
+fitHeight</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> fitHeight := 3</code></p>
+</dd>
+<dt id='fitWidth'>
+fitWidth</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> fitWidth := 2</code></p>
+</dd>
+<dt id='gestureEvent'>
+gestureEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> gestureEvent(<a href='GestureEvent.html'>GestureEvent</a> e)</code></p>
+</dd>
+<dt id='image'>
+image</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='../vaseGraphics/Image.html'>Image?</a> image</code></p>
+</dd>
+<dt id='imgOffsetX'>
+imgOffsetX</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> imgOffsetX := 0.0f</code></p>
+</dd>
+<dt id='imgOffsetY'>
+imgOffsetY</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> imgOffsetY := 0.0f</code></p>
+</dd>
+<dt id='imgScaleX'>
+imgScaleX</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> imgScaleX := 1.0f</code></p>
+</dd>
+<dt id='imgScaleY'>
+imgScaleY</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> imgScaleY := 1.0f</code></p>
+</dd>
+<dt id='imgToWidget'>
+imgToWidget</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> imgToWidget(<a href='Coord.html'>Coord</a> p)</code></p>
+</dd>
+<dt id='init'>
+init</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> init()</code></p>
+</dd>
+<dt id='isInited'>
+isInited</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInited := false</code></p>
+</dd>
+<dt id='keepSize'>
+keepSize</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> keepSize := 0</code></p>
+</dd>
+<dt id='layoutChildren'>
+layoutChildren</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> layoutChildren(<a href='../sys/Bool.html'>Bool</a> force)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+</dd>
+<dt id='mask'>
+mask</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> mask := 0</code></p>
+</dd>
+<dt id='maskCircle'>
+maskCircle</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> maskCircle := 1</code></p>
+</dd>
+<dt id='motionEvent'>
+motionEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> motionEvent(<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+</dd>
+<dt id='scaleType'>
+scaleType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> scaleType := fitWidth</code></p>
+</dd>
+<dt id='setDragable'>
+setDragable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setDragable()</code></p>
+</dd>
+<dt id='stretch'>
+stretch</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> stretch := 1</code></p>
+</dd>
+<dt id='uri'>
+uri</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri?</a> uri</code></p>
+</dd>
+<dt id='widgetToImg'>
+widgetToImg</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> widgetToImg(<a href='Coord.html'>Coord</a> p)</code></p>
+</dd>
+<dt id='zoom'>
+zoom</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> zoom(<a href='Coord.html'>Coord</a> point, <a href='../sys/Float.html'>Float</a> scale)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fitHeight'>fitHeight</a></li><li><a href='#fitWidth'>fitWidth</a></li><li><a href='#keepSize'>keepSize</a></li><li><a href='#make'>make</a></li><li><a href='#maskCircle'>maskCircle</a></li><li><a href='#stretch'>stretch</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#image'>image</a></li><li><a href='#imgOffsetX'>imgOffsetX</a></li><li><a href='#imgOffsetY'>imgOffsetY</a></li><li><a href='#imgScaleX'>imgScaleX</a></li><li><a href='#imgScaleY'>imgScaleY</a></li><li><a href='#imgToWidget'>imgToWidget</a></li><li><a href='#init'>init</a></li><li><a href='#isInited'>isInited</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#mask'>mask</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#scaleType'>scaleType</a></li><li><a href='#setDragable'>setDragable</a></li><li><a href='#uri'>uri</a></li><li><a href='#widgetToImg'>widgetToImg</a></li><li><a href='#zoom'>zoom</a></li></ul>
+</div>
+</div>
+</body>
+</html>

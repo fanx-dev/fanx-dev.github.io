@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGraphics::Graphics</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGraphics</a></li><li><a href='Graphics.html'>Graphics</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> vaseGraphics::Graphics</h1>
+<pre>vaseGraphics::Graphics</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>Graphics is used to draw 2D graphics.  Targets might include display devices, printers, SVG/Canvas, or PDF.</p>
+
+<p>See <a href='fwt::pod-doc#painting'>Fwt</a> for details.</p>
+<dl>
+<dt id='alpha'>
+alpha</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> alpha</code></p>
+
+<p>Current alpha value used to render text, images, and shapes. The value must be between 0 (transparent) and 255 (opaue).</p>
+</dd>
+<dt id='antialias'>
+antialias</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> antialias</code></p>
+
+<p>Used to toggle anti-aliasing on and off.</p>
+</dd>
+<dt id='brush'>
+brush</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Brush.html'>Brush</a> brush</code></p>
+
+<p>Current brush defines how text and shapes are filled.</p>
+</dd>
+<dt id='clearRect'>
+clearRect</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> clearRect(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h)</code></p>
+
+<p>clear a rectangle color to 0.</p>
+</dd>
+<dt id='clip'>
+clip</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> clip(<a href='Rect.html'>Rect</a> r)</code></p>
+
+<p>Set the clipping area to the intersection of the current clipping region and the specified rectangle. Also see <code><a href='Graphics.html#clipBounds'>clipBounds</a></code>.</p>
+</dd>
+<dt id='clipBounds'>
+clipBounds</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Rect.html'>Rect</a> clipBounds()</code></p>
+
+<p>Get the bounding rectangle of the current clipping area. Also see <code><a href='Graphics.html#clip'>clip</a></code>.</p>
+</dd>
+<dt id='clipPath'>
+clipPath</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> clipPath(<a href='GraphicsPath.html'>GraphicsPath</a> path)</code></p>
+
+<p>create a new clipping region by calculating the intersection of the current clipping region and the area described by the current path</p>
+</dd>
+<dt id='composite'>
+composite</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Composite.html'>Composite</a> composite</code></p>
+
+<p>current composition operation</p>
+</dd>
+<dt id='copyImage'>
+copyImage</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> copyImage(<a href='Image.html'>Image</a> image, <a href='Rect.html'>Rect</a> src, <a href='Rect.html'>Rect</a> dest)</code></p>
+
+<p>Copy a rectangular region of the image to the graphics device.  If the source and destination don't have the same size, then the copy is resized.</p>
+</dd>
+<dt id='dispose'>
+dispose</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> dispose()</code></p>
+
+<p>Free any operating system resources used by this instance.</p>
+</dd>
+<dt id='drawArc'>
+drawArc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawArc(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h, <a href='../sys/Int.html'>Int</a> startAngle, <a href='../sys/Int.html'>Int</a> arcAngle)</code></p>
+
+<p>Draw an arc with the current pen and brush.  The angles are measured in degrees with 0 degrees is 3 o'clock with a counter-clockwise arcAngle.  The origin of the arc is centered within x, y, w, h.</p>
+</dd>
+<dt id='drawImage'>
+drawImage</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawImage(<a href='Image.html'>Image</a> image, <a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+
+<p>Draw a the image string with its top left corner at x,y.</p>
+</dd>
+<dt id='drawLine'>
+drawLine</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawLine(<a href='../sys/Int.html'>Int</a> x1, <a href='../sys/Int.html'>Int</a> y1, <a href='../sys/Int.html'>Int</a> x2, <a href='../sys/Int.html'>Int</a> y2)</code></p>
+
+<p>Draw a line with the current pen and brush.</p>
+</dd>
+<dt id='drawOval'>
+drawOval</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawOval(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h)</code></p>
+
+<p>Draw an oval with the current pen and brush.  The oval is fit within the rectangle specified by x, y, w, h.</p>
+</dd>
+<dt id='drawPath'>
+drawPath</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawPath(<a href='GraphicsPath.html'>GraphicsPath</a> path)</code></p>
+
+<p>Draws the path described by the parameter.</p>
+</dd>
+<dt id='drawPolygon'>
+drawPolygon</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawPolygon(<a href='PointArray.html'>PointArray</a> ps)</code></p>
+
+<p>Draw a polygon with the current pen and brush.</p>
+</dd>
+<dt id='drawPolyline'>
+drawPolyline</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawPolyline(<a href='PointArray.html'>PointArray</a> ps)</code></p>
+
+<p>Draw a polyline with the current pen and brush.</p>
+</dd>
+<dt id='drawRect'>
+drawRect</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawRect(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h)</code></p>
+
+<p>Draw a rectangle with the current pen and brush.</p>
+</dd>
+<dt id='drawRoundRect'>
+drawRoundRect</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawRoundRect(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h, <a href='../sys/Int.html'>Int</a> xRadius, <a href='../sys/Int.html'>Int</a> yRadius)</code></p>
+
+<p>Draw a rectangle with rounded corners with the current pen and brush.</p>
+</dd>
+<dt id='drawText'>
+drawText</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> drawText(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+
+<p>Draw a the text string with the current brush and font. The x, y coordinate specifies the baseline where the text is to be drawn.</p>
+</dd>
+<dt id='fillArc'>
+fillArc</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> fillArc(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h, <a href='../sys/Int.html'>Int</a> startAngle, <a href='../sys/Int.html'>Int</a> arcAngle)</code></p>
+
+<p>Fill an arc with the current brush.  The angles are measured in degrees with 0 degrees is 3 o'clock with a counter-clockwise arcAngle.  The origin of the arc is centered within x, y, w, h.</p>
+</dd>
+<dt id='fillOval'>
+fillOval</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> fillOval(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h)</code></p>
+
+<p>Fill an oval with the current brush.  The oval is fit within the rectangle specified by x, y, w, h.</p>
+</dd>
+<dt id='fillPath'>
+fillPath</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> fillPath(<a href='GraphicsPath.html'>GraphicsPath</a> path)</code></p>
+
+<p>Fills the path described by the parameter.</p>
+</dd>
+<dt id='fillPolygon'>
+fillPolygon</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> fillPolygon(<a href='PointArray.html'>PointArray</a> ps)</code></p>
+
+<p>Fill a polygon with the current brush.</p>
+</dd>
+<dt id='fillRect'>
+fillRect</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> fillRect(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h)</code></p>
+
+<p>Fill a rectangle with the current brush.</p>
+</dd>
+<dt id='fillRoundRect'>
+fillRoundRect</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> fillRoundRect(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h, <a href='../sys/Int.html'>Int</a> xRadius, <a href='../sys/Int.html'>Int</a> yRadius)</code></p>
+
+<p>Fill a rectangle with rounded corners with the current brush.</p>
+</dd>
+<dt id='font'>
+font</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Font.html'>Font?</a> font</code></p>
+
+<p>Current font used for drawing text.</p>
+</dd>
+<dt id='pen'>
+pen</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Pen.html'>Pen</a> pen</code></p>
+
+<p>Current pen defines how the shapes are stroked.</p>
+</dd>
+<dt id='pop'>
+pop</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> pop()</code></p>
+
+<p>Pop the graphics stack and reset the state to the the last push.</p>
+</dd>
+<dt id='push'>
+push</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> push()</code></p>
+
+<p>Push the current graphics state onto an internal stack.  Reset the state back to its current state via <code><a href='Graphics.html#pop'>pop</a></code>.</p>
+</dd>
+<dt id='setShadow'>
+setShadow</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> setShadow(<a href='Shadow.html'>Shadow?</a> shadow)</code></p>
+
+<p>All drawing operations are affected by the four global shadow attributes</p>
+</dd>
+<dt id='transform'>
+transform</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> transform(<a href='Transform2D.html'>Transform2D</a> mat)</code></p>
+
+<p>concat transform to currently</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#alpha'>alpha</a></li><li><a href='#antialias'>antialias</a></li><li><a href='#brush'>brush</a></li><li><a href='#clearRect'>clearRect</a></li><li><a href='#clip'>clip</a></li><li><a href='#clipBounds'>clipBounds</a></li><li><a href='#clipPath'>clipPath</a></li><li><a href='#composite'>composite</a></li><li><a href='#copyImage'>copyImage</a></li><li><a href='#dispose'>dispose</a></li><li><a href='#drawArc'>drawArc</a></li><li><a href='#drawImage'>drawImage</a></li><li><a href='#drawLine'>drawLine</a></li><li><a href='#drawOval'>drawOval</a></li><li><a href='#drawPath'>drawPath</a></li><li><a href='#drawPolygon'>drawPolygon</a></li><li><a href='#drawPolyline'>drawPolyline</a></li><li><a href='#drawRect'>drawRect</a></li><li><a href='#drawRoundRect'>drawRoundRect</a></li><li><a href='#drawText'>drawText</a></li><li><a href='#fillArc'>fillArc</a></li><li><a href='#fillOval'>fillOval</a></li><li><a href='#fillPath'>fillPath</a></li><li><a href='#fillPolygon'>fillPolygon</a></li><li><a href='#fillRect'>fillRect</a></li><li><a href='#fillRoundRect'>fillRoundRect</a></li><li><a href='#font'>font</a></li><li><a href='#pen'>pen</a></li><li><a href='#pop'>pop</a></li><li><a href='#push'>push</a></li><li><a href='#setShadow'>setShadow</a></li><li><a href='#transform'>transform</a></li></ul>
+</div>
+</div>
+</body>
+</html>

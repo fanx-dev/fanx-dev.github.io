@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::Weblet</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='Weblet.html'>Weblet</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> web::Weblet</h1>
+<pre>web::Weblet</pre>
+<p class='src'>
+<a href='src-Weblet.fan.html'>Source</a></p>
+
+<p>Weblet services a web request.</p>
+
+<p>See <a href='index.html#weblet'>pod doc</a>.</p>
+<dl>
+<dt id='onDelete'>
+onDelete</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onDelete()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line108'>Source</a></p>
+
+<p>Convenience method to respond to a DELETE request. Default implementation returns a 501 Not implemented error.</p>
+</dd>
+<dt id='onGet'>
+onGet</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onGet()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line71'>Source</a></p>
+
+<p>Convenience method to respond to a GET request. Default implementation returns a 501 Not implemented error.</p>
+</dd>
+<dt id='onHead'>
+onHead</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onHead()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line80'>Source</a></p>
+
+<p>Convenience method to respond to a HEAD request. Default implementation returns a 501 Not implemented error.</p>
+</dd>
+<dt id='onOptions'>
+onOptions</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onOptions()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line117'>Source</a></p>
+
+<p>Convenience method to respond to a OPTIONS request. Default implementation returns a 501 Not implemented error.</p>
+</dd>
+<dt id='onPost'>
+onPost</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onPost()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line90'>Source</a></p>
+
+<p>Convenience method to respond to a POST request. Default implementation returns a 501 Not implemented error.</p>
+</dd>
+<dt id='onPut'>
+onPut</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onPut()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line99'>Source</a></p>
+
+<p>Convenience method to respond to a PUT request. Default implementation returns a 501 Not implemented error.</p>
+</dd>
+<dt id='onService'>
+onService</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onService()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line52'>Source</a></p>
+
+<p>Service a web request. The default implementation routes to <code><a href='Weblet.html#onGet'>onGet</a></code>, <code><a href='Weblet.html#onPost'>onPost</a></code>, etc based on the request's method.</p>
+</dd>
+<dt id='onTrace'>
+onTrace</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onTrace()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line126'>Source</a></p>
+
+<p>Convenience method to respond to a TRACE request. Default implementation returns a 501 Not implemented error.</p>
+</dd>
+<dt id='req'>
+req</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='WebReq.html'>WebReq</a> req()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line24'>Source</a></p>
+
+<p>The WebReq instance for this current web request.  Raise an exception if the current actor thread is not serving a web request.</p>
+</dd>
+<dt id='res'>
+res</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='WebRes.html'>WebRes</a> res()</code></p>
+<p class='src'>
+<a href='src-Weblet.fan.html#line36'>Source</a></p>
+
+<p>The WebRes instance for this current web request.  Raise an exception if the current actor thread is not serving a web request.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Weblet.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#onDelete'>onDelete</a></li><li><a href='#onGet'>onGet</a></li><li><a href='#onHead'>onHead</a></li><li><a href='#onOptions'>onOptions</a></li><li><a href='#onPost'>onPost</a></li><li><a href='#onPut'>onPut</a></li><li><a href='#onService'>onService</a></li><li><a href='#onTrace'>onTrace</a></li><li><a href='#req'>req</a></li><li><a href='#res'>res</a></li></ul>
+</div>
+</div>
+</body>
+</html>

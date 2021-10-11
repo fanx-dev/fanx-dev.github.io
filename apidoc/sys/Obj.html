@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::Obj</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='Obj.html'>Obj</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract rtconst class</span> sys::Obj</h1>
+<pre>sys::Obj</pre>
+
+<p>Obj is the root class of all classes.</p>
+<dl>
+<dt id='assert'>
+assert</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Void.html'>Void</a> assert(<a href='Bool.html'>Bool</a> condition, <a href='Str.html'>Str</a> msg := &quot;&quot;)</code></p>
+
+<p>throw AssertErr if a boolean condition is false</p>
+</dd>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Int.html'>Int</a> compare(<a href='Obj.html'>Obj</a> that)</code></p>
+
+<p>Return a negative integer, zero, or a positive integer if this object is less than, equal to, or greater than the specified object:</p>
+
+<pre>this &lt; that   =>  &lt;0
+this == that  =>  0
+this > that   =>  >0</pre>
+
+<p>This method may also be accessed via the <code>&lt;</code> <code>&lt;=</code> <code>&lt;=></code> <code>>=</code> and <code>></code> shortcut operators.  If not overridden the default implementation compares the <code><a href='Obj.html#toStr'>toStr</a></code> representations.  Also see <a href='docLang::Expressions#shortcuts'>docLang</a>.</p>
+
+<p>Examples:</p>
+
+<pre>3.compare(8)  =>  -1
+8.compare(3)  =>  1
+8.compare(8)  =>  0
+3 &lt;=> 8       =>  -1  // shortcut for 3.compare(8)</pre>
+</dd>
+<dt id='echo'>
+echo</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Void.html'>Void</a> echo(<a href='Obj.html'>Obj?</a> x := &quot;&quot;)</code></p>
+
+<p>Write <code>x.toStr</code> to standard output followed by newline.  If <code>x</code> is null then print "null".  If no argument is provided then print an empty line.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Bool.html'>Bool</a> equals(<a href='Obj.html'>Obj?</a> that)</code></p>
+
+<p>Compare this object to the specified for equality.  This method may be accessed via the == and != shortcut operators.  If not overridden the default implementation compares for reference equality using the === operator.  If this method is overridden, then hash() must also be overridden such that any two objects which return true for equals() must return the same value for hash().  This method must accept <code>null</code> and return false.</p>
+</dd>
+<dt id='finalize'>
+finalize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='Void.html'>Void</a> finalize()</code></p>
+
+<p>Called by the garbage collector on an object when garbage collection determines that there are no more references to the object.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Int.html'>Int</a> hash()</code></p>
+
+<p>Return a unique hashcode for this object.  If a class overrides hash() then it must ensure if equals() returns true for any two objects then they have same hash code.</p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Bool.html'>Bool</a> isImmutable()</code></p>
+
+<p>Return if this Obj is <a href='docLang::Concurrency#immutability'>immutable</a> and safe to share between threads:</p>
+
+<ul>
+<li>an instance of a const class</li>
+
+<li>the result of <code>List.toImmutable</code> or <code>Map.toImmutable</code></li>
+
+<li>a Func object may or may not be immutable - see <code><a href='Func.html'>Func</a></code>.</li>
+
+<li>other instances are assumed mutable and return false</li>
+</ul>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+
+<p>Obj constructor for subclasses.</p>
+</dd>
+<dt id='toImmutable'>
+toImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Obj.html'>Obj</a> toImmutable()</code></p>
+
+<p>Get an immutable representation of this instance or throw NotImmutableErr if this object cannot be represented as an immutable:</p>
+
+<ul>
+<li>if type is const, return this</li>
+
+<li>if already an immutable List, Map, or Func return this</li>
+
+<li>if a List, then attempt to perform a deep clone by calling toImmutable on all items</li>
+
+<li>if a Map, then attempt to perform a deep clone by calling toImmutable on all values (keys are already immutable)</li>
+
+<li>some Funcs can be made immutable - see <code><a href='Func.html'>Func</a></code></li>
+
+<li>any other object throws NotImmutableErr</li>
+</ul>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Str.html'>Str</a> toStr()</code></p>
+
+<p>Return a string representation of this object.</p>
+</dd>
+<dt id='trap'>
+trap</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Obj.html'>Obj?</a> trap(<a href='Str.html'>Str</a> name, <a href='List.html'>List&lt;<a href='Obj.html'>Obj?</a>&gt;?</a> args := null)</code></p>
+
+<p>Trap a dynamic call for handling.  Dynamic calls are invoked with the -> shortcut operator:</p>
+
+<pre>a->x        a.trap("x", null)
+a->x()      a.trap("x", null)
+a->x = b    a.trap("x", [b])
+a->x(b)     a.trap("x", [b])
+a->x(b, c)  a.trap("x", [b, c])</pre>
+
+<p>The default implementation provided by Obj attempts to use reflection.  If name maps to a method, it is invoked with the specified arguments.  If name maps to a field and args.size is zero, get the field.  If name maps to a field and args.size is one, set the field and return args[0].  Otherwise throw UnknownSlotErr.</p>
+</dd>
+<dt id='with'>
+with</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='This.html'>This</a> with(<a href='Func.html'>Func&lt;<a href='Void.html'>Void</a>,<a href='This.html'>This</a>&gt;</a> f)</code></p>
+
+<p>This method called whenever an it-block is applied to an object.  The default implementation calls the function with <code>this</code>, and then returns <code>this</code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#assert'>assert</a></li><li><a href='#echo'>echo</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#compare'>compare</a></li><li><a href='#equals'>equals</a></li><li><a href='#finalize'>finalize</a></li><li><a href='#hash'>hash</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#toImmutable'>toImmutable</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#trap'>trap</a></li><li><a href='#with'>with</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>IpInterface.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='IpInterface.html'>IpInterface</a></li><li><a href='src-IpInterface.fan.html'>IpInterface.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2013, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   5 Jul 13  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** Network interface which models name and IP addresses assigned</span>
+<span id='line11'>**</span>
+<span id='line12'>final const class IpInterface</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line16'>// Lookup</span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'></span>
+<span id='line19'>  **</span>
+<span id='line20'>  ** List the interfaces on this machine</span>
+<span id='line21'>  **</span>
+<span id='line22'>  native static IpInterface<b>[</b><b>]</b> list<b>(</b><b>)</b></span>
+<span id='line23'></span>
+<span id='line24'>  **</span>
+<span id='line25'>  ** Find the interface bound to the given IP address.  If multiple</span>
+<span id='line26'>  ** interfaces are bound to the address it is undefined which one is</span>
+<span id='line27'>  ** returned.  If no interfaces are bound then return null or raise</span>
+<span id='line28'>  ** UnresolvedErr based on checked flag.</span>
+<span id='line29'>  **</span>
+<span id='line30'>  native static IpInterface? findByAddr<b>(</b>IpAddr addr, Bool checked := true<b>)</b></span>
+<span id='line31'></span>
+<span id='line32'>  **</span>
+<span id='line33'>  ** Find the interface by its name.  If the interface is not found</span>
+<span id='line34'>  ** then return null or raise UnresolvedErr based on checked flag.</span>
+<span id='line35'>  **</span>
+<span id='line36'>  native static IpInterface? findByName<b>(</b>Str name, Bool checked := true<b>)</b></span>
+<span id='line37'></span>
+<span id='line38'>  **</span>
+<span id='line39'>  ** Private constructor.</span>
+<span id='line40'>  **</span>
+<span id='line41'>  internal new make<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line42'></span>
+<span id='line43'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line44'>// Identity</span>
+<span id='line45'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line46'></span>
+<span id='line47'>  **</span>
+<span id='line48'>  ** Hash code is based on interface name and addresses</span>
+<span id='line49'>  **</span>
+<span id='line50'>  override native Int hash<b>(</b><b>)</b></span>
+<span id='line51'></span>
+<span id='line52'>  **</span>
+<span id='line53'>  ** Return string representation.</span>
+<span id='line54'>  **</span>
+<span id='line55'>  override native Str toStr<b>(</b><b>)</b></span>
+<span id='line56'></span>
+<span id='line57'>  **</span>
+<span id='line58'>  ** Equality is based on interface name and addresses</span>
+<span id='line59'>  **</span>
+<span id='line60'>  override native Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line61'></span>
+<span id='line62'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line63'>// Access</span>
+<span id='line64'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line65'></span>
+<span id='line66'>  **</span>
+<span id='line67'>  ** Name of the interface</span>
+<span id='line68'>  **</span>
+<span id='line69'>  native Str name<b>(</b><b>)</b></span>
+<span id='line70'></span>
+<span id='line71'>  **</span>
+<span id='line72'>  ** Display name of the interface</span>
+<span id='line73'>  **</span>
+<span id='line74'>  native Str dis<b>(</b><b>)</b></span>
+<span id='line75'></span>
+<span id='line76'>  **</span>
+<span id='line77'>  ** Return list of IP addresses bound to this interface</span>
+<span id='line78'>  **</span>
+<span id='line79'>  native IpAddr<b>[</b><b>]</b> addrs<b>(</b><b>)</b></span>
+<span id='line80'></span>
+<span id='line81'>  **</span>
+<span id='line82'>  ** Return list of all broadcast IP addresses bound to this interface</span>
+<span id='line83'>  **</span>
+<span id='line84'>  native IpAddr<b>[</b><b>]</b> broadcastAddrs<b>(</b><b>)</b></span>
+<span id='line85'></span>
+<span id='line86'>  **</span>
+<span id='line87'>  ** Return true if interface is up and running</span>
+<span id='line88'>  **</span>
+<span id='line89'>  native Bool isUp<b>(</b><b>)</b></span>
+<span id='line90'></span>
+<span id='line91'>  **</span>
+<span id='line92'>  ** Media Access Control <b>(</b>MAC<b>)</b> or physical address for this interface</span>
+<span id='line93'>  ** return null if address does not exist.</span>
+<span id='line94'>  **</span>
+<span id='line95'>  native Buf? hardwareAddr<b>(</b><b>)</b></span>
+<span id='line96'></span>
+<span id='line97'>  **</span>
+<span id='line98'>  ** Maximum transmission unit of interface</span>
+<span id='line99'>  **</span>
+<span id='line100'>  native Int mtu<b>(</b><b>)</b></span>
+<span id='line101'></span>
+<span id='line102'>  **</span>
+<span id='line103'>  ** Return true if interface supports multicast</span>
+<span id='line104'>  **</span>
+<span id='line105'>  native Bool supportsMulticast<b>(</b><b>)</b></span>
+<span id='line106'></span>
+<span id='line107'>  **</span>
+<span id='line108'>  ** Return true if point to point interface <b>(</b>PPP through modem<b>)</b></span>
+<span id='line109'>  **</span>
+<span id='line110'>  native Bool isPointToPoint<b>(</b><b>)</b></span>
+<span id='line111'></span>
+<span id='line112'>  **</span>
+<span id='line113'>  ** Return true if a loopback interface</span>
+<span id='line114'>  **</span>
+<span id='line115'>  native Bool isLoopback<b>(</b><b>)</b></span>
+<span id='line116'></span>
+<span id='line117'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

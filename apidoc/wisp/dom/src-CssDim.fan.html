@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>CssDim.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='CssDim.html'>CssDim</a></li><li><a href='src-CssDim.fan.html'>CssDim.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   28 Jun 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** CssDim models a CSS dimension which is a number with a unit attached.</span>
+<span id='line11'>**</span>
+<span id='line12'>@NoDoc @Js</span>
+<span id='line13'>@Serializable <b>{</b> simple = true <b>}</b></span>
+<span id='line14'>const class CssDim</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'>  ** Default instance is 0px.</span>
+<span id='line17'>  const static CssDim defVal := CssDim<b>(</b>0, "px"<b>)</b></span>
+<span id='line18'></span>
+<span id='line19'>  ** Create a new CssDim with given value and unit.</span>
+<span id='line20'>  new make<b>(</b>Num val, Str unit<b>)</b></span>
+<span id='line21'>  <b>{</b></span>
+<span id='line22'>    this.val  = val</span>
+<span id='line23'>    this.unit = unit</span>
+<span id='line24'>  <b>}</b></span>
+<span id='line25'></span>
+<span id='line26'>  ** Parse from string.  If invalid and checked is</span>
+<span id='line27'>  ** true then throw ParseErr otherwise return null.</span>
+<span id='line28'>  static CssDim? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line29'>  <b>{</b></span>
+<span id='line30'>    try</span>
+<span id='line31'>    <b>{</b></span>
+<span id='line32'>      if <b>(</b>s == "auto"<b>)</b> return autoVal</span>
+<span id='line33'>      n := StrBuf<b>(</b><b>)</b></span>
+<span id='line34'>      f := false</span>
+<span id='line35'>      for <b>(</b>i:=0; i&lt;s.size; i++<b>)</b></span>
+<span id='line36'>      <b>{</b></span>
+<span id='line37'>        ch := s<b>[</b>i<b>]</b></span>
+<span id='line38'>        if <b>(</b>ch == '-' || ch.isDigit<b>)</b> n.addChar<b>(</b>ch<b>)</b></span>
+<span id='line39'>        else if <b>(</b>ch == '.'<b>)</b> <b>{</b> f=true; n.addChar<b>(</b>ch<b>)</b> <b>}</b></span>
+<span id='line40'>        else break</span>
+<span id='line41'>      <b>}</b></span>
+<span id='line42'>      v := f ? n.toStr.toFloat : n.toStr.toInt</span>
+<span id='line43'>      u := s<b>[</b>n.size..-1<b>]</b></span>
+<span id='line44'>      if <b>(</b>u.size == 0<b>)</b> throw Err<b>(</b>"Missing unit"<b>)</b></span>
+<span id='line45'>      if <b>(</b>u.all |ch| <b>{</b> ch=='%' || ch.isAlpha <b>}</b> == false<b>)</b> throw Err<b>(</b>"Invalid unit"<b>)</b></span>
+<span id='line46'>      return make<b>(</b>v, u<b>)</b></span>
+<span id='line47'>    <b>}</b></span>
+<span id='line48'>    catch <b>(</b>Err err<b>)</b></span>
+<span id='line49'>    <b>{</b></span>
+<span id='line50'>      if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Invalid CssDim: $s", err<b>)</b></span>
+<span id='line51'>      return null</span>
+<span id='line52'>    <b>}</b></span>
+<span id='line53'>  <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>  ** Hash is 'toStr.hash'.</span>
+<span id='line56'>  override Int hash<b>(</b><b>)</b> <b>{</b> toStr.hash <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>  ** Return if obj is same CssDim value.</span>
+<span id='line59'>  override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line60'>  <b>{</b></span>
+<span id='line61'>    that := obj as CssDim</span>
+<span id='line62'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line63'>    return this.val == that.val &amp;&amp; this.unit == that.unit</span>
+<span id='line64'>  <b>}</b></span>
+<span id='line65'></span>
+<span id='line66'>  ** Return '"&lt;val>&lt;unit>"'</span>
+<span id='line67'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line68'>  <b>{</b></span>
+<span id='line69'>    this === autoVal ? "auto" : "$<b>{</b>val<b>}</b>$unit"</span>
+<span id='line70'>  <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>  ** Value of dimension.</span>
+<span id='line73'>  const Num val</span>
+<span id='line74'></span>
+<span id='line75'>  ** Unit of dimension.</span>
+<span id='line76'>  const Str unit</span>
+<span id='line77'></span>
+<span id='line78'>  private static const CssDim autoVal := CssDim<b>(</b>0, "auto"<b>)</b></span>
+<span id='line79'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

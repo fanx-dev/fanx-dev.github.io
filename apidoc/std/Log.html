@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Log</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Log.html'>Log</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>rtconst virtual class</span> std::Log</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Log</pre>
+
+<p>Log provides a simple, but standardized mechanism for logging.</p>
+
+<p>See <a href='docLang::Logging'>docLang::Logging</a> for details and <a href='https://fantom.org/doc/examples/sys-logging'>examples</a>.</p>
+<dl>
+<dt id='addHandler'>
+addHandler</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> addHandler(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='LogRec.html'>LogRec</a>&gt;</a> handler)</code></p>
+
+<p>Install a handler to receive callbacks on logging events. If the handler func is not immutable, then throw NotImmutableErr.</p>
+</dd>
+<dt id='debug'>
+debug</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> debug(<a href='../sys/Str.html'>Str</a> msg, <a href='../sys/Err.html'>Err?</a> err := null)</code></p>
+
+<p>Generate a <code><a href='LogLevel.html#debug'>LogLevel.debug</a></code> log entry.</p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> err(<a href='../sys/Str.html'>Str</a> msg, <a href='../sys/Err.html'>Err?</a> err := null)</code></p>
+
+<p>Generate a <code><a href='LogLevel.html#err'>LogLevel.err</a></code> log entry.</p>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Log.html'>Log?</a> find(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Find a registered log by name.  If the log doesn't exist and checked is false then return null, otherwise throw Err.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Log.html'>Log</a> get(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Find an existing registered log by name or if not found then create a new registered Log instance with the given name. Name must be valid according to <code><a href='Uri.html#isName'>Uri.isName</a></code> otherwise NameErr is thrown.</p>
+</dd>
+<dt id='handlers'>
+handlers</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='LogRec.html'>LogRec</a>&gt;</a>&gt;</a> handlers()</code></p>
+
+<p>List all the handler functions installed to process log events.</p>
+</dd>
+<dt id='info'>
+info</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> info(<a href='../sys/Str.html'>Str</a> msg, <a href='../sys/Err.html'>Err?</a> err := null)</code></p>
+
+<p>Generate a <code><a href='LogLevel.html#info'>LogLevel.info</a></code> log entry.</p>
+</dd>
+<dt id='isDebug'>
+isDebug</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isDebug()</code></p>
+
+<p>Return if debug level is enabled.</p>
+</dd>
+<dt id='isEnabled'>
+isEnabled</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEnabled(<a href='LogLevel.html'>LogLevel</a> level)</code></p>
+
+<p>Return if this log is enabled for the specified level.</p>
+</dd>
+<dt id='isErr'>
+isErr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isErr()</code></p>
+
+<p>Return if error level is enabled.</p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='isInfo'>
+isInfo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInfo()</code></p>
+
+<p>Return if info level is enabled.</p>
+</dd>
+<dt id='isWarn'>
+isWarn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isWarn()</code></p>
+
+<p>Return if warn level is enabled.</p>
+</dd>
+<dt id='level'>
+level</dt>
+<dd>
+<p class='sig'>
+<code> <a href='LogLevel.html'>LogLevel</a> level</code></p>
+
+<p>The log level field defines which log entries are reported versus ignored.  Anything which equals or is more severe than the log level is logged.  Anything less severe is ignored. If the level is set to silent, then logging is disabled.</p>
+</dd>
+<dt id='list'>
+list</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='Log.html'>Log</a>&gt;</a> list()</code></p>
+
+<p>Return a list of all the active logs which have been registered since system startup.</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> log(<a href='LogRec.html'>LogRec</a> rec)</code></p>
+
+<p>Publish a log entry.  The convenience methods <code><a href='Log.html#err'>err</a></code>, <code><a href='Log.html#warn'>warn</a></code> <code><a href='Log.html#info'>info</a></code>, and <code><a href='Log.html#debug'>debug</a></code> all route to this method for centralized handling.  The standard implementation is to call each of the installed <code><a href='Log.html#handlers'>handlers</a></code> if the specified level is enabled.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> register)</code></p>
+
+<p>Create a new log by name.  The log is added to the VM log registry only if <code>register</code> is true.  If register is true and a log has already been created for the specified name then throw ArgErr.  Name must be valid according to <code><a href='Uri.html#isName'>Uri.isName</a></code> otherwise NameErr is thrown.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name</code></p>
+
+<p>Return name of the log.</p>
+</dd>
+<dt id='removeHandler'>
+removeHandler</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> removeHandler(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='LogRec.html'>LogRec</a>&gt;</a> handler)</code></p>
+
+<p>Uninstall a log handler.</p>
+</dd>
+<dt id='toImmutable'>
+toImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj</a> toImmutable()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return name.</p>
+</dd>
+<dt id='warn'>
+warn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> warn(<a href='../sys/Str.html'>Str</a> msg, <a href='../sys/Err.html'>Err?</a> err := null)</code></p>
+
+<p>Generate a <code><a href='LogLevel.html#warn'>LogLevel.warn</a></code> log entry.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#addHandler'>addHandler</a></li><li><a href='#find'>find</a></li><li><a href='#get'>get</a></li><li><a href='#handlers'>handlers</a></li><li><a href='#list'>list</a></li><li><a href='#make'>make</a></li><li><a href='#removeHandler'>removeHandler</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#debug'>debug</a></li><li><a href='#err'>err</a></li><li><a href='#info'>info</a></li><li><a href='#isDebug'>isDebug</a></li><li><a href='#isEnabled'>isEnabled</a></li><li><a href='#isErr'>isErr</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#isInfo'>isInfo</a></li><li><a href='#isWarn'>isWarn</a></li><li><a href='#level'>level</a></li><li><a href='#log'>log</a></li><li><a href='#name'>name</a></li><li><a href='#toImmutable'>toImmutable</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#warn'>warn</a></li></ul>
+</div>
+</div>
+</body>
+</html>

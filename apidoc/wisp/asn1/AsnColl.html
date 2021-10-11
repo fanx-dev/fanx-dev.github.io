@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>asn1::AsnColl</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnColl.html'>AsnColl</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> asn1::AsnColl</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='AsnObj.html'>asn1::AsnObj</a>
+    asn1::AsnColl</pre>
+<p class='src'>
+<a href='src-AsnColl.fan.html'>Source</a></p>
+
+<p>Base class for ASN.1 collection types.</p>
+<dl>
+<dt id='builder'>
+builder</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='AsnCollBuilder.html'>AsnCollBuilder</a> builder()</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line40'>Source</a></p>
+
+<p>Get a <code><a href='AsnCollBuilder.html'>collection builder</a></code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AsnObj.html'>AsnObj?</a> get(<a href='../sys/Obj.html'>Obj</a> key)</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line64'>Source</a></p>
+
+<p>Get an item value from the collection.</p>
+
+<ul>
+<li>If key is a <code><a href='../sys/Str.html'>Str</a></code> then get the named item.</li>
+
+<li>If key is an <code><a href='../sys/Int.html'>Int</a></code>, then get the item at that zero-based index.</li>
+</ul>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEmpty()</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line61'>Source</a></p>
+
+<p>Is the collection empty</p>
+</dd>
+<dt id='isSeq'>
+isSeq</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSeq()</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line47'>Source</a></p>
+
+<p>Is this a <code>SEQUENCE</code></p>
+</dd>
+<dt id='isSet'>
+isSet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSet()</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line50'>Source</a></p>
+
+<p>Is this a <code>SET</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/List.html'>List&lt;<a href='AsnTag.html'>AsnTag</a>&gt;</a> tags, <a href='../sys/Obj.html'>Obj</a> val)</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html'>Source</a></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> size()</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line58'>Source</a></p>
+
+<p>Get the number of items in the collection</p>
+</dd>
+<dt id='valStr'>
+valStr</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Str.html'>Str</a> valStr()</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line78'>Source</a></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='AsnObj.html'>AsnObj</a>&gt;</a> vals()</code></p>
+<p class='src'>
+<a href='src-AsnColl.fan.html#line53'>Source</a></p>
+
+<p>Get the raw <code><a href='AsnObj.html'>AsnObj</a></code> values in the collection</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-AsnColl.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#builder'>builder</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#get'>get</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#isSeq'>isSeq</a></li><li><a href='#isSet'>isSet</a></li><li><a href='#size'>size</a></li><li><a href='#valStr'>valStr</a></li><li><a href='#vals'>vals</a></li></ul>
+</div>
+</div>
+</body>
+</html>

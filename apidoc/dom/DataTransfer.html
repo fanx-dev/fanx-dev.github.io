@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::DataTransfer</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='DataTransfer.html'>DataTransfer</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> dom::DataTransfer</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::DataTransfer</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-DataTransfer.fan.html'>Source</a></p>
+
+<p>The DataTransfer object is used to hold the data that is being dragged during a drag and drop operation.</p>
+<dl>
+<dt id='dropEffect'>
+dropEffect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> dropEffect</code></p>
+<p class='src'>
+<a href='src-DataTransfer.fan.html'>Source</a></p>
+
+<p>The effect used for drop targets.</p>
+</dd>
+<dt id='effectAllowed'>
+effectAllowed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> effectAllowed</code></p>
+<p class='src'>
+<a href='src-DataTransfer.fan.html'>Source</a></p>
+
+<p>The effects that are allowed for this drag.</p>
+</dd>
+<dt id='files'>
+files</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='DomFile.html'>DomFile</a>&gt;</a> files()</code></p>
+<p class='src'>
+<a href='src-DataTransfer.fan.html#line36'>Source</a></p>
+
+<p>List of local files available on the data transfer, or empty list if this drag operation doesn't involve dragging files.</p>
+</dd>
+<dt id='getData'>
+getData</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> getData(<a href='../sys/Str.html'>Str</a> type)</code></p>
+<p class='src'>
+<a href='src-DataTransfer.fan.html#line25'>Source</a></p>
+
+<p>Get data for given MIME type, or an empty string if data for that type does not exist or the data transfer contains no data.</p>
+</dd>
+<dt id='setData'>
+setData</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setData(<a href='../sys/Str.html'>Str</a> type, <a href='../sys/Str.html'>Str</a> val)</code></p>
+<p class='src'>
+<a href='src-DataTransfer.fan.html#line29'>Source</a></p>
+
+<p>Set data for given MIME type.</p>
+</dd>
+<dt id='setDragImage'>
+setDragImage</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setDragImage(<a href='Elem.html'>Elem</a> image, <a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+<p class='src'>
+<a href='src-DataTransfer.fan.html#line32'>Source</a></p>
+
+<p>Set a custom image to be used for dragging, where <code>x</code> and <code>y</code> are offsets from the mouse cursor position.</p>
+</dd>
+<dt id='types'>
+types</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> types()</code></p>
+<p class='src'>
+<a href='src-DataTransfer.fan.html#line22'>Source</a></p>
+
+<p>List of the format types of data, in the same order the data was added.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DataTransfer.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dropEffect'>dropEffect</a></li><li><a href='#effectAllowed'>effectAllowed</a></li><li><a href='#files'>files</a></li><li><a href='#getData'>getData</a></li><li><a href='#setData'>setData</a></li><li><a href='#setDragImage'>setDragImage</a></li><li><a href='#types'>types</a></li></ul>
+</div>
+</div>
+</body>
+</html>

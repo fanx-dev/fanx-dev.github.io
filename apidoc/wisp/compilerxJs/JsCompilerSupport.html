@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerxJs::JsCompilerSupport</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerxJs</a></li><li><a href='JsCompilerSupport.html'>JsCompilerSupport</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compilerxJs::JsCompilerSupport</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerxJs::JsCompilerSupport</pre>
+
+<p>JsCompilerSupport provides support for JavaScript compiler pipeline.</p>
+<dl>
+<dt id='compiler'>
+compiler</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compilerx/CompilerContext.html'>CompilerContext</a> compiler</code></p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compilerx/CompilerErr.html'>CompilerErr</a> err(<a href='../sys/Str.html'>Str</a> msg, <a href='../compilerx/Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Create, log, and return a CompilerErr.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../compilerx/CompilerContext.html'>CompilerContext</a> s)</code></p>
+
+<p>Constructor.</p>
+</dd>
+<dt id='podClosures'>
+podClosures</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsPodClosures.html'>JsPodClosures</a> podClosures</code></p>
+</dd>
+<dt id='thisName'>
+thisName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> thisName := &quot;this&quot;</code></p>
+
+<p>The name of the <code>this</code> var.</p>
+</dd>
+<dt id='typeRef'>
+typeRef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='JsTypeRef.html'>JsTypeRef</a>&gt;</a> typeRef := Map&lt;Str,JsTypeRef>[:]</code></p>
+</dd>
+<dt id='unique'>
+unique</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> unique()</code></p>
+
+<p>Return a unique identifier name.</p>
+</dd>
+<dt id='warn'>
+warn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../compilerx/CompilerErr.html'>CompilerErr</a> warn(<a href='../sys/Str.html'>Str</a> msg, <a href='../compilerx/Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Create, log, and return a warning CompilerErr.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#compiler'>compiler</a></li><li><a href='#err'>err</a></li><li><a href='#podClosures'>podClosures</a></li><li><a href='#thisName'>thisName</a></li><li><a href='#typeRef'>typeRef</a></li><li><a href='#unique'>unique</a></li><li><a href='#warn'>warn</a></li></ul>
+</div>
+</div>
+</body>
+</html>

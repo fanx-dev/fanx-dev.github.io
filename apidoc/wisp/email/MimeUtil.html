@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>email::MimeUtil</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>email</a></li><li><a href='MimeUtil.html'>MimeUtil</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> email::MimeUtil</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  email::MimeUtil</pre>
+<p class='src'>
+<a href='src-MimeUtil.fan.html'>Source</a></p>
+
+<p>Utilities to deal with all the idiosyncrasies of MIME.</p>
+<dl>
+<dt id='toAddrSpec'>
+toAddrSpec</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> toAddrSpec(<a href='../sys/Str.html'>Str</a> addr)</code></p>
+<p class='src'>
+<a href='src-MimeUtil.fan.html#line29'>Source</a></p>
+
+<p>Return the addr-spec or "local@domain" part of an email address string.  The result is always returned as "&lt;addr>". The addresses may be formatted with or without a display name:</p>
+
+<pre>bob@acme.com                =>  &lt;bob@acme.com>
+Bob Smith &lt;bob@acme.com>    =>  &lt;bob@acme.com>
+"Bob Smith" &lt;bob@acme.com>  =>  &lt;bob@acme.com></pre>
+</dd>
+<dt id='toEncodedWord'>
+toEncodedWord</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> toEncodedWord(<a href='../sys/Str.html'>Str</a> text)</code></p>
+<p class='src'>
+<a href='src-MimeUtil.fan.html'>Source</a></p>
+
+<p>Encode the specified text into a "encoded word" according to RFC 2047.  If text is pure ASCII, then it is returned as is. Otherwise encode using UTF-8 Base64.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-MimeUtil.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#toAddrSpec'>toAddrSpec</a></li><li><a href='#toEncodedWord'>toEncodedWord</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

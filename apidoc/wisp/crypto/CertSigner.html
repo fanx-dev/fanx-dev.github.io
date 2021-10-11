@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>crypto::CertSigner</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>crypto</a></li><li><a href='CertSigner.html'>CertSigner</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> crypto::CertSigner</h1>
+<pre>crypto::CertSigner</pre>
+
+<p>The CertSigner allows you to configure various options for signing a certificate from a <code><a href='Csr.html'>CSR</a></code> to generate a signed <code><a href='Cert.html'>certifcate</a></code>.</p>
+
+<p>See <a href='https://datatracker.ietf.org/doc/html/rfc5280'>RFC5280</a> for more information on configuring v3 extension values.</p>
+<dl>
+<dt id='authKeyId'>
+authKeyId</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> authKeyId(<a href='../std/Buf.html'>Buf</a> buf)</code></p>
+
+<p>Configure the Authority Key Identifier V3 extension</p>
+</dd>
+<dt id='basicConstraints'>
+basicConstraints</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> basicConstraints(<a href='../sys/Bool.html'>Bool</a> ca := false, <a href='../sys/Int.html'>Int?</a> pathLenConstraint := null)</code></p>
+
+<p>Configure the Basic Constraints V3 extension</p>
+</dd>
+<dt id='ca'>
+ca</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> ca(<a href='PrivKey.html'>PrivKey</a> caPrivKey, <a href='Cert.html'>Cert</a> caCert)</code></p>
+
+<p>Configure the CA private key and public certificate. If this method is not called, then a self-signed certificate will be generated.</p>
+</dd>
+<dt id='extendedKeyUsage'>
+extendedKeyUsage</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> extendedKeyUsage(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> oids)</code></p>
+
+<p>Configure the Extended Key Usage V3 extension.</p>
+</dd>
+<dt id='keyUsage'>
+keyUsage</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> keyUsage(<a href='../std/Buf.html'>Buf</a> bits)</code></p>
+
+<p>Configure the Key Usage V3 extension</p>
+</dd>
+<dt id='notAfter'>
+notAfter</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> notAfter(<a href='../std/Date.html'>Date</a> date)</code></p>
+
+<p>Configure the end date for the certificate validity period. The default value is 365 days from today.</p>
+</dd>
+<dt id='notBefore'>
+notBefore</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> notBefore(<a href='../std/Date.html'>Date</a> date)</code></p>
+
+<p>Configure the start date for the certificate valdity period. The default value is today.</p>
+</dd>
+<dt id='sign'>
+sign</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Cert.html'>Cert</a> sign()</code></p>
+
+<p>Generate the signed certificate based on the current configuration.</p>
+</dd>
+<dt id='signWith'>
+signWith</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> signWith(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> opts)</code></p>
+
+<p>Configure the signature algorithm to sign the certificate with. This map is configured the same as a <code><a href='Crypto.html#genCsr'>Crypto.genCsr</a></code>. By default, an implementation should choose a "strong" signing algorithm.</p>
+</dd>
+<dt id='subjectAltName'>
+subjectAltName</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> subjectAltName(<a href='../sys/Obj.html'>Obj</a> name)</code></p>
+
+<p>Add a Subject Alternative Name to the certificate. This method may be called multiple times to add different SANs. The <code>name</code> may be one of the following types:</p>
+
+<ul>
+<li><code>Str</code>: a DNS name</li>
+
+<li><code>Uri</code>: a Uniform Resource Identifier name</li>
+
+<li><code>IpAddr</code>: an IP address name</li>
+</ul>
+</dd>
+<dt id='subjectKeyId'>
+subjectKeyId</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> subjectKeyId(<a href='../std/Buf.html'>Buf</a> buf)</code></p>
+
+<p>Configure the Subject Key Identifier V3 extenstion</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#authKeyId'>authKeyId</a></li><li><a href='#basicConstraints'>basicConstraints</a></li><li><a href='#ca'>ca</a></li><li><a href='#extendedKeyUsage'>extendedKeyUsage</a></li><li><a href='#keyUsage'>keyUsage</a></li><li><a href='#notAfter'>notAfter</a></li><li><a href='#notBefore'>notBefore</a></li><li><a href='#sign'>sign</a></li><li><a href='#signWith'>signWith</a></li><li><a href='#subjectAltName'>subjectAltName</a></li><li><a href='#subjectKeyId'>subjectKeyId</a></li></ul>
+</div>
+</div>
+</body>
+</html>

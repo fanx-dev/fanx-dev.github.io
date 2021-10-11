@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::FlexBox</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='FlexBox.html'>FlexBox</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::FlexBox</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    <a href='Box.html'>domkit::Box</a>
+      domkit::FlexBox</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html'>Source</a></p>
+
+<p>FlexBox lays out child elements based on the CSS Flexbox Layout module, which primarily lays out items along a single axis (the main axis).  Alignment can also be specified for the opposite axis (the cross axis).</p>
+
+<p>See also: <a href='docDomkit::Layout#flexBox'>docDomkit</a></p>
+<dl>
+<dt id='alignCross'>
+alignCross</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> alignCross := &quot;center&quot;</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html#line52'>Source</a></p>
+
+<p>Define child alignment along cross axis:</p>
+
+<ul>
+<li>"flex-start": items are aligned to top of cross axis</li>
+
+<li>"flex-end": items are aligned to bottom of cross axis</li>
+
+<li>"center": items are centered along cross axis</li>
+
+<li>"baseline": items are aligned so baselines match</li>
+
+<li>"stretch": stretch items to fill container</li>
+</ul>
+</dd>
+<dt id='alignLines'>
+alignLines</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> alignLines := &quot;stretch&quot;</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html#line63'>Source</a></p>
+
+<p>Define how multiple lines of content are aligned when extra space exists in the cross axis:</p>
+
+<ul>
+<li>"flex-start": lines are packed to top of cross axis</li>
+
+<li>"flex-end": lines are packed to bottom of cross axis</li>
+
+<li>"center": lines are packed along center of cross axis</li>
+
+<li>"space-around": extra space is evenly divided between lines</li>
+
+<li>"space-between": extra space is evenly divided around lines</li>
+
+<li>"stretch": stretch lines to fill container</li>
+</ul>
+
+<p>This value has no effect for single line layouts.</p>
+</dd>
+<dt id='alignMain'>
+alignMain</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> alignMain := &quot;flex-start&quot;</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html#line41'>Source</a></p>
+
+<p>Define child alignment along main axis:</p>
+
+<ul>
+<li>"flex-start": items are packed toward start of line</li>
+
+<li>"flex-end": items are packed toward end of line</li>
+
+<li>"center": items are centered along the line</li>
+
+<li>"space-between": extra space is evenly distributed between items</li>
+
+<li>"space-around": extra space is evenly distributed around items</li>
+</ul>
+</dd>
+<dt id='dir'>
+dir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> dir := &quot;row&quot;</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html#line26'>Source</a></p>
+
+<p>Direction of the main axis to layout child items:</p>
+
+<ul>
+<li>"row": layout children left to right</li>
+
+<li>"column": layout childrent top to bottom</li>
+</ul>
+</dd>
+<dt id='flex'>
+flex</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> flex := Str[,]</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html#line78'>Source</a></p>
+
+<p>Convenience to configure the shorthand <code>flex</code> values outside of child items, where the list position maps to the index of the child node. Any value here will override the value specified in the child.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html'>Source</a></p>
+</dd>
+<dt id='onAdd'>
+onAdd</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> onAdd(<a href='../dom/Elem.html'>Elem</a> c)</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html#line86'>Source</a></p>
+</dd>
+<dt id='onParent'>
+onParent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> onParent(<a href='../dom/Elem.html'>Elem</a> p)</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html#line85'>Source</a></p>
+</dd>
+<dt id='onRemove'>
+onRemove</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> onRemove(<a href='../dom/Elem.html'>Elem</a> c)</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html#line87'>Source</a></p>
+</dd>
+<dt id='wrap'>
+wrap</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> wrap := &quot;nowrap&quot;</code></p>
+<p class='src'>
+<a href='src-FlexBox.fan.html#line33'>Source</a></p>
+
+<p>Define how items are wrapped when content cannot  fit in a single line/column:</p>
+
+<ul>
+<li>"nowrap": do not wrap; items are clipped</li>
+
+<li>"wrap: wrap items onto the next line or column</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-FlexBox.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#alignCross'>alignCross</a></li><li><a href='#alignLines'>alignLines</a></li><li><a href='#alignMain'>alignMain</a></li><li><a href='#dir'>dir</a></li><li><a href='#flex'>flex</a></li><li><a href='#onAdd'>onAdd</a></li><li><a href='#onParent'>onParent</a></li><li><a href='#onRemove'>onRemove</a></li><li><a href='#wrap'>wrap</a></li></ul>
+</div>
+</div>
+</body>
+</html>

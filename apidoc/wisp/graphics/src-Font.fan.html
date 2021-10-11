@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Font.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='Font.html'>Font</a></li><li><a href='src-Font.fan.html'>Font.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   16 Jun 2008  Brian Frank  Creation</span>
+<span id='line7'>//   29 Mar 2017  Brian Frank  Refactor for predefined font metrics</span>
+<span id='line8'>//</span>
+<span id='line9'></span>
+<span id='line10'>**</span>
+<span id='line11'>** Font models font-family, font-size, and font-style, and font-weight.</span>
+<span id='line12'>** Metrics are available for a predefined set of fonts.</span>
+<span id='line13'>**</span>
+<span id='line14'>@Js</span>
+<span id='line15'>@Serializable <b>{</b> simple = true <b>}</b></span>
+<span id='line16'>const class Font</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'></span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'>// Construction</span>
+<span id='line21'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line22'></span>
+<span id='line23'>  ** Construct with it-block</span>
+<span id='line24'>  new make<b>(</b>|This| f<b>)</b> <b>{</b> f<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line25'></span>
+<span id='line26'>  ** Construct a Font with individual fields</span>
+<span id='line27'>  @NoDoc new makeFields<b>(</b>Str<b>[</b><b>]</b> names, Float size, FontWeight weight := FontWeight.normal, FontStyle style := FontStyle.normal<b>)</b></span>
+<span id='line28'>  <b>{</b></span>
+<span id='line29'>    if <b>(</b>names.isEmpty<b>)</b> throw ArgErr<b>(</b>"No names specified"<b>)</b></span>
+<span id='line30'>    this.names  = names</span>
+<span id='line31'>    this.size   = size</span>
+<span id='line32'>    this.weight = weight</span>
+<span id='line33'>    this.style  = style</span>
+<span id='line34'>    this.data   = FontData.find<b>(</b>this<b>)</b></span>
+<span id='line35'>  <b>}</b></span>
+<span id='line36'></span>
+<span id='line37'>  ** Parse font from string using CSS shorthand format for</span>
+<span id='line38'>  ** supported properties:</span>
+<span id='line39'>  **</span>
+<span id='line40'>  **   <b>[</b>&lt;style><b>]</b> <b>[</b>&lt;weight><b>]</b> &lt;size> &lt;names></span>
+<span id='line41'>  **</span>
+<span id='line42'>  ** Examples:</span>
+<span id='line43'>  **   Font.fromStr<b>(</b>"12pt Arial"<b>)</b></span>
+<span id='line44'>  **   Font.fromStr<b>(</b>"bold 10pt Courier"<b>)</b></span>
+<span id='line45'>  **   Font.fromStr<b>(</b>"italic bold 8pt Times"<b>)</b></span>
+<span id='line46'>  **   Font.fromStr<b>(</b>"italic 300 10pt sans-serif"<b>)</b></span>
+<span id='line47'>  static Font? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line48'>  <b>{</b></span>
+<span id='line49'>    try</span>
+<span id='line50'>    <b>{</b></span>
+<span id='line51'>      toks := s.split</span>
+<span id='line52'>      toki := 0</span>
+<span id='line53'></span>
+<span id='line54'>      style := FontStyle.decode<b>(</b>toks<b>[</b>toki<b>]</b>, false<b>)</b></span>
+<span id='line55'>      if <b>(</b>style != null<b>)</b> toki++</span>
+<span id='line56'>      else style = FontStyle.normal</span>
+<span id='line57'></span>
+<span id='line58'>      weight := FontWeight.decode<b>(</b>toks<b>[</b>toki<b>]</b>, false<b>)</b></span>
+<span id='line59'>      if <b>(</b>weight != null<b>)</b> toki++</span>
+<span id='line60'>      else weight = FontWeight.normal</span>
+<span id='line61'></span>
+<span id='line62'>      if <b>(</b>!toks<b>[</b>toki<b>]</b>.endsWith<b>(</b>"pt"<b>)</b><b>)</b> throw Err<b>(</b><b>)</b></span>
+<span id='line63'>      size := toks<b>[</b>toki<b>]</b><b>[</b>0..-3<b>]</b>.toFloat</span>
+<span id='line64'>      toki++</span>
+<span id='line65'></span>
+<span id='line66'>      names := decodeNames<b>(</b>toks<b>[</b>toki..-1<b>]</b>.join<b>(</b>" "<b>)</b><b>)</b></span>
+<span id='line67'></span>
+<span id='line68'>      return makeFields<b>(</b>names, size, weight, style<b>)</b></span>
+<span id='line69'>    <b>}</b></span>
+<span id='line70'>    catch <b>(</b>Err e<b>)</b> <b>{</b><b>}</b></span>
+<span id='line71'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Invalid Font: $s"<b>)</b></span>
+<span id='line72'>    return null</span>
+<span id='line73'>  <b>}</b></span>
+<span id='line74'></span>
+<span id='line75'>  private static Str<b>[</b><b>]</b> decodeNames<b>(</b>Str s<b>)</b></span>
+<span id='line76'>  <b>{</b></span>
+<span id='line77'>    s.split<b>(</b>','<b>)</b></span>
+<span id='line78'>  <b>}</b></span>
+<span id='line79'></span>
+<span id='line80'>  private static Float decodeSize<b>(</b>Str s<b>)</b></span>
+<span id='line81'>  <b>{</b></span>
+<span id='line82'>    if <b>(</b>!s.endsWith<b>(</b>"pt"<b>)</b><b>)</b> throw Err<b>(</b>"Invalid font size: $s"<b>)</b></span>
+<span id='line83'>    return s<b>[</b>0..-3<b>]</b>.toFloat</span>
+<span id='line84'>  <b>}</b></span>
+<span id='line85'></span>
+<span id='line86'>  private static FontWeight decodeWeight<b>(</b>Str s<b>)</b></span>
+<span id='line87'>  <b>{</b></span>
+<span id='line88'>    FontWeight.decode<b>(</b>s<b>)</b></span>
+<span id='line89'>  <b>}</b></span>
+<span id='line90'></span>
+<span id='line91'>  private static FontStyle decodeStyle<b>(</b>Str s<b>)</b></span>
+<span id='line92'>  <b>{</b></span>
+<span id='line93'>    FontStyle.decode<b>(</b>s<b>)</b></span>
+<span id='line94'>  <b>}</b></span>
+<span id='line95'></span>
+<span id='line96'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line97'>// Props</span>
+<span id='line98'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line99'></span>
+<span id='line100'>  ** Construct from a map of CSS props such as font-family, font-size.</span>
+<span id='line101'>  ** Also see `toProps`.</span>
+<span id='line102'>  static Font? fromProps<b>(</b><b>[</b>Str:Str<b>]</b> props<b>)</b></span>
+<span id='line103'>  <b>{</b></span>
+<span id='line104'>    if <b>(</b>props<b>[</b>"font-family"<b>]</b> == null<b>)</b> return null</span>
+<span id='line105'>    return makeFields<b>(</b></span>
+<span id='line106'>      decodeNames<b>(</b>props<b>[</b>"font-family"<b>]</b> ?: "sans-serif"<b>)</b>,</span>
+<span id='line107'>      decodeSize<b>(</b>props<b>[</b>"font-size"<b>]</b> ?: "12pt"<b>)</b>,</span>
+<span id='line108'>      decodeWeight<b>(</b>props<b>[</b>"font-weight"<b>]</b> ?: "normal"<b>)</b>,</span>
+<span id='line109'>      decodeStyle<b>(</b>props<b>[</b>"font-style"<b>]</b> ?: "normal"<b>)</b><b>)</b></span>
+<span id='line110'>  <b>}</b></span>
+<span id='line111'></span>
+<span id='line112'>  ** Get CSS style properties for this font.</span>
+<span id='line113'>  ** Also see `fromProps`</span>
+<span id='line114'>  Str:Str toProps<b>(</b><b>)</b></span>
+<span id='line115'>  <b>{</b></span>
+<span id='line116'>    acc := OrderedMap&lt;Str,Str><b>(</b><b>)</b></span>
+<span id='line117'>    acc<b>[</b>"font-family"<b>]</b> = names.join<b>(</b>","<b>)</b></span>
+<span id='line118'>    acc<b>[</b>"font-size"<b>]</b> = GeomUtil.formatFloat<b>(</b>size<b>)</b> + "pt"</span>
+<span id='line119'>    if <b>(</b>!weight.isNormal<b>)</b> acc<b>[</b>"font-weight"<b>]</b> = weight.num.toStr</span>
+<span id='line120'>    if <b>(</b>!style.isNormal<b>)</b> acc<b>[</b>"font-style"<b>]</b> = style.name</span>
+<span id='line121'>    return acc</span>
+<span id='line122'>  <b>}</b></span>
+<span id='line123'></span>
+<span id='line124'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line125'>// Font</span>
+<span id='line126'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line127'></span>
+<span id='line128'>  ** First family name in `names`</span>
+<span id='line129'>  Str name<b>(</b><b>)</b> <b>{</b> names.first <b>}</b></span>
+<span id='line130'></span>
+<span id='line131'>  ** List of prioritized family names</span>
+<span id='line132'>  const Str<b>[</b><b>]</b> names := <b>[</b>"sans-serif"<b>]</b></span>
+<span id='line133'></span>
+<span id='line134'>  ** Size of font in points.</span>
+<span id='line135'>  const Float size := 11f</span>
+<span id='line136'></span>
+<span id='line137'>  ** Weight as number from 100 to 900</span>
+<span id='line138'>  const FontWeight weight := FontWeight.normal</span>
+<span id='line139'></span>
+<span id='line140'>  ** Style as normal, italic, or oblique</span>
+<span id='line141'>  const FontStyle style := FontStyle.normal</span>
+<span id='line142'></span>
+<span id='line143'>  ** Normalize to the closest font with metrics</span>
+<span id='line144'>  Font normalize<b>(</b><b>)</b></span>
+<span id='line145'>  <b>{</b></span>
+<span id='line146'>    if <b>(</b>data != null<b>)</b> return this</span>
+<span id='line147'>    return FontData.normalize<b>(</b>this<b>)</b></span>
+<span id='line148'>  <b>}</b></span>
+<span id='line149'></span>
+<span id='line150'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line151'>// Identity</span>
+<span id='line152'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line153'></span>
+<span id='line154'>  ** Return hash of all fields</span>
+<span id='line155'>  override Int hash<b>(</b><b>)</b></span>
+<span id='line156'>  <b>{</b></span>
+<span id='line157'>    names.hash.xor<b>(</b>size.hash<b>)</b>.xor<b>(</b>weight.hash * 73<b>)</b>.xor<b>(</b>style.hash * 19<b>)</b></span>
+<span id='line158'>  <b>}</b></span>
+<span id='line159'></span>
+<span id='line160'>  ** Equality is based on all fields.</span>
+<span id='line161'>  override Bool equals<b>(</b>Obj? that<b>)</b></span>
+<span id='line162'>  <b>{</b></span>
+<span id='line163'>    x := that as Font</span>
+<span id='line164'>    if <b>(</b>x == null<b>)</b> return false</span>
+<span id='line165'>    return names  == x.names  &amp;&amp;</span>
+<span id='line166'>           size   == x.size   &amp;&amp;</span>
+<span id='line167'>           weight == x.weight &amp;&amp;</span>
+<span id='line168'>           style  == x.style</span>
+<span id='line169'>  <b>}</b></span>
+<span id='line170'></span>
+<span id='line171'>  ** Format as '"<b>[</b>style<b>]</b> <b>[</b>weight<b>]</b> &lt;size>pt &lt;names>"'</span>
+<span id='line172'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line173'>  <b>{</b></span>
+<span id='line174'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line175'>    if <b>(</b>!style.isNormal<b>)</b>  s.add<b>(</b>style.name<b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line176'>    if <b>(</b>!weight.isNormal<b>)</b> s.add<b>(</b>weight.num<b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line177'>    s.add<b>(</b>GeomUtil.formatFloat<b>(</b>size<b>)</b><b>)</b>.add<b>(</b>"pt"<b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line178'>    s.add<b>(</b>names.join<b>(</b>","<b>)</b><b>)</b></span>
+<span id='line179'>    return s.toStr</span>
+<span id='line180'>  <b>}</b></span>
+<span id='line181'></span>
+<span id='line182'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line183'>// Utils</span>
+<span id='line184'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line185'></span>
+<span id='line186'>  ** Return this font with different point size.</span>
+<span id='line187'>  Font toSize<b>(</b>Float size<b>)</b></span>
+<span id='line188'>  <b>{</b></span>
+<span id='line189'>    if <b>(</b>this.size == size<b>)</b> return this</span>
+<span id='line190'>    return Font.makeFields<b>(</b>names, size, weight, style<b>)</b></span>
+<span id='line191'>  <b>}</b></span>
+<span id='line192'></span>
+<span id='line193'>  ** Return this font with different style</span>
+<span id='line194'>  Font toStyle<b>(</b>FontStyle style<b>)</b></span>
+<span id='line195'>  <b>{</b></span>
+<span id='line196'>    if <b>(</b>this.style == style<b>)</b> return this</span>
+<span id='line197'>    return Font.makeFields<b>(</b>names, size, weight, style<b>)</b></span>
+<span id='line198'>  <b>}</b></span>
+<span id='line199'></span>
+<span id='line200'>  ** Return this font with different weight.</span>
+<span id='line201'>  Font toWeight<b>(</b>FontWeight weight<b>)</b></span>
+<span id='line202'>  <b>{</b></span>
+<span id='line203'>    if <b>(</b>this.weight == weight<b>)</b> return this</span>
+<span id='line204'>    return Font.makeFields<b>(</b>names, size, weight, style<b>)</b></span>
+<span id='line205'>  <b>}</b></span>
+<span id='line206'></span>
+<span id='line207'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line208'>// Metrics</span>
+<span id='line209'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line210'></span>
+<span id='line211'>  ** Get font metrics for this font.  If this is not a <b>[</b>normalized<b>]</b>`normalize`</span>
+<span id='line212'>  ** font with built-in metrics, then raise UnsupportedErr.</span>
+<span id='line213'>  FontMetrics metrics<b>(</b>DeviceContext dc := DeviceContext.cur<b>)</b></span>
+<span id='line214'>  <b>{</b></span>
+<span id='line215'>    if <b>(</b>data == null<b>)</b> throw UnsupportedErr<b>(</b>"FontMetrics not supported: $this"<b>)</b></span>
+<span id='line216'>    return FontMetrics<b>(</b>dc, size, data<b>)</b></span>
+<span id='line217'>  <b>}</b></span>
+<span id='line218'></span>
+<span id='line219'>  ** Font metric data from predefined registry</span>
+<span id='line220'>  private const FontData? data</span>
+<span id='line221'><b>}</b></span>
+<span id='line222'></span>
+<span id='line223'>**************************************************************************</span>
+<span id='line224'>** FontMetrics</span>
+<span id='line225'>**************************************************************************</span>
+<span id='line226'></span>
+<span id='line227'>** FontMetrics represents font size information for a</span>
+<span id='line228'>** specific `Font` and `DeviceContext`.</span>
+<span id='line229'>@Js</span>
+<span id='line230'>const class FontMetrics</span>
+<span id='line231'><b>{</b></span>
+<span id='line232'>  @NoDoc</span>
+<span id='line233'>  new make<b>(</b>DeviceContext dc, Float size, FontData data<b>)</b></span>
+<span id='line234'>  <b>{</b></span>
+<span id='line235'>    this.data  = data</span>
+<span id='line236'>    this.size  = size</span>
+<span id='line237'>    this.ratio = <b>(</b>dc.dpi / 72f * fudge<b>)</b> * size / 1000f</span>
+<span id='line238'>  <b>}</b></span>
+<span id='line239'></span>
+<span id='line240'>  ** Get height of this font which is the sum of</span>
+<span id='line241'>  ** ascent, descent, and leading.</span>
+<span id='line242'>  Float height<b>(</b><b>)</b> <b>{</b> <b>(</b>data.height * ratio<b>)</b>.round <b>}</b></span>
+<span id='line243'></span>
+<span id='line244'>  ** Get ascent of this font which is the distance from</span>
+<span id='line245'>  ** baseline to top of chars, not including any leading area.</span>
+<span id='line246'>  Float ascent<b>(</b><b>)</b> <b>{</b> <b>(</b>data.ascent * ratio<b>)</b>.round <b>}</b></span>
+<span id='line247'></span>
+<span id='line248'>  ** Get descent of this font which is the distance from</span>
+<span id='line249'>  ** baseline to bottom of chars, not including any leading area.</span>
+<span id='line250'>  Float descent<b>(</b><b>)</b> <b>{</b> <b>(</b>data.descent * ratio<b>)</b>.round <b>}</b></span>
+<span id='line251'></span>
+<span id='line252'>  ** Get leading of this font which is the distance above</span>
+<span id='line253'>  ** the ascent which may include accents and other marks.</span>
+<span id='line254'>  Float leading<b>(</b><b>)</b> <b>{</b> <b>(</b>data.leading * ratio<b>)</b>.round <b>}</b></span>
+<span id='line255'></span>
+<span id='line256'>  ** Get the width of the string when painted with this font.</span>
+<span id='line257'>  Float width<b>(</b>Str s<b>)</b></span>
+<span id='line258'>  <b>{</b></span>
+<span id='line259'>    d := data</span>
+<span id='line260'>    w := 0</span>
+<span id='line261'>    for <b>(</b>i := 0; i&lt;s.size; ++i<b>)</b></span>
+<span id='line262'>      w += d.charWidth<b>(</b>s<b>[</b>i<b>]</b><b>)</b></span>
+<span id='line263'>    return <b>(</b>w.toFloat * ratio<b>)</b>.round</span>
+<span id='line264'>  <b>}</b></span>
+<span id='line265'></span>
+<span id='line266'>  ** Last char we have metrics for</span>
+<span id='line267'>  @NoDoc Int lastChar<b>(</b><b>)</b> <b>{</b> data.lastChar <b>}</b></span>
+<span id='line268'></span>
+<span id='line269'>  ** This factor is used to tune metrics based on eye-ball testing</span>
+<span id='line270'>  ** since we have simplified metric data for efficiency</span>
+<span id='line271'>  private static const Float fudge := 1.02f</span>
+<span id='line272'></span>
+<span id='line273'>  private const FontData data  // backing metric data</span>
+<span id='line274'>  private const Float size     // font size in points</span>
+<span id='line275'>  private const Float ratio    // ratio to map 1000pt to device context</span>
+<span id='line276'><b>}</b></span>
+<span id='line277'></span>
+<span id='line278'>**************************************************************************</span>
+<span id='line279'>** FontWeight</span>
+<span id='line280'>**************************************************************************</span>
+<span id='line281'></span>
+<span id='line282'>** Font weight property values</span>
+<span id='line283'>@Js</span>
+<span id='line284'>enum class FontWeight</span>
+<span id='line285'><b>{</b></span>
+<span id='line286'>  thin<b>(</b>100<b>)</b>,</span>
+<span id='line287'>  extraLight<b>(</b>200<b>)</b>,</span>
+<span id='line288'>  light<b>(</b>300<b>)</b>,</span>
+<span id='line289'>  normal<b>(</b>400<b>)</b>,</span>
+<span id='line290'>  medium<b>(</b>500<b>)</b>,</span>
+<span id='line291'>  semiBold<b>(</b>600<b>)</b>,</span>
+<span id='line292'>  bold<b>(</b>700<b>)</b>,</span>
+<span id='line293'>  extraBold<b>(</b>800<b>)</b>,</span>
+<span id='line294'>  black<b>(</b>900<b>)</b></span>
+<span id='line295'></span>
+<span id='line296'>  ** Numeric weight as number from 100 to 900</span>
+<span id='line297'>  const Int num</span>
+<span id='line298'></span>
+<span id='line299'>  ** Is this the normal value</span>
+<span id='line300'>  Bool isNormal<b>(</b><b>)</b> <b>{</b> this === normal <b>}</b></span>
+<span id='line301'></span>
+<span id='line302'>  ** From numeric value 100 to 900</span>
+<span id='line303'>  static FontWeight? fromNum<b>(</b>Int num, Bool checked := true<b>)</b></span>
+<span id='line304'>  <b>{</b></span>
+<span id='line305'>    switch <b>(</b>num<b>)</b></span>
+<span id='line306'>    <b>{</b></span>
+<span id='line307'>      case 100: return thin</span>
+<span id='line308'>      case 200: return extraLight</span>
+<span id='line309'>      case 300: return light</span>
+<span id='line310'>      case 400: return normal</span>
+<span id='line311'>      case 500: return medium</span>
+<span id='line312'>      case 600: return semiBold</span>
+<span id='line313'>      case 700: return bold</span>
+<span id='line314'>      case 800: return extraBold</span>
+<span id='line315'>      case 900: return black</span>
+<span id='line316'>    <b>}</b></span>
+<span id='line317'>    if <b>(</b>checked<b>)</b> throw ArgErr<b>(</b>"Invalid FontWeight num: $num"<b>)</b></span>
+<span id='line318'>    return null</span>
+<span id='line319'>  <b>}</b></span>
+<span id='line320'></span>
+<span id='line321'>  ** Decode from CSS string</span>
+<span id='line322'>  @NoDoc static FontWeight? decode<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line323'>  <b>{</b></span>
+<span id='line324'>    try</span>
+<span id='line325'>    <b>{</b></span>
+<span id='line326'>      val := fromStr<b>(</b>s, false<b>)</b></span>
+<span id='line327'>      if <b>(</b>val != null<b>)</b> return val</span>
+<span id='line328'>      return fromNum<b>(</b>s.toInt<b>)</b></span>
+<span id='line329'>    <b>}</b></span>
+<span id='line330'>    catch <b>(</b>Err e<b>)</b> <b>{</b><b>}</b></span>
+<span id='line331'>    if <b>(</b>checked<b>)</b> throw ArgErr<b>(</b>"Invalid FontWeight: $s"<b>)</b></span>
+<span id='line332'>    return null</span>
+<span id='line333'>  <b>}</b></span>
+<span id='line334'></span>
+<span id='line335'>  private new make<b>(</b>Int num<b>)</b> <b>{</b> this.num = num <b>}</b></span>
+<span id='line336'><b>}</b></span>
+<span id='line337'></span>
+<span id='line338'>**************************************************************************</span>
+<span id='line339'>** FontStyle</span>
+<span id='line340'>**************************************************************************</span>
+<span id='line341'></span>
+<span id='line342'>** Font style property values: normal, italic, oblique</span>
+<span id='line343'>@Js</span>
+<span id='line344'>enum class FontStyle</span>
+<span id='line345'><b>{</b></span>
+<span id='line346'>  normal, italic, oblique</span>
+<span id='line347'></span>
+<span id='line348'>  ** Is this the normal value</span>
+<span id='line349'>  Bool isNormal<b>(</b><b>)</b> <b>{</b> this === normal <b>}</b></span>
+<span id='line350'></span>
+<span id='line351'>  ** Decode from CSS string</span>
+<span id='line352'>  @NoDoc static FontStyle? decode<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line353'>  <b>{</b></span>
+<span id='line354'>    fromStr<b>(</b>s, checked<b>)</b></span>
+<span id='line355'>  <b>}</b></span>
+<span id='line356'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

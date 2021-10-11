@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::LocalDefStmt</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='LocalDefStmt.html'>LocalDefStmt</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::LocalDefStmt</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compilerx::Node</a>
+    <a href='Stmt.html'>compilerx::Stmt</a>
+      compilerx::LocalDefStmt</pre>
+
+<p>LocalDefStmt models a local variable declaration and its optional initialization expression.</p>
+<dl>
+<dt id='ctype'>
+ctype</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType?</a> ctype()</code></p>
+</dd>
+<dt id='getChildren'>
+getChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> getChildren(<a href='../sys/List.html'>List&lt;<a href='CNode.html'>CNode</a>&gt;</a> list, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options)</code></p>
+</dd>
+<dt id='init'>
+init</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr?</a> init</code></p>
+</dd>
+<dt id='isCatchVar'>
+isCatchVar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCatchVar()</code></p>
+</dd>
+<dt id='isDefiniteAssign'>
+isDefiniteAssign</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isDefiniteAssign(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='Expr.html'>Expr</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='isExit'>
+isExit</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isExit()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='CType.html'>CType?</a> ctype := null, <a href='../sys/Str.html'>Str</a> name := &quot;&quot;)</code></p>
+</dd>
+<dt id='makeCatchVar'>
+makeCatchVar</dt>
+<dd>
+<p class='sig'>
+<code>new makeCatchVar(<a href='Catch.html'>Catch</a> c)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name()</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='var_v'>
+var_v</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodVar.html'>MethodVar?</a> var_v</code></p>
+</dd>
+<dt id='walkChildren'>
+walkChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> walkChildren(<a href='Visitor.html'>Visitor</a> v, <a href='VisitDepth.html'>VisitDepth</a> depth)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeCatchVar'>makeCatchVar</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#ctype'>ctype</a></li><li><a href='#getChildren'>getChildren</a></li><li><a href='#init'>init</a></li><li><a href='#isCatchVar'>isCatchVar</a></li><li><a href='#isDefiniteAssign'>isDefiniteAssign</a></li><li><a href='#isExit'>isExit</a></li><li><a href='#name'>name</a></li><li><a href='#print'>print</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#var_v'>var_v</a></li><li><a href='#walkChildren'>walkChildren</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseMath::Transform3D</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseMath</a></li><li><a href='Transform3D.html'>Transform3D</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> vaseMath::Transform3D</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseMath::Transform3D</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>model/view matrix and projection</p>
+<dl>
+<dt id='clone'>
+clone</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Transform3D.html'>Transform3D</a> clone()</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> get(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+</dd>
+<dt id='makeFrustum'>
+makeFrustum</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeFrustum(<a href='../sys/Float.html'>Float</a> left, <a href='../sys/Float.html'>Float</a> right, <a href='../sys/Float.html'>Float</a> bottom, <a href='../sys/Float.html'>Float</a> top, <a href='../sys/Float.html'>Float</a> znear, <a href='../sys/Float.html'>Float</a> zfar)</code></p>
+</dd>
+<dt id='makeLookAt'>
+makeLookAt</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeLookAt(<a href='../sys/Float.html'>Float</a> ex, <a href='../sys/Float.html'>Float</a> ey, <a href='../sys/Float.html'>Float</a> ez, <a href='../sys/Float.html'>Float</a> cx, <a href='../sys/Float.html'>Float</a> cy, <a href='../sys/Float.html'>Float</a> cz, <a href='../sys/Float.html'>Float</a> ux, <a href='../sys/Float.html'>Float</a> uy, <a href='../sys/Float.html'>Float</a> uz)</code></p>
+</dd>
+<dt id='makeOrtho'>
+makeOrtho</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeOrtho(<a href='../sys/Float.html'>Float</a> left, <a href='../sys/Float.html'>Float</a> right, <a href='../sys/Float.html'>Float</a> bottom, <a href='../sys/Float.html'>Float</a> top, <a href='../sys/Float.html'>Float</a> znear, <a href='../sys/Float.html'>Float</a> zfar)</code></p>
+</dd>
+<dt id='makePerspective'>
+makePerspective</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makePerspective(<a href='../sys/Float.html'>Float</a> fovy, <a href='../sys/Float.html'>Float</a> aspect, <a href='../sys/Float.html'>Float</a> znear, <a href='../sys/Float.html'>Float</a> zfar)</code></p>
+</dd>
+<dt id='makeRotate'>
+makeRotate</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeRotate(<a href='../sys/Float.html'>Float</a> theta, <a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z)</code></p>
+</dd>
+<dt id='makeScale'>
+makeScale</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeScale(<a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z)</code></p>
+</dd>
+<dt id='makeTranslate'>
+makeTranslate</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Matrix.html'>Matrix</a> makeTranslate(<a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z)</code></p>
+</dd>
+<dt id='matrix'>
+matrix</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Matrix.html'>Matrix</a> matrix := Matrix.makeIndentity(4)</code></p>
+</dd>
+<dt id='mult'>
+mult</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> mult(<a href='Transform3D.html'>Transform3D</a> t)</code></p>
+</dd>
+<dt id='rotate'>
+rotate</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> rotate(<a href='../sys/Float.html'>Float</a> theta, <a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z)</code></p>
+
+<p>degree</p>
+</dd>
+<dt id='scale'>
+scale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> scale(<a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z)</code></p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> set(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Float.html'>Float</a> val)</code></p>
+</dd>
+<dt id='translate'>
+translate</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> translate(<a href='../sys/Float.html'>Float</a> x, <a href='../sys/Float.html'>Float</a> y, <a href='../sys/Float.html'>Float</a> z)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#makeFrustum'>makeFrustum</a></li><li><a href='#makeLookAt'>makeLookAt</a></li><li><a href='#makeOrtho'>makeOrtho</a></li><li><a href='#makePerspective'>makePerspective</a></li><li><a href='#makeRotate'>makeRotate</a></li><li><a href='#makeScale'>makeScale</a></li><li><a href='#makeTranslate'>makeTranslate</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#clone'>clone</a></li><li><a href='#get'>get</a></li><li><a href='#matrix'>matrix</a></li><li><a href='#mult'>mult</a></li><li><a href='#rotate'>rotate</a></li><li><a href='#scale'>scale</a></li><li><a href='#set'>set</a></li><li><a href='#translate'>translate</a></li></ul>
+</div>
+</div>
+</body>
+</html>

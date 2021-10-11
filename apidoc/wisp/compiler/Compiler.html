@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::Compiler</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='Compiler.html'>Compiler</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::Compiler</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compiler::Compiler</pre>
+
+<p>Compiler manages the top level process of the compiler pipeline. There are a couple different "pipelines" used to accomplish various twists on compiling Fantom code (from memory, files, etc). The pipelines are implemented as discrete CompilerSteps. As the steps are executed, the Compiler instance itself stores the state as we move from files -> ast -> resolved ast -> code.</p>
+
+<p>Error reporting is managed via the Compiler.errors list.  If the compiler encounters problems it accumulates the errors as CompileExceptions in this list, then raises the first exception to the caller.  All errors go thru the CompilerSupport.err() methods for logging.  To log an error and continue we simply call err().  To fail fast, we code something like: throw err(). Or at the end of a step we may call bombIfErr() which throws the first exception if any errors have accumulated.</p>
+<dl>
+<dt id='backend'>
+backend</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> backend()</code></p>
+
+<p>Execute back-end compiler pipeline</p>
+</dd>
+<dt id='closures'>
+closures</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='ClosureExpr.html'>ClosureExpr</a>&gt;?</a> closures</code></p>
+</dd>
+<dt id='compile'>
+compile</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CompilerOutput.html'>CompilerOutput</a> compile()</code></p>
+
+<p>Compile fan source code from the configured CompilerInput into a fan pod and return the resulting CompilerOutput.</p>
+</dd>
+<dt id='depends'>
+depends</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CDepend.html'>CDepend</a>&gt;</a> depends</code></p>
+</dd>
+<dt id='errs'>
+errs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CompilerErr.html'>CompilerErr</a>&gt;</a> errs</code></p>
+</dd>
+<dt id='fpod'>
+fpod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FPod.html'>FPod?</a> fpod</code></p>
+</dd>
+<dt id='frontend'>
+frontend</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> frontend()</code></p>
+
+<p>Execute front-end compiler pipeline</p>
+</dd>
+<dt id='input'>
+input</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerInput.html'>CompilerInput</a> input</code></p>
+</dd>
+<dt id='js'>
+js</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> js</code></p>
+</dd>
+<dt id='jsFiles'>
+jsFiles</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;?</a> jsFiles</code></p>
+</dd>
+<dt id='jsPod'>
+jsPod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> jsPod</code></p>
+</dd>
+<dt id='jsSourceMap'>
+jsSourceMap</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> jsSourceMap</code></p>
+</dd>
+<dt id='localeDefs'>
+localeDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='LocaleLiteralExpr.html'>LocaleLiteralExpr</a>&gt;</a> localeDefs</code></p>
+</dd>
+<dt id='localeProps'>
+localeProps</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> localeProps</code></p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerLog.html'>CompilerLog</a> log</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CompilerInput.html'>CompilerInput</a> input)</code></p>
+
+<p>Construct with reasonable defaults</p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CNamespace.html'>CNamespace?</a> ns</code></p>
+</dd>
+<dt id='output'>
+output</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerOutput.html'>CompilerOutput?</a> output</code></p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='PodDef.html'>PodDef?</a> pod</code></p>
+</dd>
+<dt id='resFiles'>
+resFiles</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;?</a> resFiles</code></p>
+</dd>
+<dt id='srcFiles'>
+srcFiles</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;?</a> srcFiles</code></p>
+</dd>
+<dt id='types'>
+types</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='TypeDef.html'>TypeDef</a>&gt;?</a> types</code></p>
+</dd>
+<dt id='warns'>
+warns</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CompilerErr.html'>CompilerErr</a>&gt;</a> warns</code></p>
+</dd>
+<dt id='wrappers'>
+wrappers</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CField.html'>CField</a>&gt;</a> wrappers</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#backend'>backend</a></li><li><a href='#closures'>closures</a></li><li><a href='#compile'>compile</a></li><li><a href='#depends'>depends</a></li><li><a href='#errs'>errs</a></li><li><a href='#fpod'>fpod</a></li><li><a href='#frontend'>frontend</a></li><li><a href='#input'>input</a></li><li><a href='#js'>js</a></li><li><a href='#jsFiles'>jsFiles</a></li><li><a href='#jsPod'>jsPod</a></li><li><a href='#jsSourceMap'>jsSourceMap</a></li><li><a href='#localeDefs'>localeDefs</a></li><li><a href='#localeProps'>localeProps</a></li><li><a href='#log'>log</a></li><li><a href='#ns'>ns</a></li><li><a href='#output'>output</a></li><li><a href='#pod'>pod</a></li><li><a href='#resFiles'>resFiles</a></li><li><a href='#srcFiles'>srcFiles</a></li><li><a href='#types'>types</a></li><li><a href='#warns'>warns</a></li><li><a href='#wrappers'>wrappers</a></li></ul>
+</div>
+</div>
+</body>
+</html>

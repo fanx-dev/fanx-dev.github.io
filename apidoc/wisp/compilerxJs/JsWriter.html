@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerxJs::JsWriter</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerxJs</a></li><li><a href='JsWriter.html'>JsWriter</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compilerxJs::JsWriter</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerxJs::JsWriter</pre>
+
+<p>JsWriter.</p>
+<dl>
+<dt id='col'>
+col</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> col := 0</code></p>
+</dd>
+<dt id='indent'>
+indent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsWriter.html'>JsWriter</a> indent()</code></p>
+
+<p>Increment the indentation.</p>
+</dd>
+<dt id='indentation'>
+indentation</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> indentation := 0</code></p>
+</dd>
+<dt id='line'>
+line</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> line := 0</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+
+<p>Make for specified output stream</p>
+</dd>
+<dt id='makeSourceMap'>
+makeSourceMap</dt>
+<dd>
+<p class='sig'>
+<code>new makeSourceMap(<a href='../std/OutStream.html'>OutStream</a> out, <a href='SourceMap.html'>SourceMap</a> sourcemap)</code></p>
+</dd>
+<dt id='minify'>
+minify</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> minify(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+
+<p>Write the minified content of the InSteam.</p>
+</dd>
+<dt id='needIndent'>
+needIndent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> needIndent := false</code></p>
+</dd>
+<dt id='nl'>
+nl</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsWriter.html'>JsWriter</a> nl()</code></p>
+
+<p>Write newline and then return this.</p>
+</dd>
+<dt id='sig'>
+sig</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsWriter.html'>JsWriter</a> sig(<a href='../sys/List.html'>List&lt;<a href='JsMethodParam.html'>JsMethodParam</a>&gt;</a> pars)</code></p>
+</dd>
+<dt id='sourcemap'>
+sourcemap</dt>
+<dd>
+<p class='sig'>
+<code> <a href='SourceMap.html'>SourceMap?</a> sourcemap</code></p>
+</dd>
+<dt id='unindent'>
+unindent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsWriter.html'>JsWriter</a> unindent()</code></p>
+
+<p>Decrement the indentation.</p>
+</dd>
+<dt id='w'>
+w</dt>
+<dd>
+<p class='sig'>
+<code> <a href='JsWriter.html'>JsWriter</a> w(<a href='../sys/Obj.html'>Obj</a> o, <a href='../compilerx/Loc.html'>Loc?</a> loc := null, <a href='../sys/Str.html'>Str?</a> name := null)</code></p>
+
+<p>Write and then return this. If loc is not null, the text will be added to the generated source map.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeSourceMap'>makeSourceMap</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#col'>col</a></li><li><a href='#indent'>indent</a></li><li><a href='#indentation'>indentation</a></li><li><a href='#line'>line</a></li><li><a href='#minify'>minify</a></li><li><a href='#needIndent'>needIndent</a></li><li><a href='#nl'>nl</a></li><li><a href='#sig'>sig</a></li><li><a href='#sourcemap'>sourcemap</a></li><li><a href='#unindent'>unindent</a></li><li><a href='#w'>w</a></li></ul>
+</div>
+</div>
+</body>
+</html>

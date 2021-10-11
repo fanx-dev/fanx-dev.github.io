@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>concurrent::ActorPool</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>concurrent</a></li><li><a href='ActorPool.html'>ActorPool</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> concurrent::ActorPool</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  concurrent::ActorPool</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/JsNative.html'>JsNative</a></code><br /></p>
+
+<p>Controller for a group of actors which manages their execution using pooled thread resources.</p>
+
+<p>See <a href='docLang::Actors'>docLang::Actors</a></p>
+<dl>
+<dt id='_killed'>
+_killed</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/AtomicBool.html'>AtomicBool</a> _killed := AtomicBool(false)</code></p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='ActorPool.html'>ActorPool</a> defVal()</code></p>
+</dd>
+<dt id='isDone'>
+isDone</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isDone()</code></p>
+
+<p>Return true if this pool has been stopped or killed and all its actors have completed processing.  If this pool was stopped then true indicates that all pending messages in the queues before the stop have been fully processed.  If this pool was killed, then this method returns true once all actors have exited their thread.  See <code><a href='ActorPool.html#join'>join</a></code> to block until done.</p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='isStopped'>
+isStopped</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStopped()</code></p>
+
+<p>Return true if this pool has been stopped or killed.  Once a a pool is stopped, new messages may not be delivered to any of its actors.  A stopped pool is not necessarily done until all its actors have finished processing.  Also see <code><a href='ActorPool.html#isDone'>isDone</a></code> and <code><a href='ActorPool.html#join'>join</a></code>.</p>
+</dd>
+<dt id='join'>
+join</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> join(<a href='../std/Duration.html'>Duration?</a> timeout := null)</code></p>
+
+<p>Wait for this pool's actors to fully terminate or until the given timeout occurs.  A null timeout blocks forever.  If this method times out, then TimeoutErr is thrown.  Throw Err if the pool is not stopped.  Return this.</p>
+</dd>
+<dt id='kill'>
+kill</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> kill()</code></p>
+
+<p>Perform an unorderly shutdown.  Any pending messages which have not started processing are cancelled.  Actors which are currently processing a message will be interrupted.  See <code><a href='ActorPool.html#stop'>stop</a></code> to perform an orderly shutdown.  If the pool has already been killed, then do nothing.</p>
+</dd>
+<dt id='killed'>
+killed</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> killed()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+
+<p>It-block constructor</p>
+</dd>
+<dt id='maxThreads'>
+maxThreads</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> maxThreads := 100</code></p>
+
+<p>Max number of threads which are used by this pool for concurrent actor execution.  This value must be at least one or greater.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name := &quot;ActorPool&quot;</code></p>
+
+<p>Name to use for the pool and associated threads.</p>
+</dd>
+<dt id='stop'>
+stop</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> stop()</code></p>
+
+<p>Perform an orderly shutdown.  Once stopped, no new messages may be sent to this pool's actors.  However, any pending messages will be processed.  Note that scheduled messages are <em>not</em> guaranteed to be processed, only those delivered with <code>Actor.send</code>.</p>
+
+<p>Use <code><a href='ActorPool.html#join'>join</a></code> to wait for all actors to complete their message queue. To perform an immediate shutdown use <code><a href='ActorPool.html#kill'>kill</a></code>.  If the pool has already been stopped, then do nothing.  Return this.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#_killed'>_killed</a></li><li><a href='#isDone'>isDone</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#isStopped'>isStopped</a></li><li><a href='#join'>join</a></li><li><a href='#kill'>kill</a></li><li><a href='#killed'>killed</a></li><li><a href='#maxThreads'>maxThreads</a></li><li><a href='#name'>name</a></li><li><a href='#stop'>stop</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::NameExpr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='NameExpr.html'>NameExpr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> compiler::NameExpr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    <a href='Expr.html'>compiler::Expr</a>
+      compiler::NameExpr</pre>
+
+<p>NameExpr is the base class for an identifier expression which has an optional base expression.  NameExpr is the base class for UnknownVarExpr and CallExpr which are resolved via CallResolver</p>
+<dl>
+<dt id='isAlwaysNullable'>
+isAlwaysNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isAlwaysNullable()</code></p>
+</dd>
+<dt id='isSafe'>
+isSafe</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSafe</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='ExprId.html'>ExprId</a> id, <a href='Expr.html'>Expr?</a> target, <a href='../sys/Str.html'>Str?</a> name)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> name</code></p>
+</dd>
+<dt id='target'>
+target</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr?</a> target</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='walkChildren'>
+walkChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> walkChildren(<a href='Visitor.html'>Visitor</a> v)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#isAlwaysNullable'>isAlwaysNullable</a></li><li><a href='#isSafe'>isSafe</a></li><li><a href='#name'>name</a></li><li><a href='#target'>target</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#walkChildren'>walkChildren</a></li></ul>
+</div>
+</div>
+</body>
+</html>

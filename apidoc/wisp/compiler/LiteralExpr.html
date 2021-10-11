@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::LiteralExpr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='LiteralExpr.html'>LiteralExpr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::LiteralExpr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    <a href='Expr.html'>compiler::Expr</a>
+      compiler::LiteralExpr</pre>
+
+<p>LiteralExpr puts an Bool, Int, Float, Str, Duration, Uri, or null constant onto the stack.</p>
+<dl>
+<dt id='asTableSwitchCase'>
+asTableSwitchCase</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int?</a> asTableSwitchCase()</code></p>
+</dd>
+<dt id='isAlwaysNullable'>
+isAlwaysNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isAlwaysNullable()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='ExprId.html'>ExprId</a> id, <a href='CType.html'>CType</a> ctype, <a href='../sys/Obj.html'>Obj?</a> val)</code></p>
+</dd>
+<dt id='makeDefaultLiteral'>
+makeDefaultLiteral</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='LiteralExpr.html'>LiteralExpr</a> makeDefaultLiteral(<a href='Loc.html'>Loc</a> loc, <a href='CNamespace.html'>CNamespace</a> ns, <a href='CType.html'>CType</a> ctype)</code></p>
+</dd>
+<dt id='makeFalse'>
+makeFalse</dt>
+<dd>
+<p class='sig'>
+<code>new makeFalse(<a href='Loc.html'>Loc</a> loc, <a href='CNamespace.html'>CNamespace</a> ns)</code></p>
+</dd>
+<dt id='makeNull'>
+makeNull</dt>
+<dd>
+<p class='sig'>
+<code>new makeNull(<a href='Loc.html'>Loc</a> loc, <a href='CNamespace.html'>CNamespace</a> ns)</code></p>
+</dd>
+<dt id='makeStr'>
+makeStr</dt>
+<dd>
+<p class='sig'>
+<code>new makeStr(<a href='Loc.html'>Loc</a> loc, <a href='CNamespace.html'>CNamespace</a> ns, <a href='../sys/Str.html'>Str</a> val)</code></p>
+</dd>
+<dt id='makeTrue'>
+makeTrue</dt>
+<dd>
+<p class='sig'>
+<code>new makeTrue(<a href='Loc.html'>Loc</a> loc, <a href='CNamespace.html'>CNamespace</a> ns)</code></p>
+</dd>
+<dt id='serialize'>
+serialize</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> serialize()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> val</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeDefaultLiteral'>makeDefaultLiteral</a></li><li><a href='#makeFalse'>makeFalse</a></li><li><a href='#makeNull'>makeNull</a></li><li><a href='#makeStr'>makeStr</a></li><li><a href='#makeTrue'>makeTrue</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#asTableSwitchCase'>asTableSwitchCase</a></li><li><a href='#isAlwaysNullable'>isAlwaysNullable</a></li><li><a href='#serialize'>serialize</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#val'>val</a></li></ul>
+</div>
+</div>
+</body>
+</html>

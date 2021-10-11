@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::UriScheme</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='UriScheme.html'>UriScheme</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> std::UriScheme</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::UriScheme</pre>
+
+<p>UriSchemes are registered to handle a specific Uri scheme such as "file" or "http".  Scheme handlers are registered using the pod index key "sys.uriScheme.{scheme}={qname}" where "scheme" is lowercase scheme name and "qname" is the qualified type name of the subclass.  See <a href='docLang::Naming'>docLang</a> for the details of scheme handling works.</p>
+<dl>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='UriScheme.html'>UriScheme?</a> find(<a href='../sys/Str.html'>Str</a> scheme, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Lookup a UriScheme for the specified scheme name. Scheme name must be lower case - note that <code><a href='Uri.html#scheme'>Uri.scheme</a></code> is always normalized to lower case.  If the scheme is not mapped and checked is true then throw UnresolvedErr otherwise return null.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Obj.html'>Obj?</a> get(<a href='Uri.html'>Uri</a> uri, <a href='../sys/Obj.html'>Obj?</a> base)</code></p>
+
+<p>Resolve the uri to a Fantom object.  If uri cannot be resolved by this scheme then throw UnresolvedErr.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Default implementation returns type qname.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#find'>find</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#get'>get</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

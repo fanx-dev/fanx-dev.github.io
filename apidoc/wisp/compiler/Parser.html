@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::Parser</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='Parser.html'>Parser</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::Parser</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    compiler::Parser</pre>
+
+<p>Parser is responsible for parsing a list of tokens into the abstract syntax tree.  At this point the CompilationUnit, Usings, and TypeDefs are already populated by the ScanForUsingAndTypes step.</p>
+<dl>
+<dt id='ProtectionMask'>
+ProtectionMask</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> ProtectionMask := ...</code></p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CompilerErr.html'>CompilerErr</a> err(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler, <a href='CompilationUnit.html'>CompilationUnit</a> unit, <a href='../sys/List.html'>List&lt;<a href='ClosureExpr.html'>ClosureExpr</a>&gt;</a> closures)</code></p>
+
+<p>Construct the parser for the specified compilation unit.</p>
+</dd>
+<dt id='parse'>
+parse</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> parse()</code></p>
+
+<p>Top level parse a compilation unit:</p>
+
+<pre>&lt;compilationUnit> :=  [&lt;usings>] &lt;typeDef>*</pre>
+</dd>
+<dt id='typeDef'>
+typeDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> typeDef()</code></p>
+
+<p>TypeDef:</p>
+
+<pre>&lt;typeDef>      :=  &lt;classDef> | &lt;mixinDef> | &lt;enumDef> | &lt;facetDef>
+
+&lt;classDef>     :=  &lt;classHeader> &lt;classBody>
+&lt;classHeader>  :=  [&lt;doc>] &lt;facets> &lt;typeFlags> "class" [&lt;inheritance>]
+&lt;classFlags>   :=  [&lt;protection>] ["abstract"] ["final"]
+&lt;classBody>    :=  "{" &lt;slotDefs> "}"
+
+&lt;enumDef>      :=  &lt;enumHeader> &lt;enumBody>
+&lt;enumHeader>   :=  [&lt;doc>] &lt;facets> &lt;protection> "enum" [&lt;inheritance>]
+&lt;enumBody>     :=  "{" &lt;enumDefs> &lt;slotDefs> "}"
+
+&lt;facetDef      :=  &lt;facetHeader> &lt;enumBody>
+&lt;facetHeader>  :=  [&lt;doc>] &lt;facets> [&lt;protection>] "facet" "class" &lt;id> [&lt;inheritance>]
+&lt;facetBody>    :=  "{" &lt;slotDefs> "}"
+
+&lt;mixinDef>     :=  &lt;enumHeader> &lt;enumBody>
+&lt;mixinHeader>  :=  [&lt;doc>] &lt;facets> &lt;protection> "mixin" [&lt;inheritance>]
+&lt;mixinBody>    :=  "{" &lt;slotDefs> "}"
+
+&lt;protection>   :=  "public" | "protected" | "private" | "internal"
+&lt;inheritance>  :=  ":" &lt;typeList></pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#ProtectionMask'>ProtectionMask</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#err'>err</a></li><li><a href='#parse'>parse</a></li><li><a href='#typeDef'>typeDef</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>AsnOid.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnOid.html'>AsnOid</a></li><li><a href='src-AsnOid.fan.html'>AsnOid.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   09 Aug 2021 Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** Models an ASN.1 'OBJECT IDENTIFIER' type.</span>
+<span id='line11'>**</span>
+<span id='line12'>final const class AsnOid : AsnObj</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line16'>// Construction</span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'></span>
+<span id='line19'>  protected new make<b>(</b>AsnTag<b>[</b><b>]</b> tags, Int<b>[</b><b>]</b> val<b>)</b> : super<b>(</b>tags, val<b>)</b></span>
+<span id='line20'>  <b>{</b></span>
+<span id='line21'>    if <b>(</b>univTag != AsnTag.univOid<b>)</b> throw ArgErr<b>(</b>"Invalid tags for OID: $tags"<b>)</b></span>
+<span id='line22'>  <b>}</b></span>
+<span id='line23'></span>
+<span id='line24'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line25'>// Identity</span>
+<span id='line26'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line27'></span>
+<span id='line28'>  ** Convenience to get the value as a list of its 'Int' identifiers.</span>
+<span id='line29'>  Int<b>[</b><b>]</b> ids<b>(</b><b>)</b></span>
+<span id='line30'>  <b>{</b></span>
+<span id='line31'>    this.val</span>
+<span id='line32'>  <b>}</b></span>
+<span id='line33'></span>
+<span id='line34'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line35'>// Oid</span>
+<span id='line36'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line37'></span>
+<span id='line38'>  ** Convenience to get a Str where the sub-identifiers are joined with a '.'</span>
+<span id='line39'>  **</span>
+<span id='line40'>  **   Asn.oid<b>(</b>"1.2.3"<b>)</b>.oidStr == "1.2.3"</span>
+<span id='line41'>  Str oidStr<b>(</b><b>)</b></span>
+<span id='line42'>  <b>{</b></span>
+<span id='line43'>    ids.join<b>(</b>"."<b>)</b></span>
+<span id='line44'>  <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  ** Get a new Oid based on the specified range. This Oid</span>
+<span id='line47'>  ** is guaranteed to be in the universal tag class <b>(</b>i.e. - the</span>
+<span id='line48'>  ** tag is not preservered<b>)</b>.</span>
+<span id='line49'>  **</span>
+<span id='line50'>  ** Throw IndexErr if the range is illegal.</span>
+<span id='line51'>  @Operator</span>
+<span id='line52'>  AsnOid getRange<b>(</b>Range range<b>)</b></span>
+<span id='line53'>  <b>{</b></span>
+<span id='line54'>    Asn.oid<b>(</b>ids<b>[</b>range<b>]</b><b>)</b></span>
+<span id='line55'>  <b>}</b></span>
+<span id='line56'></span>
+<span id='line57'>  // override AsnOid push<b>(</b>AsnTag tag<b>)</b></span>
+<span id='line58'>  // <b>{</b></span>
+<span id='line59'>  //   AsnOid<b>(</b><b>[</b>tag<b>]</b>.addAll<b>(</b>this.tags<b>)</b>, val<b>)</b></span>
+<span id='line60'>  // <b>}</b></span>
+<span id='line61'></span>
+<span id='line62'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line63'>// Obj</span>
+<span id='line64'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line65'></span>
+<span id='line66'>  ** Oid is ordered by comparing its sub-identifier parts numerically.</span>
+<span id='line67'>  override Int compare<b>(</b>Obj that<b>)</b></span>
+<span id='line68'>  <b>{</b></span>
+<span id='line69'>    thatOid := <b>(</b>AsnOid<b>)</b>that</span>
+<span id='line70'>    if <b>(</b>this.ids == thatOid.ids<b>)</b> return 0</span>
+<span id='line71'></span>
+<span id='line72'>    i := 0</span>
+<span id='line73'>    cmp := this.ids<b>[</b>i<b>]</b> &lt;=> thatOid.ids<b>[</b>i<b>]</b></span>
+<span id='line74'>    while <b>(</b>cmp == 0<b>)</b></span>
+<span id='line75'>    <b>{</b></span>
+<span id='line76'>      ++i</span>
+<span id='line77'>      if <b>(</b>i >= this.ids.size<b>)</b> return -1</span>
+<span id='line78'>      else if <b>(</b>i >= thatOid.ids.size<b>)</b> return 1</span>
+<span id='line79'>      cmp = this.ids<b>[</b>i<b>]</b> &lt;=> thatOid.ids<b>[</b>i<b>]</b></span>
+<span id='line80'>    <b>}</b></span>
+<span id='line81'>    return cmp</span>
+<span id='line82'>  <b>}</b></span>
+<span id='line83'></span>
+<span id='line84'>  override Str valStr<b>(</b><b>)</b> <b>{</b> oidStr <b>}</b></span>
+<span id='line85'><b>}</b></span>
+<span id='line86'></span>
+</pre>
+</div>
+</body>
+</html>

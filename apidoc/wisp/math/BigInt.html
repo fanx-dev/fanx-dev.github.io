@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>math::BigInt</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>math</a></li><li><a href='BigInt.html'>BigInt</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> math::BigInt</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  math::BigInt</pre>
+<p class='src'>
+<a href='src-BigInt.fan.html'>Source</a></p>
+
+<p>Immutable arbitrary-precision integer.</p>
+<dl>
+<dt id='and'>
+and</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BigInt.html'>BigInt</a> and(<a href='../sys/Obj.html'>Obj</a> b)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line86'>Source</a></p>
+</dd>
+<dt id='bitLen'>
+bitLen</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> bitLen()</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line80'>Source</a></p>
+
+<p>Returns the number of bits in the minimal two's-complement representation of this BigInteger, excluding a sign bit.</p>
+</dd>
+<dt id='clearBit'>
+clearBit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BigInt.html'>BigInt</a> clearBit(<a href='../sys/Int.html'>Int</a> b)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line74'>Source</a></p>
+</dd>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> compare(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line37'>Source</a></p>
+</dd>
+<dt id='decrement'>
+decrement</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='BigInt.html'>BigInt</a> decrement()</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line66'>Source</a></p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='BigInt.html'>BigInt</a> defVal</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line21'>Source</a></p>
+
+<p>Default value is 0.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line35'>Source</a></p>
+</dd>
+<dt id='flipBit'>
+flipBit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BigInt.html'>BigInt</a> flipBit(<a href='../sys/Int.html'>Int</a> b)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line76'>Source</a></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Int.html'>Int</a> radix := 10, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html'>Source</a></p>
+</dd>
+<dt id='increment'>
+increment</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='BigInt.html'>BigInt</a> increment()</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line64'>Source</a></p>
+</dd>
+<dt id='makeBuf'>
+makeBuf</dt>
+<dd>
+<p class='sig'>
+<code>new makeBuf(<a href='../std/Buf.html'>Buf</a> bytes)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line27'>Source</a></p>
+</dd>
+<dt id='makeInt'>
+makeInt</dt>
+<dd>
+<p class='sig'>
+<code>new makeInt(<a href='../sys/Int.html'>Int</a> val)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line26'>Source</a></p>
+</dd>
+<dt id='negate'>
+negate</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='BigInt.html'>BigInt</a> negate()</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line62'>Source</a></p>
+</dd>
+<dt id='not'>
+not</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BigInt.html'>BigInt</a> not()</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line84'>Source</a></p>
+</dd>
+<dt id='one'>
+one</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='BigInt.html'>BigInt</a> one</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line24'>Source</a></p>
+</dd>
+<dt id='or'>
+or</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BigInt.html'>BigInt</a> or(<a href='../sys/Obj.html'>Obj</a> b)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line88'>Source</a></p>
+</dd>
+<dt id='setBit'>
+setBit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BigInt.html'>BigInt</a> setBit(<a href='../sys/Int.html'>Int</a> b)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line72'>Source</a></p>
+</dd>
+<dt id='shftr'>
+shftr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BigInt.html'>BigInt</a> shftr(<a href='../sys/Int.html'>Int</a> b)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line94'>Source</a></p>
+</dd>
+<dt id='shiftl'>
+shiftl</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BigInt.html'>BigInt</a> shiftl(<a href='../sys/Int.html'>Int</a> b)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line92'>Source</a></p>
+</dd>
+<dt id='signum'>
+signum</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> signum()</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line45'>Source</a></p>
+
+<p>-1, 0, 1 if the BigInt is negative, zero, or positive.</p>
+</dd>
+<dt id='testBit'>
+testBit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> testBit(<a href='../sys/Int.html'>Int</a> b)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line78'>Source</a></p>
+</dd>
+<dt id='toBuf'>
+toBuf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> toBuf()</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line54'>Source</a></p>
+</dd>
+<dt id='toInt'>
+toInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> toInt(<a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line48'>Source</a></p>
+
+<p>Convert the number to an Int.</p>
+
+<p>If the value is out-of-range and checked is true, an Err is thrown. Otherwise the value is truncated, with possible loss of sign.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line39'>Source</a></p>
+</dd>
+<dt id='xor'>
+xor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='BigInt.html'>BigInt</a> xor(<a href='../sys/Obj.html'>Obj</a> b)</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line90'>Source</a></p>
+</dd>
+<dt id='zero'>
+zero</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='BigInt.html'>BigInt</a> zero</code></p>
+<p class='src'>
+<a href='src-BigInt.fan.html#line23'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-BigInt.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#makeBuf'>makeBuf</a></li><li><a href='#makeInt'>makeInt</a></li><li><a href='#one'>one</a></li><li><a href='#zero'>zero</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#and'>and</a></li><li><a href='#bitLen'>bitLen</a></li><li><a href='#clearBit'>clearBit</a></li><li><a href='#compare'>compare</a></li><li><a href='#decrement'>decrement</a></li><li><a href='#equals'>equals</a></li><li><a href='#flipBit'>flipBit</a></li><li><a href='#increment'>increment</a></li><li><a href='#negate'>negate</a></li><li><a href='#not'>not</a></li><li><a href='#or'>or</a></li><li><a href='#setBit'>setBit</a></li><li><a href='#shftr'>shftr</a></li><li><a href='#shiftl'>shiftl</a></li><li><a href='#signum'>signum</a></li><li><a href='#testBit'>testBit</a></li><li><a href='#toBuf'>toBuf</a></li><li><a href='#toInt'>toInt</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#xor'>xor</a></li></ul>
+</div>
+</div>
+</body>
+</html>

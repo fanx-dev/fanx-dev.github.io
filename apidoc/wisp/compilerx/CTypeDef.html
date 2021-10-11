@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CTypeDef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CTypeDef.html'>CTypeDef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> compilerx::CTypeDef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::CTypeDef : <a href='CDefNode.html'>compilerx::CDefNode</a>, <a href='TypeMixin.html'>compilerx::TypeMixin</a></pre>
+<dl>
+<dt id='asRef'>
+asRef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> asRef()</code></p>
+</dd>
+<dt id='base'>
+base</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CType.html'>CType?</a> base()</code></p>
+
+<p>The direct super class of this type (null for Obj).</p>
+</dd>
+<dt id='bridge'>
+bridge</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CBridge.html'>CBridge?</a> bridge()</code></p>
+
+<p>If this is a foreign function return the bridge.</p>
+</dd>
+<dt id='ctorDefs'>
+ctorDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CMethod.html'>CMethod</a>&gt;</a> ctorDefs()</code></p>
+
+<p>Get the constructor MethodDefs declared within this TypeDef.</p>
+</dd>
+<dt id='extName'>
+extName</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> extName()</code></p>
+</dd>
+<dt id='facetAnno'>
+facetAnno</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CFacet.html'>CFacet?</a> facetAnno(<a href='../sys/Str.html'>Str</a> qname)</code></p>
+
+<p>Get the facet keyed by given type, or null if not defined.</p>
+</dd>
+<dt id='facets'>
+facets</dt>
+<dd>
+<p class='sig'>
+<code>abstract override <a href='../sys/List.html'>List&lt;<a href='CFacet.html'>CFacet</a>&gt;?</a> facets()</code></p>
+</dd>
+<dt id='fieldDef'>
+fieldDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CField.html'>CField?</a> fieldDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return FieldDef for specified name or null.</p>
+</dd>
+<dt id='fieldDefs'>
+fieldDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CField.html'>CField</a>&gt;</a> fieldDefs()</code></p>
+
+<p>Get the FieldDefs declared within this TypeDef.</p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>abstract override <a href='../sys/Int.html'>Int</a> flags()</code></p>
+
+<p>Get the flags bitmask.</p>
+</dd>
+<dt id='genericParameters'>
+genericParameters</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/List.html'>List&lt;<a href='GenericParamDef.html'>GenericParamDef</a>&gt;</a> genericParameters()</code></p>
+</dd>
+<dt id='getGenericParameter'>
+getGenericParameter</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='GenericParamDef.html'>GenericParamDef?</a> getGenericParameter(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>find GenericParameter by name</p>
+</dd>
+<dt id='hasFacet'>
+hasFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasFacet(<a href='../sys/Str.html'>Str</a> qname)</code></p>
+
+<p>Return if the given facet is defined.</p>
+</dd>
+<dt id='hasSlotDef'>
+hasSlotDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasSlotDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return if this class has a slot definition for specified name.</p>
+</dd>
+<dt id='inheritances'>
+inheritances</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> inheritances()</code></p>
+</dd>
+<dt id='instanceFieldDefs'>
+instanceFieldDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CField.html'>CField</a>&gt;</a> instanceFieldDefs()</code></p>
+
+<p>Get the instance FieldDefs declared within this TypeDef.</p>
+</dd>
+<dt id='isForeign'>
+isForeign</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isForeign()</code></p>
+
+<p>If this a foreign function interface type.</p>
+</dd>
+<dt id='isGeneric'>
+isGeneric</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isGeneric()</code></p>
+
+<p>A generic type means that one or more of my slots contain signatures using a generic parameter (such as V or K).  Fantom supports three built-in generic types: List, Map, and Func.  A generic instance (such as Str[]) is NOT a generic type (all of its generic parameters have been filled in). User defined generic types are not supported in Fan.</p>
+</dd>
+<dt id='isNoDoc'>
+isNoDoc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNoDoc()</code></p>
+
+<p>Return if type has NoDoc facet</p>
+</dd>
+<dt id='isSupported'>
+isSupported</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isSupported()</code></p>
+
+<p>Return if type is supported by the Fantom type system.  For example the Java FFI will correctly model a Java multi-dimensional array during compilation, however there is no Fantom representation.  We check for supported types during CheckErrors when accessing fields and methods.</p>
+</dd>
+<dt id='isVal'>
+isVal</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isVal()</code></p>
+</dd>
+<dt id='keep'>
+keep</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CSlot.html'>CSlot?</a> keep(<a href='CSlot.html'>CSlot</a> a, <a href='CSlot.html'>CSlot</a> b)</code></p>
+
+<p>Return if there is a clear keeper between a and b - if so return the one to keep otherwise return null.</p>
+</dd>
+<dt id='len'>
+len</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> len := 0</code></p>
+</dd>
+<dt id='methodDef'>
+methodDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CMethod.html'>CMethod?</a> methodDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return MethodDef for specified name or null.</p>
+</dd>
+<dt id='methodDefs'>
+methodDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CMethod.html'>CMethod</a>&gt;</a> methodDefs()</code></p>
+
+<p>Get the MethodDefs declared within this TypeDef.</p>
+</dd>
+<dt id='mixins'>
+mixins</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> mixins()</code></p>
+
+<p>Return the mixins directly implemented by this type.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>Simple name of the type such as "Str".</p>
+</dd>
+<dt id='operators'>
+operators</dt>
+<dd>
+<p class='sig'>
+<code> <a href='COperators.html'>COperators</a> operators()</code></p>
+
+<p>Get operators lookup structure</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CPod.html'>CPod</a> pod()</code></p>
+
+<p>Parent pod which defines this type.</p>
+</dd>
+<dt id='podName'>
+podName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> podName()</code></p>
+
+<p>name of parent pod</p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> qname()</code></p>
+
+<p>Qualified name such as "sys:Str".</p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> signature()</code></p>
+
+<p>This is the full signature of the type.</p>
+</dd>
+<dt id='slot'>
+slot</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CSlot.html'>CSlot?</a> slot(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Lookup a slot by name.  If the slot doesn't exist then return null.</p>
+</dd>
+<dt id='slotDef'>
+slotDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='SlotDef.html'>SlotDef?</a> slotDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return SlotDef for specified name or null.</p>
+</dd>
+<dt id='slotDefMap'>
+slotDefMap</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CSlot.html'>CSlot</a>&gt;</a> slotDefMap()</code></p>
+</dd>
+<dt id='slotDefMapCache'>
+slotDefMapCache</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CSlot.html'>CSlot</a>&gt;?</a> slotDefMapCache</code></p>
+</dd>
+<dt id='slotDefs'>
+slotDefs</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='CSlot.html'>CSlot</a>&gt;</a> slotDefs()</code></p>
+
+<p>Get the CSlots declared within this CTypeDef.</p>
+</dd>
+<dt id='slots'>
+slots</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CSlot.html'>CSlot</a>&gt;</a> slots()</code></p>
+</dd>
+<dt id='staticFieldDefs'>
+staticFieldDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CField.html'>CField</a>&gt;</a> staticFieldDefs()</code></p>
+
+<p>Get the static FieldDefs declared within this TypeDef.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return signature</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#keep'>keep</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#asRef'>asRef</a></li><li><a href='#base'>base</a></li><li><a href='#bridge'>bridge</a></li><li><a href='#ctorDefs'>ctorDefs</a></li><li><a href='#extName'>extName</a></li><li><a href='#facetAnno'>facetAnno</a></li><li><a href='#facets'>facets</a></li><li><a href='#fieldDef'>fieldDef</a></li><li><a href='#fieldDefs'>fieldDefs</a></li><li><a href='#flags'>flags</a></li><li><a href='#genericParameters'>genericParameters</a></li><li><a href='#getGenericParameter'>getGenericParameter</a></li><li><a href='#hasFacet'>hasFacet</a></li><li><a href='#hasSlotDef'>hasSlotDef</a></li><li><a href='#inheritances'>inheritances</a></li><li><a href='#instanceFieldDefs'>instanceFieldDefs</a></li><li><a href='#isForeign'>isForeign</a></li><li><a href='#isGeneric'>isGeneric</a></li><li><a href='#isNoDoc'>isNoDoc</a></li><li><a href='#isSupported'>isSupported</a></li><li><a href='#isVal'>isVal</a></li><li><a href='#len'>len</a></li><li><a href='#methodDef'>methodDef</a></li><li><a href='#methodDefs'>methodDefs</a></li><li><a href='#mixins'>mixins</a></li><li><a href='#name'>name</a></li><li><a href='#operators'>operators</a></li><li><a href='#pod'>pod</a></li><li><a href='#podName'>podName</a></li><li><a href='#qname'>qname</a></li><li><a href='#signature'>signature</a></li><li><a href='#slot'>slot</a></li><li><a href='#slotDef'>slotDef</a></li><li><a href='#slotDefMap'>slotDefMap</a></li><li><a href='#slotDefMapCache'>slotDefMapCache</a></li><li><a href='#slotDefs'>slotDefs</a></li><li><a href='#slots'>slots</a></li><li><a href='#staticFieldDefs'>staticFieldDefs</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

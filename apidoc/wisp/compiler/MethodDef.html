@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::MethodDef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='MethodDef.html'>MethodDef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::MethodDef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    <a href='DefNode.html'>compiler::DefNode</a>
+      <a href='SlotDef.html'>compiler::SlotDef</a>
+        compiler::MethodDef : <a href='CMethod.html'>compiler::CMethod</a></pre>
+
+<p>MethodDef models a method definition - it's signature and body.</p>
+<dl>
+<dt id='accessorFor'>
+accessorFor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FieldDef.html'>FieldDef?</a> accessorFor</code></p>
+</dd>
+<dt id='addLocalVar'>
+addLocalVar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodVar.html'>MethodVar</a> addLocalVar(<a href='CType.html'>CType</a> ctype, <a href='../sys/Str.html'>Str?</a> name, <a href='Block.html'>Block?</a> scope)</code></p>
+
+<p>Make and add a MethodVar for a local variable.  If name is null then we auto-generate a temporary variable name</p>
+</dd>
+<dt id='addLocalVarForDef'>
+addLocalVarForDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodVar.html'>MethodVar</a> addLocalVarForDef(<a href='LocalDefStmt.html'>LocalDefStmt</a> def, <a href='Block.html'>Block?</a> scope)</code></p>
+
+<p>Make and add a MethodVar for a local variable.</p>
+</dd>
+<dt id='addParamVar'>
+addParamVar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodVar.html'>MethodVar</a> addParamVar(<a href='CType.html'>CType</a> ctype, <a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Add a parameter to the end of the method signature and initialize the param MethodVar. Note: currently this only works if no locals are defined.</p>
+</dd>
+<dt id='code'>
+code</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Block.html'>Block?</a> code</code></p>
+</dd>
+<dt id='ctorChain'>
+ctorChain</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CallExpr.html'>CallExpr?</a> ctorChain</code></p>
+</dd>
+<dt id='inheritedRet'>
+inheritedRet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType?</a> inheritedRet</code></p>
+</dd>
+<dt id='inheritedReturnType'>
+inheritedReturnType</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> inheritedReturnType()</code></p>
+</dd>
+<dt id='isFieldAccessor'>
+isFieldAccessor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFieldAccessor()</code></p>
+
+<p>Return if getter/setter for FieldDef</p>
+</dd>
+<dt id='isFieldSetter'>
+isFieldSetter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFieldSetter()</code></p>
+
+<p>Return if setter for FieldDef</p>
+</dd>
+<dt id='isInstanceInit'>
+isInstanceInit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInstanceInit()</code></p>
+
+<p>Return if this a instance initializer block.</p>
+</dd>
+<dt id='isItBlockCtor'>
+isItBlockCtor</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isItBlockCtor()</code></p>
+
+<p>Return if this is a constructor with an it-block as last parameter</p>
+</dd>
+<dt id='isNameInstanceInit'>
+isNameInstanceInit</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isNameInstanceInit(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='isNameStaticInit'>
+isNameStaticInit</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isNameStaticInit(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='isStaticInit'>
+isStaticInit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStaticInit()</code></p>
+
+<p>Return if this a static initializer block.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='TypeDef.html'>TypeDef</a> parent, <a href='../sys/Str.html'>Str</a> name := &quot;?&quot;, <a href='../sys/Int.html'>Int</a> flags := 0)</code></p>
+</dd>
+<dt id='makeInstanceInit'>
+makeInstanceInit</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='MethodDef.html'>MethodDef</a> makeInstanceInit(<a href='Loc.html'>Loc</a> loc, <a href='TypeDef.html'>TypeDef</a> parent, <a href='Block.html'>Block?</a> block)</code></p>
+</dd>
+<dt id='makeStaticInit'>
+makeStaticInit</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='MethodDef.html'>MethodDef</a> makeStaticInit(<a href='Loc.html'>Loc</a> loc, <a href='TypeDef.html'>TypeDef</a> parent, <a href='Block.html'>Block?</a> block)</code></p>
+</dd>
+<dt id='paramDefs'>
+paramDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='ParamDef.html'>ParamDef</a>&gt;</a> paramDefs</code></p>
+</dd>
+<dt id='params'>
+params</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CParam.html'>CParam</a>&gt;</a> params()</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='resetVarRegister'>
+resetVarRegister</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> resetVarRegister(<a href='../sys/Bool.html'>Bool</a> warn := true)</code></p>
+
+<p>Why maintain register</p>
+</dd>
+<dt id='ret'>
+ret</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> ret</code></p>
+</dd>
+<dt id='returnType'>
+returnType</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> returnType()</code></p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> signature()</code></p>
+</dd>
+<dt id='usesCvars'>
+usesCvars</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> usesCvars</code></p>
+</dd>
+<dt id='vars'>
+vars</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='MethodVar.html'>MethodVar</a>&gt;</a> vars</code></p>
+</dd>
+<dt id='walk'>
+walk</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> walk(<a href='Visitor.html'>Visitor</a> v, <a href='VisitDepth.html'>VisitDepth</a> depth)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#isNameInstanceInit'>isNameInstanceInit</a></li><li><a href='#isNameStaticInit'>isNameStaticInit</a></li><li><a href='#make'>make</a></li><li><a href='#makeInstanceInit'>makeInstanceInit</a></li><li><a href='#makeStaticInit'>makeStaticInit</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#accessorFor'>accessorFor</a></li><li><a href='#addLocalVar'>addLocalVar</a></li><li><a href='#addLocalVarForDef'>addLocalVarForDef</a></li><li><a href='#addParamVar'>addParamVar</a></li><li><a href='#code'>code</a></li><li><a href='#ctorChain'>ctorChain</a></li><li><a href='#inheritedRet'>inheritedRet</a></li><li><a href='#inheritedReturnType'>inheritedReturnType</a></li><li><a href='#isFieldAccessor'>isFieldAccessor</a></li><li><a href='#isFieldSetter'>isFieldSetter</a></li><li><a href='#isInstanceInit'>isInstanceInit</a></li><li><a href='#isItBlockCtor'>isItBlockCtor</a></li><li><a href='#isStaticInit'>isStaticInit</a></li><li><a href='#paramDefs'>paramDefs</a></li><li><a href='#params'>params</a></li><li><a href='#print'>print</a></li><li><a href='#resetVarRegister'>resetVarRegister</a></li><li><a href='#ret'>ret</a></li><li><a href='#returnType'>returnType</a></li><li><a href='#signature'>signature</a></li><li><a href='#usesCvars'>usesCvars</a></li><li><a href='#vars'>vars</a></li><li><a href='#walk'>walk</a></li></ul>
+</div>
+</div>
+</body>
+</html>

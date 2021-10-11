@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::Float</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='Float.html'>Float</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>struct const class</span> sys::Float</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  <a href='Num.html'>sys::Num</a>
+    sys::Float</pre>
+<p class='facets'>
+<code class='sig'>@<a href='Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Float is used to represent a 64-bit floating point number.</p>
+<dl>
+<dt id='bits'>
+bits</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> bits()</code></p>
+
+<p>Return 64-bit representation according IEEE 754 floating-point double format bit layout.  This method is paired with <code><a href='Float.html#makeBits'>Float.makeBits</a></code>.</p>
+</dd>
+<dt id='bits32'>
+bits32</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> bits32()</code></p>
+
+<p>Return 32-bit representation according IEEE 754 floating-point single format bit layout.  This method is paired with <code><a href='Float.html#makeBits32'>Float.makeBits32</a></code>.</p>
+</dd>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> compare(<a href='Obj.html'>Obj</a> obj)</code></p>
+
+<p>Compare based on floating point value.</p>
+
+<p>NaN works as follows:</p>
+
+<ul>
+<li>for the <code>&lt;=></code> operator NaN is always less than other values and equal to itself (so sort works as expected)</li>
+
+<li>for all other comparison operators anything compared against NaN is false (normal Java semanatics)</li>
+</ul>
+
+<p>Examples:</p>
+
+<pre>Float.nan &lt;=> Float.nan  =>  0
+2f &lt;=> Float.nan         =>  1
+Float.nan &lt;=> 2f         =>  -1
+2f &lt; Float.nan           =>  false
+Float.nan &lt; 2f           =>  false
+Float.nan &lt;= Float.nan   =>  false</pre>
+</dd>
+<dt id='decrement'>
+decrement</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> decrement()</code></p>
+
+<p>Decrement by one.  Shortcut is --a or a--.</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Float.html'>Float</a> defVal := 0.0f</code></p>
+
+<p>Default value is 0f.</p>
+</dd>
+<dt id='div'>
+div</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> div(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Divide this by b.  Shortcut is a/b.</p>
+</dd>
+<dt id='divInt'>
+divInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> divInt(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Divide this by b.  Shortcut is a/b.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Bool.html'>Bool</a> equals(<a href='Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return true if same float value.  Like Java, NaN != NaN. Also see <code><a href='Float.html#compare'>compare</a></code>.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='Str.html'>Str</a> s, <a href='Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse a Str into a Float.  Representations for infinity and not-a-number are "-INF", "INF", "NaN".  This string format matches the lexical representation of Section 3.2.5 of XML Schema Part 2. If invalid format and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> hash()</code></p>
+
+<p>Return bits().</p>
+</dd>
+<dt id='increment'>
+increment</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> increment()</code></p>
+
+<p>Increment by one.  Shortcut is ++a or a++.</p>
+</dd>
+<dt id='isNaN'>
+isNaN</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isNaN()</code></p>
+
+<p>Return if this is Float.nan.  Also see <code><a href='Float.html#compare'>compare</a></code>.</p>
+</dd>
+<dt id='isNegZero'>
+isNegZero</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isNegZero()</code></p>
+
+<p>Return if this is negative zero value.</p>
+</dd>
+<dt id='makeBits'>
+makeBits</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Float.html'>Float</a> makeBits(<a href='Int.html'>Int</a> bits)</code></p>
+
+<p>Make a Float for the specified 64-bit representation according IEEE 754 floating-point double format bit layout.  This method is paired with <code><a href='Float.html#bits'>Float.bits</a></code>.</p>
+</dd>
+<dt id='makeBits32'>
+makeBits32</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Float.html'>Float</a> makeBits32(<a href='Int.html'>Int</a> bits)</code></p>
+
+<p>Make a Float for the specified 32-bit representation according IEEE 754 floating-point single format bit layout.  This method is paired with <code><a href='Float.html#bits32'>Float.bits32</a></code>.</p>
+</dd>
+<dt id='minus'>
+minus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> minus(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Subtract b from this.  Shortcut is a-b.</p>
+</dd>
+<dt id='minusInt'>
+minusInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> minusInt(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Subtract b from this.  Shortcut is a-b.</p>
+</dd>
+<dt id='mod'>
+mod</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> mod(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Return remainder of this divided by b.  Shortcut is a%b.</p>
+</dd>
+<dt id='modInt'>
+modInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> modInt(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Return remainder of this divided by b.  Shortcut is a%b.</p>
+</dd>
+<dt id='mult'>
+mult</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> mult(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Multiply this with b.  Shortcut is a*b.</p>
+</dd>
+<dt id='multInt'>
+multInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> multInt(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Multiply this with b.  Shortcut is a*b.</p>
+</dd>
+<dt id='nan'>
+nan</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Float.html'>Float</a> nan := 0.0 / 0.0</code></p>
+
+<p>Float value for Not-A-Number.</p>
+</dd>
+<dt id='negInf'>
+negInf</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Float.html'>Float</a> negInf := -1.0 / 0.0</code></p>
+
+<p>Float value for negative infinity.</p>
+</dd>
+<dt id='negate'>
+negate</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> negate()</code></p>
+
+<p>Negative of this.  Shortcut is -a.</p>
+</dd>
+<dt id='normNegZero'>
+normNegZero</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Float.html'>Float</a> normNegZero()</code></p>
+
+<p>If this value is negative zero then return normalized zero, otherwise return this value.</p>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> plus(<a href='Float.html'>Float</a> b)</code></p>
+
+<p>Add this with b.  Shortcut is a+b.</p>
+</dd>
+<dt id='plusInt'>
+plusInt</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Float.html'>Float</a> plusInt(<a href='Int.html'>Int</a> b)</code></p>
+
+<p>Add this with b.  Shortcut is a+b.</p>
+</dd>
+<dt id='posInf'>
+posInf</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Float.html'>Float</a> posInf := 1.0 / 0.0</code></p>
+
+<p>Float value for positive infinity.</p>
+</dd>
+<dt id='random'>
+random</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Float.html'>Float</a> random()</code></p>
+
+<p>Generate a random float between 0.0 inclusive and 1.0 exclusive. Also see <code><a href='Int.html#random'>Int.random</a></code>, <code><a href='Range.html#random'>Range.random</a></code>, <code><a href='List.html#random'>List.random</a></code>, and <code><a href='../util/Random.html'>Random</a></code>.</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toCode()</code></p>
+
+<p>Get this Float as a Fantom code literal.</p>
+</dd>
+<dt id='toFloat'>
+toFloat</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Float.html'>Float</a> toFloat()</code></p>
+
+<p>Convert this number to a Float.</p>
+</dd>
+<dt id='toInt'>
+toInt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> toInt()</code></p>
+
+<p>Convert this number to an Int.</p>
+</dd>
+<dt id='toLocale'>
+toLocale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toLocale(<a href='Str.html'>Str?</a> pattern := null)</code></p>
+
+<p>Format this floating point number for the current locale. If pattern is null, then the locale's default pattern is used. Also see <a href='Num.localeDecimal'>Num.localeDecimal</a>, <a href='Num.localeGrouping'>Num.localeGrouping</a>, etc.</p>
+
+<p>The pattern format:</p>
+
+<pre>#   optional digit
+0   required digit
+.   decimal point
+,   grouping separator (only last one before decimal matters)</pre>
+
+<p>Examples:</p>
+
+<pre>12345.786f.toLocale("#,###.0")  =>  12,345.8
+7.1234f.toLocale("#.000")       =>  7.123
+0.1234f.toLocale("#.000")       =>  .123
+0.1234f.toLocale("0.00")        =>  0.12
+70.12f.toLocale("0.0000")       =>  70.1200</pre>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Str.html'>Str</a> toStr()</code></p>
+
+<p>Get string representation according to the lexical representation defined by Section 3.2.5 of XML Schema Part 2.  Representations for infinity and not-a-number are "-INF", "INF", "NaN".</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#makeBits'>makeBits</a></li><li><a href='#makeBits32'>makeBits32</a></li><li><a href='#nan'>nan</a></li><li><a href='#negInf'>negInf</a></li><li><a href='#posInf'>posInf</a></li><li><a href='#random'>random</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bits'>bits</a></li><li><a href='#bits32'>bits32</a></li><li><a href='#compare'>compare</a></li><li><a href='#decrement'>decrement</a></li><li><a href='#div'>div</a></li><li><a href='#divInt'>divInt</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#increment'>increment</a></li><li><a href='#isNaN'>isNaN</a></li><li><a href='#isNegZero'>isNegZero</a></li><li><a href='#minus'>minus</a></li><li><a href='#minusInt'>minusInt</a></li><li><a href='#mod'>mod</a></li><li><a href='#modInt'>modInt</a></li><li><a href='#mult'>mult</a></li><li><a href='#multInt'>multInt</a></li><li><a href='#negate'>negate</a></li><li><a href='#normNegZero'>normNegZero</a></li><li><a href='#plus'>plus</a></li><li><a href='#plusInt'>plusInt</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toFloat'>toFloat</a></li><li><a href='#toInt'>toInt</a></li><li><a href='#toLocale'>toLocale</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

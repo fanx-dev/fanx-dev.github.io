@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::FType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='FType.html'>FType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::FType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CTypeDef.html'>compilerx::CTypeDef</a>
+    compilerx::FType</pre>
+
+<p>FType is the read/write fcode representation of sys::Type.</p>
+<dl>
+<dt id='attr'>
+attr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FAttr.html'>FAttr?</a> attr(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='DocDef.html'>DocDef?</a> doc()</code></p>
+</dd>
+<dt id='extName'>
+extName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> extName()</code></p>
+</dd>
+<dt id='facets'>
+facets</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CFacet.html'>CFacet</a>&gt;?</a> facets()</code></p>
+</dd>
+<dt id='fattrs'>
+fattrs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FAttr.html'>FAttr</a>&gt;?</a> fattrs</code></p>
+</dd>
+<dt id='fbase'>
+fbase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> fbase</code></p>
+</dd>
+<dt id='ffacets'>
+ffacets</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FFacet.html'>FFacet</a>&gt;?</a> ffacets</code></p>
+</dd>
+<dt id='ffields'>
+ffields</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FField.html'>FField</a>&gt;?</a> ffields</code></p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> flags</code></p>
+</dd>
+<dt id='fmethods'>
+fmethods</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FMethod.html'>FMethod</a>&gt;?</a> fmethods</code></p>
+</dd>
+<dt id='fmixins'>
+fmixins</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;?</a> fmixins</code></p>
+</dd>
+<dt id='fpod'>
+fpod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FPod.html'>FPod</a> fpod</code></p>
+</dd>
+<dt id='genericParameters'>
+genericParameters</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='GenericParamDef.html'>GenericParamDef</a>&gt;</a> genericParameters()</code></p>
+</dd>
+<dt id='hollow'>
+hollow</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hollow := true</code></p>
+</dd>
+<dt id='inheritances'>
+inheritances</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> inheritances()</code></p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Loc.html'>Loc</a> loc()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='FPod.html'>FPod</a> fpod)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> name()</code></p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='FPod.html'>FPod</a> pod()</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> qname()</code></p>
+</dd>
+<dt id='read'>
+read</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> read(<a href='../std/InStream.html'>InStream?</a> in := null)</code></p>
+</dd>
+<dt id='readMeta'>
+readMeta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> readMeta(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+</dd>
+<dt id='self'>
+self</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> self</code></p>
+</dd>
+<dt id='slotDefs'>
+slotDefs</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CSlot.html'>CSlot</a>&gt;</a> slotDefs()</code></p>
+</dd>
+<dt id='uri'>
+uri</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri</a> uri()</code></p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> write()</code></p>
+</dd>
+<dt id='writeMeta'>
+writeMeta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeMeta(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#attr'>attr</a></li><li><a href='#doc'>doc</a></li><li><a href='#extName'>extName</a></li><li><a href='#facets'>facets</a></li><li><a href='#fattrs'>fattrs</a></li><li><a href='#fbase'>fbase</a></li><li><a href='#ffacets'>ffacets</a></li><li><a href='#ffields'>ffields</a></li><li><a href='#flags'>flags</a></li><li><a href='#fmethods'>fmethods</a></li><li><a href='#fmixins'>fmixins</a></li><li><a href='#fpod'>fpod</a></li><li><a href='#genericParameters'>genericParameters</a></li><li><a href='#hollow'>hollow</a></li><li><a href='#inheritances'>inheritances</a></li><li><a href='#loc'>loc</a></li><li><a href='#name'>name</a></li><li><a href='#pod'>pod</a></li><li><a href='#qname'>qname</a></li><li><a href='#read'>read</a></li><li><a href='#readMeta'>readMeta</a></li><li><a href='#self'>self</a></li><li><a href='#slotDefs'>slotDefs</a></li><li><a href='#uri'>uri</a></li><li><a href='#write'>write</a></li><li><a href='#writeMeta'>writeMeta</a></li></ul>
+</div>
+</div>
+</body>
+</html>

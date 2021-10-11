@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::WebClient</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebClient.html'>WebClient</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> web::WebClient</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  web::WebClient</pre>
+<p class='src'>
+<a href='src-WebClient.fan.html'>Source</a></p>
+
+<p>The <code>WebClient</code> class is used to manage client side HTTP requests and responses.  The basic lifecycle of WebClient:</p>
+
+<ol style='list-style-type:decimal'>
+<li>configure request fields such as <code>reqUri</code>, <code>reqMethod</code>, and <code>reqHeaders</code></li>
+
+<li>send request headers via <code>writeReq</code></li>
+
+<li>optionally write request body via <code>reqOut</code></li>
+
+<li>read response status and headers via <code>readRes</code></li>
+
+<li>process response fields such as <code>resCode</code> and <code>resHeaders</code></li>
+
+<li>optionally read response body via <code>resIn</code></li>
+</ol>
+
+<p>Using the low level methods <code>writeReq</code> and <code>readRes</code> enables HTTP pipelining (multiple requests and responses on the same TCP socket connection).  There are also a series of convenience methods which make common cases easier.</p>
+
+<p>See <a href='index.html#webClient'>pod doc</a> and <a href='https://fantom.org/doc/examples/web-client'>examples</a>.</p>
+<dl>
+<dt id='authBasic'>
+authBasic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> authBasic(<a href='../sys/Str.html'>Str</a> username, <a href='../sys/Str.html'>Str</a> password)</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line262'>Source</a></p>
+
+<p>Authenticate request using HTTP Basic with given username and password.</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> close()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line575'>Source</a></p>
+
+<p>Close the HTTP request and the underlying socket.  Return this.</p>
+</dd>
+<dt id='cookies'>
+cookies</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Cookie.html'>Cookie</a>&gt;</a> cookies := List&lt;>.defVal</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line181'>Source</a></p>
+
+<p>Cookies to pass for "Cookie" request header.  If set to an empty list then the "Cookie" request header is removed.  After a request has been completed if the "Set-Cookie" response header specified one or more cookies then this field is automatically updated with the server specified cookies.</p>
+</dd>
+<dt id='followRedirects'>
+followRedirects</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> followRedirects := true</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line214'>Source</a></p>
+
+<p>When set to true a 3xx response with a Location header will automatically update the <code><a href='WebClient.html#reqUri'>reqUri</a></code> field and retry the request using the alternate URI.  Redirects are not followed if the request has a content body.</p>
+</dd>
+<dt id='getBuf'>
+getBuf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> getBuf()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line290'>Source</a></p>
+
+<p>Make a GET request and return the response content as an in-memory byte buffer.  The web client is automatically closed. Throw IOErr is response is not 200.</p>
+</dd>
+<dt id='getIn'>
+getIn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/InStream.html'>InStream</a> getIn()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line303'>Source</a></p>
+
+<p>Make a GET request and return the input stream to the response or throw IOErr if response is not 200.  It is the caller's responsibility to close this web client.</p>
+</dd>
+<dt id='getStr'>
+getStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> getStr()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line277'>Source</a></p>
+
+<p>Make a GET request and return the response content as an in-memory string.  The web client is automatically closed. Throw IOErr is response is not 200.</p>
+</dd>
+<dt id='isConnected'>
+isConnected</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isConnected()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line567'>Source</a></p>
+
+<p>Return if this web client is currently connected to the remote host.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/Uri.html'>Uri?</a> reqUri := null)</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line39'>Source</a></p>
+
+<p>Construct with optional request URI.</p>
+</dd>
+<dt id='postFile'>
+postFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> postFile(<a href='../std/File.html'>File</a> file)</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line337'>Source</a></p>
+
+<p>Convenience for <code>writeFile("POST", file).readRes</code></p>
+</dd>
+<dt id='postForm'>
+postForm</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> postForm(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> form)</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line321'>Source</a></p>
+
+<p>Convenience for <code>writeForm("POST", form).readRes</code></p>
+</dd>
+<dt id='postStr'>
+postStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> postStr(<a href='../sys/Str.html'>Str</a> content)</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line329'>Source</a></p>
+
+<p>Convenience for <code>writeStr("POST", content).readRes</code></p>
+</dd>
+<dt id='proxy'>
+proxy</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri?</a> proxy := proxyDef</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line226'>Source</a></p>
+
+<p>If non-null, then all requests are routed through this proxy address (host and port).  Default is configured in "etc/web/config.props" with the key "proxy".  Proxy exceptions can be configured with the "proxy.exceptions" config key as comma separated list of Regex globs.</p>
+</dd>
+<dt id='readRes'>
+readRes</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> readRes()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line488'>Source</a></p>
+
+<p>Read the response status line and response headers.  This method may be called after the request has been written via <code><a href='WebClient.html#writeReq'>writeReq</a></code> and <code><a href='WebClient.html#reqOut'>reqOut</a></code>.  Once this method completes the response status and headers are available.  If there is a response body, it is available for reading via <code><a href='WebClient.html#resIn'>resIn</a></code>.  Throw IOErr if there is a network or protocol error.  Return this.</p>
+</dd>
+<dt id='reqHeaders'>
+reqHeaders</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> reqHeaders := CaseInsensitiveMap&lt;Str,Str>.&lt;ctor>()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line81'>Source</a></p>
+
+<p>The HTTP headers to use for the next request.  This map uses case insensitive keys.  The "Host" header is implicitly defined by <code>reqUri</code> and must not be defined in this map.</p>
+</dd>
+<dt id='reqMethod'>
+reqMethod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> reqMethod := &quot;GET&quot;</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line70'>Source</a></p>
+
+<p>The HTTP method for the request.  Defaults to "GET".</p>
+</dd>
+<dt id='reqOut'>
+reqOut</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/OutStream.html'>OutStream</a> reqOut()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line88'>Source</a></p>
+
+<p>Get the output stream used to write the request body.  This stream is only available if the request headers included a "Content-Type" header.  If an explicit "Content-Length" was specified then this is a fixed length output stream, otherwise the request is automatically configured to use a chunked transfer encoding.  This stream should be closed once the content has been fully written.</p>
+</dd>
+<dt id='reqUri'>
+reqUri</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri</a> reqUri := ``</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line57'>Source</a></p>
+
+<p>The absolute URI of request.</p>
+</dd>
+<dt id='reqVersion'>
+reqVersion</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Version.html'>Version</a> reqVersion := ver11</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line75'>Source</a></p>
+
+<p>HTTP version to use for request must be 1.0 or 1.1. Default is 1.1.</p>
+</dd>
+<dt id='resBuf'>
+resBuf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf</a> resBuf()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line168'>Source</a></p>
+
+<p>Return the entire response back as an in-memory byte buffer. Convenience for <code>resIn.readAllBuf</code>.</p>
+</dd>
+<dt id='resCode'>
+resCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> resCode</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line112'>Source</a></p>
+
+<p>HTTP status code returned by response.</p>
+</dd>
+<dt id='resHeader'>
+resHeader</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> resHeader(<a href='../sys/Str.html'>Str</a> key, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line127'>Source</a></p>
+
+<p>Get a response header.  If not found and checked is false then return true, otherwise throw Err.</p>
+</dd>
+<dt id='resHeaders'>
+resHeaders</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> resHeaders := noHeaders</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line122'>Source</a></p>
+
+<p>HTTP headers returned by response.</p>
+</dd>
+<dt id='resIn'>
+resIn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/InStream.html'>InStream</a> resIn()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line138'>Source</a></p>
+
+<p>Input stream to read response content.  The input stream will correctly handle end of stream when the content has been fully read.  If the "Content-Length" header was specified the end of stream is based on the fixed number of bytes.  If the "Transfer-Encoding" header defines a chunked encoding, then chunks are automatically handled.  If the response has no content body, then throw IOErr.</p>
+
+<p>The response input stream is automatically configured with the correct character encoding if one is specified in the "Content-Type" response header.</p>
+
+<p>Also see convenience methods: <code><a href='WebClient.html#resStr'>resStr</a></code> and <code><a href='WebClient.html#resBuf'>resBuf</a></code>.</p>
+</dd>
+<dt id='resPhrase'>
+resPhrase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> resPhrase := &quot;&quot;</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line117'>Source</a></p>
+
+<p>HTTP status reason phrase returned by response.</p>
+</dd>
+<dt id='resStr'>
+resStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> resStr()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line159'>Source</a></p>
+
+<p>Return the entire response back as an in-memory string. Convenience for <code>resIn.readAllStr</code>.</p>
+</dd>
+<dt id='resVersion'>
+resVersion</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Version.html'>Version</a> resVersion := ver11</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line107'>Source</a></p>
+
+<p>HTTP version returned by response.</p>
+</dd>
+<dt id='socketConfig'>
+socketConfig</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../inet/SocketConfig.html'>SocketConfig</a> socketConfig := SocketConfig.cur</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line49'>Source</a></p>
+
+<p>The <code><a href='../inet/SocketConfig.html'>SocketConfig</a></code> to use for creating sockets</p>
+</dd>
+<dt id='socketOptions'>
+socketOptions</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=... }</code><br /> <a href='../inet/SocketOptions.html'>SocketOptions</a> socketOptions()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line207'>Source</a></p>
+</dd>
+<dt id='writeFile'>
+writeFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeFile(<a href='../sys/Str.html'>Str</a> method, <a href='../std/File.html'>File</a> file)</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line386'>Source</a></p>
+
+<p>Write a file using the given HTTP method to the URI.  If Content-Type header is not already set, then it is set from the file extension's MIME type. This method does not support the <a href='index.html#expectContinue'>"Expect" header</a> (it writes full file before reading response). Should primarily be used for "POST" and "PATCH" requests.</p>
+</dd>
+<dt id='writeForm'>
+writeForm</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeForm(<a href='../sys/Str.html'>Str</a> method, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> form)</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line345'>Source</a></p>
+
+<p>Make a request with the given HTTP method to the URI with the given form data. Set the Content-Type to application/x-www-form-urlencoded. This method does not support the <a href='index.html#expectContinue'>"Expect" header</a> (it writes all form data before reading response). Should primarily be used for POST and PATCH requests.</p>
+</dd>
+<dt id='writeReq'>
+writeReq</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeReq()</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line412'>Source</a></p>
+
+<p>Write the request line and request headers.  Once this method completes the request body may be written via <code><a href='WebClient.html#reqOut'>reqOut</a></code>, or the response may be immediately read via <code><a href='WebClient.html#readRes'>readRes</a></code>.  Throw IOErr if there is a network or protocol error.  Return this.</p>
+</dd>
+<dt id='writeStr'>
+writeStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> writeStr(<a href='../sys/Str.html'>Str</a> method, <a href='../sys/Str.html'>Str</a> content)</code></p>
+<p class='src'>
+<a href='src-WebClient.fan.html#line364'>Source</a></p>
+
+<p>Make a request with the given HTTP method to the URI using UTF-8 encoding of given string.  If Content-Type is not already set, then set it to "text/plain; charset=utf-8".  This method does not support the <a href='index.html#expectContinue'>"Expect" header</a> (it writes full string before reading response). Should primarily be used for "POST" and "PATCH" requests.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-WebClient.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#authBasic'>authBasic</a></li><li><a href='#close'>close</a></li><li><a href='#cookies'>cookies</a></li><li><a href='#followRedirects'>followRedirects</a></li><li><a href='#getBuf'>getBuf</a></li><li><a href='#getIn'>getIn</a></li><li><a href='#getStr'>getStr</a></li><li><a href='#isConnected'>isConnected</a></li><li><a href='#postFile'>postFile</a></li><li><a href='#postForm'>postForm</a></li><li><a href='#postStr'>postStr</a></li><li><a href='#proxy'>proxy</a></li><li><a href='#readRes'>readRes</a></li><li><a href='#reqHeaders'>reqHeaders</a></li><li><a href='#reqMethod'>reqMethod</a></li><li><a href='#reqOut'>reqOut</a></li><li><a href='#reqUri'>reqUri</a></li><li><a href='#reqVersion'>reqVersion</a></li><li><a href='#resBuf'>resBuf</a></li><li><a href='#resCode'>resCode</a></li><li><a href='#resHeader'>resHeader</a></li><li><a href='#resHeaders'>resHeaders</a></li><li><a href='#resIn'>resIn</a></li><li><a href='#resPhrase'>resPhrase</a></li><li><a href='#resStr'>resStr</a></li><li><a href='#resVersion'>resVersion</a></li><li><a href='#socketConfig'>socketConfig</a></li><li><a href='#socketOptions'>socketOptions</a></li><li><a href='#writeFile'>writeFile</a></li><li><a href='#writeForm'>writeForm</a></li><li><a href='#writeReq'>writeReq</a></li><li><a href='#writeStr'>writeStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

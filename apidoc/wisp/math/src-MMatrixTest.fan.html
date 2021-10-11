@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>MMatrixTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>math</a></li><li><a href='src-MMatrixTest.fan.html'>MMatrixTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2020, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   13 Aug 20  Matthew Giannini  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using math::Math</span>
+<span id='line10'>using std::Math as StdMath</span>
+<span id='line11'></span>
+<span id='line12'>class MMatrixTest : Test</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'>  Void testGetSet<b>(</b><b>)</b></span>
+<span id='line15'>  <b>{</b></span>
+<span id='line16'>    m := Math.matrix<b>(</b>2,2<b>)</b></span>
+<span id='line17'>    m.set<b>(</b>0,0,1f<b>)</b>; verify<b>(</b>m.get<b>(</b>0,0<b>)</b>.approx<b>(</b>1f<b>)</b><b>)</b></span>
+<span id='line18'>    m.set<b>(</b>1,1,4f<b>)</b>; verify<b>(</b>m.get<b>(</b>1,1<b>)</b>.approx<b>(</b>4f<b>)</b><b>)</b></span>
+<span id='line19'>  <b>}</b></span>
+<span id='line20'></span>
+<span id='line21'>  Void testFill<b>(</b><b>)</b></span>
+<span id='line22'>  <b>{</b></span>
+<span id='line23'>    verifyMatrixEq<b>(</b>Math.matrix<b>(</b>2,2<b>)</b>.fill<b>(</b>5f<b>)</b>, matrix<b>(</b>2,2,<b>[</b>5f,5f,5f,5f<b>]</b><b>)</b><b>)</b></span>
+<span id='line24'>  <b>}</b></span>
+<span id='line25'></span>
+<span id='line26'>  Void testIsSquare<b>(</b><b>)</b></span>
+<span id='line27'>  <b>{</b></span>
+<span id='line28'>    verify<b>(</b>Math.matrix<b>(</b>1,1<b>)</b>.isSquare<b>)</b></span>
+<span id='line29'>    verify<b>(</b>Math.matrix<b>(</b>10,10<b>)</b>.isSquare<b>)</b></span>
+<span id='line30'>    verifyFalse<b>(</b>Math.matrix<b>(</b>1,2<b>)</b>.isSquare<b>)</b></span>
+<span id='line31'>  <b>}</b></span>
+<span id='line32'></span>
+<span id='line33'>  Void testTranspose<b>(</b><b>)</b></span>
+<span id='line34'>  <b>{</b></span>
+<span id='line35'>    a := matrix<b>(</b>2,3,<b>[</b>1f,2f,3f,4f,5f,6f<b>]</b><b>)</b></span>
+<span id='line36'>    at := matrix<b>(</b>3,2,<b>[</b>1f,4f,2f,5f,3f,6f<b>]</b><b>)</b></span>
+<span id='line37'>    verifyMatrixEq<b>(</b>a.transpose, at<b>)</b></span>
+<span id='line38'>    verifyMatrixEq<b>(</b>a.transpose.transpose, a<b>)</b></span>
+<span id='line39'>  <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  Void testMultScalar<b>(</b><b>)</b></span>
+<span id='line42'>  <b>{</b></span>
+<span id='line43'>    a := matrix<b>(</b>2,3,<b>[</b>1f,2f,3f,4f,5f,6f<b>]</b><b>)</b></span>
+<span id='line44'>    b := matrix<b>(</b>2,3,<b>[</b>2f,4f,6f,8f,10f,12f<b>]</b><b>)</b></span>
+<span id='line45'>    verifyMatrixEq<b>(</b>a.multScalar<b>(</b>2f<b>)</b>, b<b>)</b></span>
+<span id='line46'>  <b>}</b></span>
+<span id='line47'></span>
+<span id='line48'>  Void testPlus<b>(</b><b>)</b></span>
+<span id='line49'>  <b>{</b></span>
+<span id='line50'>    a := matrix<b>(</b>2,3,<b>[</b>1f,2f,3f,4f,5f,6f<b>]</b><b>)</b></span>
+<span id='line51'>    b := matrix<b>(</b>2,3,<b>[</b>2f,4f,6f,8f,10f,12f<b>]</b><b>)</b></span>
+<span id='line52'>    c := matrix<b>(</b>2,3,<b>[</b>3f,6f,9f,12f,15f,18f<b>]</b><b>)</b></span>
+<span id='line53'>    verifyMatrixEq<b>(</b>a + b, c<b>)</b></span>
+<span id='line54'>  <b>}</b></span>
+<span id='line55'></span>
+<span id='line56'>  Void testMinus<b>(</b><b>)</b></span>
+<span id='line57'>  <b>{</b></span>
+<span id='line58'>    a := matrix<b>(</b>2,3,<b>[</b>1f,2f,3f,4f,5f,6f<b>]</b><b>)</b></span>
+<span id='line59'>    b := matrix<b>(</b>2,3,<b>[</b>2f,4f,6f,8f,10f,12f<b>]</b><b>)</b></span>
+<span id='line60'>    c := matrix<b>(</b>2,3,<b>[</b>-1f,-2f,-3f,-4f,-5f,-6f<b>]</b><b>)</b></span>
+<span id='line61'>    verifyMatrixEq<b>(</b>a - b, c<b>)</b></span>
+<span id='line62'>  <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  Void testMult<b>(</b><b>)</b></span>
+<span id='line65'>  <b>{</b></span>
+<span id='line66'>    a := matrix<b>(</b>2,3,<b>[</b>1f,2f,3f,4f,5f,6f<b>]</b><b>)</b></span>
+<span id='line67'>    b := matrix<b>(</b>3,2,<b>[</b>7f,8f,9f,10f,11f,12f<b>]</b><b>)</b></span>
+<span id='line68'>    c := matrix<b>(</b>2,2,<b>[</b>58f,64f,139f,154f<b>]</b><b>)</b></span>
+<span id='line69'>    verifyMatrixEq<b>(</b>a * b, c<b>)</b></span>
+<span id='line70'>  <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>  Void testDeterminant<b>(</b><b>)</b></span>
+<span id='line73'>  <b>{</b></span>
+<span id='line74'>    a := matrix<b>(</b>1,1,<b>[</b>5f<b>]</b><b>)</b></span>
+<span id='line75'>    verifyEq<b>(</b>a.determinant, 5f<b>)</b></span>
+<span id='line76'></span>
+<span id='line77'>    a = matrix<b>(</b>2,2,<b>[</b>4f,6f,3f,8f<b>]</b><b>)</b></span>
+<span id='line78'>    verifyEq<b>(</b>a.determinant, 14f<b>)</b></span>
+<span id='line79'></span>
+<span id='line80'>    a = matrix<b>(</b>3,3,<b>[</b>6f,1f,1f, 4f,-2f,5f, 2f,8f,7f<b>]</b><b>)</b></span>
+<span id='line81'>    verifyEq<b>(</b>a.determinant, -306f<b>)</b></span>
+<span id='line82'></span>
+<span id='line83'>    a = matrix<b>(</b>4,4,<b>[</b>-1f,2f,3f,4f,</span>
+<span id='line84'>                    5f,-6f,7f,8f,</span>
+<span id='line85'>                    9f,10f,-11f,12f,</span>
+<span id='line86'>                    13f,14f,15f,-16f<b>]</b><b>)</b></span>
+<span id='line87'>    verifyEq<b>(</b>a.determinant, -36416f<b>)</b></span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>  Void testCofactor<b>(</b><b>)</b></span>
+<span id='line91'>  <b>{</b></span>
+<span id='line92'>    a := matrix<b>(</b>3,3,<b>[</b>1f,2f,3f, 0f,4f,5f, 1f,0f,6f<b>]</b><b>)</b></span>
+<span id='line93'>    cf := matrix<b>(</b>3,3,<b>[</b>24f,5f,-4f, -12f,3f,2f, -2f,-5f,4f<b>]</b><b>)</b></span>
+<span id='line94'>    verifyMatrixEq<b>(</b>a.cofactor, cf<b>)</b></span>
+<span id='line95'>  <b>}</b></span>
+<span id='line96'></span>
+<span id='line97'>  Void testInverse<b>(</b><b>)</b></span>
+<span id='line98'>  <b>{</b></span>
+<span id='line99'>    a := matrix<b>(</b>2,2,<b>[</b>4f,7f,2f,6f<b>]</b><b>)</b></span>
+<span id='line100'>    i := matrix<b>(</b>2,2,<b>[</b>0.6f,-0.7f,-0.2f,0.4f<b>]</b><b>)</b></span>
+<span id='line101'>    verifyMatrixEq<b>(</b>a.inverse, i<b>)</b></span>
+<span id='line102'></span>
+<span id='line103'>    a = matrix<b>(</b>4,4,<b>[</b>-1f,2f,3f,4f,</span>
+<span id='line104'>                    5f,-6f,7f,8f,</span>
+<span id='line105'>                    9f,10f,-11f,12f,</span>
+<span id='line106'>                    13f,14f,15f,-16f<b>]</b><b>)</b></span>
+<span id='line107'>    i = matrix<b>(</b>4,4,<b>[</b></span>
+<span id='line108'>         -0.130492091388f, 0.0601933216169f, 0.0320738137083f, 0.0215289982425f,</span>
+<span id='line109'>         0.118189806678f, -0.0553602811951f, 0.0197715289982f, 0.0166959578207f,</span>
+<span id='line110'>         0.0953427065026f, 0.0250439367311f, -0.0268014059754f, 0.0162565905097f,</span>
+<span id='line111'>         0.0867750439367f, 0.0239455184534f, 0.0182337434095f, -0.0151581722320f<b>]</b><b>)</b></span>
+<span id='line112'>    verifyMatrixEq<b>(</b>a.inverse, i<b>)</b></span>
+<span id='line113'>  <b>}</b></span>
+<span id='line114'></span>
+<span id='line115'>  private Matrix matrix<b>(</b>Int numRows, Int numCols, Float<b>[</b><b>]</b> arr<b>)</b></span>
+<span id='line116'>  <b>{</b></span>
+<span id='line117'>    m := Math.matrix<b>(</b>numRows, numCols<b>)</b></span>
+<span id='line118'>    for <b>(</b>i:=0;i&lt;numRows;++i<b>)</b></span>
+<span id='line119'>      for <b>(</b>j:=0;j&lt;numCols;++j<b>)</b></span>
+<span id='line120'>        m.set<b>(</b>i,j,arr<b>[</b>i*numCols + j<b>]</b><b>)</b></span>
+<span id='line121'>    return m</span>
+<span id='line122'>  <b>}</b></span>
+<span id='line123'></span>
+<span id='line124'>  private Void verifyMatrixEq<b>(</b>Matrix a, Matrix b, Float eps := 1.0E-6f<b>)</b></span>
+<span id='line125'>  <b>{</b></span>
+<span id='line126'>    verifyEq<b>(</b>a.numRows, b.numRows<b>)</b></span>
+<span id='line127'>    verifyEq<b>(</b>a.numCols, b.numCols<b>)</b></span>
+<span id='line128'>    for <b>(</b>i := 0; i &lt; a.numRows; ++i<b>)</b></span>
+<span id='line129'>    <b>{</b></span>
+<span id='line130'>      for <b>(</b>j := 0; j &lt; a.numCols; ++j<b>)</b></span>
+<span id='line131'>      <b>{</b></span>
+<span id='line132'>        verify<b>(</b>a.get<b>(</b>i,j<b>)</b>.approx<b>(</b>b.get<b>(</b>i,j<b>)</b>, eps<b>)</b><b>)</b></span>
+<span id='line133'>      <b>}</b></span>
+<span id='line134'>    <b>}</b></span>
+<span id='line135'>  <b>}</b></span>
+<span id='line136'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

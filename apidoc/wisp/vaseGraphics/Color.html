@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGraphics::Color</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGraphics</a></li><li><a href='Color.html'>Color</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> vaseGraphics::Color</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGraphics::Color : <a href='Brush.html'>vaseGraphics::Brush</a></pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Models an ARGB color (alpha, red, green, blue). Color is also a solid <code><a href='Brush.html'>Brush</a></code>.</p>
+<dl>
+<dt id='a'>
+a</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> a()</code></p>
+
+<p>The alpha component from 0 to 255, where 255 is opaque and 0 is transparent.</p>
+</dd>
+<dt id='argb'>
+argb</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> argb</code></p>
+
+<p>The ARGB components masked together: bits 31-24 alpha; bits 16-23 red; bits 8-15 green; bits 0-7 blue.</p>
+</dd>
+<dt id='b'>
+b</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> b()</code></p>
+
+<p>The blue component from 0 to 255.</p>
+</dd>
+<dt id='black'>
+black</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> black := Color.make(0)</code></p>
+
+<p>Constant for 0x00_00_00</p>
+</dd>
+<dt id='blue'>
+blue</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> blue := Color.make(255)</code></p>
+
+<p>Constant for 0x00_00_ff</p>
+</dd>
+<dt id='darkGray'>
+darkGray</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> darkGray := Color.make(11119017)</code></p>
+
+<p>Constant for 0xa9_a9_a9</p>
+</dd>
+<dt id='darker'>
+darker</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Color.html'>Color</a> darker(<a href='../sys/Float.html'>Float</a> percentage := 0.2f)</code></p>
+
+<p>Get a color which is a dark shade of this color. This decreases the brightness by the given percentage which is a float between 0.0 and 1.0.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Equality is based on <code><a href='Color.html#argb'>argb</a></code>.</p>
+</dd>
+<dt id='fromArgb'>
+fromArgb</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> fromArgb(<a href='../sys/Int.html'>Int</a> a, <a href='../sys/Int.html'>Int</a> r, <a href='../sys/Int.html'>Int</a> g, <a href='../sys/Int.html'>Int</a> b)</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Color.html'>Color?</a> fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse color from string (see <code><a href='Color.html#toStr'>toStr</a></code>).  If invalid and checked is true then throw ParseErr otherwise return null.  The following formats are supported:</p>
+
+<ul>
+<li>#AARRGGBB</li>
+
+<li>#RRGGBB</li>
+
+<li>#RGB</li>
+</ul>
+
+<p>Examples:</p>
+
+<pre>Color.fromStr("#8A0")
+Color.fromStr("#88AA00")
+Color.fromStr("#d088aa00")</pre>
+</dd>
+<dt id='g'>
+g</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> g()</code></p>
+
+<p>The green component from 0 to 255.</p>
+</dd>
+<dt id='getA'>
+getA</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> getA(<a href='../sys/Int.html'>Int</a> argb)</code></p>
+
+<p>static utilit</p>
+</dd>
+<dt id='getB'>
+getB</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> getB(<a href='../sys/Int.html'>Int</a> argb)</code></p>
+</dd>
+<dt id='getG'>
+getG</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> getG(<a href='../sys/Int.html'>Int</a> argb)</code></p>
+</dd>
+<dt id='getR'>
+getR</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Int.html'>Int</a> getR(<a href='../sys/Int.html'>Int</a> argb)</code></p>
+</dd>
+<dt id='gray'>
+gray</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> gray := Color.make(8421504)</code></p>
+
+<p>Constant for 0x80_80_80</p>
+</dd>
+<dt id='green'>
+green</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> green := Color.make(65280)</code></p>
+
+<p>Constant for 0x00_ff_00</p>
+</dd>
+<dt id='h'>
+h</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> h()</code></p>
+
+<p>Hue as a float between 0.0 and 360.0 of the HSV model (hue, saturation, value), also known as HSB (hue, saturation, brightness). Also see <code><a href='Color.html#makeHsv'>makeHsv</a></code>, <code><a href='Color.html#s'>s</a></code>, <code><a href='Color.html#v'>v</a></code>.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return <code><a href='Color.html#argb'>argb</a></code> as the hash code.</p>
+</dd>
+<dt id='lighter'>
+lighter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Color.html'>Color</a> lighter(<a href='../sys/Float.html'>Float</a> percentage := 0.2f)</code></p>
+
+<p>Get a color which is a lighter shade of this color. This increases the brightness by the given percentage which is a float between 0.0 and 1.0.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Int.html'>Int</a> argb := 0, <a href='../sys/Bool.html'>Bool</a> hasAlpha := false)</code></p>
+
+<p>Make a new instance with the ARGB components masked together: bits 31-24 alpha; bits 16-23 red; bits 8-15 green; bits 0-7 blue.  If hasAlpha is false, then we assume the alpha bits are 0xFF.</p>
+</dd>
+<dt id='makeArgb'>
+makeArgb</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Color.html'>Color</a> makeArgb(<a href='../sys/Int.html'>Int</a> a, <a href='../sys/Int.html'>Int</a> r, <a href='../sys/Int.html'>Int</a> g, <a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Make a new instance with the ARGB individual components as integers between 0 and 255.</p>
+</dd>
+<dt id='makeHsv'>
+makeHsv</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Color.html'>Color</a> makeHsv(<a href='../sys/Float.html'>Float</a> h, <a href='../sys/Float.html'>Float</a> s, <a href='../sys/Float.html'>Float</a> v)</code></p>
+
+<p>Construct a color using HSV model (hue, saturation, value), also known as HSB (hue, saturation, brightness):</p>
+
+<ul>
+<li>hue as 0.0 to 360.0</li>
+
+<li>saturation as 0.0 to 1.0</li>
+
+<li>value (or brightness) as 0.0 to 1.0 Also see <code><a href='Color.html#h'>h</a></code>, <code><a href='Color.html#s'>s</a></code>, <code><a href='Color.html#v'>v</a></code>.</li>
+</ul>
+</dd>
+<dt id='makeRgb'>
+makeRgb</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Color.html'>Color</a> makeRgb(<a href='../sys/Int.html'>Int</a> r, <a href='../sys/Int.html'>Int</a> g, <a href='../sys/Int.html'>Int</a> b)</code></p>
+
+<p>Make a new instance with the RGB individual components as integers between 0 and 255.</p>
+</dd>
+<dt id='orange'>
+orange</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> orange := Color.make(16753920)</code></p>
+
+<p>Constant for 0xff_a5_00</p>
+</dd>
+<dt id='purple'>
+purple</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> purple := Color.make(8388736)</code></p>
+
+<p>Constant for 0x80_00_80</p>
+</dd>
+<dt id='r'>
+r</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> r()</code></p>
+
+<p>The red component from 0 to 255.</p>
+</dd>
+<dt id='red'>
+red</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> red := Color.make(16711680)</code></p>
+
+<p>Constant for 0xff_00_00</p>
+</dd>
+<dt id='rgb'>
+rgb</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> rgb()</code></p>
+
+<p>Get the RGB bitmask without the alpha bits.</p>
+</dd>
+<dt id='s'>
+s</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> s()</code></p>
+
+<p>Saturation as a float between 0.0 and 1.0 of the HSV model (hue, saturation, value), also known as HSB (hue, saturation, brightness). Also see <code><a href='Color.html#makeHsv'>makeHsv</a></code>, <code><a href='Color.html#h'>h</a></code>, <code><a href='Color.html#v'>v</a></code>.</p>
+</dd>
+<dt id='toCss'>
+toCss</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toCss()</code></p>
+
+<p>To a valid CSS color string.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>If the alpha component is 255, then format as <code>"#RRGGBB"</code> hex string, otherwise format as <code>"#AARRGGBB"</code> hex string.</p>
+</dd>
+<dt id='v'>
+v</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> v()</code></p>
+
+<p>Value or brightness as a float between 0.0 and 1.0 of the HSV model (hue, saturation, value), also known as HSB (hue, saturation, brightness).  Also see <code><a href='Color.html#makeHsv'>makeHsv</a></code>, <code><a href='Color.html#h'>h</a></code>, <code><a href='Color.html#s'>s</a></code>.</p>
+</dd>
+<dt id='white'>
+white</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> white := Color.make(16777215)</code></p>
+
+<p>Constant for 0xff_ff_ff</p>
+</dd>
+<dt id='yellow'>
+yellow</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> yellow := Color.make(16776960)</code></p>
+
+<p>Constant for 0xff_ff_00</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#black'>black</a></li><li><a href='#blue'>blue</a></li><li><a href='#darkGray'>darkGray</a></li><li><a href='#fromArgb'>fromArgb</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#getA'>getA</a></li><li><a href='#getB'>getB</a></li><li><a href='#getG'>getG</a></li><li><a href='#getR'>getR</a></li><li><a href='#gray'>gray</a></li><li><a href='#green'>green</a></li><li><a href='#make'>make</a></li><li><a href='#makeArgb'>makeArgb</a></li><li><a href='#makeHsv'>makeHsv</a></li><li><a href='#makeRgb'>makeRgb</a></li><li><a href='#orange'>orange</a></li><li><a href='#purple'>purple</a></li><li><a href='#red'>red</a></li><li><a href='#white'>white</a></li><li><a href='#yellow'>yellow</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#a'>a</a></li><li><a href='#argb'>argb</a></li><li><a href='#b'>b</a></li><li><a href='#darker'>darker</a></li><li><a href='#equals'>equals</a></li><li><a href='#g'>g</a></li><li><a href='#h'>h</a></li><li><a href='#hash'>hash</a></li><li><a href='#lighter'>lighter</a></li><li><a href='#r'>r</a></li><li><a href='#rgb'>rgb</a></li><li><a href='#s'>s</a></li><li><a href='#toCss'>toCss</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#v'>v</a></li></ul>
+</div>
+</div>
+</body>
+</html>

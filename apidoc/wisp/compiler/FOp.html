@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::FOp</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='FOp.html'>FOp</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> compiler::FOp</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    compiler::FOp</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>FOp provides all the fcode constants</p>
+<ul>
+<li><a href='#Nop'>Nop</a></li><li><a href='#LoadNull'>LoadNull</a></li><li><a href='#LoadFalse'>LoadFalse</a></li><li><a href='#LoadTrue'>LoadTrue</a></li><li><a href='#LoadInt'>LoadInt</a></li><li><a href='#LoadFloat'>LoadFloat</a></li><li><a href='#LoadDecimal'>LoadDecimal</a></li><li><a href='#LoadStr'>LoadStr</a></li><li><a href='#LoadDuration'>LoadDuration</a></li><li><a href='#LoadType'>LoadType</a></li><li><a href='#LoadUri'>LoadUri</a></li><li><a href='#LoadVar'>LoadVar</a></li><li><a href='#StoreVar'>StoreVar</a></li><li><a href='#LoadInstance'>LoadInstance</a></li><li><a href='#StoreInstance'>StoreInstance</a></li><li><a href='#LoadStatic'>LoadStatic</a></li><li><a href='#StoreStatic'>StoreStatic</a></li><li><a href='#LoadMixinStatic'>LoadMixinStatic</a></li><li><a href='#StoreMixinStatic'>StoreMixinStatic</a></li><li><a href='#CallNew'>CallNew</a></li><li><a href='#CallCtor'>CallCtor</a></li><li><a href='#CallStatic'>CallStatic</a></li><li><a href='#CallVirtual'>CallVirtual</a></li><li><a href='#CallNonVirtual'>CallNonVirtual</a></li><li><a href='#CallMixinStatic'>CallMixinStatic</a></li><li><a href='#CallMixinVirtual'>CallMixinVirtual</a></li><li><a href='#CallMixinNonVirtual'>CallMixinNonVirtual</a></li><li><a href='#Jump'>Jump</a></li><li><a href='#JumpTrue'>JumpTrue</a></li><li><a href='#JumpFalse'>JumpFalse</a></li><li><a href='#CmpEQ'>CmpEQ</a></li><li><a href='#CmpNE'>CmpNE</a></li><li><a href='#Cmp'>Cmp</a></li><li><a href='#CmpLE'>CmpLE</a></li><li><a href='#CmpLT'>CmpLT</a></li><li><a href='#CmpGT'>CmpGT</a></li><li><a href='#CmpGE'>CmpGE</a></li><li><a href='#CmpSame'>CmpSame</a></li><li><a href='#CmpNotSame'>CmpNotSame</a></li><li><a href='#CmpNull'>CmpNull</a></li><li><a href='#CmpNotNull'>CmpNotNull</a></li><li><a href='#Return'>Return</a></li><li><a href='#Pop'>Pop</a></li><li><a href='#Dup'>Dup</a></li><li><a href='#Is'>Is</a></li><li><a href='#As'>As</a></li><li><a href='#Coerce'>Coerce</a></li><li><a href='#Switch'>Switch</a></li><li><a href='#Throw'>Throw</a></li><li><a href='#Leave'>Leave</a></li><li><a href='#_JumpFinally'>_JumpFinally</a></li><li><a href='#CatchAllStart'>CatchAllStart</a></li><li><a href='#CatchErrStart'>CatchErrStart</a></li><li><a href='#_CatchEnd'>_CatchEnd</a></li><li><a href='#FinallyStart'>FinallyStart</a></li><li><a href='#FinallyEnd'>FinallyEnd</a></li><li><a href='#CallSuper'>CallSuper</a></li><li><a href='#LoadFieldLiteral'>LoadFieldLiteral</a></li><li><a href='#LoadMethodLiteral'>LoadMethodLiteral</a></li><li><a href='#AddressOfVar'>AddressOfVar</a></li><li><a href='#AddressOfInstance'>AddressOfInstance</a></li><li><a href='#AddressOfStatic'>AddressOfStatic</a></li><li><a href='#SizeOf'>SizeOf</a></li><li><a href='#LoadFuncHandle'>LoadFuncHandle</a></li><li><a href='#CallFunc'>CallFunc</a></li></ul>
+<dl>
+<dt id='AddressOfInstance'>
+AddressOfInstance</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> AddressOfInstance := ...</code></p>
+</dd>
+<dt id='AddressOfStatic'>
+AddressOfStatic</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> AddressOfStatic := ...</code></p>
+</dd>
+<dt id='AddressOfVar'>
+AddressOfVar</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> AddressOfVar := ...</code></p>
+</dd>
+<dt id='As'>
+As</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> As := ...</code></p>
+</dd>
+<dt id='CallCtor'>
+CallCtor</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallCtor := ...</code></p>
+</dd>
+<dt id='CallFunc'>
+CallFunc</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallFunc := ...</code></p>
+</dd>
+<dt id='CallMixinNonVirtual'>
+CallMixinNonVirtual</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallMixinNonVirtual := ...</code></p>
+</dd>
+<dt id='CallMixinStatic'>
+CallMixinStatic</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallMixinStatic := ...</code></p>
+</dd>
+<dt id='CallMixinVirtual'>
+CallMixinVirtual</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallMixinVirtual := ...</code></p>
+</dd>
+<dt id='CallNew'>
+CallNew</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallNew := ...</code></p>
+</dd>
+<dt id='CallNonVirtual'>
+CallNonVirtual</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallNonVirtual := ...</code></p>
+</dd>
+<dt id='CallStatic'>
+CallStatic</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallStatic := ...</code></p>
+</dd>
+<dt id='CallSuper'>
+CallSuper</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallSuper := ...</code></p>
+</dd>
+<dt id='CallVirtual'>
+CallVirtual</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CallVirtual := ...</code></p>
+</dd>
+<dt id='CatchAllStart'>
+CatchAllStart</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CatchAllStart := ...</code></p>
+</dd>
+<dt id='CatchErrStart'>
+CatchErrStart</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CatchErrStart := ...</code></p>
+</dd>
+<dt id='Cmp'>
+Cmp</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Cmp := ...</code></p>
+</dd>
+<dt id='CmpEQ'>
+CmpEQ</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpEQ := ...</code></p>
+</dd>
+<dt id='CmpGE'>
+CmpGE</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpGE := ...</code></p>
+</dd>
+<dt id='CmpGT'>
+CmpGT</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpGT := ...</code></p>
+</dd>
+<dt id='CmpLE'>
+CmpLE</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpLE := ...</code></p>
+</dd>
+<dt id='CmpLT'>
+CmpLT</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpLT := ...</code></p>
+</dd>
+<dt id='CmpNE'>
+CmpNE</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpNE := ...</code></p>
+</dd>
+<dt id='CmpNotNull'>
+CmpNotNull</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpNotNull := ...</code></p>
+</dd>
+<dt id='CmpNotSame'>
+CmpNotSame</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpNotSame := ...</code></p>
+</dd>
+<dt id='CmpNull'>
+CmpNull</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpNull := ...</code></p>
+</dd>
+<dt id='CmpSame'>
+CmpSame</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> CmpSame := ...</code></p>
+</dd>
+<dt id='Coerce'>
+Coerce</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Coerce := ...</code></p>
+</dd>
+<dt id='Dup'>
+Dup</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Dup := ...</code></p>
+</dd>
+<dt id='FinallyEnd'>
+FinallyEnd</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> FinallyEnd := ...</code></p>
+</dd>
+<dt id='FinallyStart'>
+FinallyStart</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> FinallyStart := ...</code></p>
+</dd>
+<dt id='Is'>
+Is</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Is := ...</code></p>
+</dd>
+<dt id='Jump'>
+Jump</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Jump := ...</code></p>
+</dd>
+<dt id='JumpFalse'>
+JumpFalse</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> JumpFalse := ...</code></p>
+</dd>
+<dt id='JumpTrue'>
+JumpTrue</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> JumpTrue := ...</code></p>
+</dd>
+<dt id='Leave'>
+Leave</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Leave := ...</code></p>
+</dd>
+<dt id='LoadDecimal'>
+LoadDecimal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadDecimal := ...</code></p>
+</dd>
+<dt id='LoadDuration'>
+LoadDuration</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadDuration := ...</code></p>
+</dd>
+<dt id='LoadFalse'>
+LoadFalse</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadFalse := ...</code></p>
+</dd>
+<dt id='LoadFieldLiteral'>
+LoadFieldLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadFieldLiteral := ...</code></p>
+</dd>
+<dt id='LoadFloat'>
+LoadFloat</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadFloat := ...</code></p>
+</dd>
+<dt id='LoadFuncHandle'>
+LoadFuncHandle</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadFuncHandle := ...</code></p>
+</dd>
+<dt id='LoadInstance'>
+LoadInstance</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadInstance := ...</code></p>
+</dd>
+<dt id='LoadInt'>
+LoadInt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadInt := ...</code></p>
+</dd>
+<dt id='LoadMethodLiteral'>
+LoadMethodLiteral</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadMethodLiteral := ...</code></p>
+</dd>
+<dt id='LoadMixinStatic'>
+LoadMixinStatic</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadMixinStatic := ...</code></p>
+</dd>
+<dt id='LoadNull'>
+LoadNull</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadNull := ...</code></p>
+</dd>
+<dt id='LoadStatic'>
+LoadStatic</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadStatic := ...</code></p>
+</dd>
+<dt id='LoadStr'>
+LoadStr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadStr := ...</code></p>
+</dd>
+<dt id='LoadTrue'>
+LoadTrue</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadTrue := ...</code></p>
+</dd>
+<dt id='LoadType'>
+LoadType</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadType := ...</code></p>
+</dd>
+<dt id='LoadUri'>
+LoadUri</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadUri := ...</code></p>
+</dd>
+<dt id='LoadVar'>
+LoadVar</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> LoadVar := ...</code></p>
+</dd>
+<dt id='Nop'>
+Nop</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Nop := ...</code></p>
+</dd>
+<dt id='Pop'>
+Pop</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Pop := ...</code></p>
+</dd>
+<dt id='Return'>
+Return</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Return := ...</code></p>
+</dd>
+<dt id='SizeOf'>
+SizeOf</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> SizeOf := ...</code></p>
+</dd>
+<dt id='StoreInstance'>
+StoreInstance</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> StoreInstance := ...</code></p>
+</dd>
+<dt id='StoreMixinStatic'>
+StoreMixinStatic</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> StoreMixinStatic := ...</code></p>
+</dd>
+<dt id='StoreStatic'>
+StoreStatic</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> StoreStatic := ...</code></p>
+</dd>
+<dt id='StoreVar'>
+StoreVar</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> StoreVar := ...</code></p>
+</dd>
+<dt id='Switch'>
+Switch</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Switch := ...</code></p>
+</dd>
+<dt id='Throw'>
+Throw</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> Throw := ...</code></p>
+</dd>
+<dt id='_CatchEnd'>
+_CatchEnd</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> _CatchEnd := ...</code></p>
+</dd>
+<dt id='_JumpFinally'>
+_JumpFinally</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FOp.html'>FOp</a> _JumpFinally := ...</code></p>
+</dd>
+<dt id='arg'>
+arg</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='FOpArg.html'>FOpArg</a> arg</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the FOp instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='FOp.html'>FOp</a>&gt;</a> vals := ...</code></p>
+
+<p>List of FOp values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#AddressOfInstance'>AddressOfInstance</a></li><li><a href='#AddressOfStatic'>AddressOfStatic</a></li><li><a href='#AddressOfVar'>AddressOfVar</a></li><li><a href='#As'>As</a></li><li><a href='#CallCtor'>CallCtor</a></li><li><a href='#CallFunc'>CallFunc</a></li><li><a href='#CallMixinNonVirtual'>CallMixinNonVirtual</a></li><li><a href='#CallMixinStatic'>CallMixinStatic</a></li><li><a href='#CallMixinVirtual'>CallMixinVirtual</a></li><li><a href='#CallNew'>CallNew</a></li><li><a href='#CallNonVirtual'>CallNonVirtual</a></li><li><a href='#CallStatic'>CallStatic</a></li><li><a href='#CallSuper'>CallSuper</a></li><li><a href='#CallVirtual'>CallVirtual</a></li><li><a href='#CatchAllStart'>CatchAllStart</a></li><li><a href='#CatchErrStart'>CatchErrStart</a></li><li><a href='#Cmp'>Cmp</a></li><li><a href='#CmpEQ'>CmpEQ</a></li><li><a href='#CmpGE'>CmpGE</a></li><li><a href='#CmpGT'>CmpGT</a></li><li><a href='#CmpLE'>CmpLE</a></li><li><a href='#CmpLT'>CmpLT</a></li><li><a href='#CmpNE'>CmpNE</a></li><li><a href='#CmpNotNull'>CmpNotNull</a></li><li><a href='#CmpNotSame'>CmpNotSame</a></li><li><a href='#CmpNull'>CmpNull</a></li><li><a href='#CmpSame'>CmpSame</a></li><li><a href='#Coerce'>Coerce</a></li><li><a href='#Dup'>Dup</a></li><li><a href='#FinallyEnd'>FinallyEnd</a></li><li><a href='#FinallyStart'>FinallyStart</a></li><li><a href='#Is'>Is</a></li><li><a href='#Jump'>Jump</a></li><li><a href='#JumpFalse'>JumpFalse</a></li><li><a href='#JumpTrue'>JumpTrue</a></li><li><a href='#Leave'>Leave</a></li><li><a href='#LoadDecimal'>LoadDecimal</a></li><li><a href='#LoadDuration'>LoadDuration</a></li><li><a href='#LoadFalse'>LoadFalse</a></li><li><a href='#LoadFieldLiteral'>LoadFieldLiteral</a></li><li><a href='#LoadFloat'>LoadFloat</a></li><li><a href='#LoadFuncHandle'>LoadFuncHandle</a></li><li><a href='#LoadInstance'>LoadInstance</a></li><li><a href='#LoadInt'>LoadInt</a></li><li><a href='#LoadMethodLiteral'>LoadMethodLiteral</a></li><li><a href='#LoadMixinStatic'>LoadMixinStatic</a></li><li><a href='#LoadNull'>LoadNull</a></li><li><a href='#LoadStatic'>LoadStatic</a></li><li><a href='#LoadStr'>LoadStr</a></li><li><a href='#LoadTrue'>LoadTrue</a></li><li><a href='#LoadType'>LoadType</a></li><li><a href='#LoadUri'>LoadUri</a></li><li><a href='#LoadVar'>LoadVar</a></li><li><a href='#Nop'>Nop</a></li><li><a href='#Pop'>Pop</a></li><li><a href='#Return'>Return</a></li><li><a href='#SizeOf'>SizeOf</a></li><li><a href='#StoreInstance'>StoreInstance</a></li><li><a href='#StoreMixinStatic'>StoreMixinStatic</a></li><li><a href='#StoreStatic'>StoreStatic</a></li><li><a href='#StoreVar'>StoreVar</a></li><li><a href='#Switch'>Switch</a></li><li><a href='#Throw'>Throw</a></li><li><a href='#_CatchEnd'>_CatchEnd</a></li><li><a href='#_JumpFinally'>_JumpFinally</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#arg'>arg</a></li></ul>
+</div>
+</div>
+</body>
+</html>

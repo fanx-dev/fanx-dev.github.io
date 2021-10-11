@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>slanRecord::ConnPool</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>slanRecord</a></li><li><a href='ConnPool.html'>ConnPool</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> slanRecord::ConnPool</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  slanRecord::ConnPool</pre>
+
+<p>connection pool</p>
+<dl>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> clear()</code></p>
+
+<p>close all connection and clear pool</p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> close(<a href='../isql/SqlConn.html'>SqlConn</a> conn)</code></p>
+
+<p>not actually close ,just push into pool</p>
+</dd>
+<dt id='connectionStr'>
+connectionStr</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> connectionStr</code></p>
+
+<p>The database specific string used to connect to the database.</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../std/Log.html'>Log</a> log := ConnPool#.pod().log</code></p>
+
+<p>Standard log for the sql service</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Str.html'>Str</a> connStr, <a href='../sys/Str.html'>Str?</a> username, <a href='../sys/Str.html'>Str?</a> password)</code></p>
+</dd>
+<dt id='makeConfig'>
+makeConfig</dt>
+<dd>
+<p class='sig'>
+<code>new makeConfig(<a href='../std/Pod.html'>Pod</a> pod, <a href='../sys/Str.html'>Str</a> configPrefix := &quot;&quot;)</code></p>
+</dd>
+<dt id='open'>
+open</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../isql/SqlConn.html'>SqlConn</a> open()</code></p>
+
+<p>pop from pool or open</p>
+</dd>
+<dt id='openContext'>
+openContext</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Context.html'>Context</a> openContext()</code></p>
+</dd>
+<dt id='password'>
+password</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> password</code></p>
+
+<p>The password used to connect to this database.</p>
+</dd>
+<dt id='username'>
+username</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> username</code></p>
+
+<p>The username used to connect to this database.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#log'>log</a></li><li><a href='#make'>make</a></li><li><a href='#makeConfig'>makeConfig</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#clear'>clear</a></li><li><a href='#close'>close</a></li><li><a href='#connectionStr'>connectionStr</a></li><li><a href='#open'>open</a></li><li><a href='#openContext'>openContext</a></li><li><a href='#password'>password</a></li><li><a href='#username'>username</a></li></ul>
+</div>
+</div>
+</body>
+</html>

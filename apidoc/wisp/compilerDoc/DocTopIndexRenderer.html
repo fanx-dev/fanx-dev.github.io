@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocTopIndexRenderer</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocTopIndexRenderer.html'>DocTopIndexRenderer</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerDoc::DocTopIndexRenderer</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='DocRenderer.html'>compilerDoc::DocRenderer</a>
+    compilerDoc::DocTopIndexRenderer</pre>
+<p class='src'>
+<a href='src-DocTopIndexRenderer.fan.html'>Source</a></p>
+
+<p>Renders the index of a pod's documents</p>
+<dl>
+<dt id='index'>
+index</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocTopIndex.html'>DocTopIndex</a> index</code></p>
+<p class='src'>
+<a href='src-DocTopIndexRenderer.fan.html#line22'>Source</a></p>
+
+<p>Pod index to render</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='DocEnv.html'>DocEnv</a> env, <a href='../web/WebOutStream.html'>WebOutStream</a> out, <a href='DocTopIndex.html'>DocTopIndex</a> doc)</code></p>
+<p class='src'>
+<a href='src-DocTopIndexRenderer.fan.html'>Source</a></p>
+</dd>
+<dt id='writeApis'>
+writeApis</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeApis(<a href='../sys/List.html'>List&lt;<a href='DocPod.html'>DocPod</a>&gt;</a> pods)</code></p>
+<p class='src'>
+<a href='src-DocTopIndexRenderer.fan.html#line74'>Source</a></p>
+
+<p>Write API table of pod name/link and summaries.</p>
+</dd>
+<dt id='writeContent'>
+writeContent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> writeContent()</code></p>
+<p class='src'>
+<a href='src-DocTopIndexRenderer.fan.html#line25'>Source</a></p>
+
+<p>Write the content for a top index.  Default organizes pods into manuals and APIs.</p>
+</dd>
+<dt id='writeManuals'>
+writeManuals</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeManuals(<a href='../sys/List.html'>List&lt;<a href='DocPod.html'>DocPod</a>&gt;</a> pods)</code></p>
+<p class='src'>
+<a href='src-DocTopIndexRenderer.fan.html#line50'>Source</a></p>
+
+<p>Write manuals table of pod name/links along with shortcut chapter links.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocTopIndexRenderer.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#index'>index</a></li><li><a href='#writeApis'>writeApis</a></li><li><a href='#writeContent'>writeContent</a></li><li><a href='#writeManuals'>writeManuals</a></li></ul>
+</div>
+</div>
+</body>
+</html>

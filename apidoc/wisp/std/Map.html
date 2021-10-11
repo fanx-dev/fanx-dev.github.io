@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Map</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Map.html'>Map</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract rtconst class</span> std::Map</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Map</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+
+<p>Map is a hash map of key/value pairs.</p>
+
+<p>See <a href='https://fantom.org/doc/examples/sys-maps'>examples</a>.</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> add(<a href='MapK.html'>Map^K</a> key, <a href='MapV.html'>Map^V</a> val)</code></p>
+
+<p>Add the specified key/value pair to the map.  If the key is already mapped, then throw the ArgErr.  Return this.  If key does not return true for Obj.isImmutable, then throw NotImmutableErr. If key is null throw NullErr.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='addAll'>
+addAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> addAll(<a href='Map.html'>Map&lt;<a href='MapK.html'>Map^K</a>,<a href='MapV.html'>Map^V</a>&gt;</a> m)</code></p>
+
+<p>Append the specified map to this map by adding every key/value in m in this map.  If any key in m is already mapped then this method will fail (any previous keys will remain mapped potentially leaving this map in an inconsistent state).  Return this.  Throw ReadonlyErr if readonly.  Also see <code><a href='Map.html#setAll'>setAll</a></code>. This method is semanatically equivalent to:</p>
+
+<pre>m.each |v, k| { this.add(k, v) }</pre>
+</dd>
+<dt id='addIfNotNull'>
+addIfNotNull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> addIfNotNull(<a href='MapK.html'>Map^K</a> key, <a href='MapV.html'>Map^V?</a> val)</code></p>
+
+<p>Call <code><a href='Map.html#add'>add</a></code> if val is non-null otherwise do nothing.  Return this.</p>
+</dd>
+<dt id='addList'>
+addList</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> addList(<a href='../sys/List.html'>List&lt;<a href='MapV.html'>Map^V</a>&gt;</a> list, <a href='../sys/Func.html'>Func&lt;<a href='MapK.html'>Map^K</a>,<a href='MapV.html'>Map^V</a>,<a href='../sys/Int.html'>Int</a>&gt;?</a> c := null)</code></p>
+
+<p>Add the specified list to this map where the values are the list items and the keys are derived by calling the specified function on each item. If the function is null, then the items themselves are used as the keys. If any key already mapped then this method will fail (any previous keys will remain mapped potentially leaving this map in an inconsistent state). Return this.  Throw ReadonlyErr if readonly.  Also see <code><a href='Map.html#setList'>setList</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>m := [0:"0"]
+m.addList(["1","2"]) |Str s->Int| { return s.toInt }
+m  =>  [0:0, 1:1, 2:2]</pre>
+</dd>
+<dt id='all'>
+all</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> all(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> c)</code></p>
+
+<p>Return true if c returns true for all of the key/value pairs in the map.  If the list is empty, return true.  This method is readonly safe.</p>
+</dd>
+<dt id='any'>
+any</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> any(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> c)</code></p>
+
+<p>Return true if c returns true for any of the key/value pairs in the map.  If the map is empty, return false.  This method is readonly safe.</p>
+</dd>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> clear()</code></p>
+
+<p>Remove all key/value pairs from the map.  Return this. Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='containsKey'>
+containsKey</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> containsKey(<a href='MapK.html'>Map^K</a> key)</code></p>
+
+<p>Return if the specified key is mapped. This method is readonly safe.</p>
+</dd>
+<dt id='createEmpty'>
+createEmpty</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract <a href='../sys/This.html'>This</a> createEmpty()</code></p>
+</dd>
+<dt id='defV'>
+defV</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='MapV.html'>Map^V?</a> defV := null</code></p>
+
+<p>The default value to use for <code><a href='Map.html#get'>get</a></code> when a key isn't mapped. This field defaults to null.  The value of <code>def</code> must be immutable or NotImmutableErr is thrown.  Getting this field is readonly safe. Throw ReadonlyErr if set when readonly.</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Map.html'>Map&lt;<a href='../sys/Obj.html'>Obj</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> defVal := Map&lt;Obj,Obj>[:]</code></p>
+</dd>
+<dt id='dup'>
+dup</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> dup()</code></p>
+
+<p>Create a shallow duplicate copy of this Map.  The keys and values themselves are not duplicated.  This method is readonly safe.</p>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> each(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> c)</code></p>
+
+<p>Call the specified function for every key/value in the list. This method is readonly safe.</p>
+</dd>
+<dt id='eachWhile'>
+eachWhile</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Obj.html'>Obj?</a> eachWhile(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> c)</code></p>
+
+<p>Iterate every key/value pair in the map until the function returns non-null.  If function returns non-null, then break the iteration and return the resulting object.  Return null if the function returns null for every key/value pair. This method is readonly safe.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Two Maps are equal if they have the same type and number of equal key/value pairs.</p>
+
+<p>Examples:</p>
+
+<pre>a := Int:Str[1:"one", 2:"two"]
+b := Int:Str[2:"two", 1:"one"]
+c := Int:Str?[2:"two", 1:"one"]
+a == b  =>  true
+a == c  =>  false</pre>
+</dd>
+<dt id='exclude'>
+exclude</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> exclude(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> c)</code></p>
+
+<p>Return a new map containing the key/value pairs for which c returns false.  If c returns true for every item, then return an empty list.  The inverse of this method is <code><a href='Map.html#findAll'>findAll</a></code>.  If this map is <a href='ordered'>ordered</a> or <a href='caseInsensitive'>caseInsensitive</a>, then the resulting map is too.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>map := ["off":0, "slow":50, "fast":100]
+map.exclude |Int v->Bool| { return v == 0 } => ["slow":50, "fast":100]</pre>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MapV.html'>Map^V?</a> find(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> c)</code></p>
+
+<p>Return the first value in the map for which c returns true. If c returns false for every pair, then return null.  This method is readonly safe.</p>
+</dd>
+<dt id='findAll'>
+findAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> findAll(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> c)</code></p>
+
+<p>Return a new map containing the key/value pairs for which c returns true.  If c returns false for every item, then return an empty map.  The inverse of this method is <code><a href='Map.html#exclude'>exclude</a></code>.  If this map is <a href='ordered'>ordered</a> or <a href='caseInsensitive'>caseInsensitive</a>, then the resulting map is too.  This method is readonly safe.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='MapV.html'>Map^V?</a> get(<a href='MapK.html'>Map^K</a> key, <a href='MapV.html'>Map^V?</a> defValue := this.defV)</code></p>
+
+<p>Get the value for the specified key.  If key is not mapped, then return the value of the def parameter.  If def is omitted it defaults to the <a href='def'>def</a> field.  This method is readonly safe. Shortcut is <code>a[key]</code>.</p>
+</dd>
+<dt id='getChecked'>
+getChecked</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MapV.html'>Map^V?</a> getChecked(<a href='MapK.html'>Map^K</a> key, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Get the value for the specified key.  If the key is not mapped then return null or raise UnknownKeyEr based on checked flag.  This method is readonly safe.</p>
+</dd>
+<dt id='getOrAdd'>
+getOrAdd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MapV.html'>Map^V</a> getOrAdd(<a href='MapK.html'>Map^K</a> key, <a href='../sys/Func.html'>Func&lt;<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> valFunc)</code></p>
+
+<p>Get the value for the specified key, or if it doesn't exist then automatically add it.  The value function is called to get the value to add, it is only called if the key is not mapped. Throw ReadonlyErr if readonly only if add is required.</p>
+</dd>
+<dt id='getOrThrow'>
+getOrThrow</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MapV.html'>Map^V</a> getOrThrow(<a href='../sys/Obj.html'>Obj</a> key)</code></p>
+
+<p>Get the value for the specified key or if key is not mapped then raise UnknownKeyErr.  This method is readonly safe.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return platform dependent hashcode based on hash of the keys and values.</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>Return if size() == 0.  This method is readonly safe.</p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>abstract override <a href='../sys/Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='isRO'>
+isRO</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isRO()</code></p>
+
+<p>Return if this Map is readonly.  A readonly Map is guaranteed to be immutable (although its values may be mutable themselves). Any attempt to modify a readonly Map will result in ReadonlyErr. Use <code><a href='Map.html#rw'>rw</a></code> to get a read-write Map from a readonly Map.  Methods documented as "readonly safe" may be used safely with a readonly Map. This method is readonly safe.</p>
+</dd>
+<dt id='isRW'>
+isRW</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isRW()</code></p>
+
+<p>Return if this Map is read-write.  A read-write Map is mutable and may be modified.  Use r`o` to get a readonly Map from a read-write Map.  This method is readonly safe.</p>
+</dd>
+<dt id='join'>
+join</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> join(<a href='../sys/Str.html'>Str</a> separator, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Str.html'>Str</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;?</a> c := null)</code></p>
+
+<p>Return a string by concatenating each key/value pair using the specified separator string.  If c is non-null then it is used to format each pair into a string, otherwise "$k: $v" is used.  This method is readonly safe.</p>
+
+<p>Example:</p>
+</dd>
+<dt id='keys'>
+keys</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='MapK.html'>Map^K</a>&gt;</a> keys()</code></p>
+
+<p>Get a list of all the mapped keys.  This method is readonly safe.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static new make(<a href='../sys/Int.html'>Int</a> capacity := 16)</code></p>
+
+<p>Constructor</p>
+</dd>
+<dt id='map'>
+map</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Map.html'>Map&lt;<a href='MapK.html'>Map^K</a>,<a href='../sys/Obj.html'>Obj?</a>&gt;</a> map(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> c)</code></p>
+
+<p>Create a new map with the same keys, but apply the specified closure to generate new values.  The new mapped is typed based on the return type of c.  If this map is <a href='ordered'>ordered</a> or <a href='caseInsensitive'>caseInsensitive</a>, then the resulting map is too.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>m := [2:2, 3:3, 4:4]
+x := m.map |Int v->Int| { return v*2 }
+x => [2:4, 3:6, 4:8]</pre>
+</dd>
+<dt id='modify'>
+modify</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract <a href='../sys/Void.html'>Void</a> modify()</code></p>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake()</code></p>
+</dd>
+<dt id='reduce'>
+reduce</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> reduce(<a href='../sys/Obj.html'>Obj?</a> init, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj?</a>,<a href='../sys/Obj.html'>Obj?</a>,<a href='MapV.html'>Map^V</a>,<a href='MapK.html'>Map^K</a>&gt;</a> c)</code></p>
+
+<p>Reduce is used to iterate through every value in the map to reduce the map into a single value called the reduction. The initial value of the reduction is passed in as the init parameter, then passed back to the closure along with each item.  This method is readonly safe.</p>
+
+<p>Example:</p>
+
+<pre>m := ["2":2, "3":3, "4":4]
+m.reduce(100) |Obj r, Int v->Obj| { return (Int)r + v } => 109</pre>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='MapV.html'>Map^V?</a> remove(<a href='MapK.html'>Map^K</a> key)</code></p>
+
+<p>Remove the key/value pair identified by the specified key from the map and return the value.   If the key was not mapped then return null.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='ro'>
+ro</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> ro()</code></p>
+
+<p>Get a readonly Map instance with the same contents as this Map (although its values may be mutable themselves).  If this Map is already readonly, then return this.  Only methods documented as "readonly safe" may be used safely with a readonly Map, all others will throw ReadonlyErr.  This method is readonly safe.</p>
+</dd>
+<dt id='rw'>
+rw</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/This.html'>This</a> rw()</code></p>
+
+<p>Get a read-write, mutable Map instance with the same contents as this Map.  If this Map is already read-write, then return this. This method is readonly safe.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='../sys/This.html'>This</a> set(<a href='MapK.html'>Map^K</a> key, <a href='MapV.html'>Map^V</a> val)</code></p>
+
+<p>Set the value for the specified key.  If the key is already mapped, this overwrites the old value.  If key is not yet mapped this adds the key/value pair to the map.  Return this.  If key does not return true for Obj.isImmutable, then throw NotImmutableErr. If key is null throw NullErr.  Throw ReadonlyErr if readonly.</p>
+</dd>
+<dt id='setAll'>
+setAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setAll(<a href='Map.html'>Map&lt;<a href='MapK.html'>Map^K</a>,<a href='MapV.html'>Map^V</a>&gt;</a> m)</code></p>
+
+<p>Append the specified map to this map by setting every key/value in m in this map.  Keys in m not yet mapped are added and keys already mapped are overwritten.  Return this.  Throw ReadonlyErr if readonly. Also see <code><a href='Map.html#addAll'>addAll</a></code>.  This method is semanatically equivalent to:</p>
+
+<pre>m.each |v, k| { this.set(k, v) }</pre>
+</dd>
+<dt id='setList'>
+setList</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setList(<a href='../sys/List.html'>List&lt;<a href='MapV.html'>Map^V</a>&gt;</a> list, <a href='../sys/Func.html'>Func&lt;<a href='MapK.html'>Map^K</a>,<a href='MapV.html'>Map^V</a>,<a href='../sys/Int.html'>Int</a>&gt;?</a> c := null)</code></p>
+
+<p>Add the specified list to this map where the values are the list items and the keys are derived by calling the specified function on each item. If the function is null, then the items themselves are used as the keys. If any key already mapped then it is overwritten.  Return this.  Throw ReadonlyErr if readonly.  Also see <code><a href='Map.html#addList'>addList</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>m := [0:"0", 2:"old"]
+m.setList(["1","2"]) |Str s->Int| { return s.toInt }
+m  =>  [0:0, 1:1, 2:2]</pre>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> size()</code></p>
+
+<p>Get the number of key/value pairs in the list.  This method is readonly safe.</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toCode()</code></p>
+
+<p>Get this map as a Fantom expression suitable for code generation. The individual keys and values must all respond to the <code>toCode</code> method.</p>
+</dd>
+<dt id='toImmutable'>
+toImmutable</dt>
+<dd>
+<p class='sig'>
+<code>abstract override <a href='Map.html'>Map&lt;<a href='MapK.html'>Map^K</a>,<a href='MapV.html'>Map^V</a>&gt;</a> toImmutable()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return a string representation the Map.  This method is readonly safe.</p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='MapV.html'>Map^V</a>&gt;</a> vals()</code></p>
+
+<p>Get a list of all the mapped values.  This method is readonly safe.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#make'>make</a></li><li><a href='#privateMake'>privateMake</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#addAll'>addAll</a></li><li><a href='#addIfNotNull'>addIfNotNull</a></li><li><a href='#addList'>addList</a></li><li><a href='#all'>all</a></li><li><a href='#any'>any</a></li><li><a href='#clear'>clear</a></li><li><a href='#containsKey'>containsKey</a></li><li><a href='#createEmpty'>createEmpty</a></li><li><a href='#defV'>defV</a></li><li><a href='#dup'>dup</a></li><li><a href='#each'>each</a></li><li><a href='#eachWhile'>eachWhile</a></li><li><a href='#equals'>equals</a></li><li><a href='#exclude'>exclude</a></li><li><a href='#find'>find</a></li><li><a href='#findAll'>findAll</a></li><li><a href='#get'>get</a></li><li><a href='#getChecked'>getChecked</a></li><li><a href='#getOrAdd'>getOrAdd</a></li><li><a href='#getOrThrow'>getOrThrow</a></li><li><a href='#hash'>hash</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#isRO'>isRO</a></li><li><a href='#isRW'>isRW</a></li><li><a href='#join'>join</a></li><li><a href='#keys'>keys</a></li><li><a href='#map'>map</a></li><li><a href='#modify'>modify</a></li><li><a href='#reduce'>reduce</a></li><li><a href='#remove'>remove</a></li><li><a href='#ro'>ro</a></li><li><a href='#rw'>rw</a></li><li><a href='#set'>set</a></li><li><a href='#setAll'>setAll</a></li><li><a href='#setList'>setList</a></li><li><a href='#size'>size</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toImmutable'>toImmutable</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#vals'>vals</a></li></ul>
+</div>
+</div>
+</body>
+</html>

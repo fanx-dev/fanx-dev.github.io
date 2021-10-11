@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>graphics::DeviceContext</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='DeviceContext.html'>DeviceContext</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> graphics::DeviceContext</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  graphics::DeviceContext</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-DeviceContext.fan.html'>Source</a></p>
+
+<p>DeviceContext models the target device for graphical rendering. Typically this maps to a display, image buffer, printer, or output format such as PDF.</p>
+<dl>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DeviceContext.html'>DeviceContext</a> cur()</code></p>
+<p class='src'>
+<a href='src-DeviceContext.fan.html'>Source</a></p>
+
+<p>Return default device context for the VM which is typically the primary display device.</p>
+</dd>
+<dt id='dpi'>
+dpi</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Float.html'>Float</a> dpi</code></p>
+<p class='src'>
+<a href='src-DeviceContext.fan.html#line27'>Source</a></p>
+
+<p>Dots per inch which defines graphical resolution of the device for the logical coordinate system</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-DeviceContext.fan.html#line31'>Source</a></p>
+
+<p>Debub string</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DeviceContext.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cur'>cur</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dpi'>dpi</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

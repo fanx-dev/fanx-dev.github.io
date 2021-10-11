@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::LogRec</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='LogRec.html'>LogRec</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> std::LogRec</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::LogRec</pre>
+
+<p>LogRec all the information of a single logging event. See <a href='docLang::Logging'>docLang::Logging</a> for details.</p>
+<dl>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Err.html'>Err?</a> err</code></p>
+
+<p>Exception if applicable</p>
+</dd>
+<dt id='level'>
+level</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='LogLevel.html'>LogLevel</a> level</code></p>
+
+<p>Severity level of event</p>
+</dd>
+<dt id='logName'>
+logName</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> logName</code></p>
+
+<p>Name of <code><a href='Log.html'>Log</a></code> which generated the event</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='DateTime.html'>DateTime</a> time, <a href='LogLevel.html'>LogLevel</a> level, <a href='../sys/Str.html'>Str</a> logName, <a href='../sys/Str.html'>Str</a> message, <a href='../sys/Err.html'>Err?</a> err := null)</code></p>
+
+<p>Constructor with all the fields</p>
+</dd>
+<dt id='msg'>
+msg</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> msg</code></p>
+
+<p>Message text event</p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> print(<a href='OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+
+<p>Print to the specified output stream.</p>
+</dd>
+<dt id='time'>
+time</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DateTime.html'>DateTime</a> time</code></p>
+
+<p>Timestamp of log event</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return standard log format.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#err'>err</a></li><li><a href='#level'>level</a></li><li><a href='#logName'>logName</a></li><li><a href='#msg'>msg</a></li><li><a href='#print'>print</a></li><li><a href='#time'>time</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>slanRecord::SqlUtil</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>slanRecord</a></li><li><a href='SqlUtil.html'>SqlUtil</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> slanRecord::SqlUtil</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  slanRecord::SqlUtil</pre>
+
+<p>mapping model for database table. must has a prime key.</p>
+<dl>
+<dt id='checkMatchDb'>
+checkMatchDb</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> checkMatchDb(<a href='TableDef.html'>TableDef</a> s, <a href='../sys/List.html'>List&lt;<a href='../isql/Col.html'>Col</a>&gt;</a> tcols)</code></p>
+
+<p>check model is match the database</p>
+</dd>
+<dt id='checkMatchDbField'>
+checkMatchDbField</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> checkMatchDbField(<a href='FieldDef.html'>FieldDef</a> f, <a href='../isql/Col.html'>Col</a> c)</code></p>
+
+<p>check the column is match the database</p>
+</dd>
+<dt id='colsToSchema'>
+colsToSchema</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='TableDef.html'>TableDef</a> colsToSchema(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/List.html'>List&lt;<a href='../isql/Col.html'>Col</a>&gt;</a> cols)</code></p>
+</dd>
+<dt id='convertParams'>
+convertParams</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> convertParams(<a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> params)</code></p>
+</dd>
+<dt id='getInstance'>
+getInstance</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Obj.html'>Obj</a> getInstance(<a href='TableDef.html'>TableDef</a> s, <a href='../isql/ResultSet.html'>ResultSet</a> r)</code></p>
+
+<p>fetch data</p>
+</dd>
+<dt id='isPrimitiveType'>
+isPrimitiveType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isPrimitiveType(<a href='../std/Type.html'>Type</a> type)</code></p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../std/Log.html'>Log</a> log := SqlUtil#.pod().log</code></p>
+</dd>
+<dt id='makeCacheKey'>
+makeCacheKey</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> makeCacheKey(<a href='TableDef.html'>TableDef</a> s, <a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>make string from object for cache key</p>
+</dd>
+<dt id='removeLastChar'>
+removeLastChar</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/StrBuf.html'>StrBuf</a> removeLastChar(<a href='../sys/StrBuf.html'>StrBuf</a> s)</code></p>
+</dd>
+<dt id='toSqlStr'>
+toSqlStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> toSqlStr(<a href='../sys/Obj.html'>Obj?</a> o)</code></p>
+
+<p>convert object to sql string</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#checkMatchDb'>checkMatchDb</a></li><li><a href='#checkMatchDbField'>checkMatchDbField</a></li><li><a href='#colsToSchema'>colsToSchema</a></li><li><a href='#convertParams'>convertParams</a></li><li><a href='#getInstance'>getInstance</a></li><li><a href='#isPrimitiveType'>isPrimitiveType</a></li><li><a href='#log'>log</a></li><li><a href='#makeCacheKey'>makeCacheKey</a></li><li><a href='#removeLastChar'>removeLastChar</a></li><li><a href='#toSqlStr'>toSqlStr</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

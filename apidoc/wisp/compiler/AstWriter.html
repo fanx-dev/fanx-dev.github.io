@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::AstWriter</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='AstWriter.html'>AstWriter</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compiler::AstWriter</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compiler::AstWriter</pre>
+
+<p>AstWriter</p>
+<dl>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AstWriter.html'>AstWriter</a> flags(<a href='../sys/Int.html'>Int</a> flags)</code></p>
+
+<p>Write the source code for the mask of flags with a trailing space.</p>
+</dd>
+<dt id='flagsToStr'>
+flagsToStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> flagsToStr(<a href='../sys/Int.html'>Int</a> flags)</code></p>
+</dd>
+<dt id='indent'>
+indent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AstWriter.html'>AstWriter</a> indent()</code></p>
+
+<p>Increment the indentation</p>
+</dd>
+<dt id='indentation'>
+indentation</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> indentation := 0</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+
+<p>Make for specified output stream</p>
+</dd>
+<dt id='needIndent'>
+needIndent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> needIndent := false</code></p>
+</dd>
+<dt id='nl'>
+nl</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AstWriter.html'>AstWriter</a> nl()</code></p>
+
+<p>Write newline and then return this.</p>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/OutStream.html'>OutStream</a> out</code></p>
+</dd>
+<dt id='unindent'>
+unindent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AstWriter.html'>AstWriter</a> unindent()</code></p>
+
+<p>Decrement the indentation</p>
+</dd>
+<dt id='w'>
+w</dt>
+<dd>
+<p class='sig'>
+<code> <a href='AstWriter.html'>AstWriter</a> w(<a href='../sys/Obj.html'>Obj</a> o)</code></p>
+
+<p>Write and then return this.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#flagsToStr'>flagsToStr</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#flags'>flags</a></li><li><a href='#indent'>indent</a></li><li><a href='#indentation'>indentation</a></li><li><a href='#needIndent'>needIndent</a></li><li><a href='#nl'>nl</a></li><li><a href='#out'>out</a></li><li><a href='#unindent'>unindent</a></li><li><a href='#w'>w</a></li></ul>
+</div>
+</div>
+</body>
+</html>

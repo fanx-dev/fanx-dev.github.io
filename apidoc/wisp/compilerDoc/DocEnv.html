@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocEnv</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocEnv.html'>DocEnv</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> compilerDoc::DocEnv</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::DocEnv</pre>
+<p class='src'>
+<a href='src-DocEnv.fan.html'>Source</a></p>
+
+<p>DocEnv is the centralized glue class for managing documentation modeling and rendering:</p>
+
+<ul>
+<li>hooks for lookup and loading of spaces/pods</li>
+
+<li>hooks for theming HTML chrome and navigation</li>
+
+<li>hooks for renderering HTML pages</li>
+
+<li>hooks for hyperlink resolution</li>
+</ul>
+<dl>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Doc.html'>Doc?</a> doc(<a href='../sys/Str.html'>Str</a> spaceName, <a href='../sys/Str.html'>Str</a> docName, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line40'>Source</a></p>
+
+<p>Lookup a document by is spaceName and docName within that space.  If not found then return null or raise UnknownDocErr. Default implementation delegates to <code><a href='DocEnv.html#space'>space</a></code> and <code><a href='DocSpace.html#doc'>DocSpace.doc</a></code>.</p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code> <a href='DocErr.html'>DocErr</a> err(<a href='../sys/Str.html'>Str</a> msg, <a href='DocLoc.html'>DocLoc</a> loc, <a href='../sys/Err.html'>Err?</a> cause := null)</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line181'>Source</a></p>
+</dd>
+<dt id='errReport'>
+errReport</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='DocErr.html'>DocErr</a> errReport(<a href='DocErr.html'>DocErr</a> err)</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line186'>Source</a></p>
+</dd>
+<dt id='link'>
+link</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='DocLink.html'>DocLink?</a> link(<a href='Doc.html'>Doc</a> from, <a href='../sys/Str.html'>Str</a> link, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line99'>Source</a></p>
+
+<p>Resolve the link relative to the given from document. See <code><a href='DocLink.html'>DocLink</a></code> for the built-in formats.</p>
+</dd>
+<dt id='linkCheck'>
+linkCheck</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> linkCheck(<a href='DocLink.html'>DocLink</a> link, <a href='DocLoc.html'>DocLoc</a> loc)</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line165'>Source</a></p>
+
+<p>Hook to perform extra DocLink checking such as links to NoDocs</p>
+</dd>
+<dt id='linkUri'>
+linkUri</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/Uri.html'>Uri</a> linkUri(<a href='DocLink.html'>DocLink</a> link)</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line63'>Source</a></p>
+
+<p>Return URI used to link the from doc to the target doc. Also see <code><a href='DocEnv.html#linkUriExt'>linkUriExt</a></code>.</p>
+</dd>
+<dt id='linkUriExt'>
+linkUriExt</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str?</a> linkUriExt()</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line93'>Source</a></p>
+
+<p>Return the file extension (including the dot) to suffix all link URIs.  Default returns ".html"</p>
+</dd>
+<dt id='render'>
+render</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> render(<a href='../web/WebOutStream.html'>WebOutStream</a> out, <a href='Doc.html'>Doc</a> doc)</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line53'>Source</a></p>
+
+<p>Render the given document to the specified output stream. Default implementation uses <code><a href='Doc.html#renderer'>Doc.renderer</a></code>.</p>
+</dd>
+<dt id='space'>
+space</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='DocSpace.html'>DocSpace?</a> space(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line33'>Source</a></p>
+
+<p>Lookup a space by its space name.  If not found then return null or raise UnknownDocErr.  This method is called frequently during document rendering and linking so caching is expected.</p>
+</dd>
+<dt id='theme'>
+theme</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='DocTheme.html'>DocTheme</a> theme()</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line22'>Source</a></p>
+
+<p>Theme is responsible for the common chrome, styling, and navigation during rendering</p>
+</dd>
+<dt id='topIndex'>
+topIndex</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='DocTopIndex.html'>DocTopIndex</a> topIndex()</code></p>
+<p class='src'>
+<a href='src-DocEnv.fan.html#line28'>Source</a></p>
+
+<p>Get the document which represents top level index.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocEnv.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#doc'>doc</a></li><li><a href='#err'>err</a></li><li><a href='#errReport'>errReport</a></li><li><a href='#link'>link</a></li><li><a href='#linkCheck'>linkCheck</a></li><li><a href='#linkUri'>linkUri</a></li><li><a href='#linkUriExt'>linkUriExt</a></li><li><a href='#render'>render</a></li><li><a href='#space'>space</a></li><li><a href='#theme'>theme</a></li><li><a href='#topIndex'>topIndex</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::TextArea</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='TextArea.html'>TextArea</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::TextArea</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Widget.html'>vaseGui::Widget</a>
+    <a href='WidgetGroup.html'>vaseGui::WidgetGroup</a>
+      <a href='Pane.html'>vaseGui::Pane</a>
+        <a href='ContentPane.html'>vaseGui::ContentPane</a>
+          <a href='ScrollPane.html'>vaseGui::ScrollPane</a>
+            vaseGui::TextArea</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>Text</p>
+<dl>
+<dt id='caret'>
+caret</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='NativeCaret.html'>NativeCaret</a> caret := NativeCaret.&lt;ctor>(this) { private set }</code></p>
+</dd>
+<dt id='doPaint'>
+doPaint</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> doPaint(<a href='../vaseGraphics/Graphics.html'>Graphics</a> g)</code></p>
+</dd>
+<dt id='hasSelected'>
+hasSelected</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasSelected()</code></p>
+</dd>
+<dt id='keyEvent'>
+keyEvent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> keyEvent(<a href='../vaseWindow/KeyEvent.html'>KeyEvent</a> e)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+</dd>
+<dt id='model'>
+model</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='TextAreaModel.html'>TextAreaModel?</a> model := DefTextAreaModel.&lt;ctor>(&quot;&quot;)</code></p>
+
+<p>Backing data model of text document. The model cannot be changed once the widget has been been mounted into an open window.</p>
+</dd>
+<dt id='motionEvent'>
+motionEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> motionEvent(<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+</dd>
+<dt id='onCaret'>
+onCaret</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onCaret()</code></p>
+
+<p>Callback when the caret position is modified.</p>
+
+<p>Event id fired:</p>
+
+<ul>
+<li><a href='EventId.caret'>EventId.caret</a></li>
+</ul>
+
+<p>Event fields:</p>
+
+<ul>
+<li><a href='Event.offset'>Event.offset</a>: the new caret offset</li>
+</ul>
+</dd>
+<dt id='onModelModify'>
+onModelModify</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> onModelModify(<a href='../vaseWindow/Event.html'>Event</a> event)</code></p>
+</dd>
+<dt id='onModify'>
+onModify</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onModify()</code></p>
+
+<p>Callback when the text is modified.  This event occurs after the modification.  See <code><a href='TextArea.html#onVerify'>onVerify</a></code> to trap changes before they occur.</p>
+
+<p>Event id fired:</p>
+
+<ul>
+<li><a href='EventId.modified'>EventId.modified</a></li>
+</ul>
+
+<p>Event fields:</p>
+
+<ul>
+<li><a href='Event.data'>Event.data</a>: the <a href='TextChange'>TextChange</a> instance.</li>
+</ul>
+</dd>
+<dt id='onSelect'>
+onSelect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onSelect()</code></p>
+
+<p>Callback when the selection is modified.</p>
+
+<p>Event id fired:</p>
+
+<ul>
+<li><a href='EventId.select'>EventId.select</a></li>
+</ul>
+
+<p>Event fields:</p>
+
+<ul>
+<li><a href='Event.offset'>Event.offset</a>: the starting offset</li>
+
+<li><a href='Event.size'>Event.size</a>:   the number of chars selected</li>
+</ul>
+</dd>
+<dt id='onVerify'>
+onVerify</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onVerify()</code></p>
+
+<p>Callback before the text is modified.  This gives listeners a chance to intercept modifications and potentially modify the inserted text.  This event occurs before the modification. See <code><a href='TextArea.html#onModify'>onModify</a></code> to trap changes after they occur.</p>
+
+<p>Event id fired:</p>
+
+<ul>
+<li><a href='EventId.verify'>EventId.verify</a></li>
+</ul>
+
+<p>Event fields:</p>
+
+<ul>
+<li><a href='Event.data'>Event.data</a>: a <a href='TextChange'>TextChange</a> instance where <code>newText</code> specifies the proposed text being inserted.  The callback can update <code>newText</code> with the actual text to be inserted or set to null to cancel the modification.</li>
+</ul>
+</dd>
+<dt id='onVerifyKey'>
+onVerifyKey</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onVerifyKey()</code></p>
+
+<p>Callback before a key event is processed.  This gives listeners a chance to trap the key event and <a href='Event.consume'>consume</a> it before it is processed by the editor.</p>
+
+<p>Event id fired:</p>
+
+<ul>
+<li><a href='EventId.verifyKey'>EventId.verifyKey</a></li>
+</ul>
+
+<p>Event fields:</p>
+
+<ul>
+<li><a href='Event.keyChar'>Event.keyChar</a>: unicode character represented by key event</li>
+
+<li><a href='Event.key'>Event.key</a>: key code including the modifiers</li>
+</ul>
+</dd>
+<dt id='prefContentSize'>
+prefContentSize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../vaseGraphics/Size.html'>Size</a> prefContentSize(<a href='../sys/Int.html'>Int</a> hintsWidth := -1, <a href='../sys/Int.html'>Int</a> hintsHeight := -1)</code></p>
+</dd>
+<dt id='rowHeight'>
+rowHeight</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> rowHeight()</code></p>
+</dd>
+<dt id='selectionEnd'>
+selectionEnd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> selectionEnd := -1</code></p>
+
+<p>Exclusive end position</p>
+</dd>
+<dt id='selectionStart'>
+selectionStart</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> selectionStart := -1</code></p>
+
+<p>Inclusive start position</p>
+</dd>
+<dt id='showLine'>
+showLine</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> showLine(<a href='../sys/Int.html'>Int</a> lineIndex)</code></p>
+
+<p>Ensure the editor is scrolled such that the specified line is visible.</p>
+</dd>
+<dt id='tabSpacing'>
+tabSpacing</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> tabSpacing := 4</code></p>
+
+<p>Tab width measured in space characters.</p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> text</code></p>
+
+<p>Convenience for <code>model.text</code> (model must be installed).</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#caret'>caret</a></li><li><a href='#doPaint'>doPaint</a></li><li><a href='#hasSelected'>hasSelected</a></li><li><a href='#keyEvent'>keyEvent</a></li><li><a href='#model'>model</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#onCaret'>onCaret</a></li><li><a href='#onModelModify'>onModelModify</a></li><li><a href='#onModify'>onModify</a></li><li><a href='#onSelect'>onSelect</a></li><li><a href='#onVerify'>onVerify</a></li><li><a href='#onVerifyKey'>onVerifyKey</a></li><li><a href='#prefContentSize'>prefContentSize</a></li><li><a href='#rowHeight'>rowHeight</a></li><li><a href='#selectionEnd'>selectionEnd</a></li><li><a href='#selectionStart'>selectionStart</a></li><li><a href='#showLine'>showLine</a></li><li><a href='#tabSpacing'>tabSpacing</a></li><li><a href='#text'>text</a></li></ul>
+</div>
+</div>
+</body>
+</html>

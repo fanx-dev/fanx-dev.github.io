@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Matrix.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>math</a></li><li><a href='Matrix.html'>Matrix</a></li><li><a href='src-Matrix.fan.html'>Matrix.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2020, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   11 Aug 20  Matthew Giannini  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** Interface for matrix implementations. A matrix is a rectangular array of numbers.</span>
+<span id='line11'>**</span>
+<span id='line12'>mixin Matrix</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'>  ** The number of rows in the matrix.</span>
+<span id='line15'>  abstract Int numRows<b>(</b><b>)</b></span>
+<span id='line16'></span>
+<span id='line17'>  ** The number of columns in the matrix.</span>
+<span id='line18'>  abstract Int numCols<b>(</b><b>)</b></span>
+<span id='line19'></span>
+<span id='line20'>  ** Return true if the matrix is square.</span>
+<span id='line21'>  abstract Bool isSquare<b>(</b><b>)</b></span>
+<span id='line22'></span>
+<span id='line23'>  ** Get the element at 'A<b>[</b>i,j<b>]</b>', where 'i' is the row index, and 'j' is</span>
+<span id='line24'>  ** column index.</span>
+<span id='line25'>  abstract Float get<b>(</b>Int i, Int j<b>)</b></span>
+<span id='line26'></span>
+<span id='line27'>  ** Set the element at 'A<b>[</b>i,j<b>]</b>', where 'i' is the row index, and 'j' is</span>
+<span id='line28'>  ** column index.</span>
+<span id='line29'>  abstract This set<b>(</b>Int i, Int j, Float val<b>)</b></span>
+<span id='line30'></span>
+<span id='line31'>  ** Set every element in the matrix to the given val.</span>
+<span id='line32'>  abstract This fill<b>(</b>Float val<b>)</b></span>
+<span id='line33'></span>
+<span id='line34'>  ** Get the transpose of the matrix.</span>
+<span id='line35'>  abstract Matrix transpose<b>(</b><b>)</b></span>
+<span id='line36'></span>
+<span id='line37'>  ** Computes 'x * A'.</span>
+<span id='line38'>  abstract This multScalar<b>(</b>Float x<b>)</b></span>
+<span id='line39'></span>
+<span id='line40'>  ** Computes 'A + B' and returns a new matrix.</span>
+<span id='line41'>  @Operator abstract Matrix plus<b>(</b>Matrix b<b>)</b></span>
+<span id='line42'></span>
+<span id='line43'>  ** Computes 'A - B' and returns a new matrix.</span>
+<span id='line44'>  @Operator abstract Matrix minus<b>(</b>Matrix b<b>)</b></span>
+<span id='line45'></span>
+<span id='line46'>  ** Computes 'A * B' and returns a new matrix.</span>
+<span id='line47'>  @Operator abstract Matrix mult<b>(</b>Matrix b<b>)</b></span>
+<span id='line48'></span>
+<span id='line49'>  ** Compute the determinant of the matrix. The matrix must be square.</span>
+<span id='line50'>  abstract Float determinant<b>(</b><b>)</b></span>
+<span id='line51'></span>
+<span id='line52'>  ** Compute the cofactor of the matrix. The matrix must be square.</span>
+<span id='line53'>  abstract Matrix cofactor<b>(</b><b>)</b></span>
+<span id='line54'></span>
+<span id='line55'>  ** Compute the inverse of the matrix.</span>
+<span id='line56'>  abstract Matrix inverse<b>(</b><b>)</b></span>
+<span id='line57'><b>}</b></span>
+<span id='line58'></span>
+<span id='line59'>**</span>
+<span id='line60'>** Native implementation of the Matrix mixin.</span>
+<span id='line61'>**</span>
+<span id='line62'>@NoDoc final native class MMatrix : Matrix</span>
+<span id='line63'><b>{</b></span>
+<span id='line64'>  new make<b>(</b>Int numRows, Int numCols<b>)</b></span>
+<span id='line65'></span>
+<span id='line66'>  override Int numRows<b>(</b><b>)</b></span>
+<span id='line67'></span>
+<span id='line68'>  override Int numCols<b>(</b><b>)</b></span>
+<span id='line69'></span>
+<span id='line70'>  override Bool isSquare<b>(</b><b>)</b></span>
+<span id='line71'></span>
+<span id='line72'>  override Float get<b>(</b>Int i, Int j<b>)</b></span>
+<span id='line73'></span>
+<span id='line74'>  override This set<b>(</b>Int i, Int j, Float val<b>)</b></span>
+<span id='line75'></span>
+<span id='line76'>  override This fill<b>(</b>Float val<b>)</b></span>
+<span id='line77'></span>
+<span id='line78'>  override Matrix transpose<b>(</b><b>)</b></span>
+<span id='line79'></span>
+<span id='line80'>  override This multScalar<b>(</b>Float x<b>)</b></span>
+<span id='line81'></span>
+<span id='line82'>  @Operator override Matrix plus<b>(</b>Matrix b<b>)</b></span>
+<span id='line83'></span>
+<span id='line84'>  @Operator override Matrix minus<b>(</b>Matrix b<b>)</b></span>
+<span id='line85'></span>
+<span id='line86'>  @Operator override Matrix mult<b>(</b>Matrix b<b>)</b></span>
+<span id='line87'></span>
+<span id='line88'>  override Float determinant<b>(</b><b>)</b></span>
+<span id='line89'></span>
+<span id='line90'>  override Matrix cofactor<b>(</b><b>)</b></span>
+<span id='line91'></span>
+<span id='line92'>  override Matrix inverse<b>(</b><b>)</b></span>
+<span id='line93'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

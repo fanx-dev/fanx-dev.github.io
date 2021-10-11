@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::FTable</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='FTable.html'>FTable</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compiler::FTable</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compiler::FTable</pre>
+
+<p>FTable is a 16-bit indexed lookup table for pod constants.</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> add(<a href='../sys/Obj.html'>Obj</a> val)</code></p>
+
+<p>Perform a reverse lookup to map a value to it's index (only available at compile time).  If the value isn't in the table yet, then add it.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/Obj.html'>Obj</a> get(<a href='../sys/Int.html'>Int</a> index)</code></p>
+
+<p>Get the object identified by the specified 16-bit index.</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>Return if this table is empty</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='FPod.html'>FPod</a> pod, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../std/OutStream.html'>OutStream</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> writer, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj</a>,<a href='../std/InStream.html'>InStream</a>&gt;</a> reader)</code></p>
+</dd>
+<dt id='makeDecimals'>
+makeDecimals</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='FTable.html'>FTable</a> makeDecimals(<a href='FPod.html'>FPod</a> pod)</code></p>
+</dd>
+<dt id='makeDurations'>
+makeDurations</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='FTable.html'>FTable</a> makeDurations(<a href='FPod.html'>FPod</a> pod)</code></p>
+</dd>
+<dt id='makeFieldRefs'>
+makeFieldRefs</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='FTable.html'>FTable</a> makeFieldRefs(<a href='FPod.html'>FPod</a> pod)</code></p>
+</dd>
+<dt id='makeFloats'>
+makeFloats</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='FTable.html'>FTable</a> makeFloats(<a href='FPod.html'>FPod</a> pod)</code></p>
+</dd>
+<dt id='makeInts'>
+makeInts</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='FTable.html'>FTable</a> makeInts(<a href='FPod.html'>FPod</a> pod)</code></p>
+</dd>
+<dt id='makeMethodRefs'>
+makeMethodRefs</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='FTable.html'>FTable</a> makeMethodRefs(<a href='FPod.html'>FPod</a> pod)</code></p>
+</dd>
+<dt id='makeStrs'>
+makeStrs</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='FTable.html'>FTable</a> makeStrs(<a href='FPod.html'>FPod</a> pod)</code></p>
+</dd>
+<dt id='makeTypeRefs'>
+makeTypeRefs</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='FTable.html'>FTable</a> makeTypeRefs(<a href='FPod.html'>FPod</a> pod)</code></p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FPod.html'>FPod</a> pod</code></p>
+</dd>
+<dt id='read'>
+read</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FTable.html'>FTable</a> read(<a href='../std/InStream.html'>InStream?</a> in)</code></p>
+
+<p>Serialize.</p>
+</dd>
+<dt id='reader'>
+reader</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj</a>,<a href='../std/InStream.html'>InStream</a>&gt;</a> reader</code></p>
+</dd>
+<dt id='reverse'>
+reverse</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Obj.html'>Obj</a>,<a href='../sys/Int.html'>Int</a>&gt;</a> reverse</code></p>
+</dd>
+<dt id='table'>
+table</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> table</code></p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> write(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+
+<p>Deserialize.</p>
+</dd>
+<dt id='writer'>
+writer</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../std/OutStream.html'>OutStream</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> writer</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeDecimals'>makeDecimals</a></li><li><a href='#makeDurations'>makeDurations</a></li><li><a href='#makeFieldRefs'>makeFieldRefs</a></li><li><a href='#makeFloats'>makeFloats</a></li><li><a href='#makeInts'>makeInts</a></li><li><a href='#makeMethodRefs'>makeMethodRefs</a></li><li><a href='#makeStrs'>makeStrs</a></li><li><a href='#makeTypeRefs'>makeTypeRefs</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#get'>get</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#pod'>pod</a></li><li><a href='#read'>read</a></li><li><a href='#reader'>reader</a></li><li><a href='#reverse'>reverse</a></li><li><a href='#table'>table</a></li><li><a href='#write'>write</a></li><li><a href='#writer'>writer</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Pod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Pod.html'>Pod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>rtconst class</span> std::Pod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Pod</pre>
+
+<p>Pod represents a module of Types.  Pods serve as a type namespace as well as unit of deployment and versioning.</p>
+<dl>
+<dt id='config'>
+config</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> config(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Str.html'>Str?</a> defV := null)</code></p>
+
+<p>Convenience for <code><a href='Env.html#config'>Env.config</a></code>.</p>
+</dd>
+<dt id='depends'>
+depends</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Depend.html'>Depend</a>&gt;</a> depends()</code></p>
+
+<p>Get the declared list of dependencies for this pod.</p>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> doc()</code></p>
+
+<p>Return the fandoc chapter for this pod or null if not available. To get the summary string for the pod use:</p>
+
+<pre>pod.meta["pod.summary"]</pre>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code> <a href='File.html'>File?</a> file(<a href='Uri.html'>Uri</a> uri, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Look up a resource file in this pod.  The URI must start with the Pod's <code><a href='Pod.html#uri'>uri</a></code> or be path absolute.  If the file cannot be found then return null or throw UnresolvedErr based on checked flag.</p>
+
+<p>Examples:</p>
+
+<pre>Pod.find("icons").file(`/x16/cut.png`)
+`fan://icons/x16/cut.png`.get</pre>
+</dd>
+<dt id='files'>
+files</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='File.html'>File</a>&gt;</a> files()</code></p>
+
+<p>List all the resource files contained by this pod.  Resources are any files included in the pod's zip file excluding fcode files.  The URI of these files is rooted by <code><a href='Pod.html#uri'>uri</a></code>.  Use <code><a href='Pod.html#file'>file</a></code> or <code><a href='Uri.html#get'>Uri.get</a></code> to lookup a resource file.</p>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Pod.html'>Pod?</a> find(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Find a pod by name.  If the pod doesn't exist and checked is false then return null, otherwise throw UnknownPodErr.</p>
+</dd>
+<dt id='flattenDepends'>
+flattenDepends</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='Pod.html'>Pod</a>&gt;</a> flattenDepends(<a href='../sys/List.html'>List&lt;<a href='Pod.html'>Pod</a>&gt;</a> pods)</code></p>
+
+<p>Expand a set of pods to include all their recurisve dependencies. This method is does not order them; see <a href='orderByDepends()'>orderByDepends()</a>.</p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='list'>
+list</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='Pod.html'>Pod</a>&gt;</a> list()</code></p>
+
+<p>Get a list of all the pods installed.  Note that currently this method will load all of the pods into memory, so it is an expensive operation.</p>
+</dd>
+<dt id='load'>
+load</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Pod.html'>Pod</a> load(<a href='InStream.html'>InStream</a> in)</code></p>
+
+<p>Load a pod into memory from the specified input stream.  The stream must contain a valid pod zip file with the all the definitions. The pod is completely loaded into memory and the input stream is closed.  The pod cannot have resources.  The pod name as defined by <code>/pod.def</code> must be uniquely named or Err is thrown.</p>
+</dd>
+<dt id='locale'>
+locale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> locale(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Str.html'>Str?</a> defV := &quot;pod::name&quot;)</code></p>
+
+<p>Convenience for <code><a href='Env.html#locale'>Env.locale</a></code> using <code><a href='Locale.html#cur'>Locale.cur</a></code>.</p>
+</dd>
+<dt id='log'>
+log</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Log.html'>Log</a> log()</code></p>
+
+<p>Return the log for this pod's name.  This is a convenience for <code>Log.get(name)</code>.</p>
+</dd>
+<dt id='meta'>
+meta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> meta()</code></p>
+
+<p>Get the meta name/value pairs for this pod. See <a href='docLang::Pods#meta'>docLang</a>.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>Simple name of the pod such as "sys".</p>
+</dd>
+<dt id='of'>
+of</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Pod.html'>Pod?</a> of(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>Get the pod of the given instance which is convenience for <code>Type.of(obj).pod</code>.  See <code><a href='Type.html#pod'>Type.pod</a></code>.</p>
+</dd>
+<dt id='orderByDepends'>
+orderByDepends</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='Pod.html'>Pod</a>&gt;</a> orderByDepends(<a href='../sys/List.html'>List&lt;<a href='Pod.html'>Pod</a>&gt;</a> pods)</code></p>
+
+<p>Order a list of pods by their dependencies. This method does not flatten dependencies - see <a href='flattenDepends()'>flattenDepends()</a>.</p>
+</dd>
+<dt id='props'>
+props</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> props(<a href='Uri.html'>Uri</a> uri, <a href='Duration.html'>Duration</a> maxAge)</code></p>
+
+<p>Convenience for <code><a href='Env.html#props'>Env.props</a></code>.</p>
+</dd>
+<dt id='toImmutable'>
+toImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj</a> toImmutable()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Always return name().</p>
+</dd>
+<dt id='type'>
+type</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Type.html'>Type?</a> type(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Find a type by name.  If the type doesn't exist and checked is false then return null, otherwise throw UnknownTypeErr.</p>
+</dd>
+<dt id='types'>
+types</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Type.html'>Type</a>&gt;</a> types()</code></p>
+
+<p>List of the all defined types.</p>
+</dd>
+<dt id='uri'>
+uri</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Uri.html'>Uri</a> uri()</code></p>
+
+<p>Uri for this pod which is always "fan://{name}".</p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Version.html'>Version</a> version()</code></p>
+
+<p>Version number for this pod.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#find'>find</a></li><li><a href='#flattenDepends'>flattenDepends</a></li><li><a href='#list'>list</a></li><li><a href='#load'>load</a></li><li><a href='#of'>of</a></li><li><a href='#orderByDepends'>orderByDepends</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#config'>config</a></li><li><a href='#depends'>depends</a></li><li><a href='#doc'>doc</a></li><li><a href='#file'>file</a></li><li><a href='#files'>files</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#locale'>locale</a></li><li><a href='#log'>log</a></li><li><a href='#meta'>meta</a></li><li><a href='#name'>name</a></li><li><a href='#props'>props</a></li><li><a href='#toImmutable'>toImmutable</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#type'>type</a></li><li><a href='#types'>types</a></li><li><a href='#uri'>uri</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

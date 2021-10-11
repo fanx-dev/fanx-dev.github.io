@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::StmtId</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='StmtId.html'>StmtId</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> compilerx::StmtId</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    compilerx::StmtId</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>StmtId</p>
+<ul>
+<li><a href='#nop'>nop</a></li><li><a href='#expr'>expr</a></li><li><a href='#localDef'>localDef</a></li><li><a href='#ifStmt'>ifStmt</a></li><li><a href='#returnStmt'>returnStmt</a></li><li><a href='#throwStmt'>throwStmt</a></li><li><a href='#forStmt'>forStmt</a></li><li><a href='#whileStmt'>whileStmt</a></li><li><a href='#breakStmt'>breakStmt</a></li><li><a href='#continueStmt'>continueStmt</a></li><li><a href='#tryStmt'>tryStmt</a></li><li><a href='#switchStmt'>switchStmt</a></li><li><a href='#jumpStmt'>jumpStmt</a></li><li><a href='#targetLable'>targetLable</a></li><li><a href='#switchTable'>switchTable</a></li><li><a href='#exception'>exception</a></li><li><a href='#exceptionHandler'>exceptionHandler</a></li></ul>
+<dl>
+<dt id='breakStmt'>
+breakStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> breakStmt := ...</code></p>
+</dd>
+<dt id='continueStmt'>
+continueStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> continueStmt := ...</code></p>
+</dd>
+<dt id='exception'>
+exception</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> exception := ...</code></p>
+</dd>
+<dt id='exceptionHandler'>
+exceptionHandler</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> exceptionHandler := ...</code></p>
+</dd>
+<dt id='expr'>
+expr</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> expr := ...</code></p>
+</dd>
+<dt id='forStmt'>
+forStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> forStmt := ...</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the StmtId instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='ifStmt'>
+ifStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> ifStmt := ...</code></p>
+</dd>
+<dt id='jumpStmt'>
+jumpStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> jumpStmt := ...</code></p>
+</dd>
+<dt id='localDef'>
+localDef</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> localDef := ...</code></p>
+</dd>
+<dt id='nop'>
+nop</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> nop := ...</code></p>
+</dd>
+<dt id='returnStmt'>
+returnStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> returnStmt := ...</code></p>
+</dd>
+<dt id='switchStmt'>
+switchStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> switchStmt := ...</code></p>
+</dd>
+<dt id='switchTable'>
+switchTable</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> switchTable := ...</code></p>
+</dd>
+<dt id='targetLable'>
+targetLable</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> targetLable := ...</code></p>
+</dd>
+<dt id='throwStmt'>
+throwStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> throwStmt := ...</code></p>
+</dd>
+<dt id='tryStmt'>
+tryStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> tryStmt := ...</code></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='StmtId.html'>StmtId</a>&gt;</a> vals := ...</code></p>
+
+<p>List of StmtId values indexed by ordinal</p>
+</dd>
+<dt id='whileStmt'>
+whileStmt</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='StmtId.html'>StmtId</a> whileStmt := ...</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#breakStmt'>breakStmt</a></li><li><a href='#continueStmt'>continueStmt</a></li><li><a href='#exception'>exception</a></li><li><a href='#exceptionHandler'>exceptionHandler</a></li><li><a href='#expr'>expr</a></li><li><a href='#forStmt'>forStmt</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#ifStmt'>ifStmt</a></li><li><a href='#jumpStmt'>jumpStmt</a></li><li><a href='#localDef'>localDef</a></li><li><a href='#nop'>nop</a></li><li><a href='#returnStmt'>returnStmt</a></li><li><a href='#switchStmt'>switchStmt</a></li><li><a href='#switchTable'>switchTable</a></li><li><a href='#targetLable'>targetLable</a></li><li><a href='#throwStmt'>throwStmt</a></li><li><a href='#tryStmt'>tryStmt</a></li><li><a href='#vals'>vals</a></li><li><a href='#whileStmt'>whileStmt</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

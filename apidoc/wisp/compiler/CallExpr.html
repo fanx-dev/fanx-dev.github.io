@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::CallExpr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='CallExpr.html'>CallExpr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::CallExpr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    <a href='Expr.html'>compiler::Expr</a>
+      <a href='NameExpr.html'>compiler::NameExpr</a>
+        compiler::CallExpr</pre>
+
+<p>CallExpr is a method call.</p>
+<dl>
+<dt id='args'>
+args</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Expr.html'>Expr</a>&gt;</a> args</code></p>
+</dd>
+<dt id='isCallOp'>
+isCallOp</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCallOp</code></p>
+</dd>
+<dt id='isCheckedCall'>
+isCheckedCall</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCheckedCall</code></p>
+</dd>
+<dt id='isCompare'>
+isCompare</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isCompare()</code></p>
+</dd>
+<dt id='isCtorChain'>
+isCtorChain</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCtorChain</code></p>
+</dd>
+<dt id='isDefiniteAssign'>
+isDefiniteAssign</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isDefiniteAssign(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='Expr.html'>Expr</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='isDynamic'>
+isDynamic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isDynamic</code></p>
+</dd>
+<dt id='isItAdd'>
+isItAdd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isItAdd</code></p>
+</dd>
+<dt id='isStmt'>
+isStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isStmt()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Loc.html'>Loc</a> loc, <a href='Expr.html'>Expr?</a> target := null, <a href='../sys/Str.html'>Str?</a> name := null, <a href='ExprId.html'>ExprId</a> id := ExprId.call)</code></p>
+</dd>
+<dt id='makeWithMethod'>
+makeWithMethod</dt>
+<dd>
+<p class='sig'>
+<code>new makeWithMethod(<a href='Loc.html'>Loc</a> loc, <a href='Expr.html'>Expr?</a> target, <a href='CMethod.html'>CMethod</a> method, <a href='../sys/List.html'>List&lt;<a href='Expr.html'>Expr</a>&gt;?</a> args := null)</code></p>
+</dd>
+<dt id='method'>
+method</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CMethod.html'>CMethod?</a> method</code></p>
+</dd>
+<dt id='noParens'>
+noParens</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> noParens</code></p>
+</dd>
+<dt id='paramNames'>
+paramNames</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Int.html'>Int</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> paramNames</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='serialize'>
+serialize</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> serialize()</code></p>
+</dd>
+<dt id='synthetic'>
+synthetic</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> synthetic := false</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='walkChildren'>
+walkChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> walkChildren(<a href='Visitor.html'>Visitor</a> v)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeWithMethod'>makeWithMethod</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#args'>args</a></li><li><a href='#isCallOp'>isCallOp</a></li><li><a href='#isCheckedCall'>isCheckedCall</a></li><li><a href='#isCompare'>isCompare</a></li><li><a href='#isCtorChain'>isCtorChain</a></li><li><a href='#isDefiniteAssign'>isDefiniteAssign</a></li><li><a href='#isDynamic'>isDynamic</a></li><li><a href='#isItAdd'>isItAdd</a></li><li><a href='#isStmt'>isStmt</a></li><li><a href='#method'>method</a></li><li><a href='#noParens'>noParens</a></li><li><a href='#paramNames'>paramNames</a></li><li><a href='#print'>print</a></li><li><a href='#serialize'>serialize</a></li><li><a href='#synthetic'>synthetic</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#walkChildren'>walkChildren</a></li></ul>
+</div>
+</div>
+</body>
+</html>

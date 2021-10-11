@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fandoc::HtmlDocWriter</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='HtmlDocWriter.html'>HtmlDocWriter</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> fandoc::HtmlDocWriter</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  fandoc::HtmlDocWriter : <a href='DocWriter.html'>fandoc::DocWriter</a></pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html'>Source</a></p>
+
+<p>HtmlDocWriter outputs a fandoc model to XHTML</p>
+
+<p>See <a href='index.html#api'>pod doc</a> for usage.</p>
+<dl>
+<dt id='docEnd'>
+docEnd</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> docEnd(<a href='Doc.html'>Doc</a> doc)</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line72'>Source</a></p>
+</dd>
+<dt id='docHead'>
+docHead</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> docHead(<a href='Doc.html'>Doc</a> doc)</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line52'>Source</a></p>
+</dd>
+<dt id='docStart'>
+docStart</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> docStart(<a href='Doc.html'>Doc</a> doc)</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line42'>Source</a></p>
+</dd>
+<dt id='elemEnd'>
+elemEnd</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> elemEnd(<a href='DocElem.html'>DocElem</a> elem)</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line129'>Source</a></p>
+</dd>
+<dt id='elemStart'>
+elemStart</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> elemStart(<a href='DocElem.html'>DocElem</a> elem)</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line77'>Source</a></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line22'>Source</a></p>
+</dd>
+<dt id='onImage'>
+onImage</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Image.html'>Image</a>&gt;?</a> onImage := null</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line35'>Source</a></p>
+
+<p>Callback to perform image link resolution and checking</p>
+</dd>
+<dt id='onLink'>
+onLink</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Link.html'>Link</a>&gt;?</a> onLink := null</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line31'>Source</a></p>
+
+<p>Callback to perform link resolution and checking for every Link element</p>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/OutStream.html'>OutStream</a> out</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line184'>Source</a></p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> text(<a href='DocText.html'>DocText</a> text)</code></p>
+<p class='src'>
+<a href='src-HtmlDocWriter.fan.html#line142'>Source</a></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-HtmlDocWriter.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#docEnd'>docEnd</a></li><li><a href='#docHead'>docHead</a></li><li><a href='#docStart'>docStart</a></li><li><a href='#elemEnd'>elemEnd</a></li><li><a href='#elemStart'>elemStart</a></li><li><a href='#onImage'>onImage</a></li><li><a href='#onLink'>onLink</a></li><li><a href='#out'>out</a></li><li><a href='#text'>text</a></li></ul>
+</div>
+</div>
+</body>
+</html>

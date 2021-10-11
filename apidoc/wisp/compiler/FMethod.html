@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::FMethod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='FMethod.html'>FMethod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::FMethod</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='FSlot.html'>compiler::FSlot</a>
+    compiler::FMethod : <a href='CMethod.html'>compiler::CMethod</a></pre>
+
+<p>FMethod is the read/write fcode representation of sys::Method.</p>
+<dl>
+<dt id='code'>
+code</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Buf.html'>Buf?</a> code</code></p>
+</dd>
+<dt id='dump'>
+dump</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> dump()</code></p>
+</dd>
+<dt id='fparams'>
+fparams</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FMethodVar.html'>FMethodVar</a>&gt;</a> fparams()</code></p>
+</dd>
+<dt id='inheritedRet'>
+inheritedRet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> inheritedRet</code></p>
+</dd>
+<dt id='inheritedReturnType'>
+inheritedReturnType</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> inheritedReturnType()</code></p>
+</dd>
+<dt id='isGeneric'>
+isGeneric</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isGeneric()</code></p>
+</dd>
+<dt id='localCount'>
+localCount</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> localCount</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='FType.html'>FType</a> fparent)</code></p>
+</dd>
+<dt id='maxStack'>
+maxStack</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> maxStack := 16</code></p>
+</dd>
+<dt id='paramCount'>
+paramCount</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> paramCount</code></p>
+</dd>
+<dt id='params'>
+params</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CParam.html'>CParam</a>&gt;</a> params()</code></p>
+</dd>
+<dt id='read'>
+read</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> read(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+</dd>
+<dt id='ret'>
+ret</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> ret</code></p>
+</dd>
+<dt id='returnType'>
+returnType</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> returnType()</code></p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> signature()</code></p>
+</dd>
+<dt id='vars'>
+vars</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FMethodVar.html'>FMethodVar</a>&gt;?</a> vars</code></p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> write(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#code'>code</a></li><li><a href='#dump'>dump</a></li><li><a href='#fparams'>fparams</a></li><li><a href='#inheritedRet'>inheritedRet</a></li><li><a href='#inheritedReturnType'>inheritedReturnType</a></li><li><a href='#isGeneric'>isGeneric</a></li><li><a href='#localCount'>localCount</a></li><li><a href='#maxStack'>maxStack</a></li><li><a href='#paramCount'>paramCount</a></li><li><a href='#params'>params</a></li><li><a href='#read'>read</a></li><li><a href='#ret'>ret</a></li><li><a href='#returnType'>returnType</a></li><li><a href='#signature'>signature</a></li><li><a href='#vars'>vars</a></li><li><a href='#write'>write</a></li></ul>
+</div>
+</div>
+</body>
+</html>

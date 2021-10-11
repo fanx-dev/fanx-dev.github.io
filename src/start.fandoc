@@ -1,0 +1,120 @@
+安装和配置
+=========
+安装
+--------
+请先确认已经安装了java。 [点击这里下载最新版本]`../download.html`
+
+解压后，配置环境变量和可执行权限：
+
+    Unix:
+      export PATH=$PATH:/fanx/env/bin
+      chmod +x /fanx/env/bin/*
+
+    Windows:
+      PATH=%PATH%;C:\fanx\env\bin
+测试安装是否正常：
+
+    fan -version
+
+windows上的cmd比较难用，推荐使用git bash、msys2、Linux子系统等。
+
+配置IDE
+--------
+FanIDE是为Fanx语言开发的IDE。使用见： `https://zhuanlan.zhihu.com/p/113919752`
+
+也可以使用Atom、Sublime、VSCode等编辑器，在插件管理里面搜Fantom插件并安装。
+
+
+各种版本的HelloWorld
+===========
+Hello脚本
+---------
+创建Hello.fanx文件：
+
+    class Hello {
+      fun main() { echo("Hello World") }
+    }
+运行：
+
+    fan Hello.fanx
+
+Hello图形界面
+---------
+一个例子HelloGui.fanx：
+
+    using vaseGui
+
+    class HelloTest
+    {
+      static fun main() {
+        root := Frame {
+          Button {
+            text = "Press Me"
+            onClick {
+              Toast("Hello World").show(it)
+            }
+          },
+        }
+        root.show
+      }
+    }
+运行：
+
+    fan HelloGui.fanx
+
+Hello服务端
+---------
+创建文件./public/Hello.fanx:
+
+    using slanWeb
+
+    class Hello : SlanWeblet
+    {
+      fun hi()
+      {
+        setContentType("html")
+        res.out.print("<h2>Hello World!</h2>")
+      }
+    }
+运行服务:
+
+    fan slanWeb -resPath public/
+在浏览器查看： `http://localhost:8080/Hello/hi`
+
+Hello JavaScript
+---------
+将Fanx代码编译为JS来执行。
+
+将上面图形界面的HelloGui.fanx例子拷贝到public目录，并重命名为HelloJs.fwtx。
+
+用同样的方法启动服务后(如果已经启动服务，则只需要刷新浏览器即可)，在浏览器查看: `http://localhost:8080/HelloJs.fwtx`
+
+Hello Pod
+---------
+对于大一点的系统，应该把代码组织成Pod的形式。Pod是预编译的模块。约定的目录结构如下：
+pre>
+    - helloPod
+       - pod.props
+       - fan/
+           - Main.fan
+       - test/
+           - Test.fan
+<pre
+
+pod.props用来指定pod的名称、版本、依赖关系。例如：
+
+  podName = hello
+  summary = test lib
+  version = 2.0
+  srcDirs = test/,fan/
+  depends = sys 1.0, std 1.0
+构建pod：
+
+    fanxb pod.props
+构建后的文件默认存放在fanx安装目录/lib/fan/下。
+
+运行pod:
+
+    fan hello::Main.main
+    fan hello::Main
+    fan hello

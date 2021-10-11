@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocPodIndex</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocPodIndex.html'>DocPodIndex</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> compilerDoc::DocPodIndex</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Doc.html'>compilerDoc::Doc</a>
+    compilerDoc::DocPodIndex</pre>
+<p class='src'>
+<a href='src-DocPod.fan.html#line215'>Source</a></p>
+
+<p>DocPodIndex represents the index document of a DocPod.</p>
+<dl>
+<dt id='docName'>
+docName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> docName()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line237'>Source</a></p>
+
+<p>The document name under space is "index"</p>
+</dd>
+<dt id='isSpaceIndex'>
+isSpaceIndex</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isSpaceIndex()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line243'>Source</a></p>
+
+<p>Return true</p>
+</dd>
+<dt id='onCrawl'>
+onCrawl</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> onCrawl(<a href='DocCrawler.html'>DocCrawler</a> crawler)</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line249'>Source</a></p>
+
+<p>Index the type summary and all slot docs</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocPod.html'>DocPod</a> pod</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line226'>Source</a></p>
+
+<p>Parent pod</p>
+</dd>
+<dt id='renderer'>
+renderer</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/Type.html'>Type</a> renderer()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line246'>Source</a></p>
+
+<p>Default renderer is <code><a href='DocPodIndexRenderer.html'>DocPodIndexRenderer</a></code></p>
+</dd>
+<dt id='space'>
+space</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='DocSpace.html'>DocSpace</a> space()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line234'>Source</a></p>
+
+<p>The space for this doc is <code><a href='DocPodIndex.html#pod'>pod</a></code></p>
+</dd>
+<dt id='title'>
+title</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> title()</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line240'>Source</a></p>
+
+<p>Title is pod name</p>
+</dd>
+<dt id='toc'>
+toc</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> toc</code></p>
+<p class='src'>
+<a href='src-DocPod.fan.html#line229'>Source</a></p>
+
+<p>If this a API pod, this is the Str/DocType where the string indicates groupings such as "Classes", "Mixins", etc.  If this is a manual return the list of Str/DocChapter where Str indicates index grouping headers.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocPod.fan.html#line215'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#docName'>docName</a></li><li><a href='#isSpaceIndex'>isSpaceIndex</a></li><li><a href='#onCrawl'>onCrawl</a></li><li><a href='#pod'>pod</a></li><li><a href='#renderer'>renderer</a></li><li><a href='#space'>space</a></li><li><a href='#title'>title</a></li><li><a href='#toc'>toc</a></li></ul>
+</div>
+</div>
+</body>
+</html>

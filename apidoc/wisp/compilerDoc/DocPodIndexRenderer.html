@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocPodIndexRenderer</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocPodIndexRenderer.html'>DocPodIndexRenderer</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerDoc::DocPodIndexRenderer</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='DocRenderer.html'>compilerDoc::DocRenderer</a>
+    compilerDoc::DocPodIndexRenderer</pre>
+<p class='src'>
+<a href='src-DocPodIndexRenderer.fan.html'>Source</a></p>
+
+<p>Renders the index of a pod's documents.</p>
+
+<h3>Index</h3>
+
+<pre>&lt;h1>&lt;span>pod&lt;/span>{pod.qname}&lt;/h1>
+&lt;p>{pod.summary}&lt;/p>
+
+&lt;h2>{section.name}&lt;/h2>
+&lt;table>
+ &lt;tr>
+  &lt;td>{type.name}&lt;/td>
+  &lt;td>{type.summary}&lt;/td>
+ &lt;/tr>
+&lt;/table></pre>
+
+<h3>Table of Contents</h3>
+
+<pre>&lt;ul>
+ &lt;li>&lt;a>...&lt;/a>&lt;/li>
+ &lt;li>&lt;a>...&lt;/a>
+  &lt;ul>...&lt;/ul>
+ &lt;/li>
+&lt;/ul></pre>
+<dl>
+<dt id='index'>
+index</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocPodIndex.html'>DocPodIndex</a> index</code></p>
+<p class='src'>
+<a href='src-DocPodIndexRenderer.fan.html#line46'>Source</a></p>
+
+<p>Pod index to render</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='DocEnv.html'>DocEnv</a> env, <a href='../web/WebOutStream.html'>WebOutStream</a> out, <a href='DocPodIndex.html'>DocPodIndex</a> doc)</code></p>
+<p class='src'>
+<a href='src-DocPodIndexRenderer.fan.html#line40'>Source</a></p>
+</dd>
+<dt id='writeContent'>
+writeContent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> writeContent()</code></p>
+<p class='src'>
+<a href='src-DocPodIndexRenderer.fan.html#line49'>Source</a></p>
+
+<p>Write the content for a pod index.  This delegates to <code><a href='DocPodIndexRenderer.html#writeContentApi'>writeContentApi</a></code> or <code><a href='DocPodIndexRenderer.html#writeContentManual'>writeContentManual</a></code></p>
+</dd>
+<dt id='writeContentApi'>
+writeContentApi</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeContentApi()</code></p>
+<p class='src'>
+<a href='src-DocPodIndexRenderer.fan.html#line59'>Source</a></p>
+
+<p>Write the content for an API (non-manual) pod</p>
+</dd>
+<dt id='writeContentManual'>
+writeContentManual</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeContentManual()</code></p>
+<p class='src'>
+<a href='src-DocPodIndexRenderer.fan.html#line145'>Source</a></p>
+
+<p>Write the content for a manual pod</p>
+</dd>
+<dt id='writePodDocToc'>
+writePodDocToc</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writePodDocToc(<a href='../sys/List.html'>List&lt;<a href='DocHeading.html'>DocHeading</a>&gt;</a> headings)</code></p>
+<p class='src'>
+<a href='src-DocPodIndexRenderer.fan.html#line132'>Source</a></p>
+
+<p>Write out pod-doc table of contents.</p>
+</dd>
+<dt id='writeTypes'>
+writeTypes</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeTypes()</code></p>
+<p class='src'>
+<a href='src-DocPodIndexRenderer.fan.html#line101'>Source</a></p>
+
+<p>Render the pod's index of types.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocPodIndexRenderer.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#index'>index</a></li><li><a href='#writeContent'>writeContent</a></li><li><a href='#writeContentApi'>writeContentApi</a></li><li><a href='#writeContentManual'>writeContentManual</a></li><li><a href='#writePodDocToc'>writePodDocToc</a></li><li><a href='#writeTypes'>writeTypes</a></li></ul>
+</div>
+</div>
+</body>
+</html>

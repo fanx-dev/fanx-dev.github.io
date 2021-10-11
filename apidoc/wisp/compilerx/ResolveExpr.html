@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::ResolveExpr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='ResolveExpr.html'>ResolveExpr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::ResolveExpr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerStep.html'>compilerx::CompilerStep</a>
+    compilerx::ResolveExpr</pre>
+
+<p>Walk the AST to resolve:</p>
+
+<ul>
+<li>Manage local variable scope</li>
+
+<li>Resolve loop for breaks and continues</li>
+
+<li>Resolve LocalDefStmt.init into full assignment expression</li>
+
+<li>Resolve Expr.ctype</li>
+
+<li>Resolve UknownVarExpr -> LocalVarExpr, FieldExpr, or CallExpr</li>
+
+<li>Resolve CallExpr to their CMethod</li>
+</ul>
+<dl>
+<dt id='blockStack'>
+blockStack</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Block.html'>Block</a>&gt;</a> blockStack := Block[,]</code></p>
+</dd>
+<dt id='enterBlock'>
+enterBlock</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> enterBlock(<a href='Block.html'>Block</a> block)</code></p>
+</dd>
+<dt id='enterMethodDef'>
+enterMethodDef</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> enterMethodDef(<a href='MethodDef.html'>MethodDef</a> m)</code></p>
+</dd>
+<dt id='enterStmt'>
+enterStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> enterStmt(<a href='Stmt.html'>Stmt</a> stmt)</code></p>
+</dd>
+<dt id='exitBlock'>
+exitBlock</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> exitBlock(<a href='Block.html'>Block</a> block)</code></p>
+</dd>
+<dt id='inClosure'>
+inClosure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> inClosure := false</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CompilerContext.html'>CompilerContext</a> compiler)</code></p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+<dt id='stmtStack'>
+stmtStack</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Stmt.html'>Stmt</a>&gt;</a> stmtStack := Stmt[,]</code></p>
+</dd>
+<dt id='visitExpr'>
+visitExpr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Expr.html'>Expr</a> visitExpr(<a href='Expr.html'>Expr</a> expr)</code></p>
+</dd>
+<dt id='visitStmt'>
+visitStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='Stmt.html'>Stmt</a>&gt;?</a> visitStmt(<a href='Stmt.html'>Stmt</a> stmt)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#blockStack'>blockStack</a></li><li><a href='#enterBlock'>enterBlock</a></li><li><a href='#enterMethodDef'>enterMethodDef</a></li><li><a href='#enterStmt'>enterStmt</a></li><li><a href='#exitBlock'>exitBlock</a></li><li><a href='#inClosure'>inClosure</a></li><li><a href='#run'>run</a></li><li><a href='#stmtStack'>stmtStack</a></li><li><a href='#visitExpr'>visitExpr</a></li><li><a href='#visitStmt'>visitStmt</a></li></ul>
+</div>
+</div>
+</body>
+</html>

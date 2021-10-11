@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>concurrent::FutureState</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>concurrent</a></li><li><a href='FutureState.html'>FutureState</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> concurrent::FutureState</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    concurrent::FutureState</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>State of a Future's asynchronous computation</p>
+<ul>
+<li><a href='#pending'>pending</a></li><li><a href='#ok'>ok</a></li><li><a href='#err'>err</a></li><li><a href='#cancelled'>cancelled</a></li></ul>
+<dl>
+<dt id='cancelled'>
+cancelled</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FutureState.html'>FutureState</a> cancelled := ...</code></p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FutureState.html'>FutureState</a> err := ...</code></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the FutureState instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='isCancelled'>
+isCancelled</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCancelled()</code></p>
+
+<p>Return if the cancelled state</p>
+</dd>
+<dt id='isComplete'>
+isComplete</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isComplete()</code></p>
+
+<p>Return if in any completed state: ok, err, or cancelled</p>
+</dd>
+<dt id='isErr'>
+isErr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isErr()</code></p>
+
+<p>Return if the err state</p>
+</dd>
+<dt id='isOk'>
+isOk</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isOk()</code></p>
+
+<p>Return if the ok state</p>
+</dd>
+<dt id='isPending'>
+isPending</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPending()</code></p>
+
+<p>Return if pending state</p>
+</dd>
+<dt id='ok'>
+ok</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FutureState.html'>FutureState</a> ok := ...</code></p>
+</dd>
+<dt id='pending'>
+pending</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='FutureState.html'>FutureState</a> pending := ...</code></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='FutureState.html'>FutureState</a>&gt;</a> vals := ...</code></p>
+
+<p>List of FutureState values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cancelled'>cancelled</a></li><li><a href='#err'>err</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#ok'>ok</a></li><li><a href='#pending'>pending</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#isCancelled'>isCancelled</a></li><li><a href='#isComplete'>isComplete</a></li><li><a href='#isErr'>isErr</a></li><li><a href='#isOk'>isOk</a></li><li><a href='#isPending'>isPending</a></li></ul>
+</div>
+</div>
+</body>
+</html>

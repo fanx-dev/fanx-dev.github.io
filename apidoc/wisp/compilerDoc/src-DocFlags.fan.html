@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocFlags.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocFlags.html'>DocFlags</a></li><li><a href='src-DocFlags.fan.html'>DocFlags.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   11 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** DocFlags models the flags used to annotate types and slots</span>
+<span id='line11'>**</span>
+<span id='line12'>final const class DocFlags</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>  const static Int Abstract   := 0x00000001</span>
+<span id='line16'>  const static Int Const      := 0x00000002</span>
+<span id='line17'>  const static Int Ctor       := 0x00000004</span>
+<span id='line18'>  const static Int Enum       := 0x00000008</span>
+<span id='line19'>  const static Int Facet      := 0x00000010</span>
+<span id='line20'>  const static Int Final      := 0x00000020</span>
+<span id='line21'>  const static Int Getter     := 0x00000040</span>
+<span id='line22'>  const static Int Internal   := 0x00000080</span>
+<span id='line23'>  const static Int Mixin      := 0x00000100</span>
+<span id='line24'>  const static Int Native     := 0x00000200</span>
+<span id='line25'>  const static Int Override   := 0x00000400</span>
+<span id='line26'>  const static Int Private    := 0x00000800</span>
+<span id='line27'>  const static Int Protected  := 0x00001000</span>
+<span id='line28'>  const static Int Public     := 0x00002000</span>
+<span id='line29'>  const static Int Setter     := 0x00004000</span>
+<span id='line30'>  const static Int Static     := 0x00008000</span>
+<span id='line31'>  const static Int Storage    := 0x00010000</span>
+<span id='line32'>  const static Int Synthetic  := 0x00020000</span>
+<span id='line33'>  const static Int Virtual    := 0x00040000</span>
+<span id='line34'></span>
+<span id='line35'>  const static Int Struct     := 0x00080000</span>
+<span id='line36'>  const static Int Extension  := 0x00100000</span>
+<span id='line37'>  const static Int RtConst    :=0x00200000</span>
+<span id='line38'>  const static Int Readonly   := 0x00400000</span>
+<span id='line39'>  const static Int Async      := 0x00800000</span>
+<span id='line40'>  const static Int Overload   := 0x01000000 //imples param default by Overload</span>
+<span id='line41'>  const static Int Closure    := 0x02000000</span>
+<span id='line42'>  const static Int Once       := 0x04000000</span>
+<span id='line43'>  const static Int FlagsMask  := 0x0fffffff</span>
+<span id='line44'></span>
+<span id='line45'></span>
+<span id='line46'>  static Bool isAbstract <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Abstract<b>)</b>  != 0 <b>}</b></span>
+<span id='line47'>  static Bool isConst    <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Const<b>)</b>     != 0 <b>}</b></span>
+<span id='line48'>  static Bool isCtor     <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Ctor<b>)</b>      != 0 <b>}</b></span>
+<span id='line49'>  static Bool isEnum     <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Enum<b>)</b>      != 0 <b>}</b></span>
+<span id='line50'>  static Bool isFacet    <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Facet<b>)</b>     != 0 <b>}</b></span>
+<span id='line51'>  static Bool isFinal    <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Final<b>)</b>     != 0 <b>}</b></span>
+<span id='line52'>  static Bool isGetter   <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Getter<b>)</b>    != 0 <b>}</b></span>
+<span id='line53'>  static Bool isInternal <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Internal<b>)</b>  != 0 <b>}</b></span>
+<span id='line54'>  static Bool isMixin    <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Mixin<b>)</b>     != 0 <b>}</b></span>
+<span id='line55'>  static Bool isNative   <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Native<b>)</b>    != 0 <b>}</b></span>
+<span id='line56'>  static Bool isOverride <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Override<b>)</b>  != 0 <b>}</b></span>
+<span id='line57'>  static Bool isPrivate  <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Private<b>)</b>   != 0 <b>}</b></span>
+<span id='line58'>  static Bool isProtected<b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Protected<b>)</b> != 0 <b>}</b></span>
+<span id='line59'>  static Bool isPublic   <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Public<b>)</b>    != 0 <b>}</b></span>
+<span id='line60'>  static Bool isSetter   <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Setter<b>)</b>    != 0 <b>}</b></span>
+<span id='line61'>  static Bool isStatic   <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Static<b>)</b>    != 0 <b>}</b></span>
+<span id='line62'>  static Bool isStorage  <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Storage<b>)</b>   != 0 <b>}</b></span>
+<span id='line63'>  static Bool isSynthetic<b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Synthetic<b>)</b> != 0 <b>}</b></span>
+<span id='line64'>  static Bool isVirtual  <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Virtual<b>)</b>   != 0 <b>}</b></span>
+<span id='line65'></span>
+<span id='line66'>  static Bool isStruct  <b>(</b>Int flags<b>)</b>       <b>{</b> flags.and<b>(</b>DocFlags.Struct<b>)</b>      != 0 <b>}</b></span>
+<span id='line67'>  static Bool isExtension  <b>(</b>Int flags<b>)</b>    <b>{</b> flags.and<b>(</b>DocFlags.Extension<b>)</b>   != 0 <b>}</b></span>
+<span id='line68'>  static Bool isRuntimeConst  <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.RtConst<b>)</b>!= 0 <b>}</b></span>
+<span id='line69'>  static Bool isReadonly  <b>(</b>Int flags<b>)</b>     <b>{</b> flags.and<b>(</b>DocFlags.Readonly<b>)</b>    != 0 <b>}</b></span>
+<span id='line70'>  static Bool isAsync  <b>(</b>Int flags<b>)</b>        <b>{</b> flags.and<b>(</b>DocFlags.Async<b>)</b>       != 0 <b>}</b></span>
+<span id='line71'>  static Bool isOverload  <b>(</b>Int flags<b>)</b>     <b>{</b> flags.and<b>(</b>DocFlags.Overload<b>)</b>    != 0 <b>}</b></span>
+<span id='line72'>  static Bool isOnce     <b>(</b>Int flags<b>)</b> <b>{</b> flags.and<b>(</b>DocFlags.Once<b>)</b>      != 0 <b>}</b></span>
+<span id='line73'></span>
+<span id='line74'></span>
+<span id='line75'>  static Int fromName<b>(</b>Str name<b>)</b></span>
+<span id='line76'>  <b>{</b></span>
+<span id='line77'>    fromNameMap<b>[</b>name<b>]</b> ?: throw Err<b>(</b>"Invalid flag '$name'"<b>)</b></span>
+<span id='line78'>  <b>}</b></span>
+<span id='line79'></span>
+<span id='line80'>  static Int fromNames<b>(</b>Str names<b>)</b></span>
+<span id='line81'>  <b>{</b></span>
+<span id='line82'>    flags := 0</span>
+<span id='line83'>    names.split.each |name| <b>{</b> flags = flags.or<b>(</b>fromName<b>(</b>name<b>)</b><b>)</b> <b>}</b></span>
+<span id='line84'>    return flags</span>
+<span id='line85'>  <b>}</b></span>
+<span id='line86'></span>
+<span id='line87'>  ** Type flags to display including final 'class' or 'mixin'</span>
+<span id='line88'>  static Str toTypeDis<b>(</b>Int f<b>)</b></span>
+<span id='line89'>  <b>{</b></span>
+<span id='line90'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line91'></span>
+<span id='line92'>    if <b>(</b>isInternal<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"internal"<b>)</b></span>
+<span id='line93'></span>
+<span id='line94'>    if <b>(</b>isAbstract<b>(</b>f<b>)</b> &amp;&amp; !isMixin<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"abstract"<b>)</b></span>
+<span id='line95'></span>
+<span id='line96'>    if <b>(</b>isEnum<b>(</b>f<b>)</b><b>)</b>       s.join<b>(</b>"enum"<b>)</b></span>
+<span id='line97'>    else if <b>(</b>isFacet<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"facet"<b>)</b></span>
+<span id='line98'>    else if <b>(</b>isStruct<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"struct"<b>)</b></span>
+<span id='line99'></span>
+<span id='line100'>    if <b>(</b>isConst<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"const"<b>)</b></span>
+<span id='line101'>    else if <b>(</b>isRuntimeConst<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"rtconst"<b>)</b></span>
+<span id='line102'>    if <b>(</b>isVirtual<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"virtual"<b>)</b></span>
+<span id='line103'></span>
+<span id='line104'>    if <b>(</b>isMixin<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"mixin"<b>)</b></span>
+<span id='line105'>    else s.join<b>(</b>"class"<b>)</b></span>
+<span id='line106'></span>
+<span id='line107'>    return s.toStr<b>(</b><b>)</b></span>
+<span id='line108'>  <b>}</b></span>
+<span id='line109'></span>
+<span id='line110'>  static Str toSlotDis<b>(</b>Int f<b>)</b></span>
+<span id='line111'>  <b>{</b></span>
+<span id='line112'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line113'></span>
+<span id='line114'>    if <b>(</b>isInternal<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"internal"<b>)</b></span>
+<span id='line115'>    else if <b>(</b>isProtected<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"protected"<b>)</b></span>
+<span id='line116'>    else if <b>(</b>isPrivate<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"private"<b>)</b></span>
+<span id='line117'></span>
+<span id='line118'>    if <b>(</b>isAbstract<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"abstract"<b>)</b></span>
+<span id='line119'>    else if <b>(</b>isVirtual<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"virtual"<b>)</b></span>
+<span id='line120'></span>
+<span id='line121'>    if <b>(</b>isCtor<b>(</b>f<b>)</b><b>)</b>     s.join<b>(</b>"new"<b>)</b></span>
+<span id='line122'>    if <b>(</b>isConst<b>(</b>f<b>)</b><b>)</b>    s.join<b>(</b>"const"<b>)</b></span>
+<span id='line123'>    if <b>(</b>isStatic<b>(</b>f<b>)</b><b>)</b>   s.join<b>(</b>"static"<b>)</b></span>
+<span id='line124'>    if <b>(</b>isOverride<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"override"<b>)</b></span>
+<span id='line125'>    if <b>(</b>isFinal<b>(</b>f<b>)</b><b>)</b>    s.join<b>(</b>"final"<b>)</b></span>
+<span id='line126'>    if <b>(</b>isExtension<b>(</b>f<b>)</b><b>)</b>s.join<b>(</b>"extension"<b>)</b></span>
+<span id='line127'>    if <b>(</b>isReadonly<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"readonly"<b>)</b></span>
+<span id='line128'>    if <b>(</b>isAsync<b>(</b>f<b>)</b><b>)</b>    s.join<b>(</b>"async"<b>)</b></span>
+<span id='line129'>    if <b>(</b>isOverload<b>(</b>f<b>)</b><b>)</b> s.join<b>(</b>"overload"<b>)</b></span>
+<span id='line130'></span>
+<span id='line131'>    return s.toStr<b>(</b><b>)</b></span>
+<span id='line132'>  <b>}</b></span>
+<span id='line133'></span>
+<span id='line134'>  static Str toNames<b>(</b>Int flags<b>)</b></span>
+<span id='line135'>  <b>{</b></span>
+<span id='line136'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line137'>    for <b>(</b>b:=1; b&lt;=Virtual; b=b.shiftl<b>(</b>1<b>)</b><b>)</b></span>
+<span id='line138'>    <b>{</b></span>
+<span id='line139'>      if <b>(</b>flags.and<b>(</b>b<b>)</b> != 0<b>)</b> s.join<b>(</b>toNameMap<b>[</b>b<b>]</b><b>)</b></span>
+<span id='line140'>    <b>}</b></span>
+<span id='line141'>    return s.toStr</span>
+<span id='line142'>  <b>}</b></span>
+<span id='line143'></span>
+<span id='line144'>  private const static Int:Str toNameMap</span>
+<span id='line145'>  private const static Str:Int fromNameMap</span>
+<span id='line146'>  static</span>
+<span id='line147'>  <b>{</b></span>
+<span id='line148'>    toNameMap := Int:Str<b>[</b>:<b>]</b></span>
+<span id='line149'>    fromNameMap := Str:Int<b>[</b>:<b>]</b></span>
+<span id='line150'>    DocFlags#.fields.each |f|</span>
+<span id='line151'>    <b>{</b></span>
+<span id='line152'>      if <b>(</b>f.isStatic &amp;&amp; f.isConst &amp;&amp; f.type == Int#<b>)</b></span>
+<span id='line153'>      <b>{</b></span>
+<span id='line154'>        name := f.name.lower</span>
+<span id='line155'>        code := f.get<b>(</b>null<b>)</b> as Int</span>
+<span id='line156'>        if <b>(</b>name == "ctor"<b>)</b> name = "new"</span>
+<span id='line157'>        toNameMap<b>[</b>code<b>]</b>   = name</span>
+<span id='line158'>        fromNameMap<b>[</b>name<b>]</b> = code</span>
+<span id='line159'>      <b>}</b></span>
+<span id='line160'>    <b>}</b></span>
+<span id='line161'>    DocFlags.toNameMap = toNameMap</span>
+<span id='line162'>    DocFlags.fromNameMap = fromNameMap</span>
+<span id='line163'>  <b>}</b></span>
+<span id='line164'></span>
+<span id='line165'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

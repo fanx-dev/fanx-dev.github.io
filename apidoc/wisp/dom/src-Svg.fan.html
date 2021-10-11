@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Svg.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='Svg.html'>Svg</a></li><li><a href='src-Svg.fan.html'>Svg.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2017, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   17 May 2017  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using concurrent</span>
+<span id='line10'>using graphics</span>
+<span id='line11'></span>
+<span id='line12'>**</span>
+<span id='line13'>** SVG <b>(</b>Scalar Vector Graphics<b>)</b> utilities</span>
+<span id='line14'>**</span>
+<span id='line15'>@Js</span>
+<span id='line16'>final const class Svg</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  ** Cannot create/subclass</span>
+<span id='line19'>  private new make<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line20'></span>
+<span id='line21'>  ** SVG XML namesapce</span>
+<span id='line22'>  static const Uri ns := `http://www.w3.org/2000/svg`</span>
+<span id='line23'></span>
+<span id='line24'>  ** XLink XML namespace</span>
+<span id='line25'>  static const Uri nsXLink := `http://www.w3.org/1999/xlink`</span>
+<span id='line26'></span>
+<span id='line27'>  ** Create element with proper namespace</span>
+<span id='line28'>  static Elem elem<b>(</b>Str tagName<b>)</b></span>
+<span id='line29'>  <b>{</b></span>
+<span id='line30'>    Elem<b>(</b>tagName, ns<b>)</b></span>
+<span id='line31'>  <b>}</b></span>
+<span id='line32'></span>
+<span id='line33'>  ** Convenience to create 'line' element</span>
+<span id='line34'>  static Elem line<b>(</b>Num x1, Num y1, Num x2, Num y2<b>)</b></span>
+<span id='line35'>  <b>{</b></span>
+<span id='line36'>    elem<b>(</b>"line"<b>)</b> <b>{</b> it->x1 = x1; it->y1 = y1; it->x2 = x2; it->y2 = y2 <b>}</b></span>
+<span id='line37'>  <b>}</b></span>
+<span id='line38'></span>
+<span id='line39'>  ** Convenience to create 'rect' element</span>
+<span id='line40'>  static Elem rect<b>(</b>Num x, Num y, Num w, Num h<b>)</b></span>
+<span id='line41'>  <b>{</b></span>
+<span id='line42'>    elem<b>(</b>"rect"<b>)</b> <b>{</b> it->x = x; it->y = y; it->width = w; it->height = h <b>}</b></span>
+<span id='line43'>  <b>}</b></span>
+<span id='line44'></span>
+<span id='line45'>  ** Convenience to create 'text' element</span>
+<span id='line46'>  static Elem text<b>(</b>Str text, Num x, Num y<b>)</b></span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    elem<b>(</b>"text"<b>)</b> <b>{</b>  it.text = text; it->x = x; it->y = y <b>}</b></span>
+<span id='line49'>  <b>}</b></span>
+<span id='line50'></span>
+<span id='line51'>  ** Convenience to create a 'image' element</span>
+<span id='line52'>  static Elem image<b>(</b>Uri href, Float x, Float y, Float w, Float h<b>)</b></span>
+<span id='line53'>  <b>{</b></span>
+<span id='line54'>    elem<b>(</b>"image"<b>)</b></span>
+<span id='line55'>    <b>{</b></span>
+<span id='line56'>      it->x      = x</span>
+<span id='line57'>      it->y      = y</span>
+<span id='line58'>      it->width  = w</span>
+<span id='line59'>      it->height = h</span>
+<span id='line60'>      it.setAttr<b>(</b>"href", href.encode, nsXLink<b>)</b></span>
+<span id='line61'>    <b>}</b></span>
+<span id='line62'>  <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  ** Auto-generate an id for the def element and mount it into</span>
+<span id='line65'>  ** the svg document's defs section.  This method will automatically</span>
+<span id='line66'>  ** generate a '&lt;defs>' child in the svg document as needed.</span>
+<span id='line67'>  ** If defs already has an id or is already mounted, then no</span>
+<span id='line68'>  ** action is taken.</span>
+<span id='line69'>  static Str def<b>(</b>Elem svgElem, Elem defElem<b>)</b></span>
+<span id='line70'>  <b>{</b></span>
+<span id='line71'>    // sanity check document element</span>
+<span id='line72'>    if <b>(</b>svgElem.tagName != "svg"<b>)</b> throw Err<b>(</b>"Document not &lt;svg> element: $svgElem.tagName"<b>)</b></span>
+<span id='line73'></span>
+<span id='line74'>    // check for &lt;defs></span>
+<span id='line75'>    defsElem := svgElem.children.find |kid| <b>{</b> kid.tagName == "defs" <b>}</b></span>
+<span id='line76'></span>
+<span id='line77'>    // create it if needed</span>
+<span id='line78'>    if <b>(</b>defsElem == null<b>)</b></span>
+<span id='line79'>    <b>{</b></span>
+<span id='line80'>      defsElem = elem<b>(</b>"defs"<b>)</b></span>
+<span id='line81'>      if <b>(</b>svgElem.hasChildren<b>)</b></span>
+<span id='line82'>        svgElem.insertBefore<b>(</b>defsElem, svgElem.children.first<b>)</b></span>
+<span id='line83'>      else</span>
+<span id='line84'>        svgElem.add<b>(</b>defsElem<b>)</b></span>
+<span id='line85'>    <b>}</b></span>
+<span id='line86'></span>
+<span id='line87'>    // auto-generate if needed</span>
+<span id='line88'>    if <b>(</b>defElem.id == null<b>)</b> defElem.id = "def-" + genId.incrementAndGet.toHex</span>
+<span id='line89'></span>
+<span id='line90'>    // mount if needed</span>
+<span id='line91'>    if <b>(</b>defElem.parent == null<b>)</b> defsElem.add<b>(</b>defElem<b>)</b></span>
+<span id='line92'></span>
+<span id='line93'>    // return id</span>
+<span id='line94'>    return defElem.id</span>
+<span id='line95'>  <b>}</b></span>
+<span id='line96'></span>
+<span id='line97'>  private static const AtomicInt genId := AtomicInt<b>(</b><b>)</b></span>
+<span id='line98'></span>
+<span id='line99'>  ** Mount a definition element using `def` and return a CSS URL</span>
+<span id='line100'>  ** to the fragment identifier such as "url<b>(</b>#def-d<b>)</b>".  This is used</span>
+<span id='line101'>  ** to reference gradient and clip definitions.</span>
+<span id='line102'>  static Str defUrl<b>(</b>Elem svgElem, Elem defElem<b>)</b></span>
+<span id='line103'>  <b>{</b></span>
+<span id='line104'>    "url<b>(</b>#" + def<b>(</b>svgElem, defElem<b>)</b> + "<b>)</b>"</span>
+<span id='line105'>  <b>}</b></span>
+<span id='line106'></span>
+<span id='line107'>  ** Internal hook to customize Elem.trap behavoir.</span>
+<span id='line108'>  internal static Obj? doTrap<b>(</b>Elem svgElem, Str name, Obj?<b>[</b><b>]</b>? args := null<b>)</b></span>
+<span id='line109'>  <b>{</b></span>
+<span id='line110'>    if <b>(</b>args == null || args.isEmpty<b>)</b></span>
+<span id='line111'>    <b>{</b></span>
+<span id='line112'>      // get</span>
+<span id='line113'>      return svgElem.attr<b>(</b>name<b>)</b>?.toStr</span>
+<span id='line114'>    <b>}</b></span>
+<span id='line115'>    else</span>
+<span id='line116'>    <b>{</b></span>
+<span id='line117'>      // set</span>
+<span id='line118'>      val := args.first</span>
+<span id='line119'></span>
+<span id='line120'>      // TODO: should we be using trap for text?</span>
+<span id='line121'>      if <b>(</b>name == "text"<b>)</b> <b>{</b> svgElem.text = val.toStr; return null <b>}</b></span>
+<span id='line122'></span>
+<span id='line123'>      // convenience to explode font attrs</span>
+<span id='line124'>      if <b>(</b>name == "font"<b>)</b></span>
+<span id='line125'>      <b>{</b></span>
+<span id='line126'>        if <b>(</b>val is Str<b>)</b> val = Font.fromStr<b>(</b>val<b>)</b></span>
+<span id='line127'>        f := <b>(</b>Font<b>)</b>val</span>
+<span id='line128'>        f.toProps.each |v,n| <b>{</b> svgElem.setAttr<b>(</b>n, v.toStr<b>)</b> <b>}</b></span>
+<span id='line129'>        return null</span>
+<span id='line130'>      <b>}</b></span>
+<span id='line131'></span>
+<span id='line132'>      // convert to hyphens if needed and route to setAttr</span>
+<span id='line133'>      if <b>(</b>camelMap.containsKey<b>(</b>name<b>)</b><b>)</b> name = fromCamel<b>(</b>name<b>)</b></span>
+<span id='line134'>      svgElem.setAttr<b>(</b>name, val.toStr<b>)</b></span>
+<span id='line135'>      return null</span>
+<span id='line136'>    <b>}</b></span>
+<span id='line137'>  <b>}</b></span>
+<span id='line138'></span>
+<span id='line139'>  ** Convert camel case to hyphen notation.</span>
+<span id='line140'>  private static Str fromCamel<b>(</b>Str s<b>)</b></span>
+<span id='line141'>  <b>{</b></span>
+<span id='line142'>    h := StrBuf<b>(</b>s.size + 2<b>)</b></span>
+<span id='line143'>    for <b>(</b>i:=0; i&lt;s.size; ++i<b>)</b></span>
+<span id='line144'>    <b>{</b></span>
+<span id='line145'>      ch := s<b>[</b>i<b>]</b></span>
+<span id='line146'>      if <b>(</b>ch.isUpper<b>)</b> h.addChar<b>(</b>'-'<b>)</b>.addChar<b>(</b>ch.lower<b>)</b></span>
+<span id='line147'>      else h.addChar<b>(</b>ch<b>)</b></span>
+<span id='line148'>    <b>}</b></span>
+<span id='line149'>    return h.toStr</span>
+<span id='line150'>  <b>}</b></span>
+<span id='line151'></span>
+<span id='line152'>  // TODO: just keep a big whitelist here??</span>
+<span id='line153'>  private static const <b>[</b>Str:Str<b>]</b> camelMap := Str:Str<b>[</b>:<b>]</b>.setList<b>(</b><b>[</b></span>
+<span id='line154'>    "accentHeight",</span>
+<span id='line155'>    "alignmentBaseline",</span>
+<span id='line156'>    "baselineShift",</span>
+<span id='line157'>    "capHeight",</span>
+<span id='line158'>    "clipPath",</span>
+<span id='line159'>    "clipRule",</span>
+<span id='line160'>    "colorInterpolation",</span>
+<span id='line161'>    "colorInterpolationFilters",</span>
+<span id='line162'>    "colorProfile",</span>
+<span id='line163'>    "colorRendering",</span>
+<span id='line164'>    "dominantBaseline",</span>
+<span id='line165'>    "enableBackground",</span>
+<span id='line166'>    "fillOpacity",</span>
+<span id='line167'>    "fillRule",</span>
+<span id='line168'>    "floodColor",</span>
+<span id='line169'>    "floodOpacity",</span>
+<span id='line170'>    "fontFamily",</span>
+<span id='line171'>    "fontSize",</span>
+<span id='line172'>    "fontSizeAdjust",</span>
+<span id='line173'>    "fontStretch",</span>
+<span id='line174'>    "fontStyle",</span>
+<span id='line175'>    "fontVariant",</span>
+<span id='line176'>    "fontWeight",</span>
+<span id='line177'>    "glyphName",</span>
+<span id='line178'>    "glyphOrientationHorizontal",</span>
+<span id='line179'>    "glyphOrientationVertical",</span>
+<span id='line180'>    "horizAdvX",</span>
+<span id='line181'>    "horizOriginX",</span>
+<span id='line182'>    "imageRendering",</span>
+<span id='line183'>    "letterSpacing",</span>
+<span id='line184'>    "lightingColor",</span>
+<span id='line185'>    "markerEnd",</span>
+<span id='line186'>    "markerMid",</span>
+<span id='line187'>    "markerStart",</span>
+<span id='line188'>    "overlinePosition",</span>
+<span id='line189'>    "overlineThickness",</span>
+<span id='line190'>    "panose1",</span>
+<span id='line191'>    "paintOrder",</span>
+<span id='line192'>    "renderingIntent",</span>
+<span id='line193'>    "shapeRendering",</span>
+<span id='line194'>    "stopColor",</span>
+<span id='line195'>    "stopOpacity",</span>
+<span id='line196'>    "strikethroughPosition",</span>
+<span id='line197'>    "strikethroughThickness",</span>
+<span id='line198'>    "strokeDasharray",</span>
+<span id='line199'>    "strokeDashoffset",</span>
+<span id='line200'>    "strokeLinecap",</span>
+<span id='line201'>    "strokeLinejoin",</span>
+<span id='line202'>    "strokeMiterlimit",</span>
+<span id='line203'>    "strokeOpacity",</span>
+<span id='line204'>    "strokeWidth",</span>
+<span id='line205'>    "textAnchor",</span>
+<span id='line206'>    "textDecoration",</span>
+<span id='line207'>    "textRendering",</span>
+<span id='line208'>    "underlinePosition",</span>
+<span id='line209'>    "underlineThickness",</span>
+<span id='line210'>    "unicode",</span>
+<span id='line211'>    "unicodeBidi",</span>
+<span id='line212'>    "unicodeRange",</span>
+<span id='line213'>    "unitsPerEm",</span>
+<span id='line214'>    "vAlphabetic",</span>
+<span id='line215'>    "vHanging",</span>
+<span id='line216'>    "vIdeographic",</span>
+<span id='line217'>    "vMathematical",</span>
+<span id='line218'>    "values",</span>
+<span id='line219'>    "version",</span>
+<span id='line220'>    "vertAdvY",</span>
+<span id='line221'>    "vertOriginX",</span>
+<span id='line222'>    "vertOriginY",</span>
+<span id='line223'>    "wordSpacing",</span>
+<span id='line224'>    "xHeight",</span>
+<span id='line225'>  <b>]</b><b>)</b></span>
+<span id='line226'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

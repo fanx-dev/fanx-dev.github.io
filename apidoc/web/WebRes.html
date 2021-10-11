@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::WebRes</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebRes.html'>WebRes</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> web::WebRes</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  web::WebRes</pre>
+<p class='src'>
+<a href='src-WebRes.fan.html'>Source</a></p>
+
+<p>WebRes encapsulates a response to a web request.</p>
+
+<p>See <a href='index.html#webRes'>pod doc</a></p>
+<dl>
+<dt id='cookies'>
+cookies</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='Cookie.html'>Cookie</a>&gt;</a> cookies()</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line38'>Source</a></p>
+
+<p>Get the list of cookies to set via header fields.  Add a a Cookie to this list to set a cookie.  Throw an err if response is already committed.</p>
+
+<p>Example:</p>
+
+<pre>res.cookies.add(Cookie("foo", "123"))
+res.cookies.add(Cookie("persistent", "some val") { maxAge = 3day })</pre>
+</dd>
+<dt id='done'>
+done</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> done()</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line97'>Source</a></p>
+
+<p>Done is called to indicate that that response is complete to terminate pipeline processing.</p>
+</dd>
+<dt id='headers'>
+headers</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> headers()</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line31'>Source</a></p>
+
+<p>Map of HTTP response headers.  You must set all headers before you access out() for the first time, which commits the response. Throw an err if response is already committed.</p>
+</dd>
+<dt id='isCommitted'>
+isCommitted</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isCommitted()</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line59'>Source</a></p>
+
+<p>Return true if this response has been commmited.  A committed response has written its response headers, and can no longer modify its status code or headers.  A response is committed the first time that <code><a href='WebRes.html#out'>out</a></code> is called.</p>
+</dd>
+<dt id='isDone'>
+isDone</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isDone()</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line92'>Source</a></p>
+
+<p>Return if this response is complete - see <code><a href='WebRes.html#done'>done</a></code>.</p>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='WebOutStream.html'>WebOutStream</a> out()</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line67'>Source</a></p>
+
+<p>Return the WebOutStream for this response.  The first time this method is accessed the response is committed: all headers currently set will be written to the stream, and can no longer be modified.  If the "Content-Length" header defines a fixed number of bytes, then attemps to write too many bytes will throw an IOErr.  If "Content-Length" is not defined, then a chunked transfer encoding is automatically used.</p>
+</dd>
+<dt id='redirect'>
+redirect</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> redirect(<a href='../std/Uri.html'>Uri</a> uri, <a href='../sys/Int.html'>Int</a> statusCode := 303)</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line78'>Source</a></p>
+
+<p>Send a redirect response to the client using the specified status code and url.  If this response has already been committed this method throws an Err.  This method implicitly calls <code><a href='WebRes.html#done'>done</a></code>.</p>
+</dd>
+<dt id='removeCookie'>
+removeCookie</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> removeCookie(<a href='../sys/Str.html'>Str</a> name)</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line49'>Source</a></p>
+
+<p>Remove a cookie for this response.  This method is a convenience for:</p>
+
+<pre>res.cookies.add(Cookie(name, "") { maxAge=0day }</pre>
+</dd>
+<dt id='sendErr'>
+sendErr</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> sendErr(<a href='../sys/Int.html'>Int</a> statusCode, <a href='../sys/Str.html'>Str?</a> msg := null)</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line85'>Source</a></p>
+
+<p>Send an error response to client using the specified status and HTML formatted message.  If this response has already been committed this method throws an Err.  This method implicitly calls <code><a href='WebRes.html#done'>done</a></code>.</p>
+</dd>
+<dt id='statusCode'>
+statusCode</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> statusCode</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line24'>Source</a></p>
+
+<p>Get or set the HTTP status code for this response. Status code defaults to 200.  Throw an err if the response has already been committed.</p>
+</dd>
+<dt id='statusMsg'>
+statusMsg</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../std/Map.html'>Map&lt;<a href='../sys/Int.html'>Int</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> statusMsg := ...</code></p>
+<p class='src'>
+<a href='src-WebRes.fan.html#line113'>Source</a></p>
+
+<p>Map of HTTP status codes to status messages.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-WebRes.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#statusMsg'>statusMsg</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#cookies'>cookies</a></li><li><a href='#done'>done</a></li><li><a href='#headers'>headers</a></li><li><a href='#isCommitted'>isCommitted</a></li><li><a href='#isDone'>isDone</a></li><li><a href='#out'>out</a></li><li><a href='#redirect'>redirect</a></li><li><a href='#removeCookie'>removeCookie</a></li><li><a href='#sendErr'>sendErr</a></li><li><a href='#statusCode'>statusCode</a></li></ul>
+</div>
+</div>
+</body>
+</html>

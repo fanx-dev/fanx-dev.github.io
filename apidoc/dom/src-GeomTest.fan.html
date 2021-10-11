@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>GeomTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='src-GeomTest.fan.html'>GeomTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   25 Sep 2015  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** GeomTest</span>
+<span id='line11'>**</span>
+<span id='line12'>@Js</span>
+<span id='line13'>class GeomTest : Test</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'>  Void testCssDim<b>(</b><b>)</b></span>
+<span id='line16'>  <b>{</b></span>
+<span id='line17'>    verifyEq<b>(</b>CssDim#.make,  CssDim<b>(</b>0, "px"<b>)</b><b>)</b></span>
+<span id='line18'>    verifyEq<b>(</b>CssDim.defVal, CssDim<b>(</b>0, "px"<b>)</b><b>)</b></span>
+<span id='line19'>    verifyEq<b>(</b>CssDim.defVal, CssDim<b>(</b>"0px"<b>)</b><b>)</b></span>
+<span id='line20'>    verifyEq<b>(</b>CssDim.defVal.toStr, "0px"<b>)</b></span>
+<span id='line21'></span>
+<span id='line22'>    verifyCssDim<b>(</b>CssDim<b>(</b>"-1em"<b>)</b>,         -1, "em"<b>)</b></span>
+<span id='line23'>    verifyCssDim<b>(</b>CssDim<b>(</b>100, "px"<b>)</b>,     100, "px"<b>)</b></span>
+<span id='line24'>    verifyCssDim<b>(</b>CssDim<b>(</b>1.25f, "%"<b>)</b>,  1.25f, "%"<b>)</b></span>
+<span id='line25'>    verifyCssDim<b>(</b>CssDim<b>(</b>"-10.1vw"<b>)</b>,  -10.1f, "vw"<b>)</b></span>
+<span id='line26'></span>
+<span id='line27'>    verifyCssDim<b>(</b>CssDim<b>(</b>"auto"<b>)</b>, 0, "auto"<b>)</b></span>
+<span id='line28'>    verifyEq<b>(</b>CssDim<b>(</b>"auto"<b>)</b>.toStr, "auto"<b>)</b></span>
+<span id='line29'></span>
+<span id='line30'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> d := CssDim.fromStr<b>(</b>"100"<b>)</b> <b>}</b></span>
+<span id='line31'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> d := CssDim.fromStr<b>(</b>"abc"<b>)</b> <b>}</b></span>
+<span id='line32'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> d := CssDim.fromStr<b>(</b>"100 %"<b>)</b> <b>}</b></span>
+<span id='line33'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> d := CssDim.fromStr<b>(</b>"-100 px"<b>)</b> <b>}</b></span>
+<span id='line34'></span>
+<span id='line35'>    verifySer<b>(</b>CssDim<b>(</b>5, "px"<b>)</b><b>)</b></span>
+<span id='line36'>    verifySer<b>(</b>CssDim<b>(</b>-5, "px"<b>)</b><b>)</b></span>
+<span id='line37'>    verifySer<b>(</b>CssDim<b>(</b>1.25f, "%"<b>)</b><b>)</b></span>
+<span id='line38'>    verifySer<b>(</b>CssDim<b>(</b>-5.001f, "em"<b>)</b><b>)</b></span>
+<span id='line39'>  <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  Void verifyCssDim<b>(</b>CssDim d, Num v, Str u<b>)</b></span>
+<span id='line42'>  <b>{</b></span>
+<span id='line43'>    verifyEq<b>(</b>d.val, v<b>)</b></span>
+<span id='line44'>    verifyEq<b>(</b>d.unit, u<b>)</b></span>
+<span id='line45'>  <b>}</b></span>
+<span id='line46'></span>
+<span id='line47'>  Void verifySer<b>(</b>Obj obj<b>)</b></span>
+<span id='line48'>  <b>{</b></span>
+<span id='line49'>    //echo<b>(</b>"-- " + Buf.make.writeObj<b>(</b>obj<b>)</b>.flip.readAllStr<b>)</b></span>
+<span id='line50'>    x := Buf.make <b>{</b> out.writeObj<b>(</b>obj<b>)</b> <b>}</b>.flip.in.readObj</span>
+<span id='line51'>    verifyEq<b>(</b>obj, x<b>)</b></span>
+<span id='line52'>  <b>}</b></span>
+<span id='line53'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

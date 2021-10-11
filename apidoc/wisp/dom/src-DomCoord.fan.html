@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DomCoord.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='DomCoord.html'>DomCoord</a></li><li><a href='src-DomCoord.fan.html'>DomCoord.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2017, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   11 Dec 2017  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** DomCoord models a DOM Coordinate object.</span>
+<span id='line11'>**</span>
+<span id='line12'>@Js const class DomCoord</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'>  ** Private ctor.</span>
+<span id='line15'>  private new make<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line16'></span>
+<span id='line17'>  ** Returns a float representing the position's latitude in decimal degrees.</span>
+<span id='line18'>  native Float lat<b>(</b><b>)</b></span>
+<span id='line19'></span>
+<span id='line20'>  ** Returns a float representing the position's longitude in decimal degrees.</span>
+<span id='line21'>  native Float lng<b>(</b><b>)</b></span>
+<span id='line22'></span>
+<span id='line23'>  ** Returns a float representing the accuracy of the latitude and</span>
+<span id='line24'>  ** longitude properties, expressed in meters.</span>
+<span id='line25'>  native Float accuracy<b>(</b><b>)</b></span>
+<span id='line26'></span>
+<span id='line27'>  ** Returns a float representing the position's altitude in meters, relative</span>
+<span id='line28'>  ** to sea level. This value can be 'null' if the implementation cannot</span>
+<span id='line29'>  ** provide the data.</span>
+<span id='line30'>  native Float? altitude<b>(</b><b>)</b></span>
+<span id='line31'></span>
+<span id='line32'>  ** Returns a float representing the accuracy of the altitude expressed in</span>
+<span id='line33'>  ** meters. This value can be 'null'.</span>
+<span id='line34'>  native Float? altitudeAccuracy<b>(</b><b>)</b></span>
+<span id='line35'></span>
+<span id='line36'>  ** Returns a float representing the direction in which the device is</span>
+<span id='line37'>  ** traveling. This value, specified in degrees, indicates how far off from</span>
+<span id='line38'>  ** heading true north the device is. 0 degrees represents true north, and</span>
+<span id='line39'>  ** the direction is determined clockwise <b>(</b>which means that east is 90 degrees</span>
+<span id='line40'>  ** and west is 270 degrees<b>)</b>. If speed is 0, heading is NaN. If the device is</span>
+<span id='line41'>  ** unable to provide heading information, this value is 'null'.</span>
+<span id='line42'>  native Float? heading<b>(</b><b>)</b></span>
+<span id='line43'></span>
+<span id='line44'>  ** Returns a double representing the velocity of the device in meters per</span>
+<span id='line45'>  ** second. This value can be 'null'.</span>
+<span id='line46'>  native Float? speed<b>(</b><b>)</b></span>
+<span id='line47'></span>
+<span id='line48'>  ** Optional timestamp of when this location was retrieved.</span>
+<span id='line49'>  native Duration? ts<b>(</b><b>)</b></span>
+<span id='line50'></span>
+<span id='line51'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line52'>  <b>{</b></span>
+<span id='line53'>    "<b>{</b> lat=$lat lng=$lng accuracy=$accuracy altitude=$altitude" +</span>
+<span id='line54'>     " altitudeAccuracy=$altitudeAccuracy heading=$heading speed=$speed ts=$ts <b>}</b>"</span>
+<span id='line55'>  <b>}</b></span>
+<span id='line56'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

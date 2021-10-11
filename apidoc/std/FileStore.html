@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::FileStore</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='FileStore.html'>FileStore</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> std::FileStore</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::FileStore</pre>
+
+<p>FileStore represents the storage pool, device, partition, or volume used to store files.</p>
+<dl>
+<dt id='availSpace'>
+availSpace</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> availSpace</code></p>
+
+<p>Number of bytes available for use by the application or null if unknown.</p>
+</dd>
+<dt id='freeSpace'>
+freeSpace</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> freeSpace</code></p>
+
+<p>Number of bytes unallocated in the store or null if unknown.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+
+<p>Protected constructor for subclasses.</p>
+</dd>
+<dt id='totalSpace'>
+totalSpace</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> totalSpace</code></p>
+
+<p>Total number of bytes in the store or null if unknown.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#availSpace'>availSpace</a></li><li><a href='#freeSpace'>freeSpace</a></li><li><a href='#totalSpace'>totalSpace</a></li></ul>
+</div>
+</div>
+</body>
+</html>

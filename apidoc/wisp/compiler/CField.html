@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::CField</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='CField.html'>CField</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> compiler::CField</h1>
+<pre>compiler::CField : <a href='CSlot.html'>compiler::CSlot</a></pre>
+
+<p>CField is a "compiler field" which is represents a Field in the compiler.  CFields unify methods being compiled as FieldDefs with methods imported as ReflectField or FField.</p>
+<dl>
+<dt id='fieldType'>
+fieldType</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CType.html'>CType</a> fieldType()</code></p>
+</dd>
+<dt id='generic'>
+generic</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CField.html'>CField?</a> generic()</code></p>
+</dd>
+<dt id='getter'>
+getter</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CMethod.html'>CMethod?</a> getter()</code></p>
+</dd>
+<dt id='inheritedReturnType'>
+inheritedReturnType</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CType.html'>CType</a> inheritedReturnType()</code></p>
+
+<p>Original return type from inherited method if a covariant override.</p>
+</dd>
+<dt id='isCovariant'>
+isCovariant</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCovariant()</code></p>
+
+<p>Does this field covariantly override a method?</p>
+</dd>
+<dt id='isGeneric'>
+isGeneric</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isGeneric()</code></p>
+
+<p>Is this field typed with a generic parameter.</p>
+</dd>
+<dt id='isParameterized'>
+isParameterized</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isParameterized()</code></p>
+
+<p>Is this field the parameterization of a generic field, with the generic type replaced with a real type.</p>
+</dd>
+<dt id='setter'>
+setter</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CMethod.html'>CMethod?</a> setter()</code></p>
+</dd>
+<dt id='usesBridge'>
+usesBridge</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CBridge.html'>CBridge?</a> usesBridge()</code></p>
+
+<p>Return the bridge if this slot is foreign or uses any foreign types in its signature.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#fieldType'>fieldType</a></li><li><a href='#generic'>generic</a></li><li><a href='#getter'>getter</a></li><li><a href='#inheritedReturnType'>inheritedReturnType</a></li><li><a href='#isCovariant'>isCovariant</a></li><li><a href='#isGeneric'>isGeneric</a></li><li><a href='#isParameterized'>isParameterized</a></li><li><a href='#setter'>setter</a></li><li><a href='#usesBridge'>usesBridge</a></li></ul>
+</div>
+</div>
+</body>
+</html>

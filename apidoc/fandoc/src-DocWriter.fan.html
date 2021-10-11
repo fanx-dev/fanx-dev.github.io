@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocWriter.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='DocWriter.html'>DocWriter</a></li><li><a href='src-DocWriter.fan.html'>DocWriter.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   17 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** DocWriter is used to output a fandoc model using a series of callbacks.</span>
+<span id='line11'>**</span>
+<span id='line12'>** See <b>[</b>pod doc<b>]</b>`pod-doc#api` for usage.</span>
+<span id='line13'>**</span>
+<span id='line14'>@Js</span>
+<span id='line15'>mixin DocWriter</span>
+<span id='line16'><b>{</b></span>
+<span id='line17'></span>
+<span id='line18'>  **</span>
+<span id='line19'>  ** Enter a document.</span>
+<span id='line20'>  **</span>
+<span id='line21'>  abstract Void docStart<b>(</b>Doc doc<b>)</b></span>
+<span id='line22'></span>
+<span id='line23'>  **</span>
+<span id='line24'>  ** Exit a document.</span>
+<span id='line25'>  **</span>
+<span id='line26'>  abstract Void docEnd<b>(</b>Doc doc<b>)</b></span>
+<span id='line27'></span>
+<span id='line28'>  **</span>
+<span id='line29'>  ** Enter an element.</span>
+<span id='line30'>  **</span>
+<span id='line31'>  abstract Void elemStart<b>(</b>DocElem elem<b>)</b></span>
+<span id='line32'></span>
+<span id='line33'>  **</span>
+<span id='line34'>  ** Exit an element.</span>
+<span id='line35'>  **</span>
+<span id='line36'>  abstract Void elemEnd<b>(</b>DocElem elem<b>)</b></span>
+<span id='line37'></span>
+<span id='line38'>  **</span>
+<span id='line39'>  ** Write text node.</span>
+<span id='line40'>  **</span>
+<span id='line41'>  abstract Void text<b>(</b>DocText text<b>)</b></span>
+<span id='line42'></span>
+<span id='line43'><b>}</b></span>
+<span id='line44'></span>
+<span id='line45'></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::BuildCs</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='BuildCs.html'>BuildCs</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> build::BuildCs</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='BuildScript.html'>build::BuildScript</a>
+    build::BuildCs</pre>
+
+<p>BuildCs is the base class for build scripts used to manage building C# source code into a .NET exe or dll.</p>
+<dl>
+<dt id='clean'>
+clean</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Target.html'>Target</a> { help=... }</code><br /> <a href='../sys/Void.html'>Void</a> clean()</code></p>
+
+<p>Delete all intermediate and target files</p>
+</dd>
+<dt id='compile'>
+compile</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Target.html'>Target</a> { help=&quot;Compile C# source into exe or dll&quot; }</code><br /> <a href='../sys/Void.html'>Void</a> compile()</code></p>
+
+<p>Compile C# source into exe or dll</p>
+</dd>
+<dt id='dumpEnv'>
+dumpEnv</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> dumpEnv()</code></p>
+</dd>
+<dt id='full'>
+full</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Target.html'>Target</a> { help=&quot;Run clean, compile&quot; }</code><br /> <a href='../sys/Void.html'>Void</a> full()</code></p>
+
+<p>Run clean, compile</p>
+</dd>
+<dt id='libs'>
+libs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;</a> libs := Uri[,]</code></p>
+
+<p>List of libraries to link to.</p>
+</dd>
+<dt id='output'>
+output</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri?</a> output</code></p>
+
+<p>Required output file created by the compiler.</p>
+</dd>
+<dt id='skip'>
+skip</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> skip := &quot;win32&quot;</code></p>
+
+<p>Should we skip compiling .NET code?  Default only runs C# compiler if running on Windows.</p>
+</dd>
+<dt id='srcDirs'>
+srcDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> srcDirs</code></p>
+
+<p>Required list of directories to compile.  All C# source files in each directory will be compiled.</p>
+</dd>
+<dt id='targetType'>
+targetType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> targetType</code></p>
+
+<p>Required output type. Possible values are <code>exe</code>, <code>winexe</code>, <code>library</code> or <code>module</code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#clean'>clean</a></li><li><a href='#compile'>compile</a></li><li><a href='#dumpEnv'>dumpEnv</a></li><li><a href='#full'>full</a></li><li><a href='#libs'>libs</a></li><li><a href='#output'>output</a></li><li><a href='#skip'>skip</a></li><li><a href='#srcDirs'>srcDirs</a></li><li><a href='#targetType'>targetType</a></li></ul>
+</div>
+</div>
+</body>
+</html>

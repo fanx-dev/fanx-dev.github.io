@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dom::WeakMap</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>dom</a></li><li><a href='WeakMap.html'>WeakMap</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> dom::WeakMap</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  dom::WeakMap</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-WeakMap.fan.html'>Source</a></p>
+
+<p>WeakMap is a collection of key/value pairs in which the keys are weakly referenced.  The keys must be objects and the values can be arbitrary values.</p>
+<dl>
+<dt id='delete'>
+delete</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> delete(<a href='../sys/Obj.html'>Obj</a> key)</code></p>
+<p class='src'>
+<a href='src-WeakMap.fan.html#line28'>Source</a></p>
+
+<p>Removes any value associated to the key. Returns <code>true</code> if an element has been removed successfully.</p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/Obj.html'>Obj?</a> get(<a href='../sys/Obj.html'>Obj</a> key)</code></p>
+<p class='src'>
+<a href='src-WeakMap.fan.html#line22'>Source</a></p>
+
+<p>Returns the value associated to the key, or <code>null</code> if there is none.</p>
+</dd>
+<dt id='has'>
+has</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> has(<a href='../sys/Obj.html'>Obj</a> key)</code></p>
+<p class='src'>
+<a href='src-WeakMap.fan.html'>Source</a></p>
+
+<p>Return <code>true</code> if key exists in this map.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/This.html'>This</a> set(<a href='../sys/Obj.html'>Obj</a> key, <a href='../sys/Obj.html'>Obj</a> val)</code></p>
+<p class='src'>
+<a href='src-WeakMap.fan.html#line25'>Source</a></p>
+
+<p>Sets value for given key in this map.  Returns this.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-WeakMap.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#delete'>delete</a></li><li><a href='#get'>get</a></li><li><a href='#has'>has</a></li><li><a href='#set'>set</a></li></ul>
+</div>
+</div>
+</body>
+</html>

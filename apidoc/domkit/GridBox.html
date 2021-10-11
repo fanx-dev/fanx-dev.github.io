@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::GridBox</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='GridBox.html'>GridBox</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::GridBox</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    <a href='Box.html'>domkit::Box</a>
+      domkit::GridBox</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-GridBox.fan.html'>Source</a></p>
+
+<p>GridBox lays its children out in a two dimensional grid.</p>
+
+<p>See also: <a href='docDomkit::Layout#gridBox'>docDomkit</a></p>
+<dl>
+<dt id='addRow'>
+addRow</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> addRow(<a href='../sys/List.html'>List&lt;<a href='../dom/Elem.html'>Elem?</a>&gt;</a> cells, <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> colspan := List&lt;>.defVal)</code></p>
+<p class='src'>
+<a href='src-GridBox.fan.html#line72'>Source</a></p>
+
+<p>Add a new row to grid.</p>
+</dd>
+<dt id='cellStyle'>
+cellStyle</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> cellStyle(<a href='../sys/Obj.html'>Obj</a> col, <a href='../sys/Obj.html'>Obj</a> row, <a href='../sys/Str.html'>Str</a> style)</code></p>
+<p class='src'>
+<a href='src-GridBox.fan.html#line45'>Source</a></p>
+
+<p>Set style for cells. Valid values for <code>col</code> and <code>row</code>:</p>
+
+<ul>
+<li>Specific index (0, 1, 2, etc)</li>
+
+<li>Range of indexes (0..4, 7..&lt;8, etc)</li>
+
+<li>"*":    apply to all row or columns</li>
+
+<li>"even": apply only to even row or columns indexes</li>
+
+<li>"odd":  apply only to odd row or column indexes</li>
+</ul>
+</dd>
+<dt id='halign'>
+halign</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Align.html'>Align</a> halign := Align.left</code></p>
+<p class='src'>
+<a href='src-GridBox.fan.html#line28'>Source</a></p>
+
+<p>How grid content is aligned horizontally against left-over space. Valid values are <code>left</code>, <code>right</code>, <code>center</code>, or <code>fill</code>.</p>
+</dd>
+<dt id='insertRowBefore'>
+insertRowBefore</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> insertRowBefore(<a href='../sys/Int.html'>Int</a> index, <a href='../sys/List.html'>List&lt;<a href='../dom/Elem.html'>Elem?</a>&gt;</a> cells, <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> colspan := List&lt;>.defVal)</code></p>
+<p class='src'>
+<a href='src-GridBox.fan.html#line78'>Source</a></p>
+
+<p>Insert row before given index.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-GridBox.fan.html'>Source</a></p>
+</dd>
+<dt id='numRows'>
+numRows</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> numRows()</code></p>
+<p class='src'>
+<a href='src-GridBox.fan.html#line69'>Source</a></p>
+
+<p>The number of rows in this GridBox.</p>
+</dd>
+<dt id='removeAllRows'>
+removeAllRows</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> removeAllRows()</code></p>
+<p class='src'>
+<a href='src-GridBox.fan.html#line127'>Source</a></p>
+
+<p>Remove all rows of cells for this GridBox.</p>
+</dd>
+<dt id='removeRow'>
+removeRow</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> removeRow(<a href='../sys/Int.html'>Int</a> index)</code></p>
+<p class='src'>
+<a href='src-GridBox.fan.html#line119'>Source</a></p>
+
+<p>Remove the row of cells at given index.</p>
+</dd>
+<dt id='rowIndexOf'>
+rowIndexOf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> rowIndexOf(<a href='../dom/Elem.html'>Elem</a> child)</code></p>
+<p class='src'>
+<a href='src-GridBox.fan.html#line109'>Source</a></p>
+
+<p>Return the row index that this child exists under, or <code>null</code> if child was not found in this GridBox.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-GridBox.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addRow'>addRow</a></li><li><a href='#cellStyle'>cellStyle</a></li><li><a href='#halign'>halign</a></li><li><a href='#insertRowBefore'>insertRowBefore</a></li><li><a href='#numRows'>numRows</a></li><li><a href='#removeAllRows'>removeAllRows</a></li><li><a href='#removeRow'>removeRow</a></li><li><a href='#rowIndexOf'>rowIndexOf</a></li></ul>
+</div>
+</div>
+</body>
+</html>

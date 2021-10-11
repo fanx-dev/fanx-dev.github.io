@@ -1,0 +1,511 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CType.html'>CType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::CType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::CType : <a href='CNode.html'>compilerx::CNode</a>, <a href='TypeMixin.html'>compilerx::TypeMixin</a></pre>
+
+<p>CType is a "compiler type" which is class used for representing the Fantom type system in the compiler.  CTypes map to types within the compilation units themsevles as TypeDef and TypeRef or to precompiled types in imported pods via ReflectType or FType.</p>
+<dl>
+<dt id='arrayOf'>
+arrayOf</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> arrayOf()</code></p>
+</dd>
+<dt id='asyncType'>
+asyncType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> asyncType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='base'>
+base</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CType.html'>CType?</a> base()</code></p>
+
+<p>The direct super class of this type (null for Obj).</p>
+</dd>
+<dt id='boolType'>
+boolType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> boolType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='ctors'>
+ctors</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CMethod.html'>CMethod</a>&gt;</a> ctors()</code></p>
+
+<p>List of the all constructors.</p>
+</dd>
+<dt id='defaultParameterized'>
+defaultParameterized</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> defaultParameterized()</code></p>
+
+<p>generic genericArgs is absent</p>
+</dd>
+<dt id='enumType'>
+enumType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> enumType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> t)</code></p>
+
+<p>Equality based on signature.</p>
+</dd>
+<dt id='errType'>
+errType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> errType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='error'>
+error</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> error(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='extName'>
+extName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> extName()</code></p>
+</dd>
+<dt id='facetType'>
+facetType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> facetType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='field'>
+field</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CField.html'>CField?</a> field(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Lookup a field by name (null if method).</p>
+</dd>
+<dt id='fields'>
+fields</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CField.html'>CField</a>&gt;</a> fields()</code></p>
+
+<p>List of the all defined fields (including inherited fields).</p>
+</dd>
+<dt id='fits'>
+fits</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> fits(<a href='CType.html'>CType</a> ty)</code></p>
+
+<p>Does this type implement the specified type.  If true, then this type is assignable to the specified type (although the converse is not necessarily true).  All types (including mixin types) fit sys::Obj.</p>
+</dd>
+<dt id='fitsAny'>
+fitsAny</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> fitsAny(<a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> types)</code></p>
+
+<p>Return if this type fits any of the types in the specified list.</p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> flags()</code></p>
+</dd>
+<dt id='funcArity'>
+funcArity</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> funcArity()</code></p>
+</dd>
+<dt id='funcParams'>
+funcParams</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> funcParams()</code></p>
+</dd>
+<dt id='funcRet'>
+funcRet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType</a> funcRet()</code></p>
+</dd>
+<dt id='funcType'>
+funcType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> funcType(<a href='Loc.html'>Loc</a> loc, <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> params, <a href='CType.html'>CType</a> ret)</code></p>
+</dd>
+<dt id='generic'>
+generic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CTypeDef.html'>CTypeDef?</a> generic()</code></p>
+</dd>
+<dt id='genericArgs'>
+genericArgs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;?</a> genericArgs</code></p>
+</dd>
+<dt id='getChildren'>
+getChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> getChildren(<a href='../sys/List.html'>List&lt;<a href='CNode.html'>CNode</a>&gt;</a> list, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options)</code></p>
+</dd>
+<dt id='hasGenericParameter'>
+hasGenericParameter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasGenericParameter()</code></p>
+
+<p>Return if this type is a generic parameter (such as V or K) in a generic type (List, Map, or Method).  Generic parameters serve as place holders for the parameterization of the generic type. Fantom has a predefined set of generic parameters which are always defined in the sys pod with a one character name.</p>
+</dd>
+<dt id='hasSlot'>
+hasSlot</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasSlot(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return if this type contains a slot by the specified name.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Hash on signature.</p>
+</dd>
+<dt id='inheritances'>
+inheritances</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> inheritances()</code></p>
+</dd>
+<dt id='instanceCtors'>
+instanceCtors</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CMethod.html'>CMethod</a>&gt;</a> instanceCtors()</code></p>
+
+<p>List of the all instance constructors.</p>
+</dd>
+<dt id='intType'>
+intType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> intType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='isExplicitNullable'>
+isExplicitNullable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isExplicitNullable()</code></p>
+</dd>
+<dt id='isFunc'>
+isFunc</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isFunc()</code></p>
+</dd>
+<dt id='isGenericParameter'>
+isGenericParameter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isGenericParameter()</code></p>
+</dd>
+<dt id='isJavaVal'>
+isJavaVal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isJavaVal()</code></p>
+</dd>
+<dt id='isNullable'>
+isNullable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isNullable()</code></p>
+
+<p>Is this is a nullable type (marked with trailing ?)</p>
+</dd>
+<dt id='isParameterized'>
+isParameterized</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isParameterized()</code></p>
+
+<p>A parameterized type is a type which has parameterized a generic type and replaced all the generic parameter types with generic argument types.  The type Str[] is a parameterized type of the generic type List (V is replaced with Str).  A parameterized type always has a signature which is different from the qname.</p>
+</dd>
+<dt id='isResolved'>
+isResolved</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isResolved()</code></p>
+</dd>
+<dt id='isVal'>
+isVal</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isVal()</code></p>
+
+<p>Is this is a value type (Bool, Int, or Float and their nullables)</p>
+</dd>
+<dt id='len'>
+len</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> len := 0</code></p>
+
+<p>end loc is loc.offset + len</p>
+</dd>
+<dt id='listType'>
+listType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> listType(<a href='Loc.html'>Loc</a> loc, <a href='CType.html'>CType</a> elemType)</code></p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Loc.html'>Loc</a> loc</code></p>
+
+<p>location in source file</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Str.html'>Str</a> pod, <a href='../sys/Str.html'>Str</a> name, <a href='Loc.html'>Loc</a> loc := Loc.makeUnknow())</code></p>
+</dd>
+<dt id='makeQname'>
+makeQname</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType</a> makeQname(<a href='../sys/Str.html'>Str</a> sig)</code></p>
+</dd>
+<dt id='makeRef'>
+makeRef</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType</a> makeRef(<a href='Loc.html'>Loc</a> loc, <a href='../sys/Str.html'>Str?</a> pod, <a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='makeResolvedType'>
+makeResolvedType</dt>
+<dd>
+<p class='sig'>
+<code>new makeResolvedType(<a href='CTypeDef.html'>CTypeDef</a> resolvedType, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+</dd>
+<dt id='mapType'>
+mapType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> mapType(<a href='Loc.html'>Loc</a> loc, <a href='CType.html'>CType</a> k, <a href='CType.html'>CType</a> v)</code></p>
+</dd>
+<dt id='method'>
+method</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CMethod.html'>CMethod?</a> method(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Lookup a method by name (null if field).</p>
+</dd>
+<dt id='methods'>
+methods</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CMethod.html'>CMethod</a>&gt;</a> methods()</code></p>
+
+<p>List of the all defined methods (including inherited methods).</p>
+</dd>
+<dt id='mixins'>
+mixins</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> mixins()</code></p>
+
+<p>Return the mixins directly implemented by this type.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='nothingType'>
+nothingType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> nothingType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='objType'>
+objType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> objType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='parameterizeThis'>
+parameterizeThis</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CType.html'>CType</a> parameterizeThis(<a href='CType.html'>CType</a> thisType)</code></p>
+
+<p>If this is a parameterized type which uses <code>This</code>, then replace <code>This</code> with the specified type.</p>
+</dd>
+<dt id='podName'>
+podName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> podName</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> qname()</code></p>
+
+<p>Qualified name such as "sys:Str".</p>
+</dd>
+<dt id='raw'>
+raw</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CType.html'>CType</a> raw()</code></p>
+
+<p>after generic type erasure</p>
+</dd>
+<dt id='resolveTo'>
+resolveTo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> resolveTo(<a href='CTypeDef.html'>CTypeDef</a> typeDef, <a href='../sys/Bool.html'>Bool</a> defaultParameterized := true)</code></p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> signature()</code></p>
+
+<p>This is the full signature of the type.</p>
+</dd>
+<dt id='sized'>
+sized</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> sized</code></p>
+
+<p>for sized primitive type. the Int32's extName is 32</p>
+</dd>
+<dt id='slot'>
+slot</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CSlot.html'>CSlot?</a> slot(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Lookup a slot by name.  If the slot doesn't exist then return null.</p>
+</dd>
+<dt id='slots'>
+slots</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CSlot.html'>CSlot</a>&gt;</a> slots()</code></p>
+
+<p>Map of the all defined slots, both fields and methods (including inherited slots).</p>
+</dd>
+<dt id='strType'>
+strType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> strType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='thisType'>
+thisType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> thisType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+<dt id='toNonNullable'>
+toNonNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CType.html'>CType</a> toNonNullable()</code></p>
+
+<p>Get this type as a non-nullable (if nullable)</p>
+</dd>
+<dt id='toNullable'>
+toNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CType.html'>CType</a> toNullable()</code></p>
+
+<p>Get this type as a nullable type (marked with trailing ?)</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return signature</p>
+</dd>
+<dt id='typeDef'>
+typeDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CTypeDef.html'>CTypeDef</a> typeDef()</code></p>
+</dd>
+<dt id='voidType'>
+voidType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType?</a> voidType(<a href='Loc.html'>Loc</a> loc)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#asyncType'>asyncType</a></li><li><a href='#boolType'>boolType</a></li><li><a href='#enumType'>enumType</a></li><li><a href='#errType'>errType</a></li><li><a href='#error'>error</a></li><li><a href='#facetType'>facetType</a></li><li><a href='#funcType'>funcType</a></li><li><a href='#intType'>intType</a></li><li><a href='#listType'>listType</a></li><li><a href='#make'>make</a></li><li><a href='#makeQname'>makeQname</a></li><li><a href='#makeRef'>makeRef</a></li><li><a href='#makeResolvedType'>makeResolvedType</a></li><li><a href='#mapType'>mapType</a></li><li><a href='#nothingType'>nothingType</a></li><li><a href='#objType'>objType</a></li><li><a href='#strType'>strType</a></li><li><a href='#thisType'>thisType</a></li><li><a href='#voidType'>voidType</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#arrayOf'>arrayOf</a></li><li><a href='#base'>base</a></li><li><a href='#ctors'>ctors</a></li><li><a href='#defaultParameterized'>defaultParameterized</a></li><li><a href='#equals'>equals</a></li><li><a href='#extName'>extName</a></li><li><a href='#field'>field</a></li><li><a href='#fields'>fields</a></li><li><a href='#fits'>fits</a></li><li><a href='#fitsAny'>fitsAny</a></li><li><a href='#flags'>flags</a></li><li><a href='#funcArity'>funcArity</a></li><li><a href='#funcParams'>funcParams</a></li><li><a href='#funcRet'>funcRet</a></li><li><a href='#generic'>generic</a></li><li><a href='#genericArgs'>genericArgs</a></li><li><a href='#getChildren'>getChildren</a></li><li><a href='#hasGenericParameter'>hasGenericParameter</a></li><li><a href='#hasSlot'>hasSlot</a></li><li><a href='#hash'>hash</a></li><li><a href='#inheritances'>inheritances</a></li><li><a href='#instanceCtors'>instanceCtors</a></li><li><a href='#isExplicitNullable'>isExplicitNullable</a></li><li><a href='#isFunc'>isFunc</a></li><li><a href='#isGenericParameter'>isGenericParameter</a></li><li><a href='#isJavaVal'>isJavaVal</a></li><li><a href='#isNullable'>isNullable</a></li><li><a href='#isParameterized'>isParameterized</a></li><li><a href='#isResolved'>isResolved</a></li><li><a href='#isVal'>isVal</a></li><li><a href='#len'>len</a></li><li><a href='#loc'>loc</a></li><li><a href='#method'>method</a></li><li><a href='#methods'>methods</a></li><li><a href='#mixins'>mixins</a></li><li><a href='#name'>name</a></li><li><a href='#parameterizeThis'>parameterizeThis</a></li><li><a href='#podName'>podName</a></li><li><a href='#print'>print</a></li><li><a href='#qname'>qname</a></li><li><a href='#raw'>raw</a></li><li><a href='#resolveTo'>resolveTo</a></li><li><a href='#signature'>signature</a></li><li><a href='#sized'>sized</a></li><li><a href='#slot'>slot</a></li><li><a href='#slots'>slots</a></li><li><a href='#toNonNullable'>toNonNullable</a></li><li><a href='#toNullable'>toNullable</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#typeDef'>typeDef</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SyntaxModel.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>syntax</a></li><li><a href='src-SyntaxModel.fan.html'>SyntaxModel.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   30 Jul 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** SyntaxDoc models a full document as a series of SyntaxLines.</span>
+<span id='line11'>**</span>
+<span id='line12'>class SyntaxDoc</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>  **</span>
+<span id='line16'>  ** Parse an input stream into a document using given rules.</span>
+<span id='line17'>  ** The input stream is guaranteed to be closed.</span>
+<span id='line18'>  **</span>
+<span id='line19'>  static SyntaxDoc parse<b>(</b>SyntaxRules rules, InStream in<b>)</b></span>
+<span id='line20'>  <b>{</b></span>
+<span id='line21'>    try</span>
+<span id='line22'>      return SyntaxParser<b>(</b>rules<b>)</b>.parse<b>(</b>in<b>)</b></span>
+<span id='line23'>    finally</span>
+<span id='line24'>      in.close</span>
+<span id='line25'>  <b>}</b></span>
+<span id='line26'></span>
+<span id='line27'>  ** Internal constructor</span>
+<span id='line28'>  internal new make<b>(</b>SyntaxRules rules<b>)</b></span>
+<span id='line29'>  <b>{</b></span>
+<span id='line30'>    this.rules = rules</span>
+<span id='line31'>  <b>}</b></span>
+<span id='line32'></span>
+<span id='line33'>  ** Rules used to parse this document.</span>
+<span id='line34'>  SyntaxRules rules <b>{</b> private set <b>}</b></span>
+<span id='line35'></span>
+<span id='line36'>  ** Iterate each line of the document.</span>
+<span id='line37'>  Void eachLine<b>(</b>|SyntaxLine| f<b>)</b></span>
+<span id='line38'>  <b>{</b></span>
+<span id='line39'>    for <b>(</b>x := lines; x != null; x = x.next<b>)</b> f<b>(</b>x<b>)</b></span>
+<span id='line40'>  <b>}</b></span>
+<span id='line41'></span>
+<span id='line42'>  internal SyntaxLine? lines</span>
+<span id='line43'><b>}</b></span>
+<span id='line44'></span>
+<span id='line45'>**************************************************************************</span>
+<span id='line46'>** SyntaxLine</span>
+<span id='line47'>**************************************************************************</span>
+<span id='line48'></span>
+<span id='line49'>**</span>
+<span id='line50'>** SyntaxLine models one parsed line of code</span>
+<span id='line51'>**</span>
+<span id='line52'>class SyntaxLine</span>
+<span id='line53'><b>{</b></span>
+<span id='line54'>  ** Internal constructor</span>
+<span id='line55'>  internal new make<b>(</b>Int num<b>)</b> <b>{</b> this.num = num <b>}</b></span>
+<span id='line56'></span>
+<span id='line57'>  ** One based line number</span>
+<span id='line58'>  const Int num</span>
+<span id='line59'></span>
+<span id='line60'>  ** Iterate each segment span of text in the line</span>
+<span id='line61'>  Void eachSegment<b>(</b>|SyntaxType type, Str text| f<b>)</b></span>
+<span id='line62'>  <b>{</b></span>
+<span id='line63'>    for <b>(</b>i:=0; i&lt;segments.size; i+=2<b>)</b></span>
+<span id='line64'>    <b>{</b></span>
+<span id='line65'>      f<b>(</b>segments<b>[</b>i<b>]</b>, segments<b>[</b>i+1<b>]</b><b>)</b></span>
+<span id='line66'>    <b>}</b></span>
+<span id='line67'>  <b>}</b></span>
+<span id='line68'></span>
+<span id='line69'>  internal SyntaxLine? next</span>
+<span id='line70'>  internal Obj<b>[</b><b>]</b> segments := <b>[</b>,<b>]</b>  // SyntaxType/Str pairs</span>
+<span id='line71'><b>}</b></span>
+<span id='line72'></span>
+<span id='line73'>**************************************************************************</span>
+<span id='line74'>** SyntaxType</span>
+<span id='line75'>**************************************************************************</span>
+<span id='line76'></span>
+<span id='line77'>**</span>
+<span id='line78'>** SyntaxType models a syntax specific segment type such keyword or comment</span>
+<span id='line79'>**</span>
+<span id='line80'>enum class SyntaxType</span>
+<span id='line81'><b>{</b></span>
+<span id='line82'>  ** Normal text</span>
+<span id='line83'>  text<b>(</b>null<b>)</b>,</span>
+<span id='line84'></span>
+<span id='line85'>  ** Bracket such as '<b>{</b>', '<b>}</b>', '<b>(</b>', '<b>)</b>', '<b>[</b>', or '<b>]</b>'</span>
+<span id='line86'>  bracket<b>(</b>"b"<b>)</b>,</span>
+<span id='line87'></span>
+<span id='line88'>  ** Language specific keyword</span>
+<span id='line89'>  keyword<b>(</b>"i"<b>)</b>,</span>
+<span id='line90'></span>
+<span id='line91'>  ** String literal</span>
+<span id='line92'>  literal<b>(</b>"em"<b>)</b>,</span>
+<span id='line93'></span>
+<span id='line94'>  ** Comment section either to end of line or multi-line block</span>
+<span id='line95'>  comment<b>(</b>"q"<b>)</b></span>
+<span id='line96'></span>
+<span id='line97'>  private new make<b>(</b>Str? html<b>)</b> <b>{</b> this.html = html <b>}</b></span>
+<span id='line98'></span>
+<span id='line99'>  ** HTML element to use for styled output</span>
+<span id='line100'>  internal const Str? html</span>
+<span id='line101'><b>}</b></span>
+<span id='line102'></span>
+</pre>
+</div>
+</body>
+</html>

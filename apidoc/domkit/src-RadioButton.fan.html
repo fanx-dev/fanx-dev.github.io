@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>RadioButton.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='RadioButton.html'>RadioButton</a></li><li><a href='src-RadioButton.fan.html'>RadioButton.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   10 Jul 2015  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** RadioButton displays a radio button.  RadioButtons should be belong to</span>
+<span id='line13'>** a `ButtonGroup`, where only one button in the group can be selected at</span>
+<span id='line14'>** a time.</span>
+<span id='line15'>**</span>
+<span id='line16'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#radioButton`</span>
+<span id='line17'>**</span>
+<span id='line18'>@Js class RadioButton : Elem</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'>  new make<b>(</b><b>)</b> : super<b>(</b>"input"<b>)</b></span>
+<span id='line21'>  <b>{</b></span>
+<span id='line22'>    this.set<b>(</b>"type", "radio"<b>)</b></span>
+<span id='line23'>    this.style.addClass<b>(</b>"domkit-RadioButton"<b>)</b></span>
+<span id='line24'>    this.onEvent<b>(</b>"change", false<b>)</b> |e| <b>{</b> fireAction<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line25'>  <b>}</b></span>
+<span id='line26'></span>
+<span id='line27'>  ** Wrap this checkbox with content that can also be</span>
+<span id='line28'>  ** clicked to toggle checkbox.</span>
+<span id='line29'>  Elem wrap<b>(</b>Obj content<b>)</b></span>
+<span id='line30'>  <b>{</b></span>
+<span id='line31'>    Elem<b>(</b>"label"<b>)</b></span>
+<span id='line32'>    <b>{</b></span>
+<span id='line33'>      this,</span>
+<span id='line34'>      content is Elem ? content : Label <b>{</b> it.text=content.toStr <b>}</b>,</span>
+<span id='line35'>    <b>}</b></span>
+<span id='line36'>  <b>}</b></span>
+<span id='line37'></span>
+<span id='line38'>  ** Value of checked.</span>
+<span id='line39'>  Bool checked</span>
+<span id='line40'>  <b>{</b></span>
+<span id='line41'>    get <b>{</b> this->checked <b>}</b></span>
+<span id='line42'>    set <b>{</b> this->checked = it <b>}</b></span>
+<span id='line43'>  <b>}</b></span>
+<span id='line44'></span>
+<span id='line45'>  ** Callback when state is toggled.</span>
+<span id='line46'>  Void onAction<b>(</b>|This| f<b>)</b> <b>{</b> this.cbAction = f <b>}</b></span>
+<span id='line47'></span>
+<span id='line48'>  private Func? cbAction := null</span>
+<span id='line49'>  private Void fireAction<b>(</b>Event e<b>)</b></span>
+<span id='line50'>  <b>{</b></span>
+<span id='line51'>    if <b>(</b>group != null<b>)</b></span>
+<span id='line52'>    <b>{</b></span>
+<span id='line53'>      group._event = e</span>
+<span id='line54'>      group.select<b>(</b>this<b>)</b></span>
+<span id='line55'>    <b>}</b></span>
+<span id='line56'>    cbAction?.call<b>(</b>this<b>)</b></span>
+<span id='line57'>  <b>}</b></span>
+<span id='line58'></span>
+<span id='line59'>  // internal use only</span>
+<span id='line60'>  internal ButtonGroup? group := null</span>
+<span id='line61'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

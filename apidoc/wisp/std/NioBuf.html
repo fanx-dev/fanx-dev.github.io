@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::NioBuf</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='NioBuf.html'>NioBuf</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> std::NioBuf</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Buf.html'>std::Buf</a>
+    std::NioBuf</pre>
+<dl>
+<dt id='alloc'>
+alloc</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> alloc(<a href='../sys/Int.html'>Int</a> size)</code></p>
+</dd>
+<dt id='capacity'>
+capacity</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> capacity</code></p>
+</dd>
+<dt id='charset'>
+charset</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Charset.html'>Charset</a> charset</code></p>
+</dd>
+<dt id='close'>
+close</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> close()</code></p>
+</dd>
+<dt id='endian'>
+endian</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Endian.html'>Endian</a> endian</code></p>
+</dd>
+<dt id='fromFile'>
+fromFile</dt>
+<dd>
+<p class='sig'>
+<code>new fromFile(<a href='File.html'>File</a> file, <a href='../sys/Str.html'>Str</a> mode, <a href='../sys/Int.html'>Int</a> pos, <a href='../sys/Int.html'>Int?</a> size)</code></p>
+</dd>
+<dt id='getByte'>
+getByte</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> getByte(<a href='../sys/Int.html'>Int</a> index)</code></p>
+</dd>
+<dt id='getBytes'>
+getBytes</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> getBytes(<a href='../sys/Int.html'>Int</a> pos, <a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;</a> dst, <a href='../sys/Int.html'>Int</a> off, <a href='../sys/Int.html'>Int</a> len)</code></p>
+</dd>
+<dt id='init'>
+init</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> init(<a href='File.html'>File</a> file, <a href='../sys/Str.html'>Str</a> mode, <a href='../sys/Int.html'>Int</a> pos, <a href='../sys/Int.html'>Int?</a> size)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+</dd>
+<dt id='makeMem'>
+makeMem</dt>
+<dd>
+<p class='sig'>
+<code>new makeMem(<a href='../sys/Int.html'>Int</a> size)</code></p>
+</dd>
+<dt id='pos'>
+pos</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> pos</code></p>
+</dd>
+<dt id='setByte'>
+setByte</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> setByte(<a href='../sys/Int.html'>Int</a> index, <a href='../sys/Int.html'>Int</a> byte)</code></p>
+</dd>
+<dt id='setBytes'>
+setBytes</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> setBytes(<a href='../sys/Int.html'>Int</a> pos, <a href='../sys/Array.html'>Array&lt;<a href='../sys/Int8.html'>Int8</a>&gt;</a> src, <a href='../sys/Int.html'>Int</a> off, <a href='../sys/Int.html'>Int</a> len)</code></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> size</code></p>
+</dd>
+<dt id='sync'>
+sync</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/This.html'>This</a> sync()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromFile'>fromFile</a></li><li><a href='#make'>make</a></li><li><a href='#makeMem'>makeMem</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#alloc'>alloc</a></li><li><a href='#capacity'>capacity</a></li><li><a href='#charset'>charset</a></li><li><a href='#close'>close</a></li><li><a href='#endian'>endian</a></li><li><a href='#getByte'>getByte</a></li><li><a href='#getBytes'>getBytes</a></li><li><a href='#init'>init</a></li><li><a href='#pos'>pos</a></li><li><a href='#setByte'>setByte</a></li><li><a href='#setBytes'>setBytes</a></li><li><a href='#size'>size</a></li><li><a href='#sync'>sync</a></li></ul>
+</div>
+</div>
+</body>
+</html>

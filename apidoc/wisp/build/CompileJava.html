@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::CompileJava</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='CompileJava.html'>CompileJava</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> build::CompileJava</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Task.html'>build::Task</a>
+    <a href='JdkTask.html'>build::JdkTask</a>
+      build::CompileJava</pre>
+
+<p>Run the Java compiler to produce a directory of Java classfiles.</p>
+<dl>
+<dt id='cp'>
+cp</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> cp := File[,]</code></p>
+
+<p>Class path - list of jars to compile against, rt.jar is automatically included</p>
+</dd>
+<dt id='cpAddExtJars'>
+cpAddExtJars</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> cpAddExtJars()</code></p>
+
+<p>Add all the jars found in lib/java/ext and lib/java/ext/os to the class path.</p>
+</dd>
+<dt id='cpAddJars'>
+cpAddJars</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> cpAddJars(<a href='../std/File.html'>File</a> dir)</code></p>
+
+<p>Add all the jar files found in the specified directory to the classpath.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='BuildScript.html'>BuildScript</a> script)</code></p>
+
+<p>Construct uninitialized javac task</p>
+</dd>
+<dt id='outDir'>
+outDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File?</a> outDir</code></p>
+
+<p>Output directory</p>
+</dd>
+<dt id='params'>
+params</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> params</code></p>
+
+<p>Extra parameters to pass to javac.  Default is to target 1.5 classfiles.</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run the javac task</p>
+</dd>
+<dt id='src'>
+src</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/File.html'>File</a>&gt;</a> src := File[,]</code></p>
+
+<p>List of source files or directories to compile.  If a directory is specified, then it is recursively searched for all ".java" files.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#cp'>cp</a></li><li><a href='#cpAddExtJars'>cpAddExtJars</a></li><li><a href='#cpAddJars'>cpAddJars</a></li><li><a href='#outDir'>outDir</a></li><li><a href='#params'>params</a></li><li><a href='#run'>run</a></li><li><a href='#src'>src</a></li></ul>
+</div>
+</div>
+</body>
+</html>

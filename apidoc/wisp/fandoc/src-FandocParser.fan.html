@@ -1,0 +1,561 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>FandocParser.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='FandocParser.html'>FandocParser</a></li><li><a href='src-FandocParser.fan.html'>FandocParser.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   17 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** FandocParser translate fandoc text into an in-memory</span>
+<span id='line11'>** representation of the document.</span>
+<span id='line12'>**</span>
+<span id='line13'>** See <b>[</b>pod doc<b>]</b>`pod-doc#api` for usage.</span>
+<span id='line14'>**</span>
+<span id='line15'>@Js</span>
+<span id='line16'>class FandocParser</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'></span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'>// Parser</span>
+<span id='line21'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line22'></span>
+<span id='line23'>  **</span>
+<span id='line24'>  ** Parse the document from the specified in stream into an in-memory</span>
+<span id='line25'>  ** tree structure.  If close is true, the stream is guaranteed to be closed.</span>
+<span id='line26'>  **</span>
+<span id='line27'>  Doc parse<b>(</b>Str filename, InStream in, Bool close := true<b>)</b></span>
+<span id='line28'>  <b>{</b></span>
+<span id='line29'>    this.filename = filename</span>
+<span id='line30'>    this.errs = FandocErr<b>[</b>,<b>]</b></span>
+<span id='line31'>    readLines<b>(</b>in, close<b>)</b></span>
+<span id='line32'></span>
+<span id='line33'>    doc := Doc.make</span>
+<span id='line34'>    try</span>
+<span id='line35'>    <b>{</b></span>
+<span id='line36'>      header<b>(</b>doc<b>)</b></span>
+<span id='line37'>      while <b>(</b>curt !== LineType.eof<b>)</b></span>
+<span id='line38'>        doc.add<b>(</b>topBlock<b>)</b></span>
+<span id='line39'>    <b>}</b></span>
+<span id='line40'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line41'>    <b>{</b></span>
+<span id='line42'>      err<b>(</b>"Invalid line $curLine", curLine, e<b>)</b></span>
+<span id='line43'>      doc.removeAll.add<b>(</b>Pre.make.add<b>(</b>DocText<b>(</b>lines.join<b>(</b>"\n"<b>)</b><b>)</b><b>)</b><b>)</b></span>
+<span id='line44'>    <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>    lines = null</span>
+<span id='line47'>    return doc</span>
+<span id='line48'>  <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  **</span>
+<span id='line51'>  ** Parse a string into its in-memory document tree structure.</span>
+<span id='line52'>  **</span>
+<span id='line53'>  Doc parseStr<b>(</b>Str plaintext<b>)</b></span>
+<span id='line54'>  <b>{</b></span>
+<span id='line55'>    return parse<b>(</b>"str", plaintext.in, true<b>)</b></span>
+<span id='line56'>  <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line59'>// Header</span>
+<span id='line60'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line61'></span>
+<span id='line62'>  private Void header<b>(</b>Doc doc<b>)</b></span>
+<span id='line63'>  <b>{</b></span>
+<span id='line64'>    skipBlankLines</span>
+<span id='line65'>    if <b>(</b>!parseHeader<b>)</b> return</span>
+<span id='line66'>    while <b>(</b>curt !== LineType.eof &amp;&amp; cur.startsWith<b>(</b>"**"<b>)</b><b>)</b></span>
+<span id='line67'>    <b>{</b></span>
+<span id='line68'>      colon := cur.index<b>(</b>":"<b>)</b></span>
+<span id='line69'>      if <b>(</b>colon != null<b>)</b></span>
+<span id='line70'>      <b>{</b></span>
+<span id='line71'>        key := cur<b>[</b>2..&lt;colon<b>]</b>.trim</span>
+<span id='line72'>        val := cur<b>[</b>colon+1..-1<b>]</b>.trim</span>
+<span id='line73'>        doc.meta<b>[</b>key<b>]</b> = val</span>
+<span id='line74'>      <b>}</b></span>
+<span id='line75'>      else</span>
+<span id='line76'>      <b>{</b></span>
+<span id='line77'>        if <b>(</b>!cur.startsWith<b>(</b>"****"<b>)</b><b>)</b> break</span>
+<span id='line78'>      <b>}</b></span>
+<span id='line79'>      consume</span>
+<span id='line80'>    <b>}</b></span>
+<span id='line81'>    skipBlankLines</span>
+<span id='line82'>  <b>}</b></span>
+<span id='line83'></span>
+<span id='line84'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line85'>// Block</span>
+<span id='line86'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line87'></span>
+<span id='line88'>  private DocElem topBlock<b>(</b><b>)</b></span>
+<span id='line89'>  <b>{</b></span>
+<span id='line90'>    switch <b>(</b>peekt<b>)</b></span>
+<span id='line91'>    <b>{</b></span>
+<span id='line92'>      case LineType.h1:</span>
+<span id='line93'>      case LineType.h2:</span>
+<span id='line94'>      case LineType.h3:</span>
+<span id='line95'>      case LineType.h4:</span>
+<span id='line96'>        return heading</span>
+<span id='line97'>    <b>}</b></span>
+<span id='line98'></span>
+<span id='line99'>    return block<b>(</b>0<b>)</b></span>
+<span id='line100'>  <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>  private DocElem heading<b>(</b><b>)</b></span>
+<span id='line103'>  <b>{</b></span>
+<span id='line104'>    level := peekt.headingLevel</span>
+<span id='line105'>    h := Heading<b>(</b>level<b>)</b></span>
+<span id='line106'>    curStart = 0</span>
+<span id='line107'>    formattedText<b>(</b>h<b>)</b></span>
+<span id='line108'>    consume</span>
+<span id='line109'>    skipBlankLines</span>
+<span id='line110'>    title := h.children.first as DocText</span>
+<span id='line111'>    if <b>(</b>title != null<b>)</b></span>
+<span id='line112'>      title.str = title.str.trim</span>
+<span id='line113'>    return h</span>
+<span id='line114'>  <b>}</b></span>
+<span id='line115'></span>
+<span id='line116'>  private DocElem block<b>(</b>Int indent<b>)</b></span>
+<span id='line117'>  <b>{</b></span>
+<span id='line118'>    switch <b>(</b>curt<b>)</b></span>
+<span id='line119'>    <b>{</b></span>
+<span id='line120'>      case LineType.ol:</span>
+<span id='line121'>        return ol</span>
+<span id='line122'>      case LineType.ul:</span>
+<span id='line123'>        return ul</span>
+<span id='line124'>      case LineType.blockquote:</span>
+<span id='line125'>        return blockquote</span>
+<span id='line126'>      case LineType.preStart:</span>
+<span id='line127'>        return preExplicit</span>
+<span id='line128'>      case LineType.hr:</span>
+<span id='line129'>        return hr</span>
+<span id='line130'>      case LineType.normal:</span>
+<span id='line131'>        if <b>(</b>curIndent >= indent+2<b>)</b></span>
+<span id='line132'>          return pre</span>
+<span id='line133'>        else</span>
+<span id='line134'>          return para</span>
+<span id='line135'>      default:</span>
+<span id='line136'>        throw Err<b>(</b>curt.toStr<b>)</b></span>
+<span id='line137'>    <b>}</b></span>
+<span id='line138'>  <b>}</b></span>
+<span id='line139'></span>
+<span id='line140'>  private DocElem para<b>(</b><b>)</b></span>
+<span id='line141'>  <b>{</b></span>
+<span id='line142'>    para := Para.make</span>
+<span id='line143'></span>
+<span id='line144'>    // if the first word is all capitals followed</span>
+<span id='line145'>    // by a colon then it is a admonition such as NOTE:</span>
+<span id='line146'>    first := cur.trim.split.first</span>
+<span id='line147'>    if <b>(</b>first<b>[</b>-1<b>]</b> == ':'<b>)</b></span>
+<span id='line148'>    <b>{</b></span>
+<span id='line149'>      first = first<b>[</b>0..-2<b>]</b></span>
+<span id='line150'>      if <b>(</b>first.all |Int ch->Bool| <b>{</b> return ch.isUpper <b>}</b><b>)</b></span>
+<span id='line151'>      <b>{</b></span>
+<span id='line152'>        para.admonition = first</span>
+<span id='line153'>        curStart = cur.index<b>(</b>":"<b>)</b> + 1</span>
+<span id='line154'>      <b>}</b></span>
+<span id='line155'>    <b>}</b></span>
+<span id='line156'></span>
+<span id='line157'>    return formattedText<b>(</b>para<b>)</b></span>
+<span id='line158'>  <b>}</b></span>
+<span id='line159'></span>
+<span id='line160'>  private DocElem blockquote<b>(</b><b>)</b></span>
+<span id='line161'>  <b>{</b></span>
+<span id='line162'>    // block quote wraps paragraph</span>
+<span id='line163'>    return BlockQuote.make.add<b>(</b>formattedText<b>(</b>Para.make<b>)</b><b>)</b></span>
+<span id='line164'>  <b>}</b></span>
+<span id='line165'></span>
+<span id='line166'>  private DocElem preExplicit<b>(</b><b>)</b></span>
+<span id='line167'>  <b>{</b></span>
+<span id='line168'>    // skip pre></span>
+<span id='line169'>    consume</span>
+<span id='line170'></span>
+<span id='line171'>    // skip any blank lines</span>
+<span id='line172'>    while <b>(</b>curt === LineType.blank<b>)</b> consume</span>
+<span id='line173'></span>
+<span id='line174'>    // read preformatted lines, keep track of left most indentation</span>
+<span id='line175'>    lines := Str<b>[</b>,<b>]</b></span>
+<span id='line176'>    indent := Int.maxVal</span>
+<span id='line177'>    while <b>(</b>curt !== LineType.preEnd &amp;&amp; curt !== LineType.eof<b>)</b></span>
+<span id='line178'>    <b>{</b></span>
+<span id='line179'>      // use local indent logic since curIndent has special behavior</span>
+<span id='line180'>      if <b>(</b>curt != LineType.blank<b>)</b></span>
+<span id='line181'>      <b>{</b></span>
+<span id='line182'>        i := 0; while <b>(</b>cur<b>[</b>i<b>]</b> == ' '<b>)</b> i++;</span>
+<span id='line183'>        indent = indent.min<b>(</b>i<b>)</b></span>
+<span id='line184'>      <b>}</b></span>
+<span id='line185'>      lines.add<b>(</b>cur<b>)</b></span>
+<span id='line186'>      consume</span>
+<span id='line187'>    <b>}</b></span>
+<span id='line188'>    consume</span>
+<span id='line189'>    while <b>(</b>curt === LineType.blank<b>)</b> consume</span>
+<span id='line190'></span>
+<span id='line191'>    // align against left most indentation</span>
+<span id='line192'>    buf := StrBuf<b>(</b><b>)</b></span>
+<span id='line193'>    lines.each |line|</span>
+<span id='line194'>    <b>{</b></span>
+<span id='line195'>      if <b>(</b>line.size > indent<b>)</b> buf.add<b>(</b>line<b>[</b>indent..-1<b>]</b><b>)</b></span>
+<span id='line196'>      buf.addChar<b>(</b>'\n'<b>)</b></span>
+<span id='line197'>    <b>}</b></span>
+<span id='line198'></span>
+<span id='line199'>    pre := Pre.make</span>
+<span id='line200'>    pre.add<b>(</b>DocText<b>(</b>buf.toStr<b>)</b><b>)</b></span>
+<span id='line201'>    return pre</span>
+<span id='line202'>  <b>}</b></span>
+<span id='line203'></span>
+<span id='line204'>  private DocElem pre<b>(</b><b>)</b></span>
+<span id='line205'>  <b>{</b></span>
+<span id='line206'>    // first line defines left margin</span>
+<span id='line207'>    indent := curIndent</span>
+<span id='line208'>    buf := StrBuf<b>(</b>256<b>)</b></span>
+<span id='line209'>    buf.add<b>(</b>cur<b>[</b>indent..-1<b>]</b><b>)</b></span>
+<span id='line210'>    consume</span>
+<span id='line211'></span>
+<span id='line212'>    while <b>(</b>true<b>)</b></span>
+<span id='line213'>    <b>{</b></span>
+<span id='line214'>      // read in preformatted lines of code</span>
+<span id='line215'>      while <b>(</b>curt === LineType.normal &amp;&amp; curIndent >= indent<b>)</b></span>
+<span id='line216'>      <b>{</b></span>
+<span id='line217'>        buf.add<b>(</b>"\n"<b>)</b>.add<b>(</b>cur<b>[</b>indent..-1<b>]</b><b>)</b></span>
+<span id='line218'>        consume</span>
+<span id='line219'>      <b>}</b></span>
+<span id='line220'></span>
+<span id='line221'>      // skip blanks but keep track of count</span>
+<span id='line222'>      blanks := 0</span>
+<span id='line223'>      while <b>(</b>curt === LineType.blank<b>)</b> <b>{</b> consume; blanks++ <b>}</b></span>
+<span id='line224'></span>
+<span id='line225'>      // if more code, then add blank lines and continue</span>
+<span id='line226'>      if <b>(</b>curt === LineType.normal &amp;&amp; curIndent >= indent<b>)</b></span>
+<span id='line227'>        blanks.times <b>{</b> buf.add<b>(</b>"\n"<b>)</b> <b>}</b></span>
+<span id='line228'>      else</span>
+<span id='line229'>        break</span>
+<span id='line230'>    <b>}</b></span>
+<span id='line231'></span>
+<span id='line232'>    pre := Pre.make</span>
+<span id='line233'>    pre.add<b>(</b>DocText<b>(</b>buf.toStr<b>)</b><b>)</b></span>
+<span id='line234'>    return pre</span>
+<span id='line235'>  <b>}</b></span>
+<span id='line236'></span>
+<span id='line237'>  private DocElem hr<b>(</b><b>)</b></span>
+<span id='line238'>  <b>{</b></span>
+<span id='line239'>    consume</span>
+<span id='line240'>    skipBlankLines</span>
+<span id='line241'>    return Hr.make</span>
+<span id='line242'>  <b>}</b></span>
+<span id='line243'></span>
+<span id='line244'>  private DocElem ol<b>(</b><b>)</b></span>
+<span id='line245'>  <b>{</b></span>
+<span id='line246'>    style := OrderedListStyle.fromFirstChar<b>(</b>cur.trim<b>[</b>0<b>]</b><b>)</b></span>
+<span id='line247'>    return listItems<b>(</b>OrderedList<b>(</b>style<b>)</b>, curt, curIndent<b>)</b></span>
+<span id='line248'>  <b>}</b></span>
+<span id='line249'></span>
+<span id='line250'>  private DocElem ul<b>(</b><b>)</b></span>
+<span id='line251'>  <b>{</b></span>
+<span id='line252'>    return listItems<b>(</b>UnorderedList.make, curt, curIndent<b>)</b></span>
+<span id='line253'>  <b>}</b></span>
+<span id='line254'></span>
+<span id='line255'>  private DocElem listItems<b>(</b>DocElem list, LineType listType, Int listIndent<b>)</b></span>
+<span id='line256'>  <b>{</b></span>
+<span id='line257'>    while <b>(</b>true<b>)</b></span>
+<span id='line258'>    <b>{</b></span>
+<span id='line259'>      // next item in my own list</span>
+<span id='line260'>      if <b>(</b>curt === listType &amp;&amp; curIndent == listIndent<b>)</b></span>
+<span id='line261'>      <b>{</b></span>
+<span id='line262'>        list.add<b>(</b>formattedText<b>(</b>ListItem.make<b>)</b><b>)</b></span>
+<span id='line263'>      <b>}</b></span>
+<span id='line264'></span>
+<span id='line265'>      // otherwise if indent is same or greater, then</span>
+<span id='line266'>      // this is a continuation of the my last node</span>
+<span id='line267'>      else if <b>(</b>curIndent >= listIndent<b>)</b></span>
+<span id='line268'>      <b>{</b></span>
+<span id='line269'>        <b>(</b><b>(</b>DocElem<b>)</b>list.children.last<b>)</b>.add<b>(</b>block<b>(</b>listIndent<b>)</b><b>)</b></span>
+<span id='line270'>      <b>}</b></span>
+<span id='line271'></span>
+<span id='line272'>      // end of list</span>
+<span id='line273'>      else</span>
+<span id='line274'>      <b>{</b></span>
+<span id='line275'>        break</span>
+<span id='line276'>      <b>}</b></span>
+<span id='line277'>    <b>}</b></span>
+<span id='line278'>    return list</span>
+<span id='line279'>  <b>}</b></span>
+<span id='line280'></span>
+<span id='line281'>  private DocElem formattedText<b>(</b>DocElem elem<b>)</b></span>
+<span id='line282'>  <b>{</b></span>
+<span id='line283'>    startLineNum := curLine</span>
+<span id='line284'>    startIndent  := curStart</span>
+<span id='line285'>    isBlockQuote := curt === LineType.blockquote</span>
+<span id='line286'></span>
+<span id='line287'>    buf := StrBuf<b>(</b>256<b>)</b></span>
+<span id='line288'>    buf.add<b>(</b>cur<b>[</b>curStart..-1<b>]</b>.trim<b>)</b></span>
+<span id='line289'>    consume</span>
+<span id='line290'></span>
+<span id='line291'>    while <b>(</b>curStart &lt;= startIndent &amp;&amp;</span>
+<span id='line292'>           <b>(</b>curt === LineType.normal || <b>(</b>isBlockQuote &amp;&amp; curt == LineType.blockquote<b>)</b><b>)</b><b>)</b></span>
+<span id='line293'>    <b>{</b></span>
+<span id='line294'>      buf.add<b>(</b>"\n"<b>)</b>.add<b>(</b>cur<b>[</b>curStart..-1<b>]</b>.trim<b>)</b></span>
+<span id='line295'>      consume</span>
+<span id='line296'>    <b>}</b></span>
+<span id='line297'>    endLineNum := this.lineIndex - 2</span>
+<span id='line298'>    skipBlankLines</span>
+<span id='line299'></span>
+<span id='line300'>    oldNumChildren := elem.children.size</span>
+<span id='line301'>    try</span>
+<span id='line302'>    <b>{</b></span>
+<span id='line303'>      InlineParser<b>(</b>this, buf, startLineNum<b>)</b>.parse<b>(</b>elem<b>)</b></span>
+<span id='line304'>    <b>}</b></span>
+<span id='line305'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line306'>    <b>{</b></span>
+<span id='line307'>      if <b>(</b>e is FandocErr<b>)</b></span>
+<span id='line308'>        errReport<b>(</b><b>(</b>FandocErr<b>)</b>e<b>)</b></span>
+<span id='line309'>      else</span>
+<span id='line310'>        err<b>(</b>"Internal error: $e", startLineNum, e<b>)</b></span>
+<span id='line311'></span>
+<span id='line312'>      elem.children<b>[</b>oldNumChildren..-1<b>]</b>.dup.each |badChild| <b>{</b> elem.remove<b>(</b>badChild<b>)</b> <b>}</b></span>
+<span id='line313'>      elem.add<b>(</b>DocText<b>(</b>buf.toStr.replace<b>(</b>"\n", " "<b>)</b><b>)</b><b>)</b></span>
+<span id='line314'>    <b>}</b></span>
+<span id='line315'></span>
+<span id='line316'>    return elem</span>
+<span id='line317'>  <b>}</b></span>
+<span id='line318'></span>
+<span id='line319'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line320'>// IO</span>
+<span id='line321'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line322'></span>
+<span id='line323'>  **</span>
+<span id='line324'>  ** Read all the lines into memory and close stream if required.</span>
+<span id='line325'>  **</span>
+<span id='line326'>  private Void readLines<b>(</b>InStream in, Bool close<b>)</b></span>
+<span id='line327'>  <b>{</b></span>
+<span id='line328'>    try</span>
+<span id='line329'>    <b>{</b></span>
+<span id='line330'>      lines = in.readAllLines</span>
+<span id='line331'>      numLines = lines.size</span>
+<span id='line332'>      lineIndex = curLine = 0</span>
+<span id='line333'>      consume</span>
+<span id='line334'>      consume</span>
+<span id='line335'>      curLine = 1</span>
+<span id='line336'>    <b>}</b></span>
+<span id='line337'>    finally</span>
+<span id='line338'>    <b>{</b></span>
+<span id='line339'>      if <b>(</b>close<b>)</b> in.close</span>
+<span id='line340'>    <b>}</b></span>
+<span id='line341'>  <b>}</b></span>
+<span id='line342'></span>
+<span id='line343'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line344'>// Utils</span>
+<span id='line345'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line346'></span>
+<span id='line347'>  **</span>
+<span id='line348'>  ** Log an error</span>
+<span id='line349'>  **</span>
+<span id='line350'>  private Void err<b>(</b>Str msg, Int line, Err? cause := null<b>)</b></span>
+<span id='line351'>  <b>{</b></span>
+<span id='line352'>    errReport<b>(</b>FandocErr<b>(</b>msg, filename, line, cause<b>)</b><b>)</b></span>
+<span id='line353'>  <b>}</b></span>
+<span id='line354'></span>
+<span id='line355'>  **</span>
+<span id='line356'>  ** Log an error</span>
+<span id='line357'>  **</span>
+<span id='line358'>  private Void errReport<b>(</b>FandocErr err<b>)</b></span>
+<span id='line359'>  <b>{</b></span>
+<span id='line360'>    errs.add<b>(</b>err<b>)</b></span>
+<span id='line361'>    if <b>(</b>!silent<b>)</b> echo<b>(</b>"ERROR: $err"<b>)</b></span>
+<span id='line362'>  <b>}</b></span>
+<span id='line363'></span>
+<span id='line364'>  **</span>
+<span id='line365'>  ** Skip any blank lines</span>
+<span id='line366'>  **</span>
+<span id='line367'>  private Void skipBlankLines<b>(</b><b>)</b></span>
+<span id='line368'>  <b>{</b></span>
+<span id='line369'>    while <b>(</b>curt === LineType.blank<b>)</b> consume</span>
+<span id='line370'>  <b>}</b></span>
+<span id='line371'></span>
+<span id='line372'>  **</span>
+<span id='line373'>  ** Return if line starting at index i is an ordered</span>
+<span id='line374'>  ** list item:</span>
+<span id='line375'>  **   number* "." sp  <b>(</b>digits<b>)</b></span>
+<span id='line376'>  **   letter  "." sp  <b>(</b>a-z | A-Z single letter only<b>)</b></span>
+<span id='line377'>  **   roman*  "." sp  <b>(</b>ivx | IVX combos<b>)</b></span>
+<span id='line378'>  **</span>
+<span id='line379'>  private static Bool isOrderedListMark<b>(</b>Str line, Int i<b>)</b></span>
+<span id='line380'>  <b>{</b></span>
+<span id='line381'>    // check if first char is alpha numeric</span>
+<span id='line382'>    if <b>(</b>!line<b>[</b>i<b>]</b>.isAlphaNum<b>)</b> return false</span>
+<span id='line383'></span>
+<span id='line384'>    // find dot space</span>
+<span id='line385'>    dot := line.index<b>(</b>". ", i<b>)</b></span>
+<span id='line386'>    if <b>(</b>dot == null<b>)</b> return false</span>
+<span id='line387'></span>
+<span id='line388'>    mark := line<b>[</b>i..&lt;dot<b>]</b></span>
+<span id='line389'>    if <b>(</b>mark<b>[</b>0<b>]</b>.isDigit<b>)</b></span>
+<span id='line390'>    <b>{</b></span>
+<span id='line391'>      return mark.all |Int ch->Bool| <b>{</b> return ch.isDigit <b>}</b></span>
+<span id='line392'>    <b>}</b></span>
+<span id='line393'>    else</span>
+<span id='line394'>    <b>{</b></span>
+<span id='line395'>      return mark.all |Int ch, Int index->Bool|</span>
+<span id='line396'>      <b>{</b></span>
+<span id='line397'>        switch <b>(</b>ch<b>)</b></span>
+<span id='line398'>        <b>{</b></span>
+<span id='line399'>          case 'I':</span>
+<span id='line400'>          case 'V':</span>
+<span id='line401'>          case 'X':</span>
+<span id='line402'>          case 'i':</span>
+<span id='line403'>          case 'v':</span>
+<span id='line404'>          case 'x':</span>
+<span id='line405'>            return true</span>
+<span id='line406'>          default:</span>
+<span id='line407'>            return index == 0</span>
+<span id='line408'>        <b>}</b></span>
+<span id='line409'>      <b>}</b></span>
+<span id='line410'>    <b>}</b></span>
+<span id='line411'>  <b>}</b></span>
+<span id='line412'></span>
+<span id='line413'>  **</span>
+<span id='line414'>  ** Consume the current line and advance to the next line</span>
+<span id='line415'>  **</span>
+<span id='line416'>  private Void consume<b>(</b><b>)</b></span>
+<span id='line417'>  <b>{</b></span>
+<span id='line418'>    // advance cur to peek</span>
+<span id='line419'>    cur       = peek</span>
+<span id='line420'>    curt      = peekt</span>
+<span id='line421'>    curIndent = peekIndent</span>
+<span id='line422'>    curStart  = peekStart</span>
+<span id='line423'>    curNotBlank := curt != LineType.blank</span>
+<span id='line424'>    curLine++</span>
+<span id='line425'></span>
+<span id='line426'>    // update peek, peekIndent, and peekType</span>
+<span id='line427'>    peek = <b>(</b>lineIndex &lt; numLines<b>)</b> ? lines<b>[</b>lineIndex++<b>]</b> : null</span>
+<span id='line428'>    peekIndent = peekStart = 0</span>
+<span id='line429'>    if <b>(</b>peek == null<b>)</b>                  peekt = LineType.eof</span>
+<span id='line430'>    else if <b>(</b>peek.isSpace<b>)</b>             peekt = LineType.blank</span>
+<span id='line431'>    else if <b>(</b>peek.startsWith<b>(</b>"pre>"<b>)</b><b>)</b>  peekt = LineType.preStart</span>
+<span id='line432'>    else if <b>(</b>peek.startsWith<b>(</b>"&lt;pre"<b>)</b><b>)</b>  peekt = LineType.preEnd</span>
+<span id='line433'>    else if <b>(</b>peek.startsWith<b>(</b>"###"<b>)</b> &amp;&amp; curNotBlank<b>)</b>  peekt = LineType.h1</span>
+<span id='line434'>    else if <b>(</b>peek.startsWith<b>(</b>"***"<b>)</b> &amp;&amp; curNotBlank<b>)</b>  peekt = LineType.h2</span>
+<span id='line435'>    else if <b>(</b>peek.startsWith<b>(</b>"==="<b>)</b> &amp;&amp; curNotBlank<b>)</b>  peekt = LineType.h3</span>
+<span id='line436'>    else if <b>(</b>peek.startsWith<b>(</b>"---"<b>)</b> &amp;&amp; curNotBlank<b>)</b>  peekt = LineType.h4</span>
+<span id='line437'>    else if <b>(</b>peek.startsWith<b>(</b>"---"<b>)</b> &amp;&amp; curt == LineType.blank<b>)</b> peekt = LineType.hr</span>
+<span id='line438'>    else</span>
+<span id='line439'>    <b>{</b></span>
+<span id='line440'>      peekt = LineType.normal</span>
+<span id='line441'>      while <b>(</b>peek<b>[</b>peekIndent<b>]</b>.isSpace<b>)</b> peekIndent++</span>
+<span id='line442'>      if <b>(</b>peekIndent+2 &lt; peek.size<b>)</b></span>
+<span id='line443'>      <b>{</b></span>
+<span id='line444'>        if <b>(</b>peek<b>[</b>peekIndent<b>]</b> == '-' &amp;&amp; peek<b>[</b>peekIndent+1<b>]</b>.isSpace<b>)</b></span>
+<span id='line445'>        <b>{</b></span>
+<span id='line446'>          peekt = LineType.ul</span>
+<span id='line447'>          peekIndent += 2</span>
+<span id='line448'>          peekStart = peekIndent</span>
+<span id='line449'>        <b>}</b></span>
+<span id='line450'>        if <b>(</b>isOrderedListMark<b>(</b>peek, peekIndent<b>)</b><b>)</b></span>
+<span id='line451'>        <b>{</b></span>
+<span id='line452'>          peekt = LineType.ol</span>
+<span id='line453'>          peekIndent += 2</span>
+<span id='line454'>          peekStart = peek.index<b>(</b>"."<b>)</b> + 2</span>
+<span id='line455'>        <b>}</b></span>
+<span id='line456'>        else if <b>(</b>peek<b>[</b>peekIndent<b>]</b> == '>' &amp;&amp; peek<b>[</b>peekIndent+1<b>]</b>.isSpace<b>)</b></span>
+<span id='line457'>        <b>{</b></span>
+<span id='line458'>          peekt = LineType.blockquote</span>
+<span id='line459'>          peekIndent += 2</span>
+<span id='line460'>          peekStart = peekIndent</span>
+<span id='line461'>        <b>}</b></span>
+<span id='line462'>        else</span>
+<span id='line463'>        <b>{</b></span>
+<span id='line464'>          peekStart = peekIndent</span>
+<span id='line465'>        <b>}</b></span>
+<span id='line466'>      <b>}</b></span>
+<span id='line467'>    <b>}</b></span>
+<span id='line468'>  <b>}</b></span>
+<span id='line469'></span>
+<span id='line470'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line471'>// Main</span>
+<span id='line472'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line473'></span>
+<span id='line474'>  static Void main<b>(</b>Str<b>[</b><b>]</b> args := Env.cur.args<b>)</b></span>
+<span id='line475'>  <b>{</b></span>
+<span id='line476'>    doc := make.parse<b>(</b>args<b>[</b>0<b>]</b>, File<b>(</b>args<b>[</b>0<b>]</b>.toUri<b>)</b>.in<b>)</b></span>
+<span id='line477'>    doc.dump</span>
+<span id='line478'>  <b>}</b></span>
+<span id='line479'></span>
+<span id='line480'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line481'>// Fields</span>
+<span id='line482'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line483'></span>
+<span id='line484'>  ** If not silent, then errors are dumped to stdout</span>
+<span id='line485'>  Bool silent := false</span>
+<span id='line486'></span>
+<span id='line487'>  ** List of errors detected</span>
+<span id='line488'>  FandocErr<b>[</b><b>]</b> errs := FandocErr<b>[</b>,<b>]</b></span>
+<span id='line489'></span>
+<span id='line490'>  ** If true, then leading lines starting with '**' are parsed as header</span>
+<span id='line491'>  Bool parseHeader := true</span>
+<span id='line492'></span>
+<span id='line493'>  internal Str filename := "" // filename for reporting errors</span>
+<span id='line494'>  private Str<b>[</b><b>]</b>? lines        // lines of document</span>
+<span id='line495'>  private Int numLines        // lines.size</span>
+<span id='line496'>  private Int lineIndex       // current index in lines</span>
+<span id='line497'>  private Str? cur            // current line</span>
+<span id='line498'>  private Str? peek           // next line</span>
+<span id='line499'>  private LineType? curt      // current line type</span>
+<span id='line500'>  private LineType? peekt     // peek line type</span>
+<span id='line501'>  private Int curLine         // one based line number of cur</span>
+<span id='line502'>  private Int curIndent       // how many spaces is cur indented</span>
+<span id='line503'>  private Int peekIndent      // how many spaces is peek indented</span>
+<span id='line504'>  private Int curStart        // starting index of cur text</span>
+<span id='line505'>  private Int peekStart       // starting index of cur text</span>
+<span id='line506'><b>}</b></span>
+<span id='line507'></span>
+<span id='line508'>**************************************************************************</span>
+<span id='line509'>** LineType</span>
+<span id='line510'>**************************************************************************</span>
+<span id='line511'></span>
+<span id='line512'>@Js</span>
+<span id='line513'>internal enum class LineType</span>
+<span id='line514'><b>{</b></span>
+<span id='line515'>  eof,         // end of file</span>
+<span id='line516'>  blank,       // space*</span>
+<span id='line517'>  ul,          // space* "-" space*</span>
+<span id='line518'>  ol,          // space* <b>(</b>number|letter<b>)</b>* "." space*</span>
+<span id='line519'>  h1,          // ###</span>
+<span id='line520'>  h2,          // ***</span>
+<span id='line521'>  h3,          // ===</span>
+<span id='line522'>  h4,          // ---</span>
+<span id='line523'>  blockquote,  // ></span>
+<span id='line524'>  preStart,    // pre></span>
+<span id='line525'>  preEnd,      // &lt;pre</span>
+<span id='line526'>  hr,          // ---  <b>(</b>with a leading blank line<b>)</b></span>
+<span id='line527'>  normal       // anything else</span>
+<span id='line528'></span>
+<span id='line529'>  Bool isList<b>(</b><b>)</b> <b>{</b> return this === ul <b>}</b></span>
+<span id='line530'></span>
+<span id='line531'>  Int headingLevel<b>(</b><b>)</b></span>
+<span id='line532'>  <b>{</b></span>
+<span id='line533'>    switch <b>(</b>this<b>)</b></span>
+<span id='line534'>    <b>{</b></span>
+<span id='line535'>      case h1: return 1</span>
+<span id='line536'>      case h2: return 2</span>
+<span id='line537'>      case h3: return 3</span>
+<span id='line538'>      case h4: return 4</span>
+<span id='line539'>      default: throw Err<b>(</b>toStr<b>)</b></span>
+<span id='line540'>    <b>}</b></span>
+<span id='line541'>  <b>}</b></span>
+<span id='line542'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

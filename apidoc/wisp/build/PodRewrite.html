@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build::PodRewrite</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>build</a></li><li><a href='PodRewrite.html'>PodRewrite</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> build::PodRewrite</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Task.html'>build::Task</a>
+    build::PodRewrite</pre>
+
+<p>PodRewrite is used to update the contents of one or more pod files. It can be used to strip javascript, source code, and docs.  However it cannot strip test code - that requires a recompile from source with the <code>stripTest</code> flag.</p>
+<dl>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='BuildScript.html'>BuildScript</a> script)</code></p>
+
+<p>Construct uninitialized task</p>
+</dd>
+<dt id='outDir'>
+outDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File?</a> outDir</code></p>
+
+<p>Required output directory to place rewritten pods</p>
+</dd>
+<dt id='pods'>
+pods</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> pods := Obj[,]</code></p>
+
+<p>List of pod files or pod names to rewrite</p>
+</dd>
+<dt id='rewrite'>
+rewrite</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> rewrite(<a href='../std/File.html'>File</a> podFile, <a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+
+<p>Rewrite the given pod file with the configured options</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run the task</p>
+</dd>
+<dt id='stripDocs'>
+stripDocs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> stripDocs</code></p>
+
+<p>Remove pod's documentation: pod.fandoc and all api docs</p>
+</dd>
+<dt id='stripJs'>
+stripJs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> stripJs</code></p>
+
+<p>Remove pod's JavaScript files: "pod.js" and "pod.js.map"</p>
+</dd>
+<dt id='stripSrc'>
+stripSrc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> stripSrc</code></p>
+
+<p>Remove pod's source code if bundled into the pod zip</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#outDir'>outDir</a></li><li><a href='#pods'>pods</a></li><li><a href='#rewrite'>rewrite</a></li><li><a href='#run'>run</a></li><li><a href='#stripDocs'>stripDocs</a></li><li><a href='#stripJs'>stripJs</a></li><li><a href='#stripSrc'>stripSrc</a></li></ul>
+</div>
+</div>
+</body>
+</html>

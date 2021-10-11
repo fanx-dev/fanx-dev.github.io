@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Method</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Method.html'>Method</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>rtconst virtual class</span> std::Method</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Slot.html'>std::Slot</a>
+    std::Method</pre>
+
+<p>Method models a function with a formal parameter list and return value (or Void if no return).</p>
+<dl>
+<dt id='call'>
+call</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> call(<a href='../sys/Obj.html'>Obj?</a> a := null, <a href='../sys/Obj.html'>Obj?</a> b := null, <a href='../sys/Obj.html'>Obj?</a> c := null, <a href='../sys/Obj.html'>Obj?</a> d := null, <a href='../sys/Obj.html'>Obj?</a> e := null, <a href='../sys/Obj.html'>Obj?</a> f := null, <a href='../sys/Obj.html'>Obj?</a> g := null, <a href='../sys/Obj.html'>Obj?</a> h := null)</code></p>
+
+<p>Convenience for <code>func.call</code></p>
+</dd>
+<dt id='callList'>
+callList</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> callList(<a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> args)</code></p>
+
+<p>Convenience for <code>func.callList</code></p>
+</dd>
+<dt id='callOn'>
+callOn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> callOn(<a href='../sys/Obj.html'>Obj?</a> target, <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj?</a>&gt;?</a> args)</code></p>
+
+<p>Convenience for <code>func.callOn</code></p>
+</dd>
+<dt id='func'>
+func</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Func.html'>Func</a> func(<a href='../sys/Int.html'>Int</a> arity := -1)</code></p>
+
+<p>Get the function body of this method.</p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='params'>
+params</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Param.html'>Param</a>&gt;</a> params()</code></p>
+
+<p>Get the parameters of the method. Convenience for <code>func.params</code>.</p>
+</dd>
+<dt id='returns'>
+returns</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Type.html'>Type</a> returns()</code></p>
+
+<p>Type returned by the method or sys::Void if no return value. Convenience for <code>func.returns</code>.</p>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> signature()</code></p>
+
+<p>Evaluate the parameter default using reflection.  If this method is static or a constructor, then instance should be null.  Raise an exception if the parameter default cannot be evaluated independently (such as using an expression with previous parameters).</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#call'>call</a></li><li><a href='#callList'>callList</a></li><li><a href='#callOn'>callOn</a></li><li><a href='#func'>func</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#params'>params</a></li><li><a href='#returns'>returns</a></li><li><a href='#signature'>signature</a></li></ul>
+</div>
+</div>
+</body>
+</html>

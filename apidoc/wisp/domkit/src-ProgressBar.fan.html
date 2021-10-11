@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>ProgressBar.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='ProgressBar.html'>ProgressBar</a></li><li><a href='src-ProgressBar.fan.html'>ProgressBar.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2016, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   12 May 2016  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** ProgressBar visualizes progress of a long running operation</span>
+<span id='line13'>**</span>
+<span id='line14'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#progressBar`</span>
+<span id='line15'>**</span>
+<span id='line16'>@Js class ProgressBar : Elem</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  new make<b>(</b>|This|? f := null<b>)</b> : super<b>(</b>"div"<b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    this.style.addClass<b>(</b>"domkit-control domkit-control-button domkit-ProgressBar"<b>)</b></span>
+<span id='line21'>    if <b>(</b>f != null<b>)</b> f<b>(</b>this<b>)</b></span>
+<span id='line22'>    update</span>
+<span id='line23'>  <b>}</b></span>
+<span id='line24'></span>
+<span id='line25'>  ** Min progress value.</span>
+<span id='line26'>  Int min := 0</span>
+<span id='line27'>  <b>{</b></span>
+<span id='line28'>    set</span>
+<span id='line29'>    <b>{</b></span>
+<span id='line30'>      &amp;min = it</span>
+<span id='line31'>      update</span>
+<span id='line32'>    <b>}</b></span>
+<span id='line33'>  <b>}</b></span>
+<span id='line34'></span>
+<span id='line35'>  ** Max progress value.</span>
+<span id='line36'>  Int max := 100</span>
+<span id='line37'>  <b>{</b></span>
+<span id='line38'>    set</span>
+<span id='line39'>    <b>{</b></span>
+<span id='line40'>      &amp;max = it</span>
+<span id='line41'>      update</span>
+<span id='line42'>    <b>}</b></span>
+<span id='line43'>  <b>}</b></span>
+<span id='line44'></span>
+<span id='line45'>  ** Current progress value.</span>
+<span id='line46'>  Int val := 0</span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    set</span>
+<span id='line49'>    <b>{</b></span>
+<span id='line50'>      &amp;val = it.max<b>(</b>min<b>)</b>.min<b>(</b>max<b>)</b></span>
+<span id='line51'>      update</span>
+<span id='line52'>    <b>}</b></span>
+<span id='line53'>  <b>}</b></span>
+<span id='line54'></span>
+<span id='line55'>  ** Callback to get progress bar text when `val` is modified.</span>
+<span id='line56'>  Void onText<b>(</b>|ProgressBar->Str| f<b>)</b> <b>{</b> this.cbText=f <b>}</b></span>
+<span id='line57'></span>
+<span id='line58'>  ** Callback to get progress bar color <b>(</b>as CSS color value<b>)</b> when `val` is modified.</span>
+<span id='line59'>  Void onBarColor<b>(</b>|ProgressBar->Str| f<b>)</b> <b>{</b> this.cbBarColor=f <b>}</b></span>
+<span id='line60'></span>
+<span id='line61'>  private Void update<b>(</b><b>)</b></span>
+<span id='line62'>  <b>{</b></span>
+<span id='line63'>    // text</span>
+<span id='line64'>    this.text = cbText==null ? "" : cbText<b>(</b>this<b>)</b></span>
+<span id='line65'></span>
+<span id='line66'>    // bar style</span>
+<span id='line67'>    color  := cbBarColor== null ? "#3498db" : cbBarColor<b>(</b>this<b>)</b></span>
+<span id='line68'>    offset := <b>(</b><b>(</b>val-min<b>)</b>.toFloat / <b>(</b>max-min<b>)</b>.toFloat * 100f<b>)</b>.toInt</span>
+<span id='line69'>    this.style->background = "linear-gradient<b>(</b>left, $color $<b>{</b>offset<b>}</b>%, $color $<b>{</b>offset<b>}</b>%, #fff $<b>{</b>offset<b>}</b>%<b>)</b>"</span>
+<span id='line70'>  <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>  private Func? cbText</span>
+<span id='line73'>  private Func? cbBarColor</span>
+<span id='line74'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

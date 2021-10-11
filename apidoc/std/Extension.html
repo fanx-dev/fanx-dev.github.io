@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Extension</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Extension.html'>Extension</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> std::Extension</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Extension</pre>
+<dl>
+<dt id='readObj'>
+readObj</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Obj.html'>Obj?</a> readObj(<a href='InStream.html'>InStream</a> in, <a href='../sys/Bool.html'>Bool</a> close := true, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+
+<p>Read a serialized object from the stream according to the Fantom <a href='docLang::Serialization'>serialization format</a>. Throw IOErr or ParseErr on error.  This method may consume bytes/chars past the end of the serialized object (we may want to add a "full stop" token at some point to support compound object streams).</p>
+
+<p>The options may be used to specify additional decoding logic:</p>
+
+<ul>
+<li>"makeArgs": Obj[] arguments to pass to the root object's make constructor via <code>Type.make</code></li>
+</ul>
+</dd>
+<dt id='traceTo'>
+traceTo</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='../sys/Err.html'>Err</a> traceTo(<a href='../sys/Err.html'>Err</a> self, <a href='OutStream.html'>OutStream</a> out := Env.cur().out(), <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+
+<p>Dump the stack trace of this exception to the specified output stream (or <code>Env.cur.err</code> by default).  Return this.</p>
+
+<p>The options may be used to specify the format of the output:</p>
+
+<ul>
+<li>"indent": Int for initial number of indentation spaces</li>
+
+<li>"maxDepth": Int specifies how many methods in each
+<pre>exception of chain to include.  If unspecified the
+default is configured from the "errTraceMaxDepth" prop
+in etc/sys/config.props.</pre>
+</li>
+</ul>
+</dd>
+<dt id='writeObj'>
+writeObj</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='OutStream.html'>OutStream</a> writeObj(<a href='OutStream.html'>OutStream</a> out, <a href='../sys/Obj.html'>Obj?</a> obj, <a href='../sys/Bool.html'>Bool</a> close := true, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+
+<p>Write a serialized object from the stream according to the Fantom <a href='docLang::Serialization'>serialization format</a>. Throw IOErr on error.  Return this.</p>
+
+<p>The options may be used to specify the format of the output:</p>
+
+<ul>
+<li>"indent": Int specifies how many spaces to indent each level.  Default is 0.</li>
+
+<li>"skipDefaults": Bool specifies if we should skip fields at their default values.  Field values are compared according to the <code>equals</code> method.  Default is false.</li>
+
+<li>"skipErrors": Bool specifies if we should skip objects which aren't serializable. If true then we output null and a comment. Default is false.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#readObj'>readObj</a></li><li><a href='#traceTo'>traceTo</a></li><li><a href='#writeObj'>writeObj</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::SashBox</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='SashBox.html'>SashBox</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::SashBox</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    <a href='Box.html'>domkit::Box</a>
+      domkit::SashBox</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-SashBox.fan.html'>Source</a></p>
+
+<p>SashBox lays out children in a single direction allowing both fixed and pertange sizes that can fill the parent container.</p>
+
+<p>See also: <a href='docDomkit::Layout#sashBox'>docDomkit</a></p>
+<dl>
+<dt id='dir'>
+dir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Dir.html'>Dir</a> dir := Dir.right</code></p>
+<p class='src'>
+<a href='src-SashBox.fan.html#line29'>Source</a></p>
+
+<p>Direction to layout child elements:</p>
+
+<ul>
+<li><code>Dir.right</code>: layout children left to right</li>
+
+<li><code>Dir.down</code>: layout childrent top to bottom</li>
+</ul>
+</dd>
+<dt id='div'>
+div</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../dom/Elem.html'>Elem</a> div()</code></p>
+<p class='src'>
+<a href='src-SashBox.fan.html#line60'>Source</a></p>
+
+<p>Create a new divider element for resizing children. Dividers are required between children when <code><a href='SashBox.html#resizable'>resizable</a></code> is <code>true</code>.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-SashBox.fan.html'>Source</a></p>
+</dd>
+<dt id='minSize'>
+minSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> minSize := &quot;10%&quot;</code></p>
+<p class='src'>
+<a href='src-SashBox.fan.html#line56'>Source</a></p>
+
+<p>Minimum size a child can be resized to if <code>resizable</code> is <code>true</code>. Only percentage sizes allowed.</p>
+</dd>
+<dt id='onAdd'>
+onAdd</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> onAdd(<a href='../dom/Elem.html'>Elem</a> c)</code></p>
+<p class='src'>
+<a href='src-SashBox.fan.html#line67'>Source</a></p>
+</dd>
+<dt id='onRemove'>
+onRemove</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> onRemove(<a href='../dom/Elem.html'>Elem</a> c)</code></p>
+<p class='src'>
+<a href='src-SashBox.fan.html#line68'>Source</a></p>
+</dd>
+<dt id='onSashResize'>
+onSashResize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onSashResize(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-SashBox.fan.html#line38'>Source</a></p>
+
+<p>Callback when user resizes a sash pane if <code><a href='SashBox.html#resizable'>resizable</a></code> is <code>true</code>.</p>
+</dd>
+<dt id='resizable'>
+resizable</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> resizable := false</code></p>
+<p class='src'>
+<a href='src-SashBox.fan.html#line35'>Source</a></p>
+
+<p>Allow user to resize sash positions. See <code><a href='SashBox.html#div'>div</a></code>.</p>
+</dd>
+<dt id='sizes'>
+sizes</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> sizes := Str[,]</code></p>
+<p class='src'>
+<a href='src-SashBox.fan.html#line42'>Source</a></p>
+
+<p>Size to apply to each child, width or height based on <code><a href='SashBox.html#dir'>dir</a></code>.  Fixed <code>px</code> and percentage sizes are allowed.  Percentage sizes will be subtracted from total fixed size using CSS <code>calc()</code> method.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-SashBox.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#div'>div</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#dir'>dir</a></li><li><a href='#minSize'>minSize</a></li><li><a href='#onAdd'>onAdd</a></li><li><a href='#onRemove'>onRemove</a></li><li><a href='#onSashResize'>onSashResize</a></li><li><a href='#resizable'>resizable</a></li><li><a href='#sizes'>sizes</a></li></ul>
+</div>
+</div>
+</body>
+</html>

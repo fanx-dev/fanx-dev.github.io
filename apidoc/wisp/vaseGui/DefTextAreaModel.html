@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::DefTextAreaModel</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='DefTextAreaModel.html'>DefTextAreaModel</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::DefTextAreaModel</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='TextAreaModel.html'>vaseGui::TextAreaModel</a>
+    vaseGui::DefTextAreaModel</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<dl>
+<dt id='charCount'>
+charCount</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> charCount()</code></p>
+
+<p>Return the number of characters in the content.</p>
+</dd>
+<dt id='line'>
+line</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> line(<a href='../sys/Int.html'>Int</a> lineIndex)</code></p>
+
+<p>Return the line at the given zero based line index without delimiters.</p>
+</dd>
+<dt id='lineAtOffset'>
+lineAtOffset</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> lineAtOffset(<a href='../sys/Int.html'>Int</a> offset)</code></p>
+
+<p>Return the zero based line index at the given character offset.</p>
+</dd>
+<dt id='lineCount'>
+lineCount</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> lineCount()</code></p>
+
+<p>Return the number of lines.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Str.html'>Str</a> text)</code></p>
+</dd>
+<dt id='modify'>
+modify</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> modify(<a href='../sys/Int.html'>Int</a> start, <a href='../sys/Int.html'>Int</a> replaceLen, <a href='../sys/Str.html'>Str</a> newText)</code></p>
+
+<p>Replace the text with <code>newText</code> starting at position <code>start</code> for a length of <code>replaceLen</code>.  The model implementation must fire the <a href='onModify'>onModify</a> event.</p>
+</dd>
+<dt id='modifyLine'>
+modifyLine</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> modifyLine(<a href='../sys/Int.html'>Int</a> lineIndex, <a href='../sys/Str.html'>Str?</a> line, <a href='../sys/Bool.html'>Bool</a> add)</code></p>
+</dd>
+<dt id='offsetAtLine'>
+offsetAtLine</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> offsetAtLine(<a href='../sys/Int.html'>Int</a> lineIndex)</code></p>
+
+<p>Return the character offset of the first character of the given zero based line index.</p>
+</dd>
+<dt id='posAtOffset'>
+posAtOffset</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../vaseGraphics/Point.html'>Point</a> posAtOffset(<a href='../sys/Int.html'>Int</a> offset)</code></p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> text</code></p>
+
+<p>Get or set the entire text document.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#charCount'>charCount</a></li><li><a href='#line'>line</a></li><li><a href='#lineAtOffset'>lineAtOffset</a></li><li><a href='#lineCount'>lineCount</a></li><li><a href='#modify'>modify</a></li><li><a href='#modifyLine'>modifyLine</a></li><li><a href='#offsetAtLine'>offsetAtLine</a></li><li><a href='#posAtOffset'>posAtOffset</a></li><li><a href='#text'>text</a></li></ul>
+</div>
+</div>
+</body>
+</html>

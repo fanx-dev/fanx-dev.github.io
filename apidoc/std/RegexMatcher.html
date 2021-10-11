@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::RegexMatcher</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='RegexMatcher.html'>RegexMatcher</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> std::RegexMatcher</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::RegexMatcher</pre>
+
+<p>RegexMatcher is used to matching operations on a regular expression.</p>
+<dl>
+<dt id='end'>
+end</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> end(<a href='../sys/Int.html'>Int</a> group := 0)</code></p>
+
+<p>Return end index+1 one of the given <code><a href='RegexMatcher.html#group'>group</a></code>. Throw exception if failed to match input or group index is invalid.</p>
+</dd>
+<dt id='finalize'>
+finalize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> finalize()</code></p>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> find()</code></p>
+
+<p>Attempt to find the next match .  If a match is made then return true - additional info is available via the <code><a href='RegexMatcher.html#group'>group</a></code>, <code><a href='RegexMatcher.html#start'>start</a></code>, and <code><a href='RegexMatcher.html#end'>end</a></code> methods.  Return false if a match cannot be made.</p>
+</dd>
+<dt id='group'>
+group</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> group(<a href='../sys/Int.html'>Int</a> group := 0)</code></p>
+
+<p>Return the substring captured by the matching operation. Group index zero denotes the entire pattern and capturing groups are indexed from left to right starting at one.  Return null if group failed to match part of the input.  Throw exception if failed to match input or group index is invalid.</p>
+</dd>
+<dt id='groupCount'>
+groupCount</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> groupCount()</code></p>
+
+<p>Return the number of capturing groups or zero if no match. Group zero is is not included.</p>
+</dd>
+<dt id='matches'>
+matches</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> matches()</code></p>
+
+<p>Match the entire region against the pattern.  If a match is made then return true - additional info is available via the <code><a href='RegexMatcher.html#group'>group</a></code>, <code><a href='RegexMatcher.html#start'>start</a></code>, and <code><a href='RegexMatcher.html#end'>end</a></code> methods.  Return false if a match cannot be made.</p>
+</dd>
+<dt id='replaceAll'>
+replaceAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> replaceAll(<a href='../sys/Str.html'>Str</a> replacement)</code></p>
+
+<p>Replace every sequence which matches the pattern with the given replacment string.</p>
+</dd>
+<dt id='replaceFirst'>
+replaceFirst</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> replaceFirst(<a href='../sys/Str.html'>Str</a> replacement)</code></p>
+
+<p>Replace the first sequence which matches the pattern with the given replacment string.</p>
+</dd>
+<dt id='start'>
+start</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> start(<a href='../sys/Int.html'>Int</a> group := 0)</code></p>
+
+<p>Return the start index of the given <code><a href='RegexMatcher.html#group'>group</a></code>. Throw exception if failed to match input or group index is invalid.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#end'>end</a></li><li><a href='#finalize'>finalize</a></li><li><a href='#find'>find</a></li><li><a href='#group'>group</a></li><li><a href='#groupCount'>groupCount</a></li><li><a href='#matches'>matches</a></li><li><a href='#replaceAll'>replaceAll</a></li><li><a href='#replaceFirst'>replaceFirst</a></li><li><a href='#start'>start</a></li></ul>
+</div>
+</div>
+</body>
+</html>

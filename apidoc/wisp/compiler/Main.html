@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::Main</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='Main.html'>Main</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::Main</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compiler::Main</pre>
+
+<p>Main is the main entry point for the Fantom compiler. Originally it was used for "fanc" command line, but it encapsualtes static methods used by sys.</p>
+<dl>
+<dt id='allDir'>
+allDir</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;</a> allDir(<a href='../std/Uri.html'>Uri</a> base, <a href='../std/Uri.html'>Uri</a> dir)</code></p>
+</dd>
+<dt id='compileScript'>
+compileScript</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../std/Pod.html'>Pod</a> compileScript(<a href='../sys/Str.html'>Str</a> podName, <a href='../std/File.html'>File</a> file, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+
+<p>Compile the script file into a transient pod. See <a href='sys::Env.compileScript'>sys::Env.compileScript</a> for option definitions.</p>
+</dd>
+<dt id='compileScriptToJs'>
+compileScriptToJs</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> compileScriptToJs(<a href='../sys/Str.html'>Str</a> podName, <a href='../std/File.html'>File</a> file, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+
+<p>Compile the script file into JS source code. See <a href='sys::Env.compileScript'>sys::Env.compileScript</a> for option definitions.</p>
+</dd>
+<dt id='depends'>
+depends</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Depend.html'>Depend</a>&gt;</a> depends := Depend[,]</code></p>
+
+<p>List of dependencies for pod formatted as <a href='sys::Depend'>sys::Depend</a>. Strings are automatically run through <a href='BuildScript.applyMacros'>BuildScript.applyMacros</a>.</p>
+</dd>
+<dt id='dependsDir'>
+dependsDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri?</a> dependsDir := @devHomeDir.plus(`lib/fan/`).uri</code></p>
+
+<p>The directory to look in for the dependency pod file (and potentially their recursive dependencies).  If null then we use the compiler's own pod definitions via reflection (which is more efficient).  As a general rule you shouldn't mess with this field - it is used by the <code>build</code> and <code>compiler</code> build scripts for bootstrap build.</p>
+</dd>
+<dt id='devHomeDir'>
+devHomeDir</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../std/File.html'>File</a> devHomeDir := getDevHomeDir</code></p>
+
+<p>Home directory of development installation.  By default this value is initialized by <code>devHome</code> config prop, otherwise <a href='sys::Env.homeDir'>sys::Env.homeDir</a> is used.</p>
+</dd>
+<dt id='docApi'>
+docApi</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> docApi := true</code></p>
+
+<p>Indicates if if fandoc API should be included in the documentation. By default API <em>is</em> included.</p>
+</dd>
+<dt id='docSrc'>
+docSrc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> docSrc := false</code></p>
+
+<p>Indicates if if source code should be included in the pod/documentation. By default source code it <em>not</em> included.</p>
+</dd>
+<dt id='dotnetDirs'>
+dotnetDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> dotnetDirs</code></p>
+
+<p>List of Uris relative to build script of directories containing the C# source files to compile for .NET native methods.</p>
+</dd>
+<dt id='index'>
+index</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> index := Map&lt;Str,Obj>[:]</code></p>
+
+<p>Pod index name/value pairs to compile into pod.  See <a href='sys::Env.index'>sys::Env.index</a>. The index values can be a single Str or a Str[] if there are multiple values mapped to one key.</p>
+</dd>
+<dt id='javaDirs'>
+javaDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> javaDirs</code></p>
+
+<p>List of Uris relative to build script of directories containing the Java source files to compile for Java native methods.</p>
+</dd>
+<dt id='jniDirs'>
+jniDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> jniDirs</code></p>
+
+<p>List of Uris relative to build script of directories containing the JNI C source files to compile.</p>
+</dd>
+<dt id='jniPlatforms'>
+jniPlatforms</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;?</a> jniPlatforms</code></p>
+
+<p>If non-null, whitelist of platforms JNI should be enabled for. Platform string may be full platform name ("macosx-x86_64") or OS only ("macosx").</p>
+</dd>
+<dt id='jsDirs'>
+jsDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> jsDirs</code></p>
+
+<p>List of Uris relative to build script of directories containing the JavaScript source files to compile for JavaScript native methods.</p>
+</dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> main(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> args)</code></p>
+
+<p>mini build for boost</p>
+</dd>
+<dt id='meta'>
+meta</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> meta := OrderedMap&lt;Str,Str>.&lt;ctor>()</code></p>
+
+<p>Pod meta-data name/value pairs to compile into pod.  See <a href='sys::Pod.meta'>sys::Pod.meta</a>.</p>
+</dd>
+<dt id='outDocDir'>
+outDocDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri</a> outDocDir := @devHomeDir.plus(`doc/`).uri</code></p>
+
+<p>Directory to output documentation (docs always get placed in sub-directory named by pod).  By default it goes into "{Env.cur.workDir}/doc/"</p>
+</dd>
+<dt id='outPodDir'>
+outPodDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Uri.html'>Uri</a> outPodDir := @devHomeDir.plus(`lib/fan/`).uri</code></p>
+
+<p>Directory to output pod file.  By default it goes into "{Env.cur.workDir}/lib/fan/"</p>
+</dd>
+<dt id='podName'>
+podName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> podName := null</code></p>
+
+<p>Required name of the pod.</p>
+</dd>
+<dt id='resDirs'>
+resDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> resDirs</code></p>
+
+<p>List of optional Uris relative to build script of directories of resources files to package into pod zip file.  If a file has a "jar" extension then its contents are unzipped into the target pod.</p>
+</dd>
+<dt id='srcDirs'>
+srcDirs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../std/Uri.html'>Uri</a>&gt;?</a> srcDirs</code></p>
+
+<p>List of Uris relative to build script of directories containing the Fan source files to compile.</p>
+</dd>
+<dt id='summary'>
+summary</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> summary := null</code></p>
+
+<p>Required summary description of pod.</p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Version.html'>Version</a> version := Version.&lt;ctor>(&quot;1.0&quot;)</code></p>
+
+<p>Version of the pod - default is set to <a href='BuildScript.config'>BuildScript.config</a> prop <code>buildVersion</code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#allDir'>allDir</a></li><li><a href='#compileScript'>compileScript</a></li><li><a href='#compileScriptToJs'>compileScriptToJs</a></li><li><a href='#devHomeDir'>devHomeDir</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#depends'>depends</a></li><li><a href='#dependsDir'>dependsDir</a></li><li><a href='#docApi'>docApi</a></li><li><a href='#docSrc'>docSrc</a></li><li><a href='#dotnetDirs'>dotnetDirs</a></li><li><a href='#index'>index</a></li><li><a href='#javaDirs'>javaDirs</a></li><li><a href='#jniDirs'>jniDirs</a></li><li><a href='#jniPlatforms'>jniPlatforms</a></li><li><a href='#jsDirs'>jsDirs</a></li><li><a href='#main'>main</a></li><li><a href='#meta'>meta</a></li><li><a href='#outDocDir'>outDocDir</a></li><li><a href='#outPodDir'>outPodDir</a></li><li><a href='#podName'>podName</a></li><li><a href='#resDirs'>resDirs</a></li><li><a href='#srcDirs'>srcDirs</a></li><li><a href='#summary'>summary</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sys::Str</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>sys</a></li><li><a href='Str.html'>Str</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> sys::Str</h1>
+<pre><a href='Obj.html'>sys::Obj</a>
+  sys::Str</pre>
+
+<p>Str represents a sequence of Unicode characters.</p>
+<dl>
+<dt id='all'>
+all</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> all(<a href='Func.html'>Func&lt;<a href='Bool.html'>Bool</a>,<a href='Int.html'>Int</a>,<a href='Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Return true if c returns true for all of the characters in this string.  If this string is empty, return true.</p>
+
+<p>Example:</p>
+
+<pre>"Bar".all |c| { c.isUpper } => false
+"BAR".all |c| { c.isUpper } => true</pre>
+</dd>
+<dt id='any'>
+any</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> any(<a href='Func.html'>Func&lt;<a href='Bool.html'>Bool</a>,<a href='Int.html'>Int</a>,<a href='Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Return true if c returns true for any of the characters in this string.  If this string is empty, return false.</p>
+
+<p>Example:</p>
+
+<pre>"Foo".any |c| { c.isUpper } => true
+"foo".any |c| { c.isUpper } => false</pre>
+</dd>
+<dt id='byteLen'>
+byteLen</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> byteLen()</code></p>
+
+<p>size of utf8</p>
+</dd>
+<dt id='chars'>
+chars</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Array.html'>Array&lt;<a href='Int32.html'>Int32</a>&gt;</a> chars()</code></p>
+
+<p>Get the characters in this string as a list of integer code points. Also see <code><a href='Str.html#fromChars'>fromChars</a></code>.</p>
+</dd>
+<dt id='compare'>
+compare</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> compare(<a href='Obj.html'>Obj</a> obj)</code></p>
+
+<p>Compare based on Unicode character values.  Case is not not taken into account - also see <code><a href='Str.html#compareIgnoreCase'>compareIgnoreCase</a></code> and <a href='localeCompare'>localeCompare</a>.</p>
+
+<p>Examples:</p>
+
+<pre>"a".compare("b")    =>  -1
+"hi".compare("hi")  =>  0
+"hi".compare("HI")  =>  1
+"b".compare("a")    =>  1</pre>
+</dd>
+<dt id='compareIgnoreCase'>
+compareIgnoreCase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> compareIgnoreCase(<a href='Str.html'>Str</a> s)</code></p>
+
+<p>Compare two strings without regard to case and return -1, 0, or 1 if this string is less than, equal to, or greater than the specified string.  Only ASCII character case is taken into account. See <a href='localeCompare'>localeCompare</a> for localized case insensitive comparisions.</p>
+
+<p>Examples:</p>
+
+<pre>"a".compareIgnoreCase("b")    =>  -1
+"hi".compareIgnoreCase("HI")  =>  0
+"b".compareIgnoreCase("a")    =>  1</pre>
+</dd>
+<dt id='contains'>
+contains</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> contains(<a href='Str.html'>Str</a> s)</code></p>
+
+<p>Return if this string contains the specified string. Convenience for index(s) != null</p>
+</dd>
+<dt id='containsChar'>
+containsChar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> containsChar(<a href='Int.html'>Int</a> ch)</code></p>
+
+<p>Return if this string contains the specified character.</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Str.html'>Str</a> defVal := &quot;&quot;</code></p>
+
+<p>Default value is "".</p>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Void.html'>Void</a> each(<a href='Func.html'>Func&lt;<a href='Void.html'>Void</a>,<a href='Int.html'>Int</a>,<a href='Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Call the specified function for every char in the starting with index 0 and incrementing up to size-1.</p>
+
+<p>Example:</p>
+
+<pre>"abc".each |Int c| { echo(c.toChar) }</pre>
+</dd>
+<dt id='eachr'>
+eachr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Void.html'>Void</a> eachr(<a href='Func.html'>Func&lt;<a href='Void.html'>Void</a>,<a href='Int.html'>Int</a>,<a href='Int.html'>Int</a>&gt;</a> f)</code></p>
+
+<p>Reverse each - call the specified function for every char in the string starting with index size-1 and decrementing down to 0.</p>
+
+<p>Example:</p>
+
+<pre>"abc".eachr |Int c| { echo(c.toChar) }</pre>
+</dd>
+<dt id='endsWith'>
+endsWith</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> endsWith(<a href='Str.html'>Str</a> s)</code></p>
+
+<p>Return if this Str ends with the specified Str.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Bool.html'>Bool</a> equals(<a href='Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return true if a Str with exact same char sequence.</p>
+</dd>
+<dt id='equalsIgnoreCase'>
+equalsIgnoreCase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> equalsIgnoreCase(<a href='Str.html'>Str</a> s)</code></p>
+
+<p>Convenience for <code>compareIgnoreCase(s) == 0</code>. Only ASCII character case is taken into account. See <a href='localeCompare'>localeCompare</a> for localized case insensitive comparisions.</p>
+</dd>
+<dt id='finalize'>
+finalize</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='Void.html'>Void</a> finalize()</code></p>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> find(<a href='Str.html'>Str</a> s, <a href='Int.html'>Int</a> offset := 0)</code></p>
+
+<p>Return the first occurance of the specified substring searching forward, starting at the specified offset index. Return -1 if no occurences are found.</p>
+
+<p>Examples:</p>
+
+<pre>"abcabc".index("b")     => 1
+"abcabc".index("b", 1)  => 1
+"abcabc".index("b", 3)  => 4
+"abcabc".index("x")     => -1</pre>
+</dd>
+<dt id='findr'>
+findr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> findr(<a href='Str.html'>Str</a> s, <a href='Int.html'>Int</a> offset := s.size() - 1)</code></p>
+
+<p>Reverse index - return the first occurance of the specified substring searching backward, starting at the specified offset index.  A negative offset may be used to access from the end of string.  Return -1 if no occurences are found.</p>
+
+<p>Examples:</p>
+
+<pre>"abcabc".indexr("b")     => 4
+"abcabc".indexr("b", -3) => 1
+"abcabc".indexr("b", 0)  => -1</pre>
+</dd>
+<dt id='format'>
+format</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Str.html'>Str</a> format(<a href='Str.html'>Str</a> format, <a href='List.html'>List&lt;<a href='Obj.html'>Obj</a>&gt;</a> args)</code></p>
+
+<p>Returns a formatted string using the specified format string and arguments.</p>
+</dd>
+<dt id='fromCStr'>
+fromCStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Str.html'>Str</a> fromCStr(<a href='Ptr.html'>Ptr&lt;<a href='Int8.html'>Int8</a>&gt;</a> utf8, <a href='Int.html'>Int</a> byteLen := -1)</code></p>
+
+<p>allocType: 0:copy, 1:static, 2:move</p>
+</dd>
+<dt id='fromChars'>
+fromChars</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Str.html'>Str</a> fromChars(<a href='Array.html'>Array&lt;<a href='Int32.html'>Int32</a>&gt;</a> charPtr, <a href='Int.html'>Int</a> offset := 0, <a href='Int.html'>Int</a> len := charPtr.size())</code></p>
+
+<p>Construct a string from a list of unicode code points. Also see <code><a href='Str.html#chars'>chars</a></code>.</p>
+</dd>
+<dt id='fromUtf8'>
+fromUtf8</dt>
+<dd>
+<p class='sig'>
+<code>static new fromUtf8(<a href='Array.html'>Array&lt;<a href='Int8.html'>Int8</a>&gt;</a> ba, <a href='Int.html'>Int</a> offset := 0, <a href='Int.html'>Int</a> len := ba.size())</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Int.html'>Int</a> get(<a href='Int.html'>Int</a> index)</code></p>
+
+<p>Get the character at the zero based index as a Unicode code point. This method is accessed via the [] operator.  Throw IndexErr if the index is out of range.</p>
+</dd>
+<dt id='getByte'>
+getByte</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> getByte(<a href='Int.html'>Int</a> i)</code></p>
+
+<p>Get the byte at postion</p>
+</dd>
+<dt id='getRange'>
+getRange</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Str.html'>Str</a> getRange(<a href='Range.html'>Range</a> range)</code></p>
+
+<p>Return a substring based on the specified range.  Negative indexes may be used to access from the end of the string.  This method is accessed via the [] operator.  Throw IndexErr if range illegal.</p>
+
+<p>Examples:</p>
+
+<pre>"abcd"[0..2]   => "abc"
+"abcd"[3..3]   => "d"
+"abcd"[-2..-1] => "cd"
+"abcd"[0..&lt;2]  => "ab"
+"abcd"[1..-2]  => "bc"
+"abcd"[4..-1]  => ""</pre>
+</dd>
+<dt id='getSafe'>
+getSafe</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> getSafe(<a href='Int.html'>Int</a> index, <a href='Int.html'>Int</a> defV := 0)</code></p>
+
+<p>Get the character at the zero based index as a Unicode code point. Negative indexes may be used to access from the end of the string. Unlike <code><a href='Str.html#get'>get</a></code>, this method does not throw IndexErr when the index is out or range, instead it returns <code>def</code>.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Int.html'>Int</a> hash()</code></p>
+
+<p>The hash for a Str is platform dependent.</p>
+</dd>
+<dt id='indexIgnoreCase'>
+indexIgnoreCase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int?</a> indexIgnoreCase(<a href='Str.html'>Str</a> s, <a href='Int.html'>Int</a> offset := 0)</code></p>
+
+<p>Find the index just like <code><a href='Str.html#index'>index</a></code>, but ignoring case for ASCII chars only.</p>
+</dd>
+<dt id='indexrIgnoreCase'>
+indexrIgnoreCase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int?</a> indexrIgnoreCase(<a href='Str.html'>Str</a> s, <a href='Int.html'>Int</a> offset := -1)</code></p>
+
+<p>Find the index just like <code><a href='Str.html#indexr'>indexr</a></code>, but ignoring case for ASCII chars only.</p>
+</dd>
+<dt id='isAlpha'>
+isAlpha</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isAlpha()</code></p>
+
+<p>Return if every char is an ASCII <code><a href='Int.html#isAlpha'>letter</a></code>.</p>
+</dd>
+<dt id='isAlphaNum'>
+isAlphaNum</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isAlphaNum()</code></p>
+
+<p>Return if every char is an ASCII <code><a href='Int.html#isAlphaNum'>alpha-numeric</a></code>.</p>
+</dd>
+<dt id='isAscii'>
+isAscii</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isAscii()</code></p>
+
+<p>Return if every character in this Str is a US-ASCII character less than 128.</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isEmpty()</code></p>
+
+<p>Return if <code>size() == 0</code>.</p>
+</dd>
+<dt id='isLower'>
+isLower</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isLower()</code></p>
+
+<p>Return if every character in this Str is ASCII lowercase: <code>a</code>-'z'.</p>
+</dd>
+<dt id='isSpace'>
+isSpace</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isSpace()</code></p>
+
+<p>Return if every character in this Str is whitespace: space \t \n \r \f</p>
+</dd>
+<dt id='isUpper'>
+isUpper</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> isUpper()</code></p>
+
+<p>Return if every character in this Str is ASCII uppercase: <code>A</code>-'Z'.</p>
+</dd>
+<dt id='lower'>
+lower</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> lower()</code></p>
+
+<p>Return this string with all uppercase characters replaced to lowercase.  The case conversion is for ASCII only. Also see <code><a href='Str.html#upper'>upper</a></code>, <a href='localeLower'>localeLower</a>, <code><a href='Int.html#lower'>Int.lower</a></code>, <a href='Int.localeLower'>Int.localeLower</a>.</p>
+
+<p>Example:</p>
+
+<pre>"Apple".lower => "apple"</pre>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='Operator.html'>Operator</a></code><br /> <a href='Str.html'>Str</a> plus(<a href='Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Concat the value of obj.toStr</p>
+</dd>
+<dt id='replace'>
+replace</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> replace(<a href='Str.html'>Str</a> from, <a href='Str.html'>Str</a> to)</code></p>
+
+<p>Replace all occurrences of <code>from</code> with <code>to</code>.</p>
+
+<p>Examples:</p>
+
+<pre>"hello".replace("hell", "t")  =>  "to"
+"aababa".replace("ab", "-")   =>  "a--a"</pre>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> size()</code></p>
+
+<p>Return number of characters in this string.</p>
+</dd>
+<dt id='spaces'>
+spaces</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Str.html'>Str</a> spaces(<a href='Int.html'>Int</a> n)</code></p>
+
+<p>Get the a Str containing the specified number of spaces.  Also see <a href='justl'>justl</a> and <a href='justr'>justr</a> to justify an existing string.</p>
+
+<p>Examples:</p>
+
+<pre>Str.spaces(1)  =>  " "
+Str.spaces(2)  =>  "  "</pre>
+</dd>
+<dt id='split'>
+split</dt>
+<dd>
+<p class='sig'>
+<code> <a href='List.html'>List&lt;<a href='Str.html'>Str</a>&gt;</a> split(<a href='Int.html'>Int?</a> separator := null, <a href='Bool.html'>Bool</a> trimmed := true)</code></p>
+
+<p>Split a string into a list of substrings using the given separator character.  If there are contiguous separators, then they are split into empty strings.  If trim is true, then whitespace is trimmed from the beginning and end of the results.</p>
+
+<p>If separator is null, then the string is split according to any sequence of whitespace characters (any character equal to or less than the 0x20 space character including <code> </code>, <code>\r</code>, <code>\n</code>, and <code>\t</code>).</p>
+
+<p>If this is the empty string or there are no splits return a list of one item.</p>
+
+<p>Examples:</p>
+
+<pre>// split on whitespace
+"".split                   =>  [""]
+"x".split                  =>  ["x"]
+"x y".split                =>  ["x", "y"]
+" x y ".split              =>  ["x", "y"]
+" x \n y \n z ".split      =>  ["x", "y", "z"]
+
+// split on sep with trim
+"".split('|')              =>  [""]
+"22".split(';')            =>  ["22"]
+"22;33".split(';')         =>  ["22","33"]
+"22, 33".split(',')        =>  ["22","33"]
+" 22 ; 33 ".split(';')     =>  ["22","33"]
+
+// split on sep with no trim
+"22#33".split('#', false)  =>  ["22","33"]
+" x ; y".split(';', false) =>  [" x "," y"]</pre>
+</dd>
+<dt id='startsWith'>
+startsWith</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> startsWith(<a href='Str.html'>Str</a> s)</code></p>
+
+<p>Return if this Str starts with the specified Str.</p>
+</dd>
+<dt id='toBool'>
+toBool</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Bool.html'>Bool</a> toBool(<a href='Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Convenience for <code><a href='Bool.html#fromStr'>Bool.fromStr</a></code> using this string.</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> toCode(<a href='Int.html'>Int</a> quote := 34, <a href='Bool.html'>Bool</a> escapeUnicode := false)</code></p>
+
+<p>Return this string as its Fantom source code and serialization representation surrounded by the specified quote character (which defaults to <code>"</code>).  If quote is null then the return is unquoted. This method will backslash escape the following characters: <code>\n \r \f \t \\ $</code>.  If the quote character is the double quote, single quote, or backtick then it is escaped too.  Control chars less than 0x20 are escaped as <code>\uXXXX</code>.  If <code>escapeUnicode</code> is true then any char over 0x7F it is escaped as <code>\uXXXX</code>.</p>
+</dd>
+<dt id='toFloat'>
+toFloat</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Float.html'>Float</a> toFloat(<a href='Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Convenience for <code><a href='Float.html#fromStr'>Float.fromStr</a></code> using this string.</p>
+</dd>
+<dt id='toInt'>
+toInt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Int.html'>Int</a> toInt(<a href='Int.html'>Int</a> radix := 10, <a href='Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Convenience for <code><a href='Int.html#fromStr'>Int.fromStr</a></code> using this string.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='Str.html'>Str</a> toStr()</code></p>
+
+<p>Return this.</p>
+</dd>
+<dt id='toUtf8'>
+toUtf8</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Array.html'>Array&lt;<a href='Int8.html'>Int8</a>&gt;</a> toUtf8()</code></p>
+
+<p>Get this string encoded into a buffer of bytes.</p>
+</dd>
+<dt id='trim'>
+trim</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> trim()</code></p>
+
+<p>Trim whitespace from the beginning and end of the string.  For the purposes of this method, whitespace is defined as any character equal to or less than the 0x20 space character (including <code> </code>, <code>\r</code>, <code>\n</code>, and <code>\t</code>).</p>
+
+<p>Examples:</p>
+
+<pre>"foo".trim      =>  "foo"
+"  foo".trim    =>  "foo"
+" foo ".trim    =>  "foo"
+"  foo\n".trim  =>  "foo"
+"   ".trim      =>  ""</pre>
+</dd>
+<dt id='trimEnd'>
+trimEnd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> trimEnd()</code></p>
+
+<p>Trim whitespace only from the end of the string. See <code><a href='Str.html#trim'>trim</a></code> for definition of whitespace.</p>
+
+<p>Examples:</p>
+
+<pre>"foo".trim    =>  "foo"
+" foo ".trim  =>  " foo"</pre>
+</dd>
+<dt id='trimStart'>
+trimStart</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> trimStart()</code></p>
+
+<p>Trim whitespace only from the beginning of the string. See <code><a href='Str.html#trim'>trim</a></code> for definition of whitespace.</p>
+
+<p>Examples:</p>
+
+<pre>"foo".trim    =>  "foo"
+" foo ".trim  =>  "foo "</pre>
+</dd>
+<dt id='trimToNull'>
+trimToNull</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str?</a> trimToNull()</code></p>
+
+<p>Trim whitespace from the beginning and end of the string. Should the resultant string be empty, <code>null</code> is returned.</p>
+
+<p>For the purposes of this method, whitespace is defined as any character equal to or less than the 0x20 space character (including <code> </code>, <code>\r</code>, <code>\n</code>, and <code>\t</code>).</p>
+
+<p>Examples:</p>
+
+<pre>"foo".trimToNull      =>  "foo"
+"  foo  ".trimToNull  =>  "foo"
+"".trimToNull         =>  null
+"   ".trimToNull      =>  null</pre>
+</dd>
+<dt id='upper'>
+upper</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Str.html'>Str</a> upper()</code></p>
+
+<p>Return this string with all lowercase characters replaced to uppercase.  The case conversion is for ASCII only. Also see <code><a href='Str.html#lower'>lower</a></code>, <a href='localeUpper'>localeUpper</a>, <code><a href='Int.html#upper'>Int.upper</a></code>, <a href='Int.localeUpper'>Int.localeUpper</a>.</p>
+
+<p>Example:</p>
+
+<pre>"Foo Bar".upper => "FOO BAR"</pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#format'>format</a></li><li><a href='#fromCStr'>fromCStr</a></li><li><a href='#fromChars'>fromChars</a></li><li><a href='#fromUtf8'>fromUtf8</a></li><li><a href='#spaces'>spaces</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#all'>all</a></li><li><a href='#any'>any</a></li><li><a href='#byteLen'>byteLen</a></li><li><a href='#chars'>chars</a></li><li><a href='#compare'>compare</a></li><li><a href='#compareIgnoreCase'>compareIgnoreCase</a></li><li><a href='#contains'>contains</a></li><li><a href='#containsChar'>containsChar</a></li><li><a href='#each'>each</a></li><li><a href='#eachr'>eachr</a></li><li><a href='#endsWith'>endsWith</a></li><li><a href='#equals'>equals</a></li><li><a href='#equalsIgnoreCase'>equalsIgnoreCase</a></li><li><a href='#finalize'>finalize</a></li><li><a href='#find'>find</a></li><li><a href='#findr'>findr</a></li><li><a href='#get'>get</a></li><li><a href='#getByte'>getByte</a></li><li><a href='#getRange'>getRange</a></li><li><a href='#getSafe'>getSafe</a></li><li><a href='#hash'>hash</a></li><li><a href='#indexIgnoreCase'>indexIgnoreCase</a></li><li><a href='#indexrIgnoreCase'>indexrIgnoreCase</a></li><li><a href='#isAlpha'>isAlpha</a></li><li><a href='#isAlphaNum'>isAlphaNum</a></li><li><a href='#isAscii'>isAscii</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#isLower'>isLower</a></li><li><a href='#isSpace'>isSpace</a></li><li><a href='#isUpper'>isUpper</a></li><li><a href='#lower'>lower</a></li><li><a href='#plus'>plus</a></li><li><a href='#replace'>replace</a></li><li><a href='#size'>size</a></li><li><a href='#split'>split</a></li><li><a href='#startsWith'>startsWith</a></li><li><a href='#toBool'>toBool</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toFloat'>toFloat</a></li><li><a href='#toInt'>toInt</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#toUtf8'>toUtf8</a></li><li><a href='#trim'>trim</a></li><li><a href='#trimEnd'>trimEnd</a></li><li><a href='#trimStart'>trimStart</a></li><li><a href='#trimToNull'>trimToNull</a></li><li><a href='#upper'>upper</a></li></ul>
+</div>
+</div>
+</body>
+</html>

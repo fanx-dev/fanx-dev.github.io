@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocTypeRefTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='src-DocTypeRefTest.fan.html'>DocTypeRefTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   29 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>class DocTypeRefTest : Test</span>
+<span id='line10'><b>{</b></span>
+<span id='line11'>  Void test<b>(</b><b>)</b></span>
+<span id='line12'>  <b>{</b></span>
+<span id='line13'>    // basic</span>
+<span id='line14'>    t := DocTypeRef<b>(</b>"foo::Bar"<b>)</b></span>
+<span id='line15'>    verifyBasic<b>(</b>t, "foo", "Bar", false<b>)</b></span>
+<span id='line16'></span>
+<span id='line17'>    // basic nullable</span>
+<span id='line18'>    t = DocTypeRef<b>(</b>"foo::Bar?"<b>)</b></span>
+<span id='line19'>    verifyBasic<b>(</b>t, "foo", "Bar", true<b>)</b></span>
+<span id='line20'>/*</span>
+<span id='line21'>    // list of basic</span>
+<span id='line22'>    t = DocTypeRef<b>(</b>"foo::Bar<b>[</b><b>]</b>"<b>)</b></span>
+<span id='line23'>    verifyEq<b>(</b>t.pod, "sys"<b>)</b></span>
+<span id='line24'>    verifyEq<b>(</b>t.name, "List"<b>)</b></span>
+<span id='line25'>    verifyEq<b>(</b>t.qname, "sys::List"<b>)</b></span>
+<span id='line26'>    verifyEq<b>(</b>t.signature, "foo::Bar<b>[</b><b>]</b>"<b>)</b></span>
+<span id='line27'>    verifyEq<b>(</b>t.isNullable, false<b>)</b></span>
+<span id='line28'>    verifyBasic<b>(</b>t.v, "foo", "Bar", false<b>)</b></span>
+<span id='line29'></span>
+<span id='line30'>    // list of basic nullable</span>
+<span id='line31'>    t = DocTypeRef<b>(</b>"foo::Bar?<b>[</b><b>]</b>"<b>)</b></span>
+<span id='line32'>    verifyEq<b>(</b>t.pod, "sys"<b>)</b></span>
+<span id='line33'>    verifyEq<b>(</b>t.name, "List"<b>)</b></span>
+<span id='line34'>    verifyEq<b>(</b>t.qname, "sys::List"<b>)</b></span>
+<span id='line35'>    verifyEq<b>(</b>t.signature, "foo::Bar?<b>[</b><b>]</b>"<b>)</b></span>
+<span id='line36'>    verifyEq<b>(</b>t.isNullable, false<b>)</b></span>
+<span id='line37'>    verifyBasic<b>(</b>t.v, "foo", "Bar", true<b>)</b></span>
+<span id='line38'></span>
+<span id='line39'>    // nullable list</span>
+<span id='line40'>    t = DocTypeRef<b>(</b>"foo::Bar<b>[</b><b>]</b>?"<b>)</b></span>
+<span id='line41'>    verifyEq<b>(</b>t.pod, "sys"<b>)</b></span>
+<span id='line42'>    verifyEq<b>(</b>t.name, "List"<b>)</b></span>
+<span id='line43'>    verifyEq<b>(</b>t.qname, "sys::List"<b>)</b></span>
+<span id='line44'>    verifyEq<b>(</b>t.signature, "foo::Bar<b>[</b><b>]</b>?"<b>)</b></span>
+<span id='line45'>    verifyEq<b>(</b>t.isNullable, true<b>)</b></span>
+<span id='line46'>    verifyBasic<b>(</b>t.v, "foo", "Bar", false<b>)</b></span>
+<span id='line47'></span>
+<span id='line48'>    // map of basics</span>
+<span id='line49'>    t = DocTypeRef<b>(</b>"<b>[</b>sys::Str:foo::Bar<b>]</b>"<b>)</b></span>
+<span id='line50'>    verifyEq<b>(</b>t.pod, "sys"<b>)</b></span>
+<span id='line51'>    verifyEq<b>(</b>t.name, "Map"<b>)</b></span>
+<span id='line52'>    verifyEq<b>(</b>t.qname, "sys::Map"<b>)</b></span>
+<span id='line53'>    verifyEq<b>(</b>t.signature, "<b>[</b>sys::Str:foo::Bar<b>]</b>"<b>)</b></span>
+<span id='line54'>    verifyEq<b>(</b>t.isNullable, false<b>)</b></span>
+<span id='line55'>    verifyBasic<b>(</b>t.k, "sys", "Str", false<b>)</b></span>
+<span id='line56'>    verifyBasic<b>(</b>t.v, "foo", "Bar", false<b>)</b></span>
+<span id='line57'></span>
+<span id='line58'>    // map with nullables</span>
+<span id='line59'>    t = DocTypeRef<b>(</b>"<b>[</b>sys::Str:foo::Bar?<b>]</b>?"<b>)</b></span>
+<span id='line60'>    verifyEq<b>(</b>t.pod, "sys"<b>)</b></span>
+<span id='line61'>    verifyEq<b>(</b>t.name, "Map"<b>)</b></span>
+<span id='line62'>    verifyEq<b>(</b>t.qname, "sys::Map"<b>)</b></span>
+<span id='line63'>    verifyEq<b>(</b>t.signature, "<b>[</b>sys::Str:foo::Bar?<b>]</b>?"<b>)</b></span>
+<span id='line64'>    verifyEq<b>(</b>t.isNullable, true<b>)</b></span>
+<span id='line65'>    verifyBasic<b>(</b>t.k, "sys", "Str", false<b>)</b></span>
+<span id='line66'>    verifyBasic<b>(</b>t.v, "foo", "Bar", true<b>)</b></span>
+<span id='line67'></span>
+<span id='line68'>    // func no params</span>
+<span id='line69'>    t = DocTypeRef<b>(</b>"|->foo::Bar|"<b>)</b></span>
+<span id='line70'>    verifyEq<b>(</b>t.pod, "sys"<b>)</b></span>
+<span id='line71'>    verifyEq<b>(</b>t.name, "Func"<b>)</b></span>
+<span id='line72'>    verifyEq<b>(</b>t.qname, "sys::Func"<b>)</b></span>
+<span id='line73'>    verifyEq<b>(</b>t.signature, "|->foo::Bar|"<b>)</b></span>
+<span id='line74'>    verifyEq<b>(</b>t.isNullable, false<b>)</b></span>
+<span id='line75'>    verifyEq<b>(</b>t.funcParams.size, 0<b>)</b></span>
+<span id='line76'>    verifyBasic<b>(</b>t.funcReturn, "foo", "Bar", false<b>)</b></span>
+<span id='line77'></span>
+<span id='line78'>    // func one param</span>
+<span id='line79'>    t = DocTypeRef<b>(</b>"|sys::Int->foo::Bar?|?"<b>)</b></span>
+<span id='line80'>    verifyEq<b>(</b>t.pod, "sys"<b>)</b></span>
+<span id='line81'>    verifyEq<b>(</b>t.name, "Func"<b>)</b></span>
+<span id='line82'>    verifyEq<b>(</b>t.qname, "sys::Func"<b>)</b></span>
+<span id='line83'>    verifyEq<b>(</b>t.signature, "|sys::Int->foo::Bar?|?"<b>)</b></span>
+<span id='line84'>    verifyEq<b>(</b>t.isNullable, true<b>)</b></span>
+<span id='line85'>    verifyEq<b>(</b>t.funcParams.size, 1<b>)</b></span>
+<span id='line86'>    verifyBasic<b>(</b>t.funcParams<b>[</b>0<b>]</b>, "sys", "Int", false<b>)</b></span>
+<span id='line87'>    verifyBasic<b>(</b>t.funcReturn, "foo", "Bar", true<b>)</b></span>
+<span id='line88'></span>
+<span id='line89'>    // func two params</span>
+<span id='line90'>    t = DocTypeRef<b>(</b>"|sys::Int?<b>[</b><b>]</b>,sys::Str->sys::Void|"<b>)</b></span>
+<span id='line91'>    verifyEq<b>(</b>t.pod, "sys"<b>)</b></span>
+<span id='line92'>    verifyEq<b>(</b>t.name, "Func"<b>)</b></span>
+<span id='line93'>    verifyEq<b>(</b>t.qname, "sys::Func"<b>)</b></span>
+<span id='line94'>    verifyEq<b>(</b>t.signature, "|sys::Int?<b>[</b><b>]</b>,sys::Str->sys::Void|"<b>)</b></span>
+<span id='line95'>    verifyEq<b>(</b>t.isNullable, false<b>)</b></span>
+<span id='line96'>    verifyEq<b>(</b>t.funcParams.size, 2<b>)</b></span>
+<span id='line97'>    verifyEq<b>(</b>t.funcParams<b>[</b>0<b>]</b>.qname, "sys::List"<b>)</b></span>
+<span id='line98'>    verifyBasic<b>(</b>t.funcParams<b>[</b>0<b>]</b>.v, "sys", "Int", true<b>)</b></span>
+<span id='line99'>    verifyBasic<b>(</b>t.funcParams<b>[</b>1<b>]</b>, "sys", "Str", false<b>)</b></span>
+<span id='line100'>    verifyBasic<b>(</b>t.funcReturn, "sys", "Void", false<b>)</b></span>
+<span id='line101'></span>
+<span id='line102'>    // combos</span>
+<span id='line103'>    t = DocTypeRef<b>(</b>"<b>[</b>sys::Str:foo::Bar?<b>[</b><b>]</b><b>]</b><b>[</b><b>]</b>?"<b>)</b></span>
+<span id='line104'>    verifyEq<b>(</b>t.qname, "sys::List"<b>)</b></span>
+<span id='line105'>    verifyEq<b>(</b>t.signature, "<b>[</b>sys::Str:foo::Bar?<b>[</b><b>]</b><b>]</b><b>[</b><b>]</b>?"<b>)</b></span>
+<span id='line106'>    verifyEq<b>(</b>t.isNullable, true<b>)</b></span>
+<span id='line107'>    t = t.v</span>
+<span id='line108'>    verifyEq<b>(</b>t.qname, "sys::Map"<b>)</b></span>
+<span id='line109'>    verifyEq<b>(</b>t.signature, "<b>[</b>sys::Str:foo::Bar?<b>[</b><b>]</b><b>]</b>"<b>)</b></span>
+<span id='line110'>    t = t.v</span>
+<span id='line111'>    verifyEq<b>(</b>t.qname, "sys::List"<b>)</b></span>
+<span id='line112'>    verifyBasic<b>(</b>t.v, "foo", "Bar", true<b>)</b></span>
+<span id='line113'></span>
+<span id='line114'>    // bug report Feb-2012</span>
+<span id='line115'>    t = DocTypeRef<b>(</b>"sys::Str<b>[</b><b>]</b><b>[</b><b>]</b>?<b>[</b><b>]</b>"<b>)</b></span>
+<span id='line116'>    verifyEq<b>(</b>t.qname, "sys::List"<b>)</b></span>
+<span id='line117'>    t = t.v</span>
+<span id='line118'>    verifyEq<b>(</b>t.signature, "sys::Str<b>[</b><b>]</b><b>[</b><b>]</b>?"<b>)</b></span>
+<span id='line119'>    verifyEq<b>(</b>t.isNullable, true<b>)</b></span>
+<span id='line120'>    t = t.v</span>
+<span id='line121'>    verifyEq<b>(</b>t.signature, "sys::Str<b>[</b><b>]</b>"<b>)</b></span>
+<span id='line122'>    verifyEq<b>(</b>t.isNullable, false<b>)</b></span>
+<span id='line123'>    t = t.v</span>
+<span id='line124'>    verifyEq<b>(</b>t.signature, "sys::Str"<b>)</b></span>
+<span id='line125'>*/</span>
+<span id='line126'>    // errors</span>
+<span id='line127'>    verifyEq<b>(</b>DocTypeRef.fromStr<b>(</b>"foo", false<b>)</b>, null<b>)</b></span>
+<span id='line128'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := DocTypeRef.fromStr<b>(</b>"foo"<b>)</b> <b>}</b></span>
+<span id='line129'>    verifyErr<b>(</b>ParseErr#<b>)</b> <b>{</b> x := DocTypeRef.fromStr<b>(</b>"foo", true<b>)</b> <b>}</b></span>
+<span id='line130'>  <b>}</b></span>
+<span id='line131'></span>
+<span id='line132'>  Void verifyBasic<b>(</b>DocTypeRef t, Str pod, Str name, Bool nullable<b>)</b></span>
+<span id='line133'>  <b>{</b></span>
+<span id='line134'>    verifyEq<b>(</b>t.pod, pod<b>)</b></span>
+<span id='line135'>    verifyEq<b>(</b>t.name, name<b>)</b></span>
+<span id='line136'>    verifyEq<b>(</b>t.qname, "$pod::$name"<b>)</b></span>
+<span id='line137'>    verifyEq<b>(</b>t.signature, nullable ? "$<b>{</b>t.qname<b>}</b>?" : t.qname<b>)</b></span>
+<span id='line138'>    verifyEq<b>(</b>t.isNullable, nullable<b>)</b></span>
+<span id='line139'>    verifyEq<b>(</b>t.isParameterized, false<b>)</b></span>
+<span id='line140'>  <b>}</b></span>
+<span id='line141'></span>
+<span id='line142'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

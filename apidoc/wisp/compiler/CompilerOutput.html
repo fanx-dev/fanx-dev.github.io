@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::CompilerOutput</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='CompilerOutput.html'>CompilerOutput</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compiler::CompilerOutput</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compiler::CompilerOutput</pre>
+
+<p>CompilerOutput encapsulates the result of a compile.  The compiler can output in three modes:</p>
+
+<ul>
+<li><code>transientPod</code>: compiles to an in-memory pod</li>
+
+<li><code>podFile</code>: compile a pod file to the file system, but don't automatically load it.</li>
+
+<li><code>js</code>: runs through frontend of compiler to build AST and generates JavaScript code (doesn't perform any backend fcode or pod generation)</li>
+</ul>
+<dl>
+<dt id='js'>
+js</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> js</code></p>
+
+<p>If <code><a href='CompilerOutputMode.html#js'>CompilerOutputMode.js</a></code> mode, the JavaScript code string.</p>
+</dd>
+<dt id='mode'>
+mode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerOutputMode.html'>CompilerOutputMode?</a> mode</code></p>
+
+<p>Mode indicates the type of this output</p>
+</dd>
+<dt id='podFile'>
+podFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/File.html'>File?</a> podFile</code></p>
+
+<p>If <code><a href='CompilerOutputMode.html#podFile'>CompilerOutputMode.podFile</a></code> mode, the pod zip file written to disk.</p>
+</dd>
+<dt id='transientPod'>
+transientPod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/Pod.html'>Pod?</a> transientPod</code></p>
+
+<p>If <code><a href='CompilerOutputMode.html#transientPod'>CompilerOutputMode.transientPod</a></code> mode, this is loaded pod.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#js'>js</a></li><li><a href='#mode'>mode</a></li><li><a href='#podFile'>podFile</a></li><li><a href='#transientPod'>transientPod</a></li></ul>
+</div>
+</div>
+</body>
+</html>

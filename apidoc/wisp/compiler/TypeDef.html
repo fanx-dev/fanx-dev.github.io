@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::TypeDef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='TypeDef.html'>TypeDef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::TypeDef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    <a href='DefNode.html'>compiler::DefNode</a>
+      compiler::TypeDef : <a href='CType.html'>compiler::CType</a></pre>
+
+<p>TypeDef models a type definition for a class, mixin or enum</p>
+<dl>
+<dt id='addSlot'>
+addSlot</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> addSlot(<a href='CSlot.html'>CSlot</a> s, <a href='../sys/Int.html'>Int?</a> slotDefIndex := null)</code></p>
+
+<p>Add a slot to the type definition.  The method is used to add SlotDefs declared by this type as well as slots inherited by this type.</p>
+</dd>
+<dt id='base'>
+base</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType?</a> base</code></p>
+</dd>
+<dt id='baseSpecified'>
+baseSpecified</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> baseSpecified := true</code></p>
+</dd>
+<dt id='closure'>
+closure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='ClosureExpr.html'>ClosureExpr?</a> closure</code></p>
+</dd>
+<dt id='closures'>
+closures</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='ClosureExpr.html'>ClosureExpr</a>&gt;</a> closures</code></p>
+</dd>
+<dt id='ctorDefs'>
+ctorDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='MethodDef.html'>MethodDef</a>&gt;</a> ctorDefs()</code></p>
+
+<p>Get the constructor MethodDefs declared within this TypeDef.</p>
+</dd>
+<dt id='enumDef'>
+enumDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='EnumDef.html'>EnumDef?</a> enumDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return EnumDef for specified name or null.</p>
+</dd>
+<dt id='enumDefs'>
+enumDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='EnumDef.html'>EnumDef</a>&gt;</a> enumDefs</code></p>
+</dd>
+<dt id='extName'>
+extName</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> extName()</code></p>
+</dd>
+<dt id='fieldDef'>
+fieldDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FieldDef.html'>FieldDef?</a> fieldDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return FieldDef for specified name or null.</p>
+</dd>
+<dt id='fieldDefs'>
+fieldDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FieldDef.html'>FieldDef</a>&gt;</a> fieldDefs()</code></p>
+
+<p>Get the FieldDefs declared within this TypeDef.</p>
+</dd>
+<dt id='genericParameters'>
+genericParameters</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='GenericParameter.html'>GenericParameter</a>&gt;</a> genericParameters := GenericParameter[,]</code></p>
+</dd>
+<dt id='getGenericParameter'>
+getGenericParameter</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='GenericParameter.html'>GenericParameter?</a> getGenericParameter(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='hasGenericParameter'>
+hasGenericParameter</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> hasGenericParameter()</code></p>
+</dd>
+<dt id='hasSlotDef'>
+hasSlotDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasSlotDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return if this class has a slot definition for specified name.</p>
+</dd>
+<dt id='indexedFacets'>
+indexedFacets</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FacetDef.html'>FacetDef</a>&gt;?</a> indexedFacets</code></p>
+</dd>
+<dt id='instanceFieldDefs'>
+instanceFieldDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FieldDef.html'>FieldDef</a>&gt;</a> instanceFieldDefs()</code></p>
+
+<p>Get the instance FieldDefs declared within this TypeDef.</p>
+</dd>
+<dt id='isClosure'>
+isClosure</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isClosure()</code></p>
+
+<p>Return if this type is the anonymous class of a closure</p>
+</dd>
+<dt id='isGeneric'>
+isGeneric</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isGeneric := false</code></p>
+</dd>
+<dt id='isNullable'>
+isNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isNullable()</code></p>
+</dd>
+<dt id='isParameterized'>
+isParameterized</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isParameterized()</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='CNamespace.html'>CNamespace</a> ns, <a href='Loc.html'>Loc</a> loc, <a href='CompilationUnit.html'>CompilationUnit</a> unit, <a href='../sys/Str.html'>Str</a> name, <a href='../sys/Int.html'>Int</a> flags := 0)</code></p>
+</dd>
+<dt id='methodDef'>
+methodDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> methodDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return MethodDef for specified name or null.</p>
+</dd>
+<dt id='methodDefs'>
+methodDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='MethodDef.html'>MethodDef</a>&gt;</a> methodDefs()</code></p>
+
+<p>Get the MethodDefs declared within this TypeDef.</p>
+</dd>
+<dt id='mixins'>
+mixins</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> mixins</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual const override <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='normalizeStaticInits'>
+normalizeStaticInits</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> normalizeStaticInits(<a href='MethodDef.html'>MethodDef</a> m)</code></p>
+
+<p>If during parse we added any static initializer methods, now is the time to remove them all and replace them with a single collapsed MethodDef (processed in Normalize step)</p>
+</dd>
+<dt id='ns'>
+ns</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CNamespace.html'>CNamespace</a> ns</code></p>
+</dd>
+<dt id='operators'>
+operators</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='COperators.html'>COperators</a> operators()</code></p>
+
+<p>Cached COperators map</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CPod.html'>CPod</a> pod</code></p>
+</dd>
+<dt id='print'>
+print</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> print(<a href='AstWriter.html'>AstWriter</a> out)</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>virtual const override <a href='../sys/Str.html'>Str</a> qname</code></p>
+</dd>
+<dt id='replaceSlot'>
+replaceSlot</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> replaceSlot(<a href='CSlot.html'>CSlot</a> oldSlot, <a href='CSlot.html'>CSlot</a> newSlot)</code></p>
+
+<p>Replace oldSlot with newSlot in my slot tables.</p>
+</dd>
+<dt id='slotDef'>
+slotDef</dt>
+<dd>
+<p class='sig'>
+<code> <a href='SlotDef.html'>SlotDef?</a> slotDef(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return SlotDef for specified name or null.</p>
+</dd>
+<dt id='slotDefs'>
+slotDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='SlotDef.html'>SlotDef</a>&gt;</a> slotDefs()</code></p>
+
+<p>Get the SlotDefs declared within this TypeDef.</p>
+</dd>
+<dt id='slots'>
+slots</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='CSlot.html'>CSlot</a>&gt;</a> slots()</code></p>
+
+<p>Return all the all slots (inherited and defined)</p>
+</dd>
+<dt id='staticFieldDefs'>
+staticFieldDefs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FieldDef.html'>FieldDef</a>&gt;</a> staticFieldDefs()</code></p>
+
+<p>Get the static FieldDefs declared within this TypeDef.</p>
+</dd>
+<dt id='staticInit'>
+staticInit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> staticInit()</code></p>
+
+<p>Get static initializer if one is defined.</p>
+</dd>
+<dt id='toListOf'>
+toListOf</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> toListOf()</code></p>
+</dd>
+<dt id='toNullable'>
+toNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> toNullable()</code></p>
+</dd>
+<dt id='unit'>
+unit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilationUnit.html'>CompilationUnit</a> unit</code></p>
+</dd>
+<dt id='walk'>
+walk</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> walk(<a href='Visitor.html'>Visitor</a> v, <a href='VisitDepth.html'>VisitDepth</a> depth)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#addSlot'>addSlot</a></li><li><a href='#base'>base</a></li><li><a href='#baseSpecified'>baseSpecified</a></li><li><a href='#closure'>closure</a></li><li><a href='#closures'>closures</a></li><li><a href='#ctorDefs'>ctorDefs</a></li><li><a href='#enumDef'>enumDef</a></li><li><a href='#enumDefs'>enumDefs</a></li><li><a href='#extName'>extName</a></li><li><a href='#fieldDef'>fieldDef</a></li><li><a href='#fieldDefs'>fieldDefs</a></li><li><a href='#genericParameters'>genericParameters</a></li><li><a href='#getGenericParameter'>getGenericParameter</a></li><li><a href='#hasGenericParameter'>hasGenericParameter</a></li><li><a href='#hasSlotDef'>hasSlotDef</a></li><li><a href='#indexedFacets'>indexedFacets</a></li><li><a href='#instanceFieldDefs'>instanceFieldDefs</a></li><li><a href='#isClosure'>isClosure</a></li><li><a href='#isGeneric'>isGeneric</a></li><li><a href='#isNullable'>isNullable</a></li><li><a href='#isParameterized'>isParameterized</a></li><li><a href='#methodDef'>methodDef</a></li><li><a href='#methodDefs'>methodDefs</a></li><li><a href='#mixins'>mixins</a></li><li><a href='#name'>name</a></li><li><a href='#normalizeStaticInits'>normalizeStaticInits</a></li><li><a href='#ns'>ns</a></li><li><a href='#operators'>operators</a></li><li><a href='#pod'>pod</a></li><li><a href='#print'>print</a></li><li><a href='#qname'>qname</a></li><li><a href='#replaceSlot'>replaceSlot</a></li><li><a href='#slotDef'>slotDef</a></li><li><a href='#slotDefs'>slotDefs</a></li><li><a href='#slots'>slots</a></li><li><a href='#staticFieldDefs'>staticFieldDefs</a></li><li><a href='#staticInit'>staticInit</a></li><li><a href='#toListOf'>toListOf</a></li><li><a href='#toNullable'>toNullable</a></li><li><a href='#unit'>unit</a></li><li><a href='#walk'>walk</a></li></ul>
+</div>
+</div>
+</body>
+</html>

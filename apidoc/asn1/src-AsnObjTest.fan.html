@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>AsnObjTest.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='src-AsnObjTest.fan.html'>AsnObjTest.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2021, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   09 Aug 2021 Matthew Giannini Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using math</span>
+<span id='line10'></span>
+<span id='line11'>class AsnObjTest : Test</span>
+<span id='line12'><b>{</b></span>
+<span id='line13'>  private static const AsnTag cx1 := AsnTag.context<b>(</b>1<b>)</b>.implicit</span>
+<span id='line14'>  private static const AsnTag cx2 := AsnTag.context<b>(</b>2<b>)</b>.implicit</span>
+<span id='line15'></span>
+<span id='line16'>  Void testBoolean<b>(</b><b>)</b></span>
+<span id='line17'>  <b>{</b></span>
+<span id='line18'>    verifyEq<b>(</b>AsnTag.univBool.id, 1<b>)</b></span>
+<span id='line19'>    verifyEq<b>(</b>Asn.bool<b>(</b>true<b>)</b>, Asn.bool<b>(</b>true<b>)</b><b>)</b></span>
+<span id='line20'>    verifyEq<b>(</b>Asn.bool<b>(</b>false<b>)</b>, Asn.bool<b>(</b>false<b>)</b><b>)</b></span>
+<span id='line21'>    verifyNotEq<b>(</b>Asn.bool<b>(</b>true<b>)</b>, Asn.bool<b>(</b>false<b>)</b><b>)</b></span>
+<span id='line22'>    verifyNotEq<b>(</b>Asn.bool<b>(</b>true<b>)</b>, Asn.tag<b>(</b>cx1<b>)</b>.bool<b>(</b>true<b>)</b><b>)</b></span>
+<span id='line23'>  <b>}</b></span>
+<span id='line24'></span>
+<span id='line25'>  Void testInteger<b>(</b><b>)</b></span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    verifyEq<b>(</b>AsnTag.univInt.id, 2<b>)</b></span>
+<span id='line28'>    t := AsnTag.univInt</span>
+<span id='line29'>    verifyEq<b>(</b>Asn.int<b>(</b>0<b>)</b>, Asn.int<b>(</b>0<b>)</b><b>)</b></span>
+<span id='line30'>    verifyEq<b>(</b>Asn.tag<b>(</b>cx2<b>)</b>.int<b>(</b>0<b>)</b>,</span>
+<span id='line31'>             Asn.tag<b>(</b>cx2<b>)</b>.int<b>(</b>0<b>)</b><b>)</b></span>
+<span id='line32'>    verifyEq<b>(</b>Asn.int<b>(</b>123<b>)</b>, Asn.int<b>(</b>BigInt.fromStr<b>(</b>"123"<b>)</b><b>)</b><b>)</b></span>
+<span id='line33'>    verifyNotEq<b>(</b>Asn.int<b>(</b>0<b>)</b>, Asn.int<b>(</b>1<b>)</b><b>)</b></span>
+<span id='line34'>    verifyNotEq<b>(</b>Asn.int<b>(</b>0<b>)</b>, Asn.tag<b>(</b>cx2<b>)</b>.int<b>(</b>0<b>)</b><b>)</b></span>
+<span id='line35'>    verifyNotEq<b>(</b>Asn.int<b>(</b>0<b>)</b>.push<b>(</b>AsnTag.context<b>(</b>2<b>)</b>.explicit<b>)</b>,</span>
+<span id='line36'>                Asn.int<b>(</b>0<b>)</b>.push<b>(</b>cx2<b>)</b><b>)</b></span>
+<span id='line37'>  <b>}</b></span>
+<span id='line38'></span>
+<span id='line39'>  Void testOctetString<b>(</b><b>)</b></span>
+<span id='line40'>  <b>{</b></span>
+<span id='line41'>    verifyEq<b>(</b>AsnTag.univOcts.id, 4<b>)</b></span>
+<span id='line42'>    a := Asn.octets<b>(</b>"foo".toBuf<b>)</b></span>
+<span id='line43'>    verifyEq<b>(</b>a, a<b>)</b></span>
+<span id='line44'>    b := Asn.octets<b>(</b>"foo".toBuf<b>)</b></span>
+<span id='line45'>    verifyEq<b>(</b>a, b<b>)</b></span>
+<span id='line46'>    verifyNotEq<b>(</b>a, Asn.octets<b>(</b>"fooo".toBuf<b>)</b><b>)</b></span>
+<span id='line47'>    verifyNotEq<b>(</b>a, a.push<b>(</b>AsnTag.context<b>(</b>4<b>)</b>.implicit<b>)</b><b>)</b></span>
+<span id='line48'> <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  Void testBitString<b>(</b><b>)</b></span>
+<span id='line51'>  <b>{</b></span>
+<span id='line52'>    verifyEq<b>(</b>AsnTag.univBits.id, 3<b>)</b></span>
+<span id='line53'>    a := Asn.bits<b>(</b>Buf.fromHex<b>(</b>"cafe_babe"<b>)</b><b>)</b></span>
+<span id='line54'>    verifyEq<b>(</b>a, a<b>)</b></span>
+<span id='line55'>    b := Asn.bits<b>(</b>Buf.fromHex<b>(</b>"cafe_babe"<b>)</b><b>)</b></span>
+<span id='line56'>    verifyEq<b>(</b>a, b<b>)</b></span>
+<span id='line57'>    verifyNotEq<b>(</b>a, Asn.bits<b>(</b>Buf.fromHex<b>(</b>"dead_beef"<b>)</b><b>)</b><b>)</b></span>
+<span id='line58'>    verifyNotEq<b>(</b>a, a.push<b>(</b>AsnTag.context<b>(</b>3<b>)</b>.implicit<b>)</b><b>)</b></span>
+<span id='line59'>  <b>}</b></span>
+<span id='line60'></span>
+<span id='line61'>  Void testOid<b>(</b><b>)</b></span>
+<span id='line62'>  <b>{</b></span>
+<span id='line63'>    verifyEq<b>(</b>AsnTag.univOid.id, 6<b>)</b></span>
+<span id='line64'>    ctag := AsnTag.context<b>(</b>0<b>)</b>.implicit</span>
+<span id='line65'>    a := Asn.oid<b>(</b>"0.1"<b>)</b></span>
+<span id='line66'>    verifyEq<b>(</b>a,a<b>)</b></span>
+<span id='line67'>    verifyNotEq<b>(</b>a, a.push<b>(</b>ctag<b>)</b><b>)</b></span>
+<span id='line68'></span>
+<span id='line69'>    b := Asn.oid<b>(</b>"0.1"<b>)</b></span>
+<span id='line70'>    verifyEq<b>(</b>a,b<b>)</b></span>
+<span id='line71'></span>
+<span id='line72'>    verifyEq<b>(</b>Asn.oid<b>(</b><b>[</b>0,1<b>]</b><b>)</b>, Asn.oid<b>(</b>"0.1"<b>)</b><b>)</b></span>
+<span id='line73'></span>
+<span id='line74'>    verifyNotEq<b>(</b>a, Asn.oid<b>(</b>"1.1"<b>)</b><b>)</b></span>
+<span id='line75'></span>
+<span id='line76'>    verifyNotEq<b>(</b>Asn.oid<b>(</b>"2.100"<b>)</b>, Asn.oid<b>(</b>"2.100"<b>)</b>.push<b>(</b>ctag<b>)</b><b>)</b></span>
+<span id='line77'>  <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>  Void testOidCompare<b>(</b><b>)</b></span>
+<span id='line80'>  <b>{</b></span>
+<span id='line81'>    a := Asn.oid<b>(</b>"0"<b>)</b></span>
+<span id='line82'>    b := Asn.oid<b>(</b>"0"<b>)</b></span>
+<span id='line83'>    verify<b>(</b><b>(</b>a &lt;=> b<b>)</b> == 0<b>)</b></span>
+<span id='line84'></span>
+<span id='line85'>    b = Asn.oid<b>(</b>"0.1"<b>)</b></span>
+<span id='line86'>    verify<b>(</b><b>(</b>a &lt;=> b<b>)</b> &lt; 0<b>)</b></span>
+<span id='line87'>    verify<b>(</b><b>(</b>b &lt;=> a<b>)</b> > 0<b>)</b></span>
+<span id='line88'></span>
+<span id='line89'>    a = Asn.oid<b>(</b>"1.2.3.4"<b>)</b></span>
+<span id='line90'>    b = Asn.oid<b>(</b>"1.200.3"<b>)</b></span>
+<span id='line91'>    verify<b>(</b><b>(</b>a &lt;=> b<b>)</b> &lt; 0<b>)</b></span>
+<span id='line92'>    verify<b>(</b><b>(</b>b &lt;=> a<b>)</b> > 0<b>)</b></span>
+<span id='line93'>  <b>}</b></span>
+<span id='line94'></span>
+<span id='line95'>  Void testOidGetRange<b>(</b><b>)</b></span>
+<span id='line96'>  <b>{</b></span>
+<span id='line97'>    a := Asn.oid<b>(</b>"1"<b>)</b></span>
+<span id='line98'>    verifyEq<b>(</b>a, a<b>[</b>0..-1<b>]</b><b>)</b></span>
+<span id='line99'>    verifyErr<b>(</b>IndexErr#<b>)</b> <b>{</b> b := a<b>[</b>0..1<b>]</b> <b>}</b></span>
+<span id='line100'></span>
+<span id='line101'>    a = Asn.oid<b>(</b>"1.2.3.4.5"<b>)</b></span>
+<span id='line102'>    verifyEq<b>(</b>a, a<b>[</b>0..-1<b>]</b><b>)</b></span>
+<span id='line103'>    verifyEq<b>(</b>Asn.oid<b>(</b>"1.2.3"<b>)</b>, a<b>[</b>0..&lt;3<b>]</b><b>)</b></span>
+<span id='line104'>    verifyEq<b>(</b>Asn.oid<b>(</b>"2.3.4"<b>)</b>, a<b>[</b>1..&lt;4<b>]</b><b>)</b></span>
+<span id='line105'>  <b>}</b></span>
+<span id='line106'></span>
+<span id='line107'>  Void testNull<b>(</b><b>)</b></span>
+<span id='line108'>  <b>{</b></span>
+<span id='line109'>    verifyEq<b>(</b>AsnTag.univNull.id, 5<b>)</b></span>
+<span id='line110'>    verifyEq<b>(</b>Asn.Null, Asn.Null<b>)</b></span>
+<span id='line111'>    verifyNotEq<b>(</b>Asn.Null, Asn.Null.push<b>(</b>AsnTag.context<b>(</b>5<b>)</b>.implicit<b>)</b><b>)</b></span>
+<span id='line112'>  <b>}</b></span>
+<span id='line113'></span>
+<span id='line114'>  Void testIA5Str<b>(</b><b>)</b></span>
+<span id='line115'>  <b>{</b></span>
+<span id='line116'>    verifyEq<b>(</b>AsnTag.univIa5Str.id, 22<b>)</b></span>
+<span id='line117'>    a := Asn.str<b>(</b>"foo", AsnTag.univIa5Str<b>)</b></span>
+<span id='line118'>    b := Asn.str<b>(</b>"foo", AsnTag.univIa5Str<b>)</b></span>
+<span id='line119'>    verifyEq<b>(</b>a, b<b>)</b></span>
+<span id='line120'>    verifyNotEq<b>(</b>a, Asn.str<b>(</b>"bar", AsnTag.univIa5Str<b>)</b><b>)</b></span>
+<span id='line121'>    verifyNotEq<b>(</b>a, b.push<b>(</b>AsnTag.context<b>(</b>22<b>)</b>.implicit<b>)</b><b>)</b></span>
+<span id='line122'>  <b>}</b></span>
+<span id='line123'></span>
+<span id='line124'>  Void testPrintableStr<b>(</b><b>)</b></span>
+<span id='line125'>  <b>{</b></span>
+<span id='line126'>    t := AsnTag.univPrintStr</span>
+<span id='line127'>    verifyEq<b>(</b>t.id, 19<b>)</b></span>
+<span id='line128'>    a := Asn.str<b>(</b>"foo", t<b>)</b></span>
+<span id='line129'>    b := Asn.str<b>(</b>"foo", t<b>)</b></span>
+<span id='line130'>    verifyEq<b>(</b>a, b<b>)</b></span>
+<span id='line131'>    verifyNotEq<b>(</b>a, Asn.str<b>(</b>"bar", t<b>)</b><b>)</b></span>
+<span id='line132'>    verifyNotEq<b>(</b>a, b.push<b>(</b>AsnTag.context<b>(</b>19<b>)</b>.implicit<b>)</b><b>)</b></span>
+<span id='line133'>  <b>}</b></span>
+<span id='line134'></span>
+<span id='line135'>  Void testUtf8Str<b>(</b><b>)</b></span>
+<span id='line136'>  <b>{</b></span>
+<span id='line137'>    verifyEq<b>(</b>AsnTag.univUtf8.id, 12<b>)</b></span>
+<span id='line138'>    a := Asn.utf8<b>(</b>"αγαπη"<b>)</b></span>
+<span id='line139'>    b := Asn.utf8<b>(</b>"αγαπη"<b>)</b></span>
+<span id='line140'>    verifyEq<b>(</b>a, b<b>)</b></span>
+<span id='line141'>    verifyNotEq<b>(</b>a, Asn.utf8<b>(</b>"φιλος"<b>)</b><b>)</b></span>
+<span id='line142'>    verifyNotEq<b>(</b>a, b.push<b>(</b>AsnTag.context<b>(</b>12<b>)</b>.implicit<b>)</b><b>)</b></span>
+<span id='line143'>  <b>}</b></span>
+<span id='line144'></span>
+<span id='line145'>  Void testVisibleStr<b>(</b><b>)</b></span>
+<span id='line146'>  <b>{</b></span>
+<span id='line147'>    t := AsnTag.univVisStr</span>
+<span id='line148'>    verifyEq<b>(</b>t.id, 26<b>)</b></span>
+<span id='line149'>    a := Asn.str<b>(</b>"foo", t<b>)</b></span>
+<span id='line150'>    b := Asn.str<b>(</b>"foo", t<b>)</b></span>
+<span id='line151'>    verifyEq<b>(</b>a, b<b>)</b></span>
+<span id='line152'>    verifyNotEq<b>(</b>a, Asn.str<b>(</b>"bar", t<b>)</b><b>)</b></span>
+<span id='line153'>    verifyNotEq<b>(</b>a, b.push<b>(</b>AsnTag.context<b>(</b>t.id<b>)</b>.implicit<b>)</b><b>)</b></span>
+<span id='line154'>  <b>}</b></span>
+<span id='line155'></span>
+<span id='line156'>  Void testUtcTime<b>(</b><b>)</b></span>
+<span id='line157'>  <b>{</b></span>
+<span id='line158'>    verifyEq<b>(</b>AsnTag.univUtcTime.id, 23<b>)</b></span>
+<span id='line159'>    ts1 := Date.fromStr<b>(</b>"2015-03-24"<b>)</b>.midnight</span>
+<span id='line160'>    ts2 := ts1 - 1day</span>
+<span id='line161'>    verifyEq<b>(</b>Asn.utc<b>(</b>ts1<b>)</b>, Asn.utc<b>(</b>ts1<b>)</b><b>)</b></span>
+<span id='line162'>    verifyNotEq<b>(</b>Asn.utc<b>(</b>ts1<b>)</b>, Asn.utc<b>(</b>ts2<b>)</b><b>)</b></span>
+<span id='line163'>    verifyNotEq<b>(</b>Asn.utc<b>(</b>ts1<b>)</b>, Asn.utc<b>(</b>ts1<b>)</b>.push<b>(</b>AsnTag.context<b>(</b>23<b>)</b>.implicit<b>)</b><b>)</b></span>
+<span id='line164'>  <b>}</b></span>
+<span id='line165'></span>
+<span id='line166'>  Void testGenTime<b>(</b><b>)</b></span>
+<span id='line167'>  <b>{</b></span>
+<span id='line168'>    verifyEq<b>(</b>AsnTag.univGenTime.id, 24<b>)</b></span>
+<span id='line169'>    ts1 := Date.fromStr<b>(</b>"2015-03-24"<b>)</b>.midnight</span>
+<span id='line170'>    ts2 := ts1 - 1day</span>
+<span id='line171'>    verifyEq<b>(</b>Asn.genTime<b>(</b>ts1<b>)</b>, Asn.genTime<b>(</b>ts1<b>)</b><b>)</b></span>
+<span id='line172'>    verifyNotEq<b>(</b>Asn.genTime<b>(</b>ts1<b>)</b>, Asn.genTime<b>(</b>ts2<b>)</b><b>)</b></span>
+<span id='line173'>    verifyNotEq<b>(</b>Asn.genTime<b>(</b>ts1<b>)</b>, Asn.genTime<b>(</b>ts1<b>)</b>.push<b>(</b>AsnTag.context<b>(</b>24<b>)</b>.implicit<b>)</b><b>)</b></span>
+<span id='line174'>  <b>}</b></span>
+<span id='line175'></span>
+<span id='line176'>  Void testSequence<b>(</b><b>)</b></span>
+<span id='line177'>  <b>{</b></span>
+<span id='line178'>    verifyEq<b>(</b>AsnTag.univSeq.id, 16<b>)</b></span>
+<span id='line179'>    ctag := AsnTag.context<b>(</b>16<b>)</b>.implicit</span>
+<span id='line180'>    a := Asn.seq<b>(</b><b>[</b>,<b>]</b><b>)</b></span>
+<span id='line181'>    verifyEq<b>(</b>a, a<b>)</b></span>
+<span id='line182'></span>
+<span id='line183'>    b := Asn.seq<b>(</b><b>[</b>,<b>]</b><b>)</b></span>
+<span id='line184'>    verifyEq<b>(</b>a, b<b>)</b></span>
+<span id='line185'></span>
+<span id='line186'>    verifyEq<b>(</b>Asn.seq<b>(</b><b>[</b>Asn.int<b>(</b>1<b>)</b><b>]</b><b>)</b>, Asn.seq<b>(</b><b>[</b>Asn.int<b>(</b>1<b>)</b><b>]</b><b>)</b><b>)</b></span>
+<span id='line187'></span>
+<span id='line188'>    i := Asn.int<b>(</b>1<b>)</b></span>
+<span id='line189'>    s := Asn.octets<b>(</b>"octets".toBuf<b>)</b></span>
+<span id='line190'>    o := Asn.oid<b>(</b>"1.2.3.4.5"<b>)</b></span>
+<span id='line191'>    seq := Asn.seq<b>(</b><b>[</b>o,s,i<b>]</b><b>)</b></span>
+<span id='line192'>    verifyEq<b>(</b>seq, seq<b>)</b></span>
+<span id='line193'>    verifyNotEq<b>(</b>seq, Asn.tag<b>(</b>ctag<b>)</b>.seq<b>(</b><b>[</b>o,s,i<b>]</b><b>)</b><b>)</b></span>
+<span id='line194'></span>
+<span id='line195'>    verifyEq<b>(</b>Asn.seq<b>(</b><b>[</b>i,s,o<b>]</b><b>)</b>, Asn.seq<b>(</b><b>[</b>i,s,o<b>]</b><b>)</b><b>)</b></span>
+<span id='line196'>    verifyEq<b>(</b>Asn.seq<b>(</b><b>[</b>seq<b>]</b><b>)</b>, Asn.seq<b>(</b><b>[</b>Asn.seq<b>(</b><b>[</b>o,s,i<b>]</b><b>)</b><b>]</b><b>)</b><b>)</b></span>
+<span id='line197'>    verifyEq<b>(</b>Asn.seq<b>(</b><b>[</b>Asn.Null, seq<b>]</b><b>)</b>, Asn.seq<b>(</b><b>[</b>Asn.Null, seq<b>]</b><b>)</b><b>)</b></span>
+<span id='line198'>    verifyNotEq<b>(</b>Asn.seq<b>(</b><b>[</b>,<b>]</b><b>)</b>, Asn.seq<b>(</b><b>[</b>i<b>]</b><b>)</b><b>)</b></span>
+<span id='line199'>    verifyNotEq<b>(</b>Asn.seq<b>(</b><b>[</b>i,s,o<b>]</b><b>)</b>, seq<b>)</b></span>
+<span id='line200'></span>
+<span id='line201'>    // bigger seq of seqs</span>
+<span id='line202'>    s1 := Asn.seq<b>(</b><b>[</b>Asn.seq<b>(</b><b>[</b>Asn.int<b>(</b>1<b>)</b><b>]</b><b>)</b><b>]</b><b>)</b></span>
+<span id='line203'>    s2 := Asn.seq<b>(</b><b>[</b>Asn.seq<b>(</b><b>[</b>Asn.int<b>(</b>1<b>)</b><b>]</b><b>)</b><b>]</b><b>)</b></span>
+<span id='line204'>    s3 := Asn.seq<b>(</b><b>[</b>Asn.seq<b>(</b><b>[</b>Asn.int<b>(</b>1<b>)</b>, Asn.int<b>(</b>2<b>)</b><b>]</b><b>)</b><b>]</b><b>)</b></span>
+<span id='line205'>    verifyEq<b>(</b>s1,s2<b>)</b></span>
+<span id='line206'>    verifyNotEq<b>(</b>s1,s3<b>)</b></span>
+<span id='line207'>  <b>}</b></span>
+<span id='line208'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

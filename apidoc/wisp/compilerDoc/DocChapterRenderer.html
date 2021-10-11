@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::DocChapterRenderer</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocChapterRenderer.html'>DocChapterRenderer</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerDoc::DocChapterRenderer</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='DocRenderer.html'>compilerDoc::DocRenderer</a>
+    compilerDoc::DocChapterRenderer</pre>
+<p class='src'>
+<a href='src-DocChapterRenderer.fan.html'>Source</a></p>
+
+<p>Renders DocChapter documents</p>
+
+<h3>Chapter</h3>
+
+<pre>&lt;h1>
+ &lt;span>{chapter.num}&lt;span> {chapter.title}
+&lt;/h1>
+... // chapter fandoc</pre>
+
+<h3>Chapter Nav</h3>
+
+<pre>&lt;ul class='chapter-nav'>
+ &lt;li class='prev'>&lt;a>{prev.title}&lt;/a>&lt;/li>  // if available
+ &lt;li class='next'>&lt;a>{next.title}&lt;/a>&lt;/li>  // if available
+&lt;/ul></pre>
+
+<h3>Table of Contents</h3>
+
+<pre>&lt;h3>&lt;a>{pod.name}&lt;/a>&lt;/h3>
+&lt;h4>&lt;a>{part.name}&lt;/a>&lt;/h4>  // if available
+&lt;ol>
+ &lt;li>&lt;a>{chapter.title}&lt;/a>&lt;/li>
+ &lt;li>&lt;a>{chapter.title}&lt;/a>
+  &lt;ol>
+   &lt;li>&lt;a>{heading.name}&lt;/a>&lt;/li>
+  &lt;/ol>
+ &lt;/li>
+&lt;/ol></pre>
+<dl>
+<dt id='chapter'>
+chapter</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='DocChapter.html'>DocChapter</a> chapter</code></p>
+<p class='src'>
+<a href='src-DocChapterRenderer.fan.html#line52'>Source</a></p>
+
+<p>Chapter document to renderer</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='DocEnv.html'>DocEnv</a> env, <a href='../web/WebOutStream.html'>WebOutStream</a> out, <a href='DocChapter.html'>DocChapter</a> doc)</code></p>
+<p class='src'>
+<a href='src-DocChapterRenderer.fan.html#line46'>Source</a></p>
+</dd>
+<dt id='writeBody'>
+writeBody</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeBody()</code></p>
+<p class='src'>
+<a href='src-DocChapterRenderer.fan.html#line73'>Source</a></p>
+
+<p>Write chapter body.</p>
+</dd>
+<dt id='writeContent'>
+writeContent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> writeContent()</code></p>
+<p class='src'>
+<a href='src-DocChapterRenderer.fan.html#line55'>Source</a></p>
+</dd>
+<dt id='writeNav'>
+writeNav</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeNav()</code></p>
+<p class='src'>
+<a href='src-DocChapterRenderer.fan.html#line79'>Source</a></p>
+
+<p>Write chapter prev/next navigation.</p>
+</dd>
+<dt id='writeToc'>
+writeToc</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> writeToc()</code></p>
+<p class='src'>
+<a href='src-DocChapterRenderer.fan.html#line99'>Source</a></p>
+
+<p>Write out chapter table of contents for pod.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocChapterRenderer.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#chapter'>chapter</a></li><li><a href='#writeBody'>writeBody</a></li><li><a href='#writeContent'>writeContent</a></li><li><a href='#writeNav'>writeNav</a></li><li><a href='#writeToc'>writeToc</a></li></ul>
+</div>
+</div>
+</body>
+</html>

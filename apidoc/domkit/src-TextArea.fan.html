@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>TextArea.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='TextArea.html'>TextArea</a></li><li><a href='src-TextArea.fan.html'>TextArea.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2014, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   21 Dec 2014  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Multi-line text input element</span>
+<span id='line13'>**</span>
+<span id='line14'>** See also: <b>[</b>docDomkit<b>]</b>`docDomkit::Controls#textArea`</span>
+<span id='line15'>**</span>
+<span id='line16'>@Js class TextArea : Elem</span>
+<span id='line17'><b>{</b></span>
+<span id='line18'>  new make<b>(</b><b>)</b> : super<b>(</b>"textarea"<b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    this.style.addClass<b>(</b>"domkit-control domkit-control-text domkit-TextArea"<b>)</b> //.addClass<b>(</b>"domkit-border"<b>)</b></span>
+<span id='line21'>    this.onEvent<b>(</b>"input", false<b>)</b> |e| <b>{</b> fireModify<b>(</b>e<b>)</b> <b>}</b></span>
+<span id='line22'>  <b>}</b></span>
+<span id='line23'></span>
+<span id='line24'>  ** Preferred width of text area in columns, or 'null' for default.</span>
+<span id='line25'>  Int? cols</span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    get <b>{</b> this->cols <b>}</b></span>
+<span id='line28'>    set <b>{</b> this->cols = it <b>}</b></span>
+<span id='line29'>  <b>}</b></span>
+<span id='line30'></span>
+<span id='line31'>  ** Preferred height of text area in rows, or 'null' for default.</span>
+<span id='line32'>  Int? rows</span>
+<span id='line33'>  <b>{</b></span>
+<span id='line34'>    get <b>{</b> this->rows <b>}</b></span>
+<span id='line35'>    set <b>{</b> this->rows = it <b>}</b></span>
+<span id='line36'>  <b>}</b></span>
+<span id='line37'></span>
+<span id='line38'>  ** Hint that is displayed in the text area before a user enters</span>
+<span id='line39'>  ** value that describes the expected input, or 'null' for no</span>
+<span id='line40'>  ** placeholder text.</span>
+<span id='line41'>  Str? placeholder</span>
+<span id='line42'>  <b>{</b></span>
+<span id='line43'>    get <b>{</b> this->placeholder <b>}</b></span>
+<span id='line44'>    set <b>{</b> this->placeholder = it <b>}</b></span>
+<span id='line45'>  <b>}</b></span>
+<span id='line46'></span>
+<span id='line47'>  ** Set to 'true' to set text area to readonly mode.</span>
+<span id='line48'>  Bool ro</span>
+<span id='line49'>  <b>{</b></span>
+<span id='line50'>    get <b>{</b> this.prop<b>(</b>"readOnly"<b>)</b> <b>}</b></span>
+<span id='line51'>    set <b>{</b> this.setProp<b>(</b>"readOnly", it<b>)</b> <b>}</b></span>
+<span id='line52'>  <b>}</b></span>
+<span id='line53'></span>
+<span id='line54'>  ** Value of text area.</span>
+<span id='line55'>  Str val</span>
+<span id='line56'>  <b>{</b></span>
+<span id='line57'>    get <b>{</b> this->value <b>}</b></span>
+<span id='line58'>    set <b>{</b> this->value = it <b>}</b></span>
+<span id='line59'>  <b>}</b></span>
+<span id='line60'></span>
+<span id='line61'>  ** Callback when value is modified by user.</span>
+<span id='line62'>  Void onModify<b>(</b>|This| f<b>)</b> <b>{</b> this.cbModify = f <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  private Void fireModify<b>(</b>Event e<b>)</b> <b>{</b> cbModify?.call<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line65'>  private Func? cbModify := null</span>
+<span id='line66'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>graphics::Color</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='Color.html'>Color</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> graphics::Color</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  graphics::Color</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+<p class='src'>
+<a href='src-Color.fan.html'>Source</a></p>
+
+<p>Models an CSS4 RGB color with alpha</p>
+<dl>
+<dt id='a'>
+a</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Float.html'>Float</a> a</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line227'>Source</a></p>
+
+<p>The alpha component from 0.0 to 1.0</p>
+</dd>
+<dt id='b'>
+b</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> b()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line236'>Source</a></p>
+
+<p>The blue component from 0 to 255.</p>
+</dd>
+<dt id='darker'>
+darker</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Color.html'>Color</a> darker(<a href='../sys/Float.html'>Float</a> percentage := 0.2f)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line341'>Source</a></p>
+
+<p>Get a color which is a dark shade of this color. This decreases the brightness by the given percentage which is a float between 0.0 and 1.0.</p>
+</dd>
+<dt id='desaturate'>
+desaturate</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Color.html'>Color</a> desaturate(<a href='../sys/Float.html'>Float</a> percentage := 0.2f)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line356'>Source</a></p>
+
+<p>Convenience for <code>saturate(-percentage)</code>.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line285'>Source</a></p>
+
+<p>Equality</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Color.html'>Color?</a> fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line81'>Source</a></p>
+
+<p>Parse color from CSS 4 string.  If invalid and checked is true then throw ParseErr otherwise return null.  The following formats are supported:</p>
+
+<ul>
+<li>CSS keyword color</li>
+
+<li>#RRGGBB</li>
+
+<li>#RRGGBBAA</li>
+
+<li>#RGB</li>
+
+<li>#RGBA</li>
+
+<li>rgb(r, g b)</li>
+
+<li>rgba(r, g, b, a)</li>
+
+<li>hsl(h, s, l)</li>
+
+<li>hsla(h, s, l, a)</li>
+</ul>
+
+<p>Functional notation works with comma or space separated arguments.</p>
+
+<p>Examples:</p>
+
+<pre>Color.fromStr("red")
+Color.fromStr("#8A0")
+Color.fromStr("#88AA00")
+Color.fromStr("rgba(255, 0, 0, 0.3)")
+Color.fromStr("rgb(100% 0% 0% 25%)")</pre>
+</dd>
+<dt id='g'>
+g</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> g()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line233'>Source</a></p>
+
+<p>The green component from 0 to 255.</p>
+</dd>
+<dt id='h'>
+h</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> h()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line239'>Source</a></p>
+
+<p>Hue as a float between 0.0 and 360.0 of the HSL model (hue, saturation, lightness).  Also see <code><a href='Color.html#makeHsl'>makeHsl</a></code>, <code><a href='Color.html#s'>s</a></code>, <code><a href='Color.html#l'>l</a></code>.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line282'>Source</a></p>
+
+<p>Return the hash code.</p>
+</dd>
+<dt id='interpolateHsl'>
+interpolateHsl</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Color.html'>Color</a> interpolateHsl(<a href='Color.html'>Color</a> a, <a href='Color.html'>Color</a> b, <a href='../sys/Float.html'>Float</a> t)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line375'>Source</a></p>
+
+<p>Interpolate between a and b where t is 0.0 to 1.0 using HSL color model.</p>
+</dd>
+<dt id='interpolateRgb'>
+interpolateRgb</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Color.html'>Color</a> interpolateRgb(<a href='Color.html'>Color</a> a, <a href='Color.html'>Color</a> b, <a href='../sys/Float.html'>Float</a> t)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line366'>Source</a></p>
+
+<p>Interpolate between a and b where t is 0.0 to 1.0 using RGB color model.</p>
+</dd>
+<dt id='isTransparent'>
+isTransparent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isTransparent()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line321'>Source</a></p>
+
+<p>Return if <code><a href='Color.html#a'>a</a></code> is zero, fully transparent</p>
+</dd>
+<dt id='l'>
+l</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> l()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line271'>Source</a></p>
+
+<p>Lightness (brightness) as a float between 0.0 and 1.0 of the HSL model (hue, saturation, lightness). Also see <code><a href='Color.html#makeHsl'>makeHsl</a></code>, <code><a href='Color.html#h'>h</a></code>, <code><a href='Color.html#s'>s</a></code>.</p>
+</dd>
+<dt id='lighter'>
+lighter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Color.html'>Color</a> lighter(<a href='../sys/Float.html'>Float</a> percentage := 0.2f)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line331'>Source</a></p>
+
+<p>Get a color which is a lighter shade of this color. This increases the brightness by the given percentage which is a float between 0.0 and 1.0.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Int.html'>Int</a> rgb := 0, <a href='../sys/Float.html'>Float</a> a := 1.0f)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line25'>Source</a></p>
+
+<p>Make a new instance with the RGB components masked together: bits 16-23 red; bits 8-15 green; bits 0-7 blue. Alpha should be a float between 1.0 and 0.0.</p>
+</dd>
+<dt id='makeHsl'>
+makeHsl</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Color.html'>Color</a> makeHsl(<a href='../sys/Float.html'>Float</a> h, <a href='../sys/Float.html'>Float</a> s, <a href='../sys/Float.html'>Float</a> l, <a href='../sys/Float.html'>Float</a> a := 1.0f)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line44'>Source</a></p>
+
+<p>Construct a color using HSL model (hue, saturation, lightness):</p>
+
+<ul>
+<li>hue as 0.0 to 360.0</li>
+
+<li>saturation as 0.0 to 1.0</li>
+
+<li>lightness (or brightness) as 0.0 to 1.0</li>
+
+<li>alpha as 0.0 to 1.0 Also see <code><a href='Color.html#h'>h</a></code>, <code><a href='Color.html#s'>s</a></code>, <code><a href='Color.html#l'>l</a></code>.</li>
+</ul>
+</dd>
+<dt id='makeRgb'>
+makeRgb</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Color.html'>Color</a> makeRgb(<a href='../sys/Int.html'>Int</a> r, <a href='../sys/Int.html'>Int</a> g, <a href='../sys/Int.html'>Int</a> b, <a href='../sys/Float.html'>Float</a> a := 1.0f)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line34'>Source</a></p>
+
+<p>Make a new instance with the RGB individual components as integers between 0 and 255 and alpha as float between 1.0 and 0.0.</p>
+</dd>
+<dt id='opacity'>
+opacity</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Color.html'>Color</a> opacity(<a href='../sys/Float.html'>Float</a> opacity := 1.0f)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line324'>Source</a></p>
+
+<p>Adjust the opacity of this color and return new instance, where <code>opacity</code> is between 0.0  and 1.0.</p>
+</dd>
+<dt id='r'>
+r</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> r()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line230'>Source</a></p>
+
+<p>The red component from 0 to 255.</p>
+</dd>
+<dt id='rgb'>
+rgb</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> rgb</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line223'>Source</a></p>
+
+<p>The RGB components masked together: bits 16-23 red; bits 8-15 green; bits 0-7 blue.</p>
+</dd>
+<dt id='s'>
+s</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Float.html'>Float</a> s()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line262'>Source</a></p>
+
+<p>Saturation as a float between 0.0 and 1.0 of the HSL model (hue, saturation, lightness).  Also see <code><a href='Color.html#makeHsl'>makeHsl</a></code>, <code><a href='Color.html#h'>h</a></code>, <code><a href='Color.html#l'>l</a></code>.</p>
+</dd>
+<dt id='saturate'>
+saturate</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Color.html'>Color</a> saturate(<a href='../sys/Float.html'>Float</a> percentage := 0.2f)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line349'>Source</a></p>
+
+<p>Adjust saturation as percentage between -1..1.</p>
+</dd>
+<dt id='toHexStr'>
+toHexStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toHexStr()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line302'>Source</a></p>
+
+<p>Format as #RGB, #RRGGBB or #RRGGBBAA syntax</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line293'>Source</a></p>
+
+<p>If the alpha component is 1.0, then format as <code>"#RRGGBB"</code> hex string, otherwise format as <code>"rbga()"</code> notation.</p>
+</dd>
+<dt id='transparent'>
+transparent</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Color.html'>Color</a> transparent := Color.make(0, 0.0)</code></p>
+<p class='src'>
+<a href='src-Color.fan.html#line22'>Source</a></p>
+
+<p>Transparent constant with opacity set to zero</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Color.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li><li><a href='#interpolateHsl'>interpolateHsl</a></li><li><a href='#interpolateRgb'>interpolateRgb</a></li><li><a href='#make'>make</a></li><li><a href='#makeHsl'>makeHsl</a></li><li><a href='#makeRgb'>makeRgb</a></li><li><a href='#transparent'>transparent</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#a'>a</a></li><li><a href='#b'>b</a></li><li><a href='#darker'>darker</a></li><li><a href='#desaturate'>desaturate</a></li><li><a href='#equals'>equals</a></li><li><a href='#g'>g</a></li><li><a href='#h'>h</a></li><li><a href='#hash'>hash</a></li><li><a href='#isTransparent'>isTransparent</a></li><li><a href='#l'>l</a></li><li><a href='#lighter'>lighter</a></li><li><a href='#opacity'>opacity</a></li><li><a href='#r'>r</a></li><li><a href='#rgb'>rgb</a></li><li><a href='#s'>s</a></li><li><a href='#saturate'>saturate</a></li><li><a href='#toHexStr'>toHexStr</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

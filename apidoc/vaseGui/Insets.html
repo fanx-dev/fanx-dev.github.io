@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::Insets</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='Insets.html'>Insets</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> vaseGui::Insets</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGui::Insets</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Insets represent a number of pixels around the edge of a rectangle.</p>
+<dl>
+<dt id='bottom'>
+bottom</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> bottom</code></p>
+
+<p>Bottom side spacing</p>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Insets.html'>Insets</a> defVal := ...</code></p>
+
+<p>Default instance 0, 0, 0, 0.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
+
+<p>Return if obj is same Insets value.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Insets.html'>Insets?</a> fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse from comma or space separated string using CSS format:</p>
+
+<ul>
+<li>"top"</li>
+
+<li>"top, right" (implies bottom = top, left = right)</li>
+
+<li>"top, right, bottom" (implies left = right)</li>
+
+<li>"top, right, bottom, left"</li>
+</ul>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return hash of top, right, bottom, left.</p>
+</dd>
+<dt id='left'>
+left</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> left</code></p>
+
+<p>Left side spacing</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Int.html'>Int</a> top, <a href='../sys/Int.html'>Int?</a> right := null, <a href='../sys/Int.html'>Int?</a> bottom := null, <a href='../sys/Int.html'>Int?</a> left := null)</code></p>
+
+<p>Construct with top, and optional right, bottom, left.  If one side is not specified, it is reflected from the opposite side:</p>
+
+<pre>Insets(5)     => Insets(5,5,5,5)
+Insets(5,6)   => Insets(5,6,5,6)
+Insets(5,6,7) => Insets(5,6,7,6)</pre>
+</dd>
+<dt id='right'>
+right</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> right</code></p>
+
+<p>Right side spacing</p>
+</dd>
+<dt id='toSize'>
+toSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseGraphics/Size.html'>Size</a> toSize()</code></p>
+
+<p>Return right+left, top+bottom</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>If all four sides are equal return <code>"len"</code> otherwise return <code>"top,right,bottom,left"</code>.</p>
+</dd>
+<dt id='top'>
+top</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> top</code></p>
+
+<p>Top side spacing</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#defVal'>defVal</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bottom'>bottom</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#left'>left</a></li><li><a href='#right'>right</a></li><li><a href='#toSize'>toSize</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#top'>top</a></li></ul>
+</div>
+</div>
+</body>
+</html>

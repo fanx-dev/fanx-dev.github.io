@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>UdpPacket.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='UdpPacket.html'>UdpPacket</a></li><li><a href='src-UdpPacket.fan.html'>UdpPacket.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   9 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** UdpPacket encapsulates an IpAddr, port, and payload of bytes</span>
+<span id='line11'>** to send or receive from a UdpSocket.</span>
+<span id='line12'>**</span>
+<span id='line13'>class UdpPacket</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'></span>
+<span id='line16'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line17'>// Construction</span>
+<span id='line18'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line19'></span>
+<span id='line20'>  **</span>
+<span id='line21'>  ** Construct a new UdpPacket.</span>
+<span id='line22'>  **</span>
+<span id='line23'>  new make<b>(</b>IpAddr? addr := null, Int? port := null, Buf? data := null<b>)</b></span>
+<span id='line24'>  <b>{</b></span>
+<span id='line25'>    this.addr = addr</span>
+<span id='line26'>    this.port = port</span>
+<span id='line27'>    this.data = data</span>
+<span id='line28'>  <b>}</b></span>
+<span id='line29'></span>
+<span id='line30'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line31'>// Fields</span>
+<span id='line32'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line33'></span>
+<span id='line34'>  **</span>
+<span id='line35'>  ** The send or receive IpAddr.  Defaults to null.</span>
+<span id='line36'>  **</span>
+<span id='line37'>  IpAddr? addr := null</span>
+<span id='line38'></span>
+<span id='line39'>  **</span>
+<span id='line40'>  ** The send or receive port number.  Defaults to null.</span>
+<span id='line41'>  **</span>
+<span id='line42'>  Int? port := null</span>
+<span id='line43'></span>
+<span id='line44'>  **</span>
+<span id='line45'>  ** The payload to send or received.  Defaults to null.</span>
+<span id='line46'>  ** The data buffer must always be a memory backed buffer.</span>
+<span id='line47'>  **</span>
+<span id='line48'>  Buf? data := null</span>
+<span id='line49'></span>
+<span id='line50'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

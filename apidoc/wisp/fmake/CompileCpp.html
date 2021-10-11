@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fmake::CompileCpp</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fmake</a></li><li><a href='CompileCpp.html'>CompileCpp</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> fmake::CompileCpp</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  fmake::CompileCpp</pre>
+
+<p>Run the Cpp compiler</p>
+<dl>
+<dt id='applyMacros'>
+applyMacros</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> applyMacros(<a href='../sys/Str.html'>Str</a> pattern, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> macros := ...)</code></p>
+
+<p>Apply a set of macro substitutions to the given pattern. Substitution keys are indicated in the pattern using "@{key}" and replaced by definition in macros map.  If a substitution key is undefined then raise an exception.  The <a href='configs'>configs</a> method is used for default macro key/value map.</p>
+</dd>
+<dt id='clean'>
+clean</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> clean()</code></p>
+</dd>
+<dt id='compHome'>
+compHome</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> compHome</code></p>
+
+<p>compiler home</p>
+</dd>
+<dt id='compiler'>
+compiler</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> compiler</code></p>
+
+<p>compiler name</p>
+</dd>
+<dt id='config'>
+config</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> config(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Str.html'>Str?</a> def := null)</code></p>
+</dd>
+<dt id='fatal'>
+fatal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Err.html'>Err</a> fatal(<a href='../sys/Str.html'>Str</a> msg, <a href='../sys/Err.html'>Err?</a> err := null)</code></p>
+
+<p>Log an error and return a FatalBuildErr instance</p>
+</dd>
+<dt id='fileToStr'>
+fileToStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> fileToStr(<a href='../std/File.html'>File</a> f)</code></p>
+</dd>
+<dt id='init'>
+init</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> init()</code></p>
+
+<p>init. since dump test</p>
+</dd>
+<dt id='install'>
+install</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> install()</code></p>
+
+<p>copy include head and res</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='BuildCpp.html'>BuildCpp</a> buildInfo)</code></p>
+
+<p>ctor</p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> run()</code></p>
+
+<p>Run the cc task</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fileToStr'>fileToStr</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#applyMacros'>applyMacros</a></li><li><a href='#clean'>clean</a></li><li><a href='#compHome'>compHome</a></li><li><a href='#compiler'>compiler</a></li><li><a href='#config'>config</a></li><li><a href='#fatal'>fatal</a></li><li><a href='#init'>init</a></li><li><a href='#install'>install</a></li><li><a href='#run'>run</a></li></ul>
+</div>
+</div>
+</body>
+</html>

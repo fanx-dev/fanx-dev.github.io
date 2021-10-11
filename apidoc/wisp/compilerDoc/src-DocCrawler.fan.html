@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocCrawler.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocCrawler.html'>DocCrawler</a></li><li><a href='src-DocCrawler.fan.html'>DocCrawler.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   22 Dec 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** DocCrawler provides an interface to implement by search engine</span>
+<span id='line11'>** crawlers when crawling a specific document via `Doc.onCrawl`.</span>
+<span id='line12'>**</span>
+<span id='line13'>mixin DocCrawler</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'>  ** Add plain, unformatted text to the index for current doc</span>
+<span id='line16'>  abstract Void addText<b>(</b>Str str<b>)</b></span>
+<span id='line17'></span>
+<span id='line18'>  ** Add fandoc formatted text to the index for current doc</span>
+<span id='line19'>  abstract Void addFandoc<b>(</b>DocFandoc fandoc<b>)</b></span>
+<span id='line20'></span>
+<span id='line21'>  ** Add a search keyword with a curated title, summary formatted</span>
+<span id='line22'>  ** as fandoc, and an optional fragment anchor within the document.</span>
+<span id='line23'>  ** This is used to index API keywords like types, slot name, qnames,</span>
+<span id='line24'>  ** etc.  The summary is used only for hit higlighting and should</span>
+<span id='line25'>  ** be added to the index itself separately.</span>
+<span id='line26'>  abstract Void addKeyword<b>(</b>Str keyword, Str title, DocFandoc summary, Str? anchor<b>)</b></span>
+<span id='line27'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

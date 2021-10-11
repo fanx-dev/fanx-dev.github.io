@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>asn1::AsnTagClass</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>asn1</a></li><li><a href='AsnTagClass.html'>AsnTagClass</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> asn1::AsnTagClass</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    asn1::AsnTagClass</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line140'>Source</a></p>
+
+<p>The tag class for an <code><a href='AsnTag.html'>AsnTag</a></code></p>
+<ul>
+<li><a href='#univ'>univ</a></li><li><a href='#app'>app</a></li><li><a href='#context'>context</a></li><li><a href='#priv'>priv</a></li></ul>
+<dl>
+<dt id='app'>
+app</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTagClass.html'>AsnTagClass</a> app := ...</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line145'>Source</a></p>
+</dd>
+<dt id='context'>
+context</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTagClass.html'>AsnTagClass</a> context := ...</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line146'>Source</a></p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line142'>Source</a></p>
+
+<p>Return the AsnTagClass instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='isApp'>
+isApp</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isApp()</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line156'>Source</a></p>
+
+<p>Is this the <code>APPLICATION</code> class</p>
+</dd>
+<dt id='isContext'>
+isContext</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isContext()</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line159'>Source</a></p>
+
+<p>Is this the <code>CONTEXT</code> class</p>
+</dd>
+<dt id='isPriv'>
+isPriv</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPriv()</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line162'>Source</a></p>
+
+<p>Is this  the <code>PRIVATE</code> class</p>
+</dd>
+<dt id='isUniv'>
+isUniv</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isUniv()</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line153'>Source</a></p>
+
+<p>Is this the <code>UNIVERSAL</code> class</p>
+</dd>
+<dt id='mask'>
+mask</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> mask</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line151'>Source</a></p>
+</dd>
+<dt id='priv'>
+priv</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTagClass.html'>AsnTagClass</a> priv := ...</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line147'>Source</a></p>
+</dd>
+<dt id='univ'>
+univ</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='AsnTagClass.html'>AsnTagClass</a> univ := ...</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line144'>Source</a></p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='AsnTagClass.html'>AsnTagClass</a>&gt;</a> vals := ...</code></p>
+<p class='src'>
+<a href='src-AsnTag.fan.html#line142'>Source</a></p>
+
+<p>List of AsnTagClass values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-AsnTag.fan.html#line140'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#app'>app</a></li><li><a href='#context'>context</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#priv'>priv</a></li><li><a href='#univ'>univ</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#isApp'>isApp</a></li><li><a href='#isContext'>isContext</a></li><li><a href='#isPriv'>isPriv</a></li><li><a href='#isUniv'>isUniv</a></li><li><a href='#mask'>mask</a></li></ul>
+</div>
+</div>
+</body>
+</html>

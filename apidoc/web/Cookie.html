@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>web::Cookie</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='Cookie.html'>Cookie</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> web::Cookie</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  web::Cookie</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Cookie.fan.html'>Source</a></p>
+
+<p>Cookie models an HTTP cookie used to pass data between the server and user agent as defined by <a href='http://tools.ietf.org/html/rfc6265'>RFC 6265</a>.</p>
+
+<p>See <code><a href='WebReq.html#cookies'>WebReq.cookies</a></code> and <code><a href='WebRes.html#cookies'>WebRes.cookies</a></code>.</p>
+<dl>
+<dt id='domain'>
+domain</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> domain</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line137'>Source</a></p>
+
+<p>Specifies the domain for which the cookie is valid. An explicit domain must always start with a dot.  If null (the default) then the cookie only applies to the server which set it.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Cookie.html'>Cookie?</a> fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line21'>Source</a></p>
+
+<p>Parse a HTTP cookie header name/value pair. The parsing of the name-value pair is done according to the algorithm outlined in <a href='http://tools.ietf.org/html/rfc6265#section-5.2'>§ 5.2</a> of the RFC.</p>
+
+<p>Throw ParseErr or return null if not formatted correctly.</p>
+</dd>
+<dt id='httpOnly'>
+httpOnly</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> httpOnly := true</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line160'>Source</a></p>
+
+<p>If true, then the cookie is not available to JavaScript. Defaults to true.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Str.html'>Str</a> val, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line79'>Source</a></p>
+
+<p>Construct with name and value.  The name must be a valid HTTP token and must not start with "$" (see <code><a href='WebUtil.html#isToken'>WebUtil.isToken</a></code>). The value string must be an ASCII string within the inclusive range of 0x20 and 0x7e (see <code><a href='WebUtil.html#toQuotedStr'>WebUtil.toQuotedStr</a></code>) with the exception of the semicolon.</p>
+
+<p>Fantom cookies will use quoted string values, however some browsers such as IE won't parse a quoted string with semicolons correctly, so we make semicolons illegal.  If you have a value which might include non-ASCII characters or semicolons, then consider encoding using something like Base64:</p>
+
+<pre>// write response
+res.cookies.add(Cookie("baz", val.toBuf.toBase64))
+
+// read from request
+val := Buf.fromBase64(req.cookies.get("baz", "")).readAllStr</pre>
+</dd>
+<dt id='maxAge'>
+maxAge</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Duration.html'>Duration?</a> maxAge</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line125'>Source</a></p>
+
+<p>Defines the lifetime of the cookie, after the the max-age elapses the client should discard the cookie.  The duration is floored to seconds (fractional seconds are truncated). If maxAge is null (the default) then the  cookie persists until the client is shutdown.  If zero is specified, the cookie is discarded immediately.  Note that many browsers still don't recognize max-age, so setting max-age also always includes an expires attribute.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line115'>Source</a></p>
+
+<p>Name of the cookie.</p>
+</dd>
+<dt id='path'>
+path</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> path := &quot;/&quot;</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line145'>Source</a></p>
+
+<p>Specifies the subset of URLs to which the cookie applies. If set to "/" (the default), then the cookie applies to all paths.  If the path is null, it as assumed to be the same path as the document being described by the header which contains the cookie.</p>
+</dd>
+<dt id='sameSite'>
+sameSite</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str?</a> sameSite := &quot;strict&quot;</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line166'>Source</a></p>
+
+<p>If this value is non-null, then we add the SameSite attribute to the cookie. Valid values are</p>
+
+<ul>
+<li><code>lax</code></li>
+
+<li><code>strict</code> By default we set the attribute to <code>strict</code></li>
+</ul>
+</dd>
+<dt id='secure'>
+secure</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> secure := false</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line154'>Source</a></p>
+
+<p>If true, then the client only sends this cookie using a secure protocol such as HTTPS.  Defaults to false.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line175'>Source</a></p>
+
+<p>Return the cookie formatted as an Set-Cookie HTTP header.</p>
+</dd>
+<dt id='val'>
+val</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> val</code></p>
+<p class='src'>
+<a href='src-Cookie.fan.html#line120'>Source</a></p>
+
+<p>Value string of the cookie.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Cookie.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#domain'>domain</a></li><li><a href='#httpOnly'>httpOnly</a></li><li><a href='#maxAge'>maxAge</a></li><li><a href='#name'>name</a></li><li><a href='#path'>path</a></li><li><a href='#sameSite'>sameSite</a></li><li><a href='#secure'>secure</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#val'>val</a></li></ul>
+</div>
+</div>
+</body>
+</html>

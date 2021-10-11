@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>InlineParser.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='src-InlineParser.fan.html'>InlineParser.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2007, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   19 Feb 07  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** InlineParser parses a block of formatted text into</span>
+<span id='line11'>** a series of inline elements.</span>
+<span id='line12'>**</span>
+<span id='line13'>@Js</span>
+<span id='line14'>internal class InlineParser</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line18'>// Parser</span>
+<span id='line19'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line20'></span>
+<span id='line21'>  **</span>
+<span id='line22'>  ** Constructor takes a closure which feeds characters.</span>
+<span id='line23'>  **</span>
+<span id='line24'>  new make<b>(</b>FandocParser parent, StrBuf src, Int startLine<b>)</b></span>
+<span id='line25'>  <b>{</b></span>
+<span id='line26'>    this.parent = parent</span>
+<span id='line27'>    this.src = src</span>
+<span id='line28'>    this.stack = DocNode<b>[</b>,<b>]</b></span>
+<span id='line29'>    this.line = startLine</span>
+<span id='line30'></span>
+<span id='line31'>    // initialize cur and peek</span>
+<span id='line32'>    last = ' '</span>
+<span id='line33'>    cur = peek = -1</span>
+<span id='line34'>    if <b>(</b>src.size > 0<b>)</b> cur  = src<b>[</b>0<b>]</b></span>
+<span id='line35'>    if <b>(</b>src.size > 1<b>)</b> peek = src<b>[</b>1<b>]</b></span>
+<span id='line36'>    if <b>(</b>cur == '\n'<b>)</b>  <b>{</b> ++line; cur= ' ' <b>}</b></span>
+<span id='line37'>    if <b>(</b>peek == '\n'<b>)</b> <b>{</b> ++line; peek = ' ' <b>}</b></span>
+<span id='line38'>    pos = 0</span>
+<span id='line39'>  <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line42'>// Block</span>
+<span id='line43'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line44'></span>
+<span id='line45'>  Void parse<b>(</b>DocElem parent<b>)</b></span>
+<span id='line46'>  <b>{</b></span>
+<span id='line47'>    while <b>(</b>cur > 0<b>)</b></span>
+<span id='line48'>      segment<b>(</b>parent<b>)</b></span>
+<span id='line49'>  <b>}</b></span>
+<span id='line50'></span>
+<span id='line51'>  private Void segment<b>(</b>DocElem parent<b>)</b></span>
+<span id='line52'>  <b>{</b></span>
+<span id='line53'>    stack.push<b>(</b>parent<b>)</b></span>
+<span id='line54'>    DocNode? child</span>
+<span id='line55'>    if <b>(</b>last.isSpace || last == '*' || last == '/' || last == '<b>(</b>'<b>)</b></span>
+<span id='line56'>    <b>{</b></span>
+<span id='line57'>      switch <b>(</b>cur<b>)</b></span>
+<span id='line58'>      <b>{</b></span>
+<span id='line59'>        case '\'': child = code</span>
+<span id='line60'>        case '`':  child = link</span>
+<span id='line61'>        case '<b>[</b>':  child = annotation<b>(</b>parent<b>)</b></span>
+<span id='line62'>        case '*':  child = <b>(</b>peek == '*'<b>)</b> ? strong : emphasis</span>
+<span id='line63'>        case '!':  child = <b>(</b>peek == '<b>[</b>'<b>)</b> ? image : text</span>
+<span id='line64'>        default:   child = text</span>
+<span id='line65'>      <b>}</b></span>
+<span id='line66'>    <b>}</b></span>
+<span id='line67'>    else</span>
+<span id='line68'>    <b>{</b></span>
+<span id='line69'>      child = text</span>
+<span id='line70'>    <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>    if <b>(</b>child != null<b>)</b> parent.add<b>(</b>child<b>)</b></span>
+<span id='line73'></span>
+<span id='line74'>    stack.pop</span>
+<span id='line75'>  <b>}</b></span>
+<span id='line76'></span>
+<span id='line77'>  private Bool isTextEnd<b>(</b><b>)</b></span>
+<span id='line78'>  <b>{</b></span>
+<span id='line79'>    switch <b>(</b>cur<b>)</b></span>
+<span id='line80'>    <b>{</b></span>
+<span id='line81'>      // these characters always indicate a new segment</span>
+<span id='line82'>      // if preceeded by a space because they can't contain</span>
+<span id='line83'>      // embedded segments</span>
+<span id='line84'>      case '\'':</span>
+<span id='line85'>      case '`':</span>
+<span id='line86'>      case '<b>[</b>':</span>
+<span id='line87'>        return last.isSpace || last == '<b>(</b>'</span>
+<span id='line88'></span>
+<span id='line89'>      // !<b>[</b></span>
+<span id='line90'>      case '!':</span>
+<span id='line91'>        return peek == '<b>[</b>' &amp;&amp; last.isSpace</span>
+<span id='line92'></span>
+<span id='line93'>      // check for end of emphasis/strong or start of new one</span>
+<span id='line94'>      case '*':</span>
+<span id='line95'>        if <b>(</b>stack.peek.id == DocNodeId.strong<b>)</b></span>
+<span id='line96'>          // if inside a strong, then end of strong, or start of emphasis</span>
+<span id='line97'>          // ends the current text.</span>
+<span id='line98'>          return peek == '*' || last.isSpace</span>
+<span id='line99'>        else if <b>(</b>stack.peek.id == DocNodeId.emphasis<b>)</b></span>
+<span id='line100'>          return true</span>
+<span id='line101'>        else</span>
+<span id='line102'>          return last.isSpace</span>
+<span id='line103'></span>
+<span id='line104'>      default:</span>
+<span id='line105'>        return false</span>
+<span id='line106'>    <b>}</b></span>
+<span id='line107'>  <b>}</b></span>
+<span id='line108'></span>
+<span id='line109'>  private DocText text<b>(</b><b>)</b></span>
+<span id='line110'>  <b>{</b></span>
+<span id='line111'>    buf := StrBuf.make</span>
+<span id='line112'>    buf.addChar<b>(</b>cur<b>)</b></span>
+<span id='line113'>    consume</span>
+<span id='line114'>    while <b>(</b>cur > 0 &amp;&amp; !isTextEnd<b>)</b></span>
+<span id='line115'>    <b>{</b></span>
+<span id='line116'>      buf.addChar<b>(</b>cur<b>)</b></span>
+<span id='line117'>      consume</span>
+<span id='line118'>    <b>}</b></span>
+<span id='line119'>    return DocText<b>(</b>buf.toStr<b>)</b></span>
+<span id='line120'>  <b>}</b></span>
+<span id='line121'></span>
+<span id='line122'>  private DocNode code<b>(</b><b>)</b></span>
+<span id='line123'>  <b>{</b></span>
+<span id='line124'>    buf := StrBuf.make</span>
+<span id='line125'>    consume</span>
+<span id='line126'>    while <b>(</b>cur != '\''<b>)</b></span>
+<span id='line127'>    <b>{</b></span>
+<span id='line128'>      if <b>(</b>cur &lt;= 0<b>)</b> throw err<b>(</b>"Invalid code"<b>)</b></span>
+<span id='line129'>      buf.addChar<b>(</b>cur<b>)</b></span>
+<span id='line130'>      consume</span>
+<span id='line131'>    <b>}</b></span>
+<span id='line132'>    consume</span>
+<span id='line133'>    code := Code.make</span>
+<span id='line134'>    code.add<b>(</b>DocText<b>(</b>buf.toStr<b>)</b><b>)</b></span>
+<span id='line135'>    return code</span>
+<span id='line136'>  <b>}</b></span>
+<span id='line137'></span>
+<span id='line138'>  private DocNode emphasis<b>(</b><b>)</b></span>
+<span id='line139'>  <b>{</b></span>
+<span id='line140'>    if <b>(</b>peek &lt;= 0 || peek.isSpace &amp;&amp; peekPeek != '*'<b>)</b></span>
+<span id='line141'>      return text</span>
+<span id='line142'></span>
+<span id='line143'>    em := Emphasis.make</span>
+<span id='line144'>    consume</span>
+<span id='line145'>    while <b>(</b>cur != '*' || peek == '*'<b>)</b></span>
+<span id='line146'>    <b>{</b></span>
+<span id='line147'>      if <b>(</b>cur &lt;= 0<b>)</b> throw err<b>(</b>"Invalid *emphasis*"<b>)</b></span>
+<span id='line148'>      segment<b>(</b>em<b>)</b></span>
+<span id='line149'>    <b>}</b></span>
+<span id='line150'>    consume</span>
+<span id='line151'>    return em</span>
+<span id='line152'>  <b>}</b></span>
+<span id='line153'></span>
+<span id='line154'>  private DocNode strong<b>(</b><b>)</b></span>
+<span id='line155'>  <b>{</b></span>
+<span id='line156'>    strong := Strong.make</span>
+<span id='line157'>    consume</span>
+<span id='line158'>    consume</span>
+<span id='line159'>    while <b>(</b>cur != '*' || peek != '*'<b>)</b></span>
+<span id='line160'>    <b>{</b></span>
+<span id='line161'>      if <b>(</b>cur &lt;= 0<b>)</b> throw err<b>(</b>"Invalid **strong**"<b>)</b></span>
+<span id='line162'>      segment<b>(</b>strong<b>)</b></span>
+<span id='line163'>    <b>}</b></span>
+<span id='line164'>    consume</span>
+<span id='line165'>    consume</span>
+<span id='line166'>    return strong</span>
+<span id='line167'>  <b>}</b></span>
+<span id='line168'></span>
+<span id='line169'>  private DocNode link<b>(</b><b>)</b></span>
+<span id='line170'>  <b>{</b></span>
+<span id='line171'>    link := Link<b>(</b>uri<b>)</b></span>
+<span id='line172'>    link.line = this.line</span>
+<span id='line173'>    link.add<b>(</b>DocText<b>(</b>link.uri<b>)</b><b>)</b></span>
+<span id='line174'>    return link</span>
+<span id='line175'>  <b>}</b></span>
+<span id='line176'></span>
+<span id='line177'>  private DocNode? annotation<b>(</b>DocElem parent<b>)</b></span>
+<span id='line178'>  <b>{</b></span>
+<span id='line179'>    if <b>(</b>peek &lt;= 0 || peek == '<b>]</b>'<b>)</b></span>
+<span id='line180'>      return text</span>
+<span id='line181'></span>
+<span id='line182'>    // there are three options for square brackets</span>
+<span id='line183'>    //   <b>[</b>anchor<b>]</b>`url`         // hyperlink</span>
+<span id='line184'>    //   <b>[</b>!<b>[</b>alt<b>]</b>`image`<b>]</b>`url`  // image hyperlink <b>(</b>no spaces allowed<b>)</b></span>
+<span id='line185'>    //   <b>[</b>#frag<b>]</b>               // id to link to a heading</span>
+<span id='line186'></span>
+<span id='line187'>    DocNode? body</span>
+<span id='line188'>    Str? anchor</span>
+<span id='line189'>    if <b>(</b>peek == '!' &amp;&amp; peekPeek == '<b>[</b>'<b>)</b></span>
+<span id='line190'>    <b>{</b></span>
+<span id='line191'>      consume // <b>[</b></span>
+<span id='line192'>      body = image</span>
+<span id='line193'>      if <b>(</b>cur != '<b>]</b>'<b>)</b> throw err<b>(</b>"Invalid img link"<b>)</b></span>
+<span id='line194'>      consume  // <b>]</b></span>
+<span id='line195'>    <b>}</b></span>
+<span id='line196'>    else</span>
+<span id='line197'>    <b>{</b></span>
+<span id='line198'>      s := brackets</span>
+<span id='line199'>      if <b>(</b>s.startsWith<b>(</b>"#"<b>)</b><b>)</b></span>
+<span id='line200'>      <b>{</b></span>
+<span id='line201'>        parent.anchorId = s<b>[</b>1..-1<b>]</b></span>
+<span id='line202'>        return null</span>
+<span id='line203'>      <b>}</b></span>
+<span id='line204'>      body = DocText<b>(</b>s<b>)</b></span>
+<span id='line205'>    <b>}</b></span>
+<span id='line206'></span>
+<span id='line207'>    if <b>(</b>cur == '`'<b>)</b></span>
+<span id='line208'>    <b>{</b></span>
+<span id='line209'>      link := Link<b>(</b>uri<b>)</b></span>
+<span id='line210'>      link.add<b>(</b>body<b>)</b></span>
+<span id='line211'>      return link</span>
+<span id='line212'>    <b>}</b></span>
+<span id='line213'>    else</span>
+<span id='line214'>    <b>{</b></span>
+<span id='line215'>      throw err<b>(</b>"Invalid annotation <b>[</b><b>]</b>"<b>)</b></span>
+<span id='line216'>    <b>}</b></span>
+<span id='line217'>  <b>}</b></span>
+<span id='line218'></span>
+<span id='line219'>  private DocNode image<b>(</b><b>)</b></span>
+<span id='line220'>  <b>{</b></span>
+<span id='line221'>    consume // !</span>
+<span id='line222'>    alt := brackets</span>
+<span id='line223'>    size := null</span>
+<span id='line224'>    if <b>(</b>cur == '<b>[</b>'<b>)</b> size = brackets</span>
+<span id='line225'>    uri := uri</span>
+<span id='line226'>    img := Image<b>(</b>uri, alt<b>)</b></span>
+<span id='line227'>    img.size = size</span>
+<span id='line228'>    img.line = this.line</span>
+<span id='line229'>    return img</span>
+<span id='line230'>  <b>}</b></span>
+<span id='line231'></span>
+<span id='line232'>  private Str uri<b>(</b><b>)</b></span>
+<span id='line233'>  <b>{</b></span>
+<span id='line234'>    if <b>(</b>cur != '`'<b>)</b> throw err<b>(</b>"Invalid uri"<b>)</b></span>
+<span id='line235'>    consume  // leading `</span>
+<span id='line236'>    buf := StrBuf.make</span>
+<span id='line237'>    while <b>(</b>cur != '`'<b>)</b></span>
+<span id='line238'>    <b>{</b></span>
+<span id='line239'>      if <b>(</b>cur &lt;= 0<b>)</b> throw err<b>(</b>"Invalid uri"<b>)</b></span>
+<span id='line240'>      buf.addChar<b>(</b>cur<b>)</b></span>
+<span id='line241'>      consume</span>
+<span id='line242'>    <b>}</b></span>
+<span id='line243'>    consume  // trailing `</span>
+<span id='line244'>    return buf.toStr</span>
+<span id='line245'>  <b>}</b></span>
+<span id='line246'></span>
+<span id='line247'>  private Str brackets<b>(</b><b>)</b></span>
+<span id='line248'>  <b>{</b></span>
+<span id='line249'>    if <b>(</b>cur != '<b>[</b>'<b>)</b> throw err<b>(</b>"Invalid <b>[</b><b>]</b>"<b>)</b></span>
+<span id='line250'>    consume  // leading <b>[</b></span>
+<span id='line251'>    buf := StrBuf.make</span>
+<span id='line252'>    while <b>(</b>cur != '<b>]</b>'<b>)</b></span>
+<span id='line253'>    <b>{</b></span>
+<span id='line254'>      if <b>(</b>cur &lt;= 0<b>)</b> throw err<b>(</b>"Invalid <b>[</b><b>]</b>"<b>)</b></span>
+<span id='line255'>      buf.addChar<b>(</b>cur<b>)</b></span>
+<span id='line256'>      consume</span>
+<span id='line257'>    <b>}</b></span>
+<span id='line258'>    consume  // leading <b>]</b></span>
+<span id='line259'>    return buf.toStr</span>
+<span id='line260'>  <b>}</b></span>
+<span id='line261'></span>
+<span id='line262'>////////////////////////////////////////////////////////////////</span>
+<span id='line263'>// Utils</span>
+<span id='line264'>////////////////////////////////////////////////////////////////</span>
+<span id='line265'></span>
+<span id='line266'>  **</span>
+<span id='line267'>  ** Make exception to terminate processing.</span>
+<span id='line268'>  **</span>
+<span id='line269'>  Err err<b>(</b>Str msg<b>)</b></span>
+<span id='line270'>  <b>{</b></span>
+<span id='line271'>    return FandocErr<b>(</b>msg, parent.filename, line<b>)</b></span>
+<span id='line272'>  <b>}</b></span>
+<span id='line273'></span>
+<span id='line274'>  **</span>
+<span id='line275'>  ** Consume the cur char and advance to next char in buffer:</span>
+<span id='line276'>  **  - updates cur and peek fields</span>
+<span id='line277'>  **  - end of file, sets fields to null</span>
+<span id='line278'>  **</span>
+<span id='line279'>  private Void consume<b>(</b><b>)</b></span>
+<span id='line280'>  <b>{</b></span>
+<span id='line281'>    last = cur</span>
+<span id='line282'>    cur = peek</span>
+<span id='line283'>    pos++</span>
+<span id='line284'>    if <b>(</b>pos+1 &lt; src.size<b>)</b></span>
+<span id='line285'>    <b>{</b></span>
+<span id='line286'>      peek = src<b>[</b>pos+1<b>]</b> // next peek is cur+1</span>
+<span id='line287'>      if <b>(</b>peek == '\n'<b>)</b> <b>{</b> ++line; peek = ' '; <b>}</b></span>
+<span id='line288'>    <b>}</b></span>
+<span id='line289'>    else</span>
+<span id='line290'>    <b>{</b></span>
+<span id='line291'>      peek = -1</span>
+<span id='line292'>    <b>}</b></span>
+<span id='line293'>  <b>}</b></span>
+<span id='line294'></span>
+<span id='line295'>  **</span>
+<span id='line296'>  ** Look at char after peek</span>
+<span id='line297'>  **</span>
+<span id='line298'>  private Int peekPeek<b>(</b><b>)</b></span>
+<span id='line299'>  <b>{</b></span>
+<span id='line300'>    if <b>(</b>pos+2 &lt; src.size<b>)</b> return src<b>[</b>pos+2<b>]</b></span>
+<span id='line301'>    return -1</span>
+<span id='line302'>  <b>}</b></span>
+<span id='line303'></span>
+<span id='line304'>  private Str debug<b>(</b><b>)</b></span>
+<span id='line305'>  <b>{</b></span>
+<span id='line306'>    "cur='" + <b>(</b>cur &lt;= 0 ? "eof" : cur.toChar<b>)</b> +</span>
+<span id='line307'>    "' peek='" + <b>(</b>peek &lt;= 0 ? "eof" : peek.toChar<b>)</b> + "'"</span>
+<span id='line308'>  <b>}</b></span>
+<span id='line309'></span>
+<span id='line310'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line311'>// Fields</span>
+<span id='line312'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line313'></span>
+<span id='line314'>  private FandocParser parent // parent parser</span>
+<span id='line315'>  private StrBuf src          // characters to parse</span>
+<span id='line316'>  private Int line            // line</span>
+<span id='line317'>  private Int pos             // index into buf for cur</span>
+<span id='line318'>  private Int last            // last char</span>
+<span id='line319'>  private Int cur             // current char</span>
+<span id='line320'>  private Int peek            // next char</span>
+<span id='line321'>  private DocNode<b>[</b><b>]</b> stack     // stack of nodes</span>
+<span id='line322'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::CallResolver</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='CallResolver.html'>CallResolver</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::CallResolver</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    compiler::CallResolver</pre>
+
+<p>CallResolver handles the process of resolving a CallExpr or UnknownVarExpr to a method call or a field access.</p>
+<dl>
+<dt id='args'>
+args</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='Expr.html'>Expr</a>&gt;</a> args</code></p>
+</dd>
+<dt id='base'>
+base</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType?</a> base</code></p>
+</dd>
+<dt id='baseIt'>
+baseIt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CType.html'>CType?</a> baseIt</code></p>
+</dd>
+<dt id='curMethod'>
+curMethod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodDef.html'>MethodDef?</a> curMethod</code></p>
+</dd>
+<dt id='curType'>
+curType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='TypeDef.html'>TypeDef?</a> curType</code></p>
+</dd>
+<dt id='expr'>
+expr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='NameExpr.html'>NameExpr</a> expr</code></p>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> find()</code></p>
+
+<p>Find the method or field with the specified name.</p>
+</dd>
+<dt id='found'>
+found</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CSlot.html'>CSlot?</a> found</code></p>
+</dd>
+<dt id='foundOnIt'>
+foundOnIt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> foundOnIt</code></p>
+</dd>
+<dt id='inferClosureTypeFromCall'>
+inferClosureTypeFromCall</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Expr.html'>Expr</a> inferClosureTypeFromCall(<a href='CompilerSupport.html'>CompilerSupport</a> support, <a href='CallExpr.html'>CallExpr</a> call, <a href='CType.html'>CType</a> base)</code></p>
+
+<p>If the last argument to the resolved call is a closure, then use the method to infer the function type.  If the last arg is a closure, but the call doesn't take a closure, then translate into an implicit call to Obj.with</p>
+</dd>
+<dt id='isFuncFieldCall'>
+isFuncFieldCall</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFuncFieldCall</code></p>
+</dd>
+<dt id='isItAdd'>
+isItAdd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isItAdd</code></p>
+</dd>
+<dt id='isStaticLiteral'>
+isStaticLiteral</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isStaticLiteral()</code></p>
+
+<p>If this is a standalone name without a base target such as "Foo" and the name maps to a type name, then this is a type literal.</p>
+</dd>
+<dt id='isVar'>
+isVar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isVar</code></p>
+</dd>
+<dt id='loc'>
+loc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Loc.html'>Loc</a> loc</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler, <a href='TypeDef.html'>TypeDef?</a> curType, <a href='MethodDef.html'>MethodDef?</a> curMethod, <a href='NameExpr.html'>NameExpr</a> expr)</code></p>
+
+<p>Construct with NameExpr (base class of CallExpr and UnknownVarExpr)</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='resolve'>
+resolve</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr</a> resolve()</code></p>
+
+<p>Resolve into a method call or field access</p>
+</dd>
+<dt id='resolveBase'>
+resolveBase</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> resolveBase()</code></p>
+
+<p>Resolve the base type which defines the slot we are calling.</p>
+</dd>
+<dt id='result'>
+result</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr?</a> result</code></p>
+</dd>
+<dt id='target'>
+target</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr?</a> target</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#inferClosureTypeFromCall'>inferClosureTypeFromCall</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#args'>args</a></li><li><a href='#base'>base</a></li><li><a href='#baseIt'>baseIt</a></li><li><a href='#curMethod'>curMethod</a></li><li><a href='#curType'>curType</a></li><li><a href='#expr'>expr</a></li><li><a href='#find'>find</a></li><li><a href='#found'>found</a></li><li><a href='#foundOnIt'>foundOnIt</a></li><li><a href='#isFuncFieldCall'>isFuncFieldCall</a></li><li><a href='#isItAdd'>isItAdd</a></li><li><a href='#isStaticLiteral'>isStaticLiteral</a></li><li><a href='#isVar'>isVar</a></li><li><a href='#loc'>loc</a></li><li><a href='#name'>name</a></li><li><a href='#resolve'>resolve</a></li><li><a href='#resolveBase'>resolveBase</a></li><li><a href='#result'>result</a></li><li><a href='#target'>target</a></li></ul>
+</div>
+</div>
+</body>
+</html>

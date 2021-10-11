@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerDoc::Doc</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='Doc.html'>Doc</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> compilerDoc::Doc</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerDoc::Doc</pre>
+<p class='src'>
+<a href='src-Doc.fan.html'>Source</a></p>
+
+<p>Doc is the base class for document types.  All Docs are organized under a <code><a href='DocSpace.html'>DocSpace</a></code> for  a two level namespace of "spaceName/docName".</p>
+
+<p>Subclasses include:</p>
+
+<ul>
+<li><code><a href='DocPodIndex.html'>DocPodIndex</a></code>: pod index</li>
+
+<li><code><a href='DocType.html'>DocType</a></code>: type API</li>
+
+<li><code><a href='DocChapter.html'>DocChapter</a></code>: chapter in manual</li>
+
+<li><code><a href='DocRes.html'>DocRes</a></code>: resource file</li>
+
+<li><code><a href='DocSrc.html'>DocSrc</a></code>: source file</li>
+</ul>
+<dl>
+<dt id='breadcrumb'>
+breadcrumb</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str</a> breadcrumb()</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line38'>Source</a></p>
+
+<p>String to use for this document in the breadcrumb. By default this is the <code><a href='Doc.html#docName'>docName</a></code>.</p>
+</dd>
+<dt id='docName'>
+docName</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> docName()</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line28'>Source</a></p>
+
+<p>Name which uniquely identifies this document under its space.</p>
+</dd>
+<dt id='heading'>
+heading</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='DocHeading.html'>DocHeading?</a> heading(<a href='../sys/Str.html'>Str</a> id, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line73'>Source</a></p>
+
+<p>Get a chapter heading for this document by its anchor id</p>
+</dd>
+<dt id='isCode'>
+isCode</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isCode()</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line49'>Source</a></p>
+
+<p>Should links to this document be formatted as code identifier</p>
+</dd>
+<dt id='isSpaceIndex'>
+isSpaceIndex</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isSpaceIndex()</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line61'>Source</a></p>
+
+<p>Return if this is the index document of the space.</p>
+</dd>
+<dt id='isTopIndex'>
+isTopIndex</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isTopIndex()</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line54'>Source</a></p>
+
+<p>Convenience to check if this is  top-level index document. Top index often requires a bit of special handling since it lives a level above the standard two level namespace.</p>
+</dd>
+<dt id='onCrawl'>
+onCrawl</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Void.html'>Void</a> onCrawl(<a href='DocCrawler.html'>DocCrawler</a> crawler)</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line66'>Source</a></p>
+
+<p>Callback to handle a search engine crawl over this document. Call one of the <code>addX</code> methods on the crawler for each chunk of text in the document to be indexed.</p>
+</dd>
+<dt id='renderer'>
+renderer</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Type.html'>Type</a> renderer()</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line44'>Source</a></p>
+
+<p>Get the default <code><a href='DocRenderer.html'>DocRenderer</a></code> type to use for renderering this document.</p>
+</dd>
+<dt id='space'>
+space</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='DocSpace.html'>DocSpace</a> space()</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line23'>Source</a></p>
+
+<p>Space which contains this document</p>
+</dd>
+<dt id='title'>
+title</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> title()</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line33'>Source</a></p>
+
+<p>Default title for the document</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+<p class='src'>
+<a href='src-Doc.fan.html#line82'>Source</a></p>
+
+<p>Return docName by default</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Doc.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#breadcrumb'>breadcrumb</a></li><li><a href='#docName'>docName</a></li><li><a href='#heading'>heading</a></li><li><a href='#isCode'>isCode</a></li><li><a href='#isSpaceIndex'>isSpaceIndex</a></li><li><a href='#isTopIndex'>isTopIndex</a></li><li><a href='#onCrawl'>onCrawl</a></li><li><a href='#renderer'>renderer</a></li><li><a href='#space'>space</a></li><li><a href='#title'>title</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

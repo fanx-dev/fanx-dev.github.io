@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CMethod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CMethod.html'>CMethod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> compilerx::CMethod</h1>
+<pre>compilerx::CMethod : <a href='CSlot.html'>compilerx::CSlot</a></pre>
+
+<p>CMethod is a "compiler method" which is represents a Method in the compiler.  CMethods unify methods being compiled as MethodDefs with methods imported as ReflectMethod or FMethod.</p>
+<dl>
+<dt id='generic'>
+generic</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CMethod.html'>CMethod?</a> generic()</code></p>
+
+<p>If isParameterized is true, then return the generic method which this method parameterizes, otherwise null</p>
+</dd>
+<dt id='hasSameParams'>
+hasSameParams</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasSameParams(<a href='CMethod.html'>CMethod</a> that)</code></p>
+
+<p>Return if this method has the exact same parameters as the specified method.</p>
+</dd>
+<dt id='inheritedReturnType'>
+inheritedReturnType</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CType.html'>CType</a> inheritedReturnType()</code></p>
+
+<p>Original return type from inherited method if a covariant override.</p>
+</dd>
+<dt id='isCovariant'>
+isCovariant</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isCovariant()</code></p>
+
+<p>Does this method have a covariant return type (we don't count This returns as covariant)</p>
+</dd>
+<dt id='isGeneric'>
+isGeneric</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isGeneric()</code></p>
+
+<p>Does this method contains generic parameters in its signature.</p>
+</dd>
+<dt id='isParameterized'>
+isParameterized</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isParameterized()</code></p>
+
+<p>Is this method the parameterization of a generic method, with all the generic parameters filled in with real types.</p>
+</dd>
+<dt id='nameAndParamTypesToStr'>
+nameAndParamTypesToStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> nameAndParamTypesToStr()</code></p>
+
+<p>Return a string with the name and parameters.</p>
+</dd>
+<dt id='params'>
+params</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='CParam.html'>CParam</a>&gt;</a> params()</code></p>
+
+<p>Parameter signatures</p>
+</dd>
+<dt id='returnType'>
+returnType</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CType.html'>CType</a> returnType()</code></p>
+
+<p>Return type</p>
+</dd>
+<dt id='sameType'>
+sameType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> sameType(<a href='CType.html'>CType</a> ai, <a href='CType.html'>CType</a> bi)</code></p>
+
+<p>more loose for ParameterizedType type</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#sameType'>sameType</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#generic'>generic</a></li><li><a href='#hasSameParams'>hasSameParams</a></li><li><a href='#inheritedReturnType'>inheritedReturnType</a></li><li><a href='#isCovariant'>isCovariant</a></li><li><a href='#isGeneric'>isGeneric</a></li><li><a href='#isParameterized'>isParameterized</a></li><li><a href='#nameAndParamTypesToStr'>nameAndParamTypesToStr</a></li><li><a href='#params'>params</a></li><li><a href='#returnType'>returnType</a></li></ul>
+</div>
+</div>
+</body>
+</html>

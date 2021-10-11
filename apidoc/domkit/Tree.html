@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::Tree</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Tree.html'>Tree</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::Tree</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    <a href='Box.html'>domkit::Box</a>
+      domkit::Tree</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line114'>Source</a></p>
+
+<p>Tree visualizes <code><a href='TreeNode.html'>TreeNodes</a></code> as a series of expandable nodes.</p>
+
+<p>See also: <a href='docDomkit::Controls#tree'>docDomkit</a></p>
+<dl>
+<dt id='expand'>
+expand</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> expand(<a href='TreeNode.html'>TreeNode</a> node, <a href='../sys/Bool.html'>Bool</a> expanded)</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line160'>Source</a></p>
+
+<p>Set expanded state for given node.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line120'>Source</a></p>
+
+<p>Constructor.</p>
+</dd>
+<dt id='onAction'>
+onAction</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onAction(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Tree.html'>Tree</a>,<a href='../dom/Event.html'>Event</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line187'>Source</a></p>
+
+<p>Callback when a node has been double clicked.</p>
+</dd>
+<dt id='onSelect'>
+onSelect</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onSelect(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line184'>Source</a></p>
+
+<p>Callback when selection changes.</p>
+</dd>
+<dt id='onTreeEvent'>
+onTreeEvent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onTreeEvent(<a href='../sys/Str.html'>Str</a> type, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='TreeEvent.html'>TreeEvent</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line190'>Source</a></p>
+
+<p>Callback when a event occurs inside a tree node.</p>
+</dd>
+<dt id='rebuild'>
+rebuild</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> rebuild()</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line141'>Source</a></p>
+
+<p>Rebuild tree layout.</p>
+</dd>
+<dt id='refresh'>
+refresh</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> refresh()</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line148'>Source</a></p>
+
+<p>Refresh tree content.</p>
+</dd>
+<dt id='refreshNode'>
+refreshNode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> refreshNode(<a href='TreeNode.html'>TreeNode</a> node)</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line154'>Source</a></p>
+
+<p>Refresh given node.</p>
+</dd>
+<dt id='roots'>
+roots</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='TreeNode.html'>TreeNode</a>&gt;</a> roots := TreeNode[,]</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line138'>Source</a></p>
+
+<p>Root nodes for this tree.</p>
+</dd>
+<dt id='sel'>
+sel</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Selection.html'>Selection</a> sel { private set }</code></p>
+<p class='src'>
+<a href='src-Tree.fan.html#line181'>Source</a></p>
+
+<p>Selection for tree. Index based selection is not supported for Tree.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Tree.fan.html#line114'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#expand'>expand</a></li><li><a href='#onAction'>onAction</a></li><li><a href='#onSelect'>onSelect</a></li><li><a href='#onTreeEvent'>onTreeEvent</a></li><li><a href='#rebuild'>rebuild</a></li><li><a href='#refresh'>refresh</a></li><li><a href='#refreshNode'>refreshNode</a></li><li><a href='#roots'>roots</a></li><li><a href='#sel'>sel</a></li></ul>
+</div>
+</div>
+</body>
+</html>

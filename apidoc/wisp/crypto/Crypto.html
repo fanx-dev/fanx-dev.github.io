@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>crypto::Crypto</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>crypto</a></li><li><a href='Crypto.html'>Crypto</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const mixin</span> crypto::Crypto</h1>
+<pre>crypto::Crypto</pre>
+
+<p>Crypto defines a pluggable mixin for cryptography capabilities in Fantom. Use <code><a href='Crypto.html#cur'>cur</a></code> to access the current Crypto instance.</p>
+<dl>
+<dt id='certSigner'>
+certSigner</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CertSigner.html'>CertSigner</a> certSigner(<a href='Csr.html'>Csr</a> csr)</code></p>
+
+<p>Obtain a <code><a href='CertSigner.html'>builder</a></code> that can be used to configure signing options for generating a signed certificate from a <code><a href='Csr.html'>CSR</a></code>.</p>
+
+<pre>cert := Crypto.cur.certSigner(csr)
+  .ca(caKeys, "cn=example,ou=example.org,o=Example Inc,c=US")
+  .notAfter(Date.today + 365day)
+  .sign</pre>
+</dd>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Crypto.html'>Crypto</a> cur</code></p>
+
+<p>Get the installed crypto implementation for this runtime.</p>
+</dd>
+<dt id='digest'>
+digest</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Digest.html'>Digest</a> digest(<a href='../sys/Str.html'>Str</a> algorithm)</code></p>
+
+<p>Get a <code><a href='Digest.html'>Digest</a></code> for the given algorithm.</p>
+
+<pre>buf := Crypto.cur.digest("SHA-256").update("foo".toBuf).digest</pre>
+</dd>
+<dt id='genCsr'>
+genCsr</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Csr.html'>Csr</a> genCsr(<a href='KeyPair.html'>KeyPair</a> keys, <a href='../sys/Str.html'>Str</a> subjectDn, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> opts := [:])</code></p>
+
+<p>Generate a Certificate Signing Request (CSR). The <code>subjectDn</code> must be a valid <code>X.500</code> distinguised name as defined in <a href='https://tools.ietf.org/html/rfc4514'>RFC4514</a>.</p>
+
+<p>By default, the implementation should choose a "strong" signing algorithm for signing the CSR. All implementations must support the <code>algorithm</code> option with one of the following values:</p>
+
+<ul>
+<li><code>sha256WithRSAEncryption</code></li>
+
+<li><code>sha512WithRSAEncryption</code></li>
+</ul>
+
+<pre>// Generate a csr signed with the default algorithm
+csr := Crypto.cur.genCsr(pair, "cn=test")
+
+// Generate a csr signed with SHA-512
+csr := Crypto.cru.genCsr(pair, "cn=test", ["algorithm": "sha512WithRSAEncryption"])</pre>
+</dd>
+<dt id='genKeyPair'>
+genKeyPair</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='KeyPair.html'>KeyPair</a> genKeyPair(<a href='../sys/Str.html'>Str</a> algorithm, <a href='../sys/Int.html'>Int</a> bits)</code></p>
+
+<p>Generate an asymmetric key pair with the given algorithm and key size (in bits). Throws Err if the algorithm or key size is not supported.</p>
+
+<pre>pair := Crypto.cur.genKeyPair("RSA", 2048)</pre>
+</dd>
+<dt id='loadCertsForUri'>
+loadCertsForUri</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/List.html'>List&lt;<a href='Cert.html'>Cert</a>&gt;</a> loadCertsForUri(<a href='../std/Uri.html'>Uri</a> uri)</code></p>
+
+<p>Attempt to load the full certificate chain for the given uri. If the certificate chain cannot be obtained, throw an <code><a href='../sys/Err.html'>Err</a></code>.</p>
+
+<p>This is an optional operation and implementations may throw <code><a href='../sys/UnsupportedErr.html'>UnsupportedErr</a></code>.</p>
+
+<pre>certs := Crypto.cur.loadCertForUri(`https://my.server.com/`)</pre>
+</dd>
+<dt id='loadKeyStore'>
+loadKeyStore</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='KeyStore.html'>KeyStore</a> loadKeyStore(<a href='../std/File.html'>File?</a> file := null, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> opts := [:])</code></p>
+
+<p>Load a <code><a href='KeyStore.html'>KeyStore</a></code> from the given file. If <code>file</code> is null, then a new, empty keystore in the PKCS12 format will be returned. The keystore format is determined by the file extension:</p>
+
+<ul>
+<li><code>.p12</code>, <code>.pfx</code>: PKCS12 format</li>
+
+<li><code>.jks</code>: Java KeyStore (JAVA only)</li>
+</ul>
+
+<p>If the file does not have an extension, then PKCS12 format will be assumed. Other formats may be supported depending on the runtime implementation. Throws an Err if the format is not supported or there is a problem loading the keystore.</p>
+
+<p>The following options may be supported by the implementation:</p>
+
+<ul>
+<li><code>password</code>: (Str) - the password used to unlock the keystore or perform integrity checks.</li>
+</ul>
+
+<pre>ks := Crypto.cur.loadKeyStore(`keystore.p12`, ["password":"changeit"])</pre>
+</dd>
+<dt id='loadPem'>
+loadPem</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Obj.html'>Obj?</a> loadPem(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+
+<p>Load the next PEM-encoded object from the input stream. Returns one of the following depending on the PEM encoding:</p>
+
+<ul>
+<li><code><a href='PrivKey.html'>PrivKey</a></code></li>
+
+<li><code><a href='Cert.html'>Cert</a></code></li>
+
+<li><code><a href='Csr.html'>Csr</a></code> Returns <code>null</code> if there are no more PEM objects to decode. The input stream will be closed in this case.</li>
+</ul>
+
+<pre>key  := Crypto.cur.loadPem(`server.key`) as PrivKey
+cert := Crypto.cur.loadPem(`server.pem`) as Cert</pre>
+</dd>
+<dt id='loadX509'>
+loadX509</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='Cert.html'>Cert</a>&gt;</a> loadX509(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+
+<p>Load all X.509 certificates from the given input stream.</p>
+
+<p>The stream will be closed after reading the certificates.</p>
+
+<pre>cert := Crypto.cur.loadX509(`server.cert`).first</pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cur'>cur</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#certSigner'>certSigner</a></li><li><a href='#digest'>digest</a></li><li><a href='#genCsr'>genCsr</a></li><li><a href='#genKeyPair'>genKeyPair</a></li><li><a href='#loadCertsForUri'>loadCertsForUri</a></li><li><a href='#loadKeyStore'>loadKeyStore</a></li><li><a href='#loadPem'>loadPem</a></li><li><a href='#loadX509'>loadX509</a></li></ul>
+</div>
+</div>
+</body>
+</html>

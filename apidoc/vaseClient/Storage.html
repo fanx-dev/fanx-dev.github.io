@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseClient::Storage</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseClient</a></li><li><a href='Storage.html'>Storage</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> vaseClient::Storage</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseClient::Storage</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/NoPeer.html'>NoPeer</a></code><br /></p>
+
+<p>Storage models a DOM Storage.</p>
+
+<p>See <a href='pod-doc#win'>pod doc</a> for details.</p>
+<dl>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> clear()</code></p>
+
+<p>Remove all items from storage.  If store was empty, this method does nothing.</p>
+</dd>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Storage.html'>Storage</a> cur()</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='../sys/Obj.html'>Obj?</a> get(<a href='../sys/Str.html'>Str</a> key, <a href='../sys/Bool.html'>Bool</a> text := true)</code></p>
+
+<p>Return Obj stored under this key, or null if key does not exist.</p>
+</dd>
+<dt id='key'>
+key</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str?</a> key(<a href='../sys/Int.html'>Int</a> index)</code></p>
+
+<p>Return the key value for this index. If the index is greater than or equal to <code>size</code> returns null.</p>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> remove(<a href='../sys/Str.html'>Str</a> key)</code></p>
+
+<p>Remove value for this key. If no value for this key exists, this method does nothing.</p>
+</dd>
+<dt id='set'>
+set</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />abstract <a href='../sys/Void.html'>Void</a> set(<a href='../sys/Str.html'>Str</a> key, <a href='../sys/Obj.html'>Obj</a> val)</code></p>
+
+<p>Store value under this key.</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> size()</code></p>
+
+<p>Return the number of items in storage.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cur'>cur</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#clear'>clear</a></li><li><a href='#get'>get</a></li><li><a href='#key'>key</a></li><li><a href='#remove'>remove</a></li><li><a href='#set'>set</a></li><li><a href='#size'>size</a></li></ul>
+</div>
+</div>
+</body>
+</html>

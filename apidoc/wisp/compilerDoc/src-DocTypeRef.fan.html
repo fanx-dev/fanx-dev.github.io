@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>DocTypeRef.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerDoc</a></li><li><a href='DocTypeRef.html'>DocTypeRef</a></li><li><a href='src-DocTypeRef.fan.html'>DocTypeRef.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2011, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   11 Aug 11  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** DocTypeRef models a type reference in a type or slot signature.</span>
+<span id='line11'>**</span>
+<span id='line12'>abstract const class DocTypeRef</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'></span>
+<span id='line15'>  ** Constructor from signature string</span>
+<span id='line16'>  static DocTypeRef? fromStr<b>(</b>Str sig, Bool checked := true<b>)</b></span>
+<span id='line17'>  <b>{</b></span>
+<span id='line18'>    try</span>
+<span id='line19'>    <b>{</b></span>
+<span id='line20'>      return DocTypeRefParser<b>(</b>sig<b>)</b>.parseTop</span>
+<span id='line21'>    <b>}</b></span>
+<span id='line22'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line23'>    <b>{</b></span>
+<span id='line24'>      if <b>(</b>!checked<b>)</b> return null</span>
+<span id='line25'>      if <b>(</b>e is ParseErr<b>)</b> throw e</span>
+<span id='line26'>      else throw ParseErr<b>(</b>sig, e<b>)</b></span>
+<span id='line27'>    <b>}</b></span>
+<span id='line28'>  <b>}</b></span>
+<span id='line29'></span>
+<span id='line30'>  ** Pod name of the type.  For parameterized types this is</span>
+<span id='line31'>  ** always pod name of generic class itself.</span>
+<span id='line32'>  abstract Str pod<b>(</b><b>)</b></span>
+<span id='line33'></span>
+<span id='line34'>  ** Simple name of the type such as "Str".  For parameterized</span>
+<span id='line35'>  ** types this is always name of generic class itself.</span>
+<span id='line36'>  abstract Str name<b>(</b><b>)</b></span>
+<span id='line37'></span>
+<span id='line38'>  ** Qualified name formatted as "pod::name".  For parameterized</span>
+<span id='line39'>  ** types this is always the type of the generic class itself.</span>
+<span id='line40'>  abstract Str qname<b>(</b><b>)</b></span>
+<span id='line41'></span>
+<span id='line42'>  ** Return the formal signature of this type.  In the case of</span>
+<span id='line43'>  ** non-parameterized types the signature is the same as qname.</span>
+<span id='line44'>  abstract Str signature<b>(</b><b>)</b></span>
+<span id='line45'></span>
+<span id='line46'>  ** Get nice display name for type which excludes pod name</span>
+<span id='line47'>  ** even in parameterized types.</span>
+<span id='line48'>  abstract Str dis<b>(</b><b>)</b></span>
+<span id='line49'></span>
+<span id='line50'>  ** Is this a nullable type such as 'Str?'</span>
+<span id='line51'>  abstract Bool isNullable<b>(</b><b>)</b></span>
+<span id='line52'></span>
+<span id='line53'>  ** Is this one of the generic variable types such as 'sys::V'</span>
+<span id='line54'>  //abstract Bool isGenericVar<b>(</b><b>)</b></span>
+<span id='line55'></span>
+<span id='line56'>  ** Is this a parameterized generic type such as 'Str<b>[</b><b>]</b>'</span>
+<span id='line57'>  abstract Bool isParameterized<b>(</b><b>)</b></span>
+<span id='line58'></span>
+<span id='line59'>  ** If this a parameterized list or map get value type else null</span>
+<span id='line60'>  @NoDoc abstract DocTypeRef<b>[</b><b>]</b>? params<b>(</b><b>)</b></span>
+<span id='line61'>/*</span>
+<span id='line62'>  ** If this a parameterized map get key type else null</span>
+<span id='line63'>  @NoDoc abstract DocTypeRef? k<b>(</b><b>)</b></span>
+<span id='line64'></span>
+<span id='line65'>  ** If this a parameterized func type get parameterized param types</span>
+<span id='line66'>  @NoDoc abstract DocTypeRef<b>[</b><b>]</b>? funcParams<b>(</b><b>)</b></span>
+<span id='line67'></span>
+<span id='line68'>  ** If this a parameterized func type get return type else null</span>
+<span id='line69'>  @NoDoc abstract DocTypeRef? funcReturn<b>(</b><b>)</b></span>
+<span id='line70'>*/</span>
+<span id='line71'>  ** Return `signature`</span>
+<span id='line72'>  override final Str toStr<b>(</b><b>)</b> <b>{</b> signature <b>}</b></span>
+<span id='line73'><b>}</b></span>
+<span id='line74'></span>
+<span id='line75'>**************************************************************************</span>
+<span id='line76'>** BasicTypeRef</span>
+<span id='line77'>**************************************************************************</span>
+<span id='line78'></span>
+<span id='line79'>internal const class BasicTypeRef : DocTypeRef</span>
+<span id='line80'><b>{</b></span>
+<span id='line81'>  new make<b>(</b>Str qname, Int colons, DocTypeRef<b>[</b><b>]</b>? params<b>)</b></span>
+<span id='line82'>  <b>{</b></span>
+<span id='line83'>    this.pod   = qname<b>[</b>0..&lt;colons<b>]</b></span>
+<span id='line84'>    this.name  = qname<b>[</b>colons+2..-1<b>]</b></span>
+<span id='line85'>    this.qname = qname</span>
+<span id='line86'>    this.params = params</span>
+<span id='line87'>    this.signature = qname</span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>  override const Str pod</span>
+<span id='line91'>  override const Str name</span>
+<span id='line92'>  override const Str qname</span>
+<span id='line93'>  override const Str signature</span>
+<span id='line94'></span>
+<span id='line95'>  override Str dis<b>(</b><b>)</b> <b>{</b> name <b>}</b></span>
+<span id='line96'>  override Bool isNullable<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line97'></span>
+<span id='line98'>  override Bool isParameterized<b>(</b><b>)</b> <b>{</b> params != null &amp;&amp; params.size > 0 <b>}</b></span>
+<span id='line99'>  override const DocTypeRef<b>[</b><b>]</b>? params</span>
+<span id='line100'><b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>**************************************************************************</span>
+<span id='line103'>** NullableTypeRef</span>
+<span id='line104'>**************************************************************************</span>
+<span id='line105'></span>
+<span id='line106'>internal const class NullableTypeRef : DocTypeRef</span>
+<span id='line107'><b>{</b></span>
+<span id='line108'>  new make<b>(</b>DocTypeRef base<b>)</b> <b>{</b> this.base = base <b>}</b></span>
+<span id='line109'>  const DocTypeRef base</span>
+<span id='line110'>  override Str pod<b>(</b><b>)</b> <b>{</b> base.pod <b>}</b></span>
+<span id='line111'>  override Str name<b>(</b><b>)</b> <b>{</b> base.name <b>}</b></span>
+<span id='line112'>  override Str qname<b>(</b><b>)</b> <b>{</b> base.qname <b>}</b></span>
+<span id='line113'>  override Str signature<b>(</b><b>)</b> <b>{</b> "$<b>{</b>base<b>}</b>?" <b>}</b></span>
+<span id='line114'>  override Str dis<b>(</b><b>)</b> <b>{</b> "$<b>{</b>base.dis<b>}</b>?" <b>}</b></span>
+<span id='line115'>  override Bool isNullable<b>(</b><b>)</b> <b>{</b> true <b>}</b></span>
+<span id='line116'>  override Bool isParameterized<b>(</b><b>)</b> <b>{</b> base.isParameterized <b>}</b></span>
+<span id='line117'></span>
+<span id='line118'>  override DocTypeRef<b>[</b><b>]</b>? params<b>(</b><b>)</b> <b>{</b> base.params <b>}</b></span>
+<span id='line119'><b>}</b></span>
+<span id='line120'>/*</span>
+<span id='line121'>**************************************************************************</span>
+<span id='line122'>** ListTypeRef</span>
+<span id='line123'>**************************************************************************</span>
+<span id='line124'></span>
+<span id='line125'>internal const class ListTypeRef : DocTypeRef</span>
+<span id='line126'><b>{</b></span>
+<span id='line127'>  new make<b>(</b>DocTypeRef v<b>)</b> <b>{</b> this.v = v <b>}</b></span>
+<span id='line128'>  override Str pod<b>(</b><b>)</b> <b>{</b> "sys" <b>}</b></span>
+<span id='line129'>  override Str name<b>(</b><b>)</b> <b>{</b> "List" <b>}</b></span>
+<span id='line130'>  override Str qname<b>(</b><b>)</b> <b>{</b> "sys::List" <b>}</b></span>
+<span id='line131'>  override Str signature<b>(</b><b>)</b> <b>{</b> "$v<b>[</b><b>]</b>" <b>}</b></span>
+<span id='line132'>  override Str dis<b>(</b><b>)</b> <b>{</b> "$<b>{</b>v.dis<b>}</b><b>[</b><b>]</b>" <b>}</b></span>
+<span id='line133'>  override Bool isNullable<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line134'>  override Bool isParameterized<b>(</b><b>)</b> <b>{</b> true <b>}</b></span>
+<span id='line135'>  override Bool isGenericVar<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line136'>  override const DocTypeRef? v</span>
+<span id='line137'>  override DocTypeRef? k<b>(</b><b>)</b> <b>{</b> null <b>}</b></span>
+<span id='line138'>  override DocTypeRef<b>[</b><b>]</b>? funcParams<b>(</b><b>)</b> <b>{</b> null <b>}</b></span>
+<span id='line139'>  override DocTypeRef? funcReturn<b>(</b><b>)</b> <b>{</b> null <b>}</b></span>
+<span id='line140'><b>}</b></span>
+<span id='line141'></span>
+<span id='line142'>**************************************************************************</span>
+<span id='line143'>** MapTypeRef</span>
+<span id='line144'>**************************************************************************</span>
+<span id='line145'></span>
+<span id='line146'>internal const class MapTypeRef : DocTypeRef</span>
+<span id='line147'><b>{</b></span>
+<span id='line148'>  new make<b>(</b>DocTypeRef k, DocTypeRef v<b>)</b> <b>{</b> this.k = k; this.v = v <b>}</b></span>
+<span id='line149'>  override Str pod<b>(</b><b>)</b> <b>{</b> "sys" <b>}</b></span>
+<span id='line150'>  override Str name<b>(</b><b>)</b> <b>{</b> "Map" <b>}</b></span>
+<span id='line151'>  override Str qname<b>(</b><b>)</b> <b>{</b> "sys::Map" <b>}</b></span>
+<span id='line152'>  override Str signature<b>(</b><b>)</b> <b>{</b> "<b>[</b>$k:$v<b>]</b>" <b>}</b></span>
+<span id='line153'>  override Str dis<b>(</b><b>)</b> <b>{</b> "<b>[</b>$k.dis:$v.dis<b>]</b>" <b>}</b></span>
+<span id='line154'>  override Bool isNullable<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line155'>  override Bool isParameterized<b>(</b><b>)</b> <b>{</b> true <b>}</b></span>
+<span id='line156'>  override Bool isGenericVar<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line157'>  override const DocTypeRef? k</span>
+<span id='line158'>  override const DocTypeRef? v</span>
+<span id='line159'>  override DocTypeRef<b>[</b><b>]</b>? funcParams<b>(</b><b>)</b> <b>{</b> null <b>}</b></span>
+<span id='line160'>  override DocTypeRef? funcReturn<b>(</b><b>)</b> <b>{</b> null <b>}</b></span>
+<span id='line161'><b>}</b></span>
+<span id='line162'></span>
+<span id='line163'>**************************************************************************</span>
+<span id='line164'>** FuncTypeRef</span>
+<span id='line165'>**************************************************************************</span>
+<span id='line166'></span>
+<span id='line167'>internal const class FuncTypeRef : DocTypeRef</span>
+<span id='line168'><b>{</b></span>
+<span id='line169'>  new make<b>(</b>DocTypeRef<b>[</b><b>]</b> p, DocTypeRef r<b>)</b> <b>{</b> funcParams = p; funcReturn = r <b>}</b></span>
+<span id='line170'>  override Str pod<b>(</b><b>)</b> <b>{</b> "sys" <b>}</b></span>
+<span id='line171'>  override Str name<b>(</b><b>)</b> <b>{</b> "Func" <b>}</b></span>
+<span id='line172'>  override Str qname<b>(</b><b>)</b> <b>{</b> "sys::Func" <b>}</b></span>
+<span id='line173'>  override Str signature<b>(</b><b>)</b></span>
+<span id='line174'>  <b>{</b></span>
+<span id='line175'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line176'>    s.add<b>(</b>"|"<b>)</b></span>
+<span id='line177'>    funcParams.each |p, i| <b>{</b> if <b>(</b>i > 0<b>)</b> s.add<b>(</b>","<b>)</b>; s.add<b>(</b>p.signature<b>)</b> <b>}</b></span>
+<span id='line178'>    s.add<b>(</b>"->"<b>)</b></span>
+<span id='line179'>    s.add<b>(</b>funcReturn<b>)</b></span>
+<span id='line180'>    s.add<b>(</b>"|"<b>)</b></span>
+<span id='line181'>    return s.toStr</span>
+<span id='line182'>  <b>}</b></span>
+<span id='line183'>  override Str dis<b>(</b><b>)</b></span>
+<span id='line184'>  <b>{</b></span>
+<span id='line185'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line186'>    s.add<b>(</b>"|"<b>)</b></span>
+<span id='line187'>    funcParams.each |p, i| <b>{</b> if <b>(</b>i > 0<b>)</b> s.add<b>(</b>","<b>)</b>; s.add<b>(</b>p.dis<b>)</b> <b>}</b></span>
+<span id='line188'>    s.add<b>(</b>"->"<b>)</b></span>
+<span id='line189'>    s.add<b>(</b>funcReturn.dis<b>)</b></span>
+<span id='line190'>    s.add<b>(</b>"|"<b>)</b></span>
+<span id='line191'>    return s.toStr</span>
+<span id='line192'>  <b>}</b></span>
+<span id='line193'>  override Bool isNullable<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line194'>  override Bool isParameterized<b>(</b><b>)</b> <b>{</b> true <b>}</b></span>
+<span id='line195'>  override Bool isGenericVar<b>(</b><b>)</b> <b>{</b> false <b>}</b></span>
+<span id='line196'>  override DocTypeRef? v<b>(</b><b>)</b> <b>{</b> null <b>}</b></span>
+<span id='line197'>  override DocTypeRef? k<b>(</b><b>)</b> <b>{</b> null <b>}</b></span>
+<span id='line198'>  override const DocTypeRef<b>[</b><b>]</b>? funcParams</span>
+<span id='line199'>  override const DocTypeRef? funcReturn</span>
+<span id='line200'><b>}</b></span>
+<span id='line201'>*/</span>
+<span id='line202'>**************************************************************************</span>
+<span id='line203'>** DocTypeRefParser</span>
+<span id='line204'>**************************************************************************</span>
+<span id='line205'></span>
+<span id='line206'>internal class DocTypeRefParser</span>
+<span id='line207'><b>{</b></span>
+<span id='line208'></span>
+<span id='line209'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line210'>// Constructor</span>
+<span id='line211'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line212'></span>
+<span id='line213'>  internal new make<b>(</b>Str sig<b>)</b></span>
+<span id='line214'>  <b>{</b></span>
+<span id='line215'>    this.sig   = sig</span>
+<span id='line216'>    this.len   = sig.size</span>
+<span id='line217'>    this.pos   = 0</span>
+<span id='line218'>    this.cur   = sig<b>[</b>pos<b>]</b></span>
+<span id='line219'>    this.peek  = sig<b>[</b>pos+1<b>]</b></span>
+<span id='line220'>  <b>}</b></span>
+<span id='line221'></span>
+<span id='line222'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line223'>// Parse</span>
+<span id='line224'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line225'></span>
+<span id='line226'>  internal DocTypeRef parseTop<b>(</b><b>)</b></span>
+<span id='line227'>  <b>{</b></span>
+<span id='line228'>    t := parseAny</span>
+<span id='line229'>    if <b>(</b>cur != 0<b>)</b> throw err</span>
+<span id='line230'>    return t</span>
+<span id='line231'>  <b>}</b></span>
+<span id='line232'></span>
+<span id='line233'>  private DocTypeRef parseAny<b>(</b><b>)</b></span>
+<span id='line234'>  <b>{</b></span>
+<span id='line235'>    DocTypeRef? t</span>
+<span id='line236'>    /*</span>
+<span id='line237'>    // |...| is function</span>
+<span id='line238'>    if <b>(</b>cur == '|'<b>)</b></span>
+<span id='line239'>      t = parseFunc</span>
+<span id='line240'></span>
+<span id='line241'>    // <b>[</b> is either <b>[</b>ffi<b>]</b>xxx or <b>[</b>K:V<b>]</b> map</span>
+<span id='line242'>    else if <b>(</b>cur == '<b>[</b>'<b>)</b></span>
+<span id='line243'>    <b>{</b></span>
+<span id='line244'>      ffi := true</span>
+<span id='line245'>      for <b>(</b>i:=pos+1; i&lt;len; ++i<b>)</b></span>
+<span id='line246'>      <b>{</b></span>
+<span id='line247'>        ch := sig<b>[</b>i<b>]</b></span>
+<span id='line248'>        if <b>(</b>isIdChar<b>(</b>ch<b>)</b><b>)</b> continue</span>
+<span id='line249'>        ffi = <b>(</b>ch == '<b>]</b>'<b>)</b></span>
+<span id='line250'>        break</span>
+<span id='line251'>      <b>}</b></span>
+<span id='line252'></span>
+<span id='line253'>      if <b>(</b>ffi<b>)</b></span>
+<span id='line254'>        t = parseBasic</span>
+<span id='line255'>      else</span>
+<span id='line256'>        t = parseMap</span>
+<span id='line257'>    <b>}</b></span>
+<span id='line258'></span>
+<span id='line259'>    // otherwise must be basic<b>[</b><b>]</b></span>
+<span id='line260'>    else</span>
+<span id='line261'>    */</span>
+<span id='line262'>      t = parseBasic</span>
+<span id='line263'></span>
+<span id='line264'>    // nullable and <b>[</b><b>]</b></span>
+<span id='line265'>    while <b>(</b>cur == '?' || cur == '<b>[</b>'<b>)</b></span>
+<span id='line266'>    <b>{</b></span>
+<span id='line267'>      if <b>(</b>cur == '?'<b>)</b></span>
+<span id='line268'>      <b>{</b></span>
+<span id='line269'>        consume<b>(</b>'?'<b>)</b></span>
+<span id='line270'>        t = NullableTypeRef<b>(</b>t<b>)</b></span>
+<span id='line271'>      <b>}</b></span>
+<span id='line272'></span>
+<span id='line273'>      /*</span>
+<span id='line274'>      if <b>(</b>cur == '<b>[</b>'<b>)</b></span>
+<span id='line275'>      <b>{</b></span>
+<span id='line276'>        consume<b>(</b>'<b>[</b>'<b>)</b></span>
+<span id='line277'>        consume<b>(</b>'<b>]</b>'<b>)</b></span>
+<span id='line278'>        t = ListTypeRef<b>(</b>t<b>)</b></span>
+<span id='line279'>      <b>}</b></span>
+<span id='line280'>      */</span>
+<span id='line281'>    <b>}</b></span>
+<span id='line282'></span>
+<span id='line283'>    return t</span>
+<span id='line284'>  <b>}</b></span>
+<span id='line285'>/*</span>
+<span id='line286'>  private DocTypeRef parseMap<b>(</b><b>)</b></span>
+<span id='line287'>  <b>{</b></span>
+<span id='line288'>    consume<b>(</b>'<b>[</b>'<b>)</b></span>
+<span id='line289'>    key := parseAny</span>
+<span id='line290'>    consume<b>(</b>':'<b>)</b></span>
+<span id='line291'>    val := parseAny</span>
+<span id='line292'>    consume<b>(</b>'<b>]</b>'<b>)</b></span>
+<span id='line293'>    return MapTypeRef<b>(</b>key, val<b>)</b></span>
+<span id='line294'>  <b>}</b></span>
+<span id='line295'></span>
+<span id='line296'>  private DocTypeRef parseFunc<b>(</b><b>)</b></span>
+<span id='line297'>  <b>{</b></span>
+<span id='line298'>    consume<b>(</b>'|'<b>)</b></span>
+<span id='line299'>    params := DocTypeRef<b>[</b>,<b>]</b></span>
+<span id='line300'>    if <b>(</b>cur != '-'<b>)</b></span>
+<span id='line301'>    <b>{</b></span>
+<span id='line302'>      while <b>(</b>true<b>)</b></span>
+<span id='line303'>      <b>{</b></span>
+<span id='line304'>        params.add<b>(</b>parseAny<b>)</b></span>
+<span id='line305'>        if <b>(</b>cur == '-'<b>)</b> break</span>
+<span id='line306'>        consume<b>(</b>','<b>)</b></span>
+<span id='line307'>      <b>}</b></span>
+<span id='line308'>    <b>}</b></span>
+<span id='line309'>    consume<b>(</b>'-'<b>)</b></span>
+<span id='line310'>    consume<b>(</b>'>'<b>)</b></span>
+<span id='line311'>    ret := parseAny</span>
+<span id='line312'>    consume<b>(</b>'|'<b>)</b></span>
+<span id='line313'></span>
+<span id='line314'>    return FuncTypeRef<b>(</b>params, ret<b>)</b></span>
+<span id='line315'>  <b>}</b></span>
+<span id='line316'>*/</span>
+<span id='line317'>  private DocTypeRef parseBasic<b>(</b><b>)</b></span>
+<span id='line318'>  <b>{</b></span>
+<span id='line319'>    // pod</span>
+<span id='line320'>    start := pos</span>
+<span id='line321'>    while <b>(</b>cur != ':' || peek != ':'<b>)</b> consume</span>
+<span id='line322'></span>
+<span id='line323'>    // ::</span>
+<span id='line324'>    colons := pos - start</span>
+<span id='line325'>    consume<b>(</b>':'<b>)</b></span>
+<span id='line326'>    consume<b>(</b>':'<b>)</b></span>
+<span id='line327'></span>
+<span id='line328'>    // type name or <b>[</b>Baz for FFI</span>
+<span id='line329'>    while <b>(</b>cur == '<b>[</b>'<b>)</b> consume</span>
+<span id='line330'>    while <b>(</b>isIdChar<b>(</b>cur<b>)</b><b>)</b> consume</span>
+<span id='line331'></span>
+<span id='line332'>    end := pos</span>
+<span id='line333'>    DocTypeRef<b>[</b><b>]</b>? params := null</span>
+<span id='line334'>    if <b>(</b>cur == '&lt;'<b>)</b> <b>{</b></span>
+<span id='line335'>      consume</span>
+<span id='line336'>      params = DocTypeRef<b>[</b>,<b>]</b></span>
+<span id='line337'>      while <b>(</b>cur != '>'<b>)</b> <b>{</b></span>
+<span id='line338'>        p := parseAny</span>
+<span id='line339'>        params.add<b>(</b>p<b>)</b></span>
+<span id='line340'></span>
+<span id='line341'>        if <b>(</b>cur == ','<b>)</b> <b>{</b></span>
+<span id='line342'>          consume</span>
+<span id='line343'>        <b>}</b></span>
+<span id='line344'>      <b>}</b></span>
+<span id='line345'>      if <b>(</b>cur == '>'<b>)</b> <b>{</b></span>
+<span id='line346'>        consume</span>
+<span id='line347'>      <b>}</b></span>
+<span id='line348'>    <b>}</b></span>
+<span id='line349'></span>
+<span id='line350'>    //echo<b>(</b>"======$sig => $<b>{</b>sig<b>[</b>start..&lt;end<b>]</b><b>}</b> &lt; $buf >"<b>)</b></span>
+<span id='line351'>    return BasicTypeRef<b>(</b>sig<b>[</b>start..&lt;end<b>]</b>, colons, params<b>)</b></span>
+<span id='line352'>  <b>}</b></span>
+<span id='line353'></span>
+<span id='line354'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line355'>// Utils</span>
+<span id='line356'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line357'></span>
+<span id='line358'>  private Void consume<b>(</b>Int? expected := null<b>)</b></span>
+<span id='line359'>  <b>{</b></span>
+<span id='line360'>    if <b>(</b>expected != null &amp;&amp; cur != expected || cur == 0<b>)</b> throw err</span>
+<span id='line361'>    cur = peek</span>
+<span id='line362'>    pos++</span>
+<span id='line363'>    peek = pos+1 &lt; len ? sig<b>[</b>pos+1<b>]</b> : 0</span>
+<span id='line364'>  <b>}</b></span>
+<span id='line365'></span>
+<span id='line366'>  private static Bool isIdChar<b>(</b>Int ch<b>)</b></span>
+<span id='line367'>  <b>{</b></span>
+<span id='line368'>    ch.isAlphaNum || ch == '_' || ch == '^'</span>
+<span id='line369'>  <b>}</b></span>
+<span id='line370'></span>
+<span id='line371'>  private ParseErr err<b>(</b><b>)</b></span>
+<span id='line372'>  <b>{</b></span>
+<span id='line373'>    ParseErr<b>(</b>"Invalid type signature '" + sig + "'"<b>)</b></span>
+<span id='line374'>  <b>}</b></span>
+<span id='line375'></span>
+<span id='line376'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line377'>// Fields</span>
+<span id='line378'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line379'></span>
+<span id='line380'>  private Str sig        // signature being parsed</span>
+<span id='line381'>  private Int len        // length of sig</span>
+<span id='line382'>  private Int pos        // index of cur in sig</span>
+<span id='line383'>  private Int cur        // cur character; sig<b>[</b>pos<b>]</b></span>
+<span id='line384'>  private Int peek       // next character; sig<b>[</b>pos+1<b>]</b></span>
+<span id='line385'></span>
+<span id='line386'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

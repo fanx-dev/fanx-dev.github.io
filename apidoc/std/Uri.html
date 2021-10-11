@@ -1,0 +1,679 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Uri</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Uri.html'>Uri</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const class</span> std::Uri</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Uri</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Uri is used to immutably represent a Universal Resource Identifier according to <a href='http://tools.ietf.org/html/rfc3986'>RFC 3986</a>. The generic format for a URI is:</p>
+
+<pre>&lt;uri>        := [&lt;scheme> ":"] &lt;body>
+&lt;body>       := ["//" &lt;auth>] ["/" &lt;path>] ["?" &lt;query>] ["#" &lt;frag>]
+&lt;auth>       := [&lt;userInfo> "@"] &lt;host> [":" &lt;port>]
+&lt;path>       := &lt;name> ("/" &lt;name>)*
+&lt;name>       := &lt;basename> ["." &lt;ext>]
+&lt;query>      := &lt;queryPair> (&lt;querySep> &lt;queryPair>)*
+&lt;querySep>   := "&amp;" | ";"
+&lt;queryPair>  := &lt;queryKey> ["=" &lt;queryVal>]
+&lt;gen-delims> := ":" / "/" / "?" / "#" / "[" / "]" / "@"</pre>
+
+<p>Uris are expressed in the following forms:</p>
+
+<ul>
+<li>Standard Form: any char allowed, general delimiters are escape by <code>%HH</code> percent encoded</li>
+
+<li>Encoded Form: non alphanumeric are <code>%HH</code> percent encoded</li>
+</ul>
+
+<p>In standard form the full range of Unicode characters is allowed in all sections except the general delimiters which separate sections.  For example <code>?</code> is barred in any section before the query, but is permissible in the query string itself or the fragment identifier.  The scheme must be strictly defined in terms of ASCII alphanumeric, ".", "+", or "-". Any general delimiter used outside of its normal role, must be escaped using the "%HH" percent encoded.  Only the path, query, and fragment sections can use escaped general delimiters; the scheme and authority sections cannot use escaped general delimters.</p>
+
+<p>Encoded form as defined by RFC 3986 uses a stricter set of rules for the characters allowed in each section of the URI (scheme, userInfo, host, path, query, and fragment).  Any character outside of the allowed set is UTF-8 encoded into octets and <code>%HH</code> percent encoded. The encoded form should be used when working with external applications such as HTTP, HTML, or XML.</p>
+
+<p>The Uri API is designed to work with the standard form of the Uri. Access methods like <code><a href='Uri.html#host'>host</a></code>, <code><a href='Uri.html#pathStr'>pathStr</a></code>, or <code><a href='Uri.html#queryStr'>queryStr</a></code> all use standard form.  To summarize different ways of working with Uri:</p>
+
+<ul>
+<li><code><a href='Uri.html#fromStr'>Uri.fromStr</a></code>:  parses a string from its standard form</li>
+
+<li><code><a href='Uri.html#toStr'>Uri.toStr</a></code>:    returns the standard form</li>
+
+<li><code><a href='Uri.html#decode'>Uri.decode</a></code>:   parses a string from percent encoded form</li>
+
+<li><code><a href='Uri.html#encode'>Uri.encode</a></code>:   translate into percent encoded form</li>
+</ul>
+
+<p>Uri can be used to model either absolute URIs or relative references. The <code><a href='Uri.html#plus'>plus</a></code> and <code><a href='Uri.html#relTo'>relTo</a></code> methods can be used to resolve and relativize relative references against a base URI.</p>
+<dl>
+<dt id='auth'>
+auth</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> auth()</code></p>
+
+<p>The authority represents a network endpoint in the format:</p>
+
+<pre>[&lt;userInfo> "@"] host [":" &lt;port>]</pre>
+
+<p>Examples:</p>
+
+<pre>`http://user@host:99/`.auth  =>  "user@host:99"
+`http://host/`.auth          =>  "host"
+`/dir/file.txt`.auth         =>  null</pre>
+</dd>
+<dt id='basename'>
+basename</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> basename()</code></p>
+
+<p>Return file name without the extension (everything up to the last dot) or "" if name is "".</p>
+
+<p>Examples:</p>
+
+<pre>`/`.basename            =>  ""
+`/a/file.txt`.basename  =>  "file"
+`/a/file`.basename      =>  "file"
+`/a/file.`.basename     =>  "file"
+`..`.basename           =>  ".."</pre>
+</dd>
+<dt id='checkName'>
+checkName</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> checkName(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>If the specified string is not a valid name according to the <code><a href='Uri.html#isName'>isName</a></code> method, then throw <a href='NameErr'>NameErr</a>.</p>
+</dd>
+<dt id='decode'>
+decode</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Uri.html'>Uri?</a> decode(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse an ASCII percent encoded string into a Uri according to RFC 3986.  All <code>%HH</code> escape sequences are translated into octects, and then the octect sequence is UTF-8 decoded into a Str.  The <code>+</code> character in the query section is unescaped into a space.  If checked if true then throw ParseErr if the string is a malformed URI or if not encoded correctly, otherwise return null. Refer to <code><a href='Uri.html#fromStr'>fromStr</a></code> for normalization rules.</p>
+</dd>
+<dt id='decodeQuery'>
+decodeQuery</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> decodeQuery(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Decode a map of query parameters which are URL encoded according to the "application/x-www-form-urlencoded" MIME type.  This method will unescape <code>%</code> percent encoding and <code>+</code> into space.  The parameters are parsed into map using the same semantics as <code><a href='Uri.html#query'>Uri.query</a></code>.  Throw ArgErr is the string is malformed.  See <code><a href='Uri.html#encodeQuery'>encodeQuery</a></code>.</p>
+</dd>
+<dt id='decodeToken'>
+decodeToken</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> decodeToken(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Int.html'>Int</a> section)</code></p>
+
+<p>Unescape "%xx" percent encoded string to its normalized form for the given section.  Any delimiters for the section are backslash escaped.  Section must be <code><a href='Uri.html#sectionPath'>sectionPath</a></code>, <code><a href='Uri.html#sectionQuery'>sectionQuery</a></code>, or <code><a href='Uri.html#sectionFrag'>sectionFrag</a></code>.  Also see <code><a href='Uri.html#encodeToken'>encodeToken</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>Uri.decodeToken("a%2Fb%23c", Uri.sectionPath)  =>  "a\/b\#c"
+Uri.decodeToken("a%3Db/c", Uri.sectionQuery)   =>  "a\=b/c"</pre>
+</dd>
+<dt id='defVal'>
+defVal</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='Uri.html'>Uri</a> defVal := ``</code></p>
+
+<p>Default value is <code>``</code>.</p>
+</dd>
+<dt id='encode'>
+encode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> encode()</code></p>
+
+<p>Return the percent encoded string for this Uri according to RFC 3986.  Each section of the Uri is UTF-8 encoded into octects and then percent encoded according to its valid character set. Spaces in the query section are encoded as <code>+</code>.</p>
+</dd>
+<dt id='encodeQuery'>
+encodeQuery</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> encodeQuery(<a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> q)</code></p>
+
+<p>Encode a map of query parameters into URL percent encoding according to the "application/x-www-form-urlencoded" MIME type. See <code><a href='Uri.html#decodeQuery'>decodeQuery</a></code>.</p>
+</dd>
+<dt id='encodeToken'>
+encodeToken</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Str.html'>Str</a> encodeToken(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Int.html'>Int</a> section)</code></p>
+
+<p>Encode a token so that any invalid character or delimter for the given section is "%xx" percent encoding.  Section must be <code><a href='Uri.html#sectionPath'>sectionPath</a></code>, <code><a href='Uri.html#sectionQuery'>sectionQuery</a></code>, or <code><a href='Uri.html#sectionFrag'>sectionFrag</a></code>.  Also see <code><a href='Uri.html#decodeToken'>decodeToken</a></code>.</p>
+
+<p>Examples:</p>
+
+<pre>Uri.encodeToken("a/b#c", Uri.sectionPath)   =>  "a%2Fb%23c"
+Uri.encodeToken("a=b/c", Uri.sectionQuery)  =>  "a%3Db/c"</pre>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Two Uris are equal if they have same string normalized representation.</p>
+</dd>
+<dt id='ext'>
+ext</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> ext()</code></p>
+
+<p>Return file name extension (everything after the last dot) or null if name is null or name has no dot.</p>
+
+<p>Examples:</p>
+
+<pre>`/`.ext            =>  null
+`/a/file.txt`.ext  =>  "txt"
+`/Foo.Bar`.ext     =>  "Bar"
+`/a/file`.ext      =>  null
+`/a/file.`.ext     =>  ""
+`..`.ext           =>  null</pre>
+</dd>
+<dt id='frag'>
+frag</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> frag()</code></p>
+
+<p>Return the fragment component of the Uri which is everything after the "#".  Return null if no fragment specified.</p>
+
+<p>Examples:</p>
+
+<pre>`http://host/path?query#frag`.frag  =>  "frag"
+`http://host/path`                  =>  null
+`#h1`                               =>  "h1"</pre>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse the specified string into a Uri.  If invalid format and checked is false return null,  otherwise throw ParseErr. a standard form Unicode string into its generic parts. It does not unescape <code>%</code> or <code>+</code> and handles normal Unicode characters in the string.  If general delimiters such as the "?" or "#" characters are used outside their normal role, then they must be backslash escaped.</p>
+
+<p>All Uris are automatically normalized as follows:</p>
+
+<ul>
+<li>Replacing "." and ".." segments in the middle of a path</li>
+
+<li>Scheme always normalizes to lowercase</li>
+
+<li>If http then port 80 normalizes to null</li>
+
+<li>If http then a null path normalizes to /</li>
+</ul>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Obj.html'>Obj?</a> get(<a href='../sys/Obj.html'>Obj?</a> base := null, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Resolve this Uri into an Fantom object. See <a href='docLang::Naming#resolving'>docLang</a> for the resolve process.</p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return a hash code based on the normalized string representation.</p>
+</dd>
+<dt id='host'>
+host</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> host()</code></p>
+
+<p>Return the host address of the URI or null if not available.  The host is in the format of a DNS name, IPv4 address, or IPv6 address surrounded by square brackets.  Return null if the uri is not absolute.</p>
+
+<p>Examples:</p>
+
+<pre>`ftp://there:78/file`.host            =>  "there"
+`http://www.cool.com/`.host           =>  "www.cool.com"
+`http://user@10.162.255.4/index`.host =>  "10.162.255.4"
+`http://[::192.9.5.5]/`.host          =>  "[::192.9.5.5]"
+`//foo/bar`.host                      =>  "foo"
+`/bar`.host                           =>  null</pre>
+</dd>
+<dt id='isAbs'>
+isAbs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isAbs()</code></p>
+
+<p>Return if an absolute Uri which means it has a non-null scheme.</p>
+</dd>
+<dt id='isDir'>
+isDir</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isDir()</code></p>
+
+<p>A Uri represents a directory if it has a non-null path which ends with a "/" slash.  Directories are joined with other Uris relative to themselves versus non-directories which are joined relative to their parent.</p>
+
+<p>Examples:</p>
+
+<pre>`/a/b`.isDir   =>  false
+`/a/b/`.isDir  =>  true
+`/a/?q`.isDir  =>  true</pre>
+</dd>
+<dt id='isName'>
+isName</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Bool.html'>Bool</a> isName(<a href='../sys/Str.html'>Str</a> name)</code></p>
+
+<p>Return if the specified string is an valid name segment to use in an unencoded URI.  The name must be at least one char long and can never be "." or "..".  The legal characters are defined by as follows from RFC 3986:</p>
+
+<pre>unreserved  =  ALPHA / DIGIT / "-" / "." / "_" / "~"
+ALPHA       =  %x41-5A / %x61-7A   ; A-Z / a-z
+DIGIT       =  %x30-39 ; 0-9</pre>
+
+<p>Although RFC 3986 does allow path segments to contain other special characters such as <code>sub-delims</code>, Fantom takes a strict approach to names to be used in URIs.</p>
+</dd>
+<dt id='isPathAbs'>
+isPathAbs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPathAbs()</code></p>
+
+<p>Return if the path starts with a leading slash.  If pathStr is null, then return false.</p>
+
+<p>Examples:</p>
+
+<pre>`http://foo/`.isPathAbs    =>  true
+`/dir/f.txt`.isPathAbs     =>  true
+`dir/f.txt`.isPathAbs      =>  false
+`../index.html`.isPathAbs  =>  false</pre>
+</dd>
+<dt id='isPathOnly'>
+isPathOnly</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPathOnly()</code></p>
+
+<p>Return if this Uri contains only a path component.  The authority (scheme, host, port), query, and fragment must be null.</p>
+</dd>
+<dt id='isPathRel'>
+isPathRel</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPathRel()</code></p>
+
+<p>Return not of <code><a href='Uri.html#isPathAbs'>isPathAbs</a></code> when path is empty or does not start with a leading slash.</p>
+</dd>
+<dt id='isRel'>
+isRel</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isRel()</code></p>
+
+<p>Return if a relative Uri which means it has a null scheme.</p>
+</dd>
+<dt id='mimeType'>
+mimeType</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MimeType.html'>MimeType?</a> mimeType()</code></p>
+
+<p>Return the MimeType mapped by the <code><a href='Uri.html#ext'>ext</a></code> or null if no mapping.  If this uri is to a directory, then "x-directory/normal" is returned.</p>
+
+<p>Examples:</p>
+
+<pre>`file.txt`  =>  text/plain
+`somefile`  =>  null</pre>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>Return simple file name which is path.last or "" if the path is empty.</p>
+
+<p>Examples:</p>
+
+<pre>`/`.name            =>  ""
+`/a/file.txt`.name  =>  "file.txt"
+`/a/file`.name      =>  "file"
+`somedir/`.name     =>  "somedir"</pre>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Uri.html'>Uri?</a> parent()</code></p>
+
+<p>Return the parent directory of this Uri or null if a parent path cannot be computed from this Uri.  If the path is not empty, then this method is equivalent to <code>getRange(0..-2)</code>.</p>
+
+<p>Examples:</p>
+
+<pre>`http://foo/a/b/c?q#f`.parent  =>  `http://foo/a/b/`
+`/a/b/c/`.parent  =>  `/a/b/`)
+`a/b/c`.parent    =>  `a/b/`
+`/a`.parent       =>   `/`
+`/`.parent        =>   null
+`a.txt`.parent    =>   null</pre>
+</dd>
+<dt id='path'>
+path</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> path()</code></p>
+
+<p>Return the path parsed into a list of simple names or an empty list if the pathStr is "" or "/".  Any general delimiters in the path such "?" or "#" are backslash escaped.</p>
+
+<p>Examples:</p>
+
+<pre>`mailto:me@there.com`  =>  ["me@there.com"]
+`http://host`.path     =>  Str[,]
+`http://foo/`.path     =>  Str[,]
+`/`.path               =>  Str[,]
+`/a`.path              =>  ["a"]
+`/a/b`.path            =>  ["a", "b"]
+`../a/b`.path          =>  ["..", "a", "b"]</pre>
+</dd>
+<dt id='pathOnly'>
+pathOnly</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Uri.html'>Uri</a> pathOnly()</code></p>
+
+<p>Return a new Uri with only a path part.  If this Uri has an authority, fragment, or query they are stripped off.</p>
+
+<p>Examples:</p>
+
+<pre>`http://host/a/b/c?query`.pathOnly =>  `/a/b/c`
+`http://host/a/b/c/`.pathOnly      =>  `/a/b/c/`
+`/a/b/c`.pathOnly                  =>  `/a/b/c`
+`file.txt`.pathOnly                =>  `file.txt`</pre>
+</dd>
+<dt id='pathStr'>
+pathStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> pathStr()</code></p>
+
+<p>Return the path component of the Uri.  Any general delimiters in the path such "?" or "#" are backslash escaped.</p>
+
+<p>Examples:</p>
+
+<pre>`mailto:me@there.com`  =>  "me@there.com"
+`http://host`          =>  ""
+`http://foo/`.pathStr  =>  "/"
+`/a`.pathStr           =>  "/a"
+`/a/b`.pathStr         =>  "/a/b"
+`../a/b`.pathStr       =>  "../a/b"</pre>
+</dd>
+<dt id='plus'>
+plus</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='Uri.html'>Uri</a> plus(<a href='Uri.html'>Uri</a> toAppend)</code></p>
+
+<p>Return a new Uri with the specified Uri appended to this Uri.</p>
+
+<p>Examples:</p>
+
+<pre>`http://foo/path` + `http://bar/`  =>  `http://bar/`
+`http://foo/path?q#f` + `newpath`  =>  `http://foo/newpath`
+`http://foo/path/?q#f` + `newpath` =>  `http://foo/path/newpath`
+`a/b/c`  + `d`                     =>  `a/b/d`
+`a/b/c/` + `d`                     =>  `a/b/c/d`
+`a/b/c`  + `../../d`               =>  `d`
+`a/b/c/` + `../../d`               =>  `a/d`
+`a/b/c`  + `../../../d`            =>  `../d`
+`a/b/c/` + `../../../d`            =>  `d`</pre>
+</dd>
+<dt id='plusName'>
+plusName</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Uri.html'>Uri</a> plusName(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> asDir := false)</code></p>
+
+<p>Return a new Uri with a single path name appended to this Uri.  If asDir is true, then add a trailing slash to the Uri to make it a directory Uri.  This method is potentially much more efficient than using <code><a href='Uri.html#plus'>plus</a></code> when appending a single name.</p>
+
+<p>Examples:</p>
+
+<pre>`dir/`.plusName("foo")        =>  `dir/foo`
+`dir/`.plusName("foo", true)  =>  `dir/foo/`
+`/dir/file`.plusName("foo")   =>  `/dir/foo`
+`/dir/#frag`.plusName("foo")  =>  `/dir/foo`</pre>
+</dd>
+<dt id='plusQuery'>
+plusQuery</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Uri.html'>Uri</a> plusQuery(<a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;?</a> query)</code></p>
+
+<p>Add the specified query key/value pairs to this Uri. If this uri has an existing query, then it is merged with the given query.  The key/value pairs should not be backslash escaped or percent encoded.  If the query param is null or empty, return this instance.</p>
+
+<p>Examples:</p>
+
+<pre>`http://h/`.plusQuery(["k":"v"])         =>  `http://h/?k=v`
+`http://h/?k=old`.plusQuery(["k":"v"])   =>  `http://h/?k=v`
+`/foo?a=b`.plusQuery(["k":"v"])          =>  `/foo?a=b&amp;k=v`
+`?a=b`.plusQuery(["k1":"v1", "k2":"v2"]) =>  `?a=b&amp;k1=v1&amp;k2=v2`</pre>
+</dd>
+<dt id='plusSlash'>
+plusSlash</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Uri.html'>Uri</a> plusSlash()</code></p>
+
+<p>Add a trailing slash to the path string of this Uri to make it a directory Uri.</p>
+
+<p>Examples</p>
+
+<pre>`http://h/dir`.plusSlash  => `http://h/dir/`
+`/a`.plusSlash            =>  `/a/`
+`/a/`.plusSlash           =>  `/a/`
+`/a/b`.plusSlash          =>  `/a/b/`
+`/a?q`.plusSlash          =>  `/a/?q`</pre>
+</dd>
+<dt id='port'>
+port</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int?</a> port()</code></p>
+
+<p>Return the IP port of the host for the network end point.  It is optionally embedded in the authority using the ":" character.  If unspecified then return null.</p>
+
+<p>Examples:</p>
+
+<pre>`http://foo:81/`.port        =>  81
+`http://www.cool.com/`.port  =>  null</pre>
+</dd>
+<dt id='query'>
+query</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Str.html'>Str</a>&gt;</a> query()</code></p>
+
+<p>Return the query parsed as a map of key/value pairs.  If no query string was specified return an empty map (this method will never return null).  The query is parsed such that pairs are separated by the "&amp;" or ";" characters.  If a pair contains the "=", then it is split into a key and value, otherwise the value defaults to "true".  If delimiters such as "&amp;", "=", or ";" are in the keys or values, then they are <em>not</em> escaped.  If duplicate keys are detected, then the values are concatenated together with a comma.</p>
+
+<p>Examples:</p>
+
+<pre>`http://host/path?query`.query  =>  ["query":"true"]
+`http://host/path`.query        =>  [:]
+`?a=b;c=d`.query                =>  ["a":"b", "c":"d"]
+`?a=b&amp;c=d`.query                =>  ["a":"b", "c":"d"]
+`?a=b;;c=d;`.query              =>  ["a":"b", "c":"d"]
+`?a=b;;c`.query                 =>  ["a":"b", "c":"true"]
+`?x=1&amp;x=2&amp;x=3`.query            =>  ["x":"1,2,3"]</pre>
+</dd>
+<dt id='queryStr'>
+queryStr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> queryStr()</code></p>
+
+<p>Return the query component of the Uri which is everything after the "?" but before the "#" fragment.  Return null if no query string specified.  Any delimiters used in keys or values such as "&amp;", "=", or ";" are backslash escaped.</p>
+
+<p>Examples:</p>
+
+<pre>`http://host/path?query#frag`.queryStr =>  "query"
+`http://host/path?query`.queryStr      =>  "query"
+`http://host/path`.queryStr            =>  null
+`../foo?a=b&amp;c=d`.queryStr              =>  "a=b&amp;c=d"
+`?a=b;c;`.queryStr                     =>  "a=b;c;"</pre>
+</dd>
+<dt id='relTo'>
+relTo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Uri.html'>Uri</a> relTo(<a href='Uri.html'>Uri</a> base)</code></p>
+
+<p>Relativize this uri against the specified base.</p>
+
+<p>Examples:</p>
+
+<pre>`http://foo/a/b/c`.relTo(`http://foo/a/b/c`) => ``
+`http://foo/a/b/c`.relTo(`http://foo/a/b`)   => `c`
+`/a/b/c`.relTo(`/a`)                         => `b/c`
+`a/b/c`.relTo(`/a`)                          => `b/c`
+`/a/b/c?q`.relTo(`/`)                        => `a/b/c?q`
+`/a/x`.relTo(`/a/b/c`)                       => `../x`</pre>
+</dd>
+<dt id='relToAuth'>
+relToAuth</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Uri.html'>Uri</a> relToAuth()</code></p>
+
+<p>Relativize this uri against its authority.  This method strips the authority if present and keeps the path, query, and fragment segments.</p>
+
+<p>Examples:</p>
+
+<pre>`http://host/a/b/c?q#frag`.relToAuth  => `/a/b/c?q#frag`
+`http://host/a/b/c`.relToAuth         => `/a/b/c`
+`http://user@host/index`.relToAuth    => `/index`
+`mailto:bob@bob.net`.relToAuth        => `bob@bob.net`
+`/a/b/c/`.relToAuth                   => `/a/b/c/`
+`logo.png`.relToAuth                  => `logo.png`</pre>
+</dd>
+<dt id='scheme'>
+scheme</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> scheme()</code></p>
+
+<p>Return the scheme component or null if not absolute.  The scheme is always normalized into lowercase.</p>
+
+<p>Examples:</p>
+
+<pre>`http://foo/a/b/c`.scheme      =>  "http"
+`HTTP://foo/a/b/c`.scheme      =>  "http"
+`mailto:who@there.com`.scheme  =>  "mailto"</pre>
+</dd>
+<dt id='sectionFrag'>
+sectionFrag</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> sectionFrag := 3</code></p>
+
+<p>Fragment token section flag</p>
+</dd>
+<dt id='sectionPath'>
+sectionPath</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> sectionPath := 1</code></p>
+
+<p>Path token section flag</p>
+</dd>
+<dt id='sectionQuery'>
+sectionQuery</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> sectionQuery := 2</code></p>
+
+<p>Query token section flag</p>
+</dd>
+<dt id='toCode'>
+toCode</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toCode()</code></p>
+
+<p>Get this Uri as a Fantom code literal.  This method will escape the "$" interpolation character.</p>
+</dd>
+<dt id='toFile'>
+toFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='File.html'>File</a> toFile()</code></p>
+
+<p>Convenience for File.make(this) - no guarantee is made that the file exists.</p>
+</dd>
+<dt id='toLocale'>
+toLocale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> toLocale()</code></p>
+
+<p>Return <code><a href='Uri.html#toStr'>toStr</a></code>.  This method is used to enable <code>toLocale</code> to be used with duck typing across most built-in types.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return normalized string representation.</p>
+</dd>
+<dt id='toUri'>
+toUri</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='Uri.html'>Uri?</a> toUri(<a href='../sys/Str.html'>Str?</a> str)</code></p>
+</dd>
+<dt id='userInfo'>
+userInfo</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> userInfo()</code></p>
+
+<p>User info is string information embedded in the authority using the "@" character.  Its use is discouraged for security reasons.</p>
+
+<p>Examples:</p>
+
+<pre>`http://brian:pass@host/`.userInfo  =>  "brian:pass"
+`http://www.cool.com/`.userInfo     =>  null</pre>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#checkName'>checkName</a></li><li><a href='#decode'>decode</a></li><li><a href='#decodeQuery'>decodeQuery</a></li><li><a href='#decodeToken'>decodeToken</a></li><li><a href='#defVal'>defVal</a></li><li><a href='#encodeQuery'>encodeQuery</a></li><li><a href='#encodeToken'>encodeToken</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#isName'>isName</a></li><li><a href='#sectionFrag'>sectionFrag</a></li><li><a href='#sectionPath'>sectionPath</a></li><li><a href='#sectionQuery'>sectionQuery</a></li><li><a href='#toUri'>toUri</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#auth'>auth</a></li><li><a href='#basename'>basename</a></li><li><a href='#encode'>encode</a></li><li><a href='#equals'>equals</a></li><li><a href='#ext'>ext</a></li><li><a href='#frag'>frag</a></li><li><a href='#get'>get</a></li><li><a href='#hash'>hash</a></li><li><a href='#host'>host</a></li><li><a href='#isAbs'>isAbs</a></li><li><a href='#isDir'>isDir</a></li><li><a href='#isPathAbs'>isPathAbs</a></li><li><a href='#isPathOnly'>isPathOnly</a></li><li><a href='#isPathRel'>isPathRel</a></li><li><a href='#isRel'>isRel</a></li><li><a href='#mimeType'>mimeType</a></li><li><a href='#name'>name</a></li><li><a href='#parent'>parent</a></li><li><a href='#path'>path</a></li><li><a href='#pathOnly'>pathOnly</a></li><li><a href='#pathStr'>pathStr</a></li><li><a href='#plus'>plus</a></li><li><a href='#plusName'>plusName</a></li><li><a href='#plusQuery'>plusQuery</a></li><li><a href='#plusSlash'>plusSlash</a></li><li><a href='#port'>port</a></li><li><a href='#query'>query</a></li><li><a href='#queryStr'>queryStr</a></li><li><a href='#relTo'>relTo</a></li><li><a href='#relToAuth'>relToAuth</a></li><li><a href='#scheme'>scheme</a></li><li><a href='#toCode'>toCode</a></li><li><a href='#toFile'>toFile</a></li><li><a href='#toLocale'>toLocale</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#userInfo'>userInfo</a></li></ul>
+</div>
+</div>
+</body>
+</html>

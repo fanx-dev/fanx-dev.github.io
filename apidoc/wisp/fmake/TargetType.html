@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fmake::TargetType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fmake</a></li><li><a href='TargetType.html'>TargetType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>enum const class</span> fmake::TargetType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../sys/Enum.html'>sys::Enum</a>
+    fmake::TargetType</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>output type</p>
+<ul>
+<li><a href='#exe'>exe</a></li><li><a href='#dll'>dll</a></li><li><a href='#lib'>lib</a></li></ul>
+<dl>
+<dt id='dll'>
+dll</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='TargetType.html'>TargetType</a> dll := ...</code></p>
+
+<p>dynamic link library</p>
+</dd>
+<dt id='exe'>
+exe</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='TargetType.html'>TargetType</a> exe := ...</code></p>
+
+<p>executable file</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static new fromStr(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Return the TargetType instance for the specified name.  If not a valid name and checked is false return null, otherwise throw ParseErr.</p>
+</dd>
+<dt id='lib'>
+lib</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='TargetType.html'>TargetType</a> lib := ...</code></p>
+
+<p>static link library</p>
+</dd>
+<dt id='vals'>
+vals</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/List.html'>List&lt;<a href='TargetType.html'>TargetType</a>&gt;</a> vals := ...</code></p>
+
+<p>List of TargetType values indexed by ordinal</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#dll'>dll</a></li><li><a href='#exe'>exe</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#lib'>lib</a></li><li><a href='#vals'>vals</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

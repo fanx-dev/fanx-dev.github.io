@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CommonType</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CommonType.html'>CommonType</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> compilerx::CommonType</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::CommonType</pre>
+<dl>
+<dt id='common'>
+common</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType</a> common(<a href='CNamespace.html'>CNamespace</a> ns, <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> types)</code></p>
+
+<p>Given a list of types, compute the most specific type which they all share, or at worst return sys::Obj.  This method does not take into account mixins, only extends class inheritance.</p>
+</dd>
+<dt id='commonType'>
+commonType</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='CType.html'>CType</a> commonType(<a href='CNamespace.html'>CNamespace</a> ns, <a href='../sys/List.html'>List&lt;<a href='Expr.html'>Expr</a>&gt;</a> exprs)</code></p>
+
+<p>Given a list of Expr instances, find the common base type they all share.  This method does not take into account the null literal.  It is used for type inference for lists and maps.</p>
+</dd>
+<dt id='ctypes'>
+ctypes</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/List.html'>List&lt;<a href='CType.html'>CType</a>&gt;</a> ctypes(<a href='../sys/List.html'>List&lt;<a href='Expr.html'>Expr</a>&gt;</a> exprs)</code></p>
+
+<p>Map the list of expressions into their list of types</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#common'>common</a></li><li><a href='#commonType'>commonType</a></li><li><a href='#ctypes'>ctypes</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+</ul>
+</div>
+</div>
+</body>
+</html>

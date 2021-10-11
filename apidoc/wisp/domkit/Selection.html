@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::Selection</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Selection.html'>Selection</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> domkit::Selection</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  domkit::Selection</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Selection.fan.html'>Source</a></p>
+
+<p>Selection manages the selected items and/or indexes</p>
+<dl>
+<dt id='clear'>
+clear</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> clear()</code></p>
+<p class='src'>
+<a href='src-Selection.fan.html#line43'>Source</a></p>
+
+<p>Clear the selection</p>
+</dd>
+<dt id='enabled'>
+enabled</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> enabled := true</code></p>
+<p class='src'>
+<a href='src-Selection.fan.html'>Source</a></p>
+
+<p>Enable or disable selection.</p>
+</dd>
+<dt id='index'>
+index</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int?</a> index</code></p>
+<p class='src'>
+<a href='src-Selection.fan.html#line37'>Source</a></p>
+
+<p>Get or set a single index</p>
+</dd>
+<dt id='indexes'>
+indexes</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='../sys/Int.html'>Int</a>&gt;</a> indexes</code></p>
+<p class='src'>
+<a href='src-Selection.fan.html#line40'>Source</a></p>
+
+<p>Selected zero based indexes</p>
+</dd>
+<dt id='isEmpty'>
+isEmpty</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isEmpty()</code></p>
+<p class='src'>
+<a href='src-Selection.fan.html#line25'>Source</a></p>
+
+<p>Is the selection currently empty</p>
+</dd>
+<dt id='item'>
+item</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Obj.html'>Obj?</a> item</code></p>
+<p class='src'>
+<a href='src-Selection.fan.html#line31'>Source</a></p>
+
+<p>Get or set a single item</p>
+</dd>
+<dt id='items'>
+items</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;</a> items</code></p>
+<p class='src'>
+<a href='src-Selection.fan.html#line34'>Source</a></p>
+
+<p>Selected items.</p>
+</dd>
+<dt id='multi'>
+multi</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> multi := false</code></p>
+<p class='src'>
+<a href='src-Selection.fan.html'>Source</a></p>
+
+<p>True to enable multiple selection, false for single selection.</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> size()</code></p>
+<p class='src'>
+<a href='src-Selection.fan.html#line28'>Source</a></p>
+
+<p>Number of selected items</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Selection.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#clear'>clear</a></li><li><a href='#enabled'>enabled</a></li><li><a href='#index'>index</a></li><li><a href='#indexes'>indexes</a></li><li><a href='#isEmpty'>isEmpty</a></li><li><a href='#item'>item</a></li><li><a href='#items'>items</a></li><li><a href='#multi'>multi</a></li><li><a href='#size'>size</a></li></ul>
+</div>
+</div>
+</body>
+</html>

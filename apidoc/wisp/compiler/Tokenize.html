@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::Tokenize</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='Tokenize.html'>Tokenize</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::Tokenize</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    <a href='CompilerStep.html'>compiler::CompilerStep</a>
+      compiler::Tokenize</pre>
+
+<p>Tokenize is responsible for parsing all the source files into a a list of tokens.  Each source file is mapped to a CompilationUnit and stored in the PodDef.units field:</p>
+
+<pre>Compiler.srcFiles -> Compiler.pod.units</pre>
+
+<p>During the standard pipeline this step is called by the InitInput step.</p>
+<dl>
+<dt id='input'>
+input</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerInput.html'>CompilerInput</a> input</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> compiler)</code></p>
+</dd>
+<dt id='run'>
+run</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> run()</code></p>
+</dd>
+<dt id='tokenize'>
+tokenize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilationUnit.html'>CompilationUnit</a> tokenize(<a href='Loc.html'>Loc</a> loc, <a href='../sys/Str.html'>Str</a> src)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#input'>input</a></li><li><a href='#run'>run</a></li><li><a href='#tokenize'>tokenize</a></li></ul>
+</div>
+</div>
+</body>
+</html>

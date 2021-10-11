@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::BinaryExpr</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='BinaryExpr.html'>BinaryExpr</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compiler::BinaryExpr</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Node.html'>compiler::Node</a>
+    <a href='Expr.html'>compiler::Expr</a>
+      compiler::BinaryExpr</pre>
+
+<p>BinaryExpr is used for binary expressions with a left hand side and a right hand side including assignment.  Note that many common binary operations are actually modeled as ShortcutExpr to enable method based operator overloading.</p>
+<dl>
+<dt id='assignTarget'>
+assignTarget</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj?</a> assignTarget()</code></p>
+</dd>
+<dt id='isDefiniteAssign'>
+isDefiniteAssign</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isDefiniteAssign(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Bool.html'>Bool</a>,<a href='Expr.html'>Expr</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='isStmt'>
+isStmt</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isStmt()</code></p>
+</dd>
+<dt id='lhs'>
+lhs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr</a> lhs</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Expr.html'>Expr</a> lhs, <a href='Token.html'>Token</a> opToken, <a href='Expr.html'>Expr</a> rhs)</code></p>
+</dd>
+<dt id='makeAssign'>
+makeAssign</dt>
+<dd>
+<p class='sig'>
+<code>new makeAssign(<a href='Expr.html'>Expr</a> lhs, <a href='Expr.html'>Expr</a> rhs, <a href='../sys/Bool.html'>Bool</a> leave := false)</code></p>
+</dd>
+<dt id='opToken'>
+opToken</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Token.html'>Token</a> opToken</code></p>
+</dd>
+<dt id='rhs'>
+rhs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Expr.html'>Expr</a> rhs</code></p>
+</dd>
+<dt id='serialize'>
+serialize</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> serialize()</code></p>
+</dd>
+<dt id='tempVar'>
+tempVar</dt>
+<dd>
+<p class='sig'>
+<code> <a href='MethodVar.html'>MethodVar?</a> tempVar</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='walkChildren'>
+walkChildren</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> walkChildren(<a href='Visitor.html'>Visitor</a> v)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li><li><a href='#makeAssign'>makeAssign</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#assignTarget'>assignTarget</a></li><li><a href='#isDefiniteAssign'>isDefiniteAssign</a></li><li><a href='#isStmt'>isStmt</a></li><li><a href='#lhs'>lhs</a></li><li><a href='#opToken'>opToken</a></li><li><a href='#rhs'>rhs</a></li><li><a href='#serialize'>serialize</a></li><li><a href='#tempVar'>tempVar</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#walkChildren'>walkChildren</a></li></ul>
+</div>
+</div>
+</body>
+</html>

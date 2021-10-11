@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::DslPlugin</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='DslPlugin.html'>DslPlugin</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> compiler::DslPlugin</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='CompilerSupport.html'>compiler::CompilerSupport</a>
+    compiler::DslPlugin</pre>
+
+<p>DslPlugin is the base class for Domain Specific Language plugins used to compile embedded DSLs.  Subclasses are registered on the anchor type's qname with the "compiler.dsl.{anchor}" indexed prop and must declare a constructor with a Compiler arg.</p>
+<dl>
+<dt id='compile'>
+compile</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Expr.html'>Expr</a> compile(<a href='DslExpr.html'>DslExpr</a> dsl)</code></p>
+
+<p>Compile DSL source into its Fantom equivalent expression. Log and throw compiler error if there is a problem.</p>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DslPlugin.html'>DslPlugin?</a> find(<a href='CompilerSupport.html'>CompilerSupport</a> c, <a href='Loc.html'>Loc</a> loc, <a href='CType.html'>CType</a> anchorType)</code></p>
+
+<p>Find a DSL plugin for the given anchor type.  If there is a problem then log an error and return null.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='Compiler.html'>Compiler</a> c)</code></p>
+
+<p>Constructor with associated compiler.</p>
+</dd>
+<dt id='normalizeSrc'>
+normalizeSrc</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> normalizeSrc(<a href='DslExpr.html'>DslExpr</a> dsl)</code></p>
+
+<p>Normalize the DSL source using Fantom's multi-line whitespace rules where no non-whitespace chars may be appear to the left of the opening "&lt;|" token.  If source is formatted incorrectly then log and throw error.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#find'>find</a></li><li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#compile'>compile</a></li><li><a href='#normalizeSrc'>normalizeSrc</a></li></ul>
+</div>
+</div>
+</body>
+</html>

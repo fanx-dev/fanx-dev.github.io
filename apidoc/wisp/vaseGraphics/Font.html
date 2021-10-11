@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGraphics::Font</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGraphics</a></li><li><a href='Font.html'>Font</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract const class</span> vaseGraphics::Font</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGraphics::Font</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a> { simple=true }</code><br /></p>
+
+<p>Font models the rendering of text.</p>
+<dl>
+<dt id='ascent'>
+ascent</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> ascent()</code></p>
+
+<p>Get ascent of this font which is the distance in pixels from baseline to top of chars, not including any leading area.</p>
+</dd>
+<dt id='bold'>
+bold</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> bold</code></p>
+
+<p>Is this font bold.</p>
+</dd>
+<dt id='descent'>
+descent</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> descent()</code></p>
+
+<p>Get descent of this font which is the distance in pixels from baseline to bottom of chars, not including any leading area.</p>
+</dd>
+<dt id='dispose'>
+dispose</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> dispose()</code></p>
+
+<p>Free any operating system resources used by this font. Dispose is required if this color has been used in an operation such as FWT onPaint which allocated a system resource to represent this instance.</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
+
+<p>Equality is based on name, size, and style.</p>
+</dd>
+<dt id='fromStr'>
+fromStr</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Font.html'>Font?</a> fromStr(<a href='../sys/Str.html'>Str</a> s, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Parse font from string (see <code><a href='Font.html#toStr'>toStr</a></code>).  If invalid and checked is true then throw ParseErr otherwise return null.</p>
+
+<p>Examples:</p>
+
+<pre>Font.fromStr("12pt Arial")
+Font.fromStr("bold 10pt Courier")
+Font.fromStr("bold italic 8pt Times Roman")</pre>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Return hash of name, size, and style.</p>
+</dd>
+<dt id='height'>
+height</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> height()</code></p>
+
+<p>Get height of this font which is the pixels is the sum of ascent, descent, and leading.</p>
+</dd>
+<dt id='italic'>
+italic</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> italic</code></p>
+
+<p>Is this font in italic.</p>
+</dd>
+<dt id='leading'>
+leading</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> leading()</code></p>
+
+<p>Get leading of this font which is the distance in pixels above the ascent which may include accents and other marks.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static new make(<a href='../sys/Int.html'>Int</a> size := 12, <a href='../sys/Str.html'>Str</a> name := &quot;Arial&quot;, <a href='../sys/Bool.html'>Bool</a> bold := false, <a href='../sys/Bool.html'>Bool</a> italic := false)</code></p>
+
+<p>Construct a Font with family name, size in points, and optional bold/italic style.  This is internal for now, because eventually we should be able to collapse this and it-block into single ctor.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name := &quot;Serif&quot;</code></p>
+
+<p>Name of font.</p>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> size := 11</code></p>
+
+<p>Size of font in points.</p>
+</dd>
+<dt id='toBold'>
+toBold</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Font.html'>Font</a> toBold()</code></p>
+
+<p>Return this font, but with a bold styling.  If this font is already bold then return this.</p>
+</dd>
+<dt id='toItalic'>
+toItalic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Font.html'>Font</a> toItalic()</code></p>
+
+<p>Return this font, but with a italic styling.  If this font is already italic then return this.</p>
+</dd>
+<dt id='toPlain'>
+toPlain</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Font.html'>Font</a> toPlain()</code></p>
+
+<p>Return this font, but with a plain styling (neither bold, nor italic).  If this font is already plain then return this.</p>
+</dd>
+<dt id='toSize'>
+toSize</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Font.html'>Font</a> toSize(<a href='../sys/Int.html'>Int</a> size)</code></p>
+
+<p>Return this font, but with the specified point size. If thsi font already has the given size return this.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Format as <code>"[bold] [italic] &lt;size>pt &lt;name>"</code></p>
+</dd>
+<dt id='width'>
+width</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> width(<a href='../sys/Str.html'>Str</a> s)</code></p>
+
+<p>Get the width of the string in pixels when painted with this font.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li><li><a href='#privateMake'>privateMake</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#ascent'>ascent</a></li><li><a href='#bold'>bold</a></li><li><a href='#descent'>descent</a></li><li><a href='#dispose'>dispose</a></li><li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#height'>height</a></li><li><a href='#italic'>italic</a></li><li><a href='#leading'>leading</a></li><li><a href='#name'>name</a></li><li><a href='#size'>size</a></li><li><a href='#toBold'>toBold</a></li><li><a href='#toItalic'>toItalic</a></li><li><a href='#toPlain'>toPlain</a></li><li><a href='#toSize'>toSize</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#width'>width</a></li></ul>
+</div>
+</div>
+</body>
+</html>

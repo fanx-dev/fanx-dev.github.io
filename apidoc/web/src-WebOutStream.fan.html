@@ -1,0 +1,877 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>WebOutStream.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>web</a></li><li><a href='WebOutStream.html'>WebOutStream</a></li><li><a href='src-WebOutStream.fan.html'>WebOutStream.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2006, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   28 May 06  Andy Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** WebOutStream provides methods for generating XML and XHTML content.</span>
+<span id='line11'>**</span>
+<span id='line12'>@Js</span>
+<span id='line13'>class WebOutStream : ProxyOutStream</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'></span>
+<span id='line16'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line17'>// Factory</span>
+<span id='line18'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line19'></span>
+<span id='line20'>  **</span>
+<span id='line21'>  ** Construct a WebOutStream that wraps the given OutStream.</span>
+<span id='line22'>  **</span>
+<span id='line23'>  new make<b>(</b>OutStream out<b>)</b></span>
+<span id='line24'>    : super<b>(</b>out<b>)</b></span>
+<span id='line25'>  <b>{</b></span>
+<span id='line26'>  <b>}</b></span>
+<span id='line27'></span>
+<span id='line28'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line29'>// General Methods</span>
+<span id='line30'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line31'></span>
+<span id='line32'>  **</span>
+<span id='line33'>  ** Convenience for writeChars<b>(</b>obj.toStr<b>)</b>.</span>
+<span id='line34'>  **</span>
+<span id='line35'>  This w<b>(</b>Obj? obj<b>)</b></span>
+<span id='line36'>  <b>{</b></span>
+<span id='line37'>    writeChars<b>(</b>obj == null ? "null" : obj.toStr<b>)</b></span>
+<span id='line38'>    return this</span>
+<span id='line39'>  <b>}</b></span>
+<span id='line40'></span>
+<span id='line41'>  **</span>
+<span id='line42'>  ** Convenience for writeChars<b>(</b>Str.spaces<b>(</b>numSpaces<b>)</b><b>)</b>.</span>
+<span id='line43'>  **</span>
+<span id='line44'>  This tab<b>(</b>Int numSpaces := 2<b>)</b></span>
+<span id='line45'>  <b>{</b></span>
+<span id='line46'>    writeChars<b>(</b>Str.spaces<b>(</b>numSpaces<b>)</b><b>)</b></span>
+<span id='line47'>    return this</span>
+<span id='line48'>  <b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>  **</span>
+<span id='line51'>  ** Convenience for writeChar<b>(</b>'\n'<b>)</b>.</span>
+<span id='line52'>  **</span>
+<span id='line53'>  This nl<b>(</b><b>)</b></span>
+<span id='line54'>  <b>{</b></span>
+<span id='line55'>    writeChar<b>(</b>'\n'<b>)</b></span>
+<span id='line56'>    return this</span>
+<span id='line57'>  <b>}</b></span>
+<span id='line58'></span>
+<span id='line59'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line60'>// Xml Methods</span>
+<span id='line61'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line62'></span>
+<span id='line63'>  **</span>
+<span id='line64'>  ** Write out a prolog statement using the streams</span>
+<span id='line65'>  ** current charset encoding.</span>
+<span id='line66'>  **</span>
+<span id='line67'>  This prolog<b>(</b><b>)</b></span>
+<span id='line68'>  <b>{</b></span>
+<span id='line69'>    writeChars<b>(</b>"&lt;?xml version='1.0' encoding='$charset'?>\n"<b>)</b></span>
+<span id='line70'>    return this</span>
+<span id='line71'>  <b>}</b></span>
+<span id='line72'></span>
+<span id='line73'>  **</span>
+<span id='line74'>  ** Write a start tag. Use attrs to fully specify the attributes</span>
+<span id='line75'>  ** manually. Use empty to optionally close this element without</span>
+<span id='line76'>  ** using an end tag.</span>
+<span id='line77'>  **</span>
+<span id='line78'>  This tag<b>(</b>Str elemName, Str? attrs := null, Bool empty := false<b>)</b></span>
+<span id='line79'>  <b>{</b></span>
+<span id='line80'>    writeChar<b>(</b>'&lt;'<b>)</b></span>
+<span id='line81'>    writeChars<b>(</b>elemName<b>)</b></span>
+<span id='line82'>    if <b>(</b>attrs != null<b>)</b> writeChar<b>(</b>' '<b>)</b>.writeChars<b>(</b>attrs<b>)</b></span>
+<span id='line83'>    if <b>(</b>empty<b>)</b> writeChars<b>(</b>" /"<b>)</b></span>
+<span id='line84'>    writeChar<b>(</b>'>'<b>)</b></span>
+<span id='line85'>    return this</span>
+<span id='line86'>  <b>}</b></span>
+<span id='line87'></span>
+<span id='line88'>  **</span>
+<span id='line89'>  ** Write an end tag.</span>
+<span id='line90'>  **</span>
+<span id='line91'>  This tagEnd<b>(</b>Str elemName<b>)</b></span>
+<span id='line92'>  <b>{</b></span>
+<span id='line93'>    writeChars<b>(</b>"&lt;/"<b>)</b>.writeChars<b>(</b>elemName<b>)</b>.writeChar<b>(</b>'>'<b>)</b></span>
+<span id='line94'>    return this</span>
+<span id='line95'>  <b>}</b></span>
+<span id='line96'></span>
+<span id='line97'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line98'>// DOCTYPE</span>
+<span id='line99'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line100'></span>
+<span id='line101'>  **</span>
+<span id='line102'>  ** Write the XHTML Strict DOCTYPE.</span>
+<span id='line103'>  **</span>
+<span id='line104'>  This docType<b>(</b><b>)</b></span>
+<span id='line105'>  <b>{</b></span>
+<span id='line106'>    writeChars<b>(</b>"&lt;!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n"<b>)</b></span>
+<span id='line107'>    writeChars<b>(</b>" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"<b>)</b></span>
+<span id='line108'>    return this</span>
+<span id='line109'>  <b>}</b></span>
+<span id='line110'></span>
+<span id='line111'>  **</span>
+<span id='line112'>  ** Write the HTML5 DOCTYPE.</span>
+<span id='line113'>  **</span>
+<span id='line114'>  This docType5<b>(</b><b>)</b></span>
+<span id='line115'>  <b>{</b></span>
+<span id='line116'>    writeChars<b>(</b>"&lt;!DOCTYPE html>\n"<b>)</b></span>
+<span id='line117'>    return this</span>
+<span id='line118'>  <b>}</b></span>
+<span id='line119'></span>
+<span id='line120'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line121'>// html</span>
+<span id='line122'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line123'></span>
+<span id='line124'>  **</span>
+<span id='line125'>  ** Start a &lt;html> tag.</span>
+<span id='line126'>  **</span>
+<span id='line127'>  This html<b>(</b><b>)</b></span>
+<span id='line128'>  <b>{</b></span>
+<span id='line129'>    return tag<b>(</b>"html", "xmlns='http://www.w3.org/1999/xhtml'"<b>)</b>.nl</span>
+<span id='line130'>  <b>}</b></span>
+<span id='line131'></span>
+<span id='line132'>  **</span>
+<span id='line133'>  ** End a &lt;html> tag.</span>
+<span id='line134'>  **</span>
+<span id='line135'>  This htmlEnd<b>(</b><b>)</b></span>
+<span id='line136'>  <b>{</b></span>
+<span id='line137'>    return tagEnd<b>(</b>"html"<b>)</b>.nl</span>
+<span id='line138'>  <b>}</b></span>
+<span id='line139'></span>
+<span id='line140'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line141'>// head</span>
+<span id='line142'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line143'></span>
+<span id='line144'>  **</span>
+<span id='line145'>  ** Start a &lt;head> tag.</span>
+<span id='line146'>  **</span>
+<span id='line147'>  This head<b>(</b><b>)</b> <b>{</b> return tag<b>(</b>"head"<b>)</b>.nl <b>}</b></span>
+<span id='line148'></span>
+<span id='line149'>  **</span>
+<span id='line150'>  ** End a &lt;head> tag.</span>
+<span id='line151'>  **</span>
+<span id='line152'>  This headEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"head"<b>)</b>.nl <b>}</b></span>
+<span id='line153'></span>
+<span id='line154'>  **</span>
+<span id='line155'>  ** Write a complete &lt;title> tag.</span>
+<span id='line156'>  **</span>
+<span id='line157'>  This title<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"title", attrs<b>)</b> <b>}</b></span>
+<span id='line158'></span>
+<span id='line159'>  **</span>
+<span id='line160'>  ** End a &lt;title> tag.</span>
+<span id='line161'>  **</span>
+<span id='line162'>  This titleEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"title"<b>)</b>.nl <b>}</b></span>
+<span id='line163'></span>
+<span id='line164'>  **</span>
+<span id='line165'>  ** Write a complete &lt;link> tag for an external CSS stylesheet.</span>
+<span id='line166'>  ** If this URI has already been included in this WebOutStream</span>
+<span id='line167'>  ** instance, then this method does nothing.</span>
+<span id='line168'>  **</span>
+<span id='line169'>  This includeCss<b>(</b>Uri href<b>)</b></span>
+<span id='line170'>  <b>{</b></span>
+<span id='line171'>    if <b>(</b>cssUris == null<b>)</b> cssUris = Uri<b>[</b>,<b>]</b></span>
+<span id='line172'>    if <b>(</b>!cssUris.contains<b>(</b>href<b>)</b><b>)</b></span>
+<span id='line173'>    <b>{</b></span>
+<span id='line174'>      attrs := "rel='stylesheet' type='text/css' href='$href.encode.toXml'"</span>
+<span id='line175'>      tag<b>(</b>"link", attrs, true<b>)</b>.nl</span>
+<span id='line176'>      cssUris.add<b>(</b>href<b>)</b></span>
+<span id='line177'>    <b>}</b></span>
+<span id='line178'>    return this</span>
+<span id='line179'>  <b>}</b></span>
+<span id='line180'></span>
+<span id='line181'>  **</span>
+<span id='line182'>  ** Write a complete &lt;script> tag for an external JavaScript file.</span>
+<span id='line183'>  ** If this URI has already been included in this WebOutStream</span>
+<span id='line184'>  ** instance, then this method does nothing.</span>
+<span id='line185'>  **</span>
+<span id='line186'>  This includeJs<b>(</b>Uri? href := null<b>)</b></span>
+<span id='line187'>  <b>{</b></span>
+<span id='line188'>    if <b>(</b>jsUris == null<b>)</b> jsUris = Uri<b>[</b>,<b>]</b></span>
+<span id='line189'>    if <b>(</b>!jsUris.contains<b>(</b>href<b>)</b><b>)</b></span>
+<span id='line190'>    <b>{</b></span>
+<span id='line191'>      tag<b>(</b>"script", "type='text/javascript' src='$href.encode.toXml'"<b>)</b></span>
+<span id='line192'>      tagEnd<b>(</b>"script"<b>)</b>.nl</span>
+<span id='line193'>      jsUris.add<b>(</b>href<b>)</b></span>
+<span id='line194'>    <b>}</b></span>
+<span id='line195'>    return this</span>
+<span id='line196'>  <b>}</b></span>
+<span id='line197'></span>
+<span id='line198'>  **</span>
+<span id='line199'>  ** Customize how the JavaScript runtime environment is initialized.</span>
+<span id='line200'>  ** This method *must* be called inside the '&lt;head>' tag, and also</span>
+<span id='line201'>  ** before 'sys.js' is loaded in order to take effect.</span>
+<span id='line202'>  **</span>
+<span id='line203'>  ** Note this method is not necessary if no customization is needed.</span>
+<span id='line204'>  ** The JS runtime will automatically initialize using default values.</span>
+<span id='line205'>  **</span>
+<span id='line206'>  ** The following variables are supported:</span>
+<span id='line207'>  **</span>
+<span id='line208'>  **   - 'timezone': set the default TimeZone for JsVM</span>
+<span id='line209'>  **</span>
+<span id='line210'>  **   - 'locale': set the default Locale for the JsVM. Note you</span>
+<span id='line211'>  **     must manually provide the locale config.props files. See</span>
+<span id='line212'>  **     `FilePack.toLocaleJsFile`.</span>
+<span id='line213'>  **</span>
+<span id='line214'>  **   - 'main': an optional method to invoke after the page has</span>
+<span id='line215'>  **     been loaded. The 'main' argument can be either a type or</span>
+<span id='line216'>  **     method.  If no method is specified, 'main' is used. If</span>
+<span id='line217'>  **     the method is not static, a new instance of type is</span>
+<span id='line218'>  **     created:</span>
+<span id='line219'>  **</span>
+<span id='line220'>  **       "foo::Instance"     =>  Instance<b>(</b><b>)</b>.main<b>(</b><b>)</b></span>
+<span id='line221'>  **       "foo::Instance.bar" =>  Instance<b>(</b><b>)</b>.bar<b>(</b><b>)</b></span>
+<span id='line222'>  **       "foo::Static"       =>  Static.main<b>(</b><b>)</b></span>
+<span id='line223'>  **       "foo::Static.bar"   =>  Static.bar<b>(</b><b>)</b></span>
+<span id='line224'>  **</span>
+<span id='line225'>  This initJs<b>(</b>Str:Str env<b>)</b></span>
+<span id='line226'>  <b>{</b></span>
+<span id='line227'>    w<b>(</b>"&lt;script type='text/javascript'>"<b>)</b>.nl</span>
+<span id='line228'></span>
+<span id='line229'>    // init Env.vars to pickup in Env.$ctor</span>
+<span id='line230'>    w<b>(</b>"var fan\$env = <b>{</b>"<b>)</b>.nl</span>
+<span id='line231'>    env.keys.each |n,i|</span>
+<span id='line232'>    <b>{</b></span>
+<span id='line233'>      v := env<b>[</b>n<b>]</b></span>
+<span id='line234'>      w<b>(</b>"  $<b>{</b>n.toCode<b>}</b>:$<b>{</b>v.toCode<b>}</b>"<b>)</b></span>
+<span id='line235'>      if <b>(</b>i &lt; env.keys.size-1<b>)</b> w<b>(</b>","<b>)</b></span>
+<span id='line236'>      nl</span>
+<span id='line237'>    <b>}</b></span>
+<span id='line238'>    w<b>(</b>"<b>}</b>"<b>)</b>.nl</span>
+<span id='line239'></span>
+<span id='line240'>    // if main method is specified add an onLoad callback to invoke</span>
+<span id='line241'>    main := env<b>[</b>"main"<b>]</b></span>
+<span id='line242'>    if <b>(</b>main != null<b>)</b></span>
+<span id='line243'>    <b>{</b></span>
+<span id='line244'>      w<b>(</b>"window.addEventListener<b>(</b>'load', function<b>(</b><b>)</b> <b>{</b></span>
+<span id='line245'>           fan.std.Env.\$invokeMain<b>(</b>'$<b>{</b>main<b>}</b>'<b>)</b>;</span>
+<span id='line246'>         <b>}</b>, false<b>)</b>;"<b>)</b>.nl</span>
+<span id='line247'>    <b>}</b></span>
+<span id='line248'></span>
+<span id='line249'>    w<b>(</b>"&lt;/script>"<b>)</b>.nl</span>
+<span id='line250'>    return this</span>
+<span id='line251'>  <b>}</b></span>
+<span id='line252'></span>
+<span id='line253'>  **</span>
+<span id='line254'>  ** Write a complete &lt;link> tag for an Atom feed resource.</span>
+<span id='line255'>  **</span>
+<span id='line256'>  This atom<b>(</b>Uri href, Str? attrs := null<b>)</b></span>
+<span id='line257'>  <b>{</b></span>
+<span id='line258'>    return tag<b>(</b>"link rel='alternate' type='application/atom+xml' href='$href.encode.toXml'", attrs, true<b>)</b>.nl</span>
+<span id='line259'>  <b>}</b></span>
+<span id='line260'></span>
+<span id='line261'>  **</span>
+<span id='line262'>  ** Write a complete &lt;link> tag for a RSS feed resource.</span>
+<span id='line263'>  **</span>
+<span id='line264'>  This rss<b>(</b>Uri href, Str? attrs := null<b>)</b></span>
+<span id='line265'>  <b>{</b></span>
+<span id='line266'>    return tag<b>(</b>"link rel='alternate' type='application/rss+xml' href='$href.encode.toXml'", attrs, true<b>)</b>.nl</span>
+<span id='line267'>  <b>}</b></span>
+<span id='line268'></span>
+<span id='line269'>  **</span>
+<span id='line270'>  ** Write a complete &lt;link> tag for a favicon.  You must specifiy</span>
+<span id='line271'>  ** the MIME type for your icon in the 'attrs' argument:</span>
+<span id='line272'>  **</span>
+<span id='line273'>  **   out.favIcon<b>(</b>`/fav.png`, "type='image/png'"<b>)</b></span>
+<span id='line274'>  **</span>
+<span id='line275'>  This favIcon<b>(</b>Uri href, Str? attrs := null<b>)</b></span>
+<span id='line276'>  <b>{</b></span>
+<span id='line277'>    return tag<b>(</b>"link rel='icon' href='$href.encode.toXml'", attrs, true<b>)</b>.nl</span>
+<span id='line278'>  <b>}</b></span>
+<span id='line279'></span>
+<span id='line280'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line281'>// style</span>
+<span id='line282'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line283'></span>
+<span id='line284'>  **</span>
+<span id='line285'>  ** Start a &lt;style> tag.</span>
+<span id='line286'>  **</span>
+<span id='line287'>  This style<b>(</b>Str? attrs := "type='text/css'"<b>)</b> <b>{</b> return tag<b>(</b>"style", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line288'></span>
+<span id='line289'>  **</span>
+<span id='line290'>  ** End a &lt;style> tag.</span>
+<span id='line291'>  **</span>
+<span id='line292'>  This styleEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"style"<b>)</b>.nl <b>}</b></span>
+<span id='line293'></span>
+<span id='line294'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line295'>// script</span>
+<span id='line296'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line297'></span>
+<span id='line298'>  **</span>
+<span id='line299'>  ** Start a &lt;script> tag.</span>
+<span id='line300'>  **</span>
+<span id='line301'>  This script<b>(</b>Str? attrs := "type='text/javascript'"<b>)</b> <b>{</b> return tag<b>(</b>"script", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line302'></span>
+<span id='line303'>  **</span>
+<span id='line304'>  ** End a &lt;script> tag.</span>
+<span id='line305'>  **</span>
+<span id='line306'>  This scriptEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"script"<b>)</b>.nl <b>}</b></span>
+<span id='line307'></span>
+<span id='line308'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line309'>// body</span>
+<span id='line310'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line311'></span>
+<span id='line312'>  **</span>
+<span id='line313'>  ** Start a &lt;body> tag.</span>
+<span id='line314'>  **</span>
+<span id='line315'>  This body<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"body", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line316'></span>
+<span id='line317'>  **</span>
+<span id='line318'>  ** End a &lt;body> tag.</span>
+<span id='line319'>  **</span>
+<span id='line320'>  This bodyEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"body"<b>)</b>.nl <b>}</b></span>
+<span id='line321'></span>
+<span id='line322'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line323'>// h1, h2, h3, h4, h5, h6</span>
+<span id='line324'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line325'></span>
+<span id='line326'>  **</span>
+<span id='line327'>  ** Start a &lt;h1> tag.</span>
+<span id='line328'>  **</span>
+<span id='line329'>  This h1<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"h1", attrs<b>)</b> <b>}</b></span>
+<span id='line330'></span>
+<span id='line331'>  **</span>
+<span id='line332'>  ** End a &lt;h1> tag.</span>
+<span id='line333'>  **</span>
+<span id='line334'>  This h1End<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"h1"<b>)</b>.nl <b>}</b></span>
+<span id='line335'></span>
+<span id='line336'>  **</span>
+<span id='line337'>  ** Start a &lt;h2> tag.</span>
+<span id='line338'>  **</span>
+<span id='line339'>  This h2<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"h2", attrs<b>)</b> <b>}</b></span>
+<span id='line340'></span>
+<span id='line341'>  **</span>
+<span id='line342'>  ** End a &lt;h2> tag.</span>
+<span id='line343'>  **</span>
+<span id='line344'>  This h2End<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"h2"<b>)</b>.nl <b>}</b></span>
+<span id='line345'></span>
+<span id='line346'>  **</span>
+<span id='line347'>  ** Start a &lt;h3> tag.</span>
+<span id='line348'>  **</span>
+<span id='line349'>  This h3<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"h3", attrs<b>)</b> <b>}</b></span>
+<span id='line350'></span>
+<span id='line351'>  **</span>
+<span id='line352'>  ** End a &lt;h3> tag.</span>
+<span id='line353'>  **</span>
+<span id='line354'>  This h3End<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"h3"<b>)</b>.nl <b>}</b></span>
+<span id='line355'></span>
+<span id='line356'>  **</span>
+<span id='line357'>  ** Start a &lt;h4> tag.</span>
+<span id='line358'>  **</span>
+<span id='line359'>  This h4<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"h4", attrs<b>)</b> <b>}</b></span>
+<span id='line360'></span>
+<span id='line361'>  **</span>
+<span id='line362'>  ** End a &lt;h4> tag.</span>
+<span id='line363'>  **</span>
+<span id='line364'>  This h4End<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"h4"<b>)</b>.nl <b>}</b></span>
+<span id='line365'></span>
+<span id='line366'>  **</span>
+<span id='line367'>  ** Start a &lt;h5> tag.</span>
+<span id='line368'>  **</span>
+<span id='line369'>  This h5<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"h5", attrs<b>)</b> <b>}</b></span>
+<span id='line370'></span>
+<span id='line371'>  **</span>
+<span id='line372'>  ** End a &lt;h5> tag.</span>
+<span id='line373'>  **</span>
+<span id='line374'>  This h5End<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"h5"<b>)</b>.nl <b>}</b></span>
+<span id='line375'></span>
+<span id='line376'>  **</span>
+<span id='line377'>  ** Start a &lt;h6> tag.</span>
+<span id='line378'>  **</span>
+<span id='line379'>  This h6<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"h6", attrs<b>)</b> <b>}</b></span>
+<span id='line380'></span>
+<span id='line381'>  **</span>
+<span id='line382'>  ** End a &lt;h6> tag.</span>
+<span id='line383'>  **</span>
+<span id='line384'>  This h6End<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"h6"<b>)</b>.nl <b>}</b></span>
+<span id='line385'></span>
+<span id='line386'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line387'>// div</span>
+<span id='line388'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line389'></span>
+<span id='line390'>  **</span>
+<span id='line391'>  ** Start a &lt;div> tag.</span>
+<span id='line392'>  **</span>
+<span id='line393'>  This div<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"div", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line394'></span>
+<span id='line395'>  **</span>
+<span id='line396'>  ** End a &lt;div> tag.</span>
+<span id='line397'>  **</span>
+<span id='line398'>  This divEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"div"<b>)</b>.nl <b>}</b></span>
+<span id='line399'></span>
+<span id='line400'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line401'>// span</span>
+<span id='line402'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line403'></span>
+<span id='line404'>  **</span>
+<span id='line405'>  ** Start a &lt;span> tag.</span>
+<span id='line406'>  **</span>
+<span id='line407'>  This span<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"span", attrs<b>)</b> <b>}</b></span>
+<span id='line408'></span>
+<span id='line409'>  **</span>
+<span id='line410'>  ** End a &lt;span> tag.</span>
+<span id='line411'>  **</span>
+<span id='line412'>  This spanEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"span"<b>)</b> <b>}</b></span>
+<span id='line413'></span>
+<span id='line414'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line415'>// p</span>
+<span id='line416'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line417'></span>
+<span id='line418'>  **</span>
+<span id='line419'>  ** Start a &lt;p> tag.</span>
+<span id='line420'>  **</span>
+<span id='line421'>  This p<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"p", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line422'></span>
+<span id='line423'>  **</span>
+<span id='line424'>  ** End a &lt;p> tag.</span>
+<span id='line425'>  **</span>
+<span id='line426'>  This pEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"p"<b>)</b>.nl <b>}</b></span>
+<span id='line427'></span>
+<span id='line428'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line429'>// b</span>
+<span id='line430'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line431'></span>
+<span id='line432'>  **</span>
+<span id='line433'>  ** Start a &lt;b> tag.</span>
+<span id='line434'>  **</span>
+<span id='line435'>  This b<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"b", attrs<b>)</b> <b>}</b></span>
+<span id='line436'></span>
+<span id='line437'>  **</span>
+<span id='line438'>  ** End a &lt;b> tag.</span>
+<span id='line439'>  **</span>
+<span id='line440'>  This bEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"b"<b>)</b> <b>}</b></span>
+<span id='line441'></span>
+<span id='line442'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line443'>// i</span>
+<span id='line444'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line445'></span>
+<span id='line446'>  **</span>
+<span id='line447'>  ** Start a &lt;i> tag.</span>
+<span id='line448'>  **</span>
+<span id='line449'>  This i<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"i", attrs<b>)</b>  <b>}</b></span>
+<span id='line450'></span>
+<span id='line451'>  **</span>
+<span id='line452'>  ** End a &lt;i> tag.</span>
+<span id='line453'>  **</span>
+<span id='line454'>  This iEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"i"<b>)</b> <b>}</b></span>
+<span id='line455'></span>
+<span id='line456'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line457'>// em</span>
+<span id='line458'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line459'></span>
+<span id='line460'>  **</span>
+<span id='line461'>  ** Start a &lt;em> tag.</span>
+<span id='line462'>  **</span>
+<span id='line463'>  This em<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"em", attrs<b>)</b> <b>}</b></span>
+<span id='line464'></span>
+<span id='line465'>  **</span>
+<span id='line466'>  ** End a &lt;em> tag.</span>
+<span id='line467'>  **</span>
+<span id='line468'>  This emEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"em"<b>)</b> <b>}</b></span>
+<span id='line469'></span>
+<span id='line470'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line471'>// pre</span>
+<span id='line472'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line473'></span>
+<span id='line474'>  **</span>
+<span id='line475'>  ** Start a &lt;pre> tag.</span>
+<span id='line476'>  **</span>
+<span id='line477'>  This pre<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"pre", attrs<b>)</b> <b>}</b></span>
+<span id='line478'></span>
+<span id='line479'>  **</span>
+<span id='line480'>  ** End a &lt;pre> tag.</span>
+<span id='line481'>  **</span>
+<span id='line482'>  This preEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"pre"<b>)</b>.nl <b>}</b></span>
+<span id='line483'></span>
+<span id='line484'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line485'>// code</span>
+<span id='line486'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line487'></span>
+<span id='line488'>  **</span>
+<span id='line489'>  ** Start a &lt;code> tag.</span>
+<span id='line490'>  **</span>
+<span id='line491'>  This code<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"code", attrs<b>)</b> <b>}</b></span>
+<span id='line492'></span>
+<span id='line493'>  **</span>
+<span id='line494'>  ** End a &lt;code> tag.</span>
+<span id='line495'>  **</span>
+<span id='line496'>  This codeEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"code"<b>)</b> <b>}</b></span>
+<span id='line497'></span>
+<span id='line498'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line499'>// hr</span>
+<span id='line500'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line501'></span>
+<span id='line502'>  **</span>
+<span id='line503'>  ** Write out a complete &lt;hr/> tag.</span>
+<span id='line504'>  **</span>
+<span id='line505'>  This hr<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"hr", attrs, true<b>)</b>.nl <b>}</b></span>
+<span id='line506'></span>
+<span id='line507'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line508'>// br</span>
+<span id='line509'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line510'></span>
+<span id='line511'>  **</span>
+<span id='line512'>  ** Write out a complete &lt;br/> tag.</span>
+<span id='line513'>  **</span>
+<span id='line514'>  This br<b>(</b><b>)</b> <b>{</b> return tag<b>(</b>"br", null, true<b>)</b> <b>}</b></span>
+<span id='line515'></span>
+<span id='line516'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line517'>// a</span>
+<span id='line518'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line519'></span>
+<span id='line520'>  **</span>
+<span id='line521'>  ** Start a &lt;a> tag.</span>
+<span id='line522'>  **</span>
+<span id='line523'>  This a<b>(</b>Uri href, Str? attrs := null<b>)</b></span>
+<span id='line524'>  <b>{</b></span>
+<span id='line525'>    return tag<b>(</b>"a href='$href.encode.toXml'", attrs<b>)</b></span>
+<span id='line526'>  <b>}</b></span>
+<span id='line527'></span>
+<span id='line528'>  **</span>
+<span id='line529'>  ** End a &lt;a> tag.</span>
+<span id='line530'>  **</span>
+<span id='line531'>  This aEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"a"<b>)</b> <b>}</b></span>
+<span id='line532'></span>
+<span id='line533'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line534'>// img</span>
+<span id='line535'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line536'></span>
+<span id='line537'>  **</span>
+<span id='line538'>  ** Write a complete &lt;img> tag.</span>
+<span id='line539'>  **</span>
+<span id='line540'>  This img<b>(</b>Uri src, Str? attrs := null<b>)</b></span>
+<span id='line541'>  <b>{</b></span>
+<span id='line542'>    return tag<b>(</b>"img src='$src.encode.toXml'", attrs, true<b>)</b></span>
+<span id='line543'>  <b>}</b></span>
+<span id='line544'></span>
+<span id='line545'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line546'>// table</span>
+<span id='line547'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line548'></span>
+<span id='line549'>  ** Start a &lt;table> tag.</span>
+<span id='line550'>  This table<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"table", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line551'></span>
+<span id='line552'>  ** End a &lt;table> tag.</span>
+<span id='line553'>  This tableEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"table"<b>)</b>.nl <b>}</b></span>
+<span id='line554'></span>
+<span id='line555'>  ** Start a &lt;thead> tag.</span>
+<span id='line556'>  This thead<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"thead", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line557'></span>
+<span id='line558'>  ** End a &lt;thead> tag.</span>
+<span id='line559'>  This theadEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"thead"<b>)</b>.nl <b>}</b></span>
+<span id='line560'></span>
+<span id='line561'>  ** Start a &lt;tbody> tag.</span>
+<span id='line562'>  This tbody<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"tbody", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line563'></span>
+<span id='line564'>  ** End a &lt;tbody> tag.</span>
+<span id='line565'>  This tbodyEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"tbody"<b>)</b>.nl <b>}</b></span>
+<span id='line566'></span>
+<span id='line567'>  ** Start a &lt;tfoot> tag.</span>
+<span id='line568'>  This tfoot<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"tfoot", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line569'></span>
+<span id='line570'>  ** End a &lt;tfoot> tag.</span>
+<span id='line571'>  This tfootEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"tfoot"<b>)</b>.nl <b>}</b></span>
+<span id='line572'></span>
+<span id='line573'>  ** Start a &lt;tr> tag.</span>
+<span id='line574'>  This tr<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"tr", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line575'></span>
+<span id='line576'>  ** End a &lt;tr> tag.</span>
+<span id='line577'>  This trEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"tr"<b>)</b>.nl <b>}</b></span>
+<span id='line578'></span>
+<span id='line579'>  ** Start a &lt;th> tag.</span>
+<span id='line580'>  This th<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"th", attrs<b>)</b> <b>}</b></span>
+<span id='line581'></span>
+<span id='line582'>  ** End a &lt;th> tag.</span>
+<span id='line583'>  This thEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"th"<b>)</b>.nl <b>}</b></span>
+<span id='line584'></span>
+<span id='line585'>  ** Start a &lt;td> tag.</span>
+<span id='line586'>  This td<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"td", attrs<b>)</b> <b>}</b></span>
+<span id='line587'></span>
+<span id='line588'>  ** End a &lt;td> tag.</span>
+<span id='line589'>  This tdEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"td"<b>)</b>.nl <b>}</b></span>
+<span id='line590'></span>
+<span id='line591'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line592'>// ul/ol/li</span>
+<span id='line593'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line594'></span>
+<span id='line595'>  **</span>
+<span id='line596'>  ** Start a &lt;ul> tag.</span>
+<span id='line597'>  **</span>
+<span id='line598'>  This ul<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"ul", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line599'></span>
+<span id='line600'>  **</span>
+<span id='line601'>  ** End a &lt;ul> tag.</span>
+<span id='line602'>  **</span>
+<span id='line603'>  This ulEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"ul"<b>)</b>.nl <b>}</b></span>
+<span id='line604'></span>
+<span id='line605'>  **</span>
+<span id='line606'>  ** Start a &lt;ol> tag.</span>
+<span id='line607'>  **</span>
+<span id='line608'>  This ol<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"ol", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line609'></span>
+<span id='line610'>  **</span>
+<span id='line611'>  ** End a &lt;ol> tag.</span>
+<span id='line612'>  **</span>
+<span id='line613'>  This olEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"ol"<b>)</b>.nl <b>}</b></span>
+<span id='line614'></span>
+<span id='line615'>  **</span>
+<span id='line616'>  ** Start a &lt;li> tag.</span>
+<span id='line617'>  **</span>
+<span id='line618'>  This li<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"li", attrs<b>)</b> <b>}</b></span>
+<span id='line619'></span>
+<span id='line620'>  **</span>
+<span id='line621'>  ** End a &lt;li> tag.</span>
+<span id='line622'>  **</span>
+<span id='line623'>  This liEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"li"<b>)</b> <b>}</b></span>
+<span id='line624'></span>
+<span id='line625'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line626'>// dl/dd/dt</span>
+<span id='line627'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line628'></span>
+<span id='line629'>  **</span>
+<span id='line630'>  ** Start a &lt;dl> tag.</span>
+<span id='line631'>  **</span>
+<span id='line632'>  This dl<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"dl", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line633'></span>
+<span id='line634'>  **</span>
+<span id='line635'>  ** End a &lt;dl> tag.</span>
+<span id='line636'>  **</span>
+<span id='line637'>  This dlEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"dl"<b>)</b>.nl <b>}</b></span>
+<span id='line638'></span>
+<span id='line639'>  **</span>
+<span id='line640'>  ** Start a &lt;dt> tag.</span>
+<span id='line641'>  **</span>
+<span id='line642'>  This dt<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"dt", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line643'></span>
+<span id='line644'>  **</span>
+<span id='line645'>  ** End a &lt;dt> tag.</span>
+<span id='line646'>  **</span>
+<span id='line647'>  This dtEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"dt"<b>)</b>.nl <b>}</b></span>
+<span id='line648'></span>
+<span id='line649'>  **</span>
+<span id='line650'>  ** Start a &lt;dd> tag.</span>
+<span id='line651'>  **</span>
+<span id='line652'>  This dd<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"dd", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line653'></span>
+<span id='line654'>  **</span>
+<span id='line655'>  ** End a &lt;dd> tag.</span>
+<span id='line656'>  **</span>
+<span id='line657'>  This ddEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"dd"<b>)</b>.nl <b>}</b></span>
+<span id='line658'></span>
+<span id='line659'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line660'>// form</span>
+<span id='line661'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line662'></span>
+<span id='line663'>  **</span>
+<span id='line664'>  ** Start a &lt;form> tag.</span>
+<span id='line665'>  **</span>
+<span id='line666'>  This form<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"form", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line667'></span>
+<span id='line668'>  **</span>
+<span id='line669'>  ** End a &lt;form> tag.</span>
+<span id='line670'>  **</span>
+<span id='line671'>  This formEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"form"<b>)</b>.nl <b>}</b></span>
+<span id='line672'></span>
+<span id='line673'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line674'>// label</span>
+<span id='line675'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line676'></span>
+<span id='line677'>  **</span>
+<span id='line678'>  ** Start a &lt;label> tag.</span>
+<span id='line679'>  **</span>
+<span id='line680'>  This label<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"label", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line681'></span>
+<span id='line682'>  **</span>
+<span id='line683'>  ** End a &lt;label> tag.</span>
+<span id='line684'>  **</span>
+<span id='line685'>  This labelEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"label"<b>)</b>.nl <b>}</b></span>
+<span id='line686'></span>
+<span id='line687'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line688'>// input</span>
+<span id='line689'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line690'></span>
+<span id='line691'>  **</span>
+<span id='line692'>  ** Write a complete &lt;input> tag.</span>
+<span id='line693'>  **</span>
+<span id='line694'>  This input<b>(</b>Str? attrs := null<b>)</b></span>
+<span id='line695'>  <b>{</b></span>
+<span id='line696'>    return tag<b>(</b>"input", attrs, true<b>)</b></span>
+<span id='line697'>  <b>}</b></span>
+<span id='line698'></span>
+<span id='line699'>  **</span>
+<span id='line700'>  ** Convenience for input<b>(</b>"type='text'" + attrs<b>)</b>.</span>
+<span id='line701'>  **</span>
+<span id='line702'>  This textField<b>(</b>Str? attrs := null<b>)</b></span>
+<span id='line703'>  <b>{</b></span>
+<span id='line704'>    return tag<b>(</b>"input type='text'", attrs, true<b>)</b></span>
+<span id='line705'>  <b>}</b></span>
+<span id='line706'></span>
+<span id='line707'>  **</span>
+<span id='line708'>  ** Convenience for input<b>(</b>"type='password'" + attrs<b>)</b>.</span>
+<span id='line709'>  **</span>
+<span id='line710'>  This password<b>(</b>Str? attrs := null<b>)</b></span>
+<span id='line711'>  <b>{</b></span>
+<span id='line712'>    return tag<b>(</b>"input type='password'", attrs, true<b>)</b></span>
+<span id='line713'>  <b>}</b></span>
+<span id='line714'></span>
+<span id='line715'>  **</span>
+<span id='line716'>  ** Convenience for input<b>(</b>"type='hidden'" + attrs<b>)</b>.</span>
+<span id='line717'>  **</span>
+<span id='line718'>  This hidden<b>(</b>Str? attrs := null<b>)</b></span>
+<span id='line719'>  <b>{</b></span>
+<span id='line720'>    return tag<b>(</b>"input type='hidden'", attrs, true<b>)</b></span>
+<span id='line721'>  <b>}</b></span>
+<span id='line722'></span>
+<span id='line723'>  **</span>
+<span id='line724'>  ** Convenience for input<b>(</b>"type='button'" + attrs<b>)</b>.</span>
+<span id='line725'>  **</span>
+<span id='line726'>  This button<b>(</b>Str? attrs := null<b>)</b></span>
+<span id='line727'>  <b>{</b></span>
+<span id='line728'>    return tag<b>(</b>"input type='button'", attrs, true<b>)</b></span>
+<span id='line729'>  <b>}</b></span>
+<span id='line730'></span>
+<span id='line731'>  **</span>
+<span id='line732'>  ** Convenience for input<b>(</b>"type='checkbox'" + attrs<b>)</b></span>
+<span id='line733'>  **</span>
+<span id='line734'>  This checkbox<b>(</b>Str? attrs := null<b>)</b></span>
+<span id='line735'>  <b>{</b></span>
+<span id='line736'>    return tag<b>(</b>"input type='checkbox'", attrs, true<b>)</b></span>
+<span id='line737'>  <b>}</b></span>
+<span id='line738'></span>
+<span id='line739'>  **</span>
+<span id='line740'>  ** Convenience for input<b>(</b>"type='radio'" + attrs<b>)</b></span>
+<span id='line741'>  **</span>
+<span id='line742'>  This radio<b>(</b>Str? attrs := null<b>)</b></span>
+<span id='line743'>  <b>{</b></span>
+<span id='line744'>    return tag<b>(</b>"input type='radio'", attrs, true<b>)</b></span>
+<span id='line745'>  <b>}</b></span>
+<span id='line746'></span>
+<span id='line747'>  **</span>
+<span id='line748'>  ** Convenience for input<b>(</b>"type='submit'" + attrs<b>)</b>.</span>
+<span id='line749'>  **</span>
+<span id='line750'>  This submit<b>(</b>Str? attrs := null<b>)</b></span>
+<span id='line751'>  <b>{</b></span>
+<span id='line752'>    return tag<b>(</b>"input type='submit'", attrs, true<b>)</b></span>
+<span id='line753'>  <b>}</b></span>
+<span id='line754'></span>
+<span id='line755'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line756'>// select</span>
+<span id='line757'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line758'></span>
+<span id='line759'>  **</span>
+<span id='line760'>  ** Start a &lt;select> tag.</span>
+<span id='line761'>  **</span>
+<span id='line762'>  This select<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"select", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line763'></span>
+<span id='line764'>  **</span>
+<span id='line765'>  ** End a &lt;select> tag.</span>
+<span id='line766'>  **</span>
+<span id='line767'>  This selectEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"select"<b>)</b>.nl <b>}</b></span>
+<span id='line768'></span>
+<span id='line769'>  **</span>
+<span id='line770'>  ** Start a &lt;option> tag.</span>
+<span id='line771'>  **</span>
+<span id='line772'>  This option<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"option", attrs<b>)</b> <b>}</b></span>
+<span id='line773'></span>
+<span id='line774'>  **</span>
+<span id='line775'>  ** End a &lt;option> tag.</span>
+<span id='line776'>  **</span>
+<span id='line777'>  This optionEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"option"<b>)</b>.nl <b>}</b></span>
+<span id='line778'></span>
+<span id='line779'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line780'>// textarea</span>
+<span id='line781'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line782'></span>
+<span id='line783'>  **</span>
+<span id='line784'>  ** Start a &lt;textarea> tag.</span>
+<span id='line785'>  **</span>
+<span id='line786'>  This textArea<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"textarea", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line787'></span>
+<span id='line788'>  **</span>
+<span id='line789'>  ** End a &lt;textarea> tag.</span>
+<span id='line790'>  **</span>
+<span id='line791'>  This textAreaEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"textarea"<b>)</b>.nl <b>}</b></span>
+<span id='line792'></span>
+<span id='line793'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line794'>// HTML5</span>
+<span id='line795'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line796'></span>
+<span id='line797'>  ** Start a &lt;header> tag.</span>
+<span id='line798'>  This header<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"header", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line799'></span>
+<span id='line800'>  ** End a &lt;header> tag.</span>
+<span id='line801'>  This headerEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"header"<b>)</b>.nl <b>}</b></span>
+<span id='line802'></span>
+<span id='line803'>  ** Start a &lt;footer> tag.</span>
+<span id='line804'>  This footer<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"footer", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line805'></span>
+<span id='line806'>  ** End a &lt;footer> tag.</span>
+<span id='line807'>  This footerEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"footer"<b>)</b>.nl <b>}</b></span>
+<span id='line808'></span>
+<span id='line809'>  ** Start a &lt;nav> tag.</span>
+<span id='line810'>  This nav<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"nav", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line811'></span>
+<span id='line812'>  ** End a &lt;nav> tag.</span>
+<span id='line813'>  This navEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"nav"<b>)</b>.nl <b>}</b></span>
+<span id='line814'></span>
+<span id='line815'>  ** Start a &lt;section> tag.</span>
+<span id='line816'>  This section<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"section", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line817'></span>
+<span id='line818'>  ** End a &lt;section> tag.</span>
+<span id='line819'>  This sectionEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"section"<b>)</b>.nl <b>}</b></span>
+<span id='line820'></span>
+<span id='line821'>  ** Start a &lt;article> tag.</span>
+<span id='line822'>  This article<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"article", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line823'></span>
+<span id='line824'>  ** End a &lt;article> tag.</span>
+<span id='line825'>  This articleEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"article"<b>)</b>.nl <b>}</b></span>
+<span id='line826'></span>
+<span id='line827'>  ** Start a &lt;aside> tag.</span>
+<span id='line828'>  This aside<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"aside", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line829'></span>
+<span id='line830'>  ** End a &lt;aside> tag.</span>
+<span id='line831'>  This asideEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"aside"<b>)</b>.nl <b>}</b></span>
+<span id='line832'></span>
+<span id='line833'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line834'>// Utils</span>
+<span id='line835'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line836'></span>
+<span id='line837'>  **</span>
+<span id='line838'>  ** Write 'obj.toStr' to the stream as valid XML text.  The</span>
+<span id='line839'>  ** special control characters amp, lt, apos and quot are</span>
+<span id='line840'>  ** always escaped.  The gt char is escaped only if it is</span>
+<span id='line841'>  ** the first char or if preceeded by the '<b>]</b>' char.  Also</span>
+<span id='line842'>  ** see `sys::Str.toXml`.  If obj is null, then "null" is</span>
+<span id='line843'>  ** written.</span>
+<span id='line844'>  **</span>
+<span id='line845'>  This esc<b>(</b>Obj? obj<b>)</b></span>
+<span id='line846'>  <b>{</b></span>
+<span id='line847'>    if <b>(</b>obj == null<b>)</b> return w<b>(</b>"null"<b>)</b></span>
+<span id='line848'>    return XmlUtil.writeXml<b>(</b>this, obj.toStr, XmlUtil.xmlEscQuotes<b>)</b></span>
+<span id='line849'>  <b>}</b></span>
+<span id='line850'></span>
+<span id='line851'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line852'>// Fields</span>
+<span id='line853'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line854'></span>
+<span id='line855'>  private Uri<b>[</b><b>]</b>? cssUris  // what CSS uris have been added</span>
+<span id='line856'>  private Uri<b>[</b><b>]</b>? jsUris   // what JavaScript uris have been added</span>
+<span id='line857'></span>
+<span id='line858'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

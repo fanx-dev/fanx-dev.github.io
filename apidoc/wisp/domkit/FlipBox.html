@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::FlipBox</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='FlipBox.html'>FlipBox</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> domkit::FlipBox</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../dom/Elem.html'>dom::Elem</a>
+    <a href='Box.html'>domkit::Box</a>
+      domkit::FlipBox</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-FlipBox.fan.html'>Source</a></p>
+
+<p>FlipBox displays content on a 3D card, and allows transitiong between the front and back using a flipping animation.</p>
+<dl>
+<dt id='back'>
+back</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../dom/Elem.html'>Elem?</a> back</code></p>
+<p class='src'>
+<a href='src-FlipBox.fan.html#line30'>Source</a></p>
+
+<p>Back card content.</p>
+</dd>
+<dt id='flip'>
+flip</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> flip(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> onComplete := null)</code></p>
+<p class='src'>
+<a href='src-FlipBox.fan.html#line37'>Source</a></p>
+
+<p>Flip content, and invoke the specified callback when the flip animation has completed.</p>
+</dd>
+<dt id='front'>
+front</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../dom/Elem.html'>Elem?</a> front</code></p>
+<p class='src'>
+<a href='src-FlipBox.fan.html#line23'>Source</a></p>
+
+<p>Front card content.</p>
+</dd>
+<dt id='isBack'>
+isBack</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isBack()</code></p>
+<p class='src'>
+<a href='src-FlipBox.fan.html#line48'>Source</a></p>
+
+<p>Is card showing back content.</p>
+</dd>
+<dt id='isFront'>
+isFront</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFront()</code></p>
+<p class='src'>
+<a href='src-FlipBox.fan.html#line45'>Source</a></p>
+
+<p>Is card showing front content.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-FlipBox.fan.html'>Source</a></p>
+</dd>
+<dt id='toBack'>
+toBack</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> toBack()</code></p>
+<p class='src'>
+<a href='src-FlipBox.fan.html#line58'>Source</a></p>
+
+<p>Show back card content if not already visible.</p>
+</dd>
+<dt id='toFront'>
+toFront</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> toFront()</code></p>
+<p class='src'>
+<a href='src-FlipBox.fan.html#line51'>Source</a></p>
+
+<p>Show front card content if not already visible.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-FlipBox.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#back'>back</a></li><li><a href='#flip'>flip</a></li><li><a href='#front'>front</a></li><li><a href='#isBack'>isBack</a></li><li><a href='#isFront'>isFront</a></li><li><a href='#toBack'>toBack</a></li><li><a href='#toFront'>toFront</a></li></ul>
+</div>
+</div>
+</body>
+</html>

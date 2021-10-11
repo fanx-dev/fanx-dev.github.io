@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compiler::FSlot</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compiler</a></li><li><a href='FSlot.html'>FSlot</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> compiler::FSlot</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compiler::FSlot : <a href='CSlot.html'>compiler::CSlot</a>, <a href='FConst.html'>compiler::FConst</a></pre>
+
+<p>FSlot is the read/write fcode representation of sys::Slot.</p>
+<dl>
+<dt id='attr'>
+attr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FAttr.html'>FAttr?</a> attr(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='facet'>
+facet</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CFacet.html'>CFacet?</a> facet(<a href='../sys/Str.html'>Str</a> qname)</code></p>
+</dd>
+<dt id='fattrs'>
+fattrs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FAttr.html'>FAttr</a>&gt;?</a> fattrs</code></p>
+</dd>
+<dt id='ffacets'>
+ffacets</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='FFacet.html'>FFacet</a>&gt;?</a> ffacets</code></p>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> flags</code></p>
+</dd>
+<dt id='fparent'>
+fparent</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FType.html'>FType</a> fparent</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='FType.html'>FType</a> fparent)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> name()</code></p>
+</dd>
+<dt id='nameIndex'>
+nameIndex</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> nameIndex</code></p>
+</dd>
+<dt id='parent'>
+parent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='CType.html'>CType</a> parent()</code></p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FPod.html'>FPod</a> pod()</code></p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> qname()</code></p>
+</dd>
+<dt id='readCommon'>
+readCommon</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> readCommon(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+</dd>
+<dt id='writeCommon'>
+writeCommon</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> writeCommon(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#attr'>attr</a></li><li><a href='#facet'>facet</a></li><li><a href='#fattrs'>fattrs</a></li><li><a href='#ffacets'>ffacets</a></li><li><a href='#flags'>flags</a></li><li><a href='#fparent'>fparent</a></li><li><a href='#name'>name</a></li><li><a href='#nameIndex'>nameIndex</a></li><li><a href='#parent'>parent</a></li><li><a href='#pod'>pod</a></li><li><a href='#qname'>qname</a></li><li><a href='#readCommon'>readCommon</a></li><li><a href='#writeCommon'>writeCommon</a></li></ul>
+</div>
+</div>
+</body>
+</html>

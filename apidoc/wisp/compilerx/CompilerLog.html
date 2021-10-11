@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CompilerLog</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CompilerLog.html'>CompilerLog</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> compilerx::CompilerLog</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  compilerx::CompilerLog</pre>
+
+<p>CompilerLog manages logging compiler messages.  The default writes everything to standard output.</p>
+<dl>
+<dt id='clearByFile'>
+clearByFile</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> clearByFile(<a href='../sys/Str.html'>Str</a> file)</code></p>
+</dd>
+<dt id='debug'>
+debug</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> debug(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Log an debug level message.</p>
+</dd>
+<dt id='err'>
+err</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CompilerErr.html'>CompilerErr</a> err(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Create, log, and return a CompilerErr.</p>
+</dd>
+<dt id='errReport'>
+errReport</dt>
+<dd>
+<p class='sig'>
+<code> <a href='CompilerErr.html'>CompilerErr</a> errReport(<a href='CompilerErr.html'>CompilerErr</a> e)</code></p>
+
+<p>Log, store, and return the specified CompilerErr.</p>
+</dd>
+<dt id='errs'>
+errs</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CompilerErr.html'>CompilerErr</a>&gt;</a> errs</code></p>
+</dd>
+<dt id='info'>
+info</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> info(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Log an info level message.</p>
+</dd>
+<dt id='level'>
+level</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/LogLevel.html'>LogLevel</a> level := LogLevel.info</code></p>
+
+<p>Max severity of log entries to report</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/OutStream.html'>OutStream</a> out := Env.cur().out())</code></p>
+</dd>
+<dt id='out'>
+out</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../std/OutStream.html'>OutStream</a> out</code></p>
+</dd>
+<dt id='suppressErr'>
+suppressErr</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> suppressErr := false</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='warn'>
+warn</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CompilerErr.html'>CompilerErr</a> warn(<a href='../sys/Str.html'>Str</a> msg, <a href='Loc.html'>Loc?</a> loc := null)</code></p>
+
+<p>Create, log, and return a warning CompilerErr.</p>
+</dd>
+<dt id='warns'>
+warns</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='CompilerErr.html'>CompilerErr</a>&gt;</a> warns</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#clearByFile'>clearByFile</a></li><li><a href='#debug'>debug</a></li><li><a href='#err'>err</a></li><li><a href='#errReport'>errReport</a></li><li><a href='#errs'>errs</a></li><li><a href='#info'>info</a></li><li><a href='#level'>level</a></li><li><a href='#out'>out</a></li><li><a href='#suppressErr'>suppressErr</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#warn'>warn</a></li><li><a href='#warns'>warns</a></li></ul>
+</div>
+</div>
+</body>
+</html>

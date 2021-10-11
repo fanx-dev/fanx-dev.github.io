@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>domkit::DragTarget</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='DragTarget.html'>DragTarget</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>class</span> domkit::DragTarget</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  domkit::DragTarget</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-Dnd.fan.html'>Source</a></p>
+
+<p>DragTarget converts an Elem into a drag target for a drag-and-drop events.</p>
+
+<p>See also: <a href='docDomkit::Dnd'>docDomkit</a></p>
+<dl>
+<dt id='bind'>
+bind</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='DragTarget.html'>DragTarget</a> bind(<a href='../dom/Elem.html'>Elem</a> elem)</code></p>
+<p class='src'>
+<a href='src-Dnd.fan.html#line25'>Source</a></p>
+
+<p>Convert given Elem into a drag target.</p>
+</dd>
+<dt id='onDrag'>
+onDrag</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onDrag(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Obj.html'>Obj</a>,<a href='../dom/Elem.html'>Elem</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Dnd.fan.html#line54'>Source</a></p>
+
+<p>Callback to get data payload for drag event.</p>
+</dd>
+<dt id='onDragImage'>
+onDragImage</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onDragImage(<a href='../sys/Func.html'>Func&lt;<a href='../dom/Elem.html'>Elem</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Dnd.fan.html#line57'>Source</a></p>
+
+<p>Callback to customize the drag image for drag event.</p>
+</dd>
+<dt id='onEnd'>
+onEnd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> onEnd(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../dom/Elem.html'>Elem</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Dnd.fan.html#line60'>Source</a></p>
+
+<p>Callback when the drag event has ended.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-Dnd.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#bind'>bind</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#onDrag'>onDrag</a></li><li><a href='#onDragImage'>onDragImage</a></li><li><a href='#onEnd'>onEnd</a></li></ul>
+</div>
+</div>
+</body>
+</html>

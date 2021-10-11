@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>fandoc::DocElem</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>fandoc</a></li><li><a href='DocElem.html'>DocElem</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract class</span> fandoc::DocElem</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='DocNode.html'>fandoc::DocNode</a>
+    fandoc::DocElem</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line167'>Source</a></p>
+
+<p>DocElem is a container node which models a branch of the doc tree.</p>
+
+<p>See <a href='index.html#api'>pod doc</a> for usage.</p>
+<dl>
+<dt id='add'>
+add</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br /> <a href='../sys/This.html'>This</a> add(<a href='DocNode.html'>DocNode</a> node)</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line215'>Source</a></p>
+
+<p>Add a child to this node.  If adding a text node it is automatically merged with the trailing text node (if applicable).  If the node is arlready parented thorw ArgErr. Return this.</p>
+</dd>
+<dt id='addAll'>
+addAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> addAll(<a href='../sys/List.html'>List&lt;<a href='DocNode.html'>DocNode</a>&gt;</a> nodes)</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line263'>Source</a></p>
+
+<p>Convenicence to call <code><a href='DocElem.html#add'>add</a></code> for each node in the given list.</p>
+</dd>
+<dt id='addChild'>
+addChild</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=&quot;Use add()&quot; }</code><br /> <a href='../sys/This.html'>This</a> addChild(<a href='DocNode.html'>DocNode</a> node)</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line211'>Source</a></p>
+</dd>
+<dt id='anchorId'>
+anchorId</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str?</a> anchorId</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line318'>Source</a></p>
+</dd>
+<dt id='children'>
+children</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/List.html'>List&lt;<a href='DocNode.html'>DocNode</a>&gt;</a> children()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line202'>Source</a></p>
+
+<p>Get a readonly list of this elements's children.</p>
+</dd>
+<dt id='eachChild'>
+eachChild</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> eachChild(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='DocNode.html'>DocNode</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line207'>Source</a></p>
+
+<p>Iterate the children nodes</p>
+</dd>
+<dt id='htmlName'>
+htmlName</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> htmlName()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line175'>Source</a></p>
+
+<p>Get the HTML element name to use for this element.</p>
+</dd>
+<dt id='insert'>
+insert</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> insert(<a href='../sys/Int.html'>Int</a> index, <a href='DocNode.html'>DocNode</a> node)</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line249'>Source</a></p>
+
+<p>Insert a child node at the specified index. A negative index may be used to access an index from the end of the list. If adding a text node it is automatically merged with surrounding text nodes (if applicable). If the node is already parented throws ArgErr.</p>
+</dd>
+<dt id='path'>
+path</dt>
+<dd>
+<p class='sig'>
+<code>override <a href='../sys/List.html'>List&lt;<a href='DocElem.html'>DocElem</a>&gt;</a> path()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line306'>Source</a></p>
+
+<p>Covariant override to narrow path to list of <code><a href='DocElem.html'>DocElem</a></code>.</p>
+</dd>
+<dt id='remove'>
+remove</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> remove(<a href='DocNode.html'>DocNode</a> node)</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line272'>Source</a></p>
+
+<p>Remove a child node. If this element is not the child's current parent throw ArgErr. Return this.</p>
+</dd>
+<dt id='removeAll'>
+removeAll</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> removeAll()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line283'>Source</a></p>
+
+<p>Remove all child nodes. Return this.</p>
+</dd>
+<dt id='toText'>
+toText</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toText()</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line292'>Source</a></p>
+
+<p>Get all the DocText children as a string</p>
+</dd>
+<dt id='write'>
+write</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> write(<a href='DocWriter.html'>DocWriter</a> out)</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line180'>Source</a></p>
+
+<p>Write this element and its children to the specified DocWriter.</p>
+</dd>
+<dt id='writeChildren'>
+writeChildren</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> writeChildren(<a href='DocWriter.html'>DocWriter</a> out)</code></p>
+<p class='src'>
+<a href='src-DocModel.fan.html#line190'>Source</a></p>
+
+<p>Write this element's children to the specified DocWriter.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-DocModel.fan.html#line167'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#add'>add</a></li><li><a href='#addAll'>addAll</a></li><li><a href='#addChild'>addChild</a></li><li><a href='#anchorId'>anchorId</a></li><li><a href='#children'>children</a></li><li><a href='#eachChild'>eachChild</a></li><li><a href='#htmlName'>htmlName</a></li><li><a href='#insert'>insert</a></li><li><a href='#path'>path</a></li><li><a href='#remove'>remove</a></li><li><a href='#removeAll'>removeAll</a></li><li><a href='#toText'>toText</a></li><li><a href='#write'>write</a></li><li><a href='#writeChildren'>writeChildren</a></li></ul>
+</div>
+</div>
+</body>
+</html>

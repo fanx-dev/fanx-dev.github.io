@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Selection.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>domkit</a></li><li><a href='Selection.html'>Selection</a></li><li><a href='src-Selection.fan.html'>Selection.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2015, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   16 Feb 2015  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using dom</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** Selection manages the selected items and/or indexes</span>
+<span id='line13'>**</span>
+<span id='line14'>@Js abstract class Selection</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'>  ** Enable or disable selection.</span>
+<span id='line17'>  Bool enabled := true</span>
+<span id='line18'></span>
+<span id='line19'>  ** True to enable multiple selection, false for single selection.</span>
+<span id='line20'>  Bool multi := false</span>
+<span id='line21'>  <b>{</b></span>
+<span id='line22'>    set <b>{</b> &amp;multi=it; refresh <b>}</b></span>
+<span id='line23'>  <b>}</b></span>
+<span id='line24'></span>
+<span id='line25'>  ** Is the selection currently empty</span>
+<span id='line26'>  abstract Bool isEmpty<b>(</b><b>)</b></span>
+<span id='line27'></span>
+<span id='line28'>  ** Number of selected items</span>
+<span id='line29'>  abstract Int size<b>(</b><b>)</b></span>
+<span id='line30'></span>
+<span id='line31'>  ** Get or set a single item</span>
+<span id='line32'>  abstract Obj? item</span>
+<span id='line33'></span>
+<span id='line34'>  ** Selected items.</span>
+<span id='line35'>  abstract Obj<b>[</b><b>]</b> items</span>
+<span id='line36'></span>
+<span id='line37'>  ** Get or set a single index</span>
+<span id='line38'>  abstract Int? index</span>
+<span id='line39'></span>
+<span id='line40'>  ** Selected zero based indexes</span>
+<span id='line41'>  abstract Int<b>[</b><b>]</b> indexes</span>
+<span id='line42'></span>
+<span id='line43'>  ** Clear the selection</span>
+<span id='line44'>  Void clear<b>(</b><b>)</b> <b>{</b> items = Obj<b>[</b>,<b>]</b> <b>}</b></span>
+<span id='line45'></span>
+<span id='line46'>  ** Validate selection.</span>
+<span id='line47'>  internal virtual Void refresh<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line48'><b>}</b></span>
+<span id='line49'></span>
+<span id='line50'>**************************************************************************</span>
+<span id='line51'>** IndexSelection</span>
+<span id='line52'>**************************************************************************</span>
+<span id='line53'></span>
+<span id='line54'>** Internal implementation for supporting index-based Selection widgets.</span>
+<span id='line55'>@NoDoc @Js abstract class IndexSelection : Selection</span>
+<span id='line56'><b>{</b></span>
+<span id='line57'></span>
+<span id='line58'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line59'>// Selection</span>
+<span id='line60'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line61'></span>
+<span id='line62'>  override Bool isEmpty<b>(</b><b>)</b> <b>{</b> indexes.isEmpty <b>}</b></span>
+<span id='line63'></span>
+<span id='line64'>  override Int size<b>(</b><b>)</b> <b>{</b> indexes.size <b>}</b></span>
+<span id='line65'></span>
+<span id='line66'>  override Obj? item</span>
+<span id='line67'>  <b>{</b></span>
+<span id='line68'>    get <b>{</b> items.first <b>}</b></span>
+<span id='line69'>    set <b>{</b> items = <b>(</b>it == null<b>)</b> ? Obj<b>[</b>,<b>]</b> : <b>[</b>it<b>]</b> <b>}</b></span>
+<span id='line70'>  <b>}</b></span>
+<span id='line71'></span>
+<span id='line72'>  override Obj<b>[</b><b>]</b> items</span>
+<span id='line73'>  <b>{</b></span>
+<span id='line74'>    get <b>{</b> toItems<b>(</b>indexes<b>)</b> <b>}</b></span>
+<span id='line75'>    set <b>{</b> indexes = toIndexes<b>(</b>it<b>)</b> <b>}</b></span>
+<span id='line76'>  <b>}</b></span>
+<span id='line77'></span>
+<span id='line78'>  override Int? index</span>
+<span id='line79'>  <b>{</b></span>
+<span id='line80'>    get <b>{</b> indexes.first <b>}</b></span>
+<span id='line81'>    set <b>{</b> indexes = <b>(</b>it == null<b>)</b> ? Int<b>[</b>,<b>]</b> : <b>[</b>it<b>]</b> <b>}</b></span>
+<span id='line82'>  <b>}</b></span>
+<span id='line83'></span>
+<span id='line84'>  override Int<b>[</b><b>]</b> indexes := <b>[</b>,<b>]</b></span>
+<span id='line85'>  <b>{</b></span>
+<span id='line86'>    set</span>
+<span id='line87'>    <b>{</b></span>
+<span id='line88'>      if <b>(</b>!enabled<b>)</b> return</span>
+<span id='line89'>      oldIndexes := &amp;indexes</span>
+<span id='line90'>      newIndexes := checkIndexes<b>(</b>it<b>)</b>.sort.ro</span>
+<span id='line91'>      &amp;indexes = newIndexes</span>
+<span id='line92'>      onUpdate<b>(</b>oldIndexes, newIndexes<b>)</b></span>
+<span id='line93'>    <b>}</b></span>
+<span id='line94'>  <b>}</b></span>
+<span id='line95'></span>
+<span id='line96'>  internal override Void refresh<b>(</b><b>)</b></span>
+<span id='line97'>  <b>{</b></span>
+<span id='line98'>    temp := indexes</span>
+<span id='line99'>    indexes = temp</span>
+<span id='line100'>  <b>}</b></span>
+<span id='line101'></span>
+<span id='line102'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line103'>// Subclass Hooks</span>
+<span id='line104'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line105'></span>
+<span id='line106'>  ** Max number of items</span>
+<span id='line107'>  protected abstract Int max<b>(</b><b>)</b></span>
+<span id='line108'></span>
+<span id='line109'>  ** Lookup item at given index</span>
+<span id='line110'>  protected abstract Obj toItem<b>(</b>Int index<b>)</b></span>
+<span id='line111'></span>
+<span id='line112'>  ** Lookup index for given item</span>
+<span id='line113'>  protected abstract Int? toIndex<b>(</b>Obj item<b>)</b></span>
+<span id='line114'></span>
+<span id='line115'>  ** Callback when selection is modified</span>
+<span id='line116'>  protected abstract Void onUpdate<b>(</b>Int<b>[</b><b>]</b> oldIndexes, Int<b>[</b><b>]</b> newIndexes<b>)</b></span>
+<span id='line117'></span>
+<span id='line118'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line119'>// Utils</span>
+<span id='line120'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line121'></span>
+<span id='line122'>  ** Verify that all indexes are less than max and enforce multi</span>
+<span id='line123'>  private Int<b>[</b><b>]</b> checkIndexes<b>(</b>Int<b>[</b><b>]</b> indexes<b>)</b></span>
+<span id='line124'>  <b>{</b></span>
+<span id='line125'>    checked := indexes.findAll |index| <b>{</b> 0 &lt;= index &amp;&amp; index &lt; max <b>}</b></span>
+<span id='line126'>    if <b>(</b>!multi &amp;&amp; checked.size > 1<b>)</b> checked = <b>[</b>checked.first<b>]</b></span>
+<span id='line127'>    return checked</span>
+<span id='line128'>  <b>}</b></span>
+<span id='line129'></span>
+<span id='line130'>  ** List of indexes to items</span>
+<span id='line131'>  private Obj<b>[</b><b>]</b> toItems<b>(</b>Int<b>[</b><b>]</b> indexes<b>)</b></span>
+<span id='line132'>  <b>{</b></span>
+<span id='line133'>    max := this.max</span>
+<span id='line134'>    acc := Obj<b>[</b>,<b>]</b></span>
+<span id='line135'>    acc.capacity = indexes.size</span>
+<span id='line136'>    indexes.each |index|</span>
+<span id='line137'>    <b>{</b></span>
+<span id='line138'>      if <b>(</b>index &lt; max<b>)</b></span>
+<span id='line139'>      <b>{</b></span>
+<span id='line140'>        item := toItem<b>(</b>index<b>)</b></span>
+<span id='line141'>        acc.add<b>(</b>item<b>)</b></span>
+<span id='line142'>      <b>}</b></span>
+<span id='line143'>    <b>}</b></span>
+<span id='line144'>    return acc</span>
+<span id='line145'>  <b>}</b></span>
+<span id='line146'></span>
+<span id='line147'>  ** List of items to indexes</span>
+<span id='line148'>  private Int<b>[</b><b>]</b> toIndexes<b>(</b>Obj<b>[</b><b>]</b> items<b>)</b></span>
+<span id='line149'>  <b>{</b></span>
+<span id='line150'>    acc := Int<b>[</b>,<b>]</b></span>
+<span id='line151'>    acc.capacity = items.size</span>
+<span id='line152'>    items.each |item|</span>
+<span id='line153'>    <b>{</b></span>
+<span id='line154'>      index := toIndex<b>(</b>item<b>)</b></span>
+<span id='line155'>      if <b>(</b>index != null<b>)</b> acc.add<b>(</b>index<b>)</b></span>
+<span id='line156'>    <b>}</b></span>
+<span id='line157'>    return acc</span>
+<span id='line158'>  <b>}</b></span>
+<span id='line159'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

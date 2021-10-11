@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>email::TextPart</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>email</a></li><li><a href='TextPart.html'>TextPart</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> email::TextPart</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='EmailPart.html'>email::EmailPart</a>
+    email::TextPart</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+<p class='src'>
+<a href='src-TextPart.fan.html'>Source</a></p>
+
+<p>TextPart is used to model email parts with a text MIME type. The default is "text/plain".</p>
+<dl>
+<dt id='encode'>
+encode</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> encode(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+<p class='src'>
+<a href='src-TextPart.fan.html#line63'>Source</a></p>
+
+<p>Encode as a MIME message according to RFC 822.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+<p class='src'>
+<a href='src-TextPart.fan.html#line23'>Source</a></p>
+
+<p>Construct with default type of "text/plain".</p>
+</dd>
+<dt id='text'>
+text</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> text := &quot;&quot;</code></p>
+<p class='src'>
+<a href='src-TextPart.fan.html'>Source</a></p>
+
+<p>Text body of the email part.</p>
+</dd>
+<dt id='validate'>
+validate</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> validate()</code></p>
+<p class='src'>
+<a href='src-TextPart.fan.html#line32'>Source</a></p>
+
+<p>Validate this part - throw Err if not configured correctly:</p>
+
+<ul>
+<li>text must be non-null</li>
+
+<li>Content-Type must be defined</li>
+
+<li>if Content-Type charset not defined, defaults to utf-8</li>
+
+<li>Content-Transfer-Encoding must be 8bit unless using us-ascii</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-TextPart.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#encode'>encode</a></li><li><a href='#text'>text</a></li><li><a href='#validate'>validate</a></li></ul>
+</div>
+</div>
+</body>
+</html>

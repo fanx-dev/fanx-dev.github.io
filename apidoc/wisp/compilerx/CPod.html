@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>compilerx::CPod</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>compilerx</a></li><li><a href='CPod.html'>CPod</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>mixin</span> compilerx::CPod</h1>
+<pre>compilerx::CPod</pre>
+
+<p>CPod is a "compiler pod" used for representing a Pod in the compiler.</p>
+<dl>
+<dt id='bridge'>
+bridge</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='CBridge.html'>CBridge?</a> bridge()</code></p>
+
+<p>If this a foreign function interface return the bridge.</p>
+</dd>
+<dt id='compileJs'>
+compileJs</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> compileJs()</code></p>
+
+<p>support Javascript</p>
+</dd>
+<dt id='depends'>
+depends</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='../std/Depend.html'>Depend</a>&gt;</a> depends()</code></p>
+
+<p>Get the pod dependencies</p>
+</dd>
+<dt id='equals'>
+equals</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> t)</code></p>
+
+<p>Equality based on pod name.</p>
+</dd>
+<dt id='file'>
+file</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/File.html'>File?</a> file()</code></p>
+
+<p>Pod zip file.  Not all implementations have a backing file return null</p>
+</dd>
+<dt id='fileDirty'>
+fileDirty</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> fileDirty()</code></p>
+</dd>
+<dt id='hash'>
+hash</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
+
+<p>Hash on name.</p>
+</dd>
+<dt id='isForeign'>
+isForeign</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isForeign()</code></p>
+
+<p>If this a foreign function interface pod.</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>Get the pod name</p>
+</dd>
+<dt id='resolveType'>
+resolveType</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='CTypeDef.html'>CTypeDef?</a> resolveType(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked)</code></p>
+
+<p>Lookup a type by its simple name.  If the type doesn't exist and checked is true then throw UnknownTypeErr otherwise return null.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Return name</p>
+</dd>
+<dt id='types'>
+types</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='CTypeDef.html'>CTypeDef</a>&gt;</a> types()</code></p>
+
+<p>List of the all defined types.</p>
+</dd>
+<dt id='version'>
+version</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../std/Version.html'>Version</a> version()</code></p>
+
+<p>Get the pod version or null if unknown.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+</ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#bridge'>bridge</a></li><li><a href='#compileJs'>compileJs</a></li><li><a href='#depends'>depends</a></li><li><a href='#equals'>equals</a></li><li><a href='#file'>file</a></li><li><a href='#fileDirty'>fileDirty</a></li><li><a href='#hash'>hash</a></li><li><a href='#isForeign'>isForeign</a></li><li><a href='#name'>name</a></li><li><a href='#resolveType'>resolveType</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#types'>types</a></li><li><a href='#version'>version</a></li></ul>
+</div>
+</div>
+</body>
+</html>

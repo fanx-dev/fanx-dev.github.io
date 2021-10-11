@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGui::Frame</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGui</a></li><li><a href='Frame.html'>Frame</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> vaseGui::Frame</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='Widget.html'>vaseGui::Widget</a>
+    <a href='WidgetGroup.html'>vaseGui::WidgetGroup</a>
+      <a href='Pane.html'>vaseGui::Pane</a>
+        <a href='ContentPane.html'>vaseGui::ContentPane</a>
+          vaseGui::Frame</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>Represent a top level Widget</p>
+<dl>
+<dt id='animManager'>
+animManager</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='AnimManager.html'>AnimManager</a> animManager := AnimManager.&lt;ctor>()</code></p>
+
+<p>animation manager</p>
+</dd>
+<dt id='antialias'>
+antialias</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> antialias := true</code></p>
+
+<p>Used to toggle anti-aliasing on and off.</p>
+</dd>
+<dt id='background'>
+background</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseGraphics/Brush.html'>Brush</a> background := Color.white</code></p>
+
+<p>root background color</p>
+</dd>
+<dt id='clearFocus'>
+clearFocus</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> clearFocus()</code></p>
+</dd>
+<dt id='detach'>
+detach</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> detach(<a href='../sys/Bool.html'>Bool</a> doRelayout := true)</code></p>
+</dd>
+<dt id='doPaint'>
+doPaint</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> doPaint(<a href='../vaseGraphics/Graphics.html'>Graphics</a> g)</code></p>
+</dd>
+<dt id='findStyle'>
+findStyle</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Style.html'>Style</a> findStyle(<a href='Widget.html'>Widget</a> widget)</code></p>
+
+<p>find the current style</p>
+</dd>
+<dt id='focusIt'>
+focusIt</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> focusIt(<a href='Widget.html'>Widget?</a> w)</code></p>
+
+<p>request focus for widget</p>
+</dd>
+<dt id='focused'>
+focused</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> focused()</code></p>
+
+<p>return true if host windows has focus</p>
+</dd>
+<dt id='gestureEvent'>
+gestureEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual override <a href='../sys/Void.html'>Void</a> gestureEvent(<a href='GestureEvent.html'>GestureEvent</a> e)</code></p>
+</dd>
+<dt id='gestureFocus'>
+gestureFocus</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> gestureFocus(<a href='Widget.html'>Widget</a> w)</code></p>
+</dd>
+<dt id='host'>
+host</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/Window.html'>Window?</a> host()</code></p>
+</dd>
+<dt id='inited'>
+inited</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> inited := false</code></p>
+</dd>
+<dt id='isFocusedWidiget'>
+isFocusedWidiget</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFocusedWidiget(<a href='Widget.html'>Widget</a> w)</code></p>
+</dd>
+<dt id='keyEvent'>
+keyEvent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> keyEvent(<a href='../vaseWindow/KeyEvent.html'>KeyEvent</a> e)</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make()</code></p>
+
+<p>ctor</p>
+</dd>
+<dt id='modal'>
+modal</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='../sys/Int.html'>Int</a> modal := 0</code></p>
+
+<p>has modal dialog</p>
+</dd>
+<dt id='motionEvent'>
+motionEvent</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> motionEvent(<a href='../vaseWindow/MotionEvent.html'>MotionEvent</a> e)</code></p>
+</dd>
+<dt id='mouseHover'>
+mouseHover</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> mouseHover(<a href='Widget.html'>Widget</a> w)</code></p>
+
+<p>set for dealwith mouse exit and mouse enter</p>
+</dd>
+<dt id='onOpened'>
+onOpened</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onOpened()</code></p>
+
+<p>Callback function when window is opended.</p>
+</dd>
+<dt id='onUpdate'>
+onUpdate</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> onUpdate()</code></p>
+</dd>
+<dt id='onWindowStateChange'>
+onWindowStateChange</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onWindowStateChange()</code></p>
+</dd>
+<dt id='pop'>
+pop</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> pop()</code></p>
+</dd>
+<dt id='relayout'>
+relayout</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> relayout()</code></p>
+</dd>
+<dt id='repaint'>
+repaint</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Void.html'>Void</a> repaint(<a href='../vaseGraphics/Rect.html'>Rect?</a> dirty := null)</code></p>
+
+<p>repaint the dirty region on later</p>
+</dd>
+<dt id='show'>
+show</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> show(<a href='../sys/Bool.html'>Bool</a> push := true)</code></p>
+
+<p>Show View</p>
+</dd>
+<dt id='styleManager'>
+styleManager</dt>
+<dd>
+<p class='sig'>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='StyleManager.html'>StyleManager</a> styleManager := StyleManager.&lt;ctor>()</code></p>
+
+<p>Style support</p>
+</dd>
+<dt id='topOverlayer'>
+topOverlayer</dt>
+<dd>
+<p class='sig'>
+<code> <a href='WidgetGroup.html'>WidgetGroup</a> topOverlayer()</code></p>
+
+<p>get or make a widget that layout top of root view</p>
+</dd>
+<dt id='windowEvent'>
+windowEvent</dt>
+<dd>
+<p class='sig'>
+<code>protected <a href='../sys/Void.html'>Void</a> windowEvent(<a href='../vaseWindow/WindowEvent.html'>WindowEvent</a> e)</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#animManager'>animManager</a></li><li><a href='#antialias'>antialias</a></li><li><a href='#background'>background</a></li><li><a href='#clearFocus'>clearFocus</a></li><li><a href='#detach'>detach</a></li><li><a href='#doPaint'>doPaint</a></li><li><a href='#findStyle'>findStyle</a></li><li><a href='#focusIt'>focusIt</a></li><li><a href='#focused'>focused</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#gestureFocus'>gestureFocus</a></li><li><a href='#host'>host</a></li><li><a href='#inited'>inited</a></li><li><a href='#isFocusedWidiget'>isFocusedWidiget</a></li><li><a href='#keyEvent'>keyEvent</a></li><li><a href='#modal'>modal</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#mouseHover'>mouseHover</a></li><li><a href='#onOpened'>onOpened</a></li><li><a href='#onUpdate'>onUpdate</a></li><li><a href='#onWindowStateChange'>onWindowStateChange</a></li><li><a href='#pop'>pop</a></li><li><a href='#relayout'>relayout</a></li><li><a href='#repaint'>repaint</a></li><li><a href='#show'>show</a></li><li><a href='#styleManager'>styleManager</a></li><li><a href='#topOverlayer'>topOverlayer</a></li><li><a href='#windowEvent'>windowEvent</a></li></ul>
+</div>
+</div>
+</body>
+</html>

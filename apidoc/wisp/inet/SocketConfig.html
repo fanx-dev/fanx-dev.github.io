@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>inet::SocketConfig</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>inet</a></li><li><a href='SocketConfig.html'>SocketConfig</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> inet::SocketConfig</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  inet::SocketConfig</pre>
+<p class='src'>
+<a href='src-SocketConfig.fan.html'>Source</a></p>
+
+<p>Configuration options for TCP and UDP sockets. All socket types accept a socket configuration which will be used to configure the socket when it is created.</p>
+
+<p>A system-wide default socket configuration can be obtained with <code><a href='SocketConfig.html#cur'>SocketConfig.cur</a></code>. You can change the system default by using <code><a href='SocketConfig.html#setCur'>SocketConfig.setCur</a></code>.</p>
+
+<p>See <code><a href='TcpSocket.html#make'>TcpSocket.make</a></code>, <code><a href='TcpListener.html#make'>TcpListener.make</a></code>, <code><a href='UdpSocket.html#make'>UdpSocket.make</a></code>, <code><a href='MulticastSocket.html#make'>MulticastSocket.make</a></code></p>
+<dl>
+<dt id='broadcast'>
+broadcast</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> broadcast := false</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line155'>Source</a></p>
+
+<p><code>SO_BROADCAST</code> socket option</p>
+</dd>
+<dt id='connectTimeout'>
+connectTimeout</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Duration.html'>Duration?</a> connectTimeout := 1.mins</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line131'>Source</a></p>
+
+<p>Controls the default timeout used by <code><a href='TcpSocket.html#connect'>TcpSocket.connect</a></code>. A null value indicates a system default timeout (usually wait forever).</p>
+</dd>
+<dt id='copy'>
+copy</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> copy(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line79'>Source</a></p>
+
+<p>Create a copy of this configuration and then apply any overrides from the it-block.</p>
+</dd>
+<dt id='cur'>
+cur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='SocketConfig.html'>SocketConfig</a> cur()</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line30'>Source</a></p>
+
+<p>Get the current, default socket configuration</p>
+</dd>
+<dt id='inBufferSize'>
+inBufferSize</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int?</a> inBufferSize := 4096</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line108'>Source</a></p>
+
+<p>The size in bytes for the sys::InStream buffer. A value of 0 or null disables input stream buffing.</p>
+</dd>
+<dt id='keepAlive'>
+keepAlive</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> keepAlive := false</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line116'>Source</a></p>
+
+<p><code>SO_KEEPALIVE</code> option</p>
+</dd>
+<dt id='keystore'>
+keystore</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../crypto/KeyStore.html'>KeyStore?</a> keystore := null</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line95'>Source</a></p>
+
+<p>The <code><a href='../crypto/KeyStore.html'>KeyStore</a></code> to use when creating secure sockets. If null, the runtime default will be used.</p>
+</dd>
+<dt id='linger'>
+linger</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Duration.html'>Duration?</a> linger := null</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line128'>Source</a></p>
+
+<p><code>SO_LINGER</code> controls the linger time or set to null to disable linger.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> f := null)</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line50'>Source</a></p>
+
+<p>Create and configure the socket options.</p>
+</dd>
+<dt id='noDelay'>
+noDelay</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> noDelay := true</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line140'>Source</a></p>
+
+<p><code>TCP_NODELAY</code> socket option specifies that send not be delayed to merge packets (Nagle's algorthm).</p>
+</dd>
+<dt id='outBufferSize'>
+outBufferSize</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int?</a> outBufferSize := 4096</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line112'>Source</a></p>
+
+<p>The size in bytes for the sys::OutStream buffer. A value of 0 or null disables output stream buffing.</p>
+</dd>
+<dt id='receiveBufferSize'>
+receiveBufferSize</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> receiveBufferSize := 65536</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line119'>Source</a></p>
+
+<p><code>SO_RCVBUF</code> option for the size in bytes of the IP stack buffers.</p>
+</dd>
+<dt id='receiveTimeout'>
+receiveTimeout</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Duration.html'>Duration?</a> receiveTimeout := 1.mins</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line135'>Source</a></p>
+
+<p><code>SO_TIMEOUT</code> controls the amount of time a socket will block on a read call before throwing an IOErr timeout exception. Null is used to indicate an infinite timeout.</p>
+</dd>
+<dt id='reuseAddr'>
+reuseAddr</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> reuseAddr := false</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line125'>Source</a></p>
+
+<p><code>SO_REUSEADDR</code> is used to control the time wait state of a closed socket.</p>
+</dd>
+<dt id='sendBufferSize'>
+sendBufferSize</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> sendBufferSize := 65536</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line122'>Source</a></p>
+
+<p><code>SO_SNDBUF</code> option for the size in bytes of the IP stack buffers.</p>
+</dd>
+<dt id='setCur'>
+setCur</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='../sys/Void.html'>Void</a> setCur(<a href='SocketConfig.html'>SocketConfig</a> cfg)</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line33'>Source</a></p>
+
+<p>Set a new default socket configuration. This configuration will only apply to new sockets created after this is called. This method may only be called <strong>once</strong> to change the default socket configuration.</p>
+</dd>
+<dt id='setTimeouts'>
+setTimeouts</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> setTimeouts(<a href='../std/Duration.html'>Duration</a> dur)</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line82'>Source</a></p>
+
+<p>Convenience to create a copy of this socket configuration and set the connect and receive timeouts to the given duration.</p>
+</dd>
+<dt id='trafficClass'>
+trafficClass</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> trafficClass := 0</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line144'>Source</a></p>
+
+<p>The type-of-class byte in the IP packet header.</p>
+
+<p>For IPv4 this value is detailed in RFC 1349 as the following bitset:</p>
+
+<ul>
+<li>IPTOS_LOWCOST     (0x02)</li>
+
+<li>IPTOS_RELIABILITY (0x04)</li>
+
+<li>IPTOS_THROUGHPUT  (0x08)</li>
+
+<li>IPTOS_LOWDELAY    (0x10)</li>
+</ul>
+
+<p>For IPv6 this is the value placed into the sin6_flowinfo header field.</p>
+</dd>
+<dt id='truststore'>
+truststore</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../crypto/KeyStore.html'>KeyStore?</a> truststore := null</code></p>
+<p class='src'>
+<a href='src-SocketConfig.fan.html#line99'>Source</a></p>
+
+<p>The <code><a href='../crypto/KeyStore.html'>KeyStore</a></code> to use for obtaining trusted certificates when creating secure sockets. If null, the runtime default will be used.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li><a href='src-SocketConfig.fan.html'>View Source</a></li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#cur'>cur</a></li><li><a href='#make'>make</a></li><li><a href='#setCur'>setCur</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#broadcast'>broadcast</a></li><li><a href='#connectTimeout'>connectTimeout</a></li><li><a href='#copy'>copy</a></li><li><a href='#inBufferSize'>inBufferSize</a></li><li><a href='#keepAlive'>keepAlive</a></li><li><a href='#keystore'>keystore</a></li><li><a href='#linger'>linger</a></li><li><a href='#noDelay'>noDelay</a></li><li><a href='#outBufferSize'>outBufferSize</a></li><li><a href='#receiveBufferSize'>receiveBufferSize</a></li><li><a href='#receiveTimeout'>receiveTimeout</a></li><li><a href='#reuseAddr'>reuseAddr</a></li><li><a href='#sendBufferSize'>sendBufferSize</a></li><li><a href='#setTimeouts'>setTimeouts</a></li><li><a href='#trafficClass'>trafficClass</a></li><li><a href='#truststore'>truststore</a></li></ul>
+</div>
+</div>
+</body>
+</html>

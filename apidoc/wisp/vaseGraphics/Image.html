@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>vaseGraphics::Image</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>vaseGraphics</a></li><li><a href='Image.html'>Image</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract rtconst class</span> vaseGraphics::Image</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  vaseGraphics::Image</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>Image represents a graphical image.</p>
+<dl>
+<dt id='createGraphics'>
+createGraphics</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract <a href='Graphics.html'>Graphics</a> createGraphics()</code></p>
+</dd>
+<dt id='dispose'>
+dispose</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> dispose()</code></p>
+
+<p>Free any operating system resources used by this instance.</p>
+</dd>
+<dt id='fromStream'>
+fromStream</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Image.html'>Image</a> fromStream(<a href='../std/InStream.html'>InStream</a> in)</code></p>
+
+<p>make form input stream</p>
+</dd>
+<dt id='fromUri'>
+fromUri</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Image.html'>Image</a> fromUri(<a href='../std/Uri.html'>Uri</a> uri, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> onLoad := null)</code></p>
+
+<p>make form uri</p>
+</dd>
+<dt id='getPixel'>
+getPixel</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> getPixel(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+
+<p>Returns the pixel value at x,y</p>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='isReady'>
+isReady</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Bool.html'>Bool</a> isReady()</code></p>
+
+<p>is loaded in javascript</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Image.html'>Image</a> make(<a href='Size.html'>Size</a> size)</code></p>
+
+<p>make an empty image</p>
+</dd>
+<dt id='paint'>
+paint</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> paint(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Graphics.html'>Graphics</a>&gt;</a> f)</code></p>
+
+<p>create graphics context from image and paint by the given function.</p>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake()</code></p>
+</dd>
+<dt id='save'>
+save</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> save(<a href='../std/OutStream.html'>OutStream</a> out, <a href='../sys/Str.html'>Str</a> format := &quot;png&quot;)</code></p>
+
+<p>Save image to outStream. default format is png. Currently supported image formats are:</p>
+
+<ul>
+<li>BMP (Windows or OS/2 Bitmap)</li>
+
+<li>ICO (Windows Icon)</li>
+
+<li>JPEG</li>
+
+<li>GIF</li>
+
+<li>PNG</li>
+
+<li>TIFF</li>
+</ul>
+</dd>
+<dt id='setPixel'>
+setPixel</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Void.html'>Void</a> setPixel(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y, <a href='../sys/Int.html'>Int</a> value)</code></p>
+
+<p>Set the pixel value at x,y</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Size.html'>Size</a> size()</code></p>
+</dd>
+<dt id='toImmutable'>
+toImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj</a> toImmutable()</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#fromStream'>fromStream</a></li><li><a href='#fromUri'>fromUri</a></li><li><a href='#make'>make</a></li><li><a href='#privateMake'>privateMake</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#createGraphics'>createGraphics</a></li><li><a href='#dispose'>dispose</a></li><li><a href='#getPixel'>getPixel</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#isReady'>isReady</a></li><li><a href='#paint'>paint</a></li><li><a href='#save'>save</a></li><li><a href='#setPixel'>setPixel</a></li><li><a href='#size'>size</a></li><li><a href='#toImmutable'>toImmutable</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>util::CsvOutStream</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>util</a></li><li><a href='CsvOutStream.html'>CsvOutStream</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>virtual class</span> util::CsvOutStream</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  <a href='../std/OutStream.html'>std::OutStream</a>
+    <a href='../std/ProxyOutStream.html'>std::ProxyOutStream</a>
+      util::CsvOutStream</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /></p>
+
+<p>CsvOutStream is used to write delimiter-separated values as specified by RFC 4180.  Format details:</p>
+
+<ul>
+<li>rows are delimited by a newline</li>
+
+<li>cells are separated by <code><a href='CsvOutStream.html#delimiter'>delimiter</a></code> char</li>
+
+<li>cells containing the delimiter, <code>"</code> double quote, or newline are quoted; quotes are escaped as <code>""</code></li>
+</ul>
+
+<p>Also see <code><a href='CsvInStream.html'>CsvInStream</a></code>.</p>
+<dl>
+<dt id='delimiter'>
+delimiter</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> delimiter := 44</code></p>
+
+<p>Delimiter character; defaults to comma.</p>
+</dd>
+<dt id='isQuoteRequired'>
+isQuoteRequired</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isQuoteRequired(<a href='../sys/Str.html'>Str</a> cell)</code></p>
+
+<p>Return if the given cell string contains:</p>
+
+<ul>
+<li>the configured delimiter</li>
+
+<li>double quote <code>"</code> char</li>
+
+<li>leading/trailing whitespace</li>
+
+<li>newlines</li>
+</ul>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../std/OutStream.html'>OutStream</a> out)</code></p>
+
+<p>Wrap the underlying output stream.</p>
+</dd>
+<dt id='writeCell'>
+writeCell</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeCell(<a href='../sys/Str.html'>Str</a> cell)</code></p>
+
+<p>Write a single cell.  If <code><a href='CsvOutStream.html#isQuoteRequired'>isQuoteRequired</a></code> returns true, then quote it.</p>
+</dd>
+<dt id='writeRow'>
+writeRow</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/This.html'>This</a> writeRow(<a href='../sys/List.html'>List&lt;<a href='../sys/Str.html'>Str</a>&gt;</a> row)</code></p>
+
+<p>Write the row of cells with the configured delimiter. Also see <code><a href='CsvOutStream.html#writeCell'>writeCell</a></code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#delimiter'>delimiter</a></li><li><a href='#isQuoteRequired'>isQuoteRequired</a></li><li><a href='#writeCell'>writeCell</a></li><li><a href='#writeRow'>writeRow</a></li></ul>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>std::Type</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>std</a></li><li><a href='Type.html'>Type</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>abstract rtconst class</span> std::Type</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  std::Type</pre>
+
+<p>Type defines the contract of an Obj by the slots its supports. Types model the inheritance relationships and provide a mapping for all the slots both inherited and declared.</p>
+<dl>
+<dt id='base'>
+base</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Type.html'>Type?</a> base()</code></p>
+
+<p>The direct super class of this type (null for Obj). Return sys::Obj for all mixin types.</p>
+
+<p>Examples:</p>
+
+<pre>Obj#.base        =>  null
+Int#.base        =>  sys::Num
+OutStream#.base  =>  sys::Obj</pre>
+</dd>
+<dt id='doc'>
+doc</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Str.html'>Str?</a> doc()</code></p>
+
+<p>Return the raw fandoc for this type or null if not available.</p>
+</dd>
+<dt id='facet'>
+facet</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Facet.html'>Facet?</a> facet(<a href='Type.html'>Type</a> type, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Get a facet by its type.  If not found on this type then return null or throw UnknownFacetErr based on check flag. See <a href='docLang::Facets'>Facets Doc</a> for details.</p>
+</dd>
+<dt id='facets'>
+facets</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='../sys/Facet.html'>Facet</a>&gt;</a> facets()</code></p>
+
+<p>Get the list of facets defined on this type or return an empty list if no facets are defined. If looking up a facet by type, then use the <code><a href='Type.html#facet'>facet</a></code> method which will provide better performance. See <a href='docLang::Facets'>Facets Doc</a> for details.</p>
+</dd>
+<dt id='field'>
+field</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Field.html'>Field?</a> field(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Convenience for (Field)slot(name, checked)</p>
+</dd>
+<dt id='fields'>
+fields</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='Field.html'>Field</a>&gt;</a> fields()</code></p>
+
+<p>List of the all defined fields (including inherited fields).</p>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Type.html'>Type?</a> find(<a href='../sys/Str.html'>Str</a> qname, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Find a Type by it's qualified name "pod::Type".  If the type doesn't exist and checked is false then return null, otherwise throw UnknownTypeErr.</p>
+</dd>
+<dt id='fits'>
+fits</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> fits(<a href='Type.html'>Type</a> t)</code></p>
+
+<p>Does this type implement the specified type.  If true, then this type is assignable to the specified type (although the converse is not necessarily true).  This method provides the same semantics as the <code>is</code> operator, but between two types rather than an instance and a type.  All types (including mixin types) fit <code>sys::Obj</code>.</p>
+
+<p>Example:</p>
+
+<pre>Float#.fits(Float#) =>  true
+Float#.fits(Num#)   =>  true
+Float#.fits(Obj#)   =>  true
+Float#.fits(Str#)   =>  false
+Obj#.fits(Float#)   =>  false</pre>
+</dd>
+<dt id='flags'>
+flags</dt>
+<dd>
+<p class='sig'>
+<code>protected abstract <a href='../sys/Int.html'>Int</a> flags()</code></p>
+</dd>
+<dt id='hasFacet'>
+hasFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> hasFacet(<a href='Type.html'>Type</a> type)</code></p>
+
+<p>Return if this type has the specified facet defined.</p>
+</dd>
+<dt id='inheritance'>
+inheritance</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='Type.html'>Type</a>&gt;</a> inheritance()</code></p>
+
+<p>Return a recursive flattened list of all the types this type inherits from.  The result list always includes this type itself. The result of this method represents the complete list of types implemented by this type - instances of this type are assignable to any type in this list.  All types (including mixins) will include sys::Obj in this list.</p>
+
+<p>Examples:</p>
+
+<pre>Obj#.inheritance  =>  [sys::Obj]
+Int#.inheritance  =>  [sys::Int, sys::Num, sys::Obj]</pre>
+</dd>
+<dt id='isAbstract'>
+isAbstract</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isAbstract()</code></p>
+
+<p>Return if this Type is abstract and cannot be instantiated.  This method will always return true if the type is a mixin.</p>
+</dd>
+<dt id='isClass'>
+isClass</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isClass()</code></p>
+
+<p>Return if this Type is a class (as opposed to enum or mixin)</p>
+</dd>
+<dt id='isConst'>
+isConst</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isConst()</code></p>
+
+<p>Return if this is a const class which means instances of this class are immutable.</p>
+</dd>
+<dt id='isEnum'>
+isEnum</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isEnum()</code></p>
+
+<p>Return if this Type is an Enum type.</p>
+</dd>
+<dt id='isFacet'>
+isFacet</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFacet()</code></p>
+
+<p>Return if this Type is an Facet type.</p>
+</dd>
+<dt id='isFinal'>
+isFinal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isFinal()</code></p>
+
+<p>Return if this Type is marked final which means it may not be subclassed.</p>
+</dd>
+<dt id='isGeneric'>
+isGeneric</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isGeneric()</code></p>
+
+<p>A generic type contains slot signatures which may be parameterized - for example Map's key and value types are generic as K and V.  Fantom supports three built-in generic types: List, Map, and Func.   A parameterized type such as Str[] is not a generic type (all of its generic parameters have been filled in).</p>
+
+<p>Examples:</p>
+
+<pre>Str#.isGeneric   => false
+List#.isGeneric  => true
+Str[]#.isGeneric => false</pre>
+</dd>
+<dt id='isImmutable'>
+isImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Bool.html'>Bool</a> isImmutable()</code></p>
+</dd>
+<dt id='isInternal'>
+isInternal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isInternal()</code></p>
+
+<p>Return if this Type has internal protection scope.</p>
+</dd>
+<dt id='isMixin'>
+isMixin</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isMixin()</code></p>
+
+<p>Return if this Type is a mixin type and cannot be instantiated.</p>
+</dd>
+<dt id='isNullable'>
+isNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isNullable()</code></p>
+
+<p>Is this a nullable type.  Nullable types can store the <code>null</code> value, but non-nullables are never null.  Null types are indicated with a trailing "?".</p>
+</dd>
+<dt id='isParameterized'>
+isParameterized</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isParameterized()</code></p>
+
+<p>A parameterized type is a type which has parameterized a generic type and replaced all the generic parameter types with generic argument types.  The type Str[] is a parameterized type of the generic type List (V is replaced with Str).  A parameterized type always has a signature which is different from the qname.</p>
+</dd>
+<dt id='isPublic'>
+isPublic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isPublic()</code></p>
+
+<p>Return if this Type has public protection scope.</p>
+</dd>
+<dt id='isSynthetic'>
+isSynthetic</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isSynthetic()</code></p>
+
+<p>Return if this Type was generated by the compiler.</p>
+</dd>
+<dt id='isVal'>
+isVal</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Bool.html'>Bool</a> isVal()</code></p>
+
+<p>Is this a value type.  Fantom supports three implicit value types: <a href='Bool'>Bool</a>, <a href='Int'>Int</a>, and <a href='Float'>Float</a>.</p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Obj.html'>Obj</a> make(<a href='../sys/List.html'>List&lt;<a href='../sys/Obj.html'>Obj</a>&gt;?</a> args := null)</code></p>
+
+<p>Create a new instance of this Type using the following rules:</p>
+
+<ol style='list-style-type:decimal'>
+<li>Call public constructor <code>make</code> with specified arguments</li>
+
+<li>If no public constructor called <code>make</code> or invalid number of of required arguments, then return value of <code>defVal</code> slot (must be static field or static method with zero params)</li>
+
+<li>If no public <code>defVal</code> field, then throw Err</li>
+</ol>
+</dd>
+<dt id='method'>
+method</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Method.html'>Method?</a> method(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Convenience for (Method)slot(name, checked)</p>
+</dd>
+<dt id='methods'>
+methods</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='Method.html'>Method</a>&gt;</a> methods()</code></p>
+
+<p>List of the all defined methods (including inherited methods).</p>
+</dd>
+<dt id='mixins'>
+mixins</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='Type.html'>Type</a>&gt;</a> mixins()</code></p>
+
+<p>Return the mixins directly implemented by this type.</p>
+
+<p>Examples:</p>
+
+<pre>Obj#.mixins        =>  [,]
+Buf#.mixins        =>  [sys::InStream, sys::OutStream]
+OutStream#.mixins  =>  [,]</pre>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> name()</code></p>
+
+<p>Simple name of the type such as "Str".  For parameterized types derived from List, Map, or Func, this method always returns "List", "Map", or "Func" respectively.</p>
+
+<p>Examples:</p>
+
+<pre>Str#.name         => "Str"
+acme::Foo#.name   => "Foo"
+acme::Foo[]#.name => "List"</pre>
+</dd>
+<dt id='of'>
+of</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Type.html'>Type</a> of(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>Get the class Type of the given instance.  Also see <a href='Obj.typeof'>Obj.typeof</a> which provides the same functionality.</p>
+</dd>
+<dt id='pod'>
+pod</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Pod.html'>Pod?</a> pod()</code></p>
+
+<p>Parent pod which defines this type.  For parameterized types derived from List, Map, or Func, this method always returns the sys pod.</p>
+
+<p>Examples:</p>
+
+<pre>Str#.pod         => sys
+acme::Foo#.pod   => acme
+acme::Foo[]#.pod => sys</pre>
+</dd>
+<dt id='privateMake'>
+privateMake</dt>
+<dd>
+<p class='sig'>
+<code>new privateMake()</code></p>
+
+<p>Private constructor.</p>
+</dd>
+<dt id='qname'>
+qname</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> qname()</code></p>
+
+<p>Qualified name formatted as "pod::name".  For parameterized types derived from List, Map, or Func, this method always returns "sys::List", "sys::Map", or "sys::Func" respectively.  If this a nullable type, the qname does <em>not</em> include the "?".</p>
+
+<p>Examples:</p>
+
+<pre>Str#.qname         => "sys::Str"
+Str?#.qname        => "sys::Str"
+acme::Foo#.qname   => "acme::Foo"
+acme::Foo[]#.qname => "sys::List"</pre>
+</dd>
+<dt id='signature'>
+signature</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Str.html'>Str</a> signature()</code></p>
+
+<p>Return the formal signature of this type.  In the case of non-parameterized types the signature is the same as qname. For parameterized types derived from List, Map, or Func the signature uses the following special syntax:</p>
+
+<pre>List => V[]
+Map  => [K:V]
+Func => |A,B...->R|</pre>
+
+<p>If this is a nullable type, the signature ends with "?" such as "sys::Int?".</p>
+
+<p>Examples:</p>
+
+<pre>Str#.signature => "sys::Str"
+Str?#.signature => "sys::Str?"
+Int[]#.signature => "sys::Int[]"
+Int:Str#.signature => "[sys::Int:sys::Str]"
+Str:Buf[]#.signature => [sys::Str:sys::Buf[]]
+|Float x->Bool|#.signature => "|sys::Float->sys::Bool|"
+|Float x, Int y|#.signature => |sys::Float,sys::Int->sys::Void|</pre>
+</dd>
+<dt id='slot'>
+slot</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Slot.html'>Slot?</a> slot(<a href='../sys/Str.html'>Str</a> name, <a href='../sys/Bool.html'>Bool</a> checked := true)</code></p>
+
+<p>Lookup a slot by name.  If the slot doesn't exist and checked is false then return null, otherwise throw UnknownSlotErr. Slots are any field or method in this type's scope including those defined directly by this type and those inherited from super class or mixins.</p>
+</dd>
+<dt id='slots'>
+slots</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/List.html'>List&lt;<a href='Slot.html'>Slot</a>&gt;</a> slots()</code></p>
+
+<p>List of the all defined slots, both fields and methods (including inherited slots).</p>
+</dd>
+<dt id='toImmutable'>
+toImmutable</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Obj.html'>Obj</a> toImmutable()</code></p>
+</dd>
+<dt id='toNonNullable'>
+toNonNullable</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Type.html'>Type</a> toNonNullable()</code></p>
+
+<p>Return this type as a non-nullable type.  If this type is already non-nullable then return this.</p>
+</dd>
+<dt id='toNullable'>
+toNullable</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='Type.html'>Type</a> toNullable()</code></p>
+
+<p>Return this type as a nullable type.  If this type is already nullable then return this.</p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+
+<p>Always return signature().</p>
+</dd>
+<dt id='typeof'>
+typeof</dt>
+<dd>
+<p class='sig'>
+<code>static extension <a href='Type.html'>Type</a> typeof(<a href='../sys/Obj.html'>Obj</a> obj)</code></p>
+
+<p>Get the <code>Type</code> instance which represents this object's class. Also see`Type.of` or <code><a href='Pod.html#of'>Pod.of</a></code>.</p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#find'>find</a></li><li><a href='#of'>of</a></li><li><a href='#privateMake'>privateMake</a></li><li><a href='#typeof'>typeof</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#base'>base</a></li><li><a href='#doc'>doc</a></li><li><a href='#facet'>facet</a></li><li><a href='#facets'>facets</a></li><li><a href='#field'>field</a></li><li><a href='#fields'>fields</a></li><li><a href='#fits'>fits</a></li><li><a href='#flags'>flags</a></li><li><a href='#hasFacet'>hasFacet</a></li><li><a href='#inheritance'>inheritance</a></li><li><a href='#isAbstract'>isAbstract</a></li><li><a href='#isClass'>isClass</a></li><li><a href='#isConst'>isConst</a></li><li><a href='#isEnum'>isEnum</a></li><li><a href='#isFacet'>isFacet</a></li><li><a href='#isFinal'>isFinal</a></li><li><a href='#isGeneric'>isGeneric</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#isInternal'>isInternal</a></li><li><a href='#isMixin'>isMixin</a></li><li><a href='#isNullable'>isNullable</a></li><li><a href='#isParameterized'>isParameterized</a></li><li><a href='#isPublic'>isPublic</a></li><li><a href='#isSynthetic'>isSynthetic</a></li><li><a href='#isVal'>isVal</a></li><li><a href='#make'>make</a></li><li><a href='#method'>method</a></li><li><a href='#methods'>methods</a></li><li><a href='#mixins'>mixins</a></li><li><a href='#name'>name</a></li><li><a href='#pod'>pod</a></li><li><a href='#qname'>qname</a></li><li><a href='#signature'>signature</a></li><li><a href='#slot'>slot</a></li><li><a href='#slots'>slots</a></li><li><a href='#toImmutable'>toImmutable</a></li><li><a href='#toNonNullable'>toNonNullable</a></li><li><a href='#toNullable'>toNullable</a></li><li><a href='#toStr'>toStr</a></li></ul>
+</div>
+</div>
+</body>
+</html>

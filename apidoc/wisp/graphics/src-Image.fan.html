@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Image.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>graphics</a></li><li><a href='Image.html'>Image</a></li><li><a href='src-Image.fan.html'>Image.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2017, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   15 Jun 2017  Matthew Giannini  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** Models an Image</span>
+<span id='line11'>**</span>
+<span id='line12'>@NoDoc @Js virtual const class Image</span>
+<span id='line13'><b>{</b></span>
+<span id='line14'>  ** Construct with it-block</span>
+<span id='line15'>  new make<b>(</b>|This| f<b>)</b> <b>{</b> f<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line16'></span>
+<span id='line17'>  ** Decode a buffer into an Image</span>
+<span id='line18'>  static Image? decode<b>(</b>Buf buf, Bool checked := true<b>)</b></span>
+<span id='line19'>  <b>{</b></span>
+<span id='line20'>    try</span>
+<span id='line21'>    <b>{</b></span>
+<span id='line22'>      if <b>(</b>JpegDecoder.isJpeg<b>(</b>buf<b>)</b><b>)</b> return JpegDecoder<b>(</b>buf.in<b>)</b>.decode</span>
+<span id='line23'>      if <b>(</b>PngDecoder.isPng<b>(</b>buf<b>)</b><b>)</b>   return PngDecoder<b>(</b>buf.in<b>)</b>.decode</span>
+<span id='line24'>      if <b>(</b>SvgDecoder.isSvg<b>(</b>buf<b>)</b><b>)</b>   return SvgDecoder<b>(</b>buf.in<b>)</b>.decode</span>
+<span id='line25'>      throw ArgErr<b>(</b>"Could not determine image type"<b>)</b></span>
+<span id='line26'>    <b>}</b></span>
+<span id='line27'>    catch <b>(</b>Err err<b>)</b></span>
+<span id='line28'>    <b>{</b></span>
+<span id='line29'>      if <b>(</b>checked<b>)</b> throw err</span>
+<span id='line30'>    <b>}</b></span>
+<span id='line31'>    return null</span>
+<span id='line32'>  <b>}</b></span>
+<span id='line33'></span>
+<span id='line34'>  ** Image format</span>
+<span id='line35'>  const MimeType mime</span>
+<span id='line36'></span>
+<span id='line37'>  ** Image size</span>
+<span id='line38'>  const Size size</span>
+<span id='line39'></span>
+<span id='line40'>  ** Image-specific properties</span>
+<span id='line41'>  protected const <b>[</b>Str:Obj<b>]</b> props</span>
+<span id='line42'></span>
+<span id='line43'>  ** Image properties</span>
+<span id='line44'>  **  - 'colorSpace' <b>(</b>Str<b>)</b> - the image color space <b>(</b>e.g.RGB, RGBA, CMYK<b>)</b></span>
+<span id='line45'>  **  - 'colorSpaceBits' <b>(</b>Int<b>)</b> - bits-per-channel of the color space</span>
+<span id='line46'>  **</span>
+<span id='line47'>  @Operator Obj? get<b>(</b>Str prop<b>)</b> <b>{</b> props<b>[</b>prop<b>]</b> <b>}</b></span>
+<span id='line48'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

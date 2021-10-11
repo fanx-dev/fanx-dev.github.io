@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>TextPart.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>email</a></li><li><a href='TextPart.html'>TextPart</a></li><li><a href='src-TextPart.fan.html'>TextPart.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   2 May 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>**</span>
+<span id='line10'>** TextPart is used to model email parts with a text MIME type.</span>
+<span id='line11'>** The default is "text/plain".</span>
+<span id='line12'>**</span>
+<span id='line13'>@Serializable</span>
+<span id='line14'>class TextPart : EmailPart</span>
+<span id='line15'><b>{</b></span>
+<span id='line16'></span>
+<span id='line17'>  **</span>
+<span id='line18'>  ** Text body of the email part.</span>
+<span id='line19'>  **</span>
+<span id='line20'>  Str text := ""</span>
+<span id='line21'></span>
+<span id='line22'>  **</span>
+<span id='line23'>  ** Construct with default type of "text/plain".</span>
+<span id='line24'>  **</span>
+<span id='line25'>  new make<b>(</b><b>)</b></span>
+<span id='line26'>  <b>{</b></span>
+<span id='line27'>    headers<b>[</b>"Content-Type"<b>]</b> = "text/plain"</span>
+<span id='line28'>    headers<b>[</b>"Content-Transfer-Encoding"<b>]</b> = "8bit"</span>
+<span id='line29'>  <b>}</b></span>
+<span id='line30'></span>
+<span id='line31'>  **</span>
+<span id='line32'>  ** Validate this part - throw Err if not configured correctly:</span>
+<span id='line33'>  **   - text must be non-null</span>
+<span id='line34'>  **   - Content-Type must be defined</span>
+<span id='line35'>  **   - if Content-Type charset not defined, defaults to utf-8</span>
+<span id='line36'>  **   - Content-Transfer-Encoding must be 8bit unless using us-ascii</span>
+<span id='line37'>  **</span>
+<span id='line38'>  override Void validate<b>(</b><b>)</b></span>
+<span id='line39'>  <b>{</b></span>
+<span id='line40'>    super.validate</span>
+<span id='line41'></span>
+<span id='line42'>    // check text</span>
+<span id='line43'>    if <b>(</b><b>(</b>Obj?<b>)</b>text == null<b>)</b> throw NullErr<b>(</b>"text null in $<b>{</b>Type.of<b>(</b>this<b>)</b>.name<b>}</b>"<b>)</b></span>
+<span id='line44'></span>
+<span id='line45'>    // check content-type header</span>
+<span id='line46'>    ct := headers<b>[</b>"Content-Type"<b>]</b></span>
+<span id='line47'>    if <b>(</b>ct == null<b>)</b> throw Err<b>(</b>"Must define Content-Type header"<b>)</b></span>
+<span id='line48'></span>
+<span id='line49'>    // set charset to utf-8 if not explicit</span>
+<span id='line50'>    mime := MimeType.fromStr<b>(</b>ct<b>)</b></span>
+<span id='line51'>    if <b>(</b>mime.params<b>[</b>"charset"<b>]</b> == null<b>)</b></span>
+<span id='line52'>      headers<b>[</b>"Content-Type"<b>]</b> = mime.toStr + "; charset=utf-8"</span>
+<span id='line53'></span>
+<span id='line54'>    // require 8bit transfer unless us-ascii</span>
+<span id='line55'>    if <b>(</b>headers<b>[</b>"Content-Transfer-Encoding"<b>]</b> != "8bit"<b>)</b></span>
+<span id='line56'>    <b>{</b></span>
+<span id='line57'>      if <b>(</b>MimeType.fromStr<b>(</b>ct<b>)</b>.params<b>[</b>"charset"<b>]</b> != "us-ascii"<b>)</b></span>
+<span id='line58'>        throw Err<b>(</b>"Content-Transfer-Encoding must be 8bit if not using charset=us-ascii"<b>)</b></span>
+<span id='line59'>    <b>}</b></span>
+<span id='line60'>  <b>}</b></span>
+<span id='line61'></span>
+<span id='line62'>  **</span>
+<span id='line63'>  ** Encode as a MIME message according to RFC 822.</span>
+<span id='line64'>  **</span>
+<span id='line65'>  override Void encode<b>(</b>OutStream out<b>)</b></span>
+<span id='line66'>  <b>{</b></span>
+<span id='line67'>    // ensure valid and configure defaults</span>
+<span id='line68'>    validate</span>
+<span id='line69'></span>
+<span id='line70'>    // get charset</span>
+<span id='line71'>    mime := MimeType.fromStr<b>(</b>headers<b>[</b>"Content-Type"<b>]</b><b>)</b></span>
+<span id='line72'>    charset := Charset.fromStr<b>(</b>mime.params<b>[</b>"charset"<b>]</b><b>)</b></span>
+<span id='line73'></span>
+<span id='line74'>    // write headers</span>
+<span id='line75'>    super.encode<b>(</b>out<b>)</b></span>
+<span id='line76'></span>
+<span id='line77'>    // write text lines</span>
+<span id='line78'>    out.charset = charset</span>
+<span id='line79'>    in := text.in</span>
+<span id='line80'>    in.eachLine |Str line|</span>
+<span id='line81'>    <b>{</b></span>
+<span id='line82'>      if <b>(</b>line == "."<b>)</b> line = ". "</span>
+<span id='line83'>      out.print<b>(</b>line<b>)</b>.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line84'>    <b>}</b></span>
+<span id='line85'>    out.charset = Charset.utf8</span>
+<span id='line86'>    out.print<b>(</b>"\r\n"<b>)</b></span>
+<span id='line87'>  <b>}</b></span>
+<span id='line88'></span>
+<span id='line89'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>

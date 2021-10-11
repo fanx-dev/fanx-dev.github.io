@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>slanRecord::TableDef</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>slanRecord</a></li><li><a href='TableDef.html'>TableDef</a></li></ul>
+</div>
+<div class='mainSidebar'>
+<div class='main type'>
+<h1><span>const virtual class</span> slanRecord::TableDef</h1>
+<pre><a href='../sys/Obj.html'>sys::Obj</a>
+  slanRecord::TableDef</pre>
+<p class='facets'>
+<code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
+
+<p>Schema is a metadata of records</p>
+<dl>
+<dt id='autoGenerateId'>
+autoGenerateId</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Bool.html'>Bool</a> autoGenerateId := false</code></p>
+
+<p>auto generate the key</p>
+</dd>
+<dt id='columns'>
+columns</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/List.html'>List&lt;<a href='FieldDef.html'>FieldDef</a>&gt;</a> columns</code></p>
+</dd>
+<dt id='each'>
+each</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> each(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='FieldDef.html'>FieldDef</a>,<a href='../sys/Int.html'>Int</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='find'>
+find</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FieldDef.html'>FieldDef</a> find(<a href='../sys/Str.html'>Str</a> name)</code></p>
+</dd>
+<dt id='get'>
+get</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FieldDef.html'>FieldDef</a> get(<a href='../sys/Int.html'>Int</a> i)</code></p>
+</dd>
+<dt id='id'>
+id</dt>
+<dd>
+<p class='sig'>
+<code> <a href='FieldDef.html'>FieldDef?</a> id()</code></p>
+
+<p>PK of this table</p>
+</dd>
+<dt id='idIndex'>
+idIndex</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Int.html'>Int</a> idIndex := -1</code></p>
+</dd>
+<dt id='make'>
+make</dt>
+<dd>
+<p class='sig'>
+<code>new make(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;</a> f)</code></p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../sys/Str.html'>Str</a> name</code></p>
+</dd>
+<dt id='newInstance'>
+newInstance</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='../sys/Obj.html'>Obj</a> newInstance()</code></p>
+</dd>
+<dt id='nonAutoGenerate'>
+nonAutoGenerate</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> nonAutoGenerate(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='FieldDef.html'>FieldDef</a>&gt;</a> f)</code></p>
+
+<p>Each Columns except auto generate field</p>
+</dd>
+<dt id='nonIdColumn'>
+nonIdColumn</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> nonIdColumn(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='FieldDef.html'>FieldDef</a>&gt;</a> f)</code></p>
+
+<p>Each Columns except id</p>
+</dd>
+<dt id='size'>
+size</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Int.html'>Int</a> size()</code></p>
+</dd>
+<dt id='toStr'>
+toStr</dt>
+<dd>
+<p class='sig'>
+<code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
+</dd>
+<dt id='type'>
+type</dt>
+<dd>
+<p class='sig'>
+<code>const <a href='../std/Type.html'>Type</a> type</code></p>
+</dd>
+</dl>
+</div>
+<div class='sidebar'>
+<h3>Source</h3>
+<ul>
+<li>Not available</li></ul>
+<h3>Static Slots</h3>
+<ul>
+<li><a href='#make'>make</a></li></ul>
+<h3>Instance Slots</h3>
+<ul>
+<li><a href='#autoGenerateId'>autoGenerateId</a></li><li><a href='#columns'>columns</a></li><li><a href='#each'>each</a></li><li><a href='#find'>find</a></li><li><a href='#get'>get</a></li><li><a href='#id'>id</a></li><li><a href='#idIndex'>idIndex</a></li><li><a href='#name'>name</a></li><li><a href='#newInstance'>newInstance</a></li><li><a href='#nonAutoGenerate'>nonAutoGenerate</a></li><li><a href='#nonIdColumn'>nonIdColumn</a></li><li><a href='#size'>size</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#type'>type</a></li></ul>
+</div>
+</div>
+</body>
+</html>

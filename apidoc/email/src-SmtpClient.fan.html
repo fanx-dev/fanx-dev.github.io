@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>SmtpClient.fan</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<div class='breadcrumb'>
+<ul>
+<li><a href='../index.html'>Doc Index</a></li><li><a href='index.html'>email</a></li><li><a href='SmtpClient.html'>SmtpClient</a></li><li><a href='src-SmtpClient.fan.html'>SmtpClient.fan</a></li></ul>
+</div>
+<div class='src'>
+<pre>
+<span id='line1'>//</span>
+<span id='line2'>// Copyright <b>(</b>c<b>)</b> 2008, Brian Frank and Andy Frank</span>
+<span id='line3'>// Licensed under the Academic Free License version 3.0</span>
+<span id='line4'>//</span>
+<span id='line5'>// History:</span>
+<span id='line6'>//   29 Apr 08  Brian Frank  Creation</span>
+<span id='line7'>//</span>
+<span id='line8'></span>
+<span id='line9'>using inet</span>
+<span id='line10'></span>
+<span id='line11'>**</span>
+<span id='line12'>** SmtpClient implements the client side of SMTP <b>(</b>Simple</span>
+<span id='line13'>** Mail Transport Protocol<b>)</b> as specified by RFC 2821.</span>
+<span id='line14'>**</span>
+<span id='line15'>** See <b>[</b>pod doc<b>]</b>`pod-doc` and <b>[</b>examples<b>]</b>`examples::email-sending`.</span>
+<span id='line16'>**</span>
+<span id='line17'>class SmtpClient</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'></span>
+<span id='line20'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line21'>// Configuration</span>
+<span id='line22'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line23'></span>
+<span id='line24'>  **</span>
+<span id='line25'>  ** DNS hostname of server.</span>
+<span id='line26'>  **</span>
+<span id='line27'>  Str? host</span>
+<span id='line28'></span>
+<span id='line29'>  **</span>
+<span id='line30'>  ** TCP port number of server, defaults to 25.</span>
+<span id='line31'>  **</span>
+<span id='line32'>  Int port := 25</span>
+<span id='line33'></span>
+<span id='line34'>  **</span>
+<span id='line35'>  ** Username to use for authentication, or null to skip</span>
+<span id='line36'>  ** authentication.</span>
+<span id='line37'>  **</span>
+<span id='line38'>  Str? username</span>
+<span id='line39'></span>
+<span id='line40'>  **</span>
+<span id='line41'>  ** Password to use for authentication, or null to skip</span>
+<span id='line42'>  ** authentication.</span>
+<span id='line43'>  **</span>
+<span id='line44'>  Str? password</span>
+<span id='line45'></span>
+<span id='line46'>  **</span>
+<span id='line47'>  ** Open connection using SSL/TLS <b>(</b>ensure port is configured properly<b>)</b>.</span>
+<span id='line48'>  ** If false then the connection is opened plaintext, but may still be</span>
+<span id='line49'>  ** upgraded to TLS if server specifies STARTTLS.</span>
+<span id='line50'>  **</span>
+<span id='line51'>  Bool ssl</span>
+<span id='line52'></span>
+<span id='line53'>  ** The `inet::SocketConfig` to use for creating sockets.</span>
+<span id='line54'>  SocketConfig socketConfig := SocketConfig.cur</span>
+<span id='line55'></span>
+<span id='line56'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line57'>// Send</span>
+<span id='line58'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line59'></span>
+<span id='line60'>  **</span>
+<span id='line61'>  ** Return true if there is no open session.</span>
+<span id='line62'>  **</span>
+<span id='line63'>  Bool isClosed<b>(</b><b>)</b></span>
+<span id='line64'>  <b>{</b></span>
+<span id='line65'>    return sock == null</span>
+<span id='line66'>  <b>}</b></span>
+<span id='line67'></span>
+<span id='line68'>  **</span>
+<span id='line69'>  ** Open a session to the SMTP server.  If username and</span>
+<span id='line70'>  ** password are configured, then SMTP authentication is</span>
+<span id='line71'>  ** attempted.  Throw SmtpErr if there is a protocol error.</span>
+<span id='line72'>  ** Throw IOErr is there is a network problem.</span>
+<span id='line73'>  **</span>
+<span id='line74'>  Void open<b>(</b><b>)</b></span>
+<span id='line75'>  <b>{</b></span>
+<span id='line76'>    // do sanity checking before opening the socket</span>
+<span id='line77'>    if <b>(</b>host == null<b>)</b> throw NullErr<b>(</b>"host is null"<b>)</b></span>
+<span id='line78'></span>
+<span id='line79'>    // open the socket connection</span>
+<span id='line80'>    sock = TcpSocket<b>(</b>socketConfig<b>)</b></span>
+<span id='line81'>    if <b>(</b>ssl<b>)</b> sock = sock.upgradeTls</span>
+<span id='line82'>    sock.connect<b>(</b>IpAddr<b>(</b>host<b>)</b>, port<b>)</b></span>
+<span id='line83'>    try</span>
+<span id='line84'>    <b>{</b></span>
+<span id='line85'>      // read server hello</span>
+<span id='line86'>      res := readRes</span>
+<span id='line87'>      if <b>(</b>res.code != 220<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line88'></span>
+<span id='line89'>      // EHLO query the extensions supported</span>
+<span id='line90'>      writeReq<b>(</b>"EHLO <b>[</b>$IpAddr.local.numeric<b>]</b>"<b>)</b></span>
+<span id='line91'>      res = readRes</span>
+<span id='line92'>      if <b>(</b>res.code != 250<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line93'>      readExts<b>(</b>res<b>)</b></span>
+<span id='line94'></span>
+<span id='line95'>      // if we have starttls and no plaintext auth</span>
+<span id='line96'>      // options then upgrade the socket</span>
+<span id='line97'>      if <b>(</b>starttls &amp;&amp; <b>(</b>auths == null || auths.isEmpty<b>)</b><b>)</b></span>
+<span id='line98'>      <b>{</b></span>
+<span id='line99'>        // tell server we're starting TLS</span>
+<span id='line100'>        writeReq<b>(</b>"STARTTLS"<b>)</b></span>
+<span id='line101'>        res = readRes</span>
+<span id='line102'>        if <b>(</b>res.code != 220<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line103'></span>
+<span id='line104'>        // upgrade the socket to SSL/TLS</span>
+<span id='line105'>        sock = sock.upgradeTls</span>
+<span id='line106'></span>
+<span id='line107'>        // redo EHLO and SMTP handshake</span>
+<span id='line108'>        writeReq<b>(</b>"EHLO <b>[</b>$IpAddr.local.numeric<b>]</b>"<b>)</b></span>
+<span id='line109'>        res = readRes</span>
+<span id='line110'>        if <b>(</b>res.code != 250<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line111'>        readExts<b>(</b>res<b>)</b></span>
+<span id='line112'>      <b>}</b></span>
+<span id='line113'></span>
+<span id='line114'>      // authenticate if configured</span>
+<span id='line115'>      if <b>(</b>username != null &amp;&amp; password != null &amp;&amp; auths != null &amp;&amp; !auths.isEmpty<b>)</b></span>
+<span id='line116'>        authenticate</span>
+<span id='line117'>    <b>}</b></span>
+<span id='line118'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line119'>    <b>{</b></span>
+<span id='line120'>      close</span>
+<span id='line121'>      throw e</span>
+<span id='line122'>    <b>}</b></span>
+<span id='line123'>  <b>}</b></span>
+<span id='line124'></span>
+<span id='line125'>  **</span>
+<span id='line126'>  ** Close the session to the SMTP server.  Do nothing if</span>
+<span id='line127'>  ** session already closed.</span>
+<span id='line128'>  **</span>
+<span id='line129'>  Void close<b>(</b><b>)</b></span>
+<span id='line130'>  <b>{</b></span>
+<span id='line131'>    if <b>(</b>sock != null<b>)</b></span>
+<span id='line132'>    <b>{</b></span>
+<span id='line133'>      try <b>{</b> writeReq<b>(</b>"QUIT"<b>)</b> <b>}</b> catch <b>{</b><b>}</b></span>
+<span id='line134'>      try <b>{</b> sock.close <b>}</b> catch <b>{</b><b>}</b></span>
+<span id='line135'>      sock = null</span>
+<span id='line136'>    <b>}</b></span>
+<span id='line137'>  <b>}</b></span>
+<span id='line138'></span>
+<span id='line139'>  **</span>
+<span id='line140'>  ** Send the email to the SMTP server.  Throw SmtpErr if</span>
+<span id='line141'>  ** there is a protocol error.  Throw IOErr if there is</span>
+<span id='line142'>  ** a networking problem.  If the session is closed, then</span>
+<span id='line143'>  ** this call automatically opens the session and guarantees</span>
+<span id='line144'>  ** a close after it is complete.</span>
+<span id='line145'>  **</span>
+<span id='line146'>  Void send<b>(</b>Email email<b>)</b></span>
+<span id='line147'>  <b>{</b></span>
+<span id='line148'>    email.validate</span>
+<span id='line149'>    autoOpen := isClosed</span>
+<span id='line150'>    if <b>(</b>autoOpen<b>)</b> open</span>
+<span id='line151'>    try</span>
+<span id='line152'>    <b>{</b></span>
+<span id='line153'>      // MAIL command</span>
+<span id='line154'>      writeReq<b>(</b>"MAIL From:" + MimeUtil.toAddrSpec<b>(</b>email.from<b>)</b><b>)</b></span>
+<span id='line155'>      res := readRes</span>
+<span id='line156'>      if <b>(</b>res.code != 250<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line157'></span>
+<span id='line158'>      // RCPT for each to address</span>
+<span id='line159'>      email.recipients.each |Str to|</span>
+<span id='line160'>      <b>{</b></span>
+<span id='line161'>        writeReq<b>(</b>"RCPT To:" + MimeUtil.toAddrSpec<b>(</b>to<b>)</b><b>)</b></span>
+<span id='line162'>        res = readRes</span>
+<span id='line163'>        if <b>(</b>res.code != 250<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line164'>      <b>}</b></span>
+<span id='line165'></span>
+<span id='line166'>      // DATA command</span>
+<span id='line167'>      writeReq<b>(</b>"DATA"<b>)</b></span>
+<span id='line168'>      res = readRes</span>
+<span id='line169'>      if <b>(</b>res.code != 354<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line170'></span>
+<span id='line171'>      // encode email message</span>
+<span id='line172'>      email.encode<b>(</b>sock.out<b>)</b></span>
+<span id='line173'>      sock.out.flush</span>
+<span id='line174'>      res = readRes</span>
+<span id='line175'>      if <b>(</b>res.code != 250<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line176'>    <b>}</b></span>
+<span id='line177'>    finally</span>
+<span id='line178'>    <b>{</b></span>
+<span id='line179'>      if <b>(</b>autoOpen<b>)</b> close</span>
+<span id='line180'>    <b>}</b></span>
+<span id='line181'>  <b>}</b></span>
+<span id='line182'></span>
+<span id='line183'>  **</span>
+<span id='line184'>  ** Write a request line to the server.</span>
+<span id='line185'>  **</span>
+<span id='line186'>  private Void writeReq<b>(</b>Str req<b>)</b></span>
+<span id='line187'>  <b>{</b></span>
+<span id='line188'>    sock.out.print<b>(</b>req<b>)</b>.print<b>(</b>"\r\n"<b>)</b>.flush</span>
+<span id='line189'>    if <b>(</b>log.isDebug<b>)</b> log.debug<b>(</b>"c: $req"<b>)</b></span>
+<span id='line190'>  <b>}</b></span>
+<span id='line191'></span>
+<span id='line192'>  **</span>
+<span id='line193'>  ** Read a single or multi-line reply from the server.</span>
+<span id='line194'>  **</span>
+<span id='line195'>  private SmtpRes readRes<b>(</b><b>)</b></span>
+<span id='line196'>  <b>{</b></span>
+<span id='line197'>    res := SmtpRes<b>(</b><b>)</b></span>
+<span id='line198'></span>
+<span id='line199'>    while <b>(</b>true<b>)</b></span>
+<span id='line200'>    <b>{</b></span>
+<span id='line201'>      line := sock.in.readLine</span>
+<span id='line202'>      try</span>
+<span id='line203'>      <b>{</b></span>
+<span id='line204'>        res.code = line<b>[</b>0..2<b>]</b>.toInt</span>
+<span id='line205'>        if <b>(</b>line.size &lt;= 4<b>)</b> <b>{</b> res.lines.add<b>(</b>""<b>)</b>; break <b>}</b></span>
+<span id='line206'>        res.lines.add<b>(</b>line<b>[</b>4..-1<b>]</b><b>)</b></span>
+<span id='line207'>        if <b>(</b>line<b>[</b>3<b>]</b> != '-'<b>)</b> break</span>
+<span id='line208'>      <b>}</b></span>
+<span id='line209'>      catch <b>(</b>Err e<b>)</b></span>
+<span id='line210'>      <b>{</b></span>
+<span id='line211'>        throw IOErr<b>(</b>"Invalid SMTP reply '$line'"<b>)</b></span>
+<span id='line212'>      <b>}</b></span>
+<span id='line213'>    <b>}</b></span>
+<span id='line214'></span>
+<span id='line215'>    if <b>(</b>log.isDebug<b>)</b></span>
+<span id='line216'>    <b>{</b></span>
+<span id='line217'>      res.lines.each |Str line, Int i|</span>
+<span id='line218'>      <b>{</b></span>
+<span id='line219'>        sep := i &lt; res.lines.size-1 ? "-" : " "</span>
+<span id='line220'>        log.debug<b>(</b>"s: $res.code$sep$line"<b>)</b></span>
+<span id='line221'>      <b>}</b></span>
+<span id='line222'>    <b>}</b></span>
+<span id='line223'></span>
+<span id='line224'>    return res</span>
+<span id='line225'>  <b>}</b></span>
+<span id='line226'></span>
+<span id='line227'>  **</span>
+<span id='line228'>  ** Query the reply lines to figure out which extensions</span>
+<span id='line229'>  ** the server supports that we might use.</span>
+<span id='line230'>  **</span>
+<span id='line231'>  private Void readExts<b>(</b>SmtpRes res<b>)</b></span>
+<span id='line232'>  <b>{</b></span>
+<span id='line233'>    res.lines.each |Str line|</span>
+<span id='line234'>    <b>{</b></span>
+<span id='line235'>      toks := line.upper.split</span>
+<span id='line236'>      switch <b>(</b>toks<b>[</b>0<b>]</b><b>)</b></span>
+<span id='line237'>      <b>{</b></span>
+<span id='line238'>        case "AUTH":</span>
+<span id='line239'>          auths = toks<b>[</b>1..-1<b>]</b></span>
+<span id='line240'>        case "STARTTLS":</span>
+<span id='line241'>          starttls = true</span>
+<span id='line242'>      <b>}</b></span>
+<span id='line243'>    <b>}</b></span>
+<span id='line244'>  <b>}</b></span>
+<span id='line245'></span>
+<span id='line246'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line247'>// Authentication</span>
+<span id='line248'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line249'></span>
+<span id='line250'>  **</span>
+<span id='line251'>  ** Authenticate using the strongest mechanism</span>
+<span id='line252'>  ** which both the server and myself support.</span>
+<span id='line253'>  **</span>
+<span id='line254'>  Void authenticate<b>(</b><b>)</b></span>
+<span id='line255'>  <b>{</b></span>
+<span id='line256'>    if <b>(</b>auths.contains<b>(</b>"CRAM-MD5"<b>)</b><b>)</b> <b>{</b> authCramMd5; return <b>}</b></span>
+<span id='line257'>    if <b>(</b>auths.contains<b>(</b>"LOGIN"<b>)</b><b>)</b>    <b>{</b> authLogin;   return <b>}</b></span>
+<span id='line258'>    if <b>(</b>auths.contains<b>(</b>"PLAIN"<b>)</b><b>)</b>    <b>{</b> authPlain;   return <b>}</b></span>
+<span id='line259'>    throw Err<b>(</b>"No AUTH mechanism available: $auths"<b>)</b></span>
+<span id='line260'>  <b>}</b></span>
+<span id='line261'></span>
+<span id='line262'>  **</span>
+<span id='line263'>  ** Authenticate using CRAM-MD5 mechanism.</span>
+<span id='line264'>  **</span>
+<span id='line265'>  Void authCramMd5<b>(</b><b>)</b></span>
+<span id='line266'>  <b>{</b></span>
+<span id='line267'>    // submit auth request which returns nonce</span>
+<span id='line268'>    writeReq<b>(</b>"AUTH CRAM-MD5"<b>)</b></span>
+<span id='line269'>    res := readRes</span>
+<span id='line270'>    if <b>(</b>res.code != 334<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line271'></span>
+<span id='line272'>    // generate HMAC from nonce and password</span>
+<span id='line273'>    nonce := BufCrypto.fromBase64<b>(</b>res.line.trim<b>)</b></span>
+<span id='line274'>    hmac := nonce.hmac<b>(</b>"MD5", password.toBuf<b>)</b></span>
+<span id='line275'>    cred := "$username $hmac.toHex.lower"</span>
+<span id='line276'></span>
+<span id='line277'>    // submit username space digest</span>
+<span id='line278'>    writeReq<b>(</b>cred.toBuf.toBase64<b>)</b></span>
+<span id='line279'>    res = readRes</span>
+<span id='line280'>    if <b>(</b>res.code != 235<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line281'>  <b>}</b></span>
+<span id='line282'></span>
+<span id='line283'>  **</span>
+<span id='line284'>  ** Authenticate using LOGIN mechanism.</span>
+<span id='line285'>  **</span>
+<span id='line286'>  Void authLogin<b>(</b><b>)</b></span>
+<span id='line287'>  <b>{</b></span>
+<span id='line288'>    // auth</span>
+<span id='line289'>    writeReq<b>(</b>"AUTH LOGIN"<b>)</b></span>
+<span id='line290'>    res := readRes</span>
+<span id='line291'>    if <b>(</b>res.code != 334 || res.line != "VXNlcm5hbWU6"<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line292'></span>
+<span id='line293'>    // username</span>
+<span id='line294'>    writeReq<b>(</b>username.toBuf.toBase64<b>)</b></span>
+<span id='line295'>    res = readRes</span>
+<span id='line296'>    if <b>(</b>res.code != 334 || res.line != "UGFzc3dvcmQ6"<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line297'></span>
+<span id='line298'>    // password</span>
+<span id='line299'>    writeReq<b>(</b>password.toBuf.toBase64<b>)</b></span>
+<span id='line300'>    res = readRes</span>
+<span id='line301'>    if <b>(</b>res.code != 235<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line302'>  <b>}</b></span>
+<span id='line303'></span>
+<span id='line304'>  **</span>
+<span id='line305'>  ** Authenticate using PLAIN mechanism.</span>
+<span id='line306'>  **</span>
+<span id='line307'>  Void authPlain<b>(</b><b>)</b></span>
+<span id='line308'>  <b>{</b></span>
+<span id='line309'>    // not tested against real SMTP server</span>
+<span id='line310'>    creds := Buf<b>(</b><b>)</b>.write<b>(</b>0<b>)</b>.print<b>(</b>username<b>)</b>.write<b>(</b>0<b>)</b>.print<b>(</b>password<b>)</b></span>
+<span id='line311'>    writeReq<b>(</b>"AUTH PLAIN $creds.toBase64"<b>)</b></span>
+<span id='line312'>    res := readRes</span>
+<span id='line313'>    if <b>(</b>res.code != 235<b>)</b> throw SmtpErr.makeRes<b>(</b>res<b>)</b></span>
+<span id='line314'>  <b>}</b></span>
+<span id='line315'></span>
+<span id='line316'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line317'>// Fields</span>
+<span id='line318'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line319'></span>
+<span id='line320'>  ** Log for tracing</span>
+<span id='line321'>  @NoDoc Log log := Log.get<b>(</b>"smtp"<b>)</b></span>
+<span id='line322'></span>
+<span id='line323'>  private TcpSocket? sock  // Socket if open or null if closed</span>
+<span id='line324'>  private Str<b>[</b><b>]</b>? auths     // SASL auth mechanisms supported by server</span>
+<span id='line325'>  private Bool starttls    // was STARTTLS specified</span>
+<span id='line326'><b>}</b></span>
+<span id='line327'></span>
+<span id='line328'>**************************************************************************</span>
+<span id='line329'>** SmtpRes</span>
+<span id='line330'>**************************************************************************</span>
+<span id='line331'></span>
+<span id='line332'>internal class SmtpRes</span>
+<span id='line333'><b>{</b></span>
+<span id='line334'>  Void dump<b>(</b>OutStream out := Env.cur.out<b>)</b></span>
+<span id='line335'>  <b>{</b></span>
+<span id='line336'>    lines.each |Str line, Int i|</span>
+<span id='line337'>    <b>{</b></span>
+<span id='line338'>      sep := i &lt; lines.size-1 ? "-" : " "</span>
+<span id='line339'>      out.print<b>(</b>code<b>)</b>.print<b>(</b>sep<b>)</b>.printLine<b>(</b>line<b>)</b></span>
+<span id='line340'>    <b>}</b></span>
+<span id='line341'>  <b>}</b></span>
+<span id='line342'></span>
+<span id='line343'>  override Str toStr<b>(</b><b>)</b> <b>{</b> return "$code $lines.last" <b>}</b></span>
+<span id='line344'></span>
+<span id='line345'>  Str line<b>(</b><b>)</b> <b>{</b> return lines.last <b>}</b></span>
+<span id='line346'></span>
+<span id='line347'>  Int code</span>
+<span id='line348'>  Str<b>[</b><b>]</b> lines := Str<b>[</b>,<b>]</b></span>
+<span id='line349'><b>}</b></span>
+</pre>
+</div>
+</body>
+</html>
