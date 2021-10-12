@@ -65,7 +65,7 @@ class Main {
                     </li>
 
                     <li>
-                      <a href='../community_zh.html'>交流社区</a>
+                      <a href='../community_zh.html'>社区</a>
                     </li>
                  </ul>
                 </div>
