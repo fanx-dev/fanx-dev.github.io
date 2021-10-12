@@ -1,0 +1,95 @@
+Actor模型并发
+***********
+
+
+概述
+=========
+很多编程语言通过共享可变状态来进行多线程协作。这种情况下程序员必须仔细的对共享变量按顺序加锁，如果加锁不够会出现竞争状态，如果锁使用不当会导致死锁。这是很底层的并发方式，很容易操作bug。
+
+Fanx使用Actor模型来支持并发编程。Actor对象在后台线程中异步运行，通过相互发送异步消息进行工作。
+
+从实现上来说每个Actor相当于一个对象+消息队列，Actor确保发送给他的消息按照先后顺序执行。
+
+使用Actor
+=========
+有两种方法定义Actor，一是在构造函数中传递函数，二是继承Actor并重写receive方法。
+
+示例代码：
+
+    // pass receive to constructor as a closure function
+    a := Actor(pool) |Int msg->Int| { msg + 1 }
+
+    // subclass and override receive
+    const class IncrActor : Actor
+    {
+      new make(ActorPool p) : super(p) {}
+      override Obj? receive(Obj? msg) { msg->increment }
+    }
+线程安全
+=========
+使用Fanx的Actor从来不用担心并发中的死锁和竞争问题。Fanx通过下面的约束来保证线程安全：
+
+- Actor传递的消息必须是不可变的
+- 静态变量必须是不可变的
+- 不可变类是深度不可变的
+
+如果发送可变消息给Actor，则会抛出异常。
+
+ActorLocal
+=========
+由于Actor是不可变类，Actor一个locals字段，用来存储可变状态。ActorLocal类似于Java中的ThreadLocal只在当前Actor运行中有效。
+
+    pool := ActorPool()
+    a := Actor(pool) |msg|
+    {
+      count := 1 + (Int)Actor.locals.get("count", 0)
+      Actor.locals["count"] = count
+      return count
+    }
+
+    100.times { a.send("ignored") }
+    echo("Count is now " + a.send("ignored").get)
+Actor代理
+=========
+Fanx提供了ActorProxy类来简化Acotr使用。
+
+  class Bar {
+    Str foo(Str str) { str+"2" }
+  }
+
+  actor := ActorProxy { Bar() }
+  actor->foo("Hi")
+Futures
+=========
+acotr发送消息后返回Future对象。通过Future可以获取消息的执行状态。Future的get方法用来阻塞并等待完成。
+
+如果想当Future完成后执行接下来的动作：
+
+    future := actor1.send(msg1)
+    actor2.sendWhenDone(future, msg2)
+定时器
+=========
+使用sendLatter可以实现定时器的功能，例如：
+
+    pool := ActorPool()
+    a := Actor(pool) |Obj msg| { echo("$Time.now: $msg") }
+    a.send("start")
+    a.sendLater(1sec, "1sec")
+    a.sendLater(3sec, "3sec")
+    a.sendLater(2sec, "2sec")
+    Actor.sleep(5sec)
+    
+消息合并
+=========
+有些情况下，我们系统当前消息和待执行消息进行合并，来提高性能或者避免重复执行。使用Actor的makeCoalescing构造函数来实现。例如：
+
+    const class Repaint
+    {
+      new make(Window w, Rect d) { ... }
+      Window window
+      Rect dirty
+    }
+
+    toKey := |Repaint msg->Obj| { msg.window }
+    coalesce := |Repaint a, Repaint b->Obj| { Repaint(a.window, a.dirty.union(b.dirty)) }
+    a := Actor.makeCoalescing(g, toKey, coalesce) |Repaint msg| {...} 

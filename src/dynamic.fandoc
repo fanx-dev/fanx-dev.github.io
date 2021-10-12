@@ -1,0 +1,47 @@
+混合动态和静态语言
+***********
+
+想要python、ruby的轻盈灵活，想要C++、java的严谨厚重。Fanx把动态语言和静态语言集成在了一起。而实现这一点最关键的特性是->操作符。
+
+动态调用
+=========
+->表示动态调用。调用的方法像动态语言一样在运行时查找，且绕过了编译时的检查。例如：
+
+    obj->foo(a)
+    x := obj->bar
+    obj->bar = 1
+动态调用比较慢，运行时要通过一个字符串查找哈希表才能链接到方法, 这也是动态语言比静态语言慢的原因。
+
+trap方法
+=========
+->操作符实际上被编译器转化为Obj的trap方法调用。可以通过override trap方法来执行一些有趣的操作。
+
+    obj->foo(a)   =>  obj.trap("foo", [a])
+例如，Slan ORM库中重写了trap方法。可以这样操作：
+
+    res := c.query("select * from User where name=?", ["yjd"])
+    x := res[0]->name
+这时候调用的不是方法，而是虚拟的字段。
+
+~>操作符
+=========
+动态调用不能享受编译器编译时检测，拼写错误只能到运行时才发现。~>叫做受检动态调用，在编译时检查，运行时与普通动态调用相同。这么做是因为，有些需求需要在方法调用中插入代码。例如做一个RPC远程方法调用的库。
+
+    class Rpc {
+        override Obj? trap(Str name, Obj?[]? args := null) {
+           method := this.typeof.method(name)
+           uri := makeUrl(method, args)
+           return WebClient(uri).getStr
+        }
+    }
+服务端：
+
+    class Hello : Rpc {
+      Int add(Int a, Int b) { a + b }
+    }
+客户端：
+
+    c := Hello()
+    c~>add(1, 2)
+    c->add(1, 2)
+

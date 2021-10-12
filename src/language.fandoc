@@ -6,9 +6,7 @@ Fanx语言
 
 [语法一览]`sytaxOverview.html`
 
-[使用IDE工具]`https://zhuanlan.zhihu.com/p/113919752`
-
-[为什么用Fanx]`https://zhuanlan.zhihu.com/p/62531407`
+[为什么用Fanx]`whyFanx.html`
 
 语法基础
 ============
@@ -21,15 +19,15 @@ Fanx语言
 
 语法进阶
 ============
-[async/await协程]`https://zhuanlan.zhihu.com/p/62335007`
+[async/await协程]`asyncAwait.html`
 
-[Actor模型并发]`https://zhuanlan.zhihu.com/p/63452673`
+[Actor模型并发]`actor.html`
 
-[混合动态和静态语言]`https://zhuanlan.zhihu.com/p/69551081`
+[混合动态和静态语言]`dynamic.html`
 
-[Fanx的闭包不是DSL]`https://zhuanlan.zhihu.com/p/139095239`
+[Fanx的闭包不是DSL]`closure.html`
 
-[编码风格和约定]`https://zhuanlan.zhihu.com/p/305825978`
+[编码风格和约定]`conventions.html`
 
-[Fanx调用其他语言]`https://zhuanlan.zhihu.com/p/419097092`
+[Fanx调用其他语言]`native.html`
 

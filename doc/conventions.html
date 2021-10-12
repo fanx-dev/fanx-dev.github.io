@@ -1,0 +1,130 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h2>编码风格和约定</h2>
+
+<h3>源文件文件</h3>
+
+<ul>
+<li>所有文件（包括源码和配置文件），使用UTF-8编码。</li>
+
+<li>使用Unix风格的'\n'换行。</li>
+
+<li>多个小类放入一个源文件，源文件名称和主要的类名一致，例如：FooBar.fan</li>
+</ul>
+
+<h3>缩进</h3>
+
+<p>使用4空格缩进(IDE中tab自动插入空格)，左大括号不换行:</p>
+
+<pre>if (cond) {
+    doTrue
+}
+else {
+    doFalse
+}</pre>
+
+<h3>命名</h3>
+
+<h4>pod名</h4>
+
+<p>使用三段式用下划线连接：</p>
+
+<pre>google_produceName_moduleName</pre>
+
+<h4>类名</h4>
+
+<p>类名使用大写开头，例如FooBar</p>
+
+<h4>成员名</h4>
+
+<p>字段和方法都使用小写开头，即便是常量</p>
+
+<pre>//喜欢这样的
+fooBar
+
+//从来不用这样
+FOO_BAR</pre>
+
+<h4>缩写词</h4>
+
+<p>用Http代替HTTP，用Xml代替XML，用IO代替Io。</p>
+
+<h3>成员顺序</h3>
+
+<p>字段在方法前</p>
+
+<pre>//喜欢这样:
+class Person {
+  private Str name
+  Void say() {}
+}
+
+//不要这样:
+class Person {
+  Void say() {}
+  private Str name
+}</pre>
+
+<h3>留白</h3>
+
+<p>关键字、符号中间插入空格</p>
+
+<pre>//喜欢这样
+if (a == b)
+foo(a, b)
+[a, b, c]
+
+//不这样
+if(a==b)
+foo(a,b)
+[a,b,c]</pre>
+
+   </div>
+ </body>
+ </html>
+ 

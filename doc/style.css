@@ -1,8 +1,12 @@
 
 
 
-pre, code {
+pre {
   font-size: 13px; color:#fff;
+}
+
+code {
+  font-size: 13px; color:#000;
 }
 
 pre {
@@ -34,4 +38,8 @@ pre {
 
 .content a {
   text-decoration:underline;
+}
+
+.content ul li{
+  list-style:disc inside;
 }

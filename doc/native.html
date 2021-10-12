@@ -1,0 +1,192 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h2>Fanx调用其他语言</h2>
+
+<p>Fanx有好几种本地调用机制，根据不同的情况选择。</p>
+
+<h3>native class</h3>
+
+<p>这种是用本地语言实现一个完整的类，实现代码必须和编译器生成的精确一致。目前只有java和JS支持这种方法。</p>
+
+<h3>native method</h3>
+
+<p>这是最推荐的一种本地调用方式。native关键字标记的方法被转到peer对象的对应方法。</p>
+
+<pre>class Foo
+{
+  native Str a(Bool x)
+  static native Void b(Int x)
+  native Str? f
+}</pre>
+
+<p>对应的本地实现:</p>
+
+<pre>// Java or C#
+package fan.mypod;
+class FooPeer
+{
+  public static FooPeer make(Foo self) { return new FooPeer(); }
+
+  // instance methods always take implicit self
+  public String a(Foo self, boolean x) { return "a"; }
+
+  // static methods are just normal statics with matching signatures
+  public static void b(long x) {}
+
+  //field
+  public String f(Foo t) { return f; }
+  public void f(Foo t, String v) { f = v; }
+  String f;
+}
+
+// JavaScript
+fan.mypod.FooPeer = function(){}
+fan.mypod.FooPeer.prototype.a = function(self, x) { return "a"; }
+fan.mypod.FooPeer.b = function(x) {}
+
+fan.mypod.FooPeer.prototype.m_f = "";
+fan.mypod.FooPeer.prototype.f   = function(t) { return this.m_f; }
+fan.mypod.FooPeer.prototype.f$  = function(t, v) { this.m_f = v; }
+
+
+//FNI(fanrun runtime)
+fr_Obj mypod_Foo_a(fr_Env env, frObj self, fr_Bool x) { return fr_newStrUtf8(env, "a"); }
+void mypod_Foo_b(fr_Env env, fr_Int x) {}
+fr_Obj mypod_Foo_f(fr_Env env, fr_Obj self) {...}
+void mypod_Foo_f__(fr_Env env, fr_Obj self, fr_Obj v) {...}</pre>
+
+<p>如果是简单的无状态的方法，可以给类加@NoPeer属性来避免生成peer字段(同时peer类也没必要有make方法)。</p>
+
+<p>java编译时第三方.jar库放入lib/java/ext/目录。</p>
+
+<h3>FNI</h3>
+
+<p>fni是虚拟机调用C的机制，类似于JNI。</p>
+
+<p>可以这样生成头文件：</p>
+
+<pre>fni podname</pre>
+
+<p>用法：</p>
+
+<pre>fr_Method method = fr_findMethod(...);
+fr_callMethod(env, method, ...);
+
+fr_Field field = fr_findField(...);
+fr_setField(env, field, ...);</pre>
+
+<p>其中fr_Method, fr_Feild，都是不变的，可以缓存起来。</p>
+
+<p>持有fanx对象时要告诉垃圾收集器:</p>
+
+<pre>fr_Obj n = fr_newGlobalRef(env, obj);
+fr_deleteGlobalRef(env, n);</pre>
+
+<p>字符串和数组操作：</p>
+
+<pre>fr_Obj fr_newStrUtf8(fr_Env env, const char *bytes);
+const char *fr_getStrUtf8(fr_Env env, fr_Obj str);
+
+fr_Obj fr_arrayNew(fr_Env env, fr_Type type, int32_t elemSize, size_t size);
+size_t fr_arrayLen(fr_Env env, fr_Obj array);
+void fr_arrayGet(fr_Env env, fr_Obj array, size_t index, fr_Value *val);
+void fr_arraySet(fr_Env env, fr_Obj array, size_t index, fr_Value *val);</pre>
+
+<p>和JNI一样，本地的指针需要自己保存在Int变量中。</p>
+
+<p>详细的见runtime/fni/fni.h</p>
+
+<h3>Java FFI</h3>
+
+<p>Java FFI机制允许代码直接调用Java代码，例如。</p>
+
+<pre>using [java] java.lang
+
+class HelloWorld
+{
+  Void main()
+  {
+    System.out.println("Java FFI hello world")
+  }
+}</pre>
+
+<p>fanxb不支持java FFI，只能用fanb编译器编译。</p>
+
+<h3>JavaScript交互</h3>
+
+<p>dom pod里面有一些能直接调用js的方法：</p>
+
+<pre>Win.cur.eval
+Elem.trap
+Elem.invoke</pre>
+
+<p>需要的可以自行查阅。</p>
+
+<h3>直接调用C</h3>
+
+<p>可以直接使用runtime/gen/temp下面生成的头文件调用C方法。</p>
+
+<p>虚方法调用可以使用runtime/gen/runtime.h里面的宏：</p>
+
+<pre>FR_VCALL  //虚函数调用
+FR_ICALL  //接口函数调用</pre>
+
+<p>这种只能用在生成C编译中。</p>
+
+<h3>C FFI</h3>
+
+<p>这种目前缺乏测试和维护。</p>
+
+<h3>完</h3>
+
+<p>总之，一般情况下使用native method方法，其他机制会导致绑定到特定语言上。</p>
+
+   </div>
+ </body>
+ </html>
+ 

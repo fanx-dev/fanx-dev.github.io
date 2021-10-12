@@ -1,0 +1,153 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h2>Actor模型并发</h2>
+
+<h3>概述</h3>
+
+<p>很多编程语言通过共享可变状态来进行多线程协作。这种情况下程序员必须仔细的对共享变量按顺序加锁，如果加锁不够会出现竞争状态，如果锁使用不当会导致死锁。这是很底层的并发方式，很容易操作bug。</p>
+
+<p>Fanx使用Actor模型来支持并发编程。Actor对象在后台线程中异步运行，通过相互发送异步消息进行工作。</p>
+
+<p>从实现上来说每个Actor相当于一个对象+消息队列，Actor确保发送给他的消息按照先后顺序执行。</p>
+
+<h3>使用Actor</h3>
+
+<p>有两种方法定义Actor，一是在构造函数中传递函数，二是继承Actor并重写receive方法。</p>
+
+<p>示例代码：</p>
+
+<pre>// pass receive to constructor as a closure function
+a := Actor(pool) |Int msg->Int| { msg + 1 }
+
+// subclass and override receive
+const class IncrActor : Actor
+{
+  new make(ActorPool p) : super(p) {}
+  override Obj? receive(Obj? msg) { msg->increment }
+}</pre>
+
+<h3>线程安全</h3>
+
+<p>使用Fanx的Actor从来不用担心并发中的死锁和竞争问题。Fanx通过下面的约束来保证线程安全：</p>
+
+<ul>
+<li>Actor传递的消息必须是不可变的</li>
+
+<li>静态变量必须是不可变的</li>
+
+<li>不可变类是深度不可变的</li>
+</ul>
+
+<p>如果发送可变消息给Actor，则会抛出异常。</p>
+
+<h3>ActorLocal</h3>
+
+<p>由于Actor是不可变类，Actor一个locals字段，用来存储可变状态。ActorLocal类似于Java中的ThreadLocal只在当前Actor运行中有效。</p>
+
+<pre>pool := ActorPool()
+a := Actor(pool) |msg|
+{
+  count := 1 + (Int)Actor.locals.get("count", 0)
+  Actor.locals["count"] = count
+  return count
+}
+
+100.times { a.send("ignored") }
+echo("Count is now " + a.send("ignored").get)</pre>
+
+<h3>Actor代理</h3>
+
+<p>Fanx提供了ActorProxy类来简化Acotr使用。</p>
+
+<pre>class Bar {
+  Str foo(Str str) { str+"2" }
+}
+
+actor := ActorProxy { Bar() }
+actor->foo("Hi")</pre>
+
+<h3>Futures</h3>
+
+<p>acotr发送消息后返回Future对象。通过Future可以获取消息的执行状态。Future的get方法用来阻塞并等待完成。</p>
+
+<p>如果想当Future完成后执行接下来的动作：</p>
+
+<pre>future := actor1.send(msg1)
+actor2.sendWhenDone(future, msg2)</pre>
+
+<h3>定时器</h3>
+
+<p>使用sendLatter可以实现定时器的功能，例如：</p>
+
+<pre>pool := ActorPool()
+a := Actor(pool) |Obj msg| { echo("$Time.now: $msg") }
+a.send("start")
+a.sendLater(1sec, "1sec")
+a.sendLater(3sec, "3sec")
+a.sendLater(2sec, "2sec")
+Actor.sleep(5sec)</pre>
+
+<h3>消息合并</h3>
+
+<p>有些情况下，我们系统当前消息和待执行消息进行合并，来提高性能或者避免重复执行。使用Actor的makeCoalescing构造函数来实现。例如：</p>
+
+<pre>const class Repaint
+{
+  new make(Window w, Rect d) { ... }
+  Window window
+  Rect dirty
+}
+
+toKey := |Repaint msg->Obj| { msg.window }
+coalesce := |Repaint a, Repaint b->Obj| { Repaint(a.window, a.dirty.union(b.dirty)) }
+a := Actor.makeCoalescing(g, toKey, coalesce) |Repaint msg| {...} </pre>
+
+   </div>
+ </body>
+ </html>
+ 

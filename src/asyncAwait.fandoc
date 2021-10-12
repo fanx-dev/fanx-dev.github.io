@@ -1,0 +1,85 @@
+
+async/await协程
+*************
+
+Async/Await示例
+-------------
+下面是一个完整的例子，在点击按钮的时候异步请求网页，网络请求完成后将网页内容显示在界面上。
+
+  using fanvasGui
+  using fanvasClient
+
+  class ClientTest {
+    var lab: Label?
+
+    var url: Uri = `http://www.so.com`
+
+    fun main() {
+      if (Env.cur.isJs) {
+        url = `http://localhost:8080/`
+      }
+
+      root := Frame {
+        mainView = VBox {
+          Button { id = "button"; text = "Req"; onAction.add { request } },
+          Label { id = "label"; text = "Res" }
+        }
+      }
+
+      lab = root.findById("label")
+      root.show
+    }
+
+    async fun request() {
+      try {
+        res := await HttpReq { uri = url }.get
+        lab.text = res.content.toStr
+        lab.repaint
+      } catch (Err e) {
+        echo("Err: $e")
+      }
+    }
+  }
+
+虽然async好像是C#发明的，但我参考javascript来实现，用法也和javascript基本相同。
+
+在async方法中执行到await的时候方法暂停，异步任务完成后接着执行剩余的逻辑。主逻辑在主线程执行，网络请求在单独的后台线程执行，所以async方法可以直接更新UI。
+
+实现原理
+-------------
+在JS目标中使用javascript本身的机制，其他目标则在编译器前端中转化为状态机。
+
+例如上面的代码大体上相当于:
+
+  void request$async(AsyncTask ctx) {
+    switch (ctx.state) {
+      case 0:
+        ctx.awaitObj = HttpReq { uri = url }.get
+        ctx.state = 1
+        break;
+      case 1:
+        ctx.res = ctx.awaitObj
+        lab.text = ctx.res.content.toStr
+        ctx.state = -1
+    }
+  }
+
+为什么要Async/Await
+-------------
+和嵌套回调比这是人体工程学的异步，尤其是当有多个异步任务的时候。
+
+async/await的主要use case:
+
+- GUI中用来在异步请求后更新界面(如上面的例子)
+- 服务端的异步IO
+
+对比stackful协程
+-------------
+1.async模式更省内存。async内存是按需分配的，stackful需要预分配足够大小内存。
+
+2.async更灵活。例如需要A和B两个任务并行执行，然后等到AB都完成时执行C任务。async可以很容易做到：
+
+  a = taskA()
+  b = taskB()
+  res = taskC(await a, await b)
+用stackful可能不太容易。

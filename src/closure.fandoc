@@ -1,0 +1,96 @@
+闭包不是DSL
+************
+
+很多人看到这样的示例代码，以为是什么DSL。
+
+    using vaseGui
+
+    class HelloTest
+    {
+      static Void main() {
+        root := Frame {
+          VBox {
+              Label { text = "HelloWorld" },
+              Button {
+                text = "Press Me"
+                onClick {
+                  Toast("Hello World").show(it)
+                }
+              },
+          },
+        }
+        root.show
+      }
+    }
+事实上这不是DSL，而是标准的Fanx代码。
+
+Fanx语言中写出上面的代码，使用了几个重要的技术：It块、尾缀闭包、with块、逗号操作符。这里的设计非常巧妙。比Kotlin用更少的复杂性和更少的代码，实现了类似的功能。
+
+尾缀闭包
+==========
+正常的Fanx闭包/lambda是这样的：
+
+    10.times( |Int x| { echo(x) } )
+我们在函数最后一个参数为闭包时省略调圆括号，叫做尾缀闭包。写成这样：
+
+    10.times |Int x| { echo(x) }
+It块
+==========
+    10.times |Int x->Void| { echo(x.isEven) }
+当闭包参数少于一个时，我们省略函数参数，使用时用it关键字代替。变成了这样：
+
+    10.times { echo(it.isEven) }
+it也可以省略，就像this一样的省略
+
+    10.times { echo(isEven) }
+所以可以这样写
+
+    Button { it.text = "hi" }
+    Button { text = "hi" }
+逗号操作符
+==========
+我们的运算符重载大概是这样的语法糖
+
+    a + b => a.plus(b)
+加号都可以是运算符，逗号也类似。不过逗号运算符被设计为需要和It块配合。
+
+    a,b,c => it.add(a).add(b).add(c)
+With块
+==========
+所有对象都有一个with方法。with定义在Obj中，Obj.with像这样：
+
+    virtual This with(|This| f)
+    {
+      f(this)
+      return this
+    }
+使用with函数像这样
+
+    list := [,].with { fill("x", 3)
+我们可以省略with名称，写出这样:
+
+    list := [,] { fill("x", 3) }
+揭晓谜底
+==========
+    VBox {
+      Label { .. },
+      Button { .. },
+    }
+这样的代码大概相当于
+
+    VBox().with( |VBox v| {
+      v.add( Label().with( |Label a| {
+        ...  
+      }))
+      v.add( Button().with( |Button b| {
+        ... 
+      }))
+    })
+可见编程语言对可读性的改善的重要性。
+
+Fanx中的DSL
+==========
+Fanx中也有DSL的术语，但指的是编译插件。例如正则表达式和SQL这种叫做DSL。正则表达式的DSL长这样
+
+    reg := Regex<|\(.*\)|>
+这是一个编译器插件，可做内嵌语言的语法错误检测、IDE语法高亮。DSL中可以有任何字符，免去了字符串内部字符需要转意的麻烦。

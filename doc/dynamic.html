@@ -1,0 +1,102 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h2>混合动态和静态语言</h2>
+
+<p>想要python、ruby的轻盈灵活，想要C++、java的严谨厚重。Fanx把动态语言和静态语言集成在了一起。而实现这一点最关键的特性是->操作符。</p>
+
+<h3>动态调用</h3>
+
+<p>->表示动态调用。调用的方法像动态语言一样在运行时查找，且绕过了编译时的检查。例如：</p>
+
+<pre>obj->foo(a)
+x := obj->bar
+obj->bar = 1</pre>
+
+<p>动态调用比较慢，运行时要通过一个字符串查找哈希表才能链接到方法, 这也是动态语言比静态语言慢的原因。</p>
+
+<h3>trap方法</h3>
+
+<p>->操作符实际上被编译器转化为Obj的trap方法调用。可以通过override trap方法来执行一些有趣的操作。</p>
+
+<pre>obj->foo(a)   =>  obj.trap("foo", [a])</pre>
+
+<p>例如，Slan ORM库中重写了trap方法。可以这样操作：</p>
+
+<pre>res := c.query("select * from User where name=?", ["yjd"])
+x := res[0]->name</pre>
+
+<p>这时候调用的不是方法，而是虚拟的字段。</p>
+
+<h3>~>操作符</h3>
+
+<p>动态调用不能享受编译器编译时检测，拼写错误只能到运行时才发现。~>叫做受检动态调用，在编译时检查，运行时与普通动态调用相同。这么做是因为，有些需求需要在方法调用中插入代码。例如做一个RPC远程方法调用的库。</p>
+
+<pre>class Rpc {
+    override Obj? trap(Str name, Obj?[]? args := null) {
+       method := this.typeof.method(name)
+       uri := makeUrl(method, args)
+       return WebClient(uri).getStr
+    }
+}</pre>
+
+<p>服务端：</p>
+
+<pre>class Hello : Rpc {
+  Int add(Int a, Int b) { a + b }
+}</pre>
+
+<p>客户端：</p>
+
+<pre>c := Hello()
+c~>add(1, 2)
+c->add(1, 2)</pre>
+
+   </div>
+ </body>
+ </html>
+ 

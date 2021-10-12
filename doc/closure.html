@@ -1,0 +1,162 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h2>闭包不是DSL</h2>
+
+<p>很多人看到这样的示例代码，以为是什么DSL。</p>
+
+<pre>using vaseGui
+
+class HelloTest
+{
+  static Void main() {
+    root := Frame {
+      VBox {
+          Label { text = "HelloWorld" },
+          Button {
+            text = "Press Me"
+            onClick {
+              Toast("Hello World").show(it)
+            }
+          },
+      },
+    }
+    root.show
+  }
+}</pre>
+
+<p>事实上这不是DSL，而是标准的Fanx代码。</p>
+
+<p>Fanx语言中写出上面的代码，使用了几个重要的技术：It块、尾缀闭包、with块、逗号操作符。这里的设计非常巧妙。比Kotlin用更少的复杂性和更少的代码，实现了类似的功能。</p>
+
+<h3>尾缀闭包</h3>
+
+<p>正常的Fanx闭包/lambda是这样的：</p>
+
+<pre>10.times( |Int x| { echo(x) } )</pre>
+
+<p>我们在函数最后一个参数为闭包时省略调圆括号，叫做尾缀闭包。写成这样：</p>
+
+<pre>10.times |Int x| { echo(x) }</pre>
+
+<h3>It块</h3>
+
+<pre>10.times |Int x->Void| { echo(x.isEven) }</pre>
+
+<p>当闭包参数少于一个时，我们省略函数参数，使用时用it关键字代替。变成了这样：</p>
+
+<pre>10.times { echo(it.isEven) }</pre>
+
+<p>it也可以省略，就像this一样的省略</p>
+
+<pre>10.times { echo(isEven) }</pre>
+
+<p>所以可以这样写</p>
+
+<pre>Button { it.text = "hi" }
+Button { text = "hi" }</pre>
+
+<h3>逗号操作符</h3>
+
+<p>我们的运算符重载大概是这样的语法糖</p>
+
+<pre>a + b => a.plus(b)</pre>
+
+<p>加号都可以是运算符，逗号也类似。不过逗号运算符被设计为需要和It块配合。</p>
+
+<pre>a,b,c => it.add(a).add(b).add(c)</pre>
+
+<h3>With块</h3>
+
+<p>所有对象都有一个with方法。with定义在Obj中，Obj.with像这样：</p>
+
+<pre>virtual This with(|This| f)
+{
+  f(this)
+  return this
+}</pre>
+
+<p>使用with函数像这样</p>
+
+<pre>list := [,].with { fill("x", 3)</pre>
+
+<p>我们可以省略with名称，写出这样:</p>
+
+<pre>list := [,] { fill("x", 3) }</pre>
+
+<h3>揭晓谜底</h3>
+
+<pre>VBox {
+  Label { .. },
+  Button { .. },
+}</pre>
+
+<p>这样的代码大概相当于</p>
+
+<pre>VBox().with( |VBox v| {
+  v.add( Label().with( |Label a| {
+    ...  
+  }))
+  v.add( Button().with( |Button b| {
+    ... 
+  }))
+})</pre>
+
+<p>可见编程语言对可读性的改善的重要性。</p>
+
+<h3>Fanx中的DSL</h3>
+
+<p>Fanx中也有DSL的术语，但指的是编译插件。例如正则表达式和SQL这种叫做DSL。正则表达式的DSL长这样</p>
+
+<pre>reg := Regex&lt;|\(.*\)|></pre>
+
+<p>这是一个编译器插件，可做内嵌语言的语法错误检测、IDE语法高亮。DSL中可以有任何字符，免去了字符串内部字符需要转意的麻烦。</p>
+
+   </div>
+ </body>
+ </html>
+ 

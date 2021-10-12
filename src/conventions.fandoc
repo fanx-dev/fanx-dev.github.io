@@ -1,0 +1,71 @@
+编码风格和约定
+**********
+
+源文件文件
+==========
+- 所有文件（包括源码和配置文件），使用UTF-8编码。
+- 使用Unix风格的'\n'换行。
+- 多个小类放入一个源文件，源文件名称和主要的类名一致，例如：FooBar.fan
+
+缩进
+==========
+使用4空格缩进(IDE中tab自动插入空格)，左大括号不换行:
+
+    if (cond) {
+        doTrue
+    }
+    else {
+        doFalse
+    }
+命名
+==========
+pod名
+----------
+使用三段式用下划线连接：
+
+    google_produceName_moduleName
+类名
+----------
+类名使用大写开头，例如FooBar
+
+成员名
+----------
+字段和方法都使用小写开头，即便是常量
+
+    //喜欢这样的
+    fooBar
+
+    //从来不用这样
+    FOO_BAR
+缩写词
+----------
+用Http代替HTTP，用Xml代替XML，用IO代替Io。
+
+成员顺序
+==========
+字段在方法前
+
+  //喜欢这样:
+  class Person {
+    private Str name
+    Void say() {}
+  }
+
+  //不要这样:
+  class Person {
+    Void say() {}
+    private Str name
+  }
+留白
+==========
+关键字、符号中间插入空格
+
+    //喜欢这样
+    if (a == b)
+    foo(a, b)
+    [a, b, c]
+
+    //不这样
+    if(a==b)
+    foo(a,b)
+    [a,b,c]

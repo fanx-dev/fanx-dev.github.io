@@ -1,0 +1,130 @@
+
+为什么用Fanx语言
+***************
+
+当时web端和移动端兴起，我看到了多平台维护的艰辛，我想能否有一个语言能同时支持多个平台开发呢。
+
+Fantom是最接近我理想的语言，而且内部源代码也很优雅。我在Fantom编译器基础不断地魔改，扩展了很多语法。并且重写了标准库，开发了C/LLVM编译后端和虚拟机。以至于不能和Fantom完全兼容，于是诞生了Fanx语言。后来又重新设计了语法。和Fantom的不同点见 [这里]`https://github.com/fanx-dev/fanx/blob/master/doc/DiffFantom.md` 。
+
+可移植性
+=============
+Fanx可以编译为Java字节码、Javascript源码、C语言。还有一个解释型的虚拟机。之前的.Net编译目标已经不在维护。LLVM后端在开发中。未来可能会添加WebAssembly后端。
+
+Fanx的编译过程：
+
+  Fanx code
+      |
+      |----> javascript code
+      |
+      v
+     fcode(byte code)|---> java byte code
+                     |---> .Net CIL
+                     |---> C code
+                     |---> interpreter VM
+                     |---> LLVM IR -> native
+优雅的API
+=============
+虽然Java语言语法本身有很多缺陷。但是Java最大的缺陷不是语言，而是API。例如：'http://java.io’包，即便有60多个类和接口，逐行读取一个文本文件你还是要做很多基本工作。在Fanx中你只需要一句：
+
+  File(`file.txt`).readAllStr 
+Fanx提供了IO、单元测试、日志、日期时间、文档生成、JSON/XML/CSV解析、email、网络服务、GUI、数据库访问等完整的一致的开发库，总共不到3M。
+
+模块化
+=============
+模块化是大家都知道的设计准则。而它的实现却很糟，很少有语言内建支持。Fantom/Fanx第一次把程序模块、命名空间、部署单元、版本化单元统一在一起，称为pod。软件由这些pod通过明确的依赖关系组织在一起。而这一切由编译器提供内建支持。
+
+我们看一眼Fanx的构建脚本：
+
+  podName = testlib
+  summary = test lib
+  version = 2.0
+  srcDirs = test/,fan/
+  depends = sys 1.0, std 1.0
+这里面声明了名叫testlib的pod，版本2.0，源码在test和fan文件夹，依赖sys,std两个pod。如果你被makefile或者maven折磨过，你会发现世界如此美妙。
+
+并发和不可变类
+=============
+Fanx使用Actors并发模型。开发人员再也不同担心死锁和多线程竞争，一切都是线程安全的。
+
+这一切得益于Fanx对不可变类的支持。编译器确保对象深度不可变，从而不会共享不可变状态。
+
+  //immutable class
+  const class Str { ... }
+
+  const p: Str       //deep immutable
+  const p: StrBuf    //compile error
+  let p: StrBuf      //shallow immutable
+声明式编程
+=============
+Fanx支持声明式编程。通过闭包和字面量语法，让我们的代码看上去是在说做什么，而不是怎么做。
+
+  Window
+  {
+    title = "Demo"
+    size = Size(600,600)
+    GridPane
+    {
+      numCols = 2
+      Label { text="label1" },
+      EdgePane
+      {
+        top    = Button { text = "top" }
+        left   = Button { text = "left" }
+        right  = Button { text = "right" }
+        bottom = Button { text = "bottom" }
+        center = Button { text = "center" }
+      }
+    },
+  }
+面向对象和函数式编程
+=============
+Fanx同时支持面向对象和函数式编程。很多标准库API也使用函数式的方法设计。在面向对象方面也抹平原始类型和对象类型之间的差异。
+
+打印十次可以这样写：
+
+  10.times { echo(it) }
+静态类型VS动态类型
+=============
+Fanx虽然被认为是静态类型语言，但它同时提供灵活的动态类型的支持。用“->”操作符可进行动态调用，跳过编译器的检测，很容易来实现鸭子类型。
+
+另外本地变量可以用类型推断，让代码看起来和动态语言一样简洁。
+
+不可空类型
+=============
+Fanx类型默认是不能为null的，除非使用问号声明。
+
+  var a : Str? = null //might stores null
+  var b : Str         //never stores null
+
+  //Nullable is a part of API
+  fun foo(arg: Str?): Str
+你可能见过有些语言也支持这种功能，可这种语法很有可能是Fantom最先发明的。
+
+语法糖
+=============
+字段访问的getter/setter被隐式生成，没有太多的语法噪音。
+支持运算符重载，这很利于数学库的编写。
+null便利，只当不为空时执行：x?.foo()
+Fanx对待语法糖既不是排斥也不是越多越好，而是从实用的角度进行权衡。
+
+函数重载和默认参数
+=============
+很多编程语言支持同名函数通过参数类型的不同进行重载，Fanx不支持这种特性。我曾亲眼见到过同事写的代码中有8个叫drawImage的函数，让人无所适从。
+
+不支持函数重载，还有一个重要的原因是为了更好的支持动态调用。如果你有需要，Fanx的“默认参数”功能是一个更好的选择。
+
+混入（Mixin）
+=============
+Mixin相当于interface但是可以带有方法的实现，这样更好的支持代码重用。
+
+Fantom很少会为了不同而不同，一切语法都是Java、C#们熟悉的味道。却唯独把interface改为了mixin。我猜这是对过度设计的一种警告，mixin不推荐作为接口功能来使用。
+
+Async/Await协程
+=============
+C#和JS样式的async，人类工程学的回调。
+
+  async fun foo(id: Int) {
+    user := await getUser(id)
+    image := await getImage(user.image)
+    imageView.image = image
+  }
