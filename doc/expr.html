@@ -1,0 +1,318 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>交流社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h2>基础类型和语句</h2>
+
+<h3>基础类型和字面量</h3>
+
+<h4>布尔类型</h4>
+
+<p>Bool类由true和false两个值。</p>
+
+<h4>整数类型</h4>
+
+<p>Int默认是64-bit整形。可以使用明确大小的版本Int8/Int16/Int32/Int64.</p>
+
+<p>Int字面量默认是10进制的，使用0x表示16进制字面量。中间可以使用'_'分割来增加可读性。使用单引号表示字符字面量，使用\u表示Unicode码点值。注意Fanx没有Char型，所有的Char都是用Int存储。</p>
+
+<p>例如：</p>
+
+<pre>45
+-89_039
+0xcafebabe
+0xCAFE_BABE
+'?'
+'\n'
+'\u03ab'
+'\u00F2'</pre>
+
+<h4>浮点型</h4>
+
+<p>Float默认是64-bit。可以使用明确类型版本Float32/Float63。后缀F或者f是可选择。</p>
+
+<pre>3.0
+3f
+3.0F
+123_456.0f
+3e6f
+0.2e+6f
+1_2.3_7e-5_6f</pre>
+
+<h4>字符串类型</h4>
+
+<p>Str表示Unicode字符串类型。Str是不可变类。StrBuf是其可变版本。</p>
+
+<p>Str字面量使用双引号表示。反斜杠'\'表示特殊字符转义。</p>
+
+<p>例如：</p>
+
+<pre>"hello"
+"line 1\nline 2"
+"It is 73\u00B0 Fahrenheit outside!"</pre>
+
+<h4>多行字符串：</h4>
+
+<pre>x :=
+"line 1
+  line 2
+ line3"</pre>
+
+<h4>字符串插值：</h4>
+
+<pre>"x is $x, in hex $x.toHex, and x+8 is ${x+8}"</pre>
+
+<p>字符串插值使用$,或者${}来把一个表达式的值拼成字符串。</p>
+
+<h4>本地化字面量：</h4>
+
+<pre>"$&lt;key>" =>  EnclosingType#.pod.locale("key")</pre>
+
+<p>见本地化章节。</p>
+
+<h4>三引号字符串：</h4>
+
+<pre>"""Do you know "What lies beneath the shadow of the statue"?"""</pre>
+
+<p>和引号一样，用来避免转义'"'符合。</p>
+
+<h4>Str DSL：</h4>
+
+<pre>Str&lt;|no \ or $ escapes need, and
+         multi-line works too|></pre>
+
+<h4>Type字面量</h4>
+
+<p>相当于Java中的Str.class</p>
+
+<pre>Str#
+acme::SomeType#</pre>
+
+<h4>Slot字面量</h4>
+
+<p>方法和字段的字面量。相对于Str#.slot("toStr")，但是效率更高。</p>
+
+<pre>Int#plus
+#echo</pre>
+
+<h4>Range（区间）</h4>
+
+<p>Range表示一个整型的区间。闭区间：start..end。开区间:start..&lt;end.</p>
+
+<p>例如：</p>
+
+<pre>0..5
+0..&lt;5
+x..&lt;y</pre>
+
+<h4>List（列表）</h4>
+
+<p>List存储有顺序的列表。</p>
+
+<p>List类型声明，以下两种是等价的：</p>
+
+<pre>var a: [Int]
+var a: List&lt;Int></pre>
+
+<p>List值字面量：</p>
+
+<pre>[10, 20, 30]
+[]</pre>
+
+<h4>Map（映射）</h4>
+
+<p>Map表示键值对的哈希表，有些语言叫dict。</p>
+
+<p>Map类型声明:</p>
+
+<pre>var a: [Str:Int]
+var a: Map&lt;Str,Int></pre>
+
+<p>Map值字面量：</p>
+
+<pre>["one": 1, "two" : 2]
+[:]</pre>
+
+<h3>运算符</h3>
+
+<h4>操作符优先级</h4>
+
+<pre>Primary: (x) x.y x.y() x->y() x?.y x?.y() x?->y() x[y]
+Unary: x++ x-- !x +x -x (T)x &amp;x
+Multiplicative: * / %
+Additive: + -
+Range: .. ..&lt;
+Relational: &lt; &lt;= >= > &lt;=> is isnot as
+Equality: == != === !==
+Conditional And: &amp;&amp;
+Conditional Or: ||
+If Expr: x?t:f x?:y
+Assignment: = *= /= %= += -=
+Collection Add: ,</pre>
+
+<h4>操作符简写</h4>
+
+<p>操作符实际上是方法调用的简写。</p>
+
+<pre>a + b     =>  a.plus(b)
+a - b     =>  a.minus(b)
+a * b     =>  a.mult(b)
+a / b     =>  a.div(b)
+a % b     =>  a.mod(b)
+a[b]      =>  a.get(b)
+a[b] = c  =>  a.set(b, c)
+-a        =>  a.negate()
+a++  =>  a = a.increment()
+a--  =>  a = a.decrement()
+a == b    =>  a.equals(b)
+a != b    =>  !a.equals(b)
+a &lt;=> b   =>  a.compare(b)
+a > b     =>  a.compare(b) > 0
+a >= b    =>  a.compare(b) >= 0
+a &lt; b     =>  a.compare(b) &lt; 0
+a &lt;= b    =>  a.compare(b) &lt;= 0
+a,b,c     =>  it.add(a).add(b).add(c)</pre>
+
+<h4>等于操作符</h4>
+
+<p>操作符'=='和'!='相当于调用equals方法，但是比较null值是安全的，不会抛出异常。</p>
+
+<p>操作符'==='和'!=='表示引用相当。</p>
+
+<h4>Null便利</h4>
+
+<pre>x ?: y 相当于 x !== null ? x : null
+x?.y   相当于 x !== null ? x.y : null
+x?->y  相当于 x !== null ? x->y : null</pre>
+
+<h4>类型检测</h4>
+
+<p>is相当于java的instanceof，isnot相当于!(x is Type)。</p>
+
+<p>as相当于C的(Type)x。</p>
+
+<h3>语句</h3>
+
+<p>语句结束的分号是可选的，推荐省略分号的写法。</p>
+
+<h4>返回语句</h4>
+
+<p>return表示从函数中中断，并有一个可选的返回值。</p>
+
+<p>如果从闭包中返回使用lret代替return。</p>
+
+<p>如果方法只有一个语句，return可以省略。例如：</p>
+
+<pre>fun name(): Str { return "Bob" } // long version
+fun name(): Str { "Bob" }        // short version</pre>
+
+<p>推荐省略return关键字。</p>
+
+<h4>本地变量</h4>
+
+<p>本地变量声明：</p>
+
+<pre>name: Str = "Jack Shephard"</pre>
+
+<p>或者使用类型推断来简化代码：</p>
+
+<pre>name := "Jack Shephard"</pre>
+
+<h4>流程控制语句</h4>
+
+<p>if语句:</p>
+
+<pre>if (&lt;cond>)
+&lt;block>
+else if (&lt;cond>)
+  &lt;block>
+else
+  &lt;block></pre>
+
+<p>循环语句：</p>
+
+<pre>while (&lt;cond>)
+  &lt;block></pre>
+
+<p>for语句：</p>
+
+<pre>for (&lt;init>; &lt;cond>; &lt;update>)
+  &lt;block></pre>
+
+<p>Switch语句：</p>
+
+<pre>switch (&lt;cond>)
+{
+  case &lt;label1>:
+    &lt;block1>
+  case &lt;label2>, &lt;lable3>:
+    &lt;block2>
+  ...
+  default:
+    &lt;defaultBlock>
+}</pre>
+
+<p>switch不只支持整型，字符串、枚举等类型都支持。switch不支持break，并自动从case中break。</p>
+
+<h4>异常处理</h4>
+
+<pre>try {
+  &lt;block>
+}
+catch (&lt;type> &lt;identifier>) {
+  &lt;block>
+}
+catch {
+  &lt;block>
+}
+finally {
+  &lt;block>
+}</pre>
+
+   </div>
+ </body>
+ </html>
+ 

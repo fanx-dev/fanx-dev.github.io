@@ -1,0 +1,266 @@
+Fanx语言方法和闭包
+***************
+
+概述
+===========
+slot（槽）
+-----------
+表示字段和方法的统称。
+
+slot的可访问性：
+
+  public: 公开可访问
+  protected: 子类和同pod类可访问
+  internal: pod内部类可访问
+  private: 类私有
+static slot（静态成员）
+-----------
+slot可以是静态，静态成员逻辑上属于类而不是对象。使用类名调用，而不是对象。
+
+  Boo.add(3, 4)
+  Int.minxVal
+字段
+-----------
+字段可以有可选的getter、setter
+
+  class Thing
+  {
+    var id : Int = 0
+    {
+      get { echo("get id"); return &id }
+      set { echo("set id"); &id = it }
+    }
+  }
+字段也可以是virutal或者abstract的
+
+  abstract class Thing
+  {
+    abstract var id: Int
+  }
+
+  class NewThing : Thing
+  {
+    override var id : Int = 0
+  }
+方法
+===========
+方法定义
+-----------
+方法可以定义在类或者mixin中，表示一个操作。
+
+  class Boo
+  {
+    static fun add(a: Int, b: Int): Int { return a + b }
+    fun incr(): Int { return count++ }
+    var count : Int = 0
+  }
+方法调用
+-----------
+  b := Boo()
+  x := b.incr //相当于b.incr()
+  y := Boo.add(3, 4)
+如果方法没有参数，后面的括号是可以省略的。
+
+
+构造函数
+-----------
+fanx使用命名构造函数，约定默认的构造函数名是make
+
+  class MissingPerson
+  {
+    new make(name: Str) { this.name = name }
+    var name: Str
+  }
+调用构造函数：
+
+  jack  := MissingPerson.make("Jack Shephard")
+  //推荐使用简写版本
+  sayid := MissingPerson("Sayid Jarrah") 
+默认参数
+-----------
+方法的参数可以有默认值
+
+  static fun add(a: Int, b: Int, c : Int = 0, d : Int= 0): Int
+  {
+    return a + b + c + d
+  }
+
+  add(3, 4, 5, 6)
+  add(3, 4, 5)     // same as add(3, 4, 5, 0)
+  add(3, 4)        // same as add(3, 4, 0, 0)
+命名参数
+-----------
+调用参数时可以有参数名，但是参数顺序仍然不能乱。
+
+  fun add(a: Int, b: Int): Int { a + b }
+
+  add(3, 4)
+  add(a:3, b:4)
+构造函数链
+-----------
+如果父类有多个构造函数，子类构造函数必须首先调用父类构造函数。
+
+  class Foo
+  {
+    new make() {}
+    new makeName(name: Str) {}
+  }
+
+  class Bar : Foo
+  {
+    new make() { super.make() }
+    new makeFullName(Str? first, Str last) { super.makeName(last) }
+    new makeLastName(Str last) { this.makeFullName(null, last) }
+  }
+静态初始化块
+-----------
+  class Foo
+  {
+    static const a : Int = 10
+    static { echo("1st a=$a b=$b") }
+    static const b : Int = 20
+    static { echo("2nd a=$a b=$b") }
+    static { a = 30 }
+    static { echo("3rd a=$a b=$b") }
+  }
+
+  // outputs
+  1st a=10 b=null
+  2nd a=10 b=20
+  3rd a=30 b=20
+Once方法
+-----------
+once方法是自动缓存方法值的语法糖。
+
+  // hard way
+  var fullName: Str
+  {
+    get
+    {
+      if (&fullName == null) &fullName = "$firstName  $lastName"
+      return &fullName
+    }
+  }
+
+  // easy way
+  once fun fullName(): Str { return "$firstName  $lastName" }
+This返回类型
+-----------
+我们可以用This表示当前类型
+
+  class Connection
+  {
+    fun open(): This { return this }
+  }
+
+  class MyConnection : Connection
+  {
+    fun talk(): This { return this }
+  }
+这样就可以和容易的写链式调用：
+
+  MyConnection.make.open.talk
+动态调用
+-----------
+使用'->'运算符来代替'.'做动态调用，动态调用的绑定发生在运行时，不受编译器检测。实现上来说动态调用路由到trap方法，可以通过重写trap方法来插入自己的逻辑。
+
+  a->x        a.trap("x", [,])
+  a->x = b    a.trap("x", [b])
+  a->x(b)     a.trap("x", [b])
+  a->x(b, c)  a.trap("x", [b, c])
+运算符'~>'表示受检动态调用，用法同'->'但是编译时会对其进行检测，但是仍然路由到trap方法。这个特性可以用来实现AOP编程。
+
+操作符重载
+-----------
+使用@Operator注解来标记可重载的方法。可重载的运算符包括：
+
+  prefix     symbol    degree
+  ------     ------    ------
+  negate     -a        unary
+  increment  a++       unary
+  decrement  a--       unary
+  plus       a + b     binary
+  minus      a - b     binary
+  mult       a * b     binary
+  div        a / b     binary
+  mod        a % b     binary
+  get        a[b]      binary
+  set        a[b] = c  ternary
+  add        a { b, }
+例如：
+
+  class Foo
+  {
+    @Operator fun plusInt(x: Int): Int { ... }
+    @Operator fun plusFloat(x: Float): Float { ... }
+  }
+
+  Foo + Int    =>  calls Foo.plusInt and yields Int
+  Foo + Float  =>  calls Foo.plusFloat and yields Float
+扩展方法
+-----------
+从外部给已有的类增加方法
+
+  class Whatever {
+    extension static fun foo(str: Str) {
+      ...
+    }
+  }
+
+  //shortcut of Whatever.foo(str)
+  str.foo
+函数化编程
+===========
+函数类型
+-----------
+函数类型签名
+
+  // format
+  |a: A, b: B ... h: H -> R|
+
+  // examples
+  |a: Int, b: Int->Str|  // function which takes two Int args and returns a Str
+  |Int, Int->Str|      // same as above omitting parameter names
+  |->Bool|             // function which takes zero args and returns Bool
+  |s: Str->Void|        // function which takes one Str arg and returns void
+  |s: Str|              // same as above, omitting optional void return
+  |->Void|             // function which takes no arguments and returns void
+  |->|                 // shortcut for above
+调用函数
+
+  func(7, 8)    // syntax sugar for func.call(7, 8)
+方法转为函数
+
+  func := type.method("add").func
+  nine := func(7, 2)
+闭包
+-----------
+闭包是匿名的函数和捕获的变量，在有些语言中称为lambda。被捕获的变量的生命周期将会延长。
+
+  f := |a: Int, b: Int->Int| { return a + b }
+  nine := f(4, 5)
+闭包参数的类型可以被推断:
+
+  list.each |v, i| { echo("$i = $v") }
+类型省略。当变量小于两个的时候类型声明整体可省略，用it来引用参数。
+
+  list.each { echo(it) }
+从闭包返回
+
+  list.each { 
+    if (it > 0) lret 
+    else echo(it)
+  }
+尾缀闭包
+-----------
+当函数最后一个参数的类型为函数时，闭包可以提出放在外面。
+
+  foo(a, { echo(it) })
+  foo(a) { echo(it) }
+with方法
+-----------
+除了构造函数，with方法也可以隐式调用。
+
+  list := [].with { fill("x", 3) }   // explicit call to with
+  list := [] { fill("x", 3) }        // implicit call to with
+

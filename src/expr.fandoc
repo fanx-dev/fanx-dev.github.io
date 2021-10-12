@@ -1,0 +1,244 @@
+基础类型和语句
+************
+
+基础类型和字面量
+============
+布尔类型
+--------
+Bool类由true和false两个值。
+
+整数类型
+--------
+Int默认是64-bit整形。可以使用明确大小的版本Int8/Int16/Int32/Int64.
+
+Int字面量默认是10进制的，使用0x表示16进制字面量。中间可以使用'_'分割来增加可读性。使用单引号表示字符字面量，使用\u表示Unicode码点值。注意Fanx没有Char型，所有的Char都是用Int存储。
+
+例如：
+
+  45
+  -89_039
+  0xcafebabe
+  0xCAFE_BABE
+  '?'
+  '\n'
+  '\u03ab'
+  '\u00F2'
+浮点型
+--------
+Float默认是64-bit。可以使用明确类型版本Float32/Float63。后缀F或者f是可选择。
+
+  3.0
+  3f
+  3.0F
+  123_456.0f
+  3e6f
+  0.2e+6f
+  1_2.3_7e-5_6f
+字符串类型
+--------
+Str表示Unicode字符串类型。Str是不可变类。StrBuf是其可变版本。
+
+Str字面量使用双引号表示。反斜杠'\'表示特殊字符转义。
+
+例如：
+
+  "hello"
+  "line 1\nline 2"
+  "It is 73\u00B0 Fahrenheit outside!"
+多行字符串：
+--------
+  x :=
+  "line 1
+    line 2
+   line3"
+字符串插值：
+--------
+  "x is $x, in hex $x.toHex, and x+8 is ${x+8}"
+字符串插值使用$,或者${}来把一个表达式的值拼成字符串。
+
+本地化字面量：
+--------
+  "$<key>" =>  EnclosingType#.pod.locale("key")
+见本地化章节。
+
+三引号字符串：
+--------
+  """Do you know "What lies beneath the shadow of the statue"?"""
+和引号一样，用来避免转义'"'符合。
+
+Str DSL：
+--------
+  Str<|no \ or $ escapes need, and
+           multi-line works too|>
+
+
+Type字面量
+--------
+相当于Java中的Str.class
+
+  Str#
+  acme::SomeType#
+Slot字面量
+--------
+方法和字段的字面量。相对于Str#.slot("toStr")，但是效率更高。
+
+  Int#plus
+  #echo
+Range（区间）
+--------
+Range表示一个整型的区间。闭区间：start..end。开区间:start..<end.
+
+例如：
+
+  0..5
+  0..<5
+  x..<y
+List（列表）
+--------
+List存储有顺序的列表。
+
+List类型声明，以下两种是等价的：
+
+  var a: [Int]
+  var a: List<Int>
+List值字面量：
+
+  [10, 20, 30]
+  []
+Map（映射）
+--------
+Map表示键值对的哈希表，有些语言叫dict。
+
+Map类型声明:
+
+  var a: [Str:Int]
+  var a: Map<Str,Int>
+Map值字面量：
+
+  ["one": 1, "two" : 2]
+  [:]
+运算符
+==========
+操作符优先级
+--------
+  Primary: (x) x.y x.y() x->y() x?.y x?.y() x?->y() x[y]
+  Unary: x++ x-- !x +x -x (T)x &x
+  Multiplicative: * / %
+  Additive: + -
+  Range: .. ..<
+  Relational: < <= >= > <=> is isnot as
+  Equality: == != === !==
+  Conditional And: &&
+  Conditional Or: ||
+  If Expr: x?t:f x?:y
+  Assignment: = *= /= %= += -=
+  Collection Add: ,
+操作符简写
+--------
+操作符实际上是方法调用的简写。
+
+  a + b     =>  a.plus(b)
+  a - b     =>  a.minus(b)
+  a * b     =>  a.mult(b)
+  a / b     =>  a.div(b)
+  a % b     =>  a.mod(b)
+  a[b]      =>  a.get(b)
+  a[b] = c  =>  a.set(b, c)
+  -a        =>  a.negate()
+  a++  =>  a = a.increment()
+  a--  =>  a = a.decrement()
+  a == b    =>  a.equals(b)
+  a != b    =>  !a.equals(b)
+  a <=> b   =>  a.compare(b)
+  a > b     =>  a.compare(b) > 0
+  a >= b    =>  a.compare(b) >= 0
+  a < b     =>  a.compare(b) < 0
+  a <= b    =>  a.compare(b) <= 0
+  a,b,c     =>  it.add(a).add(b).add(c)
+等于操作符
+--------
+操作符'=='和'!='相当于调用equals方法，但是比较null值是安全的，不会抛出异常。
+
+操作符'==='和'!=='表示引用相当。
+
+Null便利
+--------
+  x ?: y 相当于 x !== null ? x : null
+  x?.y   相当于 x !== null ? x.y : null
+  x?->y  相当于 x !== null ? x->y : null
+类型检测
+--------
+is相当于java的instanceof，isnot相当于!(x is Type)。
+
+as相当于C的(Type)x。
+
+语句
+============
+语句结束的分号是可选的，推荐省略分号的写法。
+
+返回语句
+--------
+return表示从函数中中断，并有一个可选的返回值。
+
+如果从闭包中返回使用lret代替return。
+
+如果方法只有一个语句，return可以省略。例如：
+
+  fun name(): Str { return "Bob" } // long version
+  fun name(): Str { "Bob" }        // short version
+推荐省略return关键字。
+
+本地变量
+--------
+本地变量声明：
+
+  name: Str = "Jack Shephard"
+或者使用类型推断来简化代码：
+
+  name := "Jack Shephard"
+流程控制语句
+--------
+if语句:
+
+  if (<cond>)
+  <block>
+  else if (<cond>)
+    <block>
+  else
+    <block>
+循环语句：
+
+  while (<cond>)
+    <block>
+for语句：
+
+  for (<init>; <cond>; <update>)
+    <block>
+Switch语句：
+
+  switch (<cond>)
+  {
+    case <label1>:
+      <block1>
+    case <label2>, <lable3>:
+      <block2>
+    ...
+    default:
+      <defaultBlock>
+  }
+switch不只支持整型，字符串、枚举等类型都支持。switch不支持break，并自动从case中break。
+
+异常处理
+--------
+  try {
+    <block>
+  }
+  catch (<type> <identifier>) {
+    <block>
+  }
+  catch {
+    <block>
+  }
+  finally {
+    <block>
+  }

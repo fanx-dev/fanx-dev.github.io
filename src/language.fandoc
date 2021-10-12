@@ -1,19 +1,22 @@
-Fanx语言概述
+Fanx语言
+************
+
+概述
 ============
 
 [语法一览]`sytaxOverview.html`
 
 [使用IDE工具]`https://zhuanlan.zhihu.com/p/113919752`
 
-[为什么创建Fanx编程语言]`https://zhuanlan.zhihu.com/p/62531407`
+[为什么用Fanx]`https://zhuanlan.zhihu.com/p/62531407`
 
 语法基础
 ============
-[基础类型和语句]`https://zhuanlan.zhihu.com/p/63202703`
+[基础类型和语句]`expr.html`
 
-[类型和类型系统]`https://zhuanlan.zhihu.com/p/63204105`
+[类型和类型系统]`type.html`
 
-[方法和闭包]`https://zhuanlan.zhihu.com/p/63206869`
+[方法和闭包]`func.html`
 
 
 语法进阶

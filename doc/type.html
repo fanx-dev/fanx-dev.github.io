@@ -1,0 +1,273 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>交流社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h2>类型和类型系统</h2>
+
+<h3>Pod</h3>
+
+<p>pod表示模块、部署单元、版本单元、命名空间。</p>
+
+<p>约定的目录结构如下：</p>
+
+<pre>- helloPod
+   - pod.props
+   - fan/
+       - Main.fanx
+   - test/
+       - Test.fanx
+</pre>
+
+<p>pod.props构建脚本用来指定pod的名称、版本、依赖关系。例如：</p>
+
+<pre>podName = hello
+summary = test lib
+version = 2.0
+srcDirs = test/,fan/
+depends = sys 1.0, std 1.0</pre>
+
+<h4>using语句</h4>
+
+<p>使用using语句来引用外部pod，或者pod中的类。例如：</p>
+
+<pre>using inet
+using inet::TcpSocket</pre>
+
+<h4>类型别名</h4>
+
+<pre>using blue::Foo as BlueFoo</pre>
+
+<h3>类型</h3>
+
+<p>fanx中类型包括class、mixin，其中class有可分为enum、facet、struct、data等。</p>
+
+<h4>mixin（混入）</h4>
+
+<p>接口带有实现，用来表达多继承。</p>
+
+<pre>mixin Audio
+{
+  abstract var volume: Int
+  fun incrementVolume() { volume += 1 }
+  fun decrementVolume() { volume -= 1 }
+}
+
+class Television : Audio
+{
+  override var volume : Int = 0
+}</pre>
+
+<h4>enum（枚举类）</h4>
+
+<p>enum class Color { red, blue, green } enum类编译器会自动生成一些方法：</p>
+
+<pre>apr := Month.apr              // direct access
+jun := Month.vals[5]          // lookup by ordinal
+aug := Month.fromStr("aug")   // lookup by name
+Month.fromStr("bad")          // throws ParseErr
+Month.fromStr("bad", false)   // returns null</pre>
+
+<h4>facet（注解类）</h4>
+
+<p>定义facet：</p>
+
+<pre>facet class Table
+{
+  const name : Int = ""
+  const autoCreate: Bool
+}</pre>
+
+<p>使用注解：</p>
+
+<pre>@Table { name = "Employees"; autoCreate = true }
+class Employee {}</pre>
+
+<h4>struct（结构类）</h4>
+
+<p>struct表示值语义的类型，编译器可能对这种类优化为堆上分配并按值传递。</p>
+
+<pre>const struct class Point {
+  const x: Int
+  const y: Int
+}
+p := Point{ x=1; y=2 }</pre>
+
+<h4>data（数据类）</h4>
+
+<p>自动生成toStr, hash, make, equals, compare等方法。</p>
+
+<pre>data class Point { var x: Float; var y: Float }
+p := Point(0.1, 2.0)
+echo(p)</pre>
+
+<h3>类型系统</h3>
+
+<h4>可空类型</h4>
+
+<p>在类型后面使用？表示是否可以存储null。</p>
+
+<pre>Str   // never stores null
+Str?  // might store null</pre>
+
+<h4>泛型类型</h4>
+
+<p>目前只支持泛型类，不支持泛型方法</p>
+
+<pre>class Foo&lt;T> {
+  var t: T?
+  fun get(): T { return t }
+}
+
+foo := Foo&lt;Str>()
+foo.t = "abc"</pre>
+
+<h4>隐式类型转换</h4>
+
+<p>fanx使用宽松的类型系统，在方法调用时隐式的自动转换类型。</p>
+
+<pre>fun func(x: Int): Int { ... }
+
+n : Num = 5
+s : Str = "foo"
+o : Num = 5.0
+
+// 隐式转换
+func(n)  =>  func(n as Int)
+
+// 编译错误
+func(s)  =>  error
+
+// 运行时错误
+func(o)  =>  Float to Int Exception</pre>
+
+<h3>不可变性</h3>
+
+<h4>const类型</h4>
+
+<p>如果类型有const标识，则表示不可变类型。不可变类型的所有字段必须都是const的，即深度不可变。</p>
+
+<pre>const class Point {
+   const x: Float
+   const y: Float
+   new make(|This| f) { f(this) }
+}</pre>
+
+<h4>let变量</h4>
+
+<p>类似于const，但表示浅层的不可变。</p>
+
+<pre>const p: Str       //deep immutable
+const p: StrBuf    //compile error
+let p: StrBuf      //shallow immutable</pre>
+
+<h4>运行时不可变</h4>
+
+<p>使用rtconst标示来重载如下方法，使得对象可以从可变对象变为不可变对象。</p>
+
+<pre>rtconst class Buf {
+  override fun isImmutable(): Bool { ... }
+  override fun toImmutable(): This { ... }
+}</pre>
+
+<h3>类型继承</h3>
+
+<p>类型可以继承一个virtual类型，和多个mixin类型。mixin只能继承mixin。</p>
+
+<pre>// class inheritance
+class SubClassA : BaseClass {}
+class SubClassB : MixinA, MixinB {}
+class SubClassC : BaseClass, MixinA, MixinB {}
+
+// mixin inheritance
+mixin MixinC : MixinA {}
+mixin MixinD : MixinA, MixinB {}</pre>
+
+<p>类型默认不能被继承，使用virutal表示是否可以被继承。</p>
+
+<h4>方法或者字段overrdie</h4>
+
+<pre>class Animal
+{
+  virtual fun talk() { echo("generic") }
+}
+
+class Cat : Animal
+{
+  override fun talk() { echo("meow") }
+}</pre>
+
+<p>使用override来重写virtual方法。非virtual方法不能重写。</p>
+
+<h4>返回类型协变</h4>
+
+<p>为了保证Liskov Substitution Principle原则，返回类型可以窄化而不能宽化。</p>
+
+<pre>abstract class Animal
+{
+  abstract fun mommy(): Animal
+  abstract fun daddy(): Animal
+}
+
+class Cat : Animal
+{
+  override fun mommy(): Cat {...}
+  override fun daddy(): Cat {...}
+}</pre>
+
+<h4>访问Super成员</h4>
+
+<p>使用super关键字：</p>
+
+<pre>// unnamed super
+super.someMethod()
+
+// named super
+Base.super.someMethod()</pre>
+
+   </div>
+ </body>
+ </html>
+ 
