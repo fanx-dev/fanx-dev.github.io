@@ -99,9 +99,9 @@ pre>
     - helloPod
        - pod.props
        - fan/
-           - Main.fan
+           - Main.fanx
        - test/
-           - Test.fan
+           - Test.fanx
 <pre
 
 pod.props用来指定pod的名称、版本、依赖关系。例如：
@@ -121,3 +121,7 @@ pod.props用来指定pod的名称、版本、依赖关系。例如：
     fan hello::Main.main
     fan hello::Main
     fan hello
+
+学习Fanx
+---------
+[学习更多]`../document.html`
