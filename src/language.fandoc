@@ -8,6 +8,8 @@ Fanx语言
 
 [为什么用Fanx]`whyFanx.html`
 
+[为什么用 := 这种语法？]`whyAssign.html`
+
 语法基础
 ============
 [基础类型和语句]`expr.html`
@@ -27,7 +29,12 @@ Fanx语言
 
 [Fanx的闭包不是DSL]`closure.html`
 
-[编码风格和约定]`conventions.html`
-
 [Fanx调用其他语言]`native.html`
+
+[中文编程支持]`unicode.html`
+
+其他
+============
+
+[编码风格和约定]`conventions.html`
 

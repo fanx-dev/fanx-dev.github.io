@@ -25,7 +25,7 @@ windows上的cmd比较难用，推荐使用git bash、msys2、Linux子系统等�
 --------
 FanIDE是为Fanx语言开发的IDE。使用见： `https://zhuanlan.zhihu.com/p/113919752`
 
-也可以使用Atom、Sublime、VSCode等编辑器，在插件管理里面搜Fantom插件并安装。
+也可以使用Atom、Sublime、VSCode等编辑器，在插件管理里面搜Fantom插件并安装。当然这些插件不支持.fanx格式，只支持.fan格式的语法。
 
 
 各种版本的HelloWorld

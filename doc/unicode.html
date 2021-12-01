@@ -1,0 +1,113 @@
+
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <html xmlns='http://www.w3.org/1999/xhtml'>
+ <head>
+   <title>Fanx</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="../common.css"/>
+   <link rel="stylesheet" type="text/css" href="style.css"/>
+   <style type="text/css">
+   #content .item { 
+     font-size:130%;
+     padding:10px;
+   }
+   #content h2 {
+     margin-top: 50px;
+   }
+
+   </style>
+ </head>
+ <body>
+   <div id="header">
+     <div class="sitebar">
+       <ul>
+         <li>
+           <a href='../index_zh.html'>首页</a>
+         </li>
+
+         <li>
+           <a href='../download.html'>下载</a>
+         </li>
+
+         <li>
+           <a href='../document.html'>文档</a>
+         </li>
+
+         <li>
+           <a href='../community_zh.html'>社区</a>
+         </li>
+      </ul>
+     </div>
+
+   </div>
+
+   <div class="content">
+   
+<h2>中文编程支持</h2>
+
+<h4>为什么需要中文编程</h4>
+
+<p>中文编程我更喜欢叫汉字编程，这样就没有歧义了，不然会被人误以为是自然语言编程。尽管很多人觉得汉字编程没有太大意义，但实际上它的需求可能很大，毕竟本科以上学历的人只占4%。</p>
+
+<h4>汉字编程示例</h4>
+
+<p>fanx语言中除了数字和符号外都支持汉字。代码可以写成这样：</p>
+
+<pre>类 一个类 {
+  静态 函数 主() {
+    甲 : 字符串型 = "你好1"
+    回显(甲)
+  }
+}</pre>
+
+<h4>汉字编程说明</h4>
+
+<p>我们按照语言的要素来说明</p>
+
+<ol style='list-style-type:decimal'>
+<li>标识符。可以使用汉字，或者其他Unicode字符作为标识符。</li>
+
+<li>关键字。Fanx每个关键字都有中文名称。</li>
+
+<li>阿拉伯数字和符号不支持汉字化。</li>
+
+<li>API汉化。理论上是支持的，要用到的API可以自己配置中文名。</li>
+
+<li>编译错误信息。计划中，目前还不支持。</li>
+</ol>
+
+<h4>配置中文名称</h4>
+
+<p>为了容易扩展，我们的关键字和API中文名都是可配置的。配置文件在etc/compilerx/alias.props文件。内容像这样：</p>
+
+<pre>异步=async
+让出=yield
+局部返回=lret
+等待=await
+取地址=addressof
+的大小=sizeof
+便宜=offsetof
+未初始化=uninit
+弱=weak
+变量=var
+让=let
+函数=fun
+
+整型=Int
+浮点型=Float
+字符串型=Str
+无型=Void
+长度=length
+大小=size
+时间=time
+日期=date
+回显=echo
+主=main
+文件型=File</pre>
+
+   </div>
+ </body>
+ </html>
+ 
