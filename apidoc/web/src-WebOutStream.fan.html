@@ -821,56 +821,62 @@
 <span id='line806'>  ** End a &lt;footer> tag.</span>
 <span id='line807'>  This footerEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"footer"<b>)</b>.nl <b>}</b></span>
 <span id='line808'></span>
-<span id='line809'>  ** Start a &lt;nav> tag.</span>
-<span id='line810'>  This nav<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"nav", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line809'>  ** Start a &lt;main> tag.</span>
+<span id='line810'>  This main<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"main", attrs<b>)</b>.nl <b>}</b></span>
 <span id='line811'></span>
-<span id='line812'>  ** End a &lt;nav> tag.</span>
-<span id='line813'>  This navEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"nav"<b>)</b>.nl <b>}</b></span>
+<span id='line812'>  ** End a &lt;main> tag.</span>
+<span id='line813'>  This mainEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"main"<b>)</b>.nl <b>}</b></span>
 <span id='line814'></span>
-<span id='line815'>  ** Start a &lt;section> tag.</span>
-<span id='line816'>  This section<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"section", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line815'>  ** Start a &lt;nav> tag.</span>
+<span id='line816'>  This nav<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"nav", attrs<b>)</b>.nl <b>}</b></span>
 <span id='line817'></span>
-<span id='line818'>  ** End a &lt;section> tag.</span>
-<span id='line819'>  This sectionEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"section"<b>)</b>.nl <b>}</b></span>
+<span id='line818'>  ** End a &lt;nav> tag.</span>
+<span id='line819'>  This navEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"nav"<b>)</b>.nl <b>}</b></span>
 <span id='line820'></span>
-<span id='line821'>  ** Start a &lt;article> tag.</span>
-<span id='line822'>  This article<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"article", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line821'>  ** Start a &lt;section> tag.</span>
+<span id='line822'>  This section<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"section", attrs<b>)</b>.nl <b>}</b></span>
 <span id='line823'></span>
-<span id='line824'>  ** End a &lt;article> tag.</span>
-<span id='line825'>  This articleEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"article"<b>)</b>.nl <b>}</b></span>
+<span id='line824'>  ** End a &lt;section> tag.</span>
+<span id='line825'>  This sectionEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"section"<b>)</b>.nl <b>}</b></span>
 <span id='line826'></span>
-<span id='line827'>  ** Start a &lt;aside> tag.</span>
-<span id='line828'>  This aside<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"aside", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line827'>  ** Start a &lt;article> tag.</span>
+<span id='line828'>  This article<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"article", attrs<b>)</b>.nl <b>}</b></span>
 <span id='line829'></span>
-<span id='line830'>  ** End a &lt;aside> tag.</span>
-<span id='line831'>  This asideEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"aside"<b>)</b>.nl <b>}</b></span>
+<span id='line830'>  ** End a &lt;article> tag.</span>
+<span id='line831'>  This articleEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"article"<b>)</b>.nl <b>}</b></span>
 <span id='line832'></span>
-<span id='line833'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line834'>// Utils</span>
-<span id='line835'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line836'></span>
-<span id='line837'>  **</span>
-<span id='line838'>  ** Write 'obj.toStr' to the stream as valid XML text.  The</span>
-<span id='line839'>  ** special control characters amp, lt, apos and quot are</span>
-<span id='line840'>  ** always escaped.  The gt char is escaped only if it is</span>
-<span id='line841'>  ** the first char or if preceeded by the '<b>]</b>' char.  Also</span>
-<span id='line842'>  ** see `sys::Str.toXml`.  If obj is null, then "null" is</span>
-<span id='line843'>  ** written.</span>
-<span id='line844'>  **</span>
-<span id='line845'>  This esc<b>(</b>Obj? obj<b>)</b></span>
-<span id='line846'>  <b>{</b></span>
-<span id='line847'>    if <b>(</b>obj == null<b>)</b> return w<b>(</b>"null"<b>)</b></span>
-<span id='line848'>    return XmlUtil.writeXml<b>(</b>this, obj.toStr, XmlUtil.xmlEscQuotes<b>)</b></span>
-<span id='line849'>  <b>}</b></span>
-<span id='line850'></span>
-<span id='line851'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line852'>// Fields</span>
-<span id='line853'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line854'></span>
-<span id='line855'>  private Uri<b>[</b><b>]</b>? cssUris  // what CSS uris have been added</span>
-<span id='line856'>  private Uri<b>[</b><b>]</b>? jsUris   // what JavaScript uris have been added</span>
-<span id='line857'></span>
-<span id='line858'><b>}</b></span>
+<span id='line833'>  ** Start a &lt;aside> tag.</span>
+<span id='line834'>  This aside<b>(</b>Str? attrs := null<b>)</b> <b>{</b> return tag<b>(</b>"aside", attrs<b>)</b>.nl <b>}</b></span>
+<span id='line835'></span>
+<span id='line836'>  ** End a &lt;aside> tag.</span>
+<span id='line837'>  This asideEnd<b>(</b><b>)</b> <b>{</b> return tagEnd<b>(</b>"aside"<b>)</b>.nl <b>}</b></span>
+<span id='line838'></span>
+<span id='line839'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line840'>// Utils</span>
+<span id='line841'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line842'></span>
+<span id='line843'>  **</span>
+<span id='line844'>  ** Write 'obj.toStr' to the stream as valid XML text.  The</span>
+<span id='line845'>  ** special control characters amp, lt, apos and quot are</span>
+<span id='line846'>  ** always escaped.  The gt char is escaped only if it is</span>
+<span id='line847'>  ** the first char or if preceeded by the '<b>]</b>' char.  Also</span>
+<span id='line848'>  ** see `sys::Str.toXml`.  If obj is null, then "null" is</span>
+<span id='line849'>  ** written.</span>
+<span id='line850'>  **</span>
+<span id='line851'>  This esc<b>(</b>Obj? obj<b>)</b></span>
+<span id='line852'>  <b>{</b></span>
+<span id='line853'>    if <b>(</b>obj == null<b>)</b> return w<b>(</b>"null"<b>)</b></span>
+<span id='line854'>    return XmlUtil.writeXml<b>(</b>this, obj.toStr, XmlUtil.xmlEscQuotes<b>)</b></span>
+<span id='line855'>  <b>}</b></span>
+<span id='line856'></span>
+<span id='line857'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line858'>// Fields</span>
+<span id='line859'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line860'></span>
+<span id='line861'>  private Uri<b>[</b><b>]</b>? cssUris  // what CSS uris have been added</span>
+<span id='line862'>  private Uri<b>[</b><b>]</b>? jsUris   // what JavaScript uris have been added</span>
+<span id='line863'></span>
+<span id='line864'><b>}</b></span>
 </pre>
 </div>
 </body>

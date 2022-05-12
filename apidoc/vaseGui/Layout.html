@@ -21,14 +21,6 @@
 
 <p>Tell parent how to layout this widget The parent may ignore the param</p>
 <dl>
-<dt id='equals'>
-equals</dt>
-<dd>
-<p class='sig'>
-<code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
-
-<p>Return if obj is same Point value.</p>
-</dd>
 <dt id='hAlign'>
 hAlign</dt>
 <dd>
@@ -37,13 +29,11 @@ hAlign</dt>
 
 <p>horizontal Alignment</p>
 </dd>
-<dt id='hash'>
-hash</dt>
+<dt id='hUnit'>
+hUnit</dt>
 <dd>
 <p class='sig'>
-<code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
-
-<p>Return hash of x and y.</p>
+<code> <a href='../sys/Str.html'>Str</a> hUnit := &quot;&quot;</code></p>
 </dd>
 <dt id='height'>
 height</dt>
@@ -83,29 +73,49 @@ offsetY</dt>
 
 <p>y position of widget.</p>
 </dd>
+<dt id='percent'>
+percent</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Str.html'>Str</a> percent := &quot;%&quot;</code></p>
+
+<p>Percent unit constant</p>
+</dd>
+<dt id='percentH'>
+percentH</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Str.html'>Str</a> percentH := &quot;%h&quot;</code></p>
+</dd>
+<dt id='percentW'>
+percentW</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Str.html'>Str</a> percentW := &quot;%w&quot;</code></p>
+</dd>
 <dt id='prefHeight'>
 prefHeight</dt>
 <dd>
 <p class='sig'>
-<code> <a href='../sys/Int.html'>Int</a> prefHeight(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentHeight, <a href='../sys/Int.html'>Int</a> selfHeight)</code></p>
+<code> <a href='../sys/Int.html'>Int</a> prefHeight(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentWidth, <a href='../sys/Int.html'>Int</a> parentHeight, <a href='../sys/Int.html'>Int</a> selfHeight)</code></p>
 </dd>
 <dt id='prefWidth'>
 prefWidth</dt>
 <dd>
 <p class='sig'>
-<code> <a href='../sys/Int.html'>Int</a> prefWidth(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentWidth, <a href='../sys/Int.html'>Int</a> selfWidth)</code></p>
+<code> <a href='../sys/Int.html'>Int</a> prefWidth(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentWidth, <a href='../sys/Int.html'>Int</a> parentHeight, <a href='../sys/Int.html'>Int</a> selfWidth)</code></p>
 </dd>
 <dt id='prefX'>
 prefX</dt>
 <dd>
 <p class='sig'>
-<code> <a href='../sys/Int.html'>Int</a> prefX(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentWidth, <a href='../sys/Int.html'>Int</a> selfWidth)</code></p>
+<code> <a href='../sys/Int.html'>Int</a> prefX(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentWidth, <a href='../sys/Int.html'>Int</a> parentHeight, <a href='../sys/Int.html'>Int</a> selfWidth)</code></p>
 </dd>
 <dt id='prefY'>
 prefY</dt>
 <dd>
 <p class='sig'>
-<code> <a href='../sys/Int.html'>Int</a> prefY(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentHeight, <a href='../sys/Int.html'>Int</a> selfHeight)</code></p>
+<code> <a href='../sys/Int.html'>Int</a> prefY(<a href='Widget.html'>Widget</a> w, <a href='../sys/Int.html'>Int</a> parentWidth, <a href='../sys/Int.html'>Int</a> parentHeight, <a href='../sys/Int.html'>Int</a> selfHeight)</code></p>
 </dd>
 <dt id='vAlign'>
 vAlign</dt>
@@ -114,6 +124,14 @@ vAlign</dt>
 <code> <a href='Align.html'>Align</a> vAlign := Align.begin</code></p>
 
 <p>vertical Alignment</p>
+</dd>
+<dt id='wUnit'>
+wUnit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> wUnit := &quot;&quot;</code></p>
+
+<p>the unit is percent of parent</p>
 </dd>
 <dt id='weight'>
 weight</dt>
@@ -139,6 +157,18 @@ wrapContent</dt>
 
 <p>preferred size by prefSize()</p>
 </dd>
+<dt id='xUnit'>
+xUnit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> xUnit := &quot;&quot;</code></p>
+</dd>
+<dt id='yUnit'>
+yUnit</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> yUnit := &quot;&quot;</code></p>
+</dd>
 </dl>
 </div>
 <div class='sidebar'>
@@ -147,10 +177,10 @@ wrapContent</dt>
 <li>Not available</li></ul>
 <h3>Static Slots</h3>
 <ul>
-<li><a href='#matchParent'>matchParent</a></li><li><a href='#wrapContent'>wrapContent</a></li></ul>
+<li><a href='#matchParent'>matchParent</a></li><li><a href='#percent'>percent</a></li><li><a href='#percentH'>percentH</a></li><li><a href='#percentW'>percentW</a></li><li><a href='#wrapContent'>wrapContent</a></li></ul>
 <h3>Instance Slots</h3>
 <ul>
-<li><a href='#equals'>equals</a></li><li><a href='#hAlign'>hAlign</a></li><li><a href='#hash'>hash</a></li><li><a href='#height'>height</a></li><li><a href='#ignored'>ignored</a></li><li><a href='#offsetX'>offsetX</a></li><li><a href='#offsetY'>offsetY</a></li><li><a href='#prefHeight'>prefHeight</a></li><li><a href='#prefWidth'>prefWidth</a></li><li><a href='#prefX'>prefX</a></li><li><a href='#prefY'>prefY</a></li><li><a href='#vAlign'>vAlign</a></li><li><a href='#weight'>weight</a></li><li><a href='#width'>width</a></li></ul>
+<li><a href='#hAlign'>hAlign</a></li><li><a href='#hUnit'>hUnit</a></li><li><a href='#height'>height</a></li><li><a href='#ignored'>ignored</a></li><li><a href='#offsetX'>offsetX</a></li><li><a href='#offsetY'>offsetY</a></li><li><a href='#prefHeight'>prefHeight</a></li><li><a href='#prefWidth'>prefWidth</a></li><li><a href='#prefX'>prefX</a></li><li><a href='#prefY'>prefY</a></li><li><a href='#vAlign'>vAlign</a></li><li><a href='#wUnit'>wUnit</a></li><li><a href='#weight'>weight</a></li><li><a href='#width'>width</a></li><li><a href='#xUnit'>xUnit</a></li><li><a href='#yUnit'>yUnit</a></li></ul>
 </div>
 </div>
 </body>

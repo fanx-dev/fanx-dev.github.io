@@ -103,1388 +103,1392 @@
 <span id='line88'>  ** automatically refreshed.</span>
 <span id='line89'>  Void sort<b>(</b>Int? col, Dir dir := Dir.up<b>)</b></span>
 <span id='line90'>  <b>{</b></span>
-<span id='line91'>    pivot = null</span>
-<span id='line92'>    view.sort<b>(</b>col, dir<b>)</b></span>
-<span id='line93'>    model.onSort<b>(</b>col, dir<b>)</b></span>
-<span id='line94'>    refresh</span>
-<span id='line95'>    cbSort?.call<b>(</b>this<b>)</b></span>
-<span id='line96'>  <b>}</b></span>
-<span id='line97'></span>
-<span id='line98'>  ** Scroll to the given row and column in table.  Pass 'null' to</span>
-<span id='line99'>  ** maintain the current scroll position for that axis.</span>
-<span id='line100'>  Void scrollTo<b>(</b>Int? col, Int? row<b>)</b></span>
-<span id='line101'>  <b>{</b></span>
-<span id='line102'>    // force viewport bounds</span>
-<span id='line103'>    if <b>(</b>numCols == 0 || colx.last + colw.last &lt;= tbodyw<b>)</b> col = null</span>
-<span id='line104'>    if <b>(</b>numRows &lt; numVisRows<b>)</b> row = null</span>
-<span id='line105'></span>
-<span id='line106'>    // update horiz scroll and row position</span>
-<span id='line107'>    if <b>(</b>col != null<b>)</b></span>
-<span id='line108'>    <b>{</b></span>
-<span id='line109'>      col = col.max<b>(</b>0<b>)</b>.min<b>(</b>numCols-1<b>)</b></span>
-<span id='line110'>      rx   := colx<b>[</b>col<b>]</b></span>
-<span id='line111'>      rw   := colw<b>[</b>col<b>]</b></span>
-<span id='line112'>      maxx := maxScrollx - tbodyw</span>
-<span id='line113'>      if <b>(</b>hasScrolly<b>)</b> maxx += overScroll</span>
-<span id='line114'>// echo<b>(</b>"# scollTo: $col -> $rx:$rw $maxx <b>[</b>$scrollx:$maxScrollx<b>]</b>"<b>)</b></span>
-<span id='line115'>      col = col.min<b>(</b>numCols - numVisCols<b>)</b>.max<b>(</b>0<b>)</b></span>
-<span id='line116'>      scrollx = rx.min<b>(</b>maxx<b>)</b></span>
-<span id='line117'>    <b>}</b></span>
-<span id='line118'></span>
-<span id='line119'>    // update vert scroll and row position</span>
-<span id='line120'>    if <b>(</b>row != null<b>)</b></span>
-<span id='line121'>    <b>{</b></span>
-<span id='line122'>      row = row.max<b>(</b>0<b>)</b>.min<b>(</b>numRows-1<b>)</b></span>
-<span id='line123'>      ry   := row * rowh</span>
-<span id='line124'>      miny := scrolly</span>
-<span id='line125'>      maxy := scrolly + tbodyh - rowh</span>
-<span id='line126'>      if <b>(</b>hasScrollx<b>)</b> maxy -= overScroll</span>
-<span id='line127'>// echo<b>(</b>"# scollTo: $row -> $ry min:$miny max:$maxy <b>[</b>$scrolly<b>]</b>"<b>)</b></span>
-<span id='line128'>      if <b>(</b>ry >= miny &amp;&amp; ry &lt;= maxy<b>)</b></span>
-<span id='line129'>      <b>{</b></span>
-<span id='line130'>        // already in view</span>
-<span id='line131'>        row = null</span>
-<span id='line132'>      <b>}</b></span>
-<span id='line133'>      else if <b>(</b>ry &lt; scrolly<b>)</b></span>
-<span id='line134'>      <b>{</b></span>
-<span id='line135'>        // scroll row into view</span>
-<span id='line136'>        scrolly = ry</span>
-<span id='line137'>      <b>}</b></span>
-<span id='line138'>      else</span>
-<span id='line139'>      <b>{</b></span>
-<span id='line140'>        // set first visible row, scroll last row into view</span>
-<span id='line141'>        scrolly = scrolly + <b>(</b>ry - maxy<b>)</b></span>
-<span id='line142'>        row = <b>(</b>scrolly / rowh<b>)</b>.min<b>(</b>numRows - numVisRows<b>)</b>.max<b>(</b>0<b>)</b></span>
-<span id='line143'>      <b>}</b></span>
-<span id='line144'>    <b>}</b></span>
-<span id='line145'></span>
-<span id='line146'>    // update content</span>
-<span id='line147'>    onUpdate<b>(</b>col ?: firstVisCol, row ?: firstVisRow<b>)</b></span>
-<span id='line148'>  <b>}</b></span>
+<span id='line91'>    if <b>(</b>!sortEnabled<b>)</b> return</span>
+<span id='line92'>    pivot = null</span>
+<span id='line93'>    view.sort<b>(</b>col, dir<b>)</b></span>
+<span id='line94'>    model.onSort<b>(</b>col, dir<b>)</b></span>
+<span id='line95'>    refresh</span>
+<span id='line96'>    cbSort?.call<b>(</b>this<b>)</b></span>
+<span id='line97'>  <b>}</b></span>
+<span id='line98'></span>
+<span id='line99'>  ** Flag to enable/disable column header sort</span>
+<span id='line100'>  @NoDoc Bool sortEnabled := true</span>
+<span id='line101'></span>
+<span id='line102'>  ** Scroll to the given row and column in table.  Pass 'null' to</span>
+<span id='line103'>  ** maintain the current scroll position for that axis.</span>
+<span id='line104'>  Void scrollTo<b>(</b>Int? col, Int? row<b>)</b></span>
+<span id='line105'>  <b>{</b></span>
+<span id='line106'>    // force viewport bounds</span>
+<span id='line107'>    if <b>(</b>numCols == 0 || colx.last + colw.last &lt;= tbodyw<b>)</b> col = null</span>
+<span id='line108'>    if <b>(</b>numRows &lt; numVisRows<b>)</b> row = null</span>
+<span id='line109'></span>
+<span id='line110'>    // update horiz scroll and row position</span>
+<span id='line111'>    if <b>(</b>col != null<b>)</b></span>
+<span id='line112'>    <b>{</b></span>
+<span id='line113'>      col = col.max<b>(</b>0<b>)</b>.min<b>(</b>numCols-1<b>)</b></span>
+<span id='line114'>      rx   := colx<b>[</b>col<b>]</b></span>
+<span id='line115'>      rw   := colw<b>[</b>col<b>]</b></span>
+<span id='line116'>      maxx := maxScrollx - tbodyw</span>
+<span id='line117'>      if <b>(</b>hasScrolly<b>)</b> maxx += overScroll</span>
+<span id='line118'>// echo<b>(</b>"# scollTo: $col -> $rx:$rw $maxx <b>[</b>$scrollx:$maxScrollx<b>]</b>"<b>)</b></span>
+<span id='line119'>      col = col.min<b>(</b>numCols - numVisCols<b>)</b>.max<b>(</b>0<b>)</b></span>
+<span id='line120'>      scrollx = rx.min<b>(</b>maxx<b>)</b></span>
+<span id='line121'>    <b>}</b></span>
+<span id='line122'></span>
+<span id='line123'>    // update vert scroll and row position</span>
+<span id='line124'>    if <b>(</b>row != null<b>)</b></span>
+<span id='line125'>    <b>{</b></span>
+<span id='line126'>      row = row.max<b>(</b>0<b>)</b>.min<b>(</b>numRows-1<b>)</b></span>
+<span id='line127'>      ry   := row * rowh</span>
+<span id='line128'>      miny := scrolly</span>
+<span id='line129'>      maxy := scrolly + tbodyh - rowh</span>
+<span id='line130'>      if <b>(</b>hasScrollx<b>)</b> maxy -= overScroll</span>
+<span id='line131'>// echo<b>(</b>"# scollTo: $row -> $ry min:$miny max:$maxy <b>[</b>$scrolly<b>]</b>"<b>)</b></span>
+<span id='line132'>      if <b>(</b>ry >= miny &amp;&amp; ry &lt;= maxy<b>)</b></span>
+<span id='line133'>      <b>{</b></span>
+<span id='line134'>        // already in view</span>
+<span id='line135'>        row = null</span>
+<span id='line136'>      <b>}</b></span>
+<span id='line137'>      else if <b>(</b>ry &lt; scrolly<b>)</b></span>
+<span id='line138'>      <b>{</b></span>
+<span id='line139'>        // scroll row into view</span>
+<span id='line140'>        scrolly = ry</span>
+<span id='line141'>      <b>}</b></span>
+<span id='line142'>      else</span>
+<span id='line143'>      <b>{</b></span>
+<span id='line144'>        // set first visible row, scroll last row into view</span>
+<span id='line145'>        scrolly = scrolly + <b>(</b>ry - maxy<b>)</b></span>
+<span id='line146'>        row = <b>(</b>scrolly / rowh<b>)</b>.min<b>(</b>numRows - numVisRows<b>)</b>.max<b>(</b>0<b>)</b></span>
+<span id='line147'>      <b>}</b></span>
+<span id='line148'>    <b>}</b></span>
 <span id='line149'></span>
-<span id='line150'>  ** Selection for table</span>
-<span id='line151'>  Selection sel <b>{</b> private set <b>}</b></span>
-<span id='line152'></span>
-<span id='line153'>  ** Callback when selection has changed but before taking effect.</span>
-<span id='line154'>  @NoDoc Void onBeforeSelect<b>(</b>|Int<b>[</b><b>]</b>->Bool| f<b>)</b> <b>{</b> cbBeforeSelect = f <b>}</b></span>
-<span id='line155'></span>
-<span id='line156'>  ** Callback when selection has changed.</span>
-<span id='line157'>  Void onSelect<b>(</b>|This| f<b>)</b> <b>{</b> cbSelect = f <b>}</b></span>
-<span id='line158'></span>
-<span id='line159'>  ** Callback when row is double-clicked.</span>
-<span id='line160'>  Void onAction<b>(</b>|This| f<b>)</b> <b>{</b> cbAction = f <b>}</b></span>
-<span id='line161'></span>
-<span id='line162'>  ** Callback when table is sorted by a column</span>
-<span id='line163'>  Void onSort<b>(</b>|This| f<b>)</b> <b>{</b> cbSort = f <b>}</b></span>
-<span id='line164'></span>
-<span id='line165'>  ** Callback when a key is pressed in table.</span>
-<span id='line166'>  // TODO: need to fix to take |This,Event| arg...</span>
-<span id='line167'>  @NoDoc Void onKeyDown<b>(</b>|Event| f<b>)</b> <b>{</b> cbKeyDown = f <b>}</b></span>
+<span id='line150'>    // update content</span>
+<span id='line151'>    onUpdate<b>(</b>col ?: firstVisCol, row ?: firstVisRow<b>)</b></span>
+<span id='line152'>  <b>}</b></span>
+<span id='line153'></span>
+<span id='line154'>  ** Selection for table</span>
+<span id='line155'>  Selection sel <b>{</b> private set <b>}</b></span>
+<span id='line156'></span>
+<span id='line157'>  ** Callback when selection has changed but before taking effect.</span>
+<span id='line158'>  @NoDoc Void onBeforeSelect<b>(</b>|Int<b>[</b><b>]</b>->Bool| f<b>)</b> <b>{</b> cbBeforeSelect = f <b>}</b></span>
+<span id='line159'></span>
+<span id='line160'>  ** Callback when selection has changed.</span>
+<span id='line161'>  Void onSelect<b>(</b>|This| f<b>)</b> <b>{</b> cbSelect = f <b>}</b></span>
+<span id='line162'></span>
+<span id='line163'>  ** Callback when row is double-clicked.</span>
+<span id='line164'>  Void onAction<b>(</b>|This| f<b>)</b> <b>{</b> cbAction = f <b>}</b></span>
+<span id='line165'></span>
+<span id='line166'>  ** Callback when table is sorted by a column</span>
+<span id='line167'>  Void onSort<b>(</b>|This| f<b>)</b> <b>{</b> cbSort = f <b>}</b></span>
 <span id='line168'></span>
-<span id='line169'>  ** Callback when a event occurs inside a table cell.</span>
-<span id='line170'>  Void onTableEvent<b>(</b>Str type, |TableEvent| f<b>)</b> <b>{</b> cbTableEvent<b>[</b>type<b>]</b> = f <b>}</b></span>
-<span id='line171'></span>
-<span id='line172'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line173'>// Update</span>
-<span id='line174'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line169'>  ** Callback when a key is pressed in table.</span>
+<span id='line170'>  // TODO: need to fix to take |This,Event| arg...</span>
+<span id='line171'>  @NoDoc Void onKeyDown<b>(</b>|Event| f<b>)</b> <b>{</b> cbKeyDown = f <b>}</b></span>
+<span id='line172'></span>
+<span id='line173'>  ** Callback when a event occurs inside a table cell.</span>
+<span id='line174'>  Void onTableEvent<b>(</b>Str type, |TableEvent| f<b>)</b> <b>{</b> cbTableEvent<b>[</b>type<b>]</b> = f <b>}</b></span>
 <span id='line175'></span>
-<span id='line176'>  ** Subclass hook to run when `rebuild` is invoked.</span>
-<span id='line177'>  @NoDoc protected virtual Void onBeforeRebuild<b>(</b><b>)</b> <b>{</b><b>}</b></span>
-<span id='line178'></span>
-<span id='line179'>  ** Rebuild table layout.</span>
-<span id='line180'>  Void rebuild<b>(</b><b>)</b></span>
-<span id='line181'>  <b>{</b></span>
-<span id='line182'>    if <b>(</b>this.size.w > 0f<b>)</b> doRebuild</span>
-<span id='line183'>    else Win.cur.setTimeout<b>(</b>16ms<b>)</b> |->| <b>{</b> rebuild <b>}</b></span>
-<span id='line184'>  <b>}</b></span>
-<span id='line185'></span>
-<span id='line186'>  ** Refresh table cell content.</span>
-<span id='line187'>  Void refresh<b>(</b><b>)</b></span>
-<span id='line188'>  <b>{</b></span>
-<span id='line189'>    refreshHeaders</span>
-<span id='line190'>    numVisRows.times |r|</span>
-<span id='line191'>    <b>{</b></span>
-<span id='line192'>      row := firstVisRow + r</span>
-<span id='line193'>      refreshRow<b>(</b>row<b>)</b></span>
-<span id='line194'>    <b>}</b></span>
-<span id='line195'>  <b>}</b></span>
-<span id='line196'></span>
-<span id='line197'>  ** Refresh all header content.</span>
-<span id='line198'>  private Void refreshHeaders<b>(</b><b>)</b></span>
-<span id='line199'>  <b>{</b></span>
-<span id='line200'>    numVisCols.times |c|</span>
-<span id='line201'>    <b>{</b></span>
-<span id='line202'>      col    := firstVisCol + c</span>
-<span id='line203'>      header := headers<b>[</b>col<b>]</b></span>
-<span id='line204'>      if <b>(</b>header == null<b>)</b> return</span>
-<span id='line205'>      refreshHeader<b>(</b>header, col<b>)</b></span>
-<span id='line206'>    <b>}</b></span>
-<span id='line207'>  <b>}</b></span>
-<span id='line208'></span>
-<span id='line209'>  ** Refresh single header content.</span>
-<span id='line210'>  private Void refreshHeader<b>(</b>Elem? header, Int col<b>)</b></span>
-<span id='line211'>  <b>{</b></span>
-<span id='line212'>    header = header ?: headers<b>[</b>col<b>]</b></span>
-<span id='line213'>    if <b>(</b>header == null<b>)</b> throw Err<b>(</b>"Header not found: $col"<b>)</b></span>
-<span id='line214'></span>
-<span id='line215'>    // update static style</span>
-<span id='line216'>    header.style.removeClass<b>(</b>"last"<b>)</b></span>
-<span id='line217'>    if <b>(</b>col == numCols-1<b>)</b> header.style.addClass<b>(</b>"last"<b>)</b></span>
+<span id='line176'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line177'>// Update</span>
+<span id='line178'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line179'></span>
+<span id='line180'>  ** Subclass hook to run when `rebuild` is invoked.</span>
+<span id='line181'>  @NoDoc protected virtual Void onBeforeRebuild<b>(</b><b>)</b> <b>{</b><b>}</b></span>
+<span id='line182'></span>
+<span id='line183'>  ** Rebuild table layout.</span>
+<span id='line184'>  Void rebuild<b>(</b><b>)</b></span>
+<span id='line185'>  <b>{</b></span>
+<span id='line186'>    if <b>(</b>this.size.w > 0f<b>)</b> doRebuild</span>
+<span id='line187'>    else Win.cur.setTimeout<b>(</b>16ms<b>)</b> |->| <b>{</b> rebuild <b>}</b></span>
+<span id='line188'>  <b>}</b></span>
+<span id='line189'></span>
+<span id='line190'>  ** Refresh table cell content.</span>
+<span id='line191'>  Void refresh<b>(</b><b>)</b></span>
+<span id='line192'>  <b>{</b></span>
+<span id='line193'>    refreshHeaders</span>
+<span id='line194'>    numVisRows.times |r|</span>
+<span id='line195'>    <b>{</b></span>
+<span id='line196'>      row := firstVisRow + r</span>
+<span id='line197'>      refreshRow<b>(</b>row<b>)</b></span>
+<span id='line198'>    <b>}</b></span>
+<span id='line199'>  <b>}</b></span>
+<span id='line200'></span>
+<span id='line201'>  ** Refresh all header content.</span>
+<span id='line202'>  private Void refreshHeaders<b>(</b><b>)</b></span>
+<span id='line203'>  <b>{</b></span>
+<span id='line204'>    numVisCols.times |c|</span>
+<span id='line205'>    <b>{</b></span>
+<span id='line206'>      col    := firstVisCol + c</span>
+<span id='line207'>      header := headers<b>[</b>col<b>]</b></span>
+<span id='line208'>      if <b>(</b>header == null<b>)</b> return</span>
+<span id='line209'>      refreshHeader<b>(</b>header, col<b>)</b></span>
+<span id='line210'>    <b>}</b></span>
+<span id='line211'>  <b>}</b></span>
+<span id='line212'></span>
+<span id='line213'>  ** Refresh single header content.</span>
+<span id='line214'>  private Void refreshHeader<b>(</b>Elem? header, Int col<b>)</b></span>
+<span id='line215'>  <b>{</b></span>
+<span id='line216'>    header = header ?: headers<b>[</b>col<b>]</b></span>
+<span id='line217'>    if <b>(</b>header == null<b>)</b> throw Err<b>(</b>"Header not found: $col"<b>)</b></span>
 <span id='line218'></span>
-<span id='line219'>    // update sort icon</span>
-<span id='line220'>    if <b>(</b>col &lt; numCols &amp;&amp; view.colViewToModel<b>(</b>col<b>)</b> == view.sortCol<b>)</b></span>
-<span id='line221'>    <b>{</b></span>
-<span id='line222'>      header.style</span>
-<span id='line223'>        .addClass<b>(</b>"domkit-Table-header-sort"<b>)</b></span>
-<span id='line224'>        .removeClass<b>(</b>"down up popup"<b>)</b></span>
-<span id='line225'>        .addClass<b>(</b>sortDir == Dir.up ? "up" : "down"<b>)</b></span>
-<span id='line226'>      if <b>(</b>col == numCols-1 &amp;&amp; hasHpbut<b>)</b> header.style.addClass<b>(</b>"popup"<b>)</b></span>
-<span id='line227'>    <b>}</b></span>
-<span id='line228'>    else</span>
-<span id='line229'>    <b>{</b></span>
-<span id='line230'>      header.style</span>
-<span id='line231'>        .removeClass<b>(</b>"domkit-Table-header-sort"<b>)</b></span>
-<span id='line232'>        .removeClass<b>(</b>"down up popup"<b>)</b></span>
-<span id='line233'>    <b>}</b></span>
-<span id='line234'></span>
-<span id='line235'>    // update model content</span>
-<span id='line236'>    if <b>(</b>col &lt; numCols<b>)</b> view.onHeader<b>(</b>header, col<b>)</b></span>
-<span id='line237'>  <b>}</b></span>
+<span id='line219'>    // update static style</span>
+<span id='line220'>    header.style.removeClass<b>(</b>"last"<b>)</b></span>
+<span id='line221'>    if <b>(</b>col == numCols-1<b>)</b> header.style.addClass<b>(</b>"last"<b>)</b></span>
+<span id='line222'></span>
+<span id='line223'>    // update sort icon</span>
+<span id='line224'>    if <b>(</b>col &lt; numCols &amp;&amp; view.colViewToModel<b>(</b>col<b>)</b> == view.sortCol<b>)</b></span>
+<span id='line225'>    <b>{</b></span>
+<span id='line226'>      header.style</span>
+<span id='line227'>        .addClass<b>(</b>"domkit-Table-header-sort"<b>)</b></span>
+<span id='line228'>        .removeClass<b>(</b>"down up popup"<b>)</b></span>
+<span id='line229'>        .addClass<b>(</b>sortDir == Dir.up ? "up" : "down"<b>)</b></span>
+<span id='line230'>      if <b>(</b>col == numCols-1 &amp;&amp; hasHpbut<b>)</b> header.style.addClass<b>(</b>"popup"<b>)</b></span>
+<span id='line231'>    <b>}</b></span>
+<span id='line232'>    else</span>
+<span id='line233'>    <b>{</b></span>
+<span id='line234'>      header.style</span>
+<span id='line235'>        .removeClass<b>(</b>"domkit-Table-header-sort"<b>)</b></span>
+<span id='line236'>        .removeClass<b>(</b>"down up popup"<b>)</b></span>
+<span id='line237'>    <b>}</b></span>
 <span id='line238'></span>
-<span id='line239'>  ** Refresh single row content.</span>
-<span id='line240'>  internal Void refreshRow<b>(</b>Int row<b>)</b></span>
-<span id='line241'>  <b>{</b></span>
-<span id='line242'>    // short-circuit if not in view</span>
-<span id='line243'>    if <b>(</b>row &lt; firstVisRow || row > firstVisRow + numVisRows<b>)</b> return</span>
-<span id='line244'></span>
-<span id='line245'>    numVisCols.times |c|</span>
-<span id='line246'>    <b>{</b></span>
-<span id='line247'>      col  := firstVisCol + c</span>
-<span id='line248'>      pos  := TablePos<b>(</b>col, row<b>)</b></span>
-<span id='line249'>      cell := cells<b>[</b>pos<b>]</b></span>
-<span id='line250'>      if <b>(</b>cell == null<b>)</b> return</span>
-<span id='line251'>      refreshCell<b>(</b>cell, pos.col, pos.row<b>)</b></span>
-<span id='line252'>    <b>}</b></span>
-<span id='line253'>  <b>}</b></span>
-<span id='line254'></span>
-<span id='line255'>  ** Refresh single cell content.</span>
-<span id='line256'>  private Void refreshCell<b>(</b>Elem? cell, Int col, Int row<b>)</b></span>
-<span id='line257'>  <b>{</b></span>
-<span id='line258'>    // get cell</span>
-<span id='line259'>    cell = cell ?: cells<b>[</b>TablePos<b>(</b>col, row<b>)</b><b>]</b></span>
-<span id='line260'>    if <b>(</b>cell == null<b>)</b> throw Err<b>(</b>"Cell not found: $col,$row"<b>)</b></span>
-<span id='line261'></span>
-<span id='line262'>    // update static view style</span>
-<span id='line263'>    cell.style.removeClass<b>(</b>"last"<b>)</b>.removeClass<b>(</b>"domkit-sel"<b>)</b></span>
-<span id='line264'>    if <b>(</b>stripeClasses.size > 0<b>)</b></span>
-<span id='line265'>    <b>{</b></span>
-<span id='line266'>      stripeClasses.each |c| <b>{</b> cell.style.removeClass<b>(</b>c<b>)</b> <b>}</b></span>
-<span id='line267'>      cell.style.addClass<b>(</b>stripeClasses<b>[</b>row % stripeClasses.size<b>]</b><b>)</b></span>
-<span id='line268'>    <b>}</b></span>
-<span id='line269'>    if <b>(</b>col == numCols-1<b>)</b> cell.style.addClass<b>(</b>"last"<b>)</b></span>
-<span id='line270'></span>
-<span id='line271'>    // update model content</span>
-<span id='line272'>    if <b>(</b>col &lt; numCols &amp;&amp; row &lt; numRows<b>)</b></span>
-<span id='line273'>    <b>{</b></span>
-<span id='line274'>      rowSel := sel.indexes.binarySearch<b>(</b>view.rowViewToModel<b>(</b>row<b>)</b><b>)</b> >= 0</span>
-<span id='line275'>      if <b>(</b>rowSel<b>)</b> cell.style.addClass<b>(</b>"domkit-sel"<b>)</b></span>
-<span id='line276'></span>
-<span id='line277'>      flags := TableFlags</span>
-<span id='line278'>      <b>{</b></span>
-<span id='line279'>        it.focused  = manFocus</span>
-<span id='line280'>        it.selected = rowSel</span>
-<span id='line281'>      <b>}</b></span>
-<span id='line282'></span>
-<span id='line283'>      view.onCell<b>(</b>cell, col, row, flags<b>)</b></span>
-<span id='line284'>    <b>}</b></span>
-<span id='line285'>  <b>}</b></span>
+<span id='line239'>    // update model content</span>
+<span id='line240'>    if <b>(</b>col &lt; numCols<b>)</b> view.onHeader<b>(</b>header, col<b>)</b></span>
+<span id='line241'>  <b>}</b></span>
+<span id='line242'></span>
+<span id='line243'>  ** Refresh single row content.</span>
+<span id='line244'>  internal Void refreshRow<b>(</b>Int row<b>)</b></span>
+<span id='line245'>  <b>{</b></span>
+<span id='line246'>    // short-circuit if not in view</span>
+<span id='line247'>    if <b>(</b>row &lt; firstVisRow || row > firstVisRow + numVisRows<b>)</b> return</span>
+<span id='line248'></span>
+<span id='line249'>    numVisCols.times |c|</span>
+<span id='line250'>    <b>{</b></span>
+<span id='line251'>      col  := firstVisCol + c</span>
+<span id='line252'>      pos  := TablePos<b>(</b>col, row<b>)</b></span>
+<span id='line253'>      cell := cells<b>[</b>pos<b>]</b></span>
+<span id='line254'>      if <b>(</b>cell == null<b>)</b> return</span>
+<span id='line255'>      refreshCell<b>(</b>cell, pos.col, pos.row<b>)</b></span>
+<span id='line256'>    <b>}</b></span>
+<span id='line257'>  <b>}</b></span>
+<span id='line258'></span>
+<span id='line259'>  ** Refresh single cell content.</span>
+<span id='line260'>  private Void refreshCell<b>(</b>Elem? cell, Int col, Int row<b>)</b></span>
+<span id='line261'>  <b>{</b></span>
+<span id='line262'>    // get cell</span>
+<span id='line263'>    cell = cell ?: cells<b>[</b>TablePos<b>(</b>col, row<b>)</b><b>]</b></span>
+<span id='line264'>    if <b>(</b>cell == null<b>)</b> throw Err<b>(</b>"Cell not found: $col,$row"<b>)</b></span>
+<span id='line265'></span>
+<span id='line266'>    // update static view style</span>
+<span id='line267'>    cell.style.removeClass<b>(</b>"last"<b>)</b>.removeClass<b>(</b>"domkit-sel"<b>)</b></span>
+<span id='line268'>    if <b>(</b>stripeClasses.size > 0<b>)</b></span>
+<span id='line269'>    <b>{</b></span>
+<span id='line270'>      stripeClasses.each |c| <b>{</b> cell.style.removeClass<b>(</b>c<b>)</b> <b>}</b></span>
+<span id='line271'>      cell.style.addClass<b>(</b>stripeClasses<b>[</b>row % stripeClasses.size<b>]</b><b>)</b></span>
+<span id='line272'>    <b>}</b></span>
+<span id='line273'>    if <b>(</b>col == numCols-1<b>)</b> cell.style.addClass<b>(</b>"last"<b>)</b></span>
+<span id='line274'></span>
+<span id='line275'>    // update model content</span>
+<span id='line276'>    if <b>(</b>col &lt; numCols &amp;&amp; row &lt; numRows<b>)</b></span>
+<span id='line277'>    <b>{</b></span>
+<span id='line278'>      rowSel := sel.indexes.binarySearch<b>(</b>view.rowViewToModel<b>(</b>row<b>)</b><b>)</b> >= 0</span>
+<span id='line279'>      if <b>(</b>rowSel<b>)</b> cell.style.addClass<b>(</b>"domkit-sel"<b>)</b></span>
+<span id='line280'></span>
+<span id='line281'>      flags := TableFlags</span>
+<span id='line282'>      <b>{</b></span>
+<span id='line283'>        it.focused  = manFocus</span>
+<span id='line284'>        it.selected = rowSel</span>
+<span id='line285'>      <b>}</b></span>
 <span id='line286'></span>
-<span id='line287'>  ** Callback from refresh with valid layout dimensions.</span>
-<span id='line288'>  private Void doRebuild<b>(</b><b>)</b></span>
-<span id='line289'>  <b>{</b></span>
-<span id='line290'>    // subclass rebuild hook</span>
-<span id='line291'>    onBeforeRebuild</span>
-<span id='line292'></span>
-<span id='line293'>    // update view first so downstream checks work properly</span>
-<span id='line294'>    view.refresh</span>
-<span id='line295'>    view.sort<b>(</b>view.sortCol, view.sortDir<b>)</b></span>
-<span id='line296'>    this.numCols = view.numCols</span>
-<span id='line297'>    this.numRows = view.numRows</span>
-<span id='line298'></span>
-<span id='line299'>    // refresh sel and reset dom caches</span>
-<span id='line300'>    sel.refresh</span>
-<span id='line301'>    headers.clear</span>
-<span id='line302'>    cells.clear</span>
-<span id='line303'></span>
-<span id='line304'>    // get container dims</span>
-<span id='line305'>    tbodysz := this.size</span>
-<span id='line306'>    this.theadh  = showHeader ? view.headerHeight : 0</span>
-<span id='line307'>    this.tbodyw  = tbodysz.w.toInt</span>
-<span id='line308'>    this.tbodyh  = tbodysz.h.toInt - theadh</span>
-<span id='line309'></span>
-<span id='line310'>    // cache layout vars</span>
-<span id='line311'>    cx := 0</span>
-<span id='line312'>    this.colx.clear</span>
-<span id='line313'>    this.colw.clear</span>
-<span id='line314'>    this.numCols.times |c|</span>
-<span id='line315'>    <b>{</b></span>
-<span id='line316'>      cw := ucolw<b>[</b>c<b>]</b> ?: view.colWidth<b>(</b>c<b>)</b></span>
-<span id='line317'>      if <b>(</b>c == numCols-1 &amp;&amp; hasHpbut<b>)</b> cw += hpbutw + 4</span>
-<span id='line318'>      this.colx.add<b>(</b>cx<b>)</b></span>
-<span id='line319'>      this.colw.add<b>(</b>cw<b>)</b></span>
-<span id='line320'>      cx += cw</span>
-<span id='line321'>    <b>}</b></span>
-<span id='line322'>    this.rowh    = view.rowHeight</span>
-<span id='line323'>    this.numVisCols = findMaxVisCols + 2</span>
-<span id='line324'>    this.numVisRows = tbodyh / rowh + 2</span>
-<span id='line325'></span>
-<span id='line326'>    // setup scrollbox</span>
-<span id='line327'>    this.scrollx = 0</span>
-<span id='line328'>    this.scrolly = 0</span>
-<span id='line329'>    this.maxScrollx = colw.reduce<b>(</b>0<b>)</b> |Int r, Int w->Int| <b>{</b> r + w <b>}</b></span>
-<span id='line330'>    this.maxScrolly = numRows * rowh</span>
-<span id='line331'>    this.firstVisCol = 0</span>
-<span id='line332'>    this.firstVisRow = 0</span>
-<span id='line333'></span>
-<span id='line334'>    // setup scrollbars</span>
-<span id='line335'>    this.hasScrollx = maxScrollx > tbodyw</span>
-<span id='line336'>    this.hasScrolly = maxScrolly > tbodyh</span>
-<span id='line337'>    this.hbar = makeScrollBar<b>(</b>Dir.right<b>)</b></span>
-<span id='line338'>    this.vbar = makeScrollBar<b>(</b>Dir.down<b>)</b></span>
-<span id='line339'></span>
-<span id='line340'>    // expand to table width if needed</span>
-<span id='line341'>    if <b>(</b>maxScrollx &lt;= tbodyw<b>)</b></span>
-<span id='line342'>    <b>{</b></span>
-<span id='line343'>      if <b>(</b>numCols == 0<b>)</b> this.numVisCols = 0</span>
-<span id='line344'>      else</span>
-<span id='line345'>      <b>{</b></span>
-<span id='line346'>        this.numVisCols = numCols</span>
-<span id='line347'>        this.colw<b>[</b>-1<b>]</b> = tbodyw - colx.last</span>
-<span id='line348'>      <b>}</b></span>
-<span id='line349'>    <b>}</b></span>
-<span id='line350'>    else if <b>(</b>hasScrolly<b>)</b></span>
-<span id='line351'>    <b>{</b></span>
-<span id='line352'>      this.colw<b>[</b>-1<b>]</b> += overScroll</span>
+<span id='line287'>      view.onCell<b>(</b>cell, col, row, flags<b>)</b></span>
+<span id='line288'>    <b>}</b></span>
+<span id='line289'>  <b>}</b></span>
+<span id='line290'></span>
+<span id='line291'>  ** Callback from refresh with valid layout dimensions.</span>
+<span id='line292'>  private Void doRebuild<b>(</b><b>)</b></span>
+<span id='line293'>  <b>{</b></span>
+<span id='line294'>    // subclass rebuild hook</span>
+<span id='line295'>    onBeforeRebuild</span>
+<span id='line296'></span>
+<span id='line297'>    // update view first so downstream checks work properly</span>
+<span id='line298'>    view.refresh</span>
+<span id='line299'>    view.sort<b>(</b>view.sortCol, view.sortDir<b>)</b></span>
+<span id='line300'>    this.numCols = view.numCols</span>
+<span id='line301'>    this.numRows = view.numRows</span>
+<span id='line302'></span>
+<span id='line303'>    // refresh sel and reset dom caches</span>
+<span id='line304'>    sel.refresh</span>
+<span id='line305'>    headers.clear</span>
+<span id='line306'>    cells.clear</span>
+<span id='line307'></span>
+<span id='line308'>    // get container dims</span>
+<span id='line309'>    tbodysz := this.size</span>
+<span id='line310'>    this.theadh  = showHeader ? view.headerHeight : 0</span>
+<span id='line311'>    this.tbodyw  = tbodysz.w.toInt</span>
+<span id='line312'>    this.tbodyh  = tbodysz.h.toInt - theadh</span>
+<span id='line313'></span>
+<span id='line314'>    // cache layout vars</span>
+<span id='line315'>    cx := 0</span>
+<span id='line316'>    this.colx.clear</span>
+<span id='line317'>    this.colw.clear</span>
+<span id='line318'>    this.numCols.times |c|</span>
+<span id='line319'>    <b>{</b></span>
+<span id='line320'>      cw := ucolw<b>[</b>c<b>]</b> ?: view.colWidth<b>(</b>c<b>)</b></span>
+<span id='line321'>      if <b>(</b>c == numCols-1 &amp;&amp; hasHpbut<b>)</b> cw += hpbutw + 4</span>
+<span id='line322'>      this.colx.add<b>(</b>cx<b>)</b></span>
+<span id='line323'>      this.colw.add<b>(</b>cw<b>)</b></span>
+<span id='line324'>      cx += cw</span>
+<span id='line325'>    <b>}</b></span>
+<span id='line326'>    this.rowh    = view.rowHeight</span>
+<span id='line327'>    this.numVisCols = findMaxVisCols + 2</span>
+<span id='line328'>    this.numVisRows = tbodyh / rowh + 2</span>
+<span id='line329'></span>
+<span id='line330'>    // setup scrollbox</span>
+<span id='line331'>    this.scrollx = 0</span>
+<span id='line332'>    this.scrolly = 0</span>
+<span id='line333'>    this.maxScrollx = colw.reduce<b>(</b>0<b>)</b> |Int r, Int w->Int| <b>{</b> r + w <b>}</b></span>
+<span id='line334'>    this.maxScrolly = numRows * rowh</span>
+<span id='line335'>    this.firstVisCol = 0</span>
+<span id='line336'>    this.firstVisRow = 0</span>
+<span id='line337'></span>
+<span id='line338'>    // setup scrollbars</span>
+<span id='line339'>    this.hasScrollx = maxScrollx > tbodyw</span>
+<span id='line340'>    this.hasScrolly = maxScrolly > tbodyh</span>
+<span id='line341'>    this.hbar = makeScrollBar<b>(</b>Dir.right<b>)</b></span>
+<span id='line342'>    this.vbar = makeScrollBar<b>(</b>Dir.down<b>)</b></span>
+<span id='line343'></span>
+<span id='line344'>    // expand to table width if needed</span>
+<span id='line345'>    if <b>(</b>maxScrollx &lt;= tbodyw<b>)</b></span>
+<span id='line346'>    <b>{</b></span>
+<span id='line347'>      if <b>(</b>numCols == 0<b>)</b> this.numVisCols = 0</span>
+<span id='line348'>      else</span>
+<span id='line349'>      <b>{</b></span>
+<span id='line350'>        this.numVisCols = numCols</span>
+<span id='line351'>        this.colw<b>[</b>-1<b>]</b> = tbodyw - colx.last</span>
+<span id='line352'>      <b>}</b></span>
 <span id='line353'>    <b>}</b></span>
-<span id='line354'></span>
-<span id='line355'>    // // debug</span>
-<span id='line356'>    // echo<b>(</b>"# Table.refresh</span>
-<span id='line357'>    //       #    tbodyw:      $tbodyw</span>
-<span id='line358'>    //       #    tbodyh:      $tbodyh</span>
-<span id='line359'>    //       #    numCols:     $numCols</span>
-<span id='line360'>    //       #    numRows:     $numRows</span>
-<span id='line361'>    //       #    rowh:        $rowh</span>
-<span id='line362'>    //       #    numVisCols:  $numVisCols</span>
-<span id='line363'>    //       #    numVisRows:  $numVisRows</span>
-<span id='line364'>    //       #    maxScrollx:  $maxScrollx</span>
-<span id='line365'>    //       #    maxScrolly:  $maxScrolly</span>
-<span id='line366'>    //       "<b>)</b></span>
-<span id='line367'></span>
-<span id='line368'>    // setup thead</span>
-<span id='line369'>    this.thead = Elem</span>
-<span id='line370'>    <b>{</b></span>
-<span id='line371'>      it.style.addClass<b>(</b>"domkit-Table-thead"<b>)</b></span>
-<span id='line372'>      it.style->height = "$<b>{</b>theadh<b>}</b>px"</span>
-<span id='line373'>      if <b>(</b>theadh == 0<b>)</b> it.style->display = "none"</span>
-<span id='line374'>    <b>}</b></span>
-<span id='line375'>    numVisCols.times |c|</span>
-<span id='line376'>    <b>{</b></span>
-<span id='line377'>      header := Elem</span>
-<span id='line378'>      <b>{</b></span>
-<span id='line379'>        it.style.addClass<b>(</b>"domkit-Table-header"<b>)</b></span>
-<span id='line380'>        it.style->width  = "$<b>{</b>colwSafe<b>(</b>c<b>)</b><b>}</b>px"</span>
-<span id='line381'>        it.style->lineHeight = "$<b>{</b>theadh+1<b>}</b>px"</span>
-<span id='line382'>        if <b>(</b>c == numCols-1<b>)</b> it.style.addClass<b>(</b>"last"<b>)</b></span>
-<span id='line383'>      <b>}</b></span>
-<span id='line384'>      headers<b>[</b>c<b>]</b> = header</span>
-<span id='line385'>      refreshHeader<b>(</b>header, c<b>)</b></span>
-<span id='line386'>      thead.add<b>(</b>header<b>)</b></span>
-<span id='line387'>    <b>}</b></span>
-<span id='line388'></span>
-<span id='line389'>    // setup header popup</span>
-<span id='line390'>    if <b>(</b>cbHeaderPopup == null<b>)</b></span>
-<span id='line391'>    <b>{</b></span>
-<span id='line392'>      this.hpbut = null</span>
-<span id='line393'>      this.hasHpbut = false</span>
-<span id='line394'>    <b>}</b></span>
-<span id='line395'>    else</span>
-<span id='line396'>    <b>{</b></span>
-<span id='line397'>      this.hpbut = Elem</span>
-<span id='line398'>      <b>{</b></span>
-<span id='line399'>        mtop := <b>(</b><b>(</b>theadh-21<b>)</b> / 2<b>)</b> + 3</span>
-<span id='line400'>        it.style.addClass<b>(</b>"domkit-Table-header-popup"<b>)</b></span>
-<span id='line401'>        it.style->height = "$<b>{</b>theadh<b>}</b>px"</span>
-<span id='line402'>        it.add<b>(</b>Elem <b>{</b> it.style->marginTop="$<b>{</b>mtop<b>}</b>px" <b>}</b><b>)</b></span>
-<span id='line403'>        it.add<b>(</b>Elem <b>{</b><b>}</b><b>)</b></span>
-<span id='line404'>        it.add<b>(</b>Elem <b>{</b><b>}</b><b>)</b></span>
-<span id='line405'>      <b>}</b></span>
-<span id='line406'>      this.hasHpbut = true</span>
-<span id='line407'>      thead.add<b>(</b>hpbut<b>)</b></span>
-<span id='line408'>    <b>}</b></span>
-<span id='line409'></span>
-<span id='line410'>    // setup tbody</span>
-<span id='line411'>    this.tbody = Elem</span>
-<span id='line412'>    <b>{</b></span>
-<span id='line413'>      it.style.addClass<b>(</b>"domkit-Table-tbody"<b>)</b></span>
-<span id='line414'>      it.style->top = "$<b>{</b>theadh<b>}</b>px"</span>
-<span id='line415'>    <b>}</b></span>
-<span id='line416'>    numVisRows.times |r|</span>
-<span id='line417'>    <b>{</b></span>
-<span id='line418'>      numVisCols.times |c|</span>
-<span id='line419'>      <b>{</b></span>
-<span id='line420'>        // TODO FIXIT: seems like an awful lot of overlap of</span>
-<span id='line421'>        // refreshCell - should look at collapsing behavoir here</span>
-<span id='line422'>        rowSel := false</span>
-<span id='line423'>        cell := Elem</span>
-<span id='line424'>        <b>{</b></span>
-<span id='line425'>          it.style.addClass<b>(</b>"domkit-Table-cell"<b>)</b></span>
-<span id='line426'>          if <b>(</b>stripeClasses.size > 0<b>)</b></span>
-<span id='line427'>            it.style.addClass<b>(</b>stripeClasses<b>[</b>r % stripeClasses.size<b>]</b><b>)</b></span>
-<span id='line428'>          if <b>(</b>c == numCols-1<b>)</b> it.style.addClass<b>(</b>"last"<b>)</b></span>
-<span id='line429'>          if <b>(</b>c &lt; numCols &amp;&amp; r &lt; numRows<b>)</b></span>
-<span id='line430'>          <b>{</b></span>
-<span id='line431'>            if <b>(</b>sel.indexes.binarySearch<b>(</b>view.rowViewToModel<b>(</b>r<b>)</b><b>)</b> >= 0<b>)</b></span>
-<span id='line432'>            <b>{</b></span>
-<span id='line433'>              it.style.addClass<b>(</b>"domkit-sel"<b>)</b></span>
-<span id='line434'>              rowSel = true</span>
-<span id='line435'>            <b>}</b></span>
-<span id='line436'>          <b>}</b></span>
-<span id='line437'>          it.style->width = "$<b>{</b>colwSafe<b>(</b>c<b>)</b><b>}</b>px"</span>
-<span id='line438'>          it.style->height = "$<b>{</b>rowh<b>}</b>px"</span>
-<span id='line439'>          it.style->lineHeight = "$<b>{</b>rowh+1<b>}</b>px"</span>
-<span id='line440'>        <b>}</b></span>
-<span id='line441'>        flags := TableFlags</span>
-<span id='line442'>        <b>{</b></span>
-<span id='line443'>          it.focused  = manFocus</span>
-<span id='line444'>          it.selected = rowSel</span>
-<span id='line445'>        <b>}</b></span>
-<span id='line446'>        cells<b>[</b>TablePos<b>(</b>c, r<b>)</b><b>]</b> = cell</span>
-<span id='line447'>        if <b>(</b>c &lt; numCols &amp;&amp; r &lt; numRows<b>)</b> view.onCell<b>(</b>cell, c, r, flags<b>)</b></span>
-<span id='line448'>        tbody.add<b>(</b>cell<b>)</b></span>
-<span id='line449'>      <b>}</b></span>
-<span id='line450'>    <b>}</b></span>
-<span id='line451'></span>
-<span id='line452'>    // update dom</span>
-<span id='line453'>    removeAll</span>
-<span id='line454'>    add<b>(</b>thead<b>)</b></span>
-<span id='line455'>    add<b>(</b>tbody<b>)</b></span>
-<span id='line456'>    add<b>(</b>hbar<b>)</b></span>
-<span id='line457'>    add<b>(</b>vbar<b>)</b></span>
-<span id='line458'>    onUpdate<b>(</b>0,0<b>)</b></span>
-<span id='line459'>  <b>}</b></span>
-<span id='line460'></span>
-<span id='line461'>  ** Create scrollbar</span>
-<span id='line462'>  private Elem makeScrollBar<b>(</b>Dir dir<b>)</b></span>
-<span id='line463'>  <b>{</b></span>
-<span id='line464'>    Elem</span>
-<span id='line465'>    <b>{</b></span>
-<span id='line466'>      xsz := sbarsz - thumbMargin - thumbMargin - 1</span>
-<span id='line467'>      it.style.addClass<b>(</b>"domkit-Table-scrollbar"<b>)</b></span>
-<span id='line468'>      if <b>(</b>dir == Dir.right<b>)</b></span>
-<span id='line469'>      <b>{</b></span>
-<span id='line470'>        if <b>(</b>!hasScrollx<b>)</b> it.style->visibility = "hidden"</span>
-<span id='line471'>        this.htrackw = tbodyw - <b>(</b>hasScrolly ? sbarsz : 0<b>)</b> - 2</span>
-<span id='line472'>        this.hthumbw = <b>(</b>tbodyw.toFloat / maxScrollx.toFloat * htrackw.toFloat<b>)</b>.toInt.max<b>(</b>xsz<b>)</b></span>
-<span id='line473'></span>
-<span id='line474'>        it.style->left   = "0px"</span>
-<span id='line475'>        it.style->bottom = "0px"</span>
-<span id='line476'>        it.style->width  = "$<b>{</b>htrackw<b>}</b>px"</span>
-<span id='line477'>        it.style->height = "$<b>{</b>sbarsz<b>}</b>px"</span>
-<span id='line478'>        it.style->borderTopWidth = "1px"</span>
-<span id='line479'>        it.onEvent<b>(</b>"dblclick",  false<b>)</b> |e| <b>{</b> e.stop <b>}</b></span>
-<span id='line480'>        it.onEvent<b>(</b>"mouseup",   false<b>)</b> |e| <b>{</b> hbarPageId = stopScrollPage<b>(</b>hbarPageId<b>)</b> <b>}</b></span>
-<span id='line481'>        it.onEvent<b>(</b>"mouseout",  false<b>)</b> |e| <b>{</b> hbarPageId = stopScrollPage<b>(</b>hbarPageId<b>)</b> <b>}</b></span>
-<span id='line482'>        it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
-<span id='line483'>          e.stop</span>
-<span id='line484'>          p := e.target.relPos<b>(</b>e.pagePos<b>)</b></span>
-<span id='line485'>          thumb := e.target.firstChild</span>
-<span id='line486'>          if <b>(</b>p.x &lt; thumb.pos.x<b>)</b> hbarPageId = startScrollPage<b>(</b>Point<b>(</b>-tbodyw, 0<b>)</b><b>)</b></span>
-<span id='line487'>          else if <b>(</b>p.x > thumb.pos.x + thumb.size.w.toInt<b>)</b> hbarPageId = startScrollPage<b>(</b>Point<b>(</b>tbodyw, 0<b>)</b><b>)</b></span>
-<span id='line488'>        <b>}</b></span>
-<span id='line489'></span>
-<span id='line490'>        Elem <b>{</b></span>
-<span id='line491'>          it.style->margin = "$<b>{</b>thumbMargin<b>}</b>px"</span>
-<span id='line492'>          it.style->top    = "0px"</span>
-<span id='line493'>          it.style->left   = "0px"</span>
-<span id='line494'>          it.style->width  = "$<b>{</b>hthumbw<b>}</b>px"</span>
-<span id='line495'>          it.style->height = "$<b>{</b>xsz<b>}</b>px"</span>
-<span id='line496'>          it.onEvent<b>(</b>"dblclick",  false<b>)</b> |e| <b>{</b> e.stop <b>}</b></span>
-<span id='line497'>          it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
-<span id='line498'>            e.stop</span>
-<span id='line499'>            hthumbDragOff = hbar.firstChild.relPos<b>(</b>e.pagePos<b>)</b>.x.toInt</span>
-<span id='line500'></span>
-<span id='line501'>            doc := Win.cur.doc</span>
-<span id='line502'>            Obj? fmove</span>
-<span id='line503'>            Obj? fup</span>
+<span id='line354'>    else if <b>(</b>hasScrolly<b>)</b></span>
+<span id='line355'>    <b>{</b></span>
+<span id='line356'>      this.colw<b>[</b>-1<b>]</b> += overScroll</span>
+<span id='line357'>    <b>}</b></span>
+<span id='line358'></span>
+<span id='line359'>    // // debug</span>
+<span id='line360'>    // echo<b>(</b>"# Table.refresh</span>
+<span id='line361'>    //       #    tbodyw:      $tbodyw</span>
+<span id='line362'>    //       #    tbodyh:      $tbodyh</span>
+<span id='line363'>    //       #    numCols:     $numCols</span>
+<span id='line364'>    //       #    numRows:     $numRows</span>
+<span id='line365'>    //       #    rowh:        $rowh</span>
+<span id='line366'>    //       #    numVisCols:  $numVisCols</span>
+<span id='line367'>    //       #    numVisRows:  $numVisRows</span>
+<span id='line368'>    //       #    maxScrollx:  $maxScrollx</span>
+<span id='line369'>    //       #    maxScrolly:  $maxScrolly</span>
+<span id='line370'>    //       "<b>)</b></span>
+<span id='line371'></span>
+<span id='line372'>    // setup thead</span>
+<span id='line373'>    this.thead = Elem</span>
+<span id='line374'>    <b>{</b></span>
+<span id='line375'>      it.style.addClass<b>(</b>"domkit-Table-thead"<b>)</b></span>
+<span id='line376'>      it.style->height = "$<b>{</b>theadh<b>}</b>px"</span>
+<span id='line377'>      if <b>(</b>theadh == 0<b>)</b> it.style->display = "none"</span>
+<span id='line378'>    <b>}</b></span>
+<span id='line379'>    numVisCols.times |c|</span>
+<span id='line380'>    <b>{</b></span>
+<span id='line381'>      header := Elem</span>
+<span id='line382'>      <b>{</b></span>
+<span id='line383'>        it.style.addClass<b>(</b>"domkit-Table-header"<b>)</b></span>
+<span id='line384'>        it.style->width  = "$<b>{</b>colwSafe<b>(</b>c<b>)</b><b>}</b>px"</span>
+<span id='line385'>        it.style->lineHeight = "$<b>{</b>theadh+1<b>}</b>px"</span>
+<span id='line386'>        if <b>(</b>c == numCols-1<b>)</b> it.style.addClass<b>(</b>"last"<b>)</b></span>
+<span id='line387'>      <b>}</b></span>
+<span id='line388'>      headers<b>[</b>c<b>]</b> = header</span>
+<span id='line389'>      refreshHeader<b>(</b>header, c<b>)</b></span>
+<span id='line390'>      thead.add<b>(</b>header<b>)</b></span>
+<span id='line391'>    <b>}</b></span>
+<span id='line392'></span>
+<span id='line393'>    // setup header popup</span>
+<span id='line394'>    if <b>(</b>cbHeaderPopup == null<b>)</b></span>
+<span id='line395'>    <b>{</b></span>
+<span id='line396'>      this.hpbut = null</span>
+<span id='line397'>      this.hasHpbut = false</span>
+<span id='line398'>    <b>}</b></span>
+<span id='line399'>    else</span>
+<span id='line400'>    <b>{</b></span>
+<span id='line401'>      this.hpbut = Elem</span>
+<span id='line402'>      <b>{</b></span>
+<span id='line403'>        mtop := <b>(</b><b>(</b>theadh-21<b>)</b> / 2<b>)</b> + 3</span>
+<span id='line404'>        it.style.addClass<b>(</b>"domkit-Table-header-popup"<b>)</b></span>
+<span id='line405'>        it.style->height = "$<b>{</b>theadh<b>}</b>px"</span>
+<span id='line406'>        it.add<b>(</b>Elem <b>{</b> it.style->marginTop="$<b>{</b>mtop<b>}</b>px" <b>}</b><b>)</b></span>
+<span id='line407'>        it.add<b>(</b>Elem <b>{</b><b>}</b><b>)</b></span>
+<span id='line408'>        it.add<b>(</b>Elem <b>{</b><b>}</b><b>)</b></span>
+<span id='line409'>      <b>}</b></span>
+<span id='line410'>      this.hasHpbut = true</span>
+<span id='line411'>      thead.add<b>(</b>hpbut<b>)</b></span>
+<span id='line412'>    <b>}</b></span>
+<span id='line413'></span>
+<span id='line414'>    // setup tbody</span>
+<span id='line415'>    this.tbody = Elem</span>
+<span id='line416'>    <b>{</b></span>
+<span id='line417'>      it.style.addClass<b>(</b>"domkit-Table-tbody"<b>)</b></span>
+<span id='line418'>      it.style->top = "$<b>{</b>theadh<b>}</b>px"</span>
+<span id='line419'>    <b>}</b></span>
+<span id='line420'>    numVisRows.times |r|</span>
+<span id='line421'>    <b>{</b></span>
+<span id='line422'>      numVisCols.times |c|</span>
+<span id='line423'>      <b>{</b></span>
+<span id='line424'>        // TODO FIXIT: seems like an awful lot of overlap of</span>
+<span id='line425'>        // refreshCell - should look at collapsing behavoir here</span>
+<span id='line426'>        rowSel := false</span>
+<span id='line427'>        cell := Elem</span>
+<span id='line428'>        <b>{</b></span>
+<span id='line429'>          it.style.addClass<b>(</b>"domkit-Table-cell"<b>)</b></span>
+<span id='line430'>          if <b>(</b>stripeClasses.size > 0<b>)</b></span>
+<span id='line431'>            it.style.addClass<b>(</b>stripeClasses<b>[</b>r % stripeClasses.size<b>]</b><b>)</b></span>
+<span id='line432'>          if <b>(</b>c == numCols-1<b>)</b> it.style.addClass<b>(</b>"last"<b>)</b></span>
+<span id='line433'>          if <b>(</b>c &lt; numCols &amp;&amp; r &lt; numRows<b>)</b></span>
+<span id='line434'>          <b>{</b></span>
+<span id='line435'>            if <b>(</b>sel.indexes.binarySearch<b>(</b>view.rowViewToModel<b>(</b>r<b>)</b><b>)</b> >= 0<b>)</b></span>
+<span id='line436'>            <b>{</b></span>
+<span id='line437'>              it.style.addClass<b>(</b>"domkit-sel"<b>)</b></span>
+<span id='line438'>              rowSel = true</span>
+<span id='line439'>            <b>}</b></span>
+<span id='line440'>          <b>}</b></span>
+<span id='line441'>          it.style->width = "$<b>{</b>colwSafe<b>(</b>c<b>)</b><b>}</b>px"</span>
+<span id='line442'>          it.style->height = "$<b>{</b>rowh<b>}</b>px"</span>
+<span id='line443'>          it.style->lineHeight = "$<b>{</b>rowh+1<b>}</b>px"</span>
+<span id='line444'>        <b>}</b></span>
+<span id='line445'>        flags := TableFlags</span>
+<span id='line446'>        <b>{</b></span>
+<span id='line447'>          it.focused  = manFocus</span>
+<span id='line448'>          it.selected = rowSel</span>
+<span id='line449'>        <b>}</b></span>
+<span id='line450'>        cells<b>[</b>TablePos<b>(</b>c, r<b>)</b><b>]</b> = cell</span>
+<span id='line451'>        if <b>(</b>c &lt; numCols &amp;&amp; r &lt; numRows<b>)</b> view.onCell<b>(</b>cell, c, r, flags<b>)</b></span>
+<span id='line452'>        tbody.add<b>(</b>cell<b>)</b></span>
+<span id='line453'>      <b>}</b></span>
+<span id='line454'>    <b>}</b></span>
+<span id='line455'></span>
+<span id='line456'>    // update dom</span>
+<span id='line457'>    removeAll</span>
+<span id='line458'>    add<b>(</b>thead<b>)</b></span>
+<span id='line459'>    add<b>(</b>tbody<b>)</b></span>
+<span id='line460'>    add<b>(</b>hbar<b>)</b></span>
+<span id='line461'>    add<b>(</b>vbar<b>)</b></span>
+<span id='line462'>    onUpdate<b>(</b>0,0<b>)</b></span>
+<span id='line463'>  <b>}</b></span>
+<span id='line464'></span>
+<span id='line465'>  ** Create scrollbar</span>
+<span id='line466'>  private Elem makeScrollBar<b>(</b>Dir dir<b>)</b></span>
+<span id='line467'>  <b>{</b></span>
+<span id='line468'>    Elem</span>
+<span id='line469'>    <b>{</b></span>
+<span id='line470'>      xsz := sbarsz - thumbMargin - thumbMargin - 1</span>
+<span id='line471'>      it.style.addClass<b>(</b>"domkit-Table-scrollbar"<b>)</b></span>
+<span id='line472'>      if <b>(</b>dir == Dir.right<b>)</b></span>
+<span id='line473'>      <b>{</b></span>
+<span id='line474'>        if <b>(</b>!hasScrollx<b>)</b> it.style->visibility = "hidden"</span>
+<span id='line475'>        this.htrackw = tbodyw - <b>(</b>hasScrolly ? sbarsz : 0<b>)</b> - 2</span>
+<span id='line476'>        this.hthumbw = <b>(</b>tbodyw.toFloat / maxScrollx.toFloat * htrackw.toFloat<b>)</b>.toInt.max<b>(</b>xsz<b>)</b></span>
+<span id='line477'></span>
+<span id='line478'>        it.style->left   = "0px"</span>
+<span id='line479'>        it.style->bottom = "0px"</span>
+<span id='line480'>        it.style->width  = "$<b>{</b>htrackw<b>}</b>px"</span>
+<span id='line481'>        it.style->height = "$<b>{</b>sbarsz<b>}</b>px"</span>
+<span id='line482'>        it.style->borderTopWidth = "1px"</span>
+<span id='line483'>        it.onEvent<b>(</b>"dblclick",  false<b>)</b> |e| <b>{</b> e.stop <b>}</b></span>
+<span id='line484'>        it.onEvent<b>(</b>"mouseup",   false<b>)</b> |e| <b>{</b> hbarPageId = stopScrollPage<b>(</b>hbarPageId<b>)</b> <b>}</b></span>
+<span id='line485'>        it.onEvent<b>(</b>"mouseout",  false<b>)</b> |e| <b>{</b> hbarPageId = stopScrollPage<b>(</b>hbarPageId<b>)</b> <b>}</b></span>
+<span id='line486'>        it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
+<span id='line487'>          e.stop</span>
+<span id='line488'>          p := e.target.relPos<b>(</b>e.pagePos<b>)</b></span>
+<span id='line489'>          thumb := e.target.firstChild</span>
+<span id='line490'>          if <b>(</b>p.x &lt; thumb.pos.x<b>)</b> hbarPageId = startScrollPage<b>(</b>Point<b>(</b>-tbodyw, 0<b>)</b><b>)</b></span>
+<span id='line491'>          else if <b>(</b>p.x > thumb.pos.x + thumb.size.w.toInt<b>)</b> hbarPageId = startScrollPage<b>(</b>Point<b>(</b>tbodyw, 0<b>)</b><b>)</b></span>
+<span id='line492'>        <b>}</b></span>
+<span id='line493'></span>
+<span id='line494'>        Elem <b>{</b></span>
+<span id='line495'>          it.style->margin = "$<b>{</b>thumbMargin<b>}</b>px"</span>
+<span id='line496'>          it.style->top    = "0px"</span>
+<span id='line497'>          it.style->left   = "0px"</span>
+<span id='line498'>          it.style->width  = "$<b>{</b>hthumbw<b>}</b>px"</span>
+<span id='line499'>          it.style->height = "$<b>{</b>xsz<b>}</b>px"</span>
+<span id='line500'>          it.onEvent<b>(</b>"dblclick",  false<b>)</b> |e| <b>{</b> e.stop <b>}</b></span>
+<span id='line501'>          it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
+<span id='line502'>            e.stop</span>
+<span id='line503'>            hthumbDragOff = hbar.firstChild.relPos<b>(</b>e.pagePos<b>)</b>.x.toInt</span>
 <span id='line504'></span>
-<span id='line505'>            fmove = doc.onEvent<b>(</b>"mousemove", true<b>)</b> |de| <b>{</b></span>
-<span id='line506'>              dx := hbar.relPos<b>(</b>de.pagePos<b>)</b>.x - hthumbDragOff</span>
-<span id='line507'>              sx := <b>(</b>dx.toFloat / htrackw.toFloat * maxScrollx<b>)</b>.toInt</span>
-<span id='line508'>              onScroll<b>(</b>Point.makeInt<b>(</b>sx - scrollx, 0<b>)</b><b>)</b></span>
-<span id='line509'>            <b>}</b></span>
-<span id='line510'></span>
-<span id='line511'>            fup = doc.onEvent<b>(</b>"mouseup", true<b>)</b> |de| <b>{</b></span>
-<span id='line512'>              de.stop</span>
-<span id='line513'>              hthumbDragOff = null</span>
-<span id='line514'>              doc.removeEvent<b>(</b>"mousemove", true, fmove<b>)</b></span>
-<span id='line515'>              doc.removeEvent<b>(</b>"mouseup",   true, fup<b>)</b></span>
-<span id='line516'>            <b>}</b></span>
-<span id='line517'>          <b>}</b></span>
-<span id='line518'>        <b>}</b>,</span>
-<span id='line519'>      <b>}</b></span>
-<span id='line520'>      else</span>
-<span id='line521'>      <b>{</b></span>
-<span id='line522'>        if <b>(</b>!hasScrolly<b>)</b> it.style->visibility = "hidden"</span>
-<span id='line523'>        this.vtrackh = tbodyh - <b>(</b>hasScrollx ? sbarsz : 0<b>)</b> - 2</span>
-<span id='line524'>        this.vthumbh = <b>(</b>tbodyh.toFloat / maxScrolly.toFloat * vtrackh.toFloat<b>)</b>.toInt.max<b>(</b>xsz<b>)</b></span>
-<span id='line525'></span>
-<span id='line526'>        it.style->top    = "$<b>{</b>theadh<b>}</b>px"</span>
-<span id='line527'>        it.style->right  = "0px"</span>
-<span id='line528'>        it.style->width  = "$<b>{</b>sbarsz<b>}</b>px"</span>
-<span id='line529'>        it.style->height = "$<b>{</b>vtrackh<b>}</b>px"</span>
-<span id='line530'>        it.style->borderLeftWidth = "1px"</span>
-<span id='line531'>        it.onEvent<b>(</b>"dblclick",  false<b>)</b> |e| <b>{</b> e.stop <b>}</b></span>
-<span id='line532'>        it.onEvent<b>(</b>"mouseup",   false<b>)</b> |e| <b>{</b> vbarPageId = stopScrollPage<b>(</b>vbarPageId<b>)</b> <b>}</b></span>
-<span id='line533'>        it.onEvent<b>(</b>"mouseout",  false<b>)</b> |e| <b>{</b> vbarPageId = stopScrollPage<b>(</b>vbarPageId<b>)</b> <b>}</b></span>
-<span id='line534'>        it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
-<span id='line535'>          e.stop</span>
-<span id='line536'>          p := e.target.relPos<b>(</b>e.pagePos<b>)</b></span>
-<span id='line537'>          thumb := e.target.firstChild</span>
-<span id='line538'>          if <b>(</b>p.y &lt; thumb.pos.y<b>)</b> vbarPageId = startScrollPage<b>(</b>Point<b>(</b>0, -tbodyh<b>)</b><b>)</b></span>
-<span id='line539'>          else if <b>(</b>p.y > thumb.pos.y + thumb.size.h.toInt<b>)</b> vbarPageId = startScrollPage<b>(</b>Point<b>(</b>0, tbodyh<b>)</b><b>)</b></span>
-<span id='line540'>        <b>}</b></span>
-<span id='line541'></span>
-<span id='line542'>        Elem <b>{</b></span>
-<span id='line543'>          it.style->margin = "$<b>{</b>thumbMargin<b>}</b>px"</span>
-<span id='line544'>          it.style->top    = "0px"</span>
-<span id='line545'>          it.style->left   = "0px"</span>
-<span id='line546'>          it.style->width  = "$<b>{</b>xsz<b>}</b>px"</span>
-<span id='line547'>          it.style->height = "$<b>{</b>vthumbh<b>}</b>px"</span>
-<span id='line548'>          it.onEvent<b>(</b>"dblclick",  false<b>)</b> |e| <b>{</b> e.stop <b>}</b></span>
-<span id='line549'>          it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
-<span id='line550'>            e.stop</span>
-<span id='line551'>            vthumbDragOff = vbar.firstChild.relPos<b>(</b>e.pagePos<b>)</b>.y.toInt</span>
-<span id='line552'></span>
-<span id='line553'>            doc := Win.cur.doc</span>
-<span id='line554'>            Obj? fmove</span>
-<span id='line555'>            Obj? fup</span>
+<span id='line505'>            doc := Win.cur.doc</span>
+<span id='line506'>            Obj? fmove</span>
+<span id='line507'>            Obj? fup</span>
+<span id='line508'></span>
+<span id='line509'>            fmove = doc.onEvent<b>(</b>"mousemove", true<b>)</b> |de| <b>{</b></span>
+<span id='line510'>              dx := hbar.relPos<b>(</b>de.pagePos<b>)</b>.x - hthumbDragOff</span>
+<span id='line511'>              sx := <b>(</b>dx.toFloat / htrackw.toFloat * maxScrollx<b>)</b>.toInt</span>
+<span id='line512'>              onScroll<b>(</b>Point.makeInt<b>(</b>sx - scrollx, 0<b>)</b><b>)</b></span>
+<span id='line513'>            <b>}</b></span>
+<span id='line514'></span>
+<span id='line515'>            fup = doc.onEvent<b>(</b>"mouseup", true<b>)</b> |de| <b>{</b></span>
+<span id='line516'>              de.stop</span>
+<span id='line517'>              hthumbDragOff = null</span>
+<span id='line518'>              doc.removeEvent<b>(</b>"mousemove", true, fmove<b>)</b></span>
+<span id='line519'>              doc.removeEvent<b>(</b>"mouseup",   true, fup<b>)</b></span>
+<span id='line520'>            <b>}</b></span>
+<span id='line521'>          <b>}</b></span>
+<span id='line522'>        <b>}</b>,</span>
+<span id='line523'>      <b>}</b></span>
+<span id='line524'>      else</span>
+<span id='line525'>      <b>{</b></span>
+<span id='line526'>        if <b>(</b>!hasScrolly<b>)</b> it.style->visibility = "hidden"</span>
+<span id='line527'>        this.vtrackh = tbodyh - <b>(</b>hasScrollx ? sbarsz : 0<b>)</b> - 2</span>
+<span id='line528'>        this.vthumbh = <b>(</b>tbodyh.toFloat / maxScrolly.toFloat * vtrackh.toFloat<b>)</b>.toInt.max<b>(</b>xsz<b>)</b></span>
+<span id='line529'></span>
+<span id='line530'>        it.style->top    = "$<b>{</b>theadh<b>}</b>px"</span>
+<span id='line531'>        it.style->right  = "0px"</span>
+<span id='line532'>        it.style->width  = "$<b>{</b>sbarsz<b>}</b>px"</span>
+<span id='line533'>        it.style->height = "$<b>{</b>vtrackh<b>}</b>px"</span>
+<span id='line534'>        it.style->borderLeftWidth = "1px"</span>
+<span id='line535'>        it.onEvent<b>(</b>"dblclick",  false<b>)</b> |e| <b>{</b> e.stop <b>}</b></span>
+<span id='line536'>        it.onEvent<b>(</b>"mouseup",   false<b>)</b> |e| <b>{</b> vbarPageId = stopScrollPage<b>(</b>vbarPageId<b>)</b> <b>}</b></span>
+<span id='line537'>        it.onEvent<b>(</b>"mouseout",  false<b>)</b> |e| <b>{</b> vbarPageId = stopScrollPage<b>(</b>vbarPageId<b>)</b> <b>}</b></span>
+<span id='line538'>        it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
+<span id='line539'>          e.stop</span>
+<span id='line540'>          p := e.target.relPos<b>(</b>e.pagePos<b>)</b></span>
+<span id='line541'>          thumb := e.target.firstChild</span>
+<span id='line542'>          if <b>(</b>p.y &lt; thumb.pos.y<b>)</b> vbarPageId = startScrollPage<b>(</b>Point<b>(</b>0, -tbodyh<b>)</b><b>)</b></span>
+<span id='line543'>          else if <b>(</b>p.y > thumb.pos.y + thumb.size.h.toInt<b>)</b> vbarPageId = startScrollPage<b>(</b>Point<b>(</b>0, tbodyh<b>)</b><b>)</b></span>
+<span id='line544'>        <b>}</b></span>
+<span id='line545'></span>
+<span id='line546'>        Elem <b>{</b></span>
+<span id='line547'>          it.style->margin = "$<b>{</b>thumbMargin<b>}</b>px"</span>
+<span id='line548'>          it.style->top    = "0px"</span>
+<span id='line549'>          it.style->left   = "0px"</span>
+<span id='line550'>          it.style->width  = "$<b>{</b>xsz<b>}</b>px"</span>
+<span id='line551'>          it.style->height = "$<b>{</b>vthumbh<b>}</b>px"</span>
+<span id='line552'>          it.onEvent<b>(</b>"dblclick",  false<b>)</b> |e| <b>{</b> e.stop <b>}</b></span>
+<span id='line553'>          it.onEvent<b>(</b>"mousedown", false<b>)</b> |e| <b>{</b></span>
+<span id='line554'>            e.stop</span>
+<span id='line555'>            vthumbDragOff = vbar.firstChild.relPos<b>(</b>e.pagePos<b>)</b>.y.toInt</span>
 <span id='line556'></span>
-<span id='line557'>            fmove = doc.onEvent<b>(</b>"mousemove", true<b>)</b> |de| <b>{</b></span>
-<span id='line558'>              dy := vbar.relPos<b>(</b>de.pagePos<b>)</b>.y - vthumbDragOff</span>
-<span id='line559'>              sy := <b>(</b>dy.toFloat / vtrackh.toFloat * maxScrolly<b>)</b>.toInt</span>
-<span id='line560'>              onScroll<b>(</b>Point.makeInt<b>(</b>0, sy - scrolly<b>)</b><b>)</b></span>
-<span id='line561'>            <b>}</b></span>
-<span id='line562'></span>
-<span id='line563'>            fup = doc.onEvent<b>(</b>"mouseup", true<b>)</b> |de| <b>{</b></span>
-<span id='line564'>              de.stop</span>
-<span id='line565'>              vthumbDragOff = null</span>
-<span id='line566'>              doc.removeEvent<b>(</b>"mousemove", true, fmove<b>)</b></span>
-<span id='line567'>              doc.removeEvent<b>(</b>"mouseup",   true, fup<b>)</b></span>
-<span id='line568'>            <b>}</b></span>
-<span id='line569'>          <b>}</b></span>
-<span id='line570'>        <b>}</b>,</span>
-<span id='line571'>      <b>}</b></span>
-<span id='line572'>    <b>}</b></span>
-<span id='line573'>  <b>}</b></span>
-<span id='line574'></span>
-<span id='line575'>  ** Start scroll page event.</span>
-<span id='line576'>  private Int? startScrollPage<b>(</b>Point delta<b>)</b></span>
-<span id='line577'>  <b>{</b></span>
-<span id='line578'>    onScroll<b>(</b>delta<b>)</b></span>
-<span id='line579'>    return Win.cur.setInterval<b>(</b>scrollPageFreq<b>)</b> <b>{</b> onScroll<b>(</b>delta<b>)</b> <b>}</b></span>
-<span id='line580'>  <b>}</b></span>
-<span id='line581'></span>
-<span id='line582'>  ** Cancel scroll page event.</span>
-<span id='line583'>  private Int? stopScrollPage<b>(</b>Int? fid<b>)</b></span>
-<span id='line584'>  <b>{</b></span>
-<span id='line585'>    if <b>(</b>fid != null<b>)</b> Win.cur.clearInterval<b>(</b>fid<b>)</b></span>
-<span id='line586'>    return null</span>
-<span id='line587'>  <b>}</b></span>
-<span id='line588'></span>
-<span id='line589'>  ** Pulse scrollbar.</span>
-<span id='line590'>  private Void pulseScrollBar<b>(</b>Dir dir<b>)</b></span>
-<span id='line591'>  <b>{</b></span>
-<span id='line592'>    if <b>(</b>dir == Dir.right<b>)</b></span>
-<span id='line593'>    <b>{</b></span>
-<span id='line594'>      hbar.style.addClass<b>(</b>"active"<b>)</b></span>
-<span id='line595'>      if <b>(</b>hbarPulseId != null<b>)</b> Win.cur.clearTimeout<b>(</b>hbarPulseId<b>)</b></span>
-<span id='line596'>      hbarPulseId = Win.cur.setTimeout<b>(</b>scrollPulseDir<b>)</b> <b>{</b> hbar.style.removeClass<b>(</b>"active"<b>)</b> <b>}</b></span>
-<span id='line597'>    <b>}</b></span>
-<span id='line598'>    else</span>
-<span id='line599'>    <b>{</b></span>
-<span id='line600'>      vbar.style.addClass<b>(</b>"active"<b>)</b></span>
-<span id='line601'>      if <b>(</b>vbarPulseId != null<b>)</b> Win.cur.clearTimeout<b>(</b>vbarPulseId<b>)</b></span>
-<span id='line602'>      vbarPulseId = Win.cur.setTimeout<b>(</b>scrollPulseDir<b>)</b> <b>{</b> vbar.style.removeClass<b>(</b>"active"<b>)</b> <b>}</b></span>
-<span id='line603'>    <b>}</b></span>
-<span id='line604'>  <b>}</b></span>
-<span id='line605'></span>
-<span id='line606'>  ** Callback to update table to given starting cell position.</span>
-<span id='line607'>  private Void onUpdate<b>(</b>Int col, Int row<b>)</b></span>
-<span id='line608'>  <b>{</b></span>
-<span id='line609'>// echo<b>(</b>"# onUpdate<b>(</b>$col, $row<b>)</b>"<b>)</b></span>
-<span id='line610'></span>
-<span id='line611'>    // no-op if no cols</span>
-<span id='line612'>    if <b>(</b>numCols == 0<b>)</b> return</span>
-<span id='line613'></span>
-<span id='line614'>    // update scrollbars</span>
-<span id='line615'>    if <b>(</b>hasScrollx<b>)</b></span>
-<span id='line616'>    <b>{</b></span>
-<span id='line617'>      sw := maxScrollx - tbodyw + <b>(</b>hasScrolly ? overScroll : 0<b>)</b></span>
-<span id='line618'>      sp := scrollx.toFloat / sw.toFloat</span>
-<span id='line619'>      hw := htrackw - hthumbw - <b>(</b>thumbMargin * 2<b>)</b></span>
-<span id='line620'>      hx := <b>(</b>sp * hw.toFloat<b>)</b>.toInt</span>
-<span id='line621'>      ox := hbar.firstChild.style->left.toStr<b>[</b>0..-3<b>]</b>.toInt</span>
-<span id='line622'>// echo<b>(</b>"# $scrollx:$sw @ $sp -- $hx:$hw <b>[</b>$ox<b>]</b>"<b>)</b></span>
-<span id='line623'>      if <b>(</b>ox != hx<b>)</b></span>
-<span id='line624'>      <b>{</b></span>
-<span id='line625'>        pulseScrollBar<b>(</b>Dir.right<b>)</b></span>
-<span id='line626'>        hbar.firstChild.style->left = "$<b>{</b>hx<b>}</b>px"</span>
-<span id='line627'>      <b>}</b></span>
-<span id='line628'>    <b>}</b></span>
-<span id='line629'>    if <b>(</b>hasScrolly<b>)</b></span>
-<span id='line630'>    <b>{</b></span>
-<span id='line631'>      sh := maxScrolly - tbodyh + <b>(</b>hasScrollx ? overScroll : 0<b>)</b></span>
-<span id='line632'>      sp := scrolly.toFloat / sh.toFloat</span>
-<span id='line633'>      vh := vtrackh - vthumbh - <b>(</b>thumbMargin * 2<b>)</b></span>
-<span id='line634'>      vy := <b>(</b>sp * vh.toFloat<b>)</b>.toInt</span>
-<span id='line635'>      oy := vbar.firstChild.style->top.toStr<b>[</b>0..-3<b>]</b>.toInt</span>
-<span id='line636'>// echo<b>(</b>"# $scrolly:$sh @ $sp -- $vy:$vh <b>[</b>$oy<b>]</b>"<b>)</b></span>
-<span id='line637'>      if <b>(</b>oy != vy<b>)</b></span>
-<span id='line638'>      <b>{</b></span>
-<span id='line639'>        pulseScrollBar<b>(</b>Dir.down<b>)</b></span>
-<span id='line640'>        vbar.firstChild.style->top = "$<b>{</b>vy<b>}</b>px"</span>
-<span id='line641'>      <b>}</b></span>
-<span id='line642'>    <b>}</b></span>
-<span id='line643'></span>
-<span id='line644'>    // update cells</span>
-<span id='line645'>    thead.style->display = "none"</span>
-<span id='line646'>    tbody.style->display = "none"</span>
-<span id='line647'>    onMoveX<b>(</b>col<b>)</b></span>
-<span id='line648'>    onMoveY<b>(</b>row<b>)</b></span>
-<span id='line649'>    thead.style->display = theadh==0 ? "none" : ""</span>
-<span id='line650'>    tbody.style->display = ""</span>
-<span id='line651'></span>
-<span id='line652'>    // update transforms</span>
-<span id='line653'>    headers.each |h,c| <b>{</b></span>
-<span id='line654'>      tx := colxSafe<b>(</b>c<b>)</b> - scrollx</span>
-<span id='line655'>      h.style->transform = "translate<b>(</b>$<b>{</b>tx<b>}</b>px, 0<b>)</b>"</span>
-<span id='line656'>    <b>}</b></span>
-<span id='line657'>    cells.each |c,p| <b>{</b></span>
-<span id='line658'>      tx := colxSafe<b>(</b>p.col<b>)</b> - scrollx</span>
-<span id='line659'>      ty := <b>(</b>p.row * rowh<b>)</b> - scrolly</span>
-<span id='line660'>      c.style->transform = "translate<b>(</b>$<b>{</b>tx<b>}</b>px, $<b>{</b>ty<b>}</b>px<b>)</b>"</span>
-<span id='line661'>    <b>}</b></span>
-<span id='line662'>  <b>}</b></span>
-<span id='line663'></span>
-<span id='line664'>  ** Callback to move table to given starting column.</span>
-<span id='line665'>  private Void onMoveX<b>(</b>Int col<b>)</b></span>
-<span id='line666'>  <b>{</b></span>
-<span id='line667'>    // short-circuit if nothing todo</span>
-<span id='line668'>    if <b>(</b>firstVisCol == col<b>)</b> return</span>
-<span id='line669'></span>
-<span id='line670'>    oldFirstCol := firstVisCol</span>
-<span id='line671'>    delta := col - oldFirstCol           // delta b/w old and new first col</span>
-<span id='line672'>    shift := delta.abs.max<b>(</b>numVisCols<b>)</b>   // offset to shift cols when delta > 0</span>
-<span id='line673'>    count := delta.abs.min<b>(</b>numVisCols<b>)</b>   // num of cols to move</span>
-<span id='line674'></span>
-<span id='line675'>// echo<b>(</b>"# onMoveX</span>
-<span id='line676'>//       #   oldFirstCol: $oldFirstCol</span>
-<span id='line677'>//       #   col:         $col</span>
-<span id='line678'>//       #   delta:       $delta</span>
-<span id='line679'>//       #   shift:       $shift</span>
-<span id='line680'>//       #   count:       $count</span>
-<span id='line681'>//       "<b>)</b></span>
-<span id='line682'></span>
-<span id='line683'>    count.abs.times |c|</span>
-<span id='line684'>    <b>{</b></span>
-<span id='line685'>      oldCol  := delta > 0 ? oldFirstCol + c         : oldFirstCol + numVisCols - c - 1</span>
-<span id='line686'>      newCol  := delta > 0 ? oldFirstCol + shift + c : oldFirstCol + delta + c</span>
-<span id='line687'>      newColw := "$<b>{</b>colwSafe<b>(</b>newCol<b>)</b><b>}</b>px"</span>
-<span id='line688'></span>
-<span id='line689'>// echo<b>(</b>"#  $oldCol => $newCol"<b>)</b></span>
-<span id='line690'></span>
-<span id='line691'>      header := headers.remove<b>(</b>oldCol<b>)</b></span>
-<span id='line692'>      header.style->width = newColw</span>
-<span id='line693'>      headers<b>[</b>newCol<b>]</b> = header</span>
-<span id='line694'>      refreshHeader<b>(</b>header, newCol<b>)</b></span>
-<span id='line695'></span>
-<span id='line696'>      numVisRows.times |r|</span>
-<span id='line697'>      <b>{</b></span>
-<span id='line698'>        row  := r + firstVisRow</span>
-<span id='line699'>        op   := TablePos<b>(</b>oldCol, row<b>)</b></span>
-<span id='line700'>        cell := cells.remove<b>(</b>op<b>)</b></span>
-<span id='line701'>        cell.style->width = newColw</span>
-<span id='line702'>        cells<b>[</b>TablePos<b>(</b>newCol, row<b>)</b><b>]</b> = cell</span>
-<span id='line703'>        refreshCell<b>(</b>cell, newCol, row<b>)</b></span>
-<span id='line704'>      <b>}</b></span>
-<span id='line705'>    <b>}</b></span>
-<span id='line706'></span>
-<span id='line707'>// echo<b>(</b>"# >>> firstVisCol: $col"<b>)</b></span>
-<span id='line708'>    firstVisCol = col</span>
-<span id='line709'>  <b>}</b></span>
+<span id='line557'>            doc := Win.cur.doc</span>
+<span id='line558'>            Obj? fmove</span>
+<span id='line559'>            Obj? fup</span>
+<span id='line560'></span>
+<span id='line561'>            fmove = doc.onEvent<b>(</b>"mousemove", true<b>)</b> |de| <b>{</b></span>
+<span id='line562'>              dy := vbar.relPos<b>(</b>de.pagePos<b>)</b>.y - vthumbDragOff</span>
+<span id='line563'>              sy := <b>(</b>dy.toFloat / vtrackh.toFloat * maxScrolly<b>)</b>.toInt</span>
+<span id='line564'>              onScroll<b>(</b>Point.makeInt<b>(</b>0, sy - scrolly<b>)</b><b>)</b></span>
+<span id='line565'>            <b>}</b></span>
+<span id='line566'></span>
+<span id='line567'>            fup = doc.onEvent<b>(</b>"mouseup", true<b>)</b> |de| <b>{</b></span>
+<span id='line568'>              de.stop</span>
+<span id='line569'>              vthumbDragOff = null</span>
+<span id='line570'>              doc.removeEvent<b>(</b>"mousemove", true, fmove<b>)</b></span>
+<span id='line571'>              doc.removeEvent<b>(</b>"mouseup",   true, fup<b>)</b></span>
+<span id='line572'>            <b>}</b></span>
+<span id='line573'>          <b>}</b></span>
+<span id='line574'>        <b>}</b>,</span>
+<span id='line575'>      <b>}</b></span>
+<span id='line576'>    <b>}</b></span>
+<span id='line577'>  <b>}</b></span>
+<span id='line578'></span>
+<span id='line579'>  ** Start scroll page event.</span>
+<span id='line580'>  private Int? startScrollPage<b>(</b>Point delta<b>)</b></span>
+<span id='line581'>  <b>{</b></span>
+<span id='line582'>    onScroll<b>(</b>delta<b>)</b></span>
+<span id='line583'>    return Win.cur.setInterval<b>(</b>scrollPageFreq<b>)</b> <b>{</b> onScroll<b>(</b>delta<b>)</b> <b>}</b></span>
+<span id='line584'>  <b>}</b></span>
+<span id='line585'></span>
+<span id='line586'>  ** Cancel scroll page event.</span>
+<span id='line587'>  private Int? stopScrollPage<b>(</b>Int? fid<b>)</b></span>
+<span id='line588'>  <b>{</b></span>
+<span id='line589'>    if <b>(</b>fid != null<b>)</b> Win.cur.clearInterval<b>(</b>fid<b>)</b></span>
+<span id='line590'>    return null</span>
+<span id='line591'>  <b>}</b></span>
+<span id='line592'></span>
+<span id='line593'>  ** Pulse scrollbar.</span>
+<span id='line594'>  private Void pulseScrollBar<b>(</b>Dir dir<b>)</b></span>
+<span id='line595'>  <b>{</b></span>
+<span id='line596'>    if <b>(</b>dir == Dir.right<b>)</b></span>
+<span id='line597'>    <b>{</b></span>
+<span id='line598'>      hbar.style.addClass<b>(</b>"active"<b>)</b></span>
+<span id='line599'>      if <b>(</b>hbarPulseId != null<b>)</b> Win.cur.clearTimeout<b>(</b>hbarPulseId<b>)</b></span>
+<span id='line600'>      hbarPulseId = Win.cur.setTimeout<b>(</b>scrollPulseDir<b>)</b> <b>{</b> hbar.style.removeClass<b>(</b>"active"<b>)</b> <b>}</b></span>
+<span id='line601'>    <b>}</b></span>
+<span id='line602'>    else</span>
+<span id='line603'>    <b>{</b></span>
+<span id='line604'>      vbar.style.addClass<b>(</b>"active"<b>)</b></span>
+<span id='line605'>      if <b>(</b>vbarPulseId != null<b>)</b> Win.cur.clearTimeout<b>(</b>vbarPulseId<b>)</b></span>
+<span id='line606'>      vbarPulseId = Win.cur.setTimeout<b>(</b>scrollPulseDir<b>)</b> <b>{</b> vbar.style.removeClass<b>(</b>"active"<b>)</b> <b>}</b></span>
+<span id='line607'>    <b>}</b></span>
+<span id='line608'>  <b>}</b></span>
+<span id='line609'></span>
+<span id='line610'>  ** Callback to update table to given starting cell position.</span>
+<span id='line611'>  private Void onUpdate<b>(</b>Int col, Int row<b>)</b></span>
+<span id='line612'>  <b>{</b></span>
+<span id='line613'>// echo<b>(</b>"# onUpdate<b>(</b>$col, $row<b>)</b>"<b>)</b></span>
+<span id='line614'></span>
+<span id='line615'>    // no-op if no cols</span>
+<span id='line616'>    if <b>(</b>numCols == 0<b>)</b> return</span>
+<span id='line617'></span>
+<span id='line618'>    // update scrollbars</span>
+<span id='line619'>    if <b>(</b>hasScrollx<b>)</b></span>
+<span id='line620'>    <b>{</b></span>
+<span id='line621'>      sw := maxScrollx - tbodyw + <b>(</b>hasScrolly ? overScroll : 0<b>)</b></span>
+<span id='line622'>      sp := scrollx.toFloat / sw.toFloat</span>
+<span id='line623'>      hw := htrackw - hthumbw - <b>(</b>thumbMargin * 2<b>)</b></span>
+<span id='line624'>      hx := <b>(</b>sp * hw.toFloat<b>)</b>.toInt</span>
+<span id='line625'>      ox := hbar.firstChild.style->left.toStr<b>[</b>0..-3<b>]</b>.toInt</span>
+<span id='line626'>// echo<b>(</b>"# $scrollx:$sw @ $sp -- $hx:$hw <b>[</b>$ox<b>]</b>"<b>)</b></span>
+<span id='line627'>      if <b>(</b>ox != hx<b>)</b></span>
+<span id='line628'>      <b>{</b></span>
+<span id='line629'>        pulseScrollBar<b>(</b>Dir.right<b>)</b></span>
+<span id='line630'>        hbar.firstChild.style->left = "$<b>{</b>hx<b>}</b>px"</span>
+<span id='line631'>      <b>}</b></span>
+<span id='line632'>    <b>}</b></span>
+<span id='line633'>    if <b>(</b>hasScrolly<b>)</b></span>
+<span id='line634'>    <b>{</b></span>
+<span id='line635'>      sh := maxScrolly - tbodyh + <b>(</b>hasScrollx ? overScroll : 0<b>)</b></span>
+<span id='line636'>      sp := scrolly.toFloat / sh.toFloat</span>
+<span id='line637'>      vh := vtrackh - vthumbh - <b>(</b>thumbMargin * 2<b>)</b></span>
+<span id='line638'>      vy := <b>(</b>sp * vh.toFloat<b>)</b>.toInt</span>
+<span id='line639'>      oy := vbar.firstChild.style->top.toStr<b>[</b>0..-3<b>]</b>.toInt</span>
+<span id='line640'>// echo<b>(</b>"# $scrolly:$sh @ $sp -- $vy:$vh <b>[</b>$oy<b>]</b>"<b>)</b></span>
+<span id='line641'>      if <b>(</b>oy != vy<b>)</b></span>
+<span id='line642'>      <b>{</b></span>
+<span id='line643'>        pulseScrollBar<b>(</b>Dir.down<b>)</b></span>
+<span id='line644'>        vbar.firstChild.style->top = "$<b>{</b>vy<b>}</b>px"</span>
+<span id='line645'>      <b>}</b></span>
+<span id='line646'>    <b>}</b></span>
+<span id='line647'></span>
+<span id='line648'>    // update cells</span>
+<span id='line649'>    thead.style->display = "none"</span>
+<span id='line650'>    tbody.style->display = "none"</span>
+<span id='line651'>    onMoveX<b>(</b>col<b>)</b></span>
+<span id='line652'>    onMoveY<b>(</b>row<b>)</b></span>
+<span id='line653'>    thead.style->display = theadh==0 ? "none" : ""</span>
+<span id='line654'>    tbody.style->display = ""</span>
+<span id='line655'></span>
+<span id='line656'>    // update transforms</span>
+<span id='line657'>    headers.each |h,c| <b>{</b></span>
+<span id='line658'>      tx := colxSafe<b>(</b>c<b>)</b> - scrollx</span>
+<span id='line659'>      h.style->transform = "translate<b>(</b>$<b>{</b>tx<b>}</b>px, 0<b>)</b>"</span>
+<span id='line660'>    <b>}</b></span>
+<span id='line661'>    cells.each |c,p| <b>{</b></span>
+<span id='line662'>      tx := colxSafe<b>(</b>p.col<b>)</b> - scrollx</span>
+<span id='line663'>      ty := <b>(</b>p.row * rowh<b>)</b> - scrolly</span>
+<span id='line664'>      c.style->transform = "translate<b>(</b>$<b>{</b>tx<b>}</b>px, $<b>{</b>ty<b>}</b>px<b>)</b>"</span>
+<span id='line665'>    <b>}</b></span>
+<span id='line666'>  <b>}</b></span>
+<span id='line667'></span>
+<span id='line668'>  ** Callback to move table to given starting column.</span>
+<span id='line669'>  private Void onMoveX<b>(</b>Int col<b>)</b></span>
+<span id='line670'>  <b>{</b></span>
+<span id='line671'>    // short-circuit if nothing todo</span>
+<span id='line672'>    if <b>(</b>firstVisCol == col<b>)</b> return</span>
+<span id='line673'></span>
+<span id='line674'>    oldFirstCol := firstVisCol</span>
+<span id='line675'>    delta := col - oldFirstCol           // delta b/w old and new first col</span>
+<span id='line676'>    shift := delta.abs.max<b>(</b>numVisCols<b>)</b>   // offset to shift cols when delta > 0</span>
+<span id='line677'>    count := delta.abs.min<b>(</b>numVisCols<b>)</b>   // num of cols to move</span>
+<span id='line678'></span>
+<span id='line679'>// echo<b>(</b>"# onMoveX</span>
+<span id='line680'>//       #   oldFirstCol: $oldFirstCol</span>
+<span id='line681'>//       #   col:         $col</span>
+<span id='line682'>//       #   delta:       $delta</span>
+<span id='line683'>//       #   shift:       $shift</span>
+<span id='line684'>//       #   count:       $count</span>
+<span id='line685'>//       "<b>)</b></span>
+<span id='line686'></span>
+<span id='line687'>    count.abs.times |c|</span>
+<span id='line688'>    <b>{</b></span>
+<span id='line689'>      oldCol  := delta > 0 ? oldFirstCol + c         : oldFirstCol + numVisCols - c - 1</span>
+<span id='line690'>      newCol  := delta > 0 ? oldFirstCol + shift + c : oldFirstCol + delta + c</span>
+<span id='line691'>      newColw := "$<b>{</b>colwSafe<b>(</b>newCol<b>)</b><b>}</b>px"</span>
+<span id='line692'></span>
+<span id='line693'>// echo<b>(</b>"#  $oldCol => $newCol"<b>)</b></span>
+<span id='line694'></span>
+<span id='line695'>      header := headers.remove<b>(</b>oldCol<b>)</b></span>
+<span id='line696'>      header.style->width = newColw</span>
+<span id='line697'>      headers<b>[</b>newCol<b>]</b> = header</span>
+<span id='line698'>      refreshHeader<b>(</b>header, newCol<b>)</b></span>
+<span id='line699'></span>
+<span id='line700'>      numVisRows.times |r|</span>
+<span id='line701'>      <b>{</b></span>
+<span id='line702'>        row  := r + firstVisRow</span>
+<span id='line703'>        op   := TablePos<b>(</b>oldCol, row<b>)</b></span>
+<span id='line704'>        cell := cells.remove<b>(</b>op<b>)</b></span>
+<span id='line705'>        cell.style->width = newColw</span>
+<span id='line706'>        cells<b>[</b>TablePos<b>(</b>newCol, row<b>)</b><b>]</b> = cell</span>
+<span id='line707'>        refreshCell<b>(</b>cell, newCol, row<b>)</b></span>
+<span id='line708'>      <b>}</b></span>
+<span id='line709'>    <b>}</b></span>
 <span id='line710'></span>
-<span id='line711'>  ** Callback to move table to given starting row.</span>
-<span id='line712'>  private Void onMoveY<b>(</b>Int row<b>)</b></span>
-<span id='line713'>  <b>{</b></span>
-<span id='line714'>    // short-circuit if nothing todo</span>
-<span id='line715'>    if <b>(</b>firstVisRow == row<b>)</b> return</span>
-<span id='line716'></span>
-<span id='line717'>    oldFirstRow := firstVisRow</span>
-<span id='line718'>    delta := row - oldFirstRow           // delta b/w old and new first row</span>
-<span id='line719'>    shift := delta.abs.max<b>(</b>numVisRows<b>)</b>   // offset to shift rows when delta > 0</span>
-<span id='line720'>    count := delta.abs.min<b>(</b>numVisRows<b>)</b>   // num of rows to move</span>
-<span id='line721'></span>
-<span id='line722'>// echo<b>(</b>"# onMoveY</span>
-<span id='line723'>//       #   oldFirstRow: $oldFirstRow</span>
-<span id='line724'>//       #   row:         $row</span>
-<span id='line725'>//       #   delta:       $delta</span>
-<span id='line726'>//       #   shift:       $shift</span>
-<span id='line727'>//       #   count:       $count</span>
-<span id='line728'>//       "<b>)</b></span>
-<span id='line729'></span>
-<span id='line730'>    count.abs.times |r|</span>
-<span id='line731'>    <b>{</b></span>
-<span id='line732'>      oldRow := delta > 0 ? oldFirstRow + r         : oldFirstRow + numVisRows - r - 1</span>
-<span id='line733'>      newRow := delta > 0 ? oldFirstRow + shift + r : oldFirstRow + delta + r</span>
-<span id='line734'></span>
-<span id='line735'>// echo<b>(</b>"#  $oldRow => $newRow"<b>)</b></span>
-<span id='line736'>      numVisCols.times |c|</span>
-<span id='line737'>      <b>{</b></span>
-<span id='line738'>        col  := c + firstVisCol</span>
-<span id='line739'>        op   := TablePos<b>(</b>col, oldRow<b>)</b></span>
-<span id='line740'>        cell := cells.remove<b>(</b>op<b>)</b></span>
-<span id='line741'>        cells<b>[</b>TablePos<b>(</b>col, newRow<b>)</b><b>]</b> = cell</span>
-<span id='line742'>        refreshCell<b>(</b>cell, col, newRow<b>)</b></span>
-<span id='line743'>      <b>}</b></span>
-<span id='line744'>    <b>}</b></span>
-<span id='line745'></span>
-<span id='line746'>// echo<b>(</b>"# >>> firstVisRow: $row"<b>)</b></span>
-<span id='line747'>    firstVisRow = row</span>
-<span id='line748'>  <b>}</b></span>
+<span id='line711'>// echo<b>(</b>"# >>> firstVisCol: $col"<b>)</b></span>
+<span id='line712'>    firstVisCol = col</span>
+<span id='line713'>  <b>}</b></span>
+<span id='line714'></span>
+<span id='line715'>  ** Callback to move table to given starting row.</span>
+<span id='line716'>  private Void onMoveY<b>(</b>Int row<b>)</b></span>
+<span id='line717'>  <b>{</b></span>
+<span id='line718'>    // short-circuit if nothing todo</span>
+<span id='line719'>    if <b>(</b>firstVisRow == row<b>)</b> return</span>
+<span id='line720'></span>
+<span id='line721'>    oldFirstRow := firstVisRow</span>
+<span id='line722'>    delta := row - oldFirstRow           // delta b/w old and new first row</span>
+<span id='line723'>    shift := delta.abs.max<b>(</b>numVisRows<b>)</b>   // offset to shift rows when delta > 0</span>
+<span id='line724'>    count := delta.abs.min<b>(</b>numVisRows<b>)</b>   // num of rows to move</span>
+<span id='line725'></span>
+<span id='line726'>// echo<b>(</b>"# onMoveY</span>
+<span id='line727'>//       #   oldFirstRow: $oldFirstRow</span>
+<span id='line728'>//       #   row:         $row</span>
+<span id='line729'>//       #   delta:       $delta</span>
+<span id='line730'>//       #   shift:       $shift</span>
+<span id='line731'>//       #   count:       $count</span>
+<span id='line732'>//       "<b>)</b></span>
+<span id='line733'></span>
+<span id='line734'>    count.abs.times |r|</span>
+<span id='line735'>    <b>{</b></span>
+<span id='line736'>      oldRow := delta > 0 ? oldFirstRow + r         : oldFirstRow + numVisRows - r - 1</span>
+<span id='line737'>      newRow := delta > 0 ? oldFirstRow + shift + r : oldFirstRow + delta + r</span>
+<span id='line738'></span>
+<span id='line739'>// echo<b>(</b>"#  $oldRow => $newRow"<b>)</b></span>
+<span id='line740'>      numVisCols.times |c|</span>
+<span id='line741'>      <b>{</b></span>
+<span id='line742'>        col  := c + firstVisCol</span>
+<span id='line743'>        op   := TablePos<b>(</b>col, oldRow<b>)</b></span>
+<span id='line744'>        cell := cells.remove<b>(</b>op<b>)</b></span>
+<span id='line745'>        cells<b>[</b>TablePos<b>(</b>col, newRow<b>)</b><b>]</b> = cell</span>
+<span id='line746'>        refreshCell<b>(</b>cell, col, newRow<b>)</b></span>
+<span id='line747'>      <b>}</b></span>
+<span id='line748'>    <b>}</b></span>
 <span id='line749'></span>
-<span id='line750'>  private Int findMaxVisCols<b>(</b><b>)</b></span>
-<span id='line751'>  <b>{</b></span>
-<span id='line752'>    vis := 0</span>
-<span id='line753'>    colw.each |w,i|</span>
-<span id='line754'>    <b>{</b></span>
-<span id='line755'>      dw := 0</span>
-<span id='line756'>      di := i</span>
-<span id='line757'>      while <b>(</b>dw &lt; tbodyw &amp;&amp; di &lt; colw.size<b>)</b> dw += colw<b>[</b>di++<b>]</b></span>
-<span id='line758'>      vis = vis.max<b>(</b>di-i<b>)</b></span>
-<span id='line759'>    <b>}</b></span>
-<span id='line760'>    return vis</span>
-<span id='line761'>  <b>}</b></span>
-<span id='line762'></span>
-<span id='line763'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line764'>// Events</span>
-<span id='line765'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line750'>// echo<b>(</b>"# >>> firstVisRow: $row"<b>)</b></span>
+<span id='line751'>    firstVisRow = row</span>
+<span id='line752'>  <b>}</b></span>
+<span id='line753'></span>
+<span id='line754'>  private Int findMaxVisCols<b>(</b><b>)</b></span>
+<span id='line755'>  <b>{</b></span>
+<span id='line756'>    vis := 0</span>
+<span id='line757'>    colw.each |w,i|</span>
+<span id='line758'>    <b>{</b></span>
+<span id='line759'>      dw := 0</span>
+<span id='line760'>      di := i</span>
+<span id='line761'>      while <b>(</b>dw &lt; tbodyw &amp;&amp; di &lt; colw.size<b>)</b> dw += colw<b>[</b>di++<b>]</b></span>
+<span id='line762'>      vis = vis.max<b>(</b>di-i<b>)</b></span>
+<span id='line763'>    <b>}</b></span>
+<span id='line764'>    return vis</span>
+<span id='line765'>  <b>}</b></span>
 <span id='line766'></span>
-<span id='line767'>  ** Callback to display header popup.</span>
-<span id='line768'>  private Void openHeaderPopup<b>(</b>Elem button, Popup popup<b>)</b></span>
-<span id='line769'>  <b>{</b></span>
-<span id='line770'>    x := button.pagePos.x</span>
-<span id='line771'>    y := button.pagePos.y + button.size.h.toInt</span>
-<span id='line772'>    w := button.size.w.toInt</span>
-<span id='line773'></span>
-<span id='line774'>    // // adjust popup origin if haligned</span>
-<span id='line775'>    // switch <b>(</b>popup.halign<b>)</b></span>
-<span id='line776'>    // <b>{</b></span>
-<span id='line777'>    //   case Align.center: x += w / 2</span>
-<span id='line778'>    //   case Align.right:  x += w</span>
-<span id='line779'>    // <b>}</b></span>
-<span id='line780'></span>
-<span id='line781'>    popup.open<b>(</b>x, y<b>)</b></span>
-<span id='line782'>  <b>}</b></span>
-<span id='line783'></span>
-<span id='line784'>  ** Callback to handle scroll event.</span>
-<span id='line785'>  private Void onScroll<b>(</b>Point? delta<b>)</b></span>
-<span id='line786'>  <b>{</b></span>
-<span id='line787'>    // short-circuit if no data</span>
-<span id='line788'>    if <b>(</b>delta == null<b>)</b> return</span>
-<span id='line789'></span>
-<span id='line790'>    // find scroll bounds</span>
-<span id='line791'>    scrollBoundx := maxScrollx - tbodyw</span>
-<span id='line792'>    scrollBoundy := maxScrolly - tbodyh</span>
-<span id='line793'>    if <b>(</b>hasScrollx &amp;&amp; hasScrolly<b>)</b></span>
-<span id='line794'>    <b>{</b></span>
-<span id='line795'>      scrollBoundx += overScroll</span>
-<span id='line796'>      scrollBoundy += overScroll</span>
-<span id='line797'>    <b>}</b></span>
-<span id='line798'></span>
-<span id='line799'>    // update scroll offset</span>
-<span id='line800'>    scrollx = <b>(</b>scrollx + delta.x.toInt<b>)</b>.min<b>(</b>scrollBoundx<b>)</b>.max<b>(</b>0<b>)</b></span>
-<span id='line801'>    scrolly = <b>(</b>scrolly + delta.y.toInt<b>)</b>.min<b>(</b>scrollBoundy<b>)</b>.max<b>(</b>0<b>)</b></span>
+<span id='line767'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line768'>// Events</span>
+<span id='line769'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line770'></span>
+<span id='line771'>  ** Callback to display header popup.</span>
+<span id='line772'>  private Void openHeaderPopup<b>(</b>Elem button, Popup popup<b>)</b></span>
+<span id='line773'>  <b>{</b></span>
+<span id='line774'>    x := button.pagePos.x</span>
+<span id='line775'>    y := button.pagePos.y + button.size.h.toInt</span>
+<span id='line776'>    w := button.size.w.toInt</span>
+<span id='line777'></span>
+<span id='line778'>    // // adjust popup origin if haligned</span>
+<span id='line779'>    // switch <b>(</b>popup.halign<b>)</b></span>
+<span id='line780'>    // <b>{</b></span>
+<span id='line781'>    //   case Align.center: x += w / 2</span>
+<span id='line782'>    //   case Align.right:  x += w</span>
+<span id='line783'>    // <b>}</b></span>
+<span id='line784'></span>
+<span id='line785'>    popup.open<b>(</b>x, y<b>)</b></span>
+<span id='line786'>  <b>}</b></span>
+<span id='line787'></span>
+<span id='line788'>  ** Callback to handle scroll event.</span>
+<span id='line789'>  private Void onScroll<b>(</b>Point? delta<b>)</b></span>
+<span id='line790'>  <b>{</b></span>
+<span id='line791'>    // short-circuit if no data</span>
+<span id='line792'>    if <b>(</b>delta == null<b>)</b> return</span>
+<span id='line793'></span>
+<span id='line794'>    // find scroll bounds</span>
+<span id='line795'>    scrollBoundx := maxScrollx - tbodyw</span>
+<span id='line796'>    scrollBoundy := maxScrolly - tbodyh</span>
+<span id='line797'>    if <b>(</b>hasScrollx &amp;&amp; hasScrolly<b>)</b></span>
+<span id='line798'>    <b>{</b></span>
+<span id='line799'>      scrollBoundx += overScroll</span>
+<span id='line800'>      scrollBoundy += overScroll</span>
+<span id='line801'>    <b>}</b></span>
 <span id='line802'></span>
-<span id='line803'>    // update content</span>
-<span id='line804'>    col := <b>(</b>colx.binarySearch<b>(</b>scrollx<b>)</b>.not - 1<b>)</b>.max<b>(</b>0<b>)</b>.min<b>(</b>numCols - numVisCols<b>)</b>.max<b>(</b>0<b>)</b></span>
-<span id='line805'>    row := <b>(</b>scrolly / rowh<b>)</b>.min<b>(</b>numRows - numVisRows<b>)</b>.max<b>(</b>0<b>)</b></span>
+<span id='line803'>    // update scroll offset</span>
+<span id='line804'>    scrollx = <b>(</b>scrollx + delta.x.toInt<b>)</b>.min<b>(</b>scrollBoundx<b>)</b>.max<b>(</b>0<b>)</b></span>
+<span id='line805'>    scrolly = <b>(</b>scrolly + delta.y.toInt<b>)</b>.min<b>(</b>scrollBoundy<b>)</b>.max<b>(</b>0<b>)</b></span>
 <span id='line806'></span>
-<span id='line807'>    onUpdate<b>(</b>col, row<b>)</b></span>
-<span id='line808'>  <b>}</b></span>
-<span id='line809'></span>
-<span id='line810'>  ** Callback to handle mouse events.</span>
-<span id='line811'>  private Void onMouseEvent<b>(</b>Event e<b>)</b></span>
-<span id='line812'>  <b>{</b></span>
-<span id='line813'>    if <b>(</b>numCols == 0<b>)</b> return</span>
-<span id='line814'></span>
-<span id='line815'>    p  := this.relPos<b>(</b>e.pagePos<b>)</b></span>
-<span id='line816'>    mx := p.x.toInt + scrollx</span>
-<span id='line817'>    my := p.y.toInt + scrolly - theadh</span>
-<span id='line818'>    this.style->cursor = null</span>
-<span id='line819'></span>
-<span id='line820'>    if <b>(</b>mx > colx.last + colw.last<b>)</b> return</span>
-<span id='line821'>    col := colx.binarySearch<b>(</b>mx<b>)</b></span>
-<span id='line822'>    if <b>(</b>col &lt; 0<b>)</b> col = col.not - 1</span>
+<span id='line807'>    // update content</span>
+<span id='line808'>    col := <b>(</b>colx.binarySearch<b>(</b>scrollx<b>)</b>.not - 1<b>)</b>.max<b>(</b>0<b>)</b>.min<b>(</b>numCols - numVisCols<b>)</b>.max<b>(</b>0<b>)</b></span>
+<span id='line809'>    row := <b>(</b>scrolly / rowh<b>)</b>.min<b>(</b>numRows - numVisRows<b>)</b>.max<b>(</b>0<b>)</b></span>
+<span id='line810'></span>
+<span id='line811'>    onUpdate<b>(</b>col, row<b>)</b></span>
+<span id='line812'>  <b>}</b></span>
+<span id='line813'></span>
+<span id='line814'>  ** Callback to handle mouse events.</span>
+<span id='line815'>  private Void onMouseEvent<b>(</b>Event e<b>)</b></span>
+<span id='line816'>  <b>{</b></span>
+<span id='line817'>    if <b>(</b>numCols == 0<b>)</b> return</span>
+<span id='line818'></span>
+<span id='line819'>    p  := this.relPos<b>(</b>e.pagePos<b>)</b></span>
+<span id='line820'>    mx := p.x.toInt + scrollx</span>
+<span id='line821'>    my := p.y.toInt + scrolly - theadh</span>
+<span id='line822'>    this.style->cursor = null</span>
 <span id='line823'></span>
-<span id='line824'>    cx := mx - colx<b>[</b>col<b>]</b></span>
-<span id='line825'>    canResize := <b>(</b>col > 0 &amp;&amp; cx &lt; 5<b>)</b> || <b>(</b>col &lt; numCols-1 &amp;&amp; colw<b>[</b>col<b>]</b>-cx &lt; 5<b>)</b></span>
-<span id='line826'></span>
-<span id='line827'>    if <b>(</b>p.y.toInt &lt; theadh<b>)</b></span>
-<span id='line828'>    <b>{</b></span>
-<span id='line829'>      if <b>(</b>e.type == "mousemove"<b>)</b></span>
-<span id='line830'>      <b>{</b></span>
-<span id='line831'>        if <b>(</b>canResize<b>)</b> this.style->cursor = "col-resize"</span>
-<span id='line832'>      <b>}</b></span>
-<span id='line833'>      else if <b>(</b>e.type == "mousedown"<b>)</b></span>
+<span id='line824'>    if <b>(</b>mx > colx.last + colw.last<b>)</b> return</span>
+<span id='line825'>    col := colx.binarySearch<b>(</b>mx<b>)</b></span>
+<span id='line826'>    if <b>(</b>col &lt; 0<b>)</b> col = col.not - 1</span>
+<span id='line827'></span>
+<span id='line828'>    cx := mx - colx<b>[</b>col<b>]</b></span>
+<span id='line829'>    canResize := <b>(</b>col > 0 &amp;&amp; cx &lt; 5<b>)</b> || <b>(</b>col &lt; numCols-1 &amp;&amp; colw<b>[</b>col<b>]</b>-cx &lt; 5<b>)</b></span>
+<span id='line830'></span>
+<span id='line831'>    if <b>(</b>p.y.toInt &lt; theadh<b>)</b></span>
+<span id='line832'>    <b>{</b></span>
+<span id='line833'>      if <b>(</b>e.type == "mousemove"<b>)</b></span>
 <span id='line834'>      <b>{</b></span>
-<span id='line835'>        if <b>(</b>canResize<b>)</b></span>
-<span id='line836'>        <b>{</b></span>
-<span id='line837'>          this.resizeCol = cx &lt; 5 ? col-1 : col</span>
-<span id='line838'>          this.style->cursor = "col-resize"</span>
-<span id='line839'>          this.add<b>(</b>resizeElem = Elem <b>{</b> it.style.addClass<b>(</b>"domkit-resize-splitter"<b>)</b> <b>}</b></span>
-<span id='line840'>          <b>{</b></span>
-<span id='line841'>            it.style->left = "$<b>{</b>p.x-2<b>}</b>px"</span>
-<span id='line842'>            it.style->width  = "5px"</span>
-<span id='line843'>            it.style->height = "100%"</span>
-<span id='line844'>          <b>}</b><b>)</b></span>
-<span id='line845'></span>
-<span id='line846'>          doc := Win.cur.doc</span>
-<span id='line847'>          Obj? fmove</span>
-<span id='line848'>          Obj? fup</span>
+<span id='line835'>        if <b>(</b>canResize<b>)</b> this.style->cursor = "col-resize"</span>
+<span id='line836'>      <b>}</b></span>
+<span id='line837'>      else if <b>(</b>e.type == "mousedown"<b>)</b></span>
+<span id='line838'>      <b>{</b></span>
+<span id='line839'>        if <b>(</b>canResize<b>)</b></span>
+<span id='line840'>        <b>{</b></span>
+<span id='line841'>          this.resizeCol = cx &lt; 5 ? col-1 : col</span>
+<span id='line842'>          this.style->cursor = "col-resize"</span>
+<span id='line843'>          this.add<b>(</b>resizeElem = Elem <b>{</b> it.style.addClass<b>(</b>"domkit-resize-splitter"<b>)</b> <b>}</b></span>
+<span id='line844'>          <b>{</b></span>
+<span id='line845'>            it.style->left = "$<b>{</b>p.x-2<b>}</b>px"</span>
+<span id='line846'>            it.style->width  = "5px"</span>
+<span id='line847'>            it.style->height = "100%"</span>
+<span id='line848'>          <b>}</b><b>)</b></span>
 <span id='line849'></span>
-<span id='line850'>          fmove = doc.onEvent<b>(</b>"mousemove", true<b>)</b> |de| <b>{</b></span>
-<span id='line851'>            de.stop</span>
-<span id='line852'>            dex := this.relPos<b>(</b>de.pagePos<b>)</b>.x.toInt</span>
-<span id='line853'>            resizeElem.style->left = "$<b>{</b>dex-2<b>}</b>px"</span>
-<span id='line854'>          <b>}</b></span>
-<span id='line855'></span>
-<span id='line856'>          fup = doc.onEvent<b>(</b>"mouseup", true<b>)</b> |de| <b>{</b></span>
-<span id='line857'>            // register user colw and cache scroll pos</span>
-<span id='line858'>            demx := this.relPos<b>(</b>de.pagePos<b>)</b>.x.toInt + scrollx</span>
-<span id='line859'>            ucolw<b>[</b>resizeCol<b>]</b> = 20.max<b>(</b>demx - colx<b>[</b>resizeCol<b>]</b><b>)</b></span>
-<span id='line860'>            oldscroll := Point<b>(</b>scrollx, scrolly<b>)</b></span>
-<span id='line861'></span>
-<span id='line862'>            // remove splitter</span>
-<span id='line863'>            this.remove<b>(</b>resizeElem<b>)</b></span>
-<span id='line864'>            resizeElem = null</span>
+<span id='line850'>          doc := Win.cur.doc</span>
+<span id='line851'>          Obj? fmove</span>
+<span id='line852'>          Obj? fup</span>
+<span id='line853'></span>
+<span id='line854'>          fmove = doc.onEvent<b>(</b>"mousemove", true<b>)</b> |de| <b>{</b></span>
+<span id='line855'>            de.stop</span>
+<span id='line856'>            dex := this.relPos<b>(</b>de.pagePos<b>)</b>.x.toInt</span>
+<span id='line857'>            resizeElem.style->left = "$<b>{</b>dex-2<b>}</b>px"</span>
+<span id='line858'>          <b>}</b></span>
+<span id='line859'></span>
+<span id='line860'>          fup = doc.onEvent<b>(</b>"mouseup", true<b>)</b> |de| <b>{</b></span>
+<span id='line861'>            // register user colw and cache scroll pos</span>
+<span id='line862'>            demx := this.relPos<b>(</b>de.pagePos<b>)</b>.x.toInt + scrollx</span>
+<span id='line863'>            ucolw<b>[</b>resizeCol<b>]</b> = 20.max<b>(</b>demx - colx<b>[</b>resizeCol<b>]</b><b>)</b></span>
+<span id='line864'>            oldscroll := Point<b>(</b>scrollx, scrolly<b>)</b></span>
 <span id='line865'></span>
-<span id='line866'>            // rebuild table and restore scrollpos</span>
-<span id='line867'>            doRebuild</span>
-<span id='line868'>            onScroll<b>(</b>oldscroll<b>)</b></span>
+<span id='line866'>            // remove splitter</span>
+<span id='line867'>            this.remove<b>(</b>resizeElem<b>)</b></span>
+<span id='line868'>            resizeElem = null</span>
 <span id='line869'></span>
-<span id='line870'>            de.stop</span>
-<span id='line871'>            doc.removeEvent<b>(</b>"mousemove", true, fmove<b>)</b></span>
-<span id='line872'>            doc.removeEvent<b>(</b>"mouseup",   true, fup<b>)</b></span>
-<span id='line873'>          <b>}</b></span>
-<span id='line874'>        <b>}</b></span>
-<span id='line875'>        else if <b>(</b>hasHpbut &amp;&amp; p.x.toInt > tbodyw-hpbutw<b>)</b></span>
-<span id='line876'>        <b>{</b></span>
-<span id='line877'>          // header popup</span>
-<span id='line878'>          Popup hp := cbHeaderPopup.call<b>(</b>this<b>)</b></span>
-<span id='line879'>          openHeaderPopup<b>(</b>hpbut, hp<b>)</b></span>
-<span id='line880'>        <b>}</b></span>
-<span id='line881'>        else</span>
-<span id='line882'>        <b>{</b></span>
-<span id='line883'>          // sort column</span>
-<span id='line884'>          col = view.colViewToModel<b>(</b>col<b>)</b></span>
-<span id='line885'>          sort<b>(</b>col, sortCol==col ? <b>(</b>sortDir==Dir.up ? Dir.down : Dir.up<b>)</b> : Dir.up<b>)</b></span>
-<span id='line886'>        <b>}</b></span>
-<span id='line887'>      <b>}</b></span>
-<span id='line888'>    <b>}</b></span>
-<span id='line889'>    else</span>
-<span id='line890'>    <b>{</b></span>
-<span id='line891'>      // short-circuit if out of bounds</span>
-<span id='line892'>      row := my / rowh</span>
-<span id='line893'>      if <b>(</b>row >= numRows<b>)</b></span>
-<span id='line894'>      <b>{</b></span>
-<span id='line895'>        // click in backbground clears selection</span>
-<span id='line896'>        if <b>(</b>e.type == "mousedown"<b>)</b> updateSel<b>(</b>Int<b>[</b>,<b>]</b><b>)</b></span>
-<span id='line897'>        return</span>
-<span id='line898'>      <b>}</b></span>
-<span id='line899'></span>
-<span id='line900'>      // find pos relative to cell <b>(</b>cx calc above<b>)</b></span>
-<span id='line901'>      cy := my - <b>(</b>row * rowh<b>)</b></span>
-<span id='line902'></span>
-<span id='line903'>      // map to model rows</span>
-<span id='line904'>      vcol := col</span>
-<span id='line905'>      vrow := row</span>
-<span id='line906'>      col = view.colViewToModel<b>(</b>col<b>)</b></span>
-<span id='line907'>      row = view.rowViewToModel<b>(</b>row<b>)</b></span>
-<span id='line908'></span>
-<span id='line909'>      // check selection</span>
-<span id='line910'>      if <b>(</b>e.type == "mousedown"<b>)</b> onMouseEventSelect<b>(</b>e, row, vrow<b>)</b></span>
-<span id='line911'></span>
-<span id='line912'>      // check action</span>
-<span id='line913'>      if <b>(</b>e.type == "dblclick"<b>)</b> cbAction?.call<b>(</b>this<b>)</b></span>
-<span id='line914'></span>
-<span id='line915'>      // delegate to cell handlers</span>
-<span id='line916'>      cb := cbTableEvent<b>[</b>e.type<b>]</b></span>
-<span id='line917'>      if <b>(</b>cb != null<b>)</b></span>
-<span id='line918'>      <b>{</b></span>
-<span id='line919'>        cb.call<b>(</b>TableEvent<b>(</b>this<b>)</b> <b>{</b></span>
-<span id='line920'>          it.type    = e.type</span>
-<span id='line921'>          it.col     = col</span>
-<span id='line922'>          it.row     = row</span>
-<span id='line923'>          it.pagePos = e.pagePos</span>
-<span id='line924'>          it.cellPos = Point<b>(</b>cx, cy<b>)</b></span>
-<span id='line925'>          it.size    = Size<b>(</b>colw<b>[</b>vcol<b>]</b>, rowh<b>)</b></span>
-<span id='line926'>          it._event  = e</span>
-<span id='line927'>        <b>}</b><b>)</b></span>
-<span id='line928'>      <b>}</b></span>
-<span id='line929'>    <b>}</b></span>
-<span id='line930'>  <b>}</b></span>
-<span id='line931'></span>
-<span id='line932'>  ** Callback to handle selection changes from a mouse event.</span>
-<span id='line933'>  private Void onMouseEventSelect<b>(</b>Event e, Int row, Int vrow<b>)</b></span>
-<span id='line934'>  <b>{</b></span>
-<span id='line935'>    // always force focus for mousedown</span>
-<span id='line936'>    manFocus = true</span>
-<span id='line937'></span>
-<span id='line938'>    // short-circuit if we initiated a hyperlink so that</span>
-<span id='line939'>    // the event can bubble properly down to the &lt;a> tag</span>
-<span id='line940'>    if <b>(</b>e.target.tagName == "a"<b>)</b></span>
-<span id='line941'>    <b>{</b></span>
-<span id='line942'>      // Chrome seems to be doing some weird stuff here; forcing</span>
-<span id='line943'>      // an onblur call on the Table &lt;div> inbetween firing the</span>
-<span id='line944'>      // hyperlink. Technically that might be correct but complicates</span>
-<span id='line945'>      // how we manage focus.  So if we detect this manually invoke</span>
-<span id='line946'>      // the click to skip over that behavoir</span>
-<span id='line947'>      e.target->click</span>
-<span id='line948'>      e.stop</span>
-<span id='line949'>      return</span>
-<span id='line950'>    <b>}</b></span>
-<span id='line951'></span>
-<span id='line952'>    cur := sel.indexes</span>
-<span id='line953'>    newsel := cur.dup</span>
-<span id='line954'></span>
-<span id='line955'>    // check multi-selection</span>
-<span id='line956'>    if <b>(</b>e.shift &amp;&amp; pivot != null<b>)</b></span>
-<span id='line957'>    <b>{</b></span>
-<span id='line958'>      if <b>(</b>vrow &lt; pivot<b>)</b></span>
-<span id='line959'>      <b>{</b></span>
-<span id='line960'>        <b>(</b>vrow..pivot<b>)</b>.each |i| <b>{</b> newsel.add<b>(</b>view.rowViewToModel<b>(</b>i<b>)</b><b>)</b> <b>}</b></span>
-<span id='line961'>        newsel = newsel.unique.sort</span>
-<span id='line962'>      <b>}</b></span>
-<span id='line963'>      else if <b>(</b>vrow > pivot<b>)</b></span>
-<span id='line964'>      <b>{</b></span>
-<span id='line965'>        <b>(</b>pivot..vrow<b>)</b>.each |i| <b>{</b> newsel.add<b>(</b>view.rowViewToModel<b>(</b>i<b>)</b><b>)</b> <b>}</b></span>
-<span id='line966'>        newsel = newsel.unique.sort</span>
-<span id='line967'>      <b>}</b></span>
-<span id='line968'>    <b>}</b></span>
-<span id='line969'>    else if <b>(</b>e.meta || e.ctrl<b>)</b></span>
-<span id='line970'>    <b>{</b></span>
-<span id='line971'>      if <b>(</b>cur.contains<b>(</b>row<b>)</b><b>)</b> newsel.remove<b>(</b>row<b>)</b></span>
-<span id='line972'>      else newsel.add<b>(</b>row<b>)</b>.sort</span>
-<span id='line973'>      pivot = view.rowModelToView<b>(</b>row<b>)</b></span>
-<span id='line974'>    <b>}</b></span>
-<span id='line975'>    else</span>
-<span id='line976'>    <b>{</b></span>
-<span id='line977'>      newsel = <b>[</b>row<b>]</b></span>
-<span id='line978'>      pivot = view.rowModelToView<b>(</b>row<b>)</b></span>
-<span id='line979'>    <b>}</b></span>
-<span id='line980'></span>
-<span id='line981'>    updateSel<b>(</b>newsel<b>)</b></span>
-<span id='line982'>  <b>}</b></span>
-<span id='line983'></span>
-<span id='line984'>  ** Callback to handle key events.</span>
-<span id='line985'>  private Void onKeyEvent<b>(</b>Event e<b>)</b></span>
-<span id='line986'>  <b>{</b></span>
-<span id='line987'>    // just handle keydown for now</span>
-<span id='line988'>    if <b>(</b>e.type != "keydown"<b>)</b> return</span>
-<span id='line989'></span>
-<span id='line990'>    // short-circuit if no cells</span>
-<span id='line991'>    if <b>(</b>numCols==0 || numRows==0<b>)</b> return</span>
-<span id='line992'></span>
-<span id='line993'>    // updateSel takes model rows; but scrollTo takes view rows, so</span>
-<span id='line994'>    // pre-map some of the selection indexs here to simplify things</span>
-<span id='line995'>    selTop      := view.rowViewToModel<b>(</b>0<b>)</b></span>
-<span id='line996'>    selBottom   := view.rowViewToModel<b>(</b>numRows-1<b>)</b></span>
-<span id='line997'>    selFirstVis := view.rowViewToModel<b>(</b>firstVisRow<b>)</b></span>
-<span id='line998'>    pivot       := view.rowModelToView<b>(</b>sel.indexes.first ?: selTop<b>)</b></span>
-<span id='line999'></span>
-<span id='line1000'>    // page commands</span>
-<span id='line1001'>    if <b>(</b>e.meta<b>)</b></span>
-<span id='line1002'>    <b>{</b></span>
-<span id='line1003'>      if <b>(</b>e.key == Key.up<b>)</b>    <b>{</b> e.stop; updateSel<b>(</b><b>[</b>selTop<b>]</b><b>)</b>;    scrollTo<b>(</b>null, 0<b>)</b>; return <b>}</b></span>
-<span id='line1004'>      if <b>(</b>e.key == Key.down<b>)</b>  <b>{</b> e.stop; updateSel<b>(</b><b>[</b>selBottom<b>]</b><b>)</b>; scrollTo<b>(</b>null, numRows-1<b>)</b>; return <b>}</b></span>
-<span id='line1005'>      if <b>(</b>e.key == Key.left<b>)</b>  <b>{</b> e.stop; scrollTo<b>(</b>0,         null<b>)</b>; return <b>}</b></span>
-<span id='line1006'>      if <b>(</b>e.key == Key.right<b>)</b> <b>{</b> e.stop; scrollTo<b>(</b>numCols-1, null<b>)</b>; return <b>}</b></span>
-<span id='line1007'>    <b>}</b></span>
-<span id='line1008'></span>
-<span id='line1009'>    // page up/down</span>
-<span id='line1010'>    if <b>(</b>e.key == Key.pageUp<b>)</b></span>
-<span id='line1011'>    <b>{</b></span>
-<span id='line1012'>      e.stop</span>
-<span id='line1013'>      prev := <b>(</b>pivot - <b>(</b>numVisRows-3<b>)</b><b>)</b>.max<b>(</b>0<b>)</b></span>
-<span id='line1014'>      updateSel<b>(</b><b>[</b>view.rowViewToModel<b>(</b>prev<b>)</b><b>]</b><b>)</b></span>
-<span id='line1015'>      scrollTo<b>(</b>null, prev<b>)</b></span>
-<span id='line1016'>      return</span>
-<span id='line1017'>    <b>}</b></span>
-<span id='line1018'>    if <b>(</b>e.key == Key.pageDown<b>)</b></span>
-<span id='line1019'>    <b>{</b></span>
-<span id='line1020'>      e.stop</span>
-<span id='line1021'>      next := <b>(</b>pivot + <b>(</b>numVisRows-3<b>)</b><b>)</b>.max<b>(</b>0<b>)</b>.min<b>(</b>numRows-1<b>)</b></span>
-<span id='line1022'>      updateSel<b>(</b><b>[</b>view.rowViewToModel<b>(</b>next<b>)</b><b>]</b><b>)</b></span>
-<span id='line1023'>      scrollTo<b>(</b>null, next<b>)</b></span>
-<span id='line1024'>      return</span>
-<span id='line1025'>    <b>}</b></span>
-<span id='line1026'></span>
-<span id='line1027'>    // selection commands</span>
-<span id='line1028'>    switch <b>(</b>e.key<b>)</b></span>
-<span id='line1029'>    <b>{</b></span>
-<span id='line1030'>      case Key.left:</span>
-<span id='line1031'>        cur := colx.binarySearch<b>(</b>scrollx<b>)</b></span>
-<span id='line1032'>        if <b>(</b>cur &lt; 0<b>)</b> cur = cur.not - 1</span>
-<span id='line1033'>        pre := colx<b>[</b>cur<b>]</b> == scrollx ? cur-1 : cur</span>
-<span id='line1034'>        scrollTo<b>(</b>0.max<b>(</b>pre<b>)</b>, null<b>)</b></span>
-<span id='line1035'>        return</span>
-<span id='line1036'></span>
-<span id='line1037'>      case Key.right:</span>
-<span id='line1038'>        cur := colx.binarySearch<b>(</b>scrollx<b>)</b></span>
-<span id='line1039'>        if <b>(</b>cur &lt; 0<b>)</b> cur = cur.not - 1</span>
-<span id='line1040'>        scrollTo<b>(</b><b>(</b>numCols-1<b>)</b>.min<b>(</b>cur+1<b>)</b>, null<b>)</b></span>
-<span id='line1041'>        return</span>
-<span id='line1042'></span>
-<span id='line1043'>      case Key.up:</span>
-<span id='line1044'>        if <b>(</b>sel.indexes.isEmpty<b>)</b></span>
-<span id='line1045'>        <b>{</b></span>
-<span id='line1046'>          updateSel<b>(</b><b>[</b>selFirstVis<b>]</b><b>)</b></span>
-<span id='line1047'>          scrollTo<b>(</b>null, firstVisRow<b>)</b></span>
-<span id='line1048'>          return</span>
-<span id='line1049'>        <b>}</b></span>
-<span id='line1050'>        else</span>
-<span id='line1051'>        <b>{</b></span>
-<span id='line1052'>          if <b>(</b>pivot == 0<b>)</b> return scrollTo<b>(</b>null, 0<b>)</b></span>
-<span id='line1053'>          prev := pivot - 1</span>
-<span id='line1054'>          updateSel<b>(</b><b>[</b>view.rowViewToModel<b>(</b>prev<b>)</b><b>]</b><b>)</b></span>
-<span id='line1055'>          scrollTo<b>(</b>null, prev<b>)</b></span>
-<span id='line1056'>          return</span>
-<span id='line1057'>        <b>}</b></span>
-<span id='line1058'></span>
-<span id='line1059'>      case Key.down:</span>
-<span id='line1060'>        if <b>(</b>sel.indexes.isEmpty<b>)</b></span>
-<span id='line1061'>        <b>{</b></span>
-<span id='line1062'>          updateSel<b>(</b><b>[</b>selFirstVis<b>]</b><b>)</b></span>
-<span id='line1063'>          scrollTo<b>(</b>null, firstVisRow<b>)</b></span>
-<span id='line1064'>          return</span>
-<span id='line1065'>        <b>}</b></span>
-<span id='line1066'>        else</span>
-<span id='line1067'>        <b>{</b></span>
-<span id='line1068'>          if <b>(</b>pivot == numRows-1<b>)</b> return scrollTo<b>(</b>null, numRows-1<b>)</b></span>
-<span id='line1069'>          next := pivot + 1</span>
-<span id='line1070'>          updateSel<b>(</b><b>[</b>view.rowViewToModel<b>(</b>next<b>)</b><b>]</b><b>)</b></span>
-<span id='line1071'>          scrollTo<b>(</b>null, next<b>)</b></span>
-<span id='line1072'>          return</span>
-<span id='line1073'>        <b>}</b></span>
-<span id='line1074'>    <b>}</b></span>
-<span id='line1075'></span>
-<span id='line1076'>    // onAction</span>
-<span id='line1077'>    if <b>(</b>e.key == Key.space || e.key == Key.enter<b>)</b></span>
-<span id='line1078'>    <b>{</b></span>
-<span id='line1079'>      cbAction?.call<b>(</b>this<b>)</b></span>
-<span id='line1080'>      return</span>
-<span id='line1081'>    <b>}</b></span>
-<span id='line1082'></span>
-<span id='line1083'>    // else bubble up to callback</span>
-<span id='line1084'>    if <b>(</b>e.type == "keydown"<b>)</b> <b>{</b> cbKeyDown?.call<b>(</b>e<b>)</b>; return <b>}</b></span>
-<span id='line1085'>  <b>}</b></span>
+<span id='line870'>            // rebuild table and restore scrollpos</span>
+<span id='line871'>            doRebuild</span>
+<span id='line872'>            onScroll<b>(</b>oldscroll<b>)</b></span>
+<span id='line873'></span>
+<span id='line874'>            de.stop</span>
+<span id='line875'>            doc.removeEvent<b>(</b>"mousemove", true, fmove<b>)</b></span>
+<span id='line876'>            doc.removeEvent<b>(</b>"mouseup",   true, fup<b>)</b></span>
+<span id='line877'>          <b>}</b></span>
+<span id='line878'>        <b>}</b></span>
+<span id='line879'>        else if <b>(</b>hasHpbut &amp;&amp; p.x.toInt > tbodyw-hpbutw<b>)</b></span>
+<span id='line880'>        <b>{</b></span>
+<span id='line881'>          // header popup</span>
+<span id='line882'>          Popup hp := cbHeaderPopup.call<b>(</b>this<b>)</b></span>
+<span id='line883'>          openHeaderPopup<b>(</b>hpbut, hp<b>)</b></span>
+<span id='line884'>        <b>}</b></span>
+<span id='line885'>        else</span>
+<span id='line886'>        <b>{</b></span>
+<span id='line887'>          // sort column</span>
+<span id='line888'>          col = view.colViewToModel<b>(</b>col<b>)</b></span>
+<span id='line889'>          sort<b>(</b>col, sortCol==col ? <b>(</b>sortDir==Dir.up ? Dir.down : Dir.up<b>)</b> : Dir.up<b>)</b></span>
+<span id='line890'>        <b>}</b></span>
+<span id='line891'>      <b>}</b></span>
+<span id='line892'>    <b>}</b></span>
+<span id='line893'>    else</span>
+<span id='line894'>    <b>{</b></span>
+<span id='line895'>      // short-circuit if out of bounds</span>
+<span id='line896'>      row := my / rowh</span>
+<span id='line897'>      if <b>(</b>row >= numRows<b>)</b></span>
+<span id='line898'>      <b>{</b></span>
+<span id='line899'>        // click in backbground clears selection</span>
+<span id='line900'>        if <b>(</b>e.type == "mousedown"<b>)</b> updateSel<b>(</b>Int<b>[</b>,<b>]</b><b>)</b></span>
+<span id='line901'>        return</span>
+<span id='line902'>      <b>}</b></span>
+<span id='line903'></span>
+<span id='line904'>      // find pos relative to cell <b>(</b>cx calc above<b>)</b></span>
+<span id='line905'>      cy := my - <b>(</b>row * rowh<b>)</b></span>
+<span id='line906'></span>
+<span id='line907'>      // map to model rows</span>
+<span id='line908'>      vcol := col</span>
+<span id='line909'>      vrow := row</span>
+<span id='line910'>      col = view.colViewToModel<b>(</b>col<b>)</b></span>
+<span id='line911'>      row = view.rowViewToModel<b>(</b>row<b>)</b></span>
+<span id='line912'></span>
+<span id='line913'>      // check selection</span>
+<span id='line914'>      if <b>(</b>e.type == "mousedown"<b>)</b> onMouseEventSelect<b>(</b>e, row, vrow<b>)</b></span>
+<span id='line915'></span>
+<span id='line916'>      // check action</span>
+<span id='line917'>      if <b>(</b>e.type == "dblclick"<b>)</b> cbAction?.call<b>(</b>this<b>)</b></span>
+<span id='line918'></span>
+<span id='line919'>      // delegate to cell handlers</span>
+<span id='line920'>      cb := cbTableEvent<b>[</b>e.type<b>]</b></span>
+<span id='line921'>      if <b>(</b>cb != null<b>)</b></span>
+<span id='line922'>      <b>{</b></span>
+<span id='line923'>        cb.call<b>(</b>TableEvent<b>(</b>this<b>)</b> <b>{</b></span>
+<span id='line924'>          it.type    = e.type</span>
+<span id='line925'>          it.col     = col</span>
+<span id='line926'>          it.row     = row</span>
+<span id='line927'>          it.pagePos = e.pagePos</span>
+<span id='line928'>          it.cellPos = Point<b>(</b>cx, cy<b>)</b></span>
+<span id='line929'>          it.size    = Size<b>(</b>colw<b>[</b>vcol<b>]</b>, rowh<b>)</b></span>
+<span id='line930'>          it._event  = e</span>
+<span id='line931'>        <b>}</b><b>)</b></span>
+<span id='line932'>      <b>}</b></span>
+<span id='line933'>    <b>}</b></span>
+<span id='line934'>  <b>}</b></span>
+<span id='line935'></span>
+<span id='line936'>  ** Callback to handle selection changes from a mouse event.</span>
+<span id='line937'>  private Void onMouseEventSelect<b>(</b>Event e, Int row, Int vrow<b>)</b></span>
+<span id='line938'>  <b>{</b></span>
+<span id='line939'>    // always force focus for mousedown</span>
+<span id='line940'>    manFocus = true</span>
+<span id='line941'></span>
+<span id='line942'>    // short-circuit if we initiated a hyperlink so that</span>
+<span id='line943'>    // the event can bubble properly down to the &lt;a> tag</span>
+<span id='line944'>    if <b>(</b>e.target.tagName == "a"<b>)</b></span>
+<span id='line945'>    <b>{</b></span>
+<span id='line946'>      // Chrome seems to be doing some weird stuff here; forcing</span>
+<span id='line947'>      // an onblur call on the Table &lt;div> inbetween firing the</span>
+<span id='line948'>      // hyperlink. Technically that might be correct but complicates</span>
+<span id='line949'>      // how we manage focus.  So if we detect this manually invoke</span>
+<span id='line950'>      // the click to skip over that behavoir</span>
+<span id='line951'>      e.target->click</span>
+<span id='line952'>      e.stop</span>
+<span id='line953'>      return</span>
+<span id='line954'>    <b>}</b></span>
+<span id='line955'></span>
+<span id='line956'>    cur := sel.indexes</span>
+<span id='line957'>    newsel := cur.dup</span>
+<span id='line958'></span>
+<span id='line959'>    // check multi-selection</span>
+<span id='line960'>    if <b>(</b>e.shift &amp;&amp; pivot != null<b>)</b></span>
+<span id='line961'>    <b>{</b></span>
+<span id='line962'>      if <b>(</b>vrow &lt; pivot<b>)</b></span>
+<span id='line963'>      <b>{</b></span>
+<span id='line964'>        <b>(</b>vrow..pivot<b>)</b>.each |i| <b>{</b> newsel.add<b>(</b>view.rowViewToModel<b>(</b>i<b>)</b><b>)</b> <b>}</b></span>
+<span id='line965'>        newsel = newsel.unique.sort</span>
+<span id='line966'>      <b>}</b></span>
+<span id='line967'>      else if <b>(</b>vrow > pivot<b>)</b></span>
+<span id='line968'>      <b>{</b></span>
+<span id='line969'>        <b>(</b>pivot..vrow<b>)</b>.each |i| <b>{</b> newsel.add<b>(</b>view.rowViewToModel<b>(</b>i<b>)</b><b>)</b> <b>}</b></span>
+<span id='line970'>        newsel = newsel.unique.sort</span>
+<span id='line971'>      <b>}</b></span>
+<span id='line972'>    <b>}</b></span>
+<span id='line973'>    else if <b>(</b>e.meta || e.ctrl<b>)</b></span>
+<span id='line974'>    <b>{</b></span>
+<span id='line975'>      if <b>(</b>cur.contains<b>(</b>row<b>)</b><b>)</b> newsel.remove<b>(</b>row<b>)</b></span>
+<span id='line976'>      else newsel.add<b>(</b>row<b>)</b>.sort</span>
+<span id='line977'>      pivot = view.rowModelToView<b>(</b>row<b>)</b></span>
+<span id='line978'>    <b>}</b></span>
+<span id='line979'>    else</span>
+<span id='line980'>    <b>{</b></span>
+<span id='line981'>      newsel = <b>[</b>row<b>]</b></span>
+<span id='line982'>      pivot = view.rowModelToView<b>(</b>row<b>)</b></span>
+<span id='line983'>    <b>}</b></span>
+<span id='line984'></span>
+<span id='line985'>    updateSel<b>(</b>newsel<b>)</b></span>
+<span id='line986'>  <b>}</b></span>
+<span id='line987'></span>
+<span id='line988'>  ** Callback to handle key events.</span>
+<span id='line989'>  private Void onKeyEvent<b>(</b>Event e<b>)</b></span>
+<span id='line990'>  <b>{</b></span>
+<span id='line991'>    // just handle keydown for now</span>
+<span id='line992'>    if <b>(</b>e.type != "keydown"<b>)</b> return</span>
+<span id='line993'></span>
+<span id='line994'>    // short-circuit if no cells</span>
+<span id='line995'>    if <b>(</b>numCols==0 || numRows==0<b>)</b> return</span>
+<span id='line996'></span>
+<span id='line997'>    // updateSel takes model rows; but scrollTo takes view rows, so</span>
+<span id='line998'>    // pre-map some of the selection indexs here to simplify things</span>
+<span id='line999'>    selTop      := view.rowViewToModel<b>(</b>0<b>)</b></span>
+<span id='line1000'>    selBottom   := view.rowViewToModel<b>(</b>numRows-1<b>)</b></span>
+<span id='line1001'>    selFirstVis := view.rowViewToModel<b>(</b>firstVisRow<b>)</b></span>
+<span id='line1002'>    pivot       := view.rowModelToView<b>(</b>sel.indexes.first ?: selTop<b>)</b></span>
+<span id='line1003'></span>
+<span id='line1004'>    // page commands</span>
+<span id='line1005'>    if <b>(</b>e.meta<b>)</b></span>
+<span id='line1006'>    <b>{</b></span>
+<span id='line1007'>      if <b>(</b>e.key == Key.up<b>)</b>    <b>{</b> e.stop; updateSel<b>(</b><b>[</b>selTop<b>]</b><b>)</b>;    scrollTo<b>(</b>null, 0<b>)</b>; return <b>}</b></span>
+<span id='line1008'>      if <b>(</b>e.key == Key.down<b>)</b>  <b>{</b> e.stop; updateSel<b>(</b><b>[</b>selBottom<b>]</b><b>)</b>; scrollTo<b>(</b>null, numRows-1<b>)</b>; return <b>}</b></span>
+<span id='line1009'>      if <b>(</b>e.key == Key.left<b>)</b>  <b>{</b> e.stop; scrollTo<b>(</b>0,         null<b>)</b>; return <b>}</b></span>
+<span id='line1010'>      if <b>(</b>e.key == Key.right<b>)</b> <b>{</b> e.stop; scrollTo<b>(</b>numCols-1, null<b>)</b>; return <b>}</b></span>
+<span id='line1011'>    <b>}</b></span>
+<span id='line1012'></span>
+<span id='line1013'>    // page up/down</span>
+<span id='line1014'>    if <b>(</b>e.key == Key.pageUp<b>)</b></span>
+<span id='line1015'>    <b>{</b></span>
+<span id='line1016'>      e.stop</span>
+<span id='line1017'>      prev := <b>(</b>pivot - <b>(</b>numVisRows-3<b>)</b><b>)</b>.max<b>(</b>0<b>)</b></span>
+<span id='line1018'>      updateSel<b>(</b><b>[</b>view.rowViewToModel<b>(</b>prev<b>)</b><b>]</b><b>)</b></span>
+<span id='line1019'>      scrollTo<b>(</b>null, prev<b>)</b></span>
+<span id='line1020'>      return</span>
+<span id='line1021'>    <b>}</b></span>
+<span id='line1022'>    if <b>(</b>e.key == Key.pageDown<b>)</b></span>
+<span id='line1023'>    <b>{</b></span>
+<span id='line1024'>      e.stop</span>
+<span id='line1025'>      next := <b>(</b>pivot + <b>(</b>numVisRows-3<b>)</b><b>)</b>.max<b>(</b>0<b>)</b>.min<b>(</b>numRows-1<b>)</b></span>
+<span id='line1026'>      updateSel<b>(</b><b>[</b>view.rowViewToModel<b>(</b>next<b>)</b><b>]</b><b>)</b></span>
+<span id='line1027'>      scrollTo<b>(</b>null, next<b>)</b></span>
+<span id='line1028'>      return</span>
+<span id='line1029'>    <b>}</b></span>
+<span id='line1030'></span>
+<span id='line1031'>    // selection commands</span>
+<span id='line1032'>    switch <b>(</b>e.key<b>)</b></span>
+<span id='line1033'>    <b>{</b></span>
+<span id='line1034'>      case Key.left:</span>
+<span id='line1035'>        cur := colx.binarySearch<b>(</b>scrollx<b>)</b></span>
+<span id='line1036'>        if <b>(</b>cur &lt; 0<b>)</b> cur = cur.not - 1</span>
+<span id='line1037'>        pre := colx<b>[</b>cur<b>]</b> == scrollx ? cur-1 : cur</span>
+<span id='line1038'>        scrollTo<b>(</b>0.max<b>(</b>pre<b>)</b>, null<b>)</b></span>
+<span id='line1039'>        return</span>
+<span id='line1040'></span>
+<span id='line1041'>      case Key.right:</span>
+<span id='line1042'>        cur := colx.binarySearch<b>(</b>scrollx<b>)</b></span>
+<span id='line1043'>        if <b>(</b>cur &lt; 0<b>)</b> cur = cur.not - 1</span>
+<span id='line1044'>        scrollTo<b>(</b><b>(</b>numCols-1<b>)</b>.min<b>(</b>cur+1<b>)</b>, null<b>)</b></span>
+<span id='line1045'>        return</span>
+<span id='line1046'></span>
+<span id='line1047'>      case Key.up:</span>
+<span id='line1048'>        if <b>(</b>sel.indexes.isEmpty<b>)</b></span>
+<span id='line1049'>        <b>{</b></span>
+<span id='line1050'>          updateSel<b>(</b><b>[</b>selFirstVis<b>]</b><b>)</b></span>
+<span id='line1051'>          scrollTo<b>(</b>null, firstVisRow<b>)</b></span>
+<span id='line1052'>          return</span>
+<span id='line1053'>        <b>}</b></span>
+<span id='line1054'>        else</span>
+<span id='line1055'>        <b>{</b></span>
+<span id='line1056'>          if <b>(</b>pivot == 0<b>)</b> return scrollTo<b>(</b>null, 0<b>)</b></span>
+<span id='line1057'>          prev := pivot - 1</span>
+<span id='line1058'>          updateSel<b>(</b><b>[</b>view.rowViewToModel<b>(</b>prev<b>)</b><b>]</b><b>)</b></span>
+<span id='line1059'>          scrollTo<b>(</b>null, prev<b>)</b></span>
+<span id='line1060'>          return</span>
+<span id='line1061'>        <b>}</b></span>
+<span id='line1062'></span>
+<span id='line1063'>      case Key.down:</span>
+<span id='line1064'>        if <b>(</b>sel.indexes.isEmpty<b>)</b></span>
+<span id='line1065'>        <b>{</b></span>
+<span id='line1066'>          updateSel<b>(</b><b>[</b>selFirstVis<b>]</b><b>)</b></span>
+<span id='line1067'>          scrollTo<b>(</b>null, firstVisRow<b>)</b></span>
+<span id='line1068'>          return</span>
+<span id='line1069'>        <b>}</b></span>
+<span id='line1070'>        else</span>
+<span id='line1071'>        <b>{</b></span>
+<span id='line1072'>          if <b>(</b>pivot == numRows-1<b>)</b> return scrollTo<b>(</b>null, numRows-1<b>)</b></span>
+<span id='line1073'>          next := pivot + 1</span>
+<span id='line1074'>          updateSel<b>(</b><b>[</b>view.rowViewToModel<b>(</b>next<b>)</b><b>]</b><b>)</b></span>
+<span id='line1075'>          scrollTo<b>(</b>null, next<b>)</b></span>
+<span id='line1076'>          return</span>
+<span id='line1077'>        <b>}</b></span>
+<span id='line1078'>    <b>}</b></span>
+<span id='line1079'></span>
+<span id='line1080'>    // onAction</span>
+<span id='line1081'>    if <b>(</b>e.key == Key.space || e.key == Key.enter<b>)</b></span>
+<span id='line1082'>    <b>{</b></span>
+<span id='line1083'>      cbAction?.call<b>(</b>this<b>)</b></span>
+<span id='line1084'>      return</span>
+<span id='line1085'>    <b>}</b></span>
 <span id='line1086'></span>
-<span id='line1087'>  @NoDoc Void updateSel<b>(</b>Int<b>[</b><b>]</b> newsel<b>)</b></span>
-<span id='line1088'>  <b>{</b></span>
-<span id='line1089'>    if <b>(</b>!sel.enabled<b>)</b> return</span>
-<span id='line1090'>    if <b>(</b>sel.indexes == newsel<b>)</b> return</span>
-<span id='line1091'>    if <b>(</b>cbBeforeSelect?.call<b>(</b>newsel<b>)</b> == false<b>)</b> return</span>
-<span id='line1092'>    sel.indexes = newsel</span>
-<span id='line1093'>    cbSelect?.call<b>(</b>this<b>)</b></span>
-<span id='line1094'>  <b>}</b></span>
-<span id='line1095'></span>
-<span id='line1096'>  private Int colxSafe<b>(</b>Int c<b>)</b> <b>{</b> colx.getSafe<b>(</b>c<b>)</b> ?: colx.last + colw.last + <b>(</b><b>(</b>c-colx.size+1<b>)</b> * 100<b>)</b><b>}</b></span>
-<span id='line1097'>  private Int colwSafe<b>(</b>Int c<b>)</b> <b>{</b> colw.getSafe<b>(</b>c<b>)</b> ?: 100 <b>}</b></span>
-<span id='line1098'></span>
-<span id='line1099'>  private Str ts<b>(</b><b>)</b> <b>{</b> "$<b>{</b><b>(</b>Duration.now<b>)</b>.toMillis<b>}</b>ms" <b>}</b></span>
-<span id='line1100'></span>
-<span id='line1101'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line1102'>// Fields</span>
-<span id='line1103'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line1087'>    // else bubble up to callback</span>
+<span id='line1088'>    if <b>(</b>e.type == "keydown"<b>)</b> <b>{</b> cbKeyDown?.call<b>(</b>e<b>)</b>; return <b>}</b></span>
+<span id='line1089'>  <b>}</b></span>
+<span id='line1090'></span>
+<span id='line1091'>  @NoDoc Void updateSel<b>(</b>Int<b>[</b><b>]</b> newsel<b>)</b></span>
+<span id='line1092'>  <b>{</b></span>
+<span id='line1093'>    if <b>(</b>!sel.enabled<b>)</b> return</span>
+<span id='line1094'>    if <b>(</b>sel.indexes == newsel<b>)</b> return</span>
+<span id='line1095'>    if <b>(</b>cbBeforeSelect?.call<b>(</b>newsel<b>)</b> == false<b>)</b> return</span>
+<span id='line1096'>    sel.indexes = newsel</span>
+<span id='line1097'>    cbSelect?.call<b>(</b>this<b>)</b></span>
+<span id='line1098'>  <b>}</b></span>
+<span id='line1099'></span>
+<span id='line1100'>  private Int colxSafe<b>(</b>Int c<b>)</b> <b>{</b> colx.getSafe<b>(</b>c<b>)</b> ?: colx.last + colw.last + <b>(</b><b>(</b>c-colx.size+1<b>)</b> * 100<b>)</b><b>}</b></span>
+<span id='line1101'>  private Int colwSafe<b>(</b>Int c<b>)</b> <b>{</b> colw.getSafe<b>(</b>c<b>)</b> ?: 100 <b>}</b></span>
+<span id='line1102'></span>
+<span id='line1103'>  private Str ts<b>(</b><b>)</b> <b>{</b> "$<b>{</b><b>(</b>Duration.now<b>)</b>.toMillis<b>}</b>ms" <b>}</b></span>
 <span id='line1104'></span>
-<span id='line1105'>  private static const Str<b>[</b><b>]</b> cellEvents := <b>[</b></span>
-<span id='line1106'>    "mousedown",</span>
-<span id='line1107'>    "mouseup",</span>
-<span id='line1108'>    "click",</span>
-<span id='line1109'>    "dblclick",</span>
-<span id='line1110'></span>
-<span id='line1111'>    // TODO: opt into these events?</span>
-<span id='line1112'>    // "mousemove",</span>
-<span id='line1113'>    // "mouseover",</span>
-<span id='line1114'>    // "mouseout",</span>
-<span id='line1115'>  <b>]</b></span>
-<span id='line1116'></span>
-<span id='line1117'>  private Func? cbBeforeSelect</span>
-<span id='line1118'>  private Func? cbSelect</span>
-<span id='line1119'>  private Func? cbAction</span>
-<span id='line1120'>  private Func? cbSort</span>
-<span id='line1121'>  private Func? cbKeyDown</span>
-<span id='line1122'>  private Str:Func cbTableEvent := <b>[</b>:<b>]</b></span>
-<span id='line1123'>  private Func? cbHeaderPopup</span>
-<span id='line1124'></span>
-<span id='line1125'>  // scrollbars</span>
-<span id='line1126'>  private const Int sbarsz := 15</span>
-<span id='line1127'>  private const Int thumbMargin := 2</span>
-<span id='line1128'>  private const Int overScroll := sbarsz + 2</span>
-<span id='line1129'>  private const Duration scrollPageFreq := 100ms</span>
-<span id='line1130'>  private const Duration scrollPulseDir := 300ms</span>
-<span id='line1131'></span>
-<span id='line1132'>  // refresh</span>
-<span id='line1133'>  private Elem? thead</span>
-<span id='line1134'>  private Elem? tbody</span>
-<span id='line1135'>  private Elem? hbar</span>
-<span id='line1136'>  private Elem? vbar</span>
-<span id='line1137'>  private Int:Elem headers := <b>[</b>:<b>]</b></span>
-<span id='line1138'>  private TablePos:Elem cells := <b>[</b>:<b>]</b></span>
-<span id='line1139'>  private Int theadh            // thead height</span>
-<span id='line1140'>  private Int tbodyw            // tbody width</span>
-<span id='line1141'>  private Int tbodyh            // tbody height</span>
-<span id='line1142'>  private Int numCols           // num cols in model</span>
-<span id='line1143'>  private Int numRows           // num rows in model</span>
-<span id='line1144'>  private Int<b>[</b><b>]</b> colx := <b>[</b>,<b>]</b>     // col x offsets</span>
-<span id='line1145'>  private Int<b>[</b><b>]</b> colw := <b>[</b>,<b>]</b>     // col widths</span>
-<span id='line1146'>  private Int:Int ucolw := <b>[</b>:<b>]</b>  // user defined col width <b>(</b>via resize<b>)</b></span>
-<span id='line1147'>  private Int rowh              // row height</span>
-<span id='line1148'>  private Int numVisCols        // num of visible cols</span>
-<span id='line1149'>  private Int numVisRows        // num of visible rows</span>
-<span id='line1150'>  private Int maxScrollx        // max scroll x value</span>
-<span id='line1151'>  private Int maxScrolly        // max scroll y value</span>
-<span id='line1152'>  private Bool hasScrollx       // is horiz scolling</span>
-<span id='line1153'>  private Bool hasScrolly       // is vert scolling</span>
-<span id='line1154'>  private Int htrackw           // hbar track width</span>
-<span id='line1155'>  private Int hthumbw           // hbar thumb width</span>
-<span id='line1156'>  private Int vtrackh           // vbar track height</span>
-<span id='line1157'>  private Int vthumbh           // vbar thumb height</span>
-<span id='line1158'></span>
-<span id='line1159'>  // resize</span>
-<span id='line1160'>  private Int? resizeCol        // column being resized</span>
-<span id='line1161'>  private Elem? resizeElem      // visual indication of resize col size</span>
+<span id='line1105'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line1106'>// Fields</span>
+<span id='line1107'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line1108'></span>
+<span id='line1109'>  private static const Str<b>[</b><b>]</b> cellEvents := <b>[</b></span>
+<span id='line1110'>    "mousedown",</span>
+<span id='line1111'>    "mouseup",</span>
+<span id='line1112'>    "click",</span>
+<span id='line1113'>    "dblclick",</span>
+<span id='line1114'></span>
+<span id='line1115'>    // TODO: opt into these events?</span>
+<span id='line1116'>    // "mousemove",</span>
+<span id='line1117'>    // "mouseover",</span>
+<span id='line1118'>    // "mouseout",</span>
+<span id='line1119'>  <b>]</b></span>
+<span id='line1120'></span>
+<span id='line1121'>  private Func? cbBeforeSelect</span>
+<span id='line1122'>  private Func? cbSelect</span>
+<span id='line1123'>  private Func? cbAction</span>
+<span id='line1124'>  private Func? cbSort</span>
+<span id='line1125'>  private Func? cbKeyDown</span>
+<span id='line1126'>  private Str:Func cbTableEvent := <b>[</b>:<b>]</b></span>
+<span id='line1127'>  private Func? cbHeaderPopup</span>
+<span id='line1128'></span>
+<span id='line1129'>  // scrollbars</span>
+<span id='line1130'>  private const Int sbarsz := 15</span>
+<span id='line1131'>  private const Int thumbMargin := 2</span>
+<span id='line1132'>  private const Int overScroll := sbarsz + 2</span>
+<span id='line1133'>  private const Duration scrollPageFreq := 100ms</span>
+<span id='line1134'>  private const Duration scrollPulseDir := 300ms</span>
+<span id='line1135'></span>
+<span id='line1136'>  // refresh</span>
+<span id='line1137'>  private Elem? thead</span>
+<span id='line1138'>  private Elem? tbody</span>
+<span id='line1139'>  private Elem? hbar</span>
+<span id='line1140'>  private Elem? vbar</span>
+<span id='line1141'>  private Int:Elem headers := <b>[</b>:<b>]</b></span>
+<span id='line1142'>  private TablePos:Elem cells := <b>[</b>:<b>]</b></span>
+<span id='line1143'>  private Int theadh            // thead height</span>
+<span id='line1144'>  private Int tbodyw            // tbody width</span>
+<span id='line1145'>  private Int tbodyh            // tbody height</span>
+<span id='line1146'>  private Int numCols           // num cols in model</span>
+<span id='line1147'>  private Int numRows           // num rows in model</span>
+<span id='line1148'>  private Int<b>[</b><b>]</b> colx := <b>[</b>,<b>]</b>     // col x offsets</span>
+<span id='line1149'>  private Int<b>[</b><b>]</b> colw := <b>[</b>,<b>]</b>     // col widths</span>
+<span id='line1150'>  private Int:Int ucolw := <b>[</b>:<b>]</b>  // user defined col width <b>(</b>via resize<b>)</b></span>
+<span id='line1151'>  private Int rowh              // row height</span>
+<span id='line1152'>  private Int numVisCols        // num of visible cols</span>
+<span id='line1153'>  private Int numVisRows        // num of visible rows</span>
+<span id='line1154'>  private Int maxScrollx        // max scroll x value</span>
+<span id='line1155'>  private Int maxScrolly        // max scroll y value</span>
+<span id='line1156'>  private Bool hasScrollx       // is horiz scolling</span>
+<span id='line1157'>  private Bool hasScrolly       // is vert scolling</span>
+<span id='line1158'>  private Int htrackw           // hbar track width</span>
+<span id='line1159'>  private Int hthumbw           // hbar thumb width</span>
+<span id='line1160'>  private Int vtrackh           // vbar track height</span>
+<span id='line1161'>  private Int vthumbh           // vbar thumb height</span>
 <span id='line1162'></span>
-<span id='line1163'>  // headerPopup</span>
-<span id='line1164'>  private Elem? hpbut             // header popup button</span>
-<span id='line1165'>  private Bool hasHpbut           // hpbut != null</span>
-<span id='line1166'>  private const Int hpbutw := 22  // width of header popup button</span>
-<span id='line1167'></span>
-<span id='line1168'>  // scroll</span>
-<span id='line1169'>  private Int scrollx           // current x scroll pos</span>
-<span id='line1170'>  private Int scrolly           // current y scroll pos</span>
-<span id='line1171'>  private Int? hbarPulseId      // hbar pulse timeout func id</span>
-<span id='line1172'>  private Int? vbarPulseId      // vbar pulse timeout func id</span>
-<span id='line1173'>  private Int? hbarPageId       // hbar page interval func id</span>
-<span id='line1174'>  private Int? vbarPageId       // vbar page interval func id</span>
-<span id='line1175'>  private Int? hthumbDragOff    // offset of hthumb drag pos</span>
-<span id='line1176'>  private Int? vthumbDragOff    // offset of vthumb drag pos</span>
-<span id='line1177'></span>
-<span id='line1178'>  // update</span>
-<span id='line1179'>  private Int firstVisCol    // first visible col</span>
-<span id='line1180'>  private Int firstVisRow    // first visible row</span>
+<span id='line1163'>  // resize</span>
+<span id='line1164'>  private Int? resizeCol        // column being resized</span>
+<span id='line1165'>  private Elem? resizeElem      // visual indication of resize col size</span>
+<span id='line1166'></span>
+<span id='line1167'>  // headerPopup</span>
+<span id='line1168'>  private Elem? hpbut             // header popup button</span>
+<span id='line1169'>  private Bool hasHpbut           // hpbut != null</span>
+<span id='line1170'>  private const Int hpbutw := 22  // width of header popup button</span>
+<span id='line1171'></span>
+<span id='line1172'>  // scroll</span>
+<span id='line1173'>  private Int scrollx           // current x scroll pos</span>
+<span id='line1174'>  private Int scrolly           // current y scroll pos</span>
+<span id='line1175'>  private Int? hbarPulseId      // hbar pulse timeout func id</span>
+<span id='line1176'>  private Int? vbarPulseId      // vbar pulse timeout func id</span>
+<span id='line1177'>  private Int? hbarPageId       // hbar page interval func id</span>
+<span id='line1178'>  private Int? vbarPageId       // vbar page interval func id</span>
+<span id='line1179'>  private Int? hthumbDragOff    // offset of hthumb drag pos</span>
+<span id='line1180'>  private Int? vthumbDragOff    // offset of vthumb drag pos</span>
 <span id='line1181'></span>
-<span id='line1182'>  // onSelect <b>(</b>always in view refrence; not model<b>)</b></span>
-<span id='line1183'>  private Int? pivot</span>
-<span id='line1184'></span>
-<span id='line1185'>  // focus/blur</span>
-<span id='line1186'>  private Bool manFocus := false</span>
-<span id='line1187'><b>}</b></span>
+<span id='line1182'>  // update</span>
+<span id='line1183'>  private Int firstVisCol    // first visible col</span>
+<span id='line1184'>  private Int firstVisRow    // first visible row</span>
+<span id='line1185'></span>
+<span id='line1186'>  // onSelect <b>(</b>always in view refrence; not model<b>)</b></span>
+<span id='line1187'>  private Int? pivot</span>
 <span id='line1188'></span>
-<span id='line1189'>**************************************************************************</span>
-<span id='line1190'>** TablePos</span>
-<span id='line1191'>**************************************************************************</span>
+<span id='line1189'>  // focus/blur</span>
+<span id='line1190'>  private Bool manFocus := false</span>
+<span id='line1191'><b>}</b></span>
 <span id='line1192'></span>
-<span id='line1193'>**</span>
-<span id='line1194'>** TablePos provides an JS optimized hash key for col,row cell position</span>
-<span id='line1195'>**</span>
-<span id='line1196'>@Js</span>
-<span id='line1197'>internal const class TablePos</span>
-<span id='line1198'><b>{</b></span>
-<span id='line1199'>  new make<b>(</b>Int c, Int r<b>)</b> <b>{</b> col = c; row = r; toStr = "$c,$r"; hash = toStr.hash <b>}</b></span>
-<span id='line1200'>  const Int col</span>
-<span id='line1201'>  const Int row</span>
-<span id='line1202'>  const override Int hash</span>
-<span id='line1203'>  const override Str toStr</span>
-<span id='line1204'>  override Bool equals<b>(</b>Obj? that<b>)</b> <b>{</b> toStr == that.toStr <b>}</b></span>
-<span id='line1205'><b>}</b></span>
-<span id='line1206'></span>
-<span id='line1207'>**************************************************************************</span>
-<span id='line1208'>** TableModel</span>
-<span id='line1209'>**************************************************************************</span>
+<span id='line1193'>**************************************************************************</span>
+<span id='line1194'>** TablePos</span>
+<span id='line1195'>**************************************************************************</span>
+<span id='line1196'></span>
+<span id='line1197'>**</span>
+<span id='line1198'>** TablePos provides an JS optimized hash key for col,row cell position</span>
+<span id='line1199'>**</span>
+<span id='line1200'>@Js</span>
+<span id='line1201'>internal const class TablePos</span>
+<span id='line1202'><b>{</b></span>
+<span id='line1203'>  new make<b>(</b>Int c, Int r<b>)</b> <b>{</b> col = c; row = r; toStr = "$c,$r"; hash = toStr.hash <b>}</b></span>
+<span id='line1204'>  const Int col</span>
+<span id='line1205'>  const Int row</span>
+<span id='line1206'>  const override Int hash</span>
+<span id='line1207'>  const override Str toStr</span>
+<span id='line1208'>  override Bool equals<b>(</b>Obj? that<b>)</b> <b>{</b> toStr == that.toStr <b>}</b></span>
+<span id='line1209'><b>}</b></span>
 <span id='line1210'></span>
-<span id='line1211'>**</span>
-<span id='line1212'>** TableModel backs the data model for a `Table`</span>
-<span id='line1213'>**</span>
-<span id='line1214'>@Js class TableModel</span>
-<span id='line1215'><b>{</b></span>
-<span id='line1216'>  ** Number of columns in table.</span>
-<span id='line1217'>  virtual Int numCols<b>(</b><b>)</b> <b>{</b> 0 <b>}</b></span>
-<span id='line1218'></span>
-<span id='line1219'>  ** Number of rows in table.</span>
-<span id='line1220'>  virtual Int numRows<b>(</b><b>)</b> <b>{</b> 0 <b>}</b></span>
-<span id='line1221'></span>
-<span id='line1222'>  ** Return height of header.</span>
-<span id='line1223'>  virtual Int headerHeight<b>(</b><b>)</b> <b>{</b> 20 <b>}</b></span>
-<span id='line1224'></span>
-<span id='line1225'>  ** Return width of given column.</span>
-<span id='line1226'>  virtual Int colWidth<b>(</b>Int col<b>)</b> <b>{</b> 100 <b>}</b></span>
-<span id='line1227'></span>
-<span id='line1228'>  ** Return height of rows.</span>
-<span id='line1229'>  virtual Int rowHeight<b>(</b><b>)</b> <b>{</b> 20 <b>}</b></span>
-<span id='line1230'></span>
-<span id='line1231'>  ** Return item for the given row to be used with selection.</span>
-<span id='line1232'>  virtual Obj item<b>(</b>Int row<b>)</b> <b>{</b> row <b>}</b></span>
-<span id='line1233'></span>
-<span id='line1234'>  ** Callback to update content for column header at given index.</span>
-<span id='line1235'>  virtual Void onHeader<b>(</b>Elem header, Int col<b>)</b></span>
-<span id='line1236'>  <b>{</b></span>
-<span id='line1237'>    header.text = "Col $col"</span>
-<span id='line1238'>  <b>}</b></span>
-<span id='line1239'></span>
-<span id='line1240'>  ** Return default visible/hidden state for column</span>
-<span id='line1241'>  virtual Bool isVisibleDef<b>(</b>Int col<b>)</b> <b>{</b> true <b>}</b></span>
-<span id='line1242'></span>
-<span id='line1243'>  ** Callback to update the cell content at given location.</span>
-<span id='line1244'>  virtual Void onCell<b>(</b>Elem cell, Int col, Int row, TableFlags flags<b>)</b></span>
-<span id='line1245'>  <b>{</b></span>
-<span id='line1246'>    cell.text = "C$col:R$row"</span>
-<span id='line1247'>  <b>}</b></span>
-<span id='line1248'></span>
-<span id='line1249'>  ** Compare two cells when sorting the given col.  Return -1,</span>
-<span id='line1250'>  ** 0, or 1 according to the same semanatics as `sys::Obj.compare`.</span>
-<span id='line1251'>  ** See `domkit::Table.sort`.</span>
-<span id='line1252'>  virtual Int sortCompare<b>(</b>Int col, Int row1, Int row2<b>)</b> <b>{</b> 0 <b>}</b></span>
-<span id='line1253'></span>
-<span id='line1254'>  ** Callback when table is resorted</span>
-<span id='line1255'>  @NoDoc virtual Void onSort<b>(</b>Int? col, Dir dir<b>)</b> <b>{</b><b>}</b></span>
-<span id='line1256'><b>}</b></span>
+<span id='line1211'>**************************************************************************</span>
+<span id='line1212'>** TableModel</span>
+<span id='line1213'>**************************************************************************</span>
+<span id='line1214'></span>
+<span id='line1215'>**</span>
+<span id='line1216'>** TableModel backs the data model for a `Table`</span>
+<span id='line1217'>**</span>
+<span id='line1218'>@Js class TableModel</span>
+<span id='line1219'><b>{</b></span>
+<span id='line1220'>  ** Number of columns in table.</span>
+<span id='line1221'>  virtual Int numCols<b>(</b><b>)</b> <b>{</b> 0 <b>}</b></span>
+<span id='line1222'></span>
+<span id='line1223'>  ** Number of rows in table.</span>
+<span id='line1224'>  virtual Int numRows<b>(</b><b>)</b> <b>{</b> 0 <b>}</b></span>
+<span id='line1225'></span>
+<span id='line1226'>  ** Return height of header.</span>
+<span id='line1227'>  virtual Int headerHeight<b>(</b><b>)</b> <b>{</b> 20 <b>}</b></span>
+<span id='line1228'></span>
+<span id='line1229'>  ** Return width of given column.</span>
+<span id='line1230'>  virtual Int colWidth<b>(</b>Int col<b>)</b> <b>{</b> 100 <b>}</b></span>
+<span id='line1231'></span>
+<span id='line1232'>  ** Return height of rows.</span>
+<span id='line1233'>  virtual Int rowHeight<b>(</b><b>)</b> <b>{</b> 20 <b>}</b></span>
+<span id='line1234'></span>
+<span id='line1235'>  ** Return item for the given row to be used with selection.</span>
+<span id='line1236'>  virtual Obj item<b>(</b>Int row<b>)</b> <b>{</b> row <b>}</b></span>
+<span id='line1237'></span>
+<span id='line1238'>  ** Callback to update content for column header at given index.</span>
+<span id='line1239'>  virtual Void onHeader<b>(</b>Elem header, Int col<b>)</b></span>
+<span id='line1240'>  <b>{</b></span>
+<span id='line1241'>    header.text = "Col $col"</span>
+<span id='line1242'>  <b>}</b></span>
+<span id='line1243'></span>
+<span id='line1244'>  ** Return default visible/hidden state for column</span>
+<span id='line1245'>  virtual Bool isVisibleDef<b>(</b>Int col<b>)</b> <b>{</b> true <b>}</b></span>
+<span id='line1246'></span>
+<span id='line1247'>  ** Callback to update the cell content at given location.</span>
+<span id='line1248'>  virtual Void onCell<b>(</b>Elem cell, Int col, Int row, TableFlags flags<b>)</b></span>
+<span id='line1249'>  <b>{</b></span>
+<span id='line1250'>    cell.text = "C$col:R$row"</span>
+<span id='line1251'>  <b>}</b></span>
+<span id='line1252'></span>
+<span id='line1253'>  ** Compare two cells when sorting the given col.  Return -1,</span>
+<span id='line1254'>  ** 0, or 1 according to the same semanatics as `sys::Obj.compare`.</span>
+<span id='line1255'>  ** See `domkit::Table.sort`.</span>
+<span id='line1256'>  virtual Int sortCompare<b>(</b>Int col, Int row1, Int row2<b>)</b> <b>{</b> 0 <b>}</b></span>
 <span id='line1257'></span>
-<span id='line1258'>**************************************************************************</span>
-<span id='line1259'>** TableFlags</span>
-<span id='line1260'>**************************************************************************</span>
+<span id='line1258'>  ** Callback when table is resorted</span>
+<span id='line1259'>  @NoDoc virtual Void onSort<b>(</b>Int? col, Dir dir<b>)</b> <b>{</b><b>}</b></span>
+<span id='line1260'><b>}</b></span>
 <span id='line1261'></span>
-<span id='line1262'>** Table specific flags for eventing</span>
-<span id='line1263'>@Js const class TableFlags</span>
-<span id='line1264'><b>{</b></span>
-<span id='line1265'>  ** Default value with all flags cleared</span>
-<span id='line1266'>  static const TableFlags defVal := make <b>{</b><b>}</b></span>
-<span id='line1267'></span>
-<span id='line1268'>  new make<b>(</b>|This| f<b>)</b> <b>{</b> f<b>(</b>this<b>)</b> <b>}</b></span>
-<span id='line1269'></span>
-<span id='line1270'>  ** Table has focus.</span>
-<span id='line1271'>  const Bool focused</span>
-<span id='line1272'></span>
-<span id='line1273'>  ** Row is selected.</span>
-<span id='line1274'>  const Bool selected</span>
-<span id='line1275'></span>
-<span id='line1276'>  override Str toStr<b>(</b><b>)</b></span>
-<span id='line1277'>  <b>{</b></span>
-<span id='line1278'>    "TableFlags <b>{</b> focused=$focused; selected=$selected <b>}</b>"</span>
-<span id='line1279'>  <b>}</b></span>
-<span id='line1280'><b>}</b></span>
-<span id='line1281'></span>
-<span id='line1282'>**************************************************************************</span>
-<span id='line1283'>** TableEvent</span>
-<span id='line1284'>**************************************************************************</span>
+<span id='line1262'>**************************************************************************</span>
+<span id='line1263'>** TableFlags</span>
+<span id='line1264'>**************************************************************************</span>
+<span id='line1265'></span>
+<span id='line1266'>** Table specific flags for eventing</span>
+<span id='line1267'>@Js const class TableFlags</span>
+<span id='line1268'><b>{</b></span>
+<span id='line1269'>  ** Default value with all flags cleared</span>
+<span id='line1270'>  static const TableFlags defVal := make <b>{</b><b>}</b></span>
+<span id='line1271'></span>
+<span id='line1272'>  new make<b>(</b>|This| f<b>)</b> <b>{</b> f<b>(</b>this<b>)</b> <b>}</b></span>
+<span id='line1273'></span>
+<span id='line1274'>  ** Table has focus.</span>
+<span id='line1275'>  const Bool focused</span>
+<span id='line1276'></span>
+<span id='line1277'>  ** Row is selected.</span>
+<span id='line1278'>  const Bool selected</span>
+<span id='line1279'></span>
+<span id='line1280'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line1281'>  <b>{</b></span>
+<span id='line1282'>    "TableFlags <b>{</b> focused=$focused; selected=$selected <b>}</b>"</span>
+<span id='line1283'>  <b>}</b></span>
+<span id='line1284'><b>}</b></span>
 <span id='line1285'></span>
-<span id='line1286'>**</span>
-<span id='line1287'>** TableEvents are generated by `Table` cells.</span>
-<span id='line1288'>**</span>
-<span id='line1289'>@Js class TableEvent</span>
-<span id='line1290'><b>{</b></span>
-<span id='line1291'>  internal new make<b>(</b>Table t, |This| f<b>)</b></span>
-<span id='line1292'>  <b>{</b></span>
-<span id='line1293'>    this.table = t</span>
-<span id='line1294'>    f<b>(</b>this<b>)</b></span>
-<span id='line1295'>  <b>}</b></span>
-<span id='line1296'></span>
-<span id='line1297'>  Table table <b>{</b> private set <b>}</b></span>
-<span id='line1298'></span>
-<span id='line1299'>  ** Event type.</span>
-<span id='line1300'>  const Str type</span>
-<span id='line1301'></span>
-<span id='line1302'>  ** Column index for this event.</span>
-<span id='line1303'>  const Int col</span>
-<span id='line1304'></span>
-<span id='line1305'>  ** Row index for this event.</span>
-<span id='line1306'>  const Int row</span>
-<span id='line1307'></span>
-<span id='line1308'>  ** Mouse position relative to page.</span>
-<span id='line1309'>  const Point pagePos</span>
-<span id='line1310'></span>
-<span id='line1311'>  ** Mouse position relative to cell.</span>
-<span id='line1312'>  const Point cellPos</span>
-<span id='line1313'></span>
-<span id='line1314'>  ** Size of cell for this event.</span>
-<span id='line1315'>  const Size size</span>
-<span id='line1316'></span>
-<span id='line1317'>  // TODO: not sure how this works yet</span>
-<span id='line1318'>  @NoDoc Event? _event</span>
-<span id='line1319'></span>
-<span id='line1320'>  override Str toStr<b>(</b><b>)</b></span>
-<span id='line1321'>  <b>{</b></span>
-<span id='line1322'>    "TableEvent <b>{</b> type=$type row=$row col=$col pagePos=$pagePos cellPos=$cellPos size=$size <b>}</b>"</span>
-<span id='line1323'>  <b>}</b></span>
-<span id='line1324'><b>}</b></span>
-<span id='line1325'></span>
-<span id='line1326'>**************************************************************************</span>
-<span id='line1327'>** TableSelection</span>
-<span id='line1328'>**************************************************************************</span>
+<span id='line1286'>**************************************************************************</span>
+<span id='line1287'>** TableEvent</span>
+<span id='line1288'>**************************************************************************</span>
+<span id='line1289'></span>
+<span id='line1290'>**</span>
+<span id='line1291'>** TableEvents are generated by `Table` cells.</span>
+<span id='line1292'>**</span>
+<span id='line1293'>@Js class TableEvent</span>
+<span id='line1294'><b>{</b></span>
+<span id='line1295'>  internal new make<b>(</b>Table t, |This| f<b>)</b></span>
+<span id='line1296'>  <b>{</b></span>
+<span id='line1297'>    this.table = t</span>
+<span id='line1298'>    f<b>(</b>this<b>)</b></span>
+<span id='line1299'>  <b>}</b></span>
+<span id='line1300'></span>
+<span id='line1301'>  Table table <b>{</b> private set <b>}</b></span>
+<span id='line1302'></span>
+<span id='line1303'>  ** Event type.</span>
+<span id='line1304'>  const Str type</span>
+<span id='line1305'></span>
+<span id='line1306'>  ** Column index for this event.</span>
+<span id='line1307'>  const Int col</span>
+<span id='line1308'></span>
+<span id='line1309'>  ** Row index for this event.</span>
+<span id='line1310'>  const Int row</span>
+<span id='line1311'></span>
+<span id='line1312'>  ** Mouse position relative to page.</span>
+<span id='line1313'>  const Point pagePos</span>
+<span id='line1314'></span>
+<span id='line1315'>  ** Mouse position relative to cell.</span>
+<span id='line1316'>  const Point cellPos</span>
+<span id='line1317'></span>
+<span id='line1318'>  ** Size of cell for this event.</span>
+<span id='line1319'>  const Size size</span>
+<span id='line1320'></span>
+<span id='line1321'>  // TODO: not sure how this works yet</span>
+<span id='line1322'>  @NoDoc Event? _event</span>
+<span id='line1323'></span>
+<span id='line1324'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line1325'>  <b>{</b></span>
+<span id='line1326'>    "TableEvent <b>{</b> type=$type row=$row col=$col pagePos=$pagePos cellPos=$cellPos size=$size <b>}</b>"</span>
+<span id='line1327'>  <b>}</b></span>
+<span id='line1328'><b>}</b></span>
 <span id='line1329'></span>
-<span id='line1330'>@Js internal class TableSelection : IndexSelection</span>
-<span id='line1331'><b>{</b></span>
-<span id='line1332'>  new make<b>(</b>TableView view<b>)</b> <b>{</b> this.view = view <b>}</b></span>
-<span id='line1333'>  override Int max<b>(</b><b>)</b> <b>{</b> view.numRows <b>}</b></span>
-<span id='line1334'>// TODO FIXIT: selection is always kept in original order</span>
-<span id='line1335'>  override Obj toItem<b>(</b>Int index<b>)</b> <b>{</b> view.table.model.item<b>(</b>index<b>)</b> <b>}</b></span>
-<span id='line1336'>  override Int? toIndex<b>(</b>Obj item<b>)</b></span>
-<span id='line1337'>  <b>{</b></span>
-<span id='line1338'>    numRows := view.numRows</span>
-<span id='line1339'>    for <b>(</b>row := 0; row &lt; numRows; ++row<b>)</b></span>
-<span id='line1340'>      if <b>(</b>view.table.model.item<b>(</b>row<b>)</b> == item<b>)</b> return row</span>
-<span id='line1341'>    return null</span>
-<span id='line1342'>  <b>}</b></span>
-<span id='line1343'>  // override Obj toItem<b>(</b>Int index<b>)</b> <b>{</b> view.item<b>(</b>index<b>)</b> <b>}</b></span>
-<span id='line1344'>  // override Int? toIndex<b>(</b>Obj item<b>)</b></span>
-<span id='line1345'>  // <b>{</b></span>
-<span id='line1346'>  //   numRows := view.numRows</span>
-<span id='line1347'>  //   for <b>(</b>row := 0; row &lt; numRows; ++row<b>)</b></span>
-<span id='line1348'>  //     if <b>(</b>view.item<b>(</b>row<b>)</b> == item<b>)</b> return row</span>
-<span id='line1349'>  //   return null</span>
-<span id='line1350'>  // <b>}</b></span>
-<span id='line1351'>  override Void onUpdate<b>(</b>Int<b>[</b><b>]</b> oldIndexes, Int<b>[</b><b>]</b> newIndexes<b>)</b></span>
-<span id='line1352'>  <b>{</b></span>
-<span id='line1353'>    oldIndexes.each |i| <b>{</b> if <b>(</b>i &lt; max<b>)</b> view.table.refreshRow<b>(</b>view.rowModelToView<b>(</b>i<b>)</b><b>)</b> <b>}</b></span>
-<span id='line1354'>    newIndexes.each |i| <b>{</b> if <b>(</b>i &lt; max<b>)</b> view.table.refreshRow<b>(</b>view.rowModelToView<b>(</b>i<b>)</b><b>)</b> <b>}</b></span>
-<span id='line1355'>  <b>}</b></span>
-<span id='line1356'>  private TableView view</span>
-<span id='line1357'><b>}</b></span>
-<span id='line1358'></span>
-<span id='line1359'>**************************************************************************</span>
-<span id='line1360'>** TableView</span>
-<span id='line1361'>**************************************************************************</span>
+<span id='line1330'>**************************************************************************</span>
+<span id='line1331'>** TableSelection</span>
+<span id='line1332'>**************************************************************************</span>
+<span id='line1333'></span>
+<span id='line1334'>@Js internal class TableSelection : IndexSelection</span>
+<span id='line1335'><b>{</b></span>
+<span id='line1336'>  new make<b>(</b>TableView view<b>)</b> <b>{</b> this.view = view <b>}</b></span>
+<span id='line1337'>  override Int max<b>(</b><b>)</b> <b>{</b> view.numRows <b>}</b></span>
+<span id='line1338'>// TODO FIXIT: selection is always kept in original order</span>
+<span id='line1339'>  override Obj toItem<b>(</b>Int index<b>)</b> <b>{</b> view.table.model.item<b>(</b>index<b>)</b> <b>}</b></span>
+<span id='line1340'>  override Int? toIndex<b>(</b>Obj item<b>)</b></span>
+<span id='line1341'>  <b>{</b></span>
+<span id='line1342'>    numRows := view.numRows</span>
+<span id='line1343'>    for <b>(</b>row := 0; row &lt; numRows; ++row<b>)</b></span>
+<span id='line1344'>      if <b>(</b>view.table.model.item<b>(</b>row<b>)</b> == item<b>)</b> return row</span>
+<span id='line1345'>    return null</span>
+<span id='line1346'>  <b>}</b></span>
+<span id='line1347'>  // override Obj toItem<b>(</b>Int index<b>)</b> <b>{</b> view.item<b>(</b>index<b>)</b> <b>}</b></span>
+<span id='line1348'>  // override Int? toIndex<b>(</b>Obj item<b>)</b></span>
+<span id='line1349'>  // <b>{</b></span>
+<span id='line1350'>  //   numRows := view.numRows</span>
+<span id='line1351'>  //   for <b>(</b>row := 0; row &lt; numRows; ++row<b>)</b></span>
+<span id='line1352'>  //     if <b>(</b>view.item<b>(</b>row<b>)</b> == item<b>)</b> return row</span>
+<span id='line1353'>  //   return null</span>
+<span id='line1354'>  // <b>}</b></span>
+<span id='line1355'>  override Void onUpdate<b>(</b>Int<b>[</b><b>]</b> oldIndexes, Int<b>[</b><b>]</b> newIndexes<b>)</b></span>
+<span id='line1356'>  <b>{</b></span>
+<span id='line1357'>    oldIndexes.each |i| <b>{</b> if <b>(</b>i &lt; max<b>)</b> view.table.refreshRow<b>(</b>view.rowModelToView<b>(</b>i<b>)</b><b>)</b> <b>}</b></span>
+<span id='line1358'>    newIndexes.each |i| <b>{</b> if <b>(</b>i &lt; max<b>)</b> view.table.refreshRow<b>(</b>view.rowModelToView<b>(</b>i<b>)</b><b>)</b> <b>}</b></span>
+<span id='line1359'>  <b>}</b></span>
+<span id='line1360'>  private TableView view</span>
+<span id='line1361'><b>}</b></span>
 <span id='line1362'></span>
-<span id='line1363'>**</span>
-<span id='line1364'>** TableView wraps the table model to implement the row/col mapping</span>
-<span id='line1365'>** from the view coordinate space to the model coordinate space based</span>
-<span id='line1366'>** on column visibility and row sort order.</span>
+<span id='line1363'>**************************************************************************</span>
+<span id='line1364'>** TableView</span>
+<span id='line1365'>**************************************************************************</span>
+<span id='line1366'></span>
 <span id='line1367'>**</span>
-<span id='line1368'>@NoDoc @Js class TableView : TableModel</span>
-<span id='line1369'><b>{</b></span>
-<span id='line1370'>  new make<b>(</b>Table table<b>)</b> <b>{</b> this.table = table <b>}</b></span>
-<span id='line1371'></span>
-<span id='line1372'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line1373'>// TableModel overrides</span>
-<span id='line1374'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line1368'>** TableView wraps the table model to implement the row/col mapping</span>
+<span id='line1369'>** from the view coordinate space to the model coordinate space based</span>
+<span id='line1370'>** on column visibility and row sort order.</span>
+<span id='line1371'>**</span>
+<span id='line1372'>@NoDoc @Js class TableView : TableModel</span>
+<span id='line1373'><b>{</b></span>
+<span id='line1374'>  new make<b>(</b>Table table<b>)</b> <b>{</b> this.table = table <b>}</b></span>
 <span id='line1375'></span>
-<span id='line1376'>  override Int numCols<b>(</b><b>)</b> <b>{</b> cols.size <b>}</b></span>
-<span id='line1377'>  override Int numRows<b>(</b><b>)</b> <b>{</b> rows.size <b>}</b></span>
-<span id='line1378'>  override Int headerHeight<b>(</b><b>)</b> <b>{</b> table.model.headerHeight <b>}</b></span>
-<span id='line1379'>  override Int colWidth<b>(</b>Int c<b>)</b> <b>{</b> table.model.colWidth<b>(</b>cols<b>[</b>c<b>]</b><b>)</b> <b>}</b></span>
-<span id='line1380'>  override Int rowHeight<b>(</b><b>)</b> <b>{</b> table.model.rowHeight <b>}</b></span>
-<span id='line1381'>  override Obj item<b>(</b>Int r<b>)</b> <b>{</b> table.model.item<b>(</b>rows<b>[</b>r<b>]</b><b>)</b> <b>}</b></span>
-<span id='line1382'>  override Void onHeader<b>(</b>Elem e, Int c<b>)</b> <b>{</b> table.model.onHeader<b>(</b>e, cols<b>[</b>c<b>]</b><b>)</b> <b>}</b></span>
-<span id='line1383'>  override Void onCell<b>(</b>Elem e, Int c, Int r, TableFlags f<b>)</b> <b>{</b> table.model.onCell<b>(</b>e, cols<b>[</b>c<b>]</b>, rows<b>[</b>r<b>]</b>, f<b>)</b> <b>}</b></span>
-<span id='line1384'></span>
-<span id='line1385'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line1386'>// View Methods</span>
-<span id='line1387'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line1376'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line1377'>// TableModel overrides</span>
+<span id='line1378'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line1379'></span>
+<span id='line1380'>  override Int numCols<b>(</b><b>)</b> <b>{</b> cols.size <b>}</b></span>
+<span id='line1381'>  override Int numRows<b>(</b><b>)</b> <b>{</b> rows.size <b>}</b></span>
+<span id='line1382'>  override Int headerHeight<b>(</b><b>)</b> <b>{</b> table.model.headerHeight <b>}</b></span>
+<span id='line1383'>  override Int colWidth<b>(</b>Int c<b>)</b> <b>{</b> table.model.colWidth<b>(</b>cols<b>[</b>c<b>]</b><b>)</b> <b>}</b></span>
+<span id='line1384'>  override Int rowHeight<b>(</b><b>)</b> <b>{</b> table.model.rowHeight <b>}</b></span>
+<span id='line1385'>  override Obj item<b>(</b>Int r<b>)</b> <b>{</b> table.model.item<b>(</b>rows<b>[</b>r<b>]</b><b>)</b> <b>}</b></span>
+<span id='line1386'>  override Void onHeader<b>(</b>Elem e, Int c<b>)</b> <b>{</b> table.model.onHeader<b>(</b>e, cols<b>[</b>c<b>]</b><b>)</b> <b>}</b></span>
+<span id='line1387'>  override Void onCell<b>(</b>Elem e, Int c, Int r, TableFlags f<b>)</b> <b>{</b> table.model.onCell<b>(</b>e, cols<b>[</b>c<b>]</b>, rows<b>[</b>r<b>]</b>, f<b>)</b> <b>}</b></span>
 <span id='line1388'></span>
-<span id='line1389'>  Bool isColVisible<b>(</b>Int col<b>)</b> <b>{</b> vis<b>[</b>col<b>]</b> <b>}</b></span>
-<span id='line1390'></span>
-<span id='line1391'>  This setColVisible<b>(</b>Int col, Bool visible<b>)</b></span>
-<span id='line1392'>  <b>{</b></span>
-<span id='line1393'>    // if not changing anything then short circuit</span>
-<span id='line1394'>    if <b>(</b>vis<b>[</b>col<b>]</b> == visible<b>)</b> return this</span>
-<span id='line1395'></span>
-<span id='line1396'>    // update column mappings</span>
-<span id='line1397'>    vis<b>[</b>col<b>]</b> = visible</span>
-<span id='line1398'>    cols.clear</span>
-<span id='line1399'>    vis.each |v, i| <b>{</b> if <b>(</b>v<b>)</b> cols.add<b>(</b>i<b>)</b> <b>}</b></span>
-<span id='line1400'>    return this</span>
-<span id='line1401'>  <b>}</b></span>
-<span id='line1402'></span>
-<span id='line1403'>  Void sort<b>(</b>Int? col, Dir dir := Dir.up<b>)</b></span>
-<span id='line1404'>  <b>{</b></span>
-<span id='line1405'>    model := table.model</span>
-<span id='line1406'>    sortCol = col</span>
-<span id='line1407'>    sortDir = dir</span>
-<span id='line1408'>    if <b>(</b>col == null<b>)</b></span>
-<span id='line1409'>    <b>{</b></span>
-<span id='line1410'>      rows.each |val, i| <b>{</b> rows<b>[</b>i<b>]</b> = i <b>}</b></span>
-<span id='line1411'>    <b>}</b></span>
-<span id='line1412'>    else</span>
+<span id='line1389'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line1390'>// View Methods</span>
+<span id='line1391'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line1392'></span>
+<span id='line1393'>  Bool isColVisible<b>(</b>Int col<b>)</b> <b>{</b> vis<b>[</b>col<b>]</b> <b>}</b></span>
+<span id='line1394'></span>
+<span id='line1395'>  This setColVisible<b>(</b>Int col, Bool visible<b>)</b></span>
+<span id='line1396'>  <b>{</b></span>
+<span id='line1397'>    // if not changing anything then short circuit</span>
+<span id='line1398'>    if <b>(</b>vis<b>[</b>col<b>]</b> == visible<b>)</b> return this</span>
+<span id='line1399'></span>
+<span id='line1400'>    // update column mappings</span>
+<span id='line1401'>    vis<b>[</b>col<b>]</b> = visible</span>
+<span id='line1402'>    cols.clear</span>
+<span id='line1403'>    vis.each |v, i| <b>{</b> if <b>(</b>v<b>)</b> cols.add<b>(</b>i<b>)</b> <b>}</b></span>
+<span id='line1404'>    return this</span>
+<span id='line1405'>  <b>}</b></span>
+<span id='line1406'></span>
+<span id='line1407'>  Void sort<b>(</b>Int? col, Dir dir := Dir.up<b>)</b></span>
+<span id='line1408'>  <b>{</b></span>
+<span id='line1409'>    model := table.model</span>
+<span id='line1410'>    sortCol = col</span>
+<span id='line1411'>    sortDir = dir</span>
+<span id='line1412'>    if <b>(</b>col == null<b>)</b></span>
 <span id='line1413'>    <b>{</b></span>
-<span id='line1414'>      if <b>(</b>dir === Dir.up<b>)</b></span>
-<span id='line1415'>        rows.sort |a, b| <b>{</b> model.sortCompare<b>(</b>col, a, b<b>)</b> <b>}</b></span>
-<span id='line1416'>      else</span>
-<span id='line1417'>        rows.sortr |a, b| <b>{</b> model.sortCompare<b>(</b>col, a, b<b>)</b> <b>}</b></span>
-<span id='line1418'>    <b>}</b></span>
-<span id='line1419'>  <b>}</b></span>
-<span id='line1420'></span>
-<span id='line1421'>  Void refresh<b>(</b><b>)</b></span>
-<span id='line1422'>  <b>{</b></span>
-<span id='line1423'>    model := table.model</span>
-<span id='line1424'>    if <b>(</b>rows.size != model.numRows<b>)</b> refreshRows</span>
-<span id='line1425'>    if <b>(</b>vis.size  != model.numCols<b>)</b> refreshCols</span>
-<span id='line1426'>  <b>}</b></span>
-<span id='line1427'></span>
-<span id='line1428'>  private Void refreshRows<b>(</b><b>)</b></span>
-<span id='line1429'>  <b>{</b></span>
-<span id='line1430'>    // rebuild from scratch using base model order</span>
-<span id='line1431'>    model := table.model</span>
-<span id='line1432'>    rows.clear</span>
-<span id='line1433'>    rows.capacity = model.numRows</span>
-<span id='line1434'>    model.numRows.times |i| <b>{</b> rows.add<b>(</b>i<b>)</b> <b>}</b></span>
-<span id='line1435'></span>
-<span id='line1436'>    // if sort was in-place, then resort</span>
-<span id='line1437'>    if <b>(</b>sortCol != null &amp;&amp; sortCol &lt; model.numCols<b>)</b> sort<b>(</b>sortCol, sortDir<b>)</b></span>
-<span id='line1438'>  <b>}</b></span>
+<span id='line1414'>      rows.each |val, i| <b>{</b> rows<b>[</b>i<b>]</b> = i <b>}</b></span>
+<span id='line1415'>    <b>}</b></span>
+<span id='line1416'>    else</span>
+<span id='line1417'>    <b>{</b></span>
+<span id='line1418'>      if <b>(</b>dir === Dir.up<b>)</b></span>
+<span id='line1419'>        rows.sort |a, b| <b>{</b> model.sortCompare<b>(</b>col, a, b<b>)</b> <b>}</b></span>
+<span id='line1420'>      else</span>
+<span id='line1421'>        rows.sortr |a, b| <b>{</b> model.sortCompare<b>(</b>col, a, b<b>)</b> <b>}</b></span>
+<span id='line1422'>    <b>}</b></span>
+<span id='line1423'>  <b>}</b></span>
+<span id='line1424'></span>
+<span id='line1425'>  Void refresh<b>(</b><b>)</b></span>
+<span id='line1426'>  <b>{</b></span>
+<span id='line1427'>    model := table.model</span>
+<span id='line1428'>    if <b>(</b>rows.size != model.numRows<b>)</b> refreshRows</span>
+<span id='line1429'>    if <b>(</b>vis.size  != model.numCols<b>)</b> refreshCols</span>
+<span id='line1430'>  <b>}</b></span>
+<span id='line1431'></span>
+<span id='line1432'>  private Void refreshRows<b>(</b><b>)</b></span>
+<span id='line1433'>  <b>{</b></span>
+<span id='line1434'>    // rebuild from scratch using base model order</span>
+<span id='line1435'>    model := table.model</span>
+<span id='line1436'>    rows.clear</span>
+<span id='line1437'>    rows.capacity = model.numRows</span>
+<span id='line1438'>    model.numRows.times |i| <b>{</b> rows.add<b>(</b>i<b>)</b> <b>}</b></span>
 <span id='line1439'></span>
-<span id='line1440'>  private Void refreshCols<b>(</b><b>)</b></span>
-<span id='line1441'>  <b>{</b></span>
-<span id='line1442'>    // rebuild from scratch</span>
-<span id='line1443'>    model := table.model</span>
-<span id='line1444'>    cols.clear; cols.capacity = model.numCols</span>
-<span id='line1445'>    vis.clear; vis.capacity = model.numCols</span>
-<span id='line1446'>    model.numCols.times |i|</span>
-<span id='line1447'>    <b>{</b></span>
-<span id='line1448'>      visDef := model.isVisibleDef<b>(</b>i<b>)</b></span>
-<span id='line1449'>      vis.add<b>(</b>visDef<b>)</b></span>
-<span id='line1450'>      if <b>(</b>visDef<b>)</b> cols.add<b>(</b>i<b>)</b></span>
-<span id='line1451'>    <b>}</b></span>
-<span id='line1452'>  <b>}</b></span>
-<span id='line1453'></span>
-<span id='line1454'>  // View -> Model</span>
-<span id='line1455'>  Int rowViewToModel<b>(</b>Int i<b>)</b> <b>{</b> rows<b>[</b>i<b>]</b> <b>}</b></span>
-<span id='line1456'>  Int colViewToModel<b>(</b>Int i<b>)</b> <b>{</b> cols<b>[</b>i<b>]</b> <b>}</b></span>
-<span id='line1457'>  Int<b>[</b><b>]</b> rowsViewToModel<b>(</b>Int<b>[</b><b>]</b> i<b>)</b> <b>{</b> i.map |x->Int| <b>{</b> rows<b>[</b>x<b>]</b> <b>}</b> <b>}</b></span>
-<span id='line1458'>  Int<b>[</b><b>]</b> colsViewToModel<b>(</b>Int<b>[</b><b>]</b> i<b>)</b> <b>{</b> i.map |x->Int| <b>{</b> cols<b>[</b>x<b>]</b> <b>}</b> <b>}</b></span>
-<span id='line1459'></span>
-<span id='line1460'>  // Model -> View <b>(</b>need to optimize linear scan<b>)</b></span>
-<span id='line1461'>  Int rowModelToView<b>(</b>Int i<b>)</b> <b>{</b> rows.findIndex |x| <b>{</b> x == i <b>}</b> <b>}</b></span>
-<span id='line1462'>  Int colModelToView<b>(</b>Int i<b>)</b> <b>{</b> cols.findIndex |x| <b>{</b> x == i <b>}</b> <b>}</b></span>
-<span id='line1463'>  Int<b>[</b><b>]</b> rowsModelToView<b>(</b>Int<b>[</b><b>]</b> i<b>)</b>  <b>{</b> i.map |x->Int| <b>{</b> rowModelToView<b>(</b>x<b>)</b> <b>}</b> <b>}</b></span>
-<span id='line1464'>  Int<b>[</b><b>]</b> colsModelToView<b>(</b>Int<b>[</b><b>]</b> i<b>)</b>  <b>{</b> i.map |x->Int| <b>{</b> colModelToView<b>(</b>x<b>)</b> <b>}</b> <b>}</b></span>
-<span id='line1465'></span>
-<span id='line1466'>  internal Table table</span>
-<span id='line1467'>  private Int<b>[</b><b>]</b> rows := <b>[</b>,<b>]</b>   // view to model row index mapping</span>
-<span id='line1468'>  private Int<b>[</b><b>]</b> cols := <b>[</b>,<b>]</b>   // view to model col index mapping</span>
-<span id='line1469'>  private Bool<b>[</b><b>]</b> vis := <b>[</b>,<b>]</b>   // visible</span>
-<span id='line1470'>  internal Int? sortCol <b>{</b> private set <b>}</b>  // model based index</span>
-<span id='line1471'>  internal Dir sortDir := Dir.up <b>{</b> private set <b>}</b></span>
-<span id='line1472'><b>}</b></span>
+<span id='line1440'>    // if sort was in-place, then resort</span>
+<span id='line1441'>    if <b>(</b>sortCol != null &amp;&amp; sortCol &lt; model.numCols<b>)</b> sort<b>(</b>sortCol, sortDir<b>)</b></span>
+<span id='line1442'>  <b>}</b></span>
+<span id='line1443'></span>
+<span id='line1444'>  private Void refreshCols<b>(</b><b>)</b></span>
+<span id='line1445'>  <b>{</b></span>
+<span id='line1446'>    // rebuild from scratch</span>
+<span id='line1447'>    model := table.model</span>
+<span id='line1448'>    cols.clear; cols.capacity = model.numCols</span>
+<span id='line1449'>    vis.clear; vis.capacity = model.numCols</span>
+<span id='line1450'>    model.numCols.times |i|</span>
+<span id='line1451'>    <b>{</b></span>
+<span id='line1452'>      visDef := model.isVisibleDef<b>(</b>i<b>)</b></span>
+<span id='line1453'>      vis.add<b>(</b>visDef<b>)</b></span>
+<span id='line1454'>      if <b>(</b>visDef<b>)</b> cols.add<b>(</b>i<b>)</b></span>
+<span id='line1455'>    <b>}</b></span>
+<span id='line1456'>  <b>}</b></span>
+<span id='line1457'></span>
+<span id='line1458'>  // View -> Model</span>
+<span id='line1459'>  Int rowViewToModel<b>(</b>Int i<b>)</b> <b>{</b> rows<b>[</b>i<b>]</b> <b>}</b></span>
+<span id='line1460'>  Int colViewToModel<b>(</b>Int i<b>)</b> <b>{</b> cols<b>[</b>i<b>]</b> <b>}</b></span>
+<span id='line1461'>  Int<b>[</b><b>]</b> rowsViewToModel<b>(</b>Int<b>[</b><b>]</b> i<b>)</b> <b>{</b> i.map |x->Int| <b>{</b> rows<b>[</b>x<b>]</b> <b>}</b> <b>}</b></span>
+<span id='line1462'>  Int<b>[</b><b>]</b> colsViewToModel<b>(</b>Int<b>[</b><b>]</b> i<b>)</b> <b>{</b> i.map |x->Int| <b>{</b> cols<b>[</b>x<b>]</b> <b>}</b> <b>}</b></span>
+<span id='line1463'></span>
+<span id='line1464'>  // Model -> View <b>(</b>need to optimize linear scan<b>)</b></span>
+<span id='line1465'>  Int rowModelToView<b>(</b>Int i<b>)</b> <b>{</b> rows.findIndex |x| <b>{</b> x == i <b>}</b> <b>}</b></span>
+<span id='line1466'>  Int colModelToView<b>(</b>Int i<b>)</b> <b>{</b> cols.findIndex |x| <b>{</b> x == i <b>}</b> <b>}</b></span>
+<span id='line1467'>  Int<b>[</b><b>]</b> rowsModelToView<b>(</b>Int<b>[</b><b>]</b> i<b>)</b>  <b>{</b> i.map |x->Int| <b>{</b> rowModelToView<b>(</b>x<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line1468'>  Int<b>[</b><b>]</b> colsModelToView<b>(</b>Int<b>[</b><b>]</b> i<b>)</b>  <b>{</b> i.map |x->Int| <b>{</b> colModelToView<b>(</b>x<b>)</b> <b>}</b> <b>}</b></span>
+<span id='line1469'></span>
+<span id='line1470'>  internal Table table</span>
+<span id='line1471'>  private Int<b>[</b><b>]</b> rows := <b>[</b>,<b>]</b>   // view to model row index mapping</span>
+<span id='line1472'>  private Int<b>[</b><b>]</b> cols := <b>[</b>,<b>]</b>   // view to model col index mapping</span>
+<span id='line1473'>  private Bool<b>[</b><b>]</b> vis := <b>[</b>,<b>]</b>   // visible</span>
+<span id='line1474'>  internal Int? sortCol <b>{</b> private set <b>}</b>  // model based index</span>
+<span id='line1475'>  internal Dir sortDir := Dir.up <b>{</b> private set <b>}</b></span>
+<span id='line1476'><b>}</b></span>
 </pre>
 </div>
 </body>

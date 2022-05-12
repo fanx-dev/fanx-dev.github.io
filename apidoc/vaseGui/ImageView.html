@@ -22,6 +22,18 @@
 
 <p>A display area for image</p>
 <dl>
+<dt id='clipFill'>
+clipFill</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> clipFill := 5</code></p>
+</dd>
+<dt id='containIn'>
+containIn</dt>
+<dd>
+<p class='sig'>
+<code>const static <a href='../sys/Int.html'>Int</a> containIn := 4</code></p>
+</dd>
 <dt id='fitHeight'>
 fitHeight</dt>
 <dd>
@@ -80,13 +92,7 @@ imgToWidget</dt>
 init</dt>
 <dd>
 <p class='sig'>
-<code>protected <a href='../sys/Void.html'>Void</a> init()</code></p>
-</dd>
-<dt id='isInited'>
-isInited</dt>
-<dd>
-<p class='sig'>
-<code> <a href='../sys/Bool.html'>Bool</a> isInited := false</code></p>
+<code> <a href='../sys/Void.html'>Void</a> init(<a href='../sys/Bool.html'>Bool</a> force)</code></p>
 </dd>
 <dt id='keepSize'>
 keepSize</dt>
@@ -128,7 +134,7 @@ motionEvent</dt>
 scaleType</dt>
 <dd>
 <p class='sig'>
-<code> <a href='../sys/Int.html'>Int</a> scaleType := fitWidth</code></p>
+<code> <a href='../sys/Int.html'>Int</a> scaleType := containIn</code></p>
 </dd>
 <dt id='setDragable'>
 setDragable</dt>
@@ -168,10 +174,10 @@ zoom</dt>
 <li>Not available</li></ul>
 <h3>Static Slots</h3>
 <ul>
-<li><a href='#fitHeight'>fitHeight</a></li><li><a href='#fitWidth'>fitWidth</a></li><li><a href='#keepSize'>keepSize</a></li><li><a href='#make'>make</a></li><li><a href='#maskCircle'>maskCircle</a></li><li><a href='#stretch'>stretch</a></li></ul>
+<li><a href='#clipFill'>clipFill</a></li><li><a href='#containIn'>containIn</a></li><li><a href='#fitHeight'>fitHeight</a></li><li><a href='#fitWidth'>fitWidth</a></li><li><a href='#keepSize'>keepSize</a></li><li><a href='#make'>make</a></li><li><a href='#maskCircle'>maskCircle</a></li><li><a href='#stretch'>stretch</a></li></ul>
 <h3>Instance Slots</h3>
 <ul>
-<li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#image'>image</a></li><li><a href='#imgOffsetX'>imgOffsetX</a></li><li><a href='#imgOffsetY'>imgOffsetY</a></li><li><a href='#imgScaleX'>imgScaleX</a></li><li><a href='#imgScaleY'>imgScaleY</a></li><li><a href='#imgToWidget'>imgToWidget</a></li><li><a href='#init'>init</a></li><li><a href='#isInited'>isInited</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#mask'>mask</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#scaleType'>scaleType</a></li><li><a href='#setDragable'>setDragable</a></li><li><a href='#uri'>uri</a></li><li><a href='#widgetToImg'>widgetToImg</a></li><li><a href='#zoom'>zoom</a></li></ul>
+<li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#image'>image</a></li><li><a href='#imgOffsetX'>imgOffsetX</a></li><li><a href='#imgOffsetY'>imgOffsetY</a></li><li><a href='#imgScaleX'>imgScaleX</a></li><li><a href='#imgScaleY'>imgScaleY</a></li><li><a href='#imgToWidget'>imgToWidget</a></li><li><a href='#init'>init</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#mask'>mask</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#scaleType'>scaleType</a></li><li><a href='#setDragable'>setDragable</a></li><li><a href='#uri'>uri</a></li><li><a href='#widgetToImg'>widgetToImg</a></li><li><a href='#zoom'>zoom</a></li></ul>
 </div>
 </div>
 </body>

@@ -29,7 +29,7 @@
 animManager</dt>
 <dd>
 <p class='sig'>
-<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br />protected <a href='AnimManager.html'>AnimManager</a> animManager := AnimManager.&lt;ctor>()</code></p>
+<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='AnimManager.html'>AnimManager</a> animManager := AnimManager.&lt;ctor>()</code></p>
 
 <p>animation manager</p>
 </dd>
@@ -40,6 +40,14 @@ antialias</dt>
 <code> <a href='../sys/Bool.html'>Bool</a> antialias := true</code></p>
 
 <p>Used to toggle anti-aliasing on and off.</p>
+</dd>
+<dt id='autoScale'>
+autoScale</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> autoScale := false</code></p>
+
+<p>Shared dimension for layout</p>
 </dd>
 <dt id='background'>
 background</dt>
@@ -109,17 +117,17 @@ host</dt>
 <p class='sig'>
 <code> <a href='../vaseWindow/Window.html'>Window?</a> host()</code></p>
 </dd>
-<dt id='inited'>
-inited</dt>
-<dd>
-<p class='sig'>
-<code> <a href='../sys/Bool.html'>Bool</a> inited := false</code></p>
-</dd>
 <dt id='isFocusedWidiget'>
 isFocusedWidiget</dt>
 <dd>
 <p class='sig'>
 <code> <a href='../sys/Bool.html'>Bool</a> isFocusedWidiget(<a href='Widget.html'>Widget</a> w)</code></p>
+</dd>
+<dt id='isOpened'>
+isOpened</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Bool.html'>Bool</a> isOpened()</code></p>
 </dd>
 <dt id='keyEvent'>
 keyEvent</dt>
@@ -135,14 +143,6 @@ make</dt>
 
 <p>ctor</p>
 </dd>
-<dt id='modal'>
-modal</dt>
-<dd>
-<p class='sig'>
-<code><code class='sig'>@<a href='../sys/Transient.html'>Transient</a></code><br /> <a href='../sys/Int.html'>Int</a> modal := 0</code></p>
-
-<p>has modal dialog</p>
-</dd>
 <dt id='motionEvent'>
 motionEvent</dt>
 <dd>
@@ -156,6 +156,18 @@ mouseHover</dt>
 <code> <a href='../sys/Void.html'>Void</a> mouseHover(<a href='Widget.html'>Widget</a> w)</code></p>
 
 <p>set for dealwith mouse exit and mouse enter</p>
+</dd>
+<dt id='name'>
+name</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Str.html'>Str</a> name := &quot;&quot;</code></p>
+</dd>
+<dt id='onClosing'>
+onClosing</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onClosing()</code></p>
 </dd>
 <dt id='onOpened'>
 onOpened</dt>
@@ -196,6 +208,12 @@ repaint</dt>
 <code>virtual override <a href='../sys/Void.html'>Void</a> repaint(<a href='../vaseGraphics/Rect.html'>Rect?</a> dirty := null)</code></p>
 
 <p>repaint the dirty region on later</p>
+</dd>
+<dt id='setModal'>
+setModal</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> setModal(<a href='../sys/Int.html'>Int</a> modal, <a href='Widget.html'>Widget</a> modalWidget)</code></p>
 </dd>
 <dt id='show'>
 show</dt>
@@ -238,7 +256,7 @@ windowEvent</dt>
 <li><a href='#make'>make</a></li></ul>
 <h3>Instance Slots</h3>
 <ul>
-<li><a href='#animManager'>animManager</a></li><li><a href='#antialias'>antialias</a></li><li><a href='#background'>background</a></li><li><a href='#clearFocus'>clearFocus</a></li><li><a href='#detach'>detach</a></li><li><a href='#doPaint'>doPaint</a></li><li><a href='#findStyle'>findStyle</a></li><li><a href='#focusIt'>focusIt</a></li><li><a href='#focused'>focused</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#gestureFocus'>gestureFocus</a></li><li><a href='#host'>host</a></li><li><a href='#inited'>inited</a></li><li><a href='#isFocusedWidiget'>isFocusedWidiget</a></li><li><a href='#keyEvent'>keyEvent</a></li><li><a href='#modal'>modal</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#mouseHover'>mouseHover</a></li><li><a href='#onOpened'>onOpened</a></li><li><a href='#onUpdate'>onUpdate</a></li><li><a href='#onWindowStateChange'>onWindowStateChange</a></li><li><a href='#pop'>pop</a></li><li><a href='#relayout'>relayout</a></li><li><a href='#repaint'>repaint</a></li><li><a href='#show'>show</a></li><li><a href='#styleManager'>styleManager</a></li><li><a href='#topOverlayer'>topOverlayer</a></li><li><a href='#windowEvent'>windowEvent</a></li></ul>
+<li><a href='#animManager'>animManager</a></li><li><a href='#antialias'>antialias</a></li><li><a href='#autoScale'>autoScale</a></li><li><a href='#background'>background</a></li><li><a href='#clearFocus'>clearFocus</a></li><li><a href='#detach'>detach</a></li><li><a href='#doPaint'>doPaint</a></li><li><a href='#findStyle'>findStyle</a></li><li><a href='#focusIt'>focusIt</a></li><li><a href='#focused'>focused</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#gestureFocus'>gestureFocus</a></li><li><a href='#host'>host</a></li><li><a href='#isFocusedWidiget'>isFocusedWidiget</a></li><li><a href='#isOpened'>isOpened</a></li><li><a href='#keyEvent'>keyEvent</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#mouseHover'>mouseHover</a></li><li><a href='#name'>name</a></li><li><a href='#onClosing'>onClosing</a></li><li><a href='#onOpened'>onOpened</a></li><li><a href='#onUpdate'>onUpdate</a></li><li><a href='#onWindowStateChange'>onWindowStateChange</a></li><li><a href='#pop'>pop</a></li><li><a href='#relayout'>relayout</a></li><li><a href='#repaint'>repaint</a></li><li><a href='#setModal'>setModal</a></li><li><a href='#show'>show</a></li><li><a href='#styleManager'>styleManager</a></li><li><a href='#topOverlayer'>topOverlayer</a></li><li><a href='#windowEvent'>windowEvent</a></li></ul>
 </div>
 </div>
 </body>

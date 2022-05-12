@@ -22,30 +22,32 @@
 <span id='line7'>//</span>
 <span id='line8'></span>
 <span id='line9'>**</span>
-<span id='line10'>** DeviceContext models the target device for graphical rendering.</span>
-<span id='line11'>** Typically this maps to a display, image buffer, printer, or output</span>
-<span id='line12'>** format such as PDF.</span>
-<span id='line13'>**</span>
-<span id='line14'>@Js</span>
-<span id='line15'>const class DeviceContext</span>
-<span id='line16'><b>{</b></span>
-<span id='line17'>  ** Return default device context for the VM which is typically</span>
-<span id='line18'>  ** the primary display device.</span>
-<span id='line19'>  static DeviceContext cur<b>(</b><b>)</b> <b>{</b> curRef <b>}</b></span>
-<span id='line20'></span>
-<span id='line21'>  ** Assume default DPI using the CSS pixel which is 1/96"</span>
-<span id='line22'>  private const static DeviceContext curRef := make<b>(</b>96f<b>)</b></span>
-<span id='line23'></span>
-<span id='line24'>  ** Constructor</span>
-<span id='line25'>  @NoDoc new make<b>(</b>Float dpi<b>)</b> <b>{</b> this.dpi = dpi <b>}</b></span>
-<span id='line26'></span>
-<span id='line27'>  ** Dots per inch which defines graphical resolution of</span>
-<span id='line28'>  ** the device for the logical coordinate system</span>
-<span id='line29'>  const Float dpi</span>
-<span id='line30'></span>
-<span id='line31'>  ** Debub string</span>
-<span id='line32'>  override Str toStr<b>(</b><b>)</b> <b>{</b> "DeviceContext <b>{</b> dpi=$dpi <b>}</b>" <b>}</b></span>
-<span id='line33'><b>}</b></span>
+<span id='line10'>** DO NOT USE - this design is deprecated in favor of Graphics.metrics</span>
+<span id='line11'>**</span>
+<span id='line12'>** DeviceContext models the target device for graphical rendering.</span>
+<span id='line13'>** Typically this maps to a display, image buffer, printer, or output</span>
+<span id='line14'>** format such as PDF.</span>
+<span id='line15'>**</span>
+<span id='line16'>@NoDoc @Js</span>
+<span id='line17'>const class DeviceContext</span>
+<span id='line18'><b>{</b></span>
+<span id='line19'>  ** Return default device context for the VM which is typically</span>
+<span id='line20'>  ** the primary display device.</span>
+<span id='line21'>  static DeviceContext cur<b>(</b><b>)</b> <b>{</b> curRef <b>}</b></span>
+<span id='line22'></span>
+<span id='line23'>  ** Assume default DPI using the CSS pixel which is 1/96"</span>
+<span id='line24'>  private const static DeviceContext curRef := make<b>(</b>96f<b>)</b></span>
+<span id='line25'></span>
+<span id='line26'>  ** Constructor</span>
+<span id='line27'>  @NoDoc new make<b>(</b>Float dpi<b>)</b> <b>{</b> this.dpi = dpi <b>}</b></span>
+<span id='line28'></span>
+<span id='line29'>  ** Dots per inch which defines graphical resolution of</span>
+<span id='line30'>  ** the device for the logical coordinate system</span>
+<span id='line31'>  const Float dpi</span>
+<span id='line32'></span>
+<span id='line33'>  ** Debug string</span>
+<span id='line34'>  override Str toStr<b>(</b><b>)</b> <b>{</b> "DeviceContext <b>{</b> dpi=$dpi <b>}</b>" <b>}</b></span>
+<span id='line35'><b>}</b></span>
 </pre>
 </div>
 </body>

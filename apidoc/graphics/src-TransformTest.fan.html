@@ -68,9 +68,11 @@
 <span id='line53'>    //echo<b>(</b>"-- $t"<b>)</b></span>
 <span id='line54'>    //echo<b>(</b>"   matrix<b>(</b>$expected<b>)</b>"<b>)</b></span>
 <span id='line55'>    verifyEq<b>(</b>t.toStr, "matrix<b>(</b>$expected<b>)</b>"<b>)</b></span>
-<span id='line56'>  <b>}</b></span>
-<span id='line57'><b>}</b></span>
-<span id='line58'></span>
+<span id='line56'>    verifyEq<b>(</b>t, Transform<b>(</b>t.toStr<b>)</b><b>)</b></span>
+<span id='line57'>    verifyEq<b>(</b>t, Buf<b>(</b><b>)</b><b>{</b>it.out.writeObj<b>(</b>t<b>)</b><b>}</b>.flip.in.readObj<b>)</b></span>
+<span id='line58'>  <b>}</b></span>
+<span id='line59'><b>}</b></span>
+<span id='line60'></span>
 </pre>
 </div>
 </body>

@@ -31,7 +31,7 @@ add</dt>
 <p class='sig'>
 <code><code class='sig'>@<a href='../sys/Operator.html'>Operator</a></code><br />virtual <a href='../sys/This.html'>This</a> add(<a href='Elem.html'>Elem</a> child)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line231'>Source</a></p>
+<a href='src-Elem.fan.html#line235'>Source</a></p>
 
 <p>Add a new element as a child to this element. Return this.</p>
 </dd>
@@ -41,7 +41,7 @@ addAll</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> addAll(<a href='../sys/List.html'>List&lt;<a href='Elem.html'>Elem</a>&gt;</a> elems)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line271'>Source</a></p>
+<a href='src-Elem.fan.html#line275'>Source</a></p>
 
 <p>Add all elements to this element.  Returns this.</p>
 </dd>
@@ -51,7 +51,7 @@ animateStart</dt>
 <p class='sig'>
 <code> <a href='../sys/Void.html'>Void</a> animateStart(<a href='KeyFrames.html'>KeyFrames</a> frames, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> opts, <a href='../std/Duration.html'>Duration</a> dur)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line362'>Source</a></p>
+<a href='src-Elem.fan.html#line366'>Source</a></p>
 
 <p>Start an animation on this element using the given key frames.</p>
 
@@ -70,7 +70,7 @@ animateStop</dt>
 <p class='sig'>
 <code> <a href='../sys/Void.html'>Void</a> animateStop()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line380'>Source</a></p>
+<a href='src-Elem.fan.html#line384'>Source</a></p>
 
 <p>Stop the current animation on this element, or do nothing if no animation in progress.</p>
 </dd>
@@ -100,7 +100,7 @@ blur</dt>
 <p class='sig'>
 <code>virtual <a href='../sys/Void.html'>Void</a> blur()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line319'>Source</a></p>
+<a href='src-Elem.fan.html#line323'>Source</a></p>
 
 <p>Remove focus from this elem.</p>
 </dd>
@@ -110,7 +110,7 @@ children</dt>
 <p class='sig'>
 <code> <a href='../sys/List.html'>List&lt;<a href='Elem.html'>Elem</a>&gt;</a> children()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line195'>Source</a></p>
+<a href='src-Elem.fan.html#line199'>Source</a></p>
 
 <p>Get the child nodes of this element.</p>
 </dd>
@@ -120,7 +120,7 @@ clone</dt>
 <p class='sig'>
 <code> <a href='Elem.html'>Elem</a> clone(<a href='../sys/Bool.html'>Bool</a> deep := true)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line228'>Source</a></p>
+<a href='src-Elem.fan.html#line232'>Source</a></p>
 
 <p>Return a duplicate of this node.</p>
 </dd>
@@ -130,7 +130,7 @@ containsChild</dt>
 <p class='sig'>
 <code> <a href='../sys/Bool.html'>Bool</a> containsChild(<a href='Elem.html'>Elem</a> elem)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line214'>Source</a></p>
+<a href='src-Elem.fan.html#line218'>Source</a></p>
 
 <p>Return <code>true</code> if given element is a descendant of this node, or <code>false</code> if not.</p>
 </dd>
@@ -150,7 +150,7 @@ firstChild</dt>
 <p class='sig'>
 <code> <a href='Elem.html'>Elem?</a> firstChild()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line198'>Source</a></p>
+<a href='src-Elem.fan.html#line202'>Source</a></p>
 
 <p>Get the first child node of this element, or null if this element has no children.</p>
 </dd>
@@ -160,7 +160,7 @@ focus</dt>
 <p class='sig'>
 <code>virtual <a href='../sys/Void.html'>Void</a> focus()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line316'>Source</a></p>
+<a href='src-Elem.fan.html#line320'>Source</a></p>
 
 <p>Request keyboard focus on this elem.</p>
 </dd>
@@ -202,7 +202,7 @@ hasChildren</dt>
 <p class='sig'>
 <code> <a href='../sys/Bool.html'>Bool</a> hasChildren()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line192'>Source</a></p>
+<a href='src-Elem.fan.html#line196'>Source</a></p>
 
 <p>Return <code>true</code> if <code><a href='Elem.html#children'>children</a></code> is non-zero, <code>false</code> otherwise.</p>
 </dd>
@@ -212,7 +212,7 @@ hasFocus</dt>
 <p class='sig'>
 <code>virtual <a href='../sys/Bool.html'>Bool</a> hasFocus()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line313'>Source</a></p>
+<a href='src-Elem.fan.html#line317'>Source</a></p>
 
 <p>Return true if this elem has focus.</p>
 </dd>
@@ -242,7 +242,7 @@ insertBefore</dt>
 <p class='sig'>
 <code>virtual <a href='../sys/This.html'>This</a> insertBefore(<a href='Elem.html'>Elem</a> child, <a href='Elem.html'>Elem</a> ref)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line240'>Source</a></p>
+<a href='src-Elem.fan.html#line244'>Source</a></p>
 
 <p>Insert a new element as a child to this element before the specified reference element.  The reference element must be a child of this element. Returns this.</p>
 </dd>
@@ -262,7 +262,7 @@ lastChild</dt>
 <p class='sig'>
 <code> <a href='Elem.html'>Elem?</a> lastChild()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line202'>Source</a></p>
+<a href='src-Elem.fan.html#line206'>Source</a></p>
 
 <p>Get the last child node of this element, or null if this element has no children.</p>
 </dd>
@@ -282,7 +282,7 @@ nextSibling</dt>
 <p class='sig'>
 <code> <a href='Elem.html'>Elem?</a> nextSibling()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line210'>Source</a></p>
+<a href='src-Elem.fan.html#line214'>Source</a></p>
 
 <p>Get the next sibling to this element, or null if this is the last element under its parent.</p>
 </dd>
@@ -302,7 +302,7 @@ onEvent</dt>
 <p class='sig'>
 <code> <a href='../sys/Func.html'>Func</a> onEvent(<a href='../sys/Str.html'>Str</a> type, <a href='../sys/Bool.html'>Bool</a> useCapture, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Event.html'>Event</a>&gt;</a> handler)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line322'>Source</a></p>
+<a href='src-Elem.fan.html#line326'>Source</a></p>
 
 <p>Attach an event handler for the given event on this element. Returns callback function instance.</p>
 </dd>
@@ -322,7 +322,7 @@ parent</dt>
 <p class='sig'>
 <code> <a href='Elem.html'>Elem?</a> parent()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line188'>Source</a></p>
+<a href='src-Elem.fan.html#line192'>Source</a></p>
 
 <p>Get the parent Elem of this element, or null if this element has no parent.</p>
 </dd>
@@ -342,7 +342,7 @@ prevSibling</dt>
 <p class='sig'>
 <code> <a href='Elem.html'>Elem?</a> prevSibling()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line206'>Source</a></p>
+<a href='src-Elem.fan.html#line210'>Source</a></p>
 
 <p>Get the previous sibling to this element, or null if this is the first element under its parent.</p>
 </dd>
@@ -362,7 +362,7 @@ querySelector</dt>
 <p class='sig'>
 <code> <a href='Elem.html'>Elem?</a> querySelector(<a href='../sys/Str.html'>Str</a> selectors)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line218'>Source</a></p>
+<a href='src-Elem.fan.html#line222'>Source</a></p>
 
 <p>Returns the first element that is a descendant of this element on which it is invoked that matches the specified group of selectors.</p>
 </dd>
@@ -372,7 +372,7 @@ querySelectorAll</dt>
 <p class='sig'>
 <code> <a href='../sys/List.html'>List&lt;<a href='Elem.html'>Elem</a>&gt;</a> querySelectorAll(<a href='../sys/Str.html'>Str</a> selectors)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line223'>Source</a></p>
+<a href='src-Elem.fan.html#line227'>Source</a></p>
 
 <p>Returns a list of all elements descended from this element on which it is invoked that match the specified group of CSS selectors.</p>
 </dd>
@@ -392,7 +392,7 @@ remove</dt>
 <p class='sig'>
 <code>virtual <a href='../sys/This.html'>This</a> remove(<a href='Elem.html'>Elem</a> child)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line262'>Source</a></p>
+<a href='src-Elem.fan.html#line266'>Source</a></p>
 
 <p>Remove a child element from this element. Return this.</p>
 </dd>
@@ -402,7 +402,7 @@ removeAll</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> removeAll()</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line278'>Source</a></p>
+<a href='src-Elem.fan.html#line282'>Source</a></p>
 
 <p>Remove all children from this element. Returns this.</p>
 </dd>
@@ -422,9 +422,19 @@ removeEvent</dt>
 <p class='sig'>
 <code> <a href='../sys/Void.html'>Void</a> removeEvent(<a href='../sys/Str.html'>Str</a> type, <a href='../sys/Bool.html'>Bool</a> useCapture, <a href='../sys/Func.html'>Func</a> handler)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line326'>Source</a></p>
+<a href='src-Elem.fan.html#line330'>Source</a></p>
 
 <p>Remove the given event handler from this element.  If this handler was not registered, this method does nothing.</p>
+</dd>
+<dt id='renderCanvas'>
+renderCanvas</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/Void.html'>Void</a> renderCanvas(<a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../graphics/Graphics.html'>Graphics</a>&gt;</a> f)</code></p>
+<p class='src'>
+<a href='src-Elem.fan.html#line184'>Source</a></p>
+
+<p>Paint a <code>&lt;canvas></code> element.  The given callback is invoked with a graphics context to perform the rendering operation.</p>
 </dd>
 <dt id='replace'>
 replace</dt>
@@ -432,7 +442,7 @@ replace</dt>
 <p class='sig'>
 <code>virtual <a href='../sys/This.html'>This</a> replace(<a href='Elem.html'>Elem</a> oldChild, <a href='Elem.html'>Elem</a> newChild)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line251'>Source</a></p>
+<a href='src-Elem.fan.html#line255'>Source</a></p>
 
 <p>Replace existing child node with a new child.  Returns this.</p>
 </dd>
@@ -542,7 +552,7 @@ transition</dt>
 <p class='sig'>
 <code> <a href='../sys/Void.html'>Void</a> transition(<a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;</a> props, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> opts, <a href='../std/Duration.html'>Duration</a> dur, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='Elem.html'>Elem</a>&gt;?</a> onComplete := null)</code></p>
 <p class='src'>
-<a href='src-Elem.fan.html#line335'>Source</a></p>
+<a href='src-Elem.fan.html#line339'>Source</a></p>
 
 <p>Transition a set of CSS properties.</p>
 
@@ -582,7 +592,7 @@ svg->x2 == "10"  // equivalent to svg.attr("x2")</pre>
 <li><a href='#fromHtml'>fromHtml</a></li><li><a href='#fromNative'>fromNative</a></li><li><a href='#make'>make</a></li></ul>
 <h3>Instance Slots</h3>
 <ul>
-<li><a href='#add'>add</a></li><li><a href='#addAll'>addAll</a></li><li><a href='#animateStart'>animateStart</a></li><li><a href='#animateStop'>animateStop</a></li><li><a href='#attr'>attr</a></li><li><a href='#attrs'>attrs</a></li><li><a href='#blur'>blur</a></li><li><a href='#children'>children</a></li><li><a href='#clone'>clone</a></li><li><a href='#containsChild'>containsChild</a></li><li><a href='#enabled'>enabled</a></li><li><a href='#firstChild'>firstChild</a></li><li><a href='#focus'>focus</a></li><li><a href='#get'>get</a></li><li><a href='#hasChildren'>hasChildren</a></li><li><a href='#hasFocus'>hasFocus</a></li><li><a href='#html'>html</a></li><li><a href='#id'>id</a></li><li><a href='#insertBefore'>insertBefore</a></li><li><a href='#invoke'>invoke</a></li><li><a href='#lastChild'>lastChild</a></li><li><a href='#nextSibling'>nextSibling</a></li><li><a href='#ns'>ns</a></li><li><a href='#onEvent'>onEvent</a></li><li><a href='#pagePos'>pagePos</a></li><li><a href='#parent'>parent</a></li><li><a href='#pos'>pos</a></li><li><a href='#prevSibling'>prevSibling</a></li><li><a href='#prop'>prop</a></li><li><a href='#querySelector'>querySelector</a></li><li><a href='#querySelectorAll'>querySelectorAll</a></li><li><a href='#relPos'>relPos</a></li><li><a href='#remove'>remove</a></li><li><a href='#removeAll'>removeAll</a></li><li><a href='#removeAttr'>removeAttr</a></li><li><a href='#removeEvent'>removeEvent</a></li><li><a href='#replace'>replace</a></li><li><a href='#scrollIntoView'>scrollIntoView</a></li><li><a href='#scrollPos'>scrollPos</a></li><li><a href='#scrollSize'>scrollSize</a></li><li><a href='#set'>set</a></li><li><a href='#setAttr'>setAttr</a></li><li><a href='#setProp'>setProp</a></li><li><a href='#size'>size</a></li><li><a href='#style'>style</a></li><li><a href='#tagName'>tagName</a></li><li><a href='#text'>text</a></li><li><a href='#transition'>transition</a></li><li><a href='#trap'>trap</a></li></ul>
+<li><a href='#add'>add</a></li><li><a href='#addAll'>addAll</a></li><li><a href='#animateStart'>animateStart</a></li><li><a href='#animateStop'>animateStop</a></li><li><a href='#attr'>attr</a></li><li><a href='#attrs'>attrs</a></li><li><a href='#blur'>blur</a></li><li><a href='#children'>children</a></li><li><a href='#clone'>clone</a></li><li><a href='#containsChild'>containsChild</a></li><li><a href='#enabled'>enabled</a></li><li><a href='#firstChild'>firstChild</a></li><li><a href='#focus'>focus</a></li><li><a href='#get'>get</a></li><li><a href='#hasChildren'>hasChildren</a></li><li><a href='#hasFocus'>hasFocus</a></li><li><a href='#html'>html</a></li><li><a href='#id'>id</a></li><li><a href='#insertBefore'>insertBefore</a></li><li><a href='#invoke'>invoke</a></li><li><a href='#lastChild'>lastChild</a></li><li><a href='#nextSibling'>nextSibling</a></li><li><a href='#ns'>ns</a></li><li><a href='#onEvent'>onEvent</a></li><li><a href='#pagePos'>pagePos</a></li><li><a href='#parent'>parent</a></li><li><a href='#pos'>pos</a></li><li><a href='#prevSibling'>prevSibling</a></li><li><a href='#prop'>prop</a></li><li><a href='#querySelector'>querySelector</a></li><li><a href='#querySelectorAll'>querySelectorAll</a></li><li><a href='#relPos'>relPos</a></li><li><a href='#remove'>remove</a></li><li><a href='#removeAll'>removeAll</a></li><li><a href='#removeAttr'>removeAttr</a></li><li><a href='#removeEvent'>removeEvent</a></li><li><a href='#renderCanvas'>renderCanvas</a></li><li><a href='#replace'>replace</a></li><li><a href='#scrollIntoView'>scrollIntoView</a></li><li><a href='#scrollPos'>scrollPos</a></li><li><a href='#scrollSize'>scrollSize</a></li><li><a href='#set'>set</a></li><li><a href='#setAttr'>setAttr</a></li><li><a href='#setProp'>setProp</a></li><li><a href='#size'>size</a></li><li><a href='#style'>style</a></li><li><a href='#tagName'>tagName</a></li><li><a href='#text'>text</a></li><li><a href='#transition'>transition</a></li><li><a href='#trap'>trap</a></li></ul>
 </div>
 </div>
 </body>

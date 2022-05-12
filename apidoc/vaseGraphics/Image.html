@@ -47,7 +47,7 @@ fromStream</dt>
 fromUri</dt>
 <dd>
 <p class='sig'>
-<code>static <a href='Image.html'>Image</a> fromUri(<a href='../std/Uri.html'>Uri</a> uri, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> onLoad := null)</code></p>
+<code>static <a href='Image.html'>Image</a> fromUri(<a href='../std/Uri.html'>Uri</a> uri, <a href='../std/Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null, <a href='../sys/Func.html'>Func&lt;<a href='../sys/Void.html'>Void</a>,<a href='../sys/This.html'>This</a>&gt;?</a> onLoad := null)</code></p>
 
 <p>make form uri</p>
 </dd>
@@ -58,6 +58,12 @@ getPixel</dt>
 <code>abstract <a href='../sys/Int.html'>Int</a> getPixel(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
 
 <p>Returns the pixel value at x,y</p>
+</dd>
+<dt id='height'>
+height</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> height()</code></p>
 </dd>
 <dt id='isImmutable'>
 isImmutable</dt>
@@ -80,6 +86,12 @@ make</dt>
 <code>static <a href='Image.html'>Image</a> make(<a href='Size.html'>Size</a> size)</code></p>
 
 <p>make an empty image</p>
+</dd>
+<dt id='makeSize'>
+makeSize</dt>
+<dd>
+<p class='sig'>
+<code>static <a href='Image.html'>Image</a> makeSize(<a href='../sys/Int.html'>Int</a> w, <a href='../sys/Int.html'>Int</a> h)</code></p>
 </dd>
 <dt id='paint'>
 paint</dt>
@@ -125,17 +137,17 @@ setPixel</dt>
 
 <p>Set the pixel value at x,y</p>
 </dd>
-<dt id='size'>
-size</dt>
-<dd>
-<p class='sig'>
-<code>abstract <a href='Size.html'>Size</a> size()</code></p>
-</dd>
 <dt id='toImmutable'>
 toImmutable</dt>
 <dd>
 <p class='sig'>
 <code>virtual override <a href='../sys/Obj.html'>Obj</a> toImmutable()</code></p>
+</dd>
+<dt id='width'>
+width</dt>
+<dd>
+<p class='sig'>
+<code>abstract <a href='../sys/Int.html'>Int</a> width()</code></p>
 </dd>
 </dl>
 </div>
@@ -145,10 +157,10 @@ toImmutable</dt>
 <li>Not available</li></ul>
 <h3>Static Slots</h3>
 <ul>
-<li><a href='#fromStream'>fromStream</a></li><li><a href='#fromUri'>fromUri</a></li><li><a href='#make'>make</a></li><li><a href='#privateMake'>privateMake</a></li></ul>
+<li><a href='#fromStream'>fromStream</a></li><li><a href='#fromUri'>fromUri</a></li><li><a href='#make'>make</a></li><li><a href='#makeSize'>makeSize</a></li><li><a href='#privateMake'>privateMake</a></li></ul>
 <h3>Instance Slots</h3>
 <ul>
-<li><a href='#createGraphics'>createGraphics</a></li><li><a href='#dispose'>dispose</a></li><li><a href='#getPixel'>getPixel</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#isReady'>isReady</a></li><li><a href='#paint'>paint</a></li><li><a href='#save'>save</a></li><li><a href='#setPixel'>setPixel</a></li><li><a href='#size'>size</a></li><li><a href='#toImmutable'>toImmutable</a></li></ul>
+<li><a href='#createGraphics'>createGraphics</a></li><li><a href='#dispose'>dispose</a></li><li><a href='#getPixel'>getPixel</a></li><li><a href='#height'>height</a></li><li><a href='#isImmutable'>isImmutable</a></li><li><a href='#isReady'>isReady</a></li><li><a href='#paint'>paint</a></li><li><a href='#save'>save</a></li><li><a href='#setPixel'>setPixel</a></li><li><a href='#toImmutable'>toImmutable</a></li><li><a href='#width'>width</a></li></ul>
 </div>
 </div>
 </body>

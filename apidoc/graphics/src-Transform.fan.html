@@ -28,125 +28,146 @@
 <span id='line13'>**   |b  d  f|</span>
 <span id='line14'>**   |0  0  1|</span>
 <span id='line15'>**</span>
-<span id='line16'>@NoDoc @Js</span>
-<span id='line17'>const class Transform</span>
-<span id='line18'><b>{</b></span>
-<span id='line19'>  ** Parse from SVG string format</span>
-<span id='line20'>  static Transform? fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
-<span id='line21'>  <b>{</b></span>
-<span id='line22'>    try</span>
-<span id='line23'>    <b>{</b></span>
-<span id='line24'>      Transform? t := null</span>
-<span id='line25'>      s.split<b>(</b>'<b>)</b>'<b>)</b>.each |func|</span>
-<span id='line26'>      <b>{</b></span>
-<span id='line27'>        if <b>(</b>func.startsWith<b>(</b>","<b>)</b><b>)</b> func = func<b>[</b>1..-1<b>]</b>.trim</span>
-<span id='line28'>        if <b>(</b>func.isEmpty<b>)</b> return</span>
-<span id='line29'>        r := parseFunc<b>(</b>func<b>)</b></span>
-<span id='line30'>        t = t == null ? r : t * r</span>
-<span id='line31'>      <b>}</b></span>
-<span id='line32'>      if <b>(</b>t != null<b>)</b> return t</span>
-<span id='line33'>    <b>}</b></span>
-<span id='line34'>    catch <b>(</b>Err e<b>)</b> <b>{</b><b>}</b></span>
-<span id='line35'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Transform: $s"<b>)</b></span>
-<span id='line36'>    return null</span>
-<span id='line37'>  <b>}</b></span>
-<span id='line38'></span>
-<span id='line39'>  ** Parse func, trailing <b>)</b> already stripped from split</span>
-<span id='line40'>  private static Transform parseFunc<b>(</b>Str s<b>)</b></span>
-<span id='line41'>  <b>{</b></span>
-<span id='line42'>    op := s.index<b>(</b>"<b>(</b>"<b>)</b> ?: throw Err<b>(</b><b>)</b></span>
-<span id='line43'>    name := s<b>[</b>0..&lt;op<b>]</b>.trim</span>
-<span id='line44'>    argsStr := s<b>[</b>op+1..-1<b>]</b>.trim</span>
-<span id='line45'>    args :=  GeomUtil.parseFloatList<b>(</b>argsStr<b>)</b></span>
-<span id='line46'>    switch <b>(</b>name<b>)</b></span>
-<span id='line47'>    <b>{</b></span>
-<span id='line48'>      case "matrix":    return make<b>(</b>args<b>[</b>0<b>]</b>, args<b>[</b>1<b>]</b>, args<b>[</b>2<b>]</b>, args<b>[</b>3<b>]</b>, args<b>[</b>4<b>]</b>, args<b>[</b>5<b>]</b><b>)</b></span>
-<span id='line49'>      case "translate": return translate<b>(</b>args<b>[</b>0<b>]</b>, args.getSafe<b>(</b>1<b>)</b> ?: 0f<b>)</b></span>
-<span id='line50'>      case "scale":     return scale<b>(</b>args<b>[</b>0<b>]</b>, args.getSafe<b>(</b>1<b>)</b> ?: args<b>[</b>0<b>]</b><b>)</b></span>
-<span id='line51'>      case "rotate":    return rotate<b>(</b>args<b>[</b>0<b>]</b>, args.getSafe<b>(</b>1<b>)</b>, args.getSafe<b>(</b>2<b>)</b><b>)</b></span>
-<span id='line52'>      case "skewX":     return skewX<b>(</b>args<b>[</b>0<b>]</b><b>)</b></span>
-<span id='line53'>      case "skewY":     return skewY<b>(</b>args<b>[</b>0<b>]</b><b>)</b></span>
-<span id='line54'>      default:          throw Err<b>(</b>name<b>)</b></span>
-<span id='line55'>    <b>}</b></span>
-<span id='line56'>  <b>}</b></span>
-<span id='line57'></span>
-<span id='line58'>  ** Translate factory</span>
-<span id='line59'>  static Transform translate<b>(</b>Float tx, Float ty<b>)</b></span>
-<span id='line60'>  <b>{</b></span>
-<span id='line61'>    make<b>(</b>1f, 0f, 0f, 1f, tx, ty<b>)</b></span>
-<span id='line62'>  <b>}</b></span>
-<span id='line63'></span>
-<span id='line64'>  ** Scale</span>
-<span id='line65'>  static Transform scale<b>(</b>Float sx, Float sy<b>)</b></span>
-<span id='line66'>  <b>{</b></span>
-<span id='line67'>    make<b>(</b>sx, 0f, 0f, sy, 0f, 0f<b>)</b></span>
-<span id='line68'>  <b>}</b></span>
-<span id='line69'></span>
-<span id='line70'>  ** Rotate angle in degrees</span>
-<span id='line71'>  static Transform rotate<b>(</b>Float angle, Float? cx := null, Float? cy := null<b>)</b></span>
-<span id='line72'>  <b>{</b></span>
-<span id='line73'>    a := angle.toRadians</span>
-<span id='line74'>    acos := a.cos</span>
-<span id='line75'>    asin := a.sin</span>
-<span id='line76'>    rot := make<b>(</b>acos, asin, -asin, acos, 0f, 0f<b>)</b></span>
-<span id='line77'>    if <b>(</b>cx == null<b>)</b> return rot</span>
-<span id='line78'>    return translate<b>(</b>cx, cy<b>)</b> * rot * translate<b>(</b>-cx, -cy<b>)</b></span>
-<span id='line79'>  <b>}</b></span>
-<span id='line80'></span>
-<span id='line81'>  ** Skew x by angle in degrees</span>
-<span id='line82'>  static Transform skewX<b>(</b>Float angle<b>)</b></span>
-<span id='line83'>  <b>{</b></span>
-<span id='line84'>    a := angle.toRadians</span>
-<span id='line85'>    return make<b>(</b>1f, 0f, a.tan, 1f, 0f, 0f<b>)</b></span>
-<span id='line86'>  <b>}</b></span>
-<span id='line87'></span>
-<span id='line88'>  ** Skew y by angle in degrees</span>
-<span id='line89'>  static Transform skewY<b>(</b>Float angle<b>)</b></span>
-<span id='line90'>  <b>{</b></span>
-<span id='line91'>    a := angle.toRadians</span>
-<span id='line92'>    return make<b>(</b>1f, a.tan, 0f, 1f, 0f, 0f<b>)</b></span>
-<span id='line93'>  <b>}</b></span>
-<span id='line94'></span>
-<span id='line95'>  ** Construct from matrix values</span>
-<span id='line96'>  new make<b>(</b>Float a, Float b, Float c, Float d, Float e, Float f<b>)</b></span>
-<span id='line97'>  <b>{</b></span>
-<span id='line98'>    this.a = a; this.c = c; this.e = e</span>
-<span id='line99'>    this.b = b; this.d = d; this.f = f</span>
-<span id='line100'>  <b>}</b></span>
-<span id='line101'></span>
-<span id='line102'>  ** Multiply this matrix by given matrix and return result as new instance</span>
-<span id='line103'>  @Operator This mult<b>(</b>Transform that<b>)</b></span>
-<span id='line104'>  <b>{</b></span>
-<span id='line105'>    make<b>(</b>this.a * that.a + this.c * that.b + this.e * 0f,  // a</span>
-<span id='line106'>         this.b * that.a + this.d * that.b + this.f * 0f,  // b</span>
-<span id='line107'>         this.a * that.c + this.c * that.d + this.e * 0f,  // c</span>
-<span id='line108'>         this.b * that.c + this.d * that.d + this.f * 0f,  // d</span>
-<span id='line109'>         this.a * that.e + this.c * that.f + this.e * 1f,  // e</span>
-<span id='line110'>         this.b * that.e + this.d * that.f + this.f * 1f<b>)</b>  // f</span>
-<span id='line111'>  <b>}</b></span>
-<span id='line112'></span>
-<span id='line113'>  override Str toStr<b>(</b><b>)</b></span>
-<span id='line114'>  <b>{</b></span>
-<span id='line115'>    s := StrBuf<b>(</b><b>)</b></span>
-<span id='line116'>    s.add<b>(</b>"matrix<b>(</b>"<b>)</b></span>
-<span id='line117'>     .add<b>(</b>f2s<b>(</b>a<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
-<span id='line118'>     .add<b>(</b>f2s<b>(</b>b<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
-<span id='line119'>     .add<b>(</b>f2s<b>(</b>c<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
-<span id='line120'>     .add<b>(</b>f2s<b>(</b>d<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
-<span id='line121'>     .add<b>(</b>f2s<b>(</b>e<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
-<span id='line122'>     .add<b>(</b>f2s<b>(</b>f<b>)</b><b>)</b>.addChar<b>(</b>'<b>)</b>'<b>)</b></span>
-<span id='line123'>    return s.toStr</span>
-<span id='line124'>  <b>}</b></span>
-<span id='line125'></span>
-<span id='line126'>  private static Str f2s<b>(</b>Float f<b>)</b> <b>{</b> f.toLocale<b>(</b>"0.#####"<b>)</b> <b>}</b></span>
-<span id='line127'></span>
-<span id='line128'>  const Float a</span>
-<span id='line129'>  const Float b</span>
-<span id='line130'>  const Float c</span>
-<span id='line131'>  const Float d</span>
-<span id='line132'>  const Float e</span>
-<span id='line133'>  const Float f</span>
-<span id='line134'><b>}</b></span>
+<span id='line16'>@Js</span>
+<span id='line17'>@Serializable <b>{</b> simple = true <b>}</b></span>
+<span id='line18'>const class Transform</span>
+<span id='line19'><b>{</b></span>
+<span id='line20'>  **</span>
+<span id='line21'>  ** Parse from SVG string format:</span>
+<span id='line22'>  **   matrix<b>(</b>&lt;a> &lt;b> &lt;c> &lt;d> &lt;e> &lt;f><b>)</b></span>
+<span id='line23'>  **   translate<b>(</b>&lt;x> <b>[</b>&lt;y><b>]</b><b>)</b></span>
+<span id='line24'>  **   scale<b>(</b>&lt;x> <b>[</b>&lt;y><b>]</b><b>)</b></span>
+<span id='line25'>  **   rotate<b>(</b>&lt;a> <b>[</b>&lt;x> &lt;y><b>]</b><b>)</b></span>
+<span id='line26'>  **   skewX<b>(</b>&lt;a><b>)</b></span>
+<span id='line27'>  **   skewY<b>(</b>&lt;a><b>)</b></span>
+<span id='line28'>  **</span>
+<span id='line29'>  static new fromStr<b>(</b>Str s, Bool checked := true<b>)</b></span>
+<span id='line30'>  <b>{</b></span>
+<span id='line31'>    try</span>
+<span id='line32'>    <b>{</b></span>
+<span id='line33'>      Transform? t := null</span>
+<span id='line34'>      s.split<b>(</b>'<b>)</b>'<b>)</b>.each |func|</span>
+<span id='line35'>      <b>{</b></span>
+<span id='line36'>        if <b>(</b>func.startsWith<b>(</b>","<b>)</b><b>)</b> func = func<b>[</b>1..-1<b>]</b>.trim</span>
+<span id='line37'>        if <b>(</b>func.isEmpty<b>)</b> return</span>
+<span id='line38'>        r := parseFunc<b>(</b>func<b>)</b></span>
+<span id='line39'>        t = t == null ? r : t * r</span>
+<span id='line40'>      <b>}</b></span>
+<span id='line41'>      if <b>(</b>t != null<b>)</b> return t</span>
+<span id='line42'>    <b>}</b></span>
+<span id='line43'>    catch <b>(</b>Err e<b>)</b> <b>{</b><b>}</b></span>
+<span id='line44'>    if <b>(</b>checked<b>)</b> throw ParseErr<b>(</b>"Transform: $s"<b>)</b></span>
+<span id='line45'>    return translate<b>(</b>0.0, 0.0<b>)</b></span>
+<span id='line46'>  <b>}</b></span>
+<span id='line47'></span>
+<span id='line48'>  ** Parse func, trailing <b>)</b> already stripped from split</span>
+<span id='line49'>  private static Transform parseFunc<b>(</b>Str s<b>)</b></span>
+<span id='line50'>  <b>{</b></span>
+<span id='line51'>    op := s.index<b>(</b>"<b>(</b>"<b>)</b> ?: throw Err<b>(</b><b>)</b></span>
+<span id='line52'>    name := s<b>[</b>0..&lt;op<b>]</b>.trim</span>
+<span id='line53'>    argsStr := s<b>[</b>op+1..-1<b>]</b>.trim</span>
+<span id='line54'>    args :=  GeomUtil.parseFloatList<b>(</b>argsStr<b>)</b></span>
+<span id='line55'>    switch <b>(</b>name<b>)</b></span>
+<span id='line56'>    <b>{</b></span>
+<span id='line57'>      case "matrix":    return make<b>(</b>args<b>[</b>0<b>]</b>, args<b>[</b>1<b>]</b>, args<b>[</b>2<b>]</b>, args<b>[</b>3<b>]</b>, args<b>[</b>4<b>]</b>, args<b>[</b>5<b>]</b><b>)</b></span>
+<span id='line58'>      case "translate": return translate<b>(</b>args<b>[</b>0<b>]</b>, args.getSafe<b>(</b>1<b>)</b> ?: 0f<b>)</b></span>
+<span id='line59'>      case "scale":     return scale<b>(</b>args<b>[</b>0<b>]</b>, args.getSafe<b>(</b>1<b>)</b> ?: args<b>[</b>0<b>]</b><b>)</b></span>
+<span id='line60'>      case "rotate":    return rotate<b>(</b>args<b>[</b>0<b>]</b>, args.getSafe<b>(</b>1<b>)</b>, args.getSafe<b>(</b>2<b>)</b><b>)</b></span>
+<span id='line61'>      case "skewX":     return skewX<b>(</b>args<b>[</b>0<b>]</b><b>)</b></span>
+<span id='line62'>      case "skewY":     return skewY<b>(</b>args<b>[</b>0<b>]</b><b>)</b></span>
+<span id='line63'>      default:          throw Err<b>(</b>name<b>)</b></span>
+<span id='line64'>    <b>}</b></span>
+<span id='line65'>  <b>}</b></span>
+<span id='line66'></span>
+<span id='line67'>  ** Translate transform</span>
+<span id='line68'>  static Transform translate<b>(</b>Float tx, Float ty<b>)</b></span>
+<span id='line69'>  <b>{</b></span>
+<span id='line70'>    make<b>(</b>1f, 0f, 0f, 1f, tx, ty<b>)</b></span>
+<span id='line71'>  <b>}</b></span>
+<span id='line72'></span>
+<span id='line73'>  ** Scale transform</span>
+<span id='line74'>  static Transform scale<b>(</b>Float sx, Float sy<b>)</b></span>
+<span id='line75'>  <b>{</b></span>
+<span id='line76'>    make<b>(</b>sx, 0f, 0f, sy, 0f, 0f<b>)</b></span>
+<span id='line77'>  <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>  ** Rotate angle in degrees</span>
+<span id='line80'>  static Transform rotate<b>(</b>Float angle, Float? cx := null, Float? cy := null<b>)</b></span>
+<span id='line81'>  <b>{</b></span>
+<span id='line82'>    a := angle.toRadians</span>
+<span id='line83'>    acos := a.cos</span>
+<span id='line84'>    asin := a.sin</span>
+<span id='line85'>    rot := make<b>(</b>acos, asin, -asin, acos, 0f, 0f<b>)</b></span>
+<span id='line86'>    if <b>(</b>cx == null<b>)</b> return rot</span>
+<span id='line87'>    return translate<b>(</b>cx, cy<b>)</b> * rot * translate<b>(</b>-cx, -cy<b>)</b></span>
+<span id='line88'>  <b>}</b></span>
+<span id='line89'></span>
+<span id='line90'>  ** Skew x by angle in degrees</span>
+<span id='line91'>  static Transform skewX<b>(</b>Float angle<b>)</b></span>
+<span id='line92'>  <b>{</b></span>
+<span id='line93'>    a := angle.toRadians</span>
+<span id='line94'>    return make<b>(</b>1f, 0f, a.tan, 1f, 0f, 0f<b>)</b></span>
+<span id='line95'>  <b>}</b></span>
+<span id='line96'></span>
+<span id='line97'>  ** Skew y by angle in degrees</span>
+<span id='line98'>  static Transform skewY<b>(</b>Float angle<b>)</b></span>
+<span id='line99'>  <b>{</b></span>
+<span id='line100'>    a := angle.toRadians</span>
+<span id='line101'>    return make<b>(</b>1f, a.tan, 0f, 1f, 0f, 0f<b>)</b></span>
+<span id='line102'>  <b>}</b></span>
+<span id='line103'></span>
+<span id='line104'>  ** Construct from matrix values</span>
+<span id='line105'>  new make<b>(</b>Float a, Float b, Float c, Float d, Float e, Float f<b>)</b></span>
+<span id='line106'>  <b>{</b></span>
+<span id='line107'>    this.a = a; this.c = c; this.e = e</span>
+<span id='line108'>    this.b = b; this.d = d; this.f = f</span>
+<span id='line109'>  <b>}</b></span>
+<span id='line110'></span>
+<span id='line111'>  ** Multiply this matrix by given matrix and return result as new instance</span>
+<span id='line112'>  @Operator This mult<b>(</b>Transform that<b>)</b></span>
+<span id='line113'>  <b>{</b></span>
+<span id='line114'>    make<b>(</b>this.a * that.a + this.c * that.b + this.e * 0f,  // a</span>
+<span id='line115'>         this.b * that.a + this.d * that.b + this.f * 0f,  // b</span>
+<span id='line116'>         this.a * that.c + this.c * that.d + this.e * 0f,  // c</span>
+<span id='line117'>         this.b * that.c + this.d * that.d + this.f * 0f,  // d</span>
+<span id='line118'>         this.a * that.e + this.c * that.f + this.e * 1f,  // e</span>
+<span id='line119'>         this.b * that.e + this.d * that.f + this.f * 1f<b>)</b>  // f</span>
+<span id='line120'>  <b>}</b></span>
+<span id='line121'></span>
+<span id='line122'>  ** Hash code is based on string format</span>
+<span id='line123'>  override Int hash<b>(</b><b>)</b> <b>{</b> toStr.hash <b>}</b></span>
+<span id='line124'></span>
+<span id='line125'>  ** Equality is based on string format</span>
+<span id='line126'>  override Bool equals<b>(</b>Obj? obj<b>)</b></span>
+<span id='line127'>  <b>{</b></span>
+<span id='line128'>    that := obj as Transform</span>
+<span id='line129'>    if <b>(</b>that == null<b>)</b> return false</span>
+<span id='line130'>    return this.toStr == that.toStr</span>
+<span id='line131'>  <b>}</b></span>
+<span id='line132'></span>
+<span id='line133'>  ** Return in 'matrix<b>(</b>&lt;a> &lt;b> &lt;c> &lt;d> &lt;e> &lt;f><b>)</b>' format</span>
+<span id='line134'>  override Str toStr<b>(</b><b>)</b></span>
+<span id='line135'>  <b>{</b></span>
+<span id='line136'>    s := StrBuf<b>(</b><b>)</b></span>
+<span id='line137'>    s.add<b>(</b>"matrix<b>(</b>"<b>)</b></span>
+<span id='line138'>     .add<b>(</b>f2s<b>(</b>a<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line139'>     .add<b>(</b>f2s<b>(</b>b<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line140'>     .add<b>(</b>f2s<b>(</b>c<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line141'>     .add<b>(</b>f2s<b>(</b>d<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line142'>     .add<b>(</b>f2s<b>(</b>e<b>)</b><b>)</b>.addChar<b>(</b>' '<b>)</b></span>
+<span id='line143'>     .add<b>(</b>f2s<b>(</b>f<b>)</b><b>)</b>.addChar<b>(</b>'<b>)</b>'<b>)</b></span>
+<span id='line144'>    return s.toStr</span>
+<span id='line145'>  <b>}</b></span>
+<span id='line146'></span>
+<span id='line147'>  private static Str f2s<b>(</b>Float f<b>)</b> <b>{</b> f.toLocale<b>(</b>"0.#####"<b>)</b> <b>}</b></span>
+<span id='line148'></span>
+<span id='line149'>  const Float a</span>
+<span id='line150'>  const Float b</span>
+<span id='line151'>  const Float c</span>
+<span id='line152'>  const Float d</span>
+<span id='line153'>  const Float e</span>
+<span id='line154'>  const Float f</span>
+<span id='line155'><b>}</b></span>
 </pre>
 </div>
 </body>

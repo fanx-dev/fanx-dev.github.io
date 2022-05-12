@@ -97,6 +97,18 @@ Web Browser DOM API</p>
 </td>
 </tr>
 <tr>
+<td><a href='ResizeObserver.html'>ResizeObserver</a></td>
+<td>
+<p>ResizeObserver invokes a callback when Elem size is changed.</p>
+</td>
+</tr>
+<tr>
+<td><a href='ResizeObserverEntry.html'>ResizeObserverEntry</a></td>
+<td>
+<p>ResizeObserverEntry models a resize event for <code><a href='ResizeObserver.html'>ResizeObserver</a></code>.</p>
+</td>
+</tr>
+<tr>
 <td><a href='Storage.html'>Storage</a></td>
 <td>
 <p>Storage models a DOM Storage.</p>
@@ -131,7 +143,7 @@ Web Browser DOM API</p>
 <div class='sidebar'>
 <h3>All Types</h3>
 <ul>
-<li><a href='DataTransfer.html'>DataTransfer</a></li><li><a href='Doc.html'>Doc</a></li><li><a href='DomCoord.html'>DomCoord</a></li><li><a href='DomFile.html'>DomFile</a></li><li><a href='Elem.html'>Elem</a></li><li><a href='Event.html'>Event</a></li><li><a href='HttpReq.html'>HttpReq</a></li><li><a href='HttpRes.html'>HttpRes</a></li><li><a href='Key.html'>Key</a></li><li><a href='KeyFrame.html'>KeyFrame</a></li><li><a href='KeyFrames.html'>KeyFrames</a></li><li><a href='MutationObserver.html'>MutationObserver</a></li><li><a href='MutationRec.html'>MutationRec</a></li><li><a href='Storage.html'>Storage</a></li><li><a href='Style.html'>Style</a></li><li><a href='Svg.html'>Svg</a></li><li><a href='WeakMap.html'>WeakMap</a></li><li><a href='Win.html'>Win</a></li></ul>
+<li><a href='DataTransfer.html'>DataTransfer</a></li><li><a href='Doc.html'>Doc</a></li><li><a href='DomCoord.html'>DomCoord</a></li><li><a href='DomFile.html'>DomFile</a></li><li><a href='Elem.html'>Elem</a></li><li><a href='Event.html'>Event</a></li><li><a href='HttpReq.html'>HttpReq</a></li><li><a href='HttpRes.html'>HttpRes</a></li><li><a href='Key.html'>Key</a></li><li><a href='KeyFrame.html'>KeyFrame</a></li><li><a href='KeyFrames.html'>KeyFrames</a></li><li><a href='MutationObserver.html'>MutationObserver</a></li><li><a href='MutationRec.html'>MutationRec</a></li><li><a href='ResizeObserver.html'>ResizeObserver</a></li><li><a href='ResizeObserverEntry.html'>ResizeObserverEntry</a></li><li><a href='Storage.html'>Storage</a></li><li><a href='Style.html'>Style</a></li><li><a href='Svg.html'>Svg</a></li><li><a href='WeakMap.html'>WeakMap</a></li><li><a href='Win.html'>Win</a></li></ul>
 </div>
 </div>
 <div class='mainSidebar'>
@@ -263,11 +275,20 @@ HttpReq { uri=`/foo` }.post("some content") |res| {...}
 HttpReq { uri=`/foo` }.postForm(["name":"Barney Stinson"]) |res| {...}</pre>
 
 <p>The <code><a href='HttpReq.html#postForm'>postForm</a></code> will automatically encode the request to look like a normal HTML form submission.</p>
+
+<h2 id='observers'>Observers</h2>
+
+<p><code><a href='ResizeObserver.html'>ResizeObserver</a></code> provides a callback when the size of a given element or list of elements is modified:</p>
+
+<pre>ResizeObserver {
+  it.observe(elem)
+  it.onResize |e| { echo("new size: ${e.first.size}") }
+}</pre>
 </div>
 <div class='sidebar'>
 <h3>Contents</h3>
 <ul>
-<li><a href='#overview'>Overview</a></li><li><a href='#win'>Win</a></li><li><a href='#doc'>Doc</a></li><li><a href='#elem'>Elem</a></li><li><a href='#xhr'>XmlHttpRequest</a></li></ul>
+<li><a href='#overview'>Overview</a></li><li><a href='#win'>Win</a></li><li><a href='#doc'>Doc</a></li><li><a href='#elem'>Elem</a></li><li><a href='#xhr'>XmlHttpRequest</a></li><li><a href='#observers'>Observers</a></li></ul>
 </div>
 </div>
 </body>

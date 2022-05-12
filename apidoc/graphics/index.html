@@ -15,19 +15,46 @@
 <div class='main type'>
 <h1><span>pod</span> graphics</h1>
 <p>
-Graphics support</p>
+Graphics API</p>
+<h2>Mixins</h2>
+<table>
+<tr>
+<td><a href='Graphics.html'>Graphics</a></td>
+<td>
+<p>Graphics is used to draw 2D graphics.</p>
+</td>
+</tr>
+<tr>
+<td><a href='GraphicsEnv.html'>GraphicsEnv</a></td>
+<td>
+<p>GraphicsEnv encapsulates a graphics toolkit.</p>
+</td>
+</tr>
+<tr>
+<td><a href='GraphicsPath.html'>GraphicsPath</a></td>
+<td>
+<p>GraphicsPath is used to path complex shapes for stroking, filling, and clipping.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Image.html'>Image</a></td>
+<td>
+<p>Graphical image.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Paint.html'>Paint</a></td>
+<td>
+<p>Paint models the color, image, or pattern used to stroke or fill a shape.</p>
+</td>
+</tr>
+</table>
 <h2>Classes</h2>
 <table>
 <tr>
 <td><a href='Color.html'>Color</a></td>
 <td>
 <p>Models an CSS4 RGB color with alpha</p>
-</td>
-</tr>
-<tr>
-<td><a href='DeviceContext.html'>DeviceContext</a></td>
-<td>
-<p>DeviceContext models the target device for graphical rendering.</p>
 </td>
 </tr>
 <tr>
@@ -39,7 +66,7 @@ Graphics support</p>
 <tr>
 <td><a href='FontMetrics.html'>FontMetrics</a></td>
 <td>
-<p>FontMetrics represents font size information for a specific <code><a href='Font.html'>Font</a></code> and <code><a href='DeviceContext.html'>DeviceContext</a></code>.</p>
+<p>FontMetrics represents font size information for a <code><a href='Font.html'>Font</a></code> within a specific graphics context.</p>
 </td>
 </tr>
 <tr>
@@ -66,6 +93,18 @@ Graphics support</p>
 <p>Size models the width and height of a shape.</p>
 </td>
 </tr>
+<tr>
+<td><a href='Stroke.html'>Stroke</a></td>
+<td>
+<p>Stroke defines the how to render shape outlines.</p>
+</td>
+</tr>
+<tr>
+<td><a href='Transform.html'>Transform</a></td>
+<td>
+<p>Transform models an affine transformation matrix</p>
+</td>
+</tr>
 </table>
 <h2>Enums</h2>
 <table>
@@ -81,12 +120,24 @@ Graphics support</p>
 <p>Font weight property values</p>
 </td>
 </tr>
+<tr>
+<td><a href='StrokeCap.html'>StrokeCap</a></td>
+<td>
+<p>Defines how a stroke end cap is rendered</p>
+</td>
+</tr>
+<tr>
+<td><a href='StrokeJoin.html'>StrokeJoin</a></td>
+<td>
+<p>Defines how two stroke lines are joined together</p>
+</td>
+</tr>
 </table>
 </div>
 <div class='sidebar'>
 <h3>All Types</h3>
 <ul>
-<li><a href='Color.html'>Color</a></li><li><a href='DeviceContext.html'>DeviceContext</a></li><li><a href='Font.html'>Font</a></li><li><a href='FontMetrics.html'>FontMetrics</a></li><li><a href='FontStyle.html'>FontStyle</a></li><li><a href='FontWeight.html'>FontWeight</a></li><li><a href='Insets.html'>Insets</a></li><li><a href='Point.html'>Point</a></li><li><a href='Rect.html'>Rect</a></li><li><a href='Size.html'>Size</a></li></ul>
+<li><a href='Color.html'>Color</a></li><li><a href='Font.html'>Font</a></li><li><a href='FontMetrics.html'>FontMetrics</a></li><li><a href='FontStyle.html'>FontStyle</a></li><li><a href='FontWeight.html'>FontWeight</a></li><li><a href='Graphics.html'>Graphics</a></li><li><a href='GraphicsEnv.html'>GraphicsEnv</a></li><li><a href='GraphicsPath.html'>GraphicsPath</a></li><li><a href='Image.html'>Image</a></li><li><a href='Insets.html'>Insets</a></li><li><a href='Paint.html'>Paint</a></li><li><a href='Point.html'>Point</a></li><li><a href='Rect.html'>Rect</a></li><li><a href='Size.html'>Size</a></li><li><a href='Stroke.html'>Stroke</a></li><li><a href='StrokeCap.html'>StrokeCap</a></li><li><a href='StrokeJoin.html'>StrokeJoin</a></li><li><a href='Transform.html'>Transform</a></li></ul>
 </div>
 </div>
 </body>

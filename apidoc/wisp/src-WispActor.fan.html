@@ -67,206 +67,208 @@
 <span id='line52'>    try</span>
 <span id='line53'>    <b>{</b></span>
 <span id='line54'>      // upgrade to TLS</span>
-<span id='line55'>      if <b>(</b>isTls<b>)</b> socket = socket.upgradeTls</span>
-<span id='line56'></span>
-<span id='line57'>      // allocate request, response</span>
-<span id='line58'>      res = WispRes<b>(</b>service, socket<b>)</b></span>
-<span id='line59'>      req = WispReq<b>(</b>service, socket, res<b>)</b></span>
-<span id='line60'></span>
-<span id='line61'>      // init thread locals</span>
-<span id='line62'>      Actor.locals<b>[</b>"web.req"<b>]</b> = req</span>
-<span id='line63'>      Actor.locals<b>[</b>"web.res"<b>]</b> = res</span>
-<span id='line64'></span>
-<span id='line65'>      // before we do anything set a tight receive timeout in case</span>
-<span id='line66'>      // the client fails to send us data in a timely fashion</span>
-<span id='line67'>      socket.options.receiveTimeout = 10sec</span>
-<span id='line68'></span>
-<span id='line69'>      // parse request line and headers, on error terminate processing</span>
-<span id='line70'>      if <b>(</b>!parseReq<b>(</b>req<b>)</b><b>)</b> return</span>
+<span id='line55'>      if <b>(</b>socket.localPort == service.httpsPort<b>)</b></span>
+<span id='line56'>      <b>{</b></span>
+<span id='line57'>        socket = socket.upgradeTls</span>
+<span id='line58'>      <b>}</b></span>
+<span id='line59'></span>
+<span id='line60'>      // allocate request, response</span>
+<span id='line61'>      res = WispRes<b>(</b>service, socket<b>)</b></span>
+<span id='line62'>      req = WispReq<b>(</b>service, socket, res<b>)</b></span>
+<span id='line63'></span>
+<span id='line64'>      // init thread locals</span>
+<span id='line65'>      Actor.locals<b>[</b>"web.req"<b>]</b> = req</span>
+<span id='line66'>      Actor.locals<b>[</b>"web.res"<b>]</b> = res</span>
+<span id='line67'></span>
+<span id='line68'>      // before we do anything set a tight receive timeout in case</span>
+<span id='line69'>      // the client fails to send us data in a timely fashion</span>
+<span id='line70'>      socket.options.receiveTimeout = 10sec</span>
 <span id='line71'></span>
-<span id='line72'>      // initialize the req and res</span>
-<span id='line73'>      initReqRes<b>(</b>req, res<b>)</b></span>
-<span id='line74'>      init = true</span>
-<span id='line75'></span>
-<span id='line76'>      // service the request which runs thru the installed web steps</span>
-<span id='line77'>      service.root.onService</span>
+<span id='line72'>      // parse request line and headers, on error terminate processing</span>
+<span id='line73'>      if <b>(</b>!parseReq<b>(</b>req<b>)</b><b>)</b> return</span>
+<span id='line74'></span>
+<span id='line75'>      // initialize the req and res</span>
+<span id='line76'>      initReqRes<b>(</b>req, res<b>)</b></span>
+<span id='line77'>      init = true</span>
 <span id='line78'></span>
-<span id='line79'>      // save session if accessed</span>
-<span id='line80'>      service.sessionStore.doSave</span>
+<span id='line79'>      // service the request which runs thru the installed web steps</span>
+<span id='line80'>      service.root.onService</span>
 <span id='line81'></span>
-<span id='line82'>      // on upgraded to new protocol then do not close socket;</span>
-<span id='line83'>      // otherwise ensure response if committed and flushed</span>
-<span id='line84'>       if <b>(</b>res.upgraded<b>)</b></span>
-<span id='line85'>         close = false</span>
-<span id='line86'>       else</span>
-<span id='line87'>         res.close</span>
-<span id='line88'>    <b>}</b></span>
-<span id='line89'>    catch <b>(</b>Err e<b>)</b></span>
-<span id='line90'>    <b>{</b></span>
-<span id='line91'>      if <b>(</b>init<b>)</b></span>
-<span id='line92'>        internalServerErr<b>(</b>req, res, e<b>)</b></span>
-<span id='line93'>      else if <b>(</b>e is IOErr &amp;&amp; e.msg.contains<b>(</b>"javax.net.ssl."<b>)</b><b>)</b></span>
-<span id='line94'>      <b>{</b></span>
-<span id='line95'>        // only log JAVA SSL exceptions at debug level</span>
-<span id='line96'>        if <b>(</b>WispService.log.isDebug<b>)</b> WispService.log.debug<b>(</b>"TLS Error", e<b>)</b></span>
-<span id='line97'>      <b>}</b></span>
-<span id='line98'>      else</span>
-<span id='line99'>        e.trace</span>
-<span id='line100'>    <b>}</b></span>
-<span id='line101'>    finally</span>
-<span id='line102'>    <b>{</b></span>
-<span id='line103'>      Actor.locals.remove<b>(</b>"web.req"<b>)</b></span>
-<span id='line104'>      Actor.locals.remove<b>(</b>"web.res"<b>)</b></span>
-<span id='line105'>      if <b>(</b>close<b>)</b> try <b>{</b> socket.close <b>}</b> catch <b>{</b><b>}</b></span>
-<span id='line106'>    <b>}</b></span>
-<span id='line107'>  <b>}</b></span>
-<span id='line108'></span>
-<span id='line109'>  ** Should sockets be upgrade to tls?</span>
-<span id='line110'>  private Bool isTls<b>(</b><b>)</b> <b>{</b> service.httpsPort != null <b>}</b></span>
+<span id='line82'>      // save session if accessed</span>
+<span id='line83'>      service.sessionStore.doSave</span>
+<span id='line84'></span>
+<span id='line85'>      // on upgraded to new protocol then do not close socket;</span>
+<span id='line86'>      // otherwise ensure response if committed and flushed</span>
+<span id='line87'>       if <b>(</b>res.upgraded<b>)</b></span>
+<span id='line88'>         close = false</span>
+<span id='line89'>       else</span>
+<span id='line90'>         res.close</span>
+<span id='line91'>    <b>}</b></span>
+<span id='line92'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line93'>    <b>{</b></span>
+<span id='line94'>      if <b>(</b>init<b>)</b></span>
+<span id='line95'>        internalServerErr<b>(</b>req, res, e<b>)</b></span>
+<span id='line96'>      else if <b>(</b>e is IOErr &amp;&amp; e.msg.contains<b>(</b>"javax.net.ssl."<b>)</b><b>)</b></span>
+<span id='line97'>      <b>{</b></span>
+<span id='line98'>        // only log JAVA SSL exceptions at debug level</span>
+<span id='line99'>        if <b>(</b>WispService.log.isDebug<b>)</b> WispService.log.debug<b>(</b>"TLS Error", e<b>)</b></span>
+<span id='line100'>      <b>}</b></span>
+<span id='line101'>      else</span>
+<span id='line102'>        e.trace</span>
+<span id='line103'>    <b>}</b></span>
+<span id='line104'>    finally</span>
+<span id='line105'>    <b>{</b></span>
+<span id='line106'>      Actor.locals.remove<b>(</b>"web.req"<b>)</b></span>
+<span id='line107'>      Actor.locals.remove<b>(</b>"web.res"<b>)</b></span>
+<span id='line108'>      if <b>(</b>close<b>)</b> try <b>{</b> socket.close <b>}</b> catch <b>{</b><b>}</b></span>
+<span id='line109'>    <b>}</b></span>
+<span id='line110'>  <b>}</b></span>
 <span id='line111'></span>
-<span id='line112'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line113'>// Request</span>
+<span id='line112'>  private Bool isTls<b>(</b><b>)</b> <b>{</b> service.httpsPort != null <b>}</b></span>
+<span id='line113'></span>
 <span id='line114'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line115'></span>
-<span id='line116'>  **</span>
-<span id='line117'>  ** Parse the first request line and request headers.</span>
-<span id='line118'>  ** Return true on success, false on failure.</span>
-<span id='line119'>  **</span>
-<span id='line120'>  internal static Bool parseReq<b>(</b>WispReq req<b>)</b></span>
-<span id='line121'>  <b>{</b></span>
-<span id='line122'>    try</span>
-<span id='line123'>    <b>{</b></span>
-<span id='line124'>      // skip leading CRLF <b>(</b>4.1<b>)</b></span>
-<span id='line125'>      in := req.socket.in</span>
-<span id='line126'>      line := WebUtil.readLine<b>(</b>in<b>)</b></span>
-<span id='line127'>      while <b>(</b>line.isEmpty<b>)</b> line = WebUtil.readLine<b>(</b>in<b>)</b></span>
-<span id='line128'></span>
-<span id='line129'>      // parse request-line <b>(</b>5.1<b>)</b></span>
-<span id='line130'>      toks   := line.split</span>
-<span id='line131'>      method := toks<b>[</b>0<b>]</b></span>
-<span id='line132'>      uri    := toks<b>[</b>1<b>]</b></span>
-<span id='line133'>      ver    := toks<b>[</b>2<b>]</b></span>
-<span id='line134'></span>
-<span id='line135'>      // method</span>
-<span id='line136'>      req.setMethod<b>(</b>method<b>)</b></span>
-<span id='line137'></span>
-<span id='line138'>      // uri; immediately reject any uri which looks dangerous</span>
-<span id='line139'>      req.uri = Uri.decode<b>(</b>uri<b>)</b></span>
-<span id='line140'>      if <b>(</b>req.uri.path.first == ".."<b>)</b> throw Err<b>(</b>"Reject URI"<b>)</b></span>
-<span id='line141'>      if <b>(</b>req.uri.pathStr.contains<b>(</b>"//"<b>)</b><b>)</b> throw Err<b>(</b>"Reject URI"<b>)</b></span>
-<span id='line142'></span>
-<span id='line143'>      // version</span>
-<span id='line144'>      if <b>(</b>ver == "HTTP/1.1"<b>)</b> req.version = ver11</span>
-<span id='line145'>      else if <b>(</b>ver == "HTTP/1.0"<b>)</b> req.version = ver10</span>
-<span id='line146'>      else throw Err<b>(</b>"Unsupported version"<b>)</b></span>
-<span id='line147'></span>
-<span id='line148'>      // parse headers</span>
-<span id='line149'>      req.headers = WebUtil.parseHeaders<b>(</b>in<b>)</b>.ro</span>
-<span id='line150'></span>
-<span id='line151'>      // success</span>
-<span id='line152'>      return true</span>
-<span id='line153'>    <b>}</b></span>
-<span id='line154'>    catch <b>(</b>Err e<b>)</b></span>
-<span id='line155'>    <b>{</b></span>
-<span id='line156'>      // attempt to return error response</span>
-<span id='line157'>      try</span>
-<span id='line158'>      <b>{</b></span>
-<span id='line159'>        out := req.socket.out</span>
-<span id='line160'>        req.socket.out</span>
-<span id='line161'>          .print<b>(</b>"HTTP/1.1 400 Bad Request: $e.toStr.toCode\r\n"<b>)</b></span>
-<span id='line162'>          .print<b>(</b>"\r\n"<b>)</b>.flush</span>
-<span id='line163'>      <b>}</b></span>
-<span id='line164'>      catch <b>(</b>Err e2<b>)</b> <b>{</b><b>}</b></span>
-<span id='line165'>      return false</span>
-<span id='line166'>    <b>}</b></span>
-<span id='line167'>  <b>}</b></span>
-<span id='line168'></span>
-<span id='line169'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line170'>// Response</span>
+<span id='line115'>// Request</span>
+<span id='line116'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line117'></span>
+<span id='line118'>  **</span>
+<span id='line119'>  ** Parse the first request line and request headers.</span>
+<span id='line120'>  ** Return true on success, false on failure.</span>
+<span id='line121'>  **</span>
+<span id='line122'>  internal static Bool parseReq<b>(</b>WispReq req<b>)</b></span>
+<span id='line123'>  <b>{</b></span>
+<span id='line124'>    try</span>
+<span id='line125'>    <b>{</b></span>
+<span id='line126'>      // skip leading CRLF <b>(</b>4.1<b>)</b></span>
+<span id='line127'>      in := req.socket.in</span>
+<span id='line128'>      line := WebUtil.readLine<b>(</b>in<b>)</b></span>
+<span id='line129'>      while <b>(</b>line.isEmpty<b>)</b> line = WebUtil.readLine<b>(</b>in<b>)</b></span>
+<span id='line130'></span>
+<span id='line131'>      // parse request-line <b>(</b>5.1<b>)</b></span>
+<span id='line132'>      toks   := line.split</span>
+<span id='line133'>      method := toks<b>[</b>0<b>]</b></span>
+<span id='line134'>      uri    := toks<b>[</b>1<b>]</b></span>
+<span id='line135'>      ver    := toks<b>[</b>2<b>]</b></span>
+<span id='line136'></span>
+<span id='line137'>      // method</span>
+<span id='line138'>      req.setMethod<b>(</b>method<b>)</b></span>
+<span id='line139'></span>
+<span id='line140'>      // uri; immediately reject any uri which looks dangerous</span>
+<span id='line141'>      req.uri = Uri.decode<b>(</b>uri<b>)</b></span>
+<span id='line142'>      if <b>(</b>req.uri.path.first == ".."<b>)</b> throw Err<b>(</b>"Reject URI"<b>)</b></span>
+<span id='line143'>      if <b>(</b>req.uri.pathStr.contains<b>(</b>"//"<b>)</b><b>)</b> throw Err<b>(</b>"Reject URI"<b>)</b></span>
+<span id='line144'></span>
+<span id='line145'>      // version</span>
+<span id='line146'>      if <b>(</b>ver == "HTTP/1.1"<b>)</b> req.version = ver11</span>
+<span id='line147'>      else if <b>(</b>ver == "HTTP/1.0"<b>)</b> req.version = ver10</span>
+<span id='line148'>      else throw Err<b>(</b>"Unsupported version"<b>)</b></span>
+<span id='line149'></span>
+<span id='line150'>      // parse headers</span>
+<span id='line151'>      req.headers = WebUtil.parseHeaders<b>(</b>in<b>)</b>.ro</span>
+<span id='line152'></span>
+<span id='line153'>      // success</span>
+<span id='line154'>      return true</span>
+<span id='line155'>    <b>}</b></span>
+<span id='line156'>    catch <b>(</b>Err e<b>)</b></span>
+<span id='line157'>    <b>{</b></span>
+<span id='line158'>      // attempt to return error response</span>
+<span id='line159'>      try</span>
+<span id='line160'>      <b>{</b></span>
+<span id='line161'>        out := req.socket.out</span>
+<span id='line162'>        req.socket.out</span>
+<span id='line163'>          .print<b>(</b>"HTTP/1.1 400 Bad Request: $e.toStr.toCode\r\n"<b>)</b></span>
+<span id='line164'>          .print<b>(</b>"\r\n"<b>)</b>.flush</span>
+<span id='line165'>      <b>}</b></span>
+<span id='line166'>      catch <b>(</b>Err e2<b>)</b> <b>{</b><b>}</b></span>
+<span id='line167'>      return false</span>
+<span id='line168'>    <b>}</b></span>
+<span id='line169'>  <b>}</b></span>
+<span id='line170'></span>
 <span id='line171'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line172'></span>
-<span id='line173'>  **</span>
-<span id='line174'>  ** Initialize the request and response.</span>
+<span id='line172'>// Response</span>
+<span id='line173'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line174'></span>
 <span id='line175'>  **</span>
-<span id='line176'>  private Void initReqRes<b>(</b>WispReq req, WispRes res<b>)</b></span>
-<span id='line177'>  <b>{</b></span>
-<span id='line178'>    // init request input stream to read content</span>
-<span id='line179'>    req.webIn = initReqInStream<b>(</b>req<b>)</b></span>
-<span id='line180'></span>
-<span id='line181'>    // configure Locale.cur for best match based on request</span>
-<span id='line182'>    Locale.setCur<b>(</b>req.locales.first<b>)</b></span>
-<span id='line183'>  <b>}</b></span>
-<span id='line184'></span>
-<span id='line185'>  **</span>
-<span id='line186'>  ** Map the raw HTTP input stream to handle the charset and transfer encoding</span>
+<span id='line176'>  ** Initialize the request and response.</span>
+<span id='line177'>  **</span>
+<span id='line178'>  private Void initReqRes<b>(</b>WispReq req, WispRes res<b>)</b></span>
+<span id='line179'>  <b>{</b></span>
+<span id='line180'>    // init request input stream to read content</span>
+<span id='line181'>    req.webIn = initReqInStream<b>(</b>req<b>)</b></span>
+<span id='line182'></span>
+<span id='line183'>    // configure Locale.cur for best match based on request</span>
+<span id='line184'>    Locale.setCur<b>(</b>req.locales.first<b>)</b></span>
+<span id='line185'>  <b>}</b></span>
+<span id='line186'></span>
 <span id='line187'>  **</span>
-<span id='line188'>  private InStream? initReqInStream<b>(</b>WispReq req<b>)</b></span>
-<span id='line189'>  <b>{</b></span>
-<span id='line190'>    // raw socket input stream</span>
-<span id='line191'>    raw := req.socket.in</span>
-<span id='line192'></span>
-<span id='line193'>    // if requesting an upgrade, then leave access to raw socket</span>
-<span id='line194'>    if <b>(</b>req.isUpgrade<b>)</b> return raw</span>
-<span id='line195'></span>
-<span id='line196'>    // init request - create content input stream wrapper</span>
-<span id='line197'>    wrap := WebUtil.makeContentInStream<b>(</b>req.headers, raw<b>)</b></span>
-<span id='line198'></span>
-<span id='line199'>    // if the WebUtil didn't wrap the stream, then that means no</span>
-<span id='line200'>    // Content-Length or Transfer-Encoding - which in turn means we don't</span>
-<span id='line201'>    // consider this a valid request for sending a body in the request</span>
-<span id='line202'>    // according to 4.4 <b>(</b>since pipeling would be undefined<b>)</b></span>
-<span id='line203'>    if <b>(</b>wrap === raw<b>)</b> return null</span>
-<span id='line204'>    return wrap</span>
-<span id='line205'>  <b>}</b></span>
-<span id='line206'></span>
-<span id='line207'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line208'>// Error Handling</span>
+<span id='line188'>  ** Map the raw HTTP input stream to handle the charset and transfer encoding</span>
+<span id='line189'>  **</span>
+<span id='line190'>  private InStream? initReqInStream<b>(</b>WispReq req<b>)</b></span>
+<span id='line191'>  <b>{</b></span>
+<span id='line192'>    // raw socket input stream</span>
+<span id='line193'>    raw := req.socket.in</span>
+<span id='line194'></span>
+<span id='line195'>    // if requesting an upgrade, then leave access to raw socket</span>
+<span id='line196'>    if <b>(</b>req.isUpgrade<b>)</b> return raw</span>
+<span id='line197'></span>
+<span id='line198'>    // init request - create content input stream wrapper</span>
+<span id='line199'>    wrap := WebUtil.makeContentInStream<b>(</b>req.headers, raw<b>)</b></span>
+<span id='line200'></span>
+<span id='line201'>    // if the WebUtil didn't wrap the stream, then that means no</span>
+<span id='line202'>    // Content-Length or Transfer-Encoding - which in turn means we don't</span>
+<span id='line203'>    // consider this a valid request for sending a body in the request</span>
+<span id='line204'>    // according to 4.4 <b>(</b>since pipeling would be undefined<b>)</b></span>
+<span id='line205'>    if <b>(</b>wrap === raw<b>)</b> return null</span>
+<span id='line206'>    return wrap</span>
+<span id='line207'>  <b>}</b></span>
+<span id='line208'></span>
 <span id='line209'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line210'></span>
-<span id='line211'>  **</span>
-<span id='line212'>  ** Send back 500 Internal server error.</span>
+<span id='line210'>// Error Handling</span>
+<span id='line211'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line212'></span>
 <span id='line213'>  **</span>
-<span id='line214'>  private Void internalServerErr<b>(</b>WispReq req, WispRes res, Err err<b>)</b></span>
-<span id='line215'>  <b>{</b></span>
-<span id='line216'>    try</span>
-<span id='line217'>    <b>{</b></span>
-<span id='line218'>      // if the error is that the socket has been disconnected</span>
-<span id='line219'>      // by the remote side, then this isn't *my* error so we don't</span>
-<span id='line220'>      // want to log spurious socket errors; we can detect</span>
-<span id='line221'>      // this by attempting to flush the socket</span>
-<span id='line222'>      if <b>(</b>err is IOErr<b>)</b></span>
-<span id='line223'>      <b>{</b></span>
-<span id='line224'>        try <b>{</b> req.socket.out.flush <b>}</b> catch <b>{</b> return <b>}</b></span>
-<span id='line225'>      <b>}</b></span>
-<span id='line226'></span>
-<span id='line227'>      // log internal error</span>
-<span id='line228'>      if <b>(</b>!err.msg.contains<b>(</b>"Broken pipe"<b>)</b><b>)</b></span>
-<span id='line229'>        WispService.log.err<b>(</b>"Internal error processing: $req.uri", err<b>)</b></span>
-<span id='line230'></span>
-<span id='line231'>      // if not committed yet, then return 400 if bad</span>
-<span id='line232'>      // client request or 500 if server error</span>
-<span id='line233'>      if <b>(</b>!res.isCommitted<b>)</b></span>
-<span id='line234'>      <b>{</b></span>
-<span id='line235'>        res.statusCode = 500</span>
-<span id='line236'>        res.headers.clear</span>
-<span id='line237'>        req.stash<b>[</b>"err"<b>]</b> = err</span>
-<span id='line238'>        service.errMod.onService</span>
-<span id='line239'>        res.close</span>
-<span id='line240'>      <b>}</b></span>
-<span id='line241'>    <b>}</b></span>
-<span id='line242'>    catch <b>(</b>Err e<b>)</b> WispService.log.err<b>(</b>"internalServiceError res failed", e<b>)</b></span>
-<span id='line243'>  <b>}</b></span>
-<span id='line244'></span>
-<span id='line245'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line246'>// Fields</span>
+<span id='line214'>  ** Send back 500 Internal server error.</span>
+<span id='line215'>  **</span>
+<span id='line216'>  private Void internalServerErr<b>(</b>WispReq req, WispRes res, Err err<b>)</b></span>
+<span id='line217'>  <b>{</b></span>
+<span id='line218'>    try</span>
+<span id='line219'>    <b>{</b></span>
+<span id='line220'>      // if the error is that the socket has been disconnected</span>
+<span id='line221'>      // by the remote side, then this isn't *my* error so we don't</span>
+<span id='line222'>      // want to log spurious socket errors; we can detect</span>
+<span id='line223'>      // this by attempting to flush the socket</span>
+<span id='line224'>      if <b>(</b>err is IOErr<b>)</b></span>
+<span id='line225'>      <b>{</b></span>
+<span id='line226'>        try <b>{</b> req.socket.out.flush <b>}</b> catch <b>{</b> return <b>}</b></span>
+<span id='line227'>      <b>}</b></span>
+<span id='line228'></span>
+<span id='line229'>      // log internal error</span>
+<span id='line230'>      if <b>(</b>!err.msg.contains<b>(</b>"Broken pipe"<b>)</b><b>)</b></span>
+<span id='line231'>        WispService.log.err<b>(</b>"Internal error processing: $req.uri", err<b>)</b></span>
+<span id='line232'></span>
+<span id='line233'>      // if not committed yet, then return 400 if bad</span>
+<span id='line234'>      // client request or 500 if server error</span>
+<span id='line235'>      if <b>(</b>!res.isCommitted<b>)</b></span>
+<span id='line236'>      <b>{</b></span>
+<span id='line237'>        res.statusCode = 500</span>
+<span id='line238'>        res.headers.clear</span>
+<span id='line239'>        req.stash<b>[</b>"err"<b>]</b> = err</span>
+<span id='line240'>        service.errMod.onService</span>
+<span id='line241'>        res.close</span>
+<span id='line242'>      <b>}</b></span>
+<span id='line243'>    <b>}</b></span>
+<span id='line244'>    catch <b>(</b>Err e<b>)</b> WispService.log.err<b>(</b>"internalServiceError res failed", e<b>)</b></span>
+<span id='line245'>  <b>}</b></span>
+<span id='line246'></span>
 <span id='line247'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line248'></span>
-<span id='line249'>  static const Version ver10 := Version<b>(</b>"1.0"<b>)</b></span>
-<span id='line250'>  static const Version ver11 := Version<b>(</b>"1.1"<b>)</b></span>
-<span id='line251'>  static const Str wispVer   := "Wisp/" + WispActor#.pod.version</span>
-<span id='line252'></span>
-<span id='line253'>  const WispService service</span>
-<span id='line254'><b>}</b></span>
+<span id='line248'>// Fields</span>
+<span id='line249'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line250'></span>
+<span id='line251'>  static const Version ver10 := Version<b>(</b>"1.0"<b>)</b></span>
+<span id='line252'>  static const Version ver11 := Version<b>(</b>"1.1"<b>)</b></span>
+<span id='line253'>  static const Str wispVer   := "Wisp/" + WispActor#.pod.version</span>
+<span id='line254'></span>
+<span id='line255'>  const WispService service</span>
+<span id='line256'><b>}</b></span>
 </pre>
 </div>
 </body>

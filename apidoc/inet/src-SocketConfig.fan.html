@@ -74,103 +74,118 @@
 <span id='line59'>    <b>{</b></span>
 <span id='line60'>      this.keystore          = orig.keystore</span>
 <span id='line61'>      this.truststore        = orig.truststore</span>
-<span id='line62'></span>
-<span id='line63'>      this.inBufferSize      = orig.inBufferSize</span>
-<span id='line64'>      this.keepAlive         = orig.keepAlive</span>
-<span id='line65'>      this.receiveBufferSize = orig.receiveBufferSize</span>
-<span id='line66'>      this.sendBufferSize    = orig.sendBufferSize</span>
-<span id='line67'>      this.reuseAddr         = orig.reuseAddr</span>
-<span id='line68'>      this.linger            = orig.linger</span>
-<span id='line69'>      this.connectTimeout    = orig.connectTimeout</span>
-<span id='line70'>      this.receiveTimeout    = orig.receiveTimeout</span>
-<span id='line71'>      this.noDelay           = orig.noDelay</span>
-<span id='line72'>      this.trafficClass      = orig.trafficClass</span>
-<span id='line73'></span>
-<span id='line74'>      this.broadcast         = orig.broadcast</span>
-<span id='line75'>    <b>}</b></span>
-<span id='line76'>    f<b>(</b>this<b>)</b></span>
-<span id='line77'>  <b>}</b></span>
-<span id='line78'></span>
-<span id='line79'>  ** Create a copy of this configuration and then apply any overrides from the it-block.</span>
-<span id='line80'>  virtual This copy<b>(</b>|This| f<b>)</b> <b>{</b> makeCopy<b>(</b>this, f<b>)</b> <b>}</b></span>
-<span id='line81'></span>
-<span id='line82'>  ** Convenience to create a copy of this socket configuration and set the connect</span>
-<span id='line83'>  ** and receive timeouts to the given duration.</span>
-<span id='line84'>  This setTimeouts<b>(</b>Duration dur<b>)</b></span>
-<span id='line85'>  <b>{</b></span>
-<span id='line86'>    makeCopy<b>(</b>this<b>)</b> <b>{</b> it.connectTimeout = dur; it.receiveTimeout = dur <b>}</b></span>
-<span id='line87'>  <b>}</b></span>
-<span id='line88'></span>
-<span id='line89'>  private native Void force_peer<b>(</b><b>)</b></span>
-<span id='line90'></span>
-<span id='line91'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line92'>// Tls Config</span>
-<span id='line93'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line94'></span>
-<span id='line95'>  ** The `crypto::KeyStore` to use when creating secure sockets. If null, the runtime</span>
-<span id='line96'>  ** default will be used.</span>
-<span id='line97'>  const KeyStore? keystore := null</span>
-<span id='line98'></span>
-<span id='line99'>  ** The `crypto::KeyStore` to use for obtaining trusted certificates when creating</span>
-<span id='line100'>  ** secure sockets. If null, the runtime default will be used.</span>
-<span id='line101'>  const KeyStore? truststore := null</span>
-<span id='line102'></span>
-<span id='line103'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line104'>// Socket Config</span>
-<span id='line105'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line106'></span>
-<span id='line107'></span>
-<span id='line108'>  ** The size in bytes for the sys::InStream buffer. A value of 0 or</span>
-<span id='line109'>  ** null disables input stream buffing.</span>
-<span id='line110'>  const Int? inBufferSize := 4096</span>
-<span id='line111'></span>
-<span id='line112'>  ** The size in bytes for the sys::OutStream buffer. A value of 0 or</span>
-<span id='line113'>  ** null disables output stream buffing.</span>
-<span id='line114'>  const Int? outBufferSize := 4096</span>
-<span id='line115'></span>
-<span id='line116'>  ** 'SO_KEEPALIVE' option</span>
-<span id='line117'>  const Bool keepAlive := false</span>
+<span id='line62'>      this.tlsParams         = orig.tlsParams</span>
+<span id='line63'></span>
+<span id='line64'>      this.inBufferSize      = orig.inBufferSize</span>
+<span id='line65'>      this.keepAlive         = orig.keepAlive</span>
+<span id='line66'>      this.receiveBufferSize = orig.receiveBufferSize</span>
+<span id='line67'>      this.sendBufferSize    = orig.sendBufferSize</span>
+<span id='line68'>      this.reuseAddr         = orig.reuseAddr</span>
+<span id='line69'>      this.linger            = orig.linger</span>
+<span id='line70'>      this.connectTimeout    = orig.connectTimeout</span>
+<span id='line71'>      this.receiveTimeout    = orig.receiveTimeout</span>
+<span id='line72'>      this.acceptTimeout     = orig.acceptTimeout</span>
+<span id='line73'>      this.noDelay           = orig.noDelay</span>
+<span id='line74'>      this.trafficClass      = orig.trafficClass</span>
+<span id='line75'></span>
+<span id='line76'>      this.broadcast         = orig.broadcast</span>
+<span id='line77'>    <b>}</b></span>
+<span id='line78'>    f<b>(</b>this<b>)</b></span>
+<span id='line79'>  <b>}</b></span>
+<span id='line80'></span>
+<span id='line81'>  ** Create a copy of this configuration and then apply any overrides from the it-block.</span>
+<span id='line82'>  virtual This copy<b>(</b>|This| f<b>)</b> <b>{</b> makeCopy<b>(</b>this, f<b>)</b> <b>}</b></span>
+<span id='line83'></span>
+<span id='line84'>  ** Convenience to create a copy of this socket configuration and set the connect</span>
+<span id='line85'>  ** and receive timeouts to the given duration. Setting to 'null' indicates</span>
+<span id='line86'>  ** infinite timeouts.</span>
+<span id='line87'>  This setTimeouts<b>(</b>Duration? connectTimeout, Duration? receiveTimeout := connectTimeout<b>)</b></span>
+<span id='line88'>  <b>{</b></span>
+<span id='line89'>    makeCopy<b>(</b>this<b>)</b> <b>{</b> it.connectTimeout = connectTimeout; it.receiveTimeout = receiveTimeout <b>}</b></span>
+<span id='line90'>  <b>}</b></span>
+<span id='line91'></span>
+<span id='line92'>  private native Void force_peer<b>(</b><b>)</b></span>
+<span id='line93'></span>
+<span id='line94'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line95'>// Tls Config</span>
+<span id='line96'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line97'></span>
+<span id='line98'>  ** The `crypto::KeyStore` to use when creating secure sockets. If null, the runtime</span>
+<span id='line99'>  ** default will be used.</span>
+<span id='line100'>  const KeyStore? keystore := null</span>
+<span id='line101'></span>
+<span id='line102'>  ** The `crypto::KeyStore` to use for obtaining trusted certificates when creating</span>
+<span id='line103'>  ** secure sockets. If null, the runtime default will be used.</span>
+<span id='line104'>  const KeyStore? truststore := null</span>
+<span id='line105'></span>
+<span id='line106'>  ** TCP sockets that are upgraded to TLS will be configured with these parameters.</span>
+<span id='line107'>  ** The following parameters are supported:</span>
+<span id='line108'>  ** - 'appProtocols': <b>(</b>'Str<b>[</b><b>]</b>'<b>)</b> prioritized array of application-layer protocol</span>
+<span id='line109'>  ** names that can be negotiated over the TLS protocol</span>
+<span id='line110'>  **</span>
+<span id='line111'>  ** **Experimental - this functionality is subject to change**</span>
+<span id='line112'>  @NoDoc const Str:Obj? tlsParams := <b>[</b>:<b>]</b></span>
+<span id='line113'></span>
+<span id='line114'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line115'>// Socket Config</span>
+<span id='line116'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line117'></span>
 <span id='line118'></span>
-<span id='line119'>  ** 'SO_RCVBUF' option for the size in bytes of the IP stack buffers.</span>
-<span id='line120'>  const Int receiveBufferSize := 65_536</span>
-<span id='line121'></span>
-<span id='line122'>  ** 'SO_SNDBUF' option for the size in bytes of the IP stack buffers.</span>
-<span id='line123'>  const Int sendBufferSize := 65_536</span>
-<span id='line124'></span>
-<span id='line125'>  ** 'SO_REUSEADDR' is used to control the time wait state of a closed socket.</span>
-<span id='line126'>  const Bool reuseAddr := false</span>
-<span id='line127'></span>
-<span id='line128'>  ** 'SO_LINGER' controls the linger time or set to null to disable linger.</span>
-<span id='line129'>  const Duration? linger := null</span>
-<span id='line130'></span>
-<span id='line131'>  ** Controls the default timeout used by `TcpSocket.connect`.</span>
-<span id='line132'>  ** A null value indicates a system default timeout <b>(</b>usually wait forever<b>)</b>.</span>
-<span id='line133'>  const Duration? connectTimeout  := 60sec</span>
-<span id='line134'></span>
-<span id='line135'>  ** 'SO_TIMEOUT' controls the amount of time a socket</span>
-<span id='line136'>  ** will block on a read call before throwing an IOErr timeout exception.</span>
-<span id='line137'>  ** Null is used to indicate an infinite timeout.</span>
-<span id='line138'>  const Duration? receiveTimeout := 60sec</span>
-<span id='line139'></span>
-<span id='line140'>  ** 'TCP_NODELAY' socket option specifies that send not be delayed</span>
-<span id='line141'>  ** to merge packets <b>(</b>Nagle's algorthm<b>)</b>.</span>
-<span id='line142'>  const Bool noDelay := true</span>
-<span id='line143'></span>
-<span id='line144'>  ** The type-of-class byte in the IP packet header.</span>
-<span id='line145'>  **</span>
-<span id='line146'>  ** For IPv4 this value is detailed in RFC 1349 as the following bitset:</span>
-<span id='line147'>  **  - IPTOS_LOWCOST     <b>(</b>0x02<b>)</b></span>
-<span id='line148'>  **  - IPTOS_RELIABILITY <b>(</b>0x04<b>)</b></span>
-<span id='line149'>  **  - IPTOS_THROUGHPUT  <b>(</b>0x08<b>)</b></span>
-<span id='line150'>  **  - IPTOS_LOWDELAY    <b>(</b>0x10<b>)</b></span>
-<span id='line151'>  **</span>
-<span id='line152'>  ** For IPv6 this is the value placed into the sin6_flowinfo header field.</span>
-<span id='line153'>  const Int trafficClass := 0</span>
+<span id='line119'>  ** The size in bytes for the sys::InStream buffer. A value of 0 or</span>
+<span id='line120'>  ** null disables input stream buffing.</span>
+<span id='line121'>  const Int? inBufferSize := 4096</span>
+<span id='line122'></span>
+<span id='line123'>  ** The size in bytes for the sys::OutStream buffer. A value of 0 or</span>
+<span id='line124'>  ** null disables output stream buffing.</span>
+<span id='line125'>  const Int? outBufferSize := 4096</span>
+<span id='line126'></span>
+<span id='line127'>  ** 'SO_KEEPALIVE' option</span>
+<span id='line128'>  const Bool keepAlive := false</span>
+<span id='line129'></span>
+<span id='line130'>  ** 'SO_RCVBUF' option for the size in bytes of the IP stack buffers.</span>
+<span id='line131'>  const Int receiveBufferSize := 65_536</span>
+<span id='line132'></span>
+<span id='line133'>  ** 'SO_SNDBUF' option for the size in bytes of the IP stack buffers.</span>
+<span id='line134'>  const Int sendBufferSize := 65_536</span>
+<span id='line135'></span>
+<span id='line136'>  ** 'SO_REUSEADDR' is used to control the time wait state of a closed socket.</span>
+<span id='line137'>  const Bool reuseAddr := false</span>
+<span id='line138'></span>
+<span id='line139'>  ** 'SO_LINGER' controls the linger time or set to null to disable linger.</span>
+<span id='line140'>  const Duration? linger := null</span>
+<span id='line141'></span>
+<span id='line142'>  ** Controls the default timeout used by `TcpSocket.connect`.</span>
+<span id='line143'>  ** A null value indicates a system default timeout <b>(</b>usually wait forever<b>)</b>.</span>
+<span id='line144'>  const Duration? connectTimeout  := 60sec</span>
+<span id='line145'></span>
+<span id='line146'>  ** 'SO_TIMEOUT' controls the amount of time a socket</span>
+<span id='line147'>  ** will block on a read call before throwing an IOErr timeout exception.</span>
+<span id='line148'>  ** 'null' is used to indicate an infinite timeout.</span>
+<span id='line149'>  const Duration? receiveTimeout := 60sec</span>
+<span id='line150'></span>
+<span id='line151'>  ** Controls how long a `TcpListener.accept` will block before throwing an</span>
+<span id='line152'>  ** IOErr timeout exception. 'null' is used to indicate infinite timeout.</span>
+<span id='line153'>  const Duration? acceptTimeout := null</span>
 <span id='line154'></span>
-<span id='line155'>  ** 'SO_BROADCAST' socket option</span>
-<span id='line156'>  const Bool broadcast := false</span>
-<span id='line157'></span>
-<span id='line158'><b>}</b></span>
+<span id='line155'>  ** 'TCP_NODELAY' socket option specifies that send not be delayed</span>
+<span id='line156'>  ** to merge packets <b>(</b>Nagle's algorthm<b>)</b>.</span>
+<span id='line157'>  const Bool noDelay := true</span>
+<span id='line158'></span>
+<span id='line159'>  ** The type-of-class byte in the IP packet header.</span>
+<span id='line160'>  **</span>
+<span id='line161'>  ** For IPv4 this value is detailed in RFC 1349 as the following bitset:</span>
+<span id='line162'>  **  - IPTOS_LOWCOST     <b>(</b>0x02<b>)</b></span>
+<span id='line163'>  **  - IPTOS_RELIABILITY <b>(</b>0x04<b>)</b></span>
+<span id='line164'>  **  - IPTOS_THROUGHPUT  <b>(</b>0x08<b>)</b></span>
+<span id='line165'>  **  - IPTOS_LOWDELAY    <b>(</b>0x10<b>)</b></span>
+<span id='line166'>  **</span>
+<span id='line167'>  ** For IPv6 this is the value placed into the sin6_flowinfo header field.</span>
+<span id='line168'>  const Int trafficClass := 0</span>
+<span id='line169'></span>
+<span id='line170'>  ** 'SO_BROADCAST' socket option</span>
+<span id='line171'>  const Bool broadcast := false</span>
+<span id='line172'></span>
+<span id='line173'><b>}</b></span>
 </pre>
 </div>
 </body>

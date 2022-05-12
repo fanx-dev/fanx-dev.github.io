@@ -51,7 +51,7 @@ article</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> article(<a href='../sys/Str.html'>Str?</a> attrs := null)</code></p>
 <p class='src'>
-<a href='src-WebOutStream.fan.html#line821'>Source</a></p>
+<a href='src-WebOutStream.fan.html#line827'>Source</a></p>
 
 <p>Start a &lt;article> tag.</p>
 </dd>
@@ -61,7 +61,7 @@ articleEnd</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> articleEnd()</code></p>
 <p class='src'>
-<a href='src-WebOutStream.fan.html#line824'>Source</a></p>
+<a href='src-WebOutStream.fan.html#line830'>Source</a></p>
 
 <p>End a &lt;article> tag.</p>
 </dd>
@@ -71,7 +71,7 @@ aside</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> aside(<a href='../sys/Str.html'>Str?</a> attrs := null)</code></p>
 <p class='src'>
-<a href='src-WebOutStream.fan.html#line827'>Source</a></p>
+<a href='src-WebOutStream.fan.html#line833'>Source</a></p>
 
 <p>Start a &lt;aside> tag.</p>
 </dd>
@@ -81,7 +81,7 @@ asideEnd</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> asideEnd()</code></p>
 <p class='src'>
-<a href='src-WebOutStream.fan.html#line830'>Source</a></p>
+<a href='src-WebOutStream.fan.html#line836'>Source</a></p>
 
 <p>End a &lt;aside> tag.</p>
 </dd>
@@ -311,7 +311,7 @@ esc</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> esc(<a href='../sys/Obj.html'>Obj?</a> obj)</code></p>
 <p class='src'>
-<a href='src-WebOutStream.fan.html#line838'>Source</a></p>
+<a href='src-WebOutStream.fan.html#line844'>Source</a></p>
 
 <p>Write <code>obj.toStr</code> to the stream as valid XML text.  The special control characters amp, lt, apos and quot are always escaped.  The gt char is escaped only if it is the first char or if preceeded by the <code>]</code> char.  Also see <a href='sys::Str.toXml'>sys::Str.toXml</a>.  If obj is null, then "null" is written.</p>
 </dd>
@@ -694,6 +694,26 @@ liEnd</dt>
 
 <p>End a &lt;li> tag.</p>
 </dd>
+<dt id='main'>
+main</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> main(<a href='../sys/Str.html'>Str?</a> attrs := null)</code></p>
+<p class='src'>
+<a href='src-WebOutStream.fan.html#line809'>Source</a></p>
+
+<p>Start a &lt;main> tag.</p>
+</dd>
+<dt id='mainEnd'>
+mainEnd</dt>
+<dd>
+<p class='sig'>
+<code> <a href='../sys/This.html'>This</a> mainEnd()</code></p>
+<p class='src'>
+<a href='src-WebOutStream.fan.html#line812'>Source</a></p>
+
+<p>End a &lt;main> tag.</p>
+</dd>
 <dt id='make'>
 make</dt>
 <dd>
@@ -710,7 +730,7 @@ nav</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> nav(<a href='../sys/Str.html'>Str?</a> attrs := null)</code></p>
 <p class='src'>
-<a href='src-WebOutStream.fan.html#line809'>Source</a></p>
+<a href='src-WebOutStream.fan.html#line815'>Source</a></p>
 
 <p>Start a &lt;nav> tag.</p>
 </dd>
@@ -720,7 +740,7 @@ navEnd</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> navEnd()</code></p>
 <p class='src'>
-<a href='src-WebOutStream.fan.html#line812'>Source</a></p>
+<a href='src-WebOutStream.fan.html#line818'>Source</a></p>
 
 <p>End a &lt;nav> tag.</p>
 </dd>
@@ -880,7 +900,7 @@ section</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> section(<a href='../sys/Str.html'>Str?</a> attrs := null)</code></p>
 <p class='src'>
-<a href='src-WebOutStream.fan.html#line815'>Source</a></p>
+<a href='src-WebOutStream.fan.html#line821'>Source</a></p>
 
 <p>Start a &lt;section> tag.</p>
 </dd>
@@ -890,7 +910,7 @@ sectionEnd</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> sectionEnd()</code></p>
 <p class='src'>
-<a href='src-WebOutStream.fan.html#line818'>Source</a></p>
+<a href='src-WebOutStream.fan.html#line824'>Source</a></p>
 
 <p>End a &lt;section> tag.</p>
 </dd>
@@ -1225,7 +1245,7 @@ w</dt>
 <li><a href='#make'>make</a></li></ul>
 <h3>Instance Slots</h3>
 <ul>
-<li><a href='#a'>a</a></li><li><a href='#aEnd'>aEnd</a></li><li><a href='#article'>article</a></li><li><a href='#articleEnd'>articleEnd</a></li><li><a href='#aside'>aside</a></li><li><a href='#asideEnd'>asideEnd</a></li><li><a href='#atom'>atom</a></li><li><a href='#b'>b</a></li><li><a href='#bEnd'>bEnd</a></li><li><a href='#body'>body</a></li><li><a href='#bodyEnd'>bodyEnd</a></li><li><a href='#br'>br</a></li><li><a href='#button'>button</a></li><li><a href='#checkbox'>checkbox</a></li><li><a href='#code'>code</a></li><li><a href='#codeEnd'>codeEnd</a></li><li><a href='#dd'>dd</a></li><li><a href='#ddEnd'>ddEnd</a></li><li><a href='#div'>div</a></li><li><a href='#divEnd'>divEnd</a></li><li><a href='#dl'>dl</a></li><li><a href='#dlEnd'>dlEnd</a></li><li><a href='#docType'>docType</a></li><li><a href='#docType5'>docType5</a></li><li><a href='#dt'>dt</a></li><li><a href='#dtEnd'>dtEnd</a></li><li><a href='#em'>em</a></li><li><a href='#emEnd'>emEnd</a></li><li><a href='#esc'>esc</a></li><li><a href='#favIcon'>favIcon</a></li><li><a href='#footer'>footer</a></li><li><a href='#footerEnd'>footerEnd</a></li><li><a href='#form'>form</a></li><li><a href='#formEnd'>formEnd</a></li><li><a href='#h1'>h1</a></li><li><a href='#h1End'>h1End</a></li><li><a href='#h2'>h2</a></li><li><a href='#h2End'>h2End</a></li><li><a href='#h3'>h3</a></li><li><a href='#h3End'>h3End</a></li><li><a href='#h4'>h4</a></li><li><a href='#h4End'>h4End</a></li><li><a href='#h5'>h5</a></li><li><a href='#h5End'>h5End</a></li><li><a href='#h6'>h6</a></li><li><a href='#h6End'>h6End</a></li><li><a href='#head'>head</a></li><li><a href='#headEnd'>headEnd</a></li><li><a href='#header'>header</a></li><li><a href='#headerEnd'>headerEnd</a></li><li><a href='#hidden'>hidden</a></li><li><a href='#hr'>hr</a></li><li><a href='#html'>html</a></li><li><a href='#htmlEnd'>htmlEnd</a></li><li><a href='#i'>i</a></li><li><a href='#iEnd'>iEnd</a></li><li><a href='#img'>img</a></li><li><a href='#includeCss'>includeCss</a></li><li><a href='#includeJs'>includeJs</a></li><li><a href='#initJs'>initJs</a></li><li><a href='#input'>input</a></li><li><a href='#label'>label</a></li><li><a href='#labelEnd'>labelEnd</a></li><li><a href='#li'>li</a></li><li><a href='#liEnd'>liEnd</a></li><li><a href='#nav'>nav</a></li><li><a href='#navEnd'>navEnd</a></li><li><a href='#nl'>nl</a></li><li><a href='#ol'>ol</a></li><li><a href='#olEnd'>olEnd</a></li><li><a href='#option'>option</a></li><li><a href='#optionEnd'>optionEnd</a></li><li><a href='#p'>p</a></li><li><a href='#pEnd'>pEnd</a></li><li><a href='#password'>password</a></li><li><a href='#pre'>pre</a></li><li><a href='#preEnd'>preEnd</a></li><li><a href='#prolog'>prolog</a></li><li><a href='#radio'>radio</a></li><li><a href='#rss'>rss</a></li><li><a href='#script'>script</a></li><li><a href='#scriptEnd'>scriptEnd</a></li><li><a href='#section'>section</a></li><li><a href='#sectionEnd'>sectionEnd</a></li><li><a href='#select'>select</a></li><li><a href='#selectEnd'>selectEnd</a></li><li><a href='#span'>span</a></li><li><a href='#spanEnd'>spanEnd</a></li><li><a href='#style'>style</a></li><li><a href='#styleEnd'>styleEnd</a></li><li><a href='#submit'>submit</a></li><li><a href='#tab'>tab</a></li><li><a href='#table'>table</a></li><li><a href='#tableEnd'>tableEnd</a></li><li><a href='#tag'>tag</a></li><li><a href='#tagEnd'>tagEnd</a></li><li><a href='#tbody'>tbody</a></li><li><a href='#tbodyEnd'>tbodyEnd</a></li><li><a href='#td'>td</a></li><li><a href='#tdEnd'>tdEnd</a></li><li><a href='#textArea'>textArea</a></li><li><a href='#textAreaEnd'>textAreaEnd</a></li><li><a href='#textField'>textField</a></li><li><a href='#tfoot'>tfoot</a></li><li><a href='#tfootEnd'>tfootEnd</a></li><li><a href='#th'>th</a></li><li><a href='#thEnd'>thEnd</a></li><li><a href='#thead'>thead</a></li><li><a href='#theadEnd'>theadEnd</a></li><li><a href='#title'>title</a></li><li><a href='#titleEnd'>titleEnd</a></li><li><a href='#tr'>tr</a></li><li><a href='#trEnd'>trEnd</a></li><li><a href='#ul'>ul</a></li><li><a href='#ulEnd'>ulEnd</a></li><li><a href='#w'>w</a></li></ul>
+<li><a href='#a'>a</a></li><li><a href='#aEnd'>aEnd</a></li><li><a href='#article'>article</a></li><li><a href='#articleEnd'>articleEnd</a></li><li><a href='#aside'>aside</a></li><li><a href='#asideEnd'>asideEnd</a></li><li><a href='#atom'>atom</a></li><li><a href='#b'>b</a></li><li><a href='#bEnd'>bEnd</a></li><li><a href='#body'>body</a></li><li><a href='#bodyEnd'>bodyEnd</a></li><li><a href='#br'>br</a></li><li><a href='#button'>button</a></li><li><a href='#checkbox'>checkbox</a></li><li><a href='#code'>code</a></li><li><a href='#codeEnd'>codeEnd</a></li><li><a href='#dd'>dd</a></li><li><a href='#ddEnd'>ddEnd</a></li><li><a href='#div'>div</a></li><li><a href='#divEnd'>divEnd</a></li><li><a href='#dl'>dl</a></li><li><a href='#dlEnd'>dlEnd</a></li><li><a href='#docType'>docType</a></li><li><a href='#docType5'>docType5</a></li><li><a href='#dt'>dt</a></li><li><a href='#dtEnd'>dtEnd</a></li><li><a href='#em'>em</a></li><li><a href='#emEnd'>emEnd</a></li><li><a href='#esc'>esc</a></li><li><a href='#favIcon'>favIcon</a></li><li><a href='#footer'>footer</a></li><li><a href='#footerEnd'>footerEnd</a></li><li><a href='#form'>form</a></li><li><a href='#formEnd'>formEnd</a></li><li><a href='#h1'>h1</a></li><li><a href='#h1End'>h1End</a></li><li><a href='#h2'>h2</a></li><li><a href='#h2End'>h2End</a></li><li><a href='#h3'>h3</a></li><li><a href='#h3End'>h3End</a></li><li><a href='#h4'>h4</a></li><li><a href='#h4End'>h4End</a></li><li><a href='#h5'>h5</a></li><li><a href='#h5End'>h5End</a></li><li><a href='#h6'>h6</a></li><li><a href='#h6End'>h6End</a></li><li><a href='#head'>head</a></li><li><a href='#headEnd'>headEnd</a></li><li><a href='#header'>header</a></li><li><a href='#headerEnd'>headerEnd</a></li><li><a href='#hidden'>hidden</a></li><li><a href='#hr'>hr</a></li><li><a href='#html'>html</a></li><li><a href='#htmlEnd'>htmlEnd</a></li><li><a href='#i'>i</a></li><li><a href='#iEnd'>iEnd</a></li><li><a href='#img'>img</a></li><li><a href='#includeCss'>includeCss</a></li><li><a href='#includeJs'>includeJs</a></li><li><a href='#initJs'>initJs</a></li><li><a href='#input'>input</a></li><li><a href='#label'>label</a></li><li><a href='#labelEnd'>labelEnd</a></li><li><a href='#li'>li</a></li><li><a href='#liEnd'>liEnd</a></li><li><a href='#main'>main</a></li><li><a href='#mainEnd'>mainEnd</a></li><li><a href='#nav'>nav</a></li><li><a href='#navEnd'>navEnd</a></li><li><a href='#nl'>nl</a></li><li><a href='#ol'>ol</a></li><li><a href='#olEnd'>olEnd</a></li><li><a href='#option'>option</a></li><li><a href='#optionEnd'>optionEnd</a></li><li><a href='#p'>p</a></li><li><a href='#pEnd'>pEnd</a></li><li><a href='#password'>password</a></li><li><a href='#pre'>pre</a></li><li><a href='#preEnd'>preEnd</a></li><li><a href='#prolog'>prolog</a></li><li><a href='#radio'>radio</a></li><li><a href='#rss'>rss</a></li><li><a href='#script'>script</a></li><li><a href='#scriptEnd'>scriptEnd</a></li><li><a href='#section'>section</a></li><li><a href='#sectionEnd'>sectionEnd</a></li><li><a href='#select'>select</a></li><li><a href='#selectEnd'>selectEnd</a></li><li><a href='#span'>span</a></li><li><a href='#spanEnd'>spanEnd</a></li><li><a href='#style'>style</a></li><li><a href='#styleEnd'>styleEnd</a></li><li><a href='#submit'>submit</a></li><li><a href='#tab'>tab</a></li><li><a href='#table'>table</a></li><li><a href='#tableEnd'>tableEnd</a></li><li><a href='#tag'>tag</a></li><li><a href='#tagEnd'>tagEnd</a></li><li><a href='#tbody'>tbody</a></li><li><a href='#tbodyEnd'>tbodyEnd</a></li><li><a href='#td'>td</a></li><li><a href='#tdEnd'>tdEnd</a></li><li><a href='#textArea'>textArea</a></li><li><a href='#textAreaEnd'>textAreaEnd</a></li><li><a href='#textField'>textField</a></li><li><a href='#tfoot'>tfoot</a></li><li><a href='#tfootEnd'>tfootEnd</a></li><li><a href='#th'>th</a></li><li><a href='#thEnd'>thEnd</a></li><li><a href='#thead'>thead</a></li><li><a href='#theadEnd'>theadEnd</a></li><li><a href='#title'>title</a></li><li><a href='#titleEnd'>titleEnd</a></li><li><a href='#tr'>tr</a></li><li><a href='#trEnd'>trEnd</a></li><li><a href='#ul'>ul</a></li><li><a href='#ulEnd'>ulEnd</a></li><li><a href='#w'>w</a></li></ul>
 </div>
 </div>
 </body>

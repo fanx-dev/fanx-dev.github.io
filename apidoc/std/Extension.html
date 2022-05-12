@@ -21,7 +21,7 @@
 readObj</dt>
 <dd>
 <p class='sig'>
-<code>static extension <a href='../sys/Obj.html'>Obj?</a> readObj(<a href='InStream.html'>InStream</a> in, <a href='../sys/Bool.html'>Bool</a> close := true, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+<code>static extension <a href='../sys/Obj.html'>Obj?</a> readObj(<a href='InStream.html'>InStream</a> in, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null, <a href='../sys/Bool.html'>Bool</a> close := true)</code></p>
 
 <p>Read a serialized object from the stream according to the Fantom <a href='docLang::Serialization'>serialization format</a>. Throw IOErr or ParseErr on error.  This method may consume bytes/chars past the end of the serialized object (we may want to add a "full stop" token at some point to support compound object streams).</p>
 
@@ -55,7 +55,7 @@ in etc/sys/config.props.</pre>
 writeObj</dt>
 <dd>
 <p class='sig'>
-<code>static extension <a href='OutStream.html'>OutStream</a> writeObj(<a href='OutStream.html'>OutStream</a> out, <a href='../sys/Obj.html'>Obj?</a> obj, <a href='../sys/Bool.html'>Bool</a> close := true, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null)</code></p>
+<code>static extension <a href='OutStream.html'>OutStream</a> writeObj(<a href='OutStream.html'>OutStream</a> out, <a href='../sys/Obj.html'>Obj?</a> obj, <a href='Map.html'>Map&lt;<a href='../sys/Str.html'>Str</a>,<a href='../sys/Obj.html'>Obj</a>&gt;?</a> options := null, <a href='../sys/Bool.html'>Bool</a> close := true)</code></p>
 
 <p>Write a serialized object from the stream according to the Fantom <a href='docLang::Serialization'>serialization format</a>. Throw IOErr on error.  Return this.</p>
 

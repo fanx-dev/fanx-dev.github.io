@@ -475,91 +475,98 @@
 <span id='line460'>    out.footerEnd</span>
 <span id='line461'>    verifyOut<b>(</b>buf, "&lt;/footer>"<b>)</b></span>
 <span id='line462'></span>
-<span id='line463'>    out.nav</span>
-<span id='line464'>    verifyOut<b>(</b>buf, "&lt;nav>"<b>)</b></span>
-<span id='line465'>    out.nav<b>(</b>"class='foo'"<b>)</b></span>
-<span id='line466'>    verifyOut<b>(</b>buf, "&lt;nav class='foo'>"<b>)</b></span>
-<span id='line467'>    out.navEnd</span>
-<span id='line468'>    verifyOut<b>(</b>buf, "&lt;/nav>"<b>)</b></span>
+<span id='line463'>    out.main</span>
+<span id='line464'>    verifyOut<b>(</b>buf, "&lt;main>"<b>)</b></span>
+<span id='line465'>    out.main<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line466'>    verifyOut<b>(</b>buf, "&lt;main class='foo'>"<b>)</b></span>
+<span id='line467'>    out.mainEnd</span>
+<span id='line468'>    verifyOut<b>(</b>buf, "&lt;/main>"<b>)</b></span>
 <span id='line469'></span>
-<span id='line470'>    out.section</span>
-<span id='line471'>    verifyOut<b>(</b>buf, "&lt;section>"<b>)</b></span>
-<span id='line472'>    out.section<b>(</b>"class='foo'"<b>)</b></span>
-<span id='line473'>    verifyOut<b>(</b>buf, "&lt;section class='foo'>"<b>)</b></span>
-<span id='line474'>    out.sectionEnd</span>
-<span id='line475'>    verifyOut<b>(</b>buf, "&lt;/section>"<b>)</b></span>
+<span id='line470'>    out.nav</span>
+<span id='line471'>    verifyOut<b>(</b>buf, "&lt;nav>"<b>)</b></span>
+<span id='line472'>    out.nav<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line473'>    verifyOut<b>(</b>buf, "&lt;nav class='foo'>"<b>)</b></span>
+<span id='line474'>    out.navEnd</span>
+<span id='line475'>    verifyOut<b>(</b>buf, "&lt;/nav>"<b>)</b></span>
 <span id='line476'></span>
-<span id='line477'>    out.article</span>
-<span id='line478'>    verifyOut<b>(</b>buf, "&lt;article>"<b>)</b></span>
-<span id='line479'>    out.article<b>(</b>"class='foo'"<b>)</b></span>
-<span id='line480'>    verifyOut<b>(</b>buf, "&lt;article class='foo'>"<b>)</b></span>
-<span id='line481'>    out.articleEnd</span>
-<span id='line482'>    verifyOut<b>(</b>buf, "&lt;/article>"<b>)</b></span>
+<span id='line477'>    out.section</span>
+<span id='line478'>    verifyOut<b>(</b>buf, "&lt;section>"<b>)</b></span>
+<span id='line479'>    out.section<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line480'>    verifyOut<b>(</b>buf, "&lt;section class='foo'>"<b>)</b></span>
+<span id='line481'>    out.sectionEnd</span>
+<span id='line482'>    verifyOut<b>(</b>buf, "&lt;/section>"<b>)</b></span>
 <span id='line483'></span>
-<span id='line484'>    out.aside</span>
-<span id='line485'>    verifyOut<b>(</b>buf, "&lt;aside>"<b>)</b></span>
-<span id='line486'>    out.aside<b>(</b>"class='foo'"<b>)</b></span>
-<span id='line487'>    verifyOut<b>(</b>buf, "&lt;aside class='foo'>"<b>)</b></span>
-<span id='line488'>    out.asideEnd</span>
-<span id='line489'>    verifyOut<b>(</b>buf, "&lt;/aside>"<b>)</b></span>
-<span id='line490'>  <b>}</b></span>
-<span id='line491'></span>
-<span id='line492'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line493'>// Xml</span>
-<span id='line494'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line495'></span>
-<span id='line496'>  Void testEsc<b>(</b><b>)</b></span>
-<span id='line497'>  <b>{</b></span>
-<span id='line498'>    verifyEsc<b>(</b>null, "null"<b>)</b></span>
-<span id='line499'>    verifyEsc<b>(</b>56, "56"<b>)</b></span>
-<span id='line500'>    verifyEsc<b>(</b>"", ""<b>)</b></span>
-<span id='line501'>    verifyEsc<b>(</b>"x", "x"<b>)</b></span>
-<span id='line502'>    verifyEsc<b>(</b>"!@^%<b>(</b><b>)</b>", "!@^%<b>(</b><b>)</b>"<b>)</b></span>
-<span id='line503'>    verifyEsc<b>(</b>"x>", "x>"<b>)</b></span>
-<span id='line504'>    verifyEsc<b>(</b>"x>\u01bc", "x>\u01bc"<b>)</b></span>
-<span id='line505'>    verifyEsc<b>(</b>">", "&amp;gt;"<b>)</b></span>
-<span id='line506'>    verifyEsc<b>(</b>"<b>]</b>&gt;", "<b>]</b>&amp;gt;"<b>)</b></span>
-<span id='line507'>    verifyEsc<b>(</b>"&lt;>&amp;\"'", "&amp;lt;>&amp;amp;&amp;quot;&amp;#39;"<b>)</b></span>
-<span id='line508'>    verifyEsc<b>(</b>"foo&amp;", "foo&amp;amp;"<b>)</b></span>
-<span id='line509'>    verifyEsc<b>(</b>"foo&amp;bar", "foo&amp;amp;bar"<b>)</b></span>
-<span id='line510'>    verifyEsc<b>(</b>"&amp;bar", "&amp;amp;bar"<b>)</b></span>
-<span id='line511'>  <b>}</b></span>
-<span id='line512'></span>
-<span id='line513'>  Void verifyEsc<b>(</b>Obj? input, Str match<b>)</b></span>
-<span id='line514'>  <b>{</b></span>
-<span id='line515'>    buf := Buf<b>(</b><b>)</b></span>
-<span id='line516'>    out := WebOutStream<b>(</b>buf.out<b>)</b></span>
-<span id='line517'>    out.esc<b>(</b>input<b>)</b></span>
-<span id='line518'>    verifyEq<b>(</b>buf.flip.readAllStr, match<b>)</b></span>
+<span id='line484'>    out.article</span>
+<span id='line485'>    verifyOut<b>(</b>buf, "&lt;article>"<b>)</b></span>
+<span id='line486'>    out.article<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line487'>    verifyOut<b>(</b>buf, "&lt;article class='foo'>"<b>)</b></span>
+<span id='line488'>    out.articleEnd</span>
+<span id='line489'>    verifyOut<b>(</b>buf, "&lt;/article>"<b>)</b></span>
+<span id='line490'></span>
+<span id='line491'>    out.aside</span>
+<span id='line492'>    verifyOut<b>(</b>buf, "&lt;aside>"<b>)</b></span>
+<span id='line493'>    out.aside<b>(</b>"class='foo'"<b>)</b></span>
+<span id='line494'>    verifyOut<b>(</b>buf, "&lt;aside class='foo'>"<b>)</b></span>
+<span id='line495'>    out.asideEnd</span>
+<span id='line496'>    verifyOut<b>(</b>buf, "&lt;/aside>"<b>)</b></span>
+<span id='line497'>  <b>}</b></span>
+<span id='line498'></span>
+<span id='line499'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line500'>// Xml</span>
+<span id='line501'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line502'></span>
+<span id='line503'>  Void testEsc<b>(</b><b>)</b></span>
+<span id='line504'>  <b>{</b></span>
+<span id='line505'>    verifyEsc<b>(</b>null, "null"<b>)</b></span>
+<span id='line506'>    verifyEsc<b>(</b>56, "56"<b>)</b></span>
+<span id='line507'>    verifyEsc<b>(</b>"", ""<b>)</b></span>
+<span id='line508'>    verifyEsc<b>(</b>"x", "x"<b>)</b></span>
+<span id='line509'>    verifyEsc<b>(</b>"!@^%<b>(</b><b>)</b>", "!@^%<b>(</b><b>)</b>"<b>)</b></span>
+<span id='line510'>    verifyEsc<b>(</b>"x>", "x>"<b>)</b></span>
+<span id='line511'>    verifyEsc<b>(</b>"x>\u01bc", "x>\u01bc"<b>)</b></span>
+<span id='line512'>    verifyEsc<b>(</b>">", "&amp;gt;"<b>)</b></span>
+<span id='line513'>    verifyEsc<b>(</b>"<b>]</b>&gt;", "<b>]</b>&amp;gt;"<b>)</b></span>
+<span id='line514'>    verifyEsc<b>(</b>"&lt;>&amp;\"'", "&amp;lt;>&amp;amp;&amp;quot;&amp;#39;"<b>)</b></span>
+<span id='line515'>    verifyEsc<b>(</b>"foo&amp;", "foo&amp;amp;"<b>)</b></span>
+<span id='line516'>    verifyEsc<b>(</b>"foo&amp;bar", "foo&amp;amp;bar"<b>)</b></span>
+<span id='line517'>    verifyEsc<b>(</b>"&amp;bar", "&amp;amp;bar"<b>)</b></span>
+<span id='line518'>  <b>}</b></span>
 <span id='line519'></span>
-<span id='line520'>    sb  := StrBuf<b>(</b><b>)</b></span>
-<span id='line521'>    out = WebOutStream<b>(</b>sb.out<b>)</b></span>
-<span id='line522'>    out.esc<b>(</b>input<b>)</b></span>
-<span id='line523'>    verifyEq<b>(</b>sb.toStr, match<b>)</b></span>
-<span id='line524'>  <b>}</b></span>
-<span id='line525'></span>
-<span id='line526'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line527'>// verifyOut</span>
-<span id='line528'>//////////////////////////////////////////////////////////////////////////</span>
-<span id='line529'></span>
-<span id='line530'>  Void verifyOut<b>(</b>Obj bufOrStrBuf, Str? match<b>)</b></span>
-<span id='line531'>  <b>{</b></span>
-<span id='line532'>    if <b>(</b>bufOrStrBuf is Buf<b>)</b></span>
-<span id='line533'>    <b>{</b></span>
-<span id='line534'>      buf := <b>(</b>Buf<b>)</b>bufOrStrBuf</span>
-<span id='line535'>      buf.flip</span>
-<span id='line536'>      verifyEq<b>(</b>buf.readLine, match<b>)</b></span>
-<span id='line537'>      buf.clear</span>
-<span id='line538'>    <b>}</b></span>
-<span id='line539'>    else</span>
+<span id='line520'>  Void verifyEsc<b>(</b>Obj? input, Str match<b>)</b></span>
+<span id='line521'>  <b>{</b></span>
+<span id='line522'>    buf := Buf<b>(</b><b>)</b></span>
+<span id='line523'>    out := WebOutStream<b>(</b>buf.out<b>)</b></span>
+<span id='line524'>    out.esc<b>(</b>input<b>)</b></span>
+<span id='line525'>    verifyEq<b>(</b>buf.flip.readAllStr, match<b>)</b></span>
+<span id='line526'></span>
+<span id='line527'>    sb  := StrBuf<b>(</b><b>)</b></span>
+<span id='line528'>    out = WebOutStream<b>(</b>sb.out<b>)</b></span>
+<span id='line529'>    out.esc<b>(</b>input<b>)</b></span>
+<span id='line530'>    verifyEq<b>(</b>sb.toStr, match<b>)</b></span>
+<span id='line531'>  <b>}</b></span>
+<span id='line532'></span>
+<span id='line533'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line534'>// verifyOut</span>
+<span id='line535'>//////////////////////////////////////////////////////////////////////////</span>
+<span id='line536'></span>
+<span id='line537'>  Void verifyOut<b>(</b>Obj bufOrStrBuf, Str? match<b>)</b></span>
+<span id='line538'>  <b>{</b></span>
+<span id='line539'>    if <b>(</b>bufOrStrBuf is Buf<b>)</b></span>
 <span id='line540'>    <b>{</b></span>
-<span id='line541'>      buf := <b>(</b>StrBuf<b>)</b>bufOrStrBuf</span>
-<span id='line542'>      verifyEq<b>(</b>buf.toStr, match<b>)</b></span>
-<span id='line543'>      buf.clear</span>
-<span id='line544'>    <b>}</b></span>
-<span id='line545'>  <b>}</b></span>
-<span id='line546'></span>
-<span id='line547'><b>}</b></span>
+<span id='line541'>      buf := <b>(</b>Buf<b>)</b>bufOrStrBuf</span>
+<span id='line542'>      buf.flip</span>
+<span id='line543'>      verifyEq<b>(</b>buf.readLine, match<b>)</b></span>
+<span id='line544'>      buf.clear</span>
+<span id='line545'>    <b>}</b></span>
+<span id='line546'>    else</span>
+<span id='line547'>    <b>{</b></span>
+<span id='line548'>      buf := <b>(</b>StrBuf<b>)</b>bufOrStrBuf</span>
+<span id='line549'>      verifyEq<b>(</b>buf.toStr, match<b>)</b></span>
+<span id='line550'>      buf.clear</span>
+<span id='line551'>    <b>}</b></span>
+<span id='line552'>  <b>}</b></span>
+<span id='line553'></span>
+<span id='line554'><b>}</b></span>
 </pre>
 </div>
 </body>

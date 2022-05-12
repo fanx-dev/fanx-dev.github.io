@@ -27,9 +27,9 @@ accept</dt>
 <p class='sig'>
 <code> <a href='TcpSocket.html'>TcpSocket</a> accept()</code></p>
 <p class='src'>
-<a href='src-TcpListener.fan.html#line80'>Source</a></p>
+<a href='src-TcpListener.fan.html#line81'>Source</a></p>
 
-<p>Accept the next incoming connection.  This method blocks the calling thread until a new connection is established.  If this listener's receiveTimeout option is configured, then accept will timeout with an IOErr.</p>
+<p>Accept the next incoming connection.  This method blocks the calling thread until a new connection is established.  If this listener's <code><a href='SocketConfig.html#acceptTimeout'>SocketConfig.acceptTimeout</a></code> is configured, then accept will timeout with an IOErr.</p>
 </dd>
 <dt id='bind'>
 bind</dt>
@@ -37,7 +37,7 @@ bind</dt>
 <p class='sig'>
 <code> <a href='../sys/This.html'>This</a> bind(<a href='IpAddr.html'>IpAddr?</a> addr, <a href='../sys/Int.html'>Int?</a> port, <a href='../sys/Int.html'>Int</a> backlog := 50)</code></p>
 <p class='src'>
-<a href='src-TcpListener.fan.html#line72'>Source</a></p>
+<a href='src-TcpListener.fan.html#line73'>Source</a></p>
 
 <p>Bind this listener to the specified local address.  If addr is null then the default IpAddr for the local host is selected.  If port is null an ephemeral port is selected.  Throw IOErr if the port is already bound or the bind fails.  Return this.</p>
 </dd>
@@ -47,7 +47,7 @@ close</dt>
 <p class='sig'>
 <code> <a href='../sys/Bool.html'>Bool</a> close()</code></p>
 <p class='src'>
-<a href='src-TcpListener.fan.html#line89'>Source</a></p>
+<a href='src-TcpListener.fan.html#line90'>Source</a></p>
 
 <p>Close this server socket.  This method is guaranteed to never throw an IOErr.  Return true if the socket was closed successfully or false if the socket was closed abnormally.</p>
 </dd>
@@ -57,7 +57,7 @@ config</dt>
 <p class='sig'>
 <code> <a href='SocketConfig.html'>SocketConfig</a> config()</code></p>
 <p class='src'>
-<a href='src-TcpListener.fan.html#line39'>Source</a></p>
+<a href='src-TcpListener.fan.html#line40'>Source</a></p>
 
 <p>The <code><a href='SocketConfig.html'>SocketConfig</a></code> being used to configure the server sockets.</p>
 </dd>
@@ -67,7 +67,7 @@ isBound</dt>
 <p class='sig'>
 <code> <a href='../sys/Bool.html'>Bool</a> isBound()</code></p>
 <p class='src'>
-<a href='src-TcpListener.fan.html#line44'>Source</a></p>
+<a href='src-TcpListener.fan.html#line45'>Source</a></p>
 
 <p>Is this socket bound to a local address and port.</p>
 </dd>
@@ -77,7 +77,7 @@ isClosed</dt>
 <p class='sig'>
 <code> <a href='../sys/Bool.html'>Bool</a> isClosed()</code></p>
 <p class='src'>
-<a href='src-TcpListener.fan.html#line49'>Source</a></p>
+<a href='src-TcpListener.fan.html#line50'>Source</a></p>
 
 <p>Is this socket closed.</p>
 </dd>
@@ -87,7 +87,7 @@ localAddr</dt>
 <p class='sig'>
 <code> <a href='IpAddr.html'>IpAddr?</a> localAddr()</code></p>
 <p class='src'>
-<a href='src-TcpListener.fan.html#line58'>Source</a></p>
+<a href='src-TcpListener.fan.html#line59'>Source</a></p>
 
 <p>Get the bound local address or null if unbound.</p>
 </dd>
@@ -97,7 +97,7 @@ localPort</dt>
 <p class='sig'>
 <code> <a href='../sys/Int.html'>Int?</a> localPort()</code></p>
 <p class='src'>
-<a href='src-TcpListener.fan.html#line63'>Source</a></p>
+<a href='src-TcpListener.fan.html#line64'>Source</a></p>
 
 <p>Get the bound local port or null if unbound.</p>
 </dd>
@@ -115,6 +115,8 @@ make</dt>
 <li><code><a href='SocketConfig.html#receiveBufferSize'>SocketConfig.receiveBufferSize</a></code></li>
 
 <li><code><a href='SocketConfig.html#reuseAddr'>SocketConfig.reuseAddr</a></code></li>
+
+<li><code><a href='SocketConfig.html#acceptTimeout'>SocketConfig.acceptTimeout</a></code></li>
 </ul>
 </dd>
 <dt id='options'>
@@ -123,16 +125,14 @@ options</dt>
 <p class='sig'>
 <code><code class='sig'>@<a href='../sys/Deprecated.html'>Deprecated</a> { msg=&quot;Use SocketConfig&quot; }</code><br /> <a href='SocketOptions.html'>SocketOptions</a> options()</code></p>
 <p class='src'>
-<a href='src-TcpListener.fan.html#line100'>Source</a></p>
+<a href='src-TcpListener.fan.html#line101'>Source</a></p>
 
 <p>Access the SocketOptions used to tune this server socket. The following options apply to TcpListeners:</p>
 
 <ul>
 <li>receiveBufferSize</li>
 
-<li>reuseAddr</li>
-
-<li>receiveTimeout Accessing other option fields will throw UnsupportedErr.</li>
+<li>reuseAddr Accessing other option fields will throw UnsupportedErr.</li>
 </ul>
 </dd>
 </dl>

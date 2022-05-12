@@ -15,7 +15,7 @@
 <div class='main type'>
 <h1><span>abstract class</span> vaseGui::Widget</h1>
 <pre><a href='../sys/Obj.html'>sys::Obj</a>
-  vaseGui::Widget</pre>
+  vaseGui::Widget : <a href='Bindable.html'>vaseGui::Bindable</a></pre>
 <p class='facets'>
 <code class='sig'>@<a href='../sys/Js.html'>Js</a></code><br /><code class='sig'>@<a href='../sys/Serializable.html'>Serializable</a></code><br /></p>
 
@@ -113,6 +113,12 @@ enabled</dt>
 
 <p>Enabled is used to control whether this widget can accept user input.  Disabled controls are "grayed out".</p>
 </dd>
+<dt id='findAt'>
+findAt</dt>
+<dd>
+<p class='sig'>
+<code>virtual <a href='Widget.html'>Widget?</a> findAt(<a href='../sys/Int.html'>Int</a> x, <a href='../sys/Int.html'>Int</a> y)</code></p>
+</dd>
 <dt id='findById'>
 findById</dt>
 <dd>
@@ -165,6 +171,12 @@ gestureFocusable</dt>
 <p class='sig'>
 <code> <a href='../sys/Bool.html'>Bool</a> gestureFocusable := false</code></p>
 </dd>
+<dt id='getRoot'>
+getRoot</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Widget.html'>Widget?</a> getRoot()</code></p>
+</dd>
 <dt id='getRootView'>
 getRootView</dt>
 <dd>
@@ -192,6 +204,12 @@ id</dt>
 <code> <a href='../sys/Str.html'>Str</a> id := &quot;&quot;</code></p>
 
 <p>The unique identifies of widget.</p>
+</dd>
+<dt id='inlineStyle'>
+inlineStyle</dt>
+<dd>
+<p class='sig'>
+<code> <a href='Style.html'>Style?</a> inlineStyle</code></p>
 </dd>
 <dt id='keyEvent'>
 keyEvent</dt>
@@ -291,6 +309,12 @@ onFocusChanged</dt>
 
 <p>callback when lost focus or gains focus.</p>
 </dd>
+<dt id='onLayout'>
+onLayout</dt>
+<dd>
+<p class='sig'>
+<code>protected virtual <a href='../sys/Void.html'>Void</a> onLayout(<a href='../sys/Bool.html'>Bool</a> force)</code></p>
+</dd>
 <dt id='onLongPress'>
 onLongPress</dt>
 <dd>
@@ -315,7 +339,7 @@ onMounted</dt>
 onStateChanged</dt>
 <dd>
 <p class='sig'>
-<code> <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onStateChanged()</code></p>
+<code>virtual override <a href='../vaseWindow/EventListeners.html'>EventListeners</a> onStateChanged()</code></p>
 
 <p>Callback function when Widget state changed</p>
 </dd>
@@ -421,12 +445,6 @@ setLayout</dt>
 
 <p>layout the children</p>
 </dd>
-<dt id='setStyle'>
-setStyle</dt>
-<dd>
-<p class='sig'>
-<code> <a href='../sys/Void.html'>Void</a> setStyle(<a href='Style.html'>Style</a> s)</code></p>
-</dd>
 <dt id='style'>
 style</dt>
 <dd>
@@ -488,7 +506,7 @@ y</dt>
 </ul>
 <h3>Instance Slots</h3>
 <ul>
-<li><a href='#alpha'>alpha</a></li><li><a href='#bufferedHeight'>bufferedHeight</a></li><li><a href='#bufferedPrefSize'>bufferedPrefSize</a></li><li><a href='#bufferedWidth'>bufferedWidth</a></li><li><a href='#clicked'>clicked</a></li><li><a href='#clip'>clip</a></li><li><a href='#contains'>contains</a></li><li><a href='#contentHeight'>contentHeight</a></li><li><a href='#contentWidth'>contentWidth</a></li><li><a href='#detach'>detach</a></li><li><a href='#doPaint'>doPaint</a></li><li><a href='#dpToPixel'>dpToPixel</a></li><li><a href='#enabled'>enabled</a></li><li><a href='#findById'>findById</a></li><li><a href='#fireStateChange'>fireStateChange</a></li><li><a href='#focus'>focus</a></li><li><a href='#focusable'>focusable</a></li><li><a href='#focused'>focused</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#gestureFocusable'>gestureFocusable</a></li><li><a href='#getRootView'>getRootView</a></li><li><a href='#getStyle'>getStyle</a></li><li><a href='#height'>height</a></li><li><a href='#id'>id</a></li><li><a href='#keyEvent'>keyEvent</a></li><li><a href='#layout'>layout</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#layoutDirty'>layoutDirty</a></li><li><a href='#mapToRelative'>mapToRelative</a></li><li><a href='#mapToWidget'>mapToWidget</a></li><li><a href='#margin'>margin</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#mouseEnter'>mouseEnter</a></li><li><a href='#mouseExit'>mouseExit</a></li><li><a href='#onClick'>onClick</a></li><li><a href='#onClickCallback'>onClickCallback</a></li><li><a href='#onFocusChanged'>onFocusChanged</a></li><li><a href='#onLongPress'>onLongPress</a></li><li><a href='#onLongPressCallback'>onLongPressCallback</a></li><li><a href='#onMounted'>onMounted</a></li><li><a href='#onStateChanged'>onStateChanged</a></li><li><a href='#padding'>padding</a></li><li><a href='#paddingLeft'>paddingLeft</a></li><li><a href='#paddingTop'>paddingTop</a></li><li><a href='#paint'>paint</a></li><li><a href='#parent'>parent</a></li><li><a href='#pixelToDp'>pixelToDp</a></li><li><a href='#posOnWindow'>posOnWindow</a></li><li><a href='#prefContentSize'>prefContentSize</a></li><li><a href='#prefSize'>prefSize</a></li><li><a href='#relayout'>relayout</a></li><li><a href='#renderCacheDirty'>renderCacheDirty</a></li><li><a href='#repaint'>repaint</a></li><li><a href='#resetStyle'>resetStyle</a></li><li><a href='#setLayout'>setLayout</a></li><li><a href='#setStyle'>setStyle</a></li><li><a href='#style'>style</a></li><li><a href='#transform'>transform</a></li><li><a href='#useRenderCache'>useRenderCache</a></li><li><a href='#visible'>visible</a></li><li><a href='#width'>width</a></li><li><a href='#x'>x</a></li><li><a href='#y'>y</a></li></ul>
+<li><a href='#alpha'>alpha</a></li><li><a href='#bufferedHeight'>bufferedHeight</a></li><li><a href='#bufferedPrefSize'>bufferedPrefSize</a></li><li><a href='#bufferedWidth'>bufferedWidth</a></li><li><a href='#clicked'>clicked</a></li><li><a href='#clip'>clip</a></li><li><a href='#contains'>contains</a></li><li><a href='#contentHeight'>contentHeight</a></li><li><a href='#contentWidth'>contentWidth</a></li><li><a href='#detach'>detach</a></li><li><a href='#doPaint'>doPaint</a></li><li><a href='#dpToPixel'>dpToPixel</a></li><li><a href='#enabled'>enabled</a></li><li><a href='#findAt'>findAt</a></li><li><a href='#findById'>findById</a></li><li><a href='#fireStateChange'>fireStateChange</a></li><li><a href='#focus'>focus</a></li><li><a href='#focusable'>focusable</a></li><li><a href='#focused'>focused</a></li><li><a href='#gestureEvent'>gestureEvent</a></li><li><a href='#gestureFocusable'>gestureFocusable</a></li><li><a href='#getRoot'>getRoot</a></li><li><a href='#getRootView'>getRootView</a></li><li><a href='#getStyle'>getStyle</a></li><li><a href='#height'>height</a></li><li><a href='#id'>id</a></li><li><a href='#inlineStyle'>inlineStyle</a></li><li><a href='#keyEvent'>keyEvent</a></li><li><a href='#layout'>layout</a></li><li><a href='#layoutChildren'>layoutChildren</a></li><li><a href='#layoutDirty'>layoutDirty</a></li><li><a href='#mapToRelative'>mapToRelative</a></li><li><a href='#mapToWidget'>mapToWidget</a></li><li><a href='#margin'>margin</a></li><li><a href='#motionEvent'>motionEvent</a></li><li><a href='#mouseEnter'>mouseEnter</a></li><li><a href='#mouseExit'>mouseExit</a></li><li><a href='#onClick'>onClick</a></li><li><a href='#onClickCallback'>onClickCallback</a></li><li><a href='#onFocusChanged'>onFocusChanged</a></li><li><a href='#onLayout'>onLayout</a></li><li><a href='#onLongPress'>onLongPress</a></li><li><a href='#onLongPressCallback'>onLongPressCallback</a></li><li><a href='#onMounted'>onMounted</a></li><li><a href='#onStateChanged'>onStateChanged</a></li><li><a href='#padding'>padding</a></li><li><a href='#paddingLeft'>paddingLeft</a></li><li><a href='#paddingTop'>paddingTop</a></li><li><a href='#paint'>paint</a></li><li><a href='#parent'>parent</a></li><li><a href='#pixelToDp'>pixelToDp</a></li><li><a href='#posOnWindow'>posOnWindow</a></li><li><a href='#prefContentSize'>prefContentSize</a></li><li><a href='#prefSize'>prefSize</a></li><li><a href='#relayout'>relayout</a></li><li><a href='#renderCacheDirty'>renderCacheDirty</a></li><li><a href='#repaint'>repaint</a></li><li><a href='#resetStyle'>resetStyle</a></li><li><a href='#setLayout'>setLayout</a></li><li><a href='#style'>style</a></li><li><a href='#transform'>transform</a></li><li><a href='#useRenderCache'>useRenderCache</a></li><li><a href='#visible'>visible</a></li><li><a href='#width'>width</a></li><li><a href='#x'>x</a></li><li><a href='#y'>y</a></li></ul>
 </div>
 </div>
 </body>

@@ -29,7 +29,7 @@ equals</dt>
 <p class='sig'>
 <code>virtual override <a href='../sys/Bool.html'>Bool</a> equals(<a href='../sys/Obj.html'>Obj?</a> that)</code></p>
 <p class='src'>
-<a href='src-Font.fan.html#line160'>Source</a></p>
+<a href='src-Font.fan.html#line153'>Source</a></p>
 
 <p>Equality is based on all fields.</p>
 </dd>
@@ -68,7 +68,7 @@ hash</dt>
 <p class='sig'>
 <code>virtual override <a href='../sys/Int.html'>Int</a> hash()</code></p>
 <p class='src'>
-<a href='src-Font.fan.html#line154'>Source</a></p>
+<a href='src-Font.fan.html#line147'>Source</a></p>
 
 <p>Return hash of all fields</p>
 </dd>
@@ -81,16 +81,6 @@ make</dt>
 <a href='src-Font.fan.html#line23'>Source</a></p>
 
 <p>Construct with it-block</p>
-</dd>
-<dt id='metrics'>
-metrics</dt>
-<dd>
-<p class='sig'>
-<code> <a href='FontMetrics.html'>FontMetrics</a> metrics(<a href='DeviceContext.html'>DeviceContext</a> dc := DeviceContext.cur())</code></p>
-<p class='src'>
-<a href='src-Font.fan.html#line211'>Source</a></p>
-
-<p>Get font metrics for this font.  If this is not a <code><a href='Font.html#normalize'>normalized</a></code> font with built-in metrics, then raise UnsupportedErr.</p>
 </dd>
 <dt id='name'>
 name</dt>
@@ -111,16 +101,6 @@ names</dt>
 <a href='src-Font.fan.html#line131'>Source</a></p>
 
 <p>List of prioritized family names</p>
-</dd>
-<dt id='normalize'>
-normalize</dt>
-<dd>
-<p class='sig'>
-<code> <a href='Font.html'>Font</a> normalize()</code></p>
-<p class='src'>
-<a href='src-Font.fan.html#line143'>Source</a></p>
-
-<p>Normalize to the closest font with metrics</p>
 </dd>
 <dt id='size'>
 size</dt>
@@ -158,7 +138,7 @@ toSize</dt>
 <p class='sig'>
 <code> <a href='Font.html'>Font</a> toSize(<a href='../sys/Float.html'>Float</a> size)</code></p>
 <p class='src'>
-<a href='src-Font.fan.html#line186'>Source</a></p>
+<a href='src-Font.fan.html#line179'>Source</a></p>
 
 <p>Return this font with different point size.</p>
 </dd>
@@ -168,7 +148,7 @@ toStr</dt>
 <p class='sig'>
 <code>virtual override <a href='../sys/Str.html'>Str</a> toStr()</code></p>
 <p class='src'>
-<a href='src-Font.fan.html#line171'>Source</a></p>
+<a href='src-Font.fan.html#line164'>Source</a></p>
 
 <p>Format as <code>"[style] [weight] &lt;size>pt &lt;names>"</code></p>
 </dd>
@@ -178,7 +158,7 @@ toStyle</dt>
 <p class='sig'>
 <code> <a href='Font.html'>Font</a> toStyle(<a href='FontStyle.html'>FontStyle</a> style)</code></p>
 <p class='src'>
-<a href='src-Font.fan.html#line193'>Source</a></p>
+<a href='src-Font.fan.html#line186'>Source</a></p>
 
 <p>Return this font with different style</p>
 </dd>
@@ -188,7 +168,7 @@ toWeight</dt>
 <p class='sig'>
 <code> <a href='Font.html'>Font</a> toWeight(<a href='FontWeight.html'>FontWeight</a> weight)</code></p>
 <p class='src'>
-<a href='src-Font.fan.html#line200'>Source</a></p>
+<a href='src-Font.fan.html#line193'>Source</a></p>
 
 <p>Return this font with different weight.</p>
 </dd>
@@ -213,7 +193,7 @@ weight</dt>
 <li><a href='#fromProps'>fromProps</a></li><li><a href='#fromStr'>fromStr</a></li><li><a href='#make'>make</a></li></ul>
 <h3>Instance Slots</h3>
 <ul>
-<li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#metrics'>metrics</a></li><li><a href='#name'>name</a></li><li><a href='#names'>names</a></li><li><a href='#normalize'>normalize</a></li><li><a href='#size'>size</a></li><li><a href='#style'>style</a></li><li><a href='#toProps'>toProps</a></li><li><a href='#toSize'>toSize</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#toStyle'>toStyle</a></li><li><a href='#toWeight'>toWeight</a></li><li><a href='#weight'>weight</a></li></ul>
+<li><a href='#equals'>equals</a></li><li><a href='#hash'>hash</a></li><li><a href='#name'>name</a></li><li><a href='#names'>names</a></li><li><a href='#size'>size</a></li><li><a href='#style'>style</a></li><li><a href='#toProps'>toProps</a></li><li><a href='#toSize'>toSize</a></li><li><a href='#toStr'>toStr</a></li><li><a href='#toStyle'>toStyle</a></li><li><a href='#toWeight'>toWeight</a></li><li><a href='#weight'>weight</a></li></ul>
 </div>
 </div>
 </body>

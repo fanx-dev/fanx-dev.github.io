@@ -22,45 +22,103 @@
 <span id='line7'>//</span>
 <span id='line8'></span>
 <span id='line9'>**</span>
-<span id='line10'>** Models an Image</span>
+<span id='line10'>** Graphical image.  Images are loaded from a file using `GraphicsEnv.image`.</span>
 <span id='line11'>**</span>
-<span id='line12'>@NoDoc @Js virtual const class Image</span>
-<span id='line13'><b>{</b></span>
-<span id='line14'>  ** Construct with it-block</span>
-<span id='line15'>  new make<b>(</b>|This| f<b>)</b> <b>{</b> f<b>(</b>this<b>)</b> <b>}</b></span>
-<span id='line16'></span>
-<span id='line17'>  ** Decode a buffer into an Image</span>
-<span id='line18'>  static Image? decode<b>(</b>Buf buf, Bool checked := true<b>)</b></span>
-<span id='line19'>  <b>{</b></span>
-<span id='line20'>    try</span>
-<span id='line21'>    <b>{</b></span>
-<span id='line22'>      if <b>(</b>JpegDecoder.isJpeg<b>(</b>buf<b>)</b><b>)</b> return JpegDecoder<b>(</b>buf.in<b>)</b>.decode</span>
-<span id='line23'>      if <b>(</b>PngDecoder.isPng<b>(</b>buf<b>)</b><b>)</b>   return PngDecoder<b>(</b>buf.in<b>)</b>.decode</span>
-<span id='line24'>      if <b>(</b>SvgDecoder.isSvg<b>(</b>buf<b>)</b><b>)</b>   return SvgDecoder<b>(</b>buf.in<b>)</b>.decode</span>
-<span id='line25'>      throw ArgErr<b>(</b>"Could not determine image type"<b>)</b></span>
-<span id='line26'>    <b>}</b></span>
-<span id='line27'>    catch <b>(</b>Err err<b>)</b></span>
-<span id='line28'>    <b>{</b></span>
-<span id='line29'>      if <b>(</b>checked<b>)</b> throw err</span>
-<span id='line30'>    <b>}</b></span>
-<span id='line31'>    return null</span>
-<span id='line32'>  <b>}</b></span>
+<span id='line12'>@Js</span>
+<span id='line13'>mixin Image</span>
+<span id='line14'><b>{</b></span>
+<span id='line15'>  ** Unique uri key for this image in the GraphicsEnv cache.</span>
+<span id='line16'>  abstract Uri uri<b>(</b><b>)</b></span>
+<span id='line17'></span>
+<span id='line18'>  ** Is this image completely loaded into memory for use.  When a given</span>
+<span id='line19'>  ** uri is first accessed by `GraphicsEnv.image` it may be asynchronously</span>
+<span id='line20'>  ** loaded in the background and false is returned until load is complete.</span>
+<span id='line21'>  abstract Bool isLoaded<b>(</b><b>)</b></span>
+<span id='line22'></span>
+<span id='line23'>  ** Image format based on file type:</span>
+<span id='line24'>  **   - 'image/png'</span>
+<span id='line25'>  **   - 'image/gif'</span>
+<span id='line26'>  **   - 'image/jpeg'</span>
+<span id='line27'>  **   - 'image/svg+xml'</span>
+<span id='line28'>  abstract MimeType mime<b>(</b><b>)</b></span>
+<span id='line29'></span>
+<span id='line30'>  ** Get the natural size of this image.</span>
+<span id='line31'>  ** If the image has not been loaded yet, then return 0,0.</span>
+<span id='line32'>  abstract Size size<b>(</b><b>)</b></span>
 <span id='line33'></span>
-<span id='line34'>  ** Image format</span>
-<span id='line35'>  const MimeType mime</span>
+<span id='line34'>  ** Get the size width</span>
+<span id='line35'>  virtual Float w<b>(</b><b>)</b> <b>{</b> size.w <b>}</b></span>
 <span id='line36'></span>
-<span id='line37'>  ** Image size</span>
-<span id='line38'>  const Size size</span>
+<span id='line37'>  ** Get the size height</span>
+<span id='line38'>  virtual Float h<b>(</b><b>)</b> <b>{</b> size.h <b>}</b></span>
 <span id='line39'></span>
-<span id='line40'>  ** Image-specific properties</span>
-<span id='line41'>  protected const <b>[</b>Str:Obj<b>]</b> props</span>
-<span id='line42'></span>
-<span id='line43'>  ** Image properties</span>
-<span id='line44'>  **  - 'colorSpace' <b>(</b>Str<b>)</b> - the image color space <b>(</b>e.g.RGB, RGBA, CMYK<b>)</b></span>
-<span id='line45'>  **  - 'colorSpaceBits' <b>(</b>Int<b>)</b> - bits-per-channel of the color space</span>
-<span id='line46'>  **</span>
-<span id='line47'>  @Operator Obj? get<b>(</b>Str prop<b>)</b> <b>{</b> props<b>[</b>prop<b>]</b> <b>}</b></span>
-<span id='line48'><b>}</b></span>
+<span id='line40'>  ** Image properties</span>
+<span id='line41'>  **  - 'colorSpace' <b>(</b>Str<b>)</b> - the image color space <b>(</b>e.g.RGB, RGBA, CMYK<b>)</b></span>
+<span id='line42'>  **  - 'colorSpaceBits' <b>(</b>Int<b>)</b> - bits-per-channel of the color space</span>
+<span id='line43'>  @NoDoc @Operator abstract Obj? get<b>(</b>Str prop<b>)</b></span>
+<span id='line44'></span>
+<span id='line45'>  ** Map file extension to mime type</span>
+<span id='line46'>  @NoDoc static MimeType mimeForExt<b>(</b>Str ext<b>)</b></span>
+<span id='line47'>  <b>{</b></span>
+<span id='line48'>    ext = ext.lower</span>
+<span id='line49'>    if <b>(</b>ext == "svg"<b>)</b> return mimeSvg</span>
+<span id='line50'>    if <b>(</b>ext == "png"<b>)</b> return mimePng</span>
+<span id='line51'>    if <b>(</b>ext == "jpg" || ext == "jpeg"<b>)</b> return mimeJpeg</span>
+<span id='line52'>    if <b>(</b>ext == "gif"<b>)</b> return mimeGif</span>
+<span id='line53'>    return MimeType.forExt<b>(</b>ext<b>)</b> ?: MimeType<b>(</b>"image/unknown"<b>)</b></span>
+<span id='line54'>  <b>}</b></span>
+<span id='line55'></span>
+<span id='line56'>  @NoDoc static const MimeType mimePng  := MimeType<b>(</b>"image/png"<b>)</b></span>
+<span id='line57'>  @NoDoc static const MimeType mimeGif  := MimeType<b>(</b>"image/gif"<b>)</b></span>
+<span id='line58'>  @NoDoc static const MimeType mimeJpeg := MimeType<b>(</b>"image/jpeg"<b>)</b></span>
+<span id='line59'>  @NoDoc static const MimeType mimeSvg  := MimeType<b>(</b>"image/svg+xml"<b>)</b></span>
+<span id='line60'><b>}</b></span>
+<span id='line61'></span>
+<span id='line62'>**************************************************************************</span>
+<span id='line63'>** PngImage</span>
+<span id='line64'>**************************************************************************</span>
+<span id='line65'></span>
+<span id='line66'>**</span>
+<span id='line67'>** Details for an PNG image.  This is just a temporary solution</span>
+<span id='line68'>** until we flush out formal APIs for color models, pixel access, etc.</span>
+<span id='line69'>**</span>
+<span id='line70'>@Js @NoDoc</span>
+<span id='line71'>mixin PngImage : Image</span>
+<span id='line72'><b>{</b></span>
+<span id='line73'>  ** Does the image have an alpha channel</span>
+<span id='line74'>  Bool hasAlpha<b>(</b><b>)</b> <b>{</b> colorType == 4 || colorType == 6 <b>}</b></span>
+<span id='line75'></span>
+<span id='line76'>  ** Does the image have a palette index</span>
+<span id='line77'>  Bool hasPalette<b>(</b><b>)</b> <b>{</b> palette.size > 0 <b>}</b></span>
+<span id='line78'></span>
+<span id='line79'>  ** Does the image have simple transparency alpha channel</span>
+<span id='line80'>  Bool hasTransparency<b>(</b><b>)</b> <b>{</b> transparency.size > 0 <b>}</b></span>
+<span id='line81'></span>
+<span id='line82'>  ** Color type code</span>
+<span id='line83'>  Int colorType<b>(</b><b>)</b> <b>{</b> get<b>(</b>"colorType"<b>)</b> <b>}</b></span>
+<span id='line84'></span>
+<span id='line85'>  ** Number of color components</span>
+<span id='line86'>  Int colors<b>(</b><b>)</b></span>
+<span id='line87'>  <b>{</b></span>
+<span id='line88'>    c := <b>(</b>colorType == 2 || colorType == 6<b>)</b> ? 3 : 1</span>
+<span id='line89'>    return hasAlpha ? c + 1 : c</span>
+<span id='line90'>  <b>}</b></span>
+<span id='line91'></span>
+<span id='line92'>  ** Number of bits in a pixel</span>
+<span id='line93'>  Int pixelBits<b>(</b><b>)</b> <b>{</b> colors * <b>(</b><b>(</b>Int<b>)</b>get<b>(</b>"colorSpaceBits"<b>)</b><b>)</b> <b>}</b></span>
+<span id='line94'></span>
+<span id='line95'>  ** The palette index. The Buf is immutable.</span>
+<span id='line96'>  Buf palette<b>(</b><b>)</b> <b>{</b> get<b>(</b>"palette"<b>)</b> <b>}</b></span>
+<span id='line97'></span>
+<span id='line98'>  ** The simple transparency alpha channel. The Buf is immutable.</span>
+<span id='line99'>  Buf transparency<b>(</b><b>)</b> <b>{</b> get<b>(</b>"transparency"<b>)</b> <b>}</b></span>
+<span id='line100'></span>
+<span id='line101'>  ** Raw image data. The Buf is immutable.</span>
+<span id='line102'>  Buf imgData<b>(</b><b>)</b> <b>{</b> get<b>(</b>"imgData"<b>)</b> <b>}</b></span>
+<span id='line103'></span>
+<span id='line104'>  ** Get decompressed pixels. The Buf is immutable.</span>
+<span id='line105'>  abstract Buf pixels<b>(</b><b>)</b></span>
+<span id='line106'><b>}</b></span>
 </pre>
 </div>
 </body>
