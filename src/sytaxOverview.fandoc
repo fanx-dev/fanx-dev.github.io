@@ -26,6 +26,7 @@ Fanx支持.fan和.fanx两种文件格式，这里以.fanx语法为例来介绍�
 
   //命名参数
   p := Person(name:"B", age:30)
+
 字段访问
 ========
 没有烦人的getters setters冗余代码
@@ -37,6 +38,7 @@ Fanx支持.fan和.fanx两种文件格式，这里以.fanx语法为例来介绍�
       set { checkAge(val); &age = it }
     }
   }
+
 混合静态和动态类型
 ========
 通过 "->" 操作符动态的调用方法
@@ -48,6 +50,7 @@ Fanx支持.fan和.fanx两种文件格式，这里以.fanx语法为例来介绍�
   //动态调用
   p->age = 10
   p->say("A")
+
 字面量
 ========
   //列表
@@ -65,6 +68,7 @@ Fanx支持.fan和.fanx两种文件格式，这里以.fanx语法为例来介绍�
 
   //时间段
   100.ms   //100毫秒
+
 非空类型
 ========
 编译器确保非空类型不会存储空值。
@@ -74,6 +78,7 @@ Fanx支持.fan和.fanx两种文件格式，这里以.fanx语法为例来介绍�
 
   //可空性作为API的一部分
   fun foo(arg: Str?): Str { ... }
+
 函数式和闭包
 ========
 函数式第一类对象
@@ -86,6 +91,7 @@ Fanx支持.fan和.fanx两种文件格式，这里以.fanx语法为例来介绍�
 
   //迭代
   ["one", "two", "three"].map { it.size }.each { echo(it) }
+
 强不可变性
 ========
 编译器支持不可变类
@@ -96,12 +102,14 @@ Fanx支持.fan和.fanx两种文件格式，这里以.fanx语法为例来介绍�
   const p: Str       //深度不可变
   const p: StrBuf    //编译错误
   let p: StrBuf      //浅层不可变
+
 线程安全的并发
 ========
 Actor模式的并发。编译器和运行时环境确保线程之间不会共享可变对象。
 
   actor := Actor |msg| { echo(msg) }
   actor.send("Hi")
+
 声明式编程
 ========
 序列化格式是代码语法的子集。描述做什么，而不是怎么做。
@@ -124,6 +132,7 @@ Actor模式的并发。编译器和运行时环境确保线程之间不会共享
       }
     },
   }
+
 模块化
 ========
 Pods是版本化部署单元和命名空间，它门通过明确的依赖关注组织在一起。
@@ -135,6 +144,7 @@ pod的构建脚本是这样的:
   version = 2.0
   srcDirs = test/,fan/
   depends = sys 1.0, std 1.0, reflect 1.0
+
 混入(Mixin)
 ========
 接口带有实现代码
@@ -150,6 +160,7 @@ pod的构建脚本是这样的:
   {
     override var volume : Int = 0
   }
+
 泛型
 ========
   class Foo<T> {
@@ -159,6 +170,7 @@ pod的构建脚本是这样的:
 
   foo := Foo<Str>()
   foo.t = "abc"
+
 扩展方法
 ========
 我们可以从外部给类增加方法
@@ -171,10 +183,12 @@ pod的构建脚本是这样的:
 
   //shortcut of Whatever.foo(str)
   str.foo
+
 面向切面编程
 ========
   //same as bar.trap("foo", arg)
   bar~>foo(arg)
+
 Async/Await协程
 ========
 C#/Javascript 风格的协程
@@ -184,3 +198,14 @@ C#/Javascript 风格的协程
     image := await getImage(user.image)
     imageView.image = image
   }
+
+注解
+========
+  facet class Table
+  {
+    const Str name := ""
+    const Bool autoCreate
+  }
+
+  @Table { name = "Employees"; autoCreate = true }
+  class Employee {}

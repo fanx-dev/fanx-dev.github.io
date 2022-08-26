@@ -246,6 +246,17 @@ bar~>foo(arg)</pre>
   imageView.image = image
 }</pre>
 
+<h3>注解</h3>
+
+<pre>facet class Table
+{
+  const Str name := ""
+  const Bool autoCreate
+}
+
+@Table { name = "Employees"; autoCreate = true }
+class Employee {}</pre>
+
    </div>
  </body>
  </html>
